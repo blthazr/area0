@@ -3,3 +3,6 @@
 
 # Microsoft Windows
 Thumbs.db
+
+# VS Code
+*.code-workspace
