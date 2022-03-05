@@ -12,3 +12,13 @@ Thumbs.db
 
 # Kubernetes
 kubeconfig
+
+# age
+*.agekey
+
+# secrets
+secret.y*ml
+
+# sops
+.decrypted~*
+*.agekey
