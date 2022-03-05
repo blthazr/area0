@@ -9,3 +9,6 @@ Thumbs.db
 
 # shards
 *-shard.*
+
+# Kubernetes
+kubeconfig
