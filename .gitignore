@@ -6,3 +6,6 @@ Thumbs.db
 
 # VS Code
 *.code-workspace
+
+# shards
+*-shard.*
