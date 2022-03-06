@@ -13,12 +13,24 @@
       "labels": ["type/patch"]
     },
     {
+      "matchDatasources": ["docker"],
+      "addLabels": ["renovate/container"]
+    },
+    {
+      "matchDatasources": ["galaxy", "galaxy-collection"],
+      "addLabels": ["renovate/ansible"]
+    },
+    {
       "matchManagers": ["github-actions"],
       "addLabels": ["renovate/github-action"]
     },
     {
       "matchDatasources": ["github-releases", "github-tags"],
       "addLabels": ["renovate/github-release"]
+    },
+    {
+      "matchDatasources": ["helm"],
+      "addLabels": ["renovate/helm"]
     },
     {
       "matchDatasources": ["terraform-provider"],
