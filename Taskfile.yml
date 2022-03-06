@@ -1,0 +1,18 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   Taskfile.yml
+#   @description    :   go-task is a simple task runner
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+version: "3"
+
+vars:
+  PROJECT_DIR:
+    sh: "git rev-parse --show-toplevel"
+
+tasks:
+
+  # task pre-commit
+  pre-commit:
+    desc: Run pre-commit
+    cmds:
+      - pre-commit run --all-files
