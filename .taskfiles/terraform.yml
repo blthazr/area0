@@ -1,0 +1,28 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   .taskfiles/terraform.yml
+#   @description    :   terraform tasks
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+version: "3"
+
+tasks:
+  # task terraform:init:cloudflare
+  init:cloudflare:
+    desc: initialize terraform
+    cmds:
+      - terraform init
+    dir: terraform/cloudflare
+
+  # task terraform:plan:cloudflare
+  plan:cloudflare:
+    desc: generate execution plan
+    cmds:
+      - terraform plan
+    dir: terraform/cloudflare
+
+  # task terraform:apply:cloudflare
+  apply:cloudflare:
+    desc: execute generated plan
+    cmds:
+      - terraform plan
+    dir: terraform/cloudflare
