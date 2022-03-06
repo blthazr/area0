@@ -13,6 +13,7 @@
   ],
   "commitBodyTable": true,
   "dependencyDashboardTitle": "Renovate Dashboard",
+  "rebaseWhen": "conflicted",
   "suppressNotifications": ["prIgnoreNotification"],
   "timezone": "America/Chicago",
 }
