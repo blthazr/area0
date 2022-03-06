@@ -1,0 +1,21 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   .taskfiles/pre-commit.yml
+#   @description    :   pre-commit tasks
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+version: "3"
+
+tasks:
+  # task pre-commit:init
+  init:
+    desc: initialize pre-commit hooks
+    cmds:
+      - pre-commit install
+      - pre-commit install-hooks
+      - pre-commit install --install-hooks
+
+  # task pre-commit:update
+  update:
+    desc: update pre-commit config to each repos' latest version
+    cmds:
+      - pre-commit autoupdate

@@ -5,11 +5,19 @@
 ---
 version: "3"
 
+includes:
+  pre-commit: .taskfiles/pre-commit.yml
+
 vars:
   PROJECT_DIR:
     sh: "git rev-parse --show-toplevel"
 
 tasks:
+  # task deps
+  deps:
+    desc: install/upgrade dependencies
+    cmds:
+      - task: deps:pre-commit
 
   # task pre-commit
   pre-commit:
