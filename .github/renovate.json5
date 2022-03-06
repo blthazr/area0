@@ -1,0 +1,15 @@
+{
+  "extends": [
+    ":dependencyDashboard",
+    ":enablePreCommit",
+    ":enableRenovate",
+    ":semanticCommits",
+    "config:base",
+  ],
+  "commitBodyTable": true,
+  "dependencyDashboardTitle": "Renovate Dashboard",
+
+  "rebaseWhen": "conflicted",
+  "suppressNotifications": ["prIgnoreNotification"],
+  "timezone": "America/Chicago",
+}
