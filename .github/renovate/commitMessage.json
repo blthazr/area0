@@ -1,0 +1,5 @@
+{
+  "commitMessageExtra": "to {{newVersion}}",
+  "commitMessageSuffix": "",
+  "commitMessageTopic": "{{depName}}"
+}

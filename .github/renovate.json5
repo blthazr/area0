@@ -7,6 +7,7 @@
     ":semanticCommits",
     ":separatePatchReleases",
     "config:base",
+    "github>christopherburnham/area0//.github/renovate/commitMessage",
     "github>christopherburnham/area0//.github/renovate/semanticCommits",
   ],
   "commitBodyTable": true,
