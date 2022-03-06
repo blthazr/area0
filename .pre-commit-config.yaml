@@ -19,6 +19,7 @@ repos:
     rev: v4.1.0
     hooks:
       - id: trailing-whitespace # trim trailing whitespace
+        args: [--markdown-linebreak-ext=md]
       - id: end-of-file-fixer # ensures that a file is either empty, or ends with one newline
       - id: mixed-line-ending # replaces or checks mixed line ending
   - repo: https://github.com/Lucas-C/pre-commit-hooks
