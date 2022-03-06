@@ -22,3 +22,6 @@ secret.y*ml
 # sops
 .decrypted~*
 *.agekey
+
+# temp files
+*.log
