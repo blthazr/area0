@@ -1,0 +1,23 @@
+---
+default: true
+
+# MD013/line-length - Line length
+MD013:
+  # Number of characters for code blocks
+  code_block_line_length: 80
+  # Include code blocks
+  code_blocks: true
+  # Include headers
+  headers: true
+  # Number of characters for headings
+  heading_line_length: 80
+  # Include headings
+  headings: true
+  # Number of characters
+  line_length: 240
+  # Stern length checking
+  stern: false
+  # Strict length checking
+  strict: false
+  # Include tables
+  tables: true

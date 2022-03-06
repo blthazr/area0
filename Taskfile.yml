@@ -6,6 +6,7 @@
 version: "3"
 
 includes:
+  lint: .taskfiles/lint.yml
   pre-commit: .taskfiles/pre-commit.yml
 
 vars:

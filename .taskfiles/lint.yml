@@ -1,0 +1,67 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   .taskfiles/lint.yml
+#   @description    :   lint tasks
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+version: "3"
+
+tasks:
+  # task lint:all
+  all:
+    - task: json
+    - task: md
+    - task: tf
+    - task: yaml
+
+  # task lint:json
+  json:
+    desc: lint json
+    cmds:
+      - >-
+        prettier
+        --check
+        --parser=json
+        --config '.github/linters/.prettierrc.yaml'
+        --ignore-path '.github/linters/.prettierignore'
+        --ignore-unknown
+        '*.json' '**/*.json'
+      - >-
+        prettier
+        --check
+        --parser=json5
+        --quote-props=preserve
+        --single-quote=false
+        --config '.github/linters/.prettierrc.yaml'
+        --ignore-path '.github/linters/.prettierignore'
+        --ignore-unknown
+        '*.json5' '**/*.json5'
+    ignore_error: true
+
+  # task lint:md
+  md:
+    desc: lint markdown
+    cmds:
+      - >-
+        markdownlint
+        --config '.github/linters/.markdownlint.yaml'
+        --ignore-path '.github/linters/.prettierignore'
+        '*.md' '**/*.md'
+    ignore_error: true
+
+  # task lint:tf
+  tf:
+    desc: lint terraform
+    cmds:
+      - >-
+        tflint
+        --config .github/linters/.tflint.hcl
+        --loglevel info
+        terraform/cloudflare
+    ignore_error: true
+
+  # task lint:yaml
+  yaml:
+    desc: lint yaml
+    cmds:
+      - yamllint -c '.github/linters/.yamllint.yaml' .
+    ignore_error: true
