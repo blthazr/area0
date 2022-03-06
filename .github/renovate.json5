@@ -5,6 +5,7 @@
     ":enablePreCommit",
     ":enableRenovate",
     ":semanticCommits",
+    ":separatePatchReleases",
     "config:base",
   ],
   "commitBodyTable": true,
