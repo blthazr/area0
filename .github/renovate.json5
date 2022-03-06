@@ -1,0 +1,14 @@
+{
+  "extends": [
+    ":dependencyDashboard",
+    ":disableRateLimiting",
+    ":enablePreCommit",
+    ":enableRenovate",
+    ":semanticCommits",
+    "config:base",
+  ],
+  "commitBodyTable": true,
+  "dependencyDashboardTitle": "Renovate Dashboard",
+  "suppressNotifications": ["prIgnoreNotification"],
+  "timezone": "America/Chicago",
+}
