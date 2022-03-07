@@ -11,6 +11,7 @@
     "github>christopherburnham/area0//.github/renovate/commitMessage",
     "github>christopherburnham/area0//.github/renovate/labels",
     "github>christopherburnham/area0//.github/renovate/semanticCommits",
+    "github>christopherburnham/area0//.github/renovate/versioning",
   ],
   "commitBodyTable": true,
   "dependencyDashboardTitle": "Renovate Dashboard",
