@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - coredns.yaml
   - deliveryhero.yaml
+  - descheduler.yaml
   - external-dns.yaml
   - ingress-nginx.yaml
   - jetstack.yaml
