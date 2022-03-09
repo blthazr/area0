@@ -1,0 +1,42 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: rook-ceph
+spec:
+  chart:
+    spec:
+      chart: rook-ceph
+      version: v1.8.6
+      sourceRef:
+        kind: HelmRepository
+        name: rook-ceph-charts
+        namespace: flux-system
+  dependsOn:
+    - name: cert-manager
+      namespace: cert-manager
+  install:
+    crds: CreateReplace
+    createNamespace: true
+    remediation:
+      retries: 3
+  interval: 5m
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  values:
+    crds:
+      enabled: true
+    csi:
+      enableCephfsDriver: false
+      enableCephfsSnapshotter: false
+    monitoring:
+      enabled: true
+    resources:
+      limits:
+        cpu: 1000m
+        memory: 256Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
