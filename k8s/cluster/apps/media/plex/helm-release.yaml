@@ -1,0 +1,96 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: plex
+spec:
+  chart:
+    spec:
+      chart: plex
+      version: 6.2.0
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  interval: 5m
+  upgrade:
+    remediation:
+      retries: 3
+  values:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: feature.node.kubernetes.io/custom-intel-gpu
+                  operator: In
+                  values:
+                    - "true"
+    env:
+      TZ: "${CLUSTER_TIME_ZONE}"
+    image:
+      repository: ghcr.io/k8s-at-home/plex
+      tag: v1.25.6.5577-c8bd13540
+    ingress:
+      main:
+        annotations:
+          external-dns.alpha.kubernetes.io/target: "${SECRET_DOMAIN}"
+          external-dns/is-public: "true"
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+          nginx.ingress.kubernetes.io/configuration-snippet: |
+            proxy_set_header Accept-Encoding "";
+            sub_filter
+            '</head>'
+            '<link rel="stylesheet" type="text/css" href="https://theme-park.dev/css/base/plex/dark.css">
+            </head>';
+            sub_filter_once on;
+        enabled: true
+        hosts:
+          - host: "plex.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        ingressClassName: nginx
+        tls:
+          - hosts:
+              - "plex.${SECRET_DOMAIN}"
+    nodeSelector:
+      node-role.kubernetes.io/media: "true"
+    persistence:
+      config:
+        enabled: true
+        existingClaim: plex-config-v1
+      media:
+        enabled: true
+        mountPath: /media
+        readOnly: false
+        type: custom
+        volumeSpec:
+          nfs:
+            server: "${MEDIA_SERVER_NODE_ADDRESS}"
+            path: "${MEDIA_SERVER_NFS_PATH}"
+      transcode:
+        enabled: true
+        medium: Memory
+        type: emptyDir
+    podSecurityContext:
+      supplementalGroups:
+        - 44 # Hardware acceleration using an Intel iGPU w/ QuickSync
+        - 109 # Hardware acceleration using an Intel iGPU w/ QuickSync
+        - 100
+    resources:
+      limits:
+        gpu.intel.com/i915: 1
+      requests:
+        gpu.intel.com/i915: 1
+    service:
+      main:
+        annotations:
+          metallb.universe.tf/allow-shared-ip: plex
+        externalTrafficPolicy: Local
+        loadBalancerIP: "${SVC_PLEX_ADDRESS}"
+        type: LoadBalancer
