@@ -1,0 +1,30 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: GitRepository
+metadata:
+  name: external-dns-crd-source
+  namespace: flux-system
+spec:
+  ignore: |
+    # exclude all
+    /*
+    # include crds
+    !/docs/contributing/crd-source/crd-manifest.yaml
+  interval: 30m
+  # renovate: datasource=github-releases
+  url: https://github.com/kubernetes-sigs/external-dns.git
+  ref:
+    tag: v0.10.2
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: external-dns-crds
+  namespace: flux-system
+spec:
+  interval: 15m
+  prune: false
+  sourceRef:
+    kind: GitRepository
+    name: external-dns-crd-source
+  wait: true
