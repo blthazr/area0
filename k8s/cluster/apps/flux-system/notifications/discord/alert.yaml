@@ -1,0 +1,25 @@
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta1
+kind: Alert
+metadata:
+  name: discord-error
+spec:
+  eventSeverity: error
+  eventSources:
+    - kind: GitRepository
+      name: "*"
+    - kind: HelmChart
+      name: "*"
+    - kind: HelmRelease
+      name: "*"
+    - kind: HelmRepository
+      name: "*"
+    - kind: Kustomization
+      name: "*"
+  exclusionList:
+    - "Dependencies do not meet ready condition, retrying in 30s"
+    - "error.*lookup github\\.com"
+    - "waiting.*socket"
+  providerRef:
+    name: discord
+  suspend: false
