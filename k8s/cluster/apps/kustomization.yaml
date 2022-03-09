@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - default
   - flux-system
+  - game
   - home
   - home-automation
   - network
