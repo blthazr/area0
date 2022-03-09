@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - default
   - flux-system
+  - home
   - network
   - rook-ceph
   - system-upgrade
