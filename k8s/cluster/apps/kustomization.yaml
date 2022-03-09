@@ -5,6 +5,7 @@ resources:
   - default
   - flux-system
   - home
+  - home-automation
   - network
   - rook-ceph
   - system-upgrade
