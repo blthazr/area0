@@ -1,0 +1,85 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: coredns
+spec:
+  chart:
+    spec:
+      chart: coredns
+      version: 1.16.7
+      sourceRef:
+        kind: HelmRepository
+        name: coredns-charts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  interval: 5m
+  upgrade:
+    remediation:
+      retries: 3
+  values:
+    affinity:
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values:
+                    - coredns
+            topologyKey: kubernetes.io/hostname
+    extraSecrets:
+      - name: coredns-etcd
+        mountPath: /etc/coredns/coredns-etcd
+    isClusterService: false
+    prometheus:
+      service:
+        enabled: true
+      monitor:
+        enabled: true
+    replicaCount: 2
+    servers:
+      - zones:
+          - zone: "${SECRET_DOMAIN}."
+            scheme: dns://
+        port: 53
+        plugins:
+          # enables a frontend cache
+          - name: cache
+            parameters: 30
+          # enables error logging
+          - name: errors
+          # set up local resolution
+          - name: etcd
+            configBlock: |-
+              stubzones
+              path /skydns
+              endpoint https://${K3S_CONTROL_NODE_1_ADDRESS}:2379 https://${K3S_CONTROL_NODE_2_ADDRESS}:2379 https://${K3S_CONTROL_NODE_3_ADDRESS}:2379
+              tls /etc/coredns/coredns-etcd/cert.pem /etc/coredns/coredns-etcd/key.pem /etc/coredns/coredns-etcd/ca.crt
+            parameters: "${SECRET_DOMAIN}"
+          # Serves a /health endpoint on :8080, required for livenessProbe
+          - name: health
+            configBlock: |-
+              lameduck 5s
+          # acts as a round-robin DNS load balancer by randomizing the order of A, AAAA, and MX records in the answer
+          - name: loadbalance
+          # enables query logging to standard output
+          - name: log
+          # detects simple forwarding loops and halts the server
+          - name: loop
+          # Serves a /metrics endpoint on :9153, required for serviceMonitor
+          - name: prometheus
+            parameters: 0.0.0.0:9153
+          # serves a /ready endpoint on :8181, required for readinessProbe
+          - name: ready
+          # allows automatic reload of a changed Corefile
+          - name: reload
+    service:
+      externalTrafficPolicy: Local
+      annotations:
+        metallb.universe.tf/allow-shared-ip: coredns
+      loadBalancerIP: "${SVC_COREDNS_ADDRESS}"
+    serviceType: LoadBalancer
