@@ -7,4 +7,5 @@ resources:
   - ingress-nginx.yaml
   - jetstack.yaml
   - metallb.yaml
+  - node-feature-discovery.yaml
   - rook-ceph.yaml
