@@ -14,3 +14,6 @@ data:
 
   # MetalLB
   METALLB_DEFAULT_IP_RANGE: 10.0.100.100-10.0.100.199
+
+  # Service Addresses
+  SVC_NGINX_ADDRESS: 10.0.100.100
