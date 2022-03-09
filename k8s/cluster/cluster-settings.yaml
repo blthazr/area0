@@ -7,3 +7,6 @@ metadata:
 data:
   # site
   CLUSTER_TIME_ZONE: America/Chicago
+
+  # MetalLB
+  METALLB_DEFAULT_IP_RANGE: 10.0.100.100-10.0.100.199
