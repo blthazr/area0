@@ -5,3 +5,4 @@ namespace: kube-system
 resources:
   - intel-gpu-plugin
   - node-feature-discovery
+  - node-problem-detector
