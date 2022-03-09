@@ -9,5 +9,6 @@ resources:
   - home-automation
   - media
   - network
+  - observability
   - rook-ceph
   - system-upgrade
