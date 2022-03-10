@@ -5,6 +5,7 @@ namespace: media
 resources:
   - calibre
   - calibre-web
+  - dizquetv
   - overseerr
   - plex
   - prowlarr
