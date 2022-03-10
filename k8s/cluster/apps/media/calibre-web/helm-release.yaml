@@ -1,0 +1,64 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: calibre-web
+spec:
+  chart:
+    spec:
+      chart: calibre-web
+      version: 8.2.0
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  interval: 5m
+  upgrade:
+    remediation:
+      retries: 3
+  values:
+    env:
+      TZ: "${CLUSTER_TIME_ZONE}"
+    image:
+      repository: ghcr.io/linuxserver/calibre-web
+      tag: version-0.6.12
+    ingress:
+      main:
+        annotations:
+          nginx.ingress.kubernetes.io/configuration-snippet: |
+            proxy_set_header Accept-Encoding "";
+            sub_filter
+            '</head>'
+            '<link rel="stylesheet" type="text/css" href="https://theme-park.dev/css/base/calibreweb/dark.css">
+            </head>';
+            sub_filter_once on;
+        enabled: true
+        hosts:
+          - host: "books.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        ingressClassName: nginx
+        tls:
+          - hosts:
+              - "books.${SECRET_DOMAIN}"
+    persistence:
+      config:
+        enabled: true
+        existingClaim: calibre-web-config-v1
+      media:
+        enabled: true
+        mountPath: /media
+        readOnly: false
+        type: custom
+        volumeSpec:
+          nfs:
+            server: "${MEDIA_SERVER_NODE_ADDRESS}"
+            path: "${MEDIA_SERVER_NFS_PATH}"
+    podSecurityContext:
+      supplementalGroups:
+        - 100
