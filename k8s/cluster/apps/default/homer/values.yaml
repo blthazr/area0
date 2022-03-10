@@ -1,0 +1,22 @@
+---
+env:
+  TZ: "${CLUSTER_TIME_ZONE}"
+image:
+  repository: b4bz/homer
+  tag: 21.09.2
+ingress:
+  main:
+    enabled: true
+    hosts:
+      - host: "homer.${SECRET_DOMAIN}"
+        paths:
+          - path: /
+            pathType: Prefix
+    ingressClassName: nginx
+    tls:
+      - hosts:
+          - "homer.${SECRET_DOMAIN}"
+persistence:
+  config:
+    enabled: true
+    existingClaim: homer-config-v1
