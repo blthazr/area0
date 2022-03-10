@@ -44,6 +44,11 @@ spec:
           datasource: Prometheus
           gnetId: 13502
           revision: 10
+        # Ref: https://grafana.com/grafana/dashboards/13665
+        speedtest:
+          datasource: Prometheus
+          gnetId: 13665
+          revision: 1
         # Ref: https://grafana.com/grafana/dashboards/14364
         synology-overview:
           datasource: Prometheus
