@@ -1,0 +1,61 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: nzbhydra2
+spec:
+  chart:
+    spec:
+      chart: nzbhydra2
+      version: 10.2.0
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  interval: 5m
+  upgrade:
+    remediation:
+      retries: 3
+  values:
+    env:
+      TZ: "${CLUSTER_TIME_ZONE}"
+    image:
+      repository: ghcr.io/k8s-at-home/nzbhydra2
+      tag: v4.2.0
+    ingress:
+      main:
+        annotations:
+          nginx.ingress.kubernetes.io/configuration-snippet: |
+            proxy_set_header Accept-Encoding "";
+            sub_filter
+            '</head>'
+            '<link rel="stylesheet" type="text/css" href="https://theme-park.dev/css/base/nzbhydra/dark.css">
+            </head>';
+            sub_filter_once on;
+        enabled: true
+        hosts:
+          - host: "nzbhydra2.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        ingressClassName: nginx
+        tls:
+          - hosts:
+              - "nzbhydra2.${SECRET_DOMAIN}"
+    persistence:
+      backup:
+        enabled: true
+        mountPath: /config/backup
+        readOnly: false
+        type: custom
+        volumeSpec:
+          nfs:
+            server: "${SVC_SYNOLOGY_ADDRESS}"
+            path: "${NAS_NFS_PATH}/backup/app/nzbhydra2"
+      config:
+        enabled: true
+        existingClaim: nzbhydra2-config-v1

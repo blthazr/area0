@@ -10,6 +10,7 @@ resources:
   - komga
   - lidarr
   - mylar
+  - nzbhydra2
   - overseerr
   - plex
   - prowlarr
