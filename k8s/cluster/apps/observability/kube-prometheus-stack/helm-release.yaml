@@ -96,6 +96,13 @@ spec:
           - hosts:
               - "prometheus.${SECRET_DOMAIN}"
       prometheusSpec:
+        additionalScrapeConfigs:
+          - job_name: minio
+            honor_timestamps: true
+            metrics_path: /minio/v2/metrics/cluster
+            static_configs:
+              - targets:
+                  - "${SVC_SYNOLOGY_ADDRESS}:9000"
         enableAdminAPI: true
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
