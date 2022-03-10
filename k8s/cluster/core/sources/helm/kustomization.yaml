@@ -16,6 +16,7 @@ resources:
   - metrics-server.yaml
   - minecraft-server.yaml
   - node-feature-discovery.yaml
+  - prometheus-community.yaml
   - rook-ceph.yaml
   - stakater.yaml
   - traefik.yaml
