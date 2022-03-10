@@ -103,6 +103,11 @@ spec:
             static_configs:
               - targets:
                   - "${SVC_SYNOLOGY_ADDRESS}:9000"
+          - job_name: node-exporter
+            honor_timestamps: true
+            static_configs:
+              - targets:
+                  - "${SVC_SYNOLOGY_ADDRESS}:9100"
         enableAdminAPI: true
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
