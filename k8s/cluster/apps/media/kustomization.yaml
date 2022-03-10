@@ -5,6 +5,7 @@ namespace: media
 resources:
   - overseerr
   - plex
+  - radarr
   - sabnzbd
   - sonarr
   - sonarr4k
