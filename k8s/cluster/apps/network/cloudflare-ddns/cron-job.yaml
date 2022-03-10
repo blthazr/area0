@@ -4,11 +4,14 @@ kind: CronJob
 metadata:
   name: cloudflare-ddns
 spec:
+  schedule: "*/5 * * * *"
   concurrencyPolicy: "Forbid"
+  successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 5
   jobTemplate:
     spec:
       backoffLimit: 3
+      ttlSecondsAfterFinished: 300
       template:
         spec:
           restartPolicy: Never
@@ -36,6 +39,3 @@ spec:
                       items:
                         - key: cloudflare-ddns.sh
                           path: cloudflare-ddns.sh
-      ttlSecondsAfterFinished: 300
-  schedule: "*/5 * * * *"
-  successfulJobsHistoryLimit: 3
