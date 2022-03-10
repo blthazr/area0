@@ -7,6 +7,7 @@ resources:
   - deliveryhero.yaml
   - descheduler.yaml
   - external-dns.yaml
+  - grafana.yaml
   - ingress-nginx.yaml
   - jetstack.yaml
   - k8s-at-home.yaml
