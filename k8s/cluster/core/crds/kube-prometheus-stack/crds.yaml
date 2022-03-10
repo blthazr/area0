@@ -13,7 +13,7 @@ spec:
   interval: 30m
   ref:
     # renovate: registryUrl=https://prometheus-community.github.io/helm-charts
-    tag: kube-prometheus-stack-33.2.0
+    tag: kube-prometheus-stack-33.1.0
   url: https://github.com/prometheus-community/helm-charts.git
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
