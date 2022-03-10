@@ -1,0 +1,224 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: kube-prometheus-stack
+spec:
+  chart:
+    spec:
+      chart: kube-prometheus-stack
+      version: 33.2.0
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-community-charts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  interval: 5m
+  upgrade:
+    remediation:
+      retries: 3
+  values:
+    alertmanager:
+      alertmanagerSpec:
+        storage:
+          volumeClaimTemplate:
+            spec:
+              resources:
+                requests:
+                  storage: 1Gi
+              storageClassName: ceph-block
+      config:
+        global:
+          resolve_timeout: 5m
+        inhibit_rules:
+          - equal: ["alertname", "namespace"]
+            source_match:
+              severity: "critical"
+            target_match:
+              severity: "warning"
+        receivers:
+          - name: "null"
+          - name: "discord"
+            slack_configs:
+              - channel: "#prometheus-alerts"
+                icon_url: https://avatars3.githubusercontent.com/u/3380462
+                send_resolved: true
+                text: >-
+                  {{ range .Alerts -}}
+                    **Alert:** {{ .Annotations.title }}{{ if .Labels.severity }} - `{{ .Labels.severity }}`{{ end }}
+                  **Description:** {{ if ne .Annotations.description ""}}{{ .Annotations.description }}{{else}}N/A{{ end }}
+                  **Details:**
+                    {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
+                    {{ end }}
+                  {{ end }}
+                title: |-
+                  [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ if ne .CommonAnnotations.summary ""}}{{ .CommonAnnotations.summary }}{{ else }}{{ .CommonLabels.alertname }}{{ end }}
+                username: "Prometheus"
+          - name: "pagerduty"
+            pagerduty_configs:
+              - description: |-
+                  {{ template "pagerduty.custom.description" . }}
+                routing_key: "${SECRET_PAGERDUTY_TOKEN}"
+        route:
+          group_by: ["alertname", "job"]
+          group_interval: 5m
+          group_wait: 30s
+          receiver: "discord"
+          repeat_interval: 6h
+          routes:
+            - receiver: "null"
+              match:
+                alertname: Watchdog
+            - receiver: "pagerduty"
+              continue: true
+              match:
+                severity: critical
+            - receiver: "discord"
+              continue: true
+              match_re:
+                severity: critical
+        templates: ["*.tmpl"]
+      ingress:
+        annotations:
+          external-dns.alpha.kubernetes.io/target: "${SECRET_DOMAIN}"
+        enabled: true
+        hosts:
+          - "alert-manager.${SECRET_DOMAIN}"
+        ingressClassName: nginx
+        pathType: Prefix
+        tls:
+          - hosts:
+              - "alert-manager.${SECRET_DOMAIN}"
+      templateFiles:
+        pagerduty-custom.tmpl: |-
+          {{- define "pagerduty.custom.description" -}}[{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ if ne .CommonAnnotations.summary ""}}{{ .CommonAnnotations.summary }} {{ else if ne .CommonAnnotations.message ""}}{{ .CommonAnnotations.message }} {{ else if ne .CommonAnnotations.description ""}}{{ .CommonAnnotations.description }} {{ else }}{{ .CommonLabels.alertname }}{{ end }}{{- end -}}
+    fullnameOverride: prometheus
+    grafana:
+      enabled: false
+      forceDeployDashboards: true
+      sidecar:
+        dashboards:
+          multicluster:
+            etcd:
+              enabled: true
+    kube-state-metrics:
+      fullnameOverride: kube-state-metrics
+    kubeApiServer:
+      enabled: true
+    kubeControllerManager:
+      enabled: true
+      endpoints:
+        - "${K3S_CONTROL_NODE_1_ADDRESS}"
+        - "${K3S_CONTROL_NODE_2_ADDRESS}"
+        - "${K3S_CONTROL_NODE_3_ADDRESS}"
+    kubeEtcd:
+      enabled: true
+      endpoints:
+        - "${K3S_CONTROL_NODE_1_ADDRESS}"
+        - "${K3S_CONTROL_NODE_2_ADDRESS}"
+        - "${K3S_CONTROL_NODE_3_ADDRESS}"
+      service:
+        enabled: true
+        port: 2381
+        targetPort: 2381
+    kubeProxy:
+      enabled: true
+      endpoints:
+        - "${K3S_CONTROL_NODE_1_ADDRESS}"
+        - "${K3S_CONTROL_NODE_2_ADDRESS}"
+        - "${K3S_CONTROL_NODE_3_ADDRESS}"
+    kubeScheduler:
+      enabled: true
+      endpoints:
+        - "${K3S_CONTROL_NODE_1_ADDRESS}"
+        - "${K3S_CONTROL_NODE_2_ADDRESS}"
+        - "${K3S_CONTROL_NODE_3_ADDRESS}"
+    kubelet:
+      enabled: true
+      serviceMonitor:
+        metricRelabelings:
+          - action: replace
+            sourceLabels:
+              - node
+            targetLabel: instance
+    prometheus:
+      ingress:
+        annotations:
+          external-dns.alpha.kubernetes.io/target: "${SECRET_DOMAIN}"
+        enabled: true
+        hosts:
+          - "prometheus.${SECRET_DOMAIN}"
+        ingressClassName: nginx
+        pathType: Prefix
+        tls:
+          - hosts:
+              - "prometheus.${SECRET_DOMAIN}"
+      prometheusSpec:
+        additionalScrapeConfigs:
+          - job_name: minio
+            honor_timestamps: true
+            metrics_path: /minio/v2/metrics/cluster
+            static_configs:
+              - targets:
+                  - "${SVC_SYNOLOGY_ADDRESS}:9000"
+          - job_name: node-exporter
+            honor_timestamps: true
+            static_configs:
+              - targets:
+                  - "${SVC_SYNOLOGY_ADDRESS}:9100"
+        enableAdminAPI: true
+        podMonitorSelectorNilUsesHelmValues: false
+        probeSelectorNilUsesHelmValues: false
+        replicaExternalLabelName: replica
+        replicas: 1
+        retention: 6h
+        ruleSelectorNilUsesHelmValues: false
+        serviceMonitorSelectorNilUsesHelmValues: false
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: ceph-block
+              resources:
+                requests:
+                  storage: 10Gi
+        thanos:
+          image: quay.io/thanos/thanos:v0.24.0
+          objectStorageConfig:
+            key: objstore.yml
+            name: thanos-objstore
+          version: v0.22.0
+        walCompression: true
+      thanosService:
+        enabled: true
+      thanosServiceMonitor:
+        enabled: true
+    prometheus-node-exporter:
+      fullnameOverride: node-exporter
+      prometheus:
+        monitor:
+          enabled: true
+          relabelings:
+            - action: replace
+              regex: (.*)
+              replacement: $1
+              sourceLabels:
+                - __meta_kubernetes_pod_node_name
+              targetLabel: kubernetes_node
+    prometheusOperator:
+      prometheusConfigReloader:
+        resources:
+          limits:
+            cpu: 200m
+            memory: 100Mi
+          requests:
+            cpu: 100m
+            memory: 50Mi
+  valuesFrom:
+    - kind: Secret
+      name: kube-prometheus-stack
+      optional: false
+      targetPath: alertmanager.config.global.slack_api_url
+      valuesKey: discord-webhook
