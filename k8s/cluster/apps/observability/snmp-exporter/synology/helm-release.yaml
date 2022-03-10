@@ -1,0 +1,50 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: snmp-exporter-synology
+spec:
+  chart:
+    spec:
+      chart: prometheus-snmp-exporter
+      version: 0.2.0
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-community-charts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  interval: 5m
+  upgrade:
+    remediation:
+      retries: 3
+  values:
+    extraArgs:
+      - "--config.file=/config/snmp.yaml"
+    extraConfigmapMounts:
+      - name: snmp-exporter-synology
+        configMap: snmp-exporter-synology
+        defaultMode: 420
+        mountPath: /config/snmp.yaml
+        readOnly: true
+        subPath: snmp.yaml
+    fullnameOverride: snmp-exporter-synology
+    image:
+      repository: quay.io/prometheus/snmp-exporter
+    serviceMonitor:
+      enabled: true
+      namespace: observability
+      params:
+        enabled: true
+        conf:
+          module:
+            - synology
+          target:
+            - "${SVC_SYNOLOGY_ADDRESS}"
+      path: /snmp
+      relabelings:
+        - sourceLabels: [__param_target]
+          targetLabel: instance
+      scrapeTimeout: 10s
