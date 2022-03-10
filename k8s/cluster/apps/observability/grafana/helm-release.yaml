@@ -1,0 +1,133 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: grafana
+spec:
+  chart:
+    spec:
+      chart: grafana
+      version: 6.23.1
+      sourceRef:
+        kind: HelmRepository
+        name: grafana-charts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  interval: 5m
+  upgrade:
+    remediation:
+      retries: 3
+  values:
+    admin:
+      existingSecret: grafana-secrets
+      passwordKey: admin-password
+      userKey: admin-user
+    dashboardProviders:
+      dashboardproviders.yaml:
+        apiVersion: 1
+        providers:
+          - disableDeletion: false
+            editable: true
+            folder: ""
+            name: default
+            options:
+              path: /var/lib/grafana/dashboards/default
+            orgId: 1
+            type: file
+    dashboards:
+      default:
+        # Ref: https://grafana.com/grafana/dashboards/13502
+        minio:
+          datasource: Prometheus
+          gnetId: 13502
+          revision: 10
+        # Ref: https://grafana.com/grafana/dashboards/14364
+        synology-overview:
+          datasource: Prometheus
+          gnetId: 14364
+          revision: 8
+        # Ref: https://grafana.com/grafana/dashboards/14284
+        synology-detail:
+          datasource: Prometheus
+          gnetId: 14284
+          revision: 9
+    datasources:
+      datasources.yaml:
+        apiVersion: 1
+        datasources:
+          - access: proxy
+            isDefault: true
+            name: Prometheus
+            type: prometheus
+            url: http://thanos-query:9090/
+    env:
+      GF_DATE_FORMATS_FULL_DATE: "MMM Do, YYYY hh:mm:ss a"
+      GF_EXPLORE_ENABLED: true
+      GF_LOG_FILTERS: rendering:debug
+      GF_PANELS_DISABLE_SANITIZE_HTML: true
+    grafana.ini:
+      analytics:
+        check_for_updates: false
+      auth.basic:
+        disable_login_form: false
+      auth.generic_oauth:
+        allow_sign_up: true
+        allowed_organizations:
+        api_url: "https://${SECRET_AUTH0_TENANT}.us.auth0.com/userinfo"
+        auth_url: "https://${SECRET_AUTH0_TENANT}.us.auth0.com/authorize"
+        client_id: "${SECRET_AUTH0_GRAFANA_CLIENT_ID}"
+        client_secret: "${SECRET_AUTH0_GRAFANA_CLIENT_SECRET}"
+        enabled: true
+        name: Auth0
+        scopes: openid profile email
+        team_ids:
+        token_url: "https://${SECRET_AUTH0_TENANT}.us.auth0.com/oauth/token"
+      auth.generic_oauth.group_mapping:
+        role_attribute_path: contains("https://${SECRET_DOMAIN}/groups"[*], 'Grafana Admins') && 'Admin' || contains("https://${SECRET_DOMAIN}/groups"[*], 'Grafana Editors') && 'Editor' || 'Viewer'
+      grafana_net:
+        url: https://grafana.net
+      log:
+        mode: console
+      paths:
+        data: /var/lib/grafana/data
+        logs: /var/log/grafana
+        plugins: /var/lib/grafana/plugins
+        provisioning: /etc/grafana/provisioning
+      server:
+        root_url: "https://grafana.${SECRET_DOMAIN}"
+    ingress:
+      enabled: true
+      hosts:
+        - "grafana.${SECRET_DOMAIN}"
+      ingressClassName: nginx
+      tls:
+        - hosts:
+            - "grafana.${SECRET_DOMAIN}"
+    persistence:
+      enabled: false
+    plugins:
+      - grafana-clock-panel
+      - grafana-piechart-panel
+      - natel-discrete-panel
+      - pr0ps-trackmap-panel
+      - vonage-status-panel
+      - grafana-worldmap-panel
+    replicas: 1
+    serviceAccount:
+      create: true
+      autoMount: true
+    serviceMonitor:
+      enabled: true
+    sidecar:
+      dashboards:
+        enabled: true
+        folderAnnotation: grafana_folder
+        provider:
+          foldersFromFilesStructure: true
+        searchNamespace: ALL
+      datasources:
+        enabled: true
+        searchNamespace: ALL
