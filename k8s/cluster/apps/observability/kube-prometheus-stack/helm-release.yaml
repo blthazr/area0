@@ -33,6 +33,7 @@ spec:
       config:
         global:
           resolve_timeout: 5m
+          slack_api_url: "${SECRET_ALERT_MANAGER_DISCORD_WEBHOOK}"
         inhibit_rules:
           - equal: ["alertname", "namespace"]
             source_match:
@@ -71,6 +72,9 @@ spec:
           routes:
             - receiver: "null"
               match:
+                alertname: InfoInhibitor
+            - receiver: "null"
+              match:
                 alertname: Watchdog
             - receiver: "pagerduty"
               continue: true
@@ -82,8 +86,6 @@ spec:
                 severity: critical
         templates: ["*.tmpl"]
       ingress:
-        annotations:
-          external-dns.alpha.kubernetes.io/target: "${SECRET_DOMAIN}"
         enabled: true
         hosts:
           - "alert-manager.${SECRET_DOMAIN}"
@@ -146,8 +148,6 @@ spec:
             targetLabel: instance
     prometheus:
       ingress:
-        annotations:
-          external-dns.alpha.kubernetes.io/target: "${SECRET_DOMAIN}"
         enabled: true
         hosts:
           - "prometheus.${SECRET_DOMAIN}"
@@ -216,9 +216,3 @@ spec:
           requests:
             cpu: 100m
             memory: 50Mi
-  valuesFrom:
-    - kind: Secret
-      name: kube-prometheus-stack
-      optional: false
-      targetPath: alertmanager.config.global.slack_api_url
-      valuesKey: discord-webhook
