@@ -3,7 +3,7 @@ env:
   TZ: "${CLUSTER_TIME_ZONE}"
 image:
   repository: b4bz/homer
-  tag: 21.09.2
+  tag: 22.02.1
 ingress:
   main:
     enabled: true
