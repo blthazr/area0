@@ -7,5 +7,6 @@ resources:
   - kube-prometheus-stack
   - snmp-exporter
   - speedtest-exporter
+  - splunk
   - thanos
   - unifi-poller
