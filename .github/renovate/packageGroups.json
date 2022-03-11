@@ -2,6 +2,13 @@
   "packageRules": [
     {
       "additionalBranchPrefix": "",
+      "groupName": "external-snapshotter-suite",
+      "matchDatasources": ["docker", "github-releases"],
+      "matchPackagePatterns": ["external-snapshotter", "snapshot-controller"],
+      "separateMinorPatch": true
+    },
+    {
+      "additionalBranchPrefix": "",
       "groupName": "rook-ceph-suite",
       "matchDatasources": ["docker", "helm"],
       "matchPackagePatterns": ["^rook.ceph"],
@@ -12,13 +19,6 @@
       "groupName": "system-upgrade-controller-suite",
       "matchDatasources": ["docker", "github-tags"],
       "matchPackagePatterns": ["rancher/system-upgrade-controller"],
-      "separateMinorPatch": true
-    },
-    {
-      "additionalBranchPrefix": "",
-      "groupName": "external-snapshotter-suite",
-      "matchDatasources": ["docker", "github-releases"],
-      "matchPackagePatterns": ["external-snapshotter", "snapshot-controller"],
       "separateMinorPatch": true
     }
   ]

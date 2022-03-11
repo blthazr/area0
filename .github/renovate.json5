@@ -16,7 +16,8 @@
     "github>christopherburnham/area0//.github/renovate/versioning",
   ],
   "commitBodyTable": true,
-  "dependencyDashboardTitle": "Renovate Dashboard",
+  "dependencyDashboardTitle": "Renovate Dashboard 🤖",
+  "gitAuthor": "maudie-bot <16470300+maudie-bot[bot]@users.noreply.github.com>",
   "onboarding": false,
   "platform": "github",
   "rebaseWhen": "conflicted",
@@ -24,6 +25,7 @@
   "repositories": ["christopherburnham/area0"],
   "suppressNotifications": ["prIgnoreNotification"],
   "timezone": "America/Chicago",
+  "username": "maudie-bot[bot]",
 
   // configure ignored packages
   "ignoreDeps": [
@@ -56,6 +58,14 @@
   },
 
   "regexManagers": [
+    // configure regex manager for github-releases
+    {
+      "datasourceTemplate": "github-releases",
+      "fileMatch": ["k8s/cluster/.+\\.ya?ml$"],
+      "matchStrings": [
+        "datasource=(?<datasource>.*?)\n *url: https:\/\/github\\.com\/(?<depName>.*?)\\.git\n *ref:\n *tag: (?<currentValue>.*)\n"
+      ],
+    },
     // configure regex manager for custom resource definitions
     {
       "datasourceTemplate": "helm",
