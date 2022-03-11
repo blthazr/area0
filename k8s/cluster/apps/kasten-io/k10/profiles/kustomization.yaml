@@ -4,5 +4,6 @@ kind: Kustomization
 resources:
   - game.yaml
   - home.yaml
+  - home-automation.yaml
   - k10-disaster-recovery.yaml
   - media.yaml
