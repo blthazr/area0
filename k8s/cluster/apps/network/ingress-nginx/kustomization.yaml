@@ -5,8 +5,8 @@ resources:
   - dashboard
   - helm-release.yaml
 configMapGenerator:
-  - name: cloudflare-proxy-networks
+  - name: cloudflare-proxied-networks
     files:
-      - cloudflare-proxy-networks.txt
+      - cloudflare-proxied-networks.txt
 generatorOptions:
   disableNameSuffixHash: true
