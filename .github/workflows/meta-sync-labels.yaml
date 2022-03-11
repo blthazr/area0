@@ -1,0 +1,30 @@
+---
+name: Meta Sync Labels
+
+on: # yamllint disable-line rule:truthy
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/labels.yaml"
+  workflow_dispatch:
+
+jobs:
+  labels:
+    name: Sync Labels
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+      - name: Generate token
+        uses: tibdex/github-app-token@v1
+        id: generate-token
+        with:
+          app_id: "${{ secrets.BOT_APP_ID }}"
+          private_key: "${{ secrets.BOT_PRIVATE_KEY }}"
+      - name: Sync labels
+        uses: EndBug/label-sync@v2
+        with:
+          config-file: .github/labels.yaml
+          delete-other-labels: true
+          token: "${{ steps.generate-token.outputs.token }}"
