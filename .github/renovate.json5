@@ -1,0 +1,101 @@
+{
+  "extends": [
+    ":enableRenovate",
+    "config:base",
+    ":disableRateLimiting",
+    ":dependencyDashboard",
+    ":semanticCommits",
+    ":separatePatchReleases",
+    "docker:enableMajor",
+    ":enablePreCommit",
+    "github>christopherburnham/area0//.github/renovate/autoMerge",
+    "github>christopherburnham/area0//.github/renovate/commitMessage",
+    "github>christopherburnham/area0//.github/renovate/labels",
+    "github>christopherburnham/area0//.github/renovate/packageGroups",
+    "github>christopherburnham/area0//.github/renovate/semanticCommits",
+    "github>christopherburnham/area0//.github/renovate/versioning"
+  ],
+  "platform": "github",
+  "username": "maudie-bot[bot]",
+  "repositories": ["christopherburnham/area0"],
+  "onboarding": false,
+  "requireConfig": false,
+  "gitAuthor": "maudie-bot <16470300+maudie-bot[bot]@users.noreply.github.com>",
+  "dependencyDashboardTitle": "Renovate Dashboard 🤖",
+  "suppressNotifications": [
+    "prIgnoreNotification"
+  ],
+  "rebaseWhen": "conflicted",
+  "commitBodyTable": true,
+  // configure ignored packages
+  "ignoreDeps": [
+    "ghcr.io/fluxcd/helm-controller",
+    "ghcr.io/fluxcd/image-automation-controller",
+    "ghcr.io/fluxcd/image-reflector-controller",
+    "ghcr.io/fluxcd/kustomize-controller",
+    "ghcr.io/fluxcd/notification-controller",
+    "ghcr.io/fluxcd/source-controller"
+  ],
+  // configure flux manager
+  "flux": {
+    "fileMatch": [
+      "k8s/cluster/.+\\.ya?ml$"
+    ]
+  },
+  // configure helm-values manager
+  "helm-values": {
+    "fileMatch": [
+      "k8s/cluster/.+\\.ya?ml$"
+    ]
+  },
+  // configure helmv3 manager
+  "helmv3": {
+    "fileMatch": [
+      "k8s/charts/.+/Chart\\.ya?ml$"
+    ]
+  },
+  // configure kubernetes manager
+  "kubernetes": {
+    "fileMatch": [
+      "k8s/cluster/.+\\.ya?ml$"
+    ]
+  },
+  "regexManagers": [
+    // configure regex manager for github-releases
+    {
+      "fileMatch": [
+        "k8s/cluster/.+\\.ya?ml$",
+        "ansible/.+\\.ya?ml$",
+        // "hack/.+\\.sh$"
+      ],
+      "matchStrings": [
+        "datasource=(?<datasource>.*?)\n *url: https:\/\/github\\.com\/(?<depName>.*?)\\.git\n *ref:\n *tag: (?<currentValue>.*)\n",
+        "datasource=(?<datasource>.*?) depName=(?<depName>.*?)\n.*?_version: \"(?<currentValue>.*)\"\n",
+        "datasource=(?<datasource>.*?) depName=(?<depName>.*?)\n.*?_VERSION=\"(?<currentValue>.*)\"\n"
+      ],
+      "datasourceTemplate": "github-releases"
+    },
+    // configure regex manager for custom resource definitions
+    {
+      "fileMatch": [
+        "k8s/cluster/.+\\.ya?ml$"
+      ],
+      "matchStrings": [
+        // cert-manager
+        "registryUrl=(?<registryUrl>.*?) chart=(?<depName>.*?)\n.*\\/(?<currentValue>.*?)\\/",
+        // external-dns, external-snapshotter, kube-prometheus-stack
+        "datasource=(?<datasource>.*?)\n *url: https://github\\.com/(?<depName>.*?)\\.git\n *ref:\n *tag: (?<currentValue>.*)\n"
+      ],
+      "datasourceTemplate": "helm"
+    },
+  ],
+  "packageRules": [
+    // configure helm datasource
+    {
+      "matchDatasources": [
+        "helm"
+      ],
+      "ignoreDeprecated": true
+    }
+  ]
+}
