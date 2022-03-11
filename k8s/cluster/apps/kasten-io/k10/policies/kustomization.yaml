@@ -6,3 +6,4 @@ resources:
   - home.yaml
   - k10-disaster-recovery.yaml
   - k10-system-reports.yaml
+  - media.yaml
