@@ -19,12 +19,18 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+      - name: generate token
+        uses: tibdex/github-app-token@v1
+        id: generate-token
+        with:
+          app_id: ${{ secrets.BOT_APP_ID }}
+          private_key: ${{ secrets.BOT_PRIVATE_KEY }}
       - name: lint
         uses: github/super-linter/slim@v4
         env:
           ANSIBLE_CONFIG_FILE: .ansible-lint
           DEFAULT_BRANCH: "${{ env.DEFAULT_BRANCH }}"
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          GITHUB_TOKEN: "${{ steps.generate-token.outputs.token }}"
           KUBERNETES_KUBEVAL_OPTIONS: --ignore-missing-schemas
           MARKDOWN_CONFIG_FILE: .markdownlint.yaml
           TERRAFORM_TFLINT_CONFIG_FILE: .tflint.hcl
