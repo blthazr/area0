@@ -25,7 +25,7 @@ jobs:
           private_key: ${{ secrets.BOT_PRIVATE_KEY }}
       - name: Get Cloudflare Proxied Networks
         run: |
-          bash ./.github/scripts/cloudflare-proxy-networks.sh > ${{ env.env.CLOUDFLARE_PROXIED_NETWORKS_FILE }}
+          bash ./.github/scripts/cloudflare-proxied-networks.sh > ${{ env.env.CLOUDFLARE_PROXIED_NETWORKS_FILE }}
       - name: Create pull request
         uses: peter-evans/create-pull-request@v3
         with:
