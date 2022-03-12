@@ -1,31 +1,48 @@
 {
   "packageRules": [
     {
-      "matchDatasources": [
-        "docker",
-        "github-tags"
-      ],
+      "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeType": "branch",
-      "requiredStatusChecks": null,
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
+      "matchDatasources": ["docker","helm"],
       "matchPackageNames": [
-        "ghcr.io/k8s-at-home/prowlarr-nightly",
-        "renovatebot/github-action"
-      ]
+        "ghcr.io/k8s-at-home/plex",
+        "plex"
+      ],
+      "matchUpdateTypes": ["minor", "patch"],
+      "requiredStatusChecks": null,
+      "schedule": ["after 3am and before 5am"]
     },
-    // github-actions
     {
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeType": "branch",
-      "excludePackageNames": ["lycheeverse/lychee-action"],
-      "matchManagers": ["github-actions"],
+      "matchDatasources": ["docker","helm"],
+      "matchPackagePatterns": [
+        "*kube-prometheus-stack*",
+        "*lidarr*",
+        "*nzbhydra2*",
+        "*overseerr*",
+        "*prowlarr*",
+        "*radarr*",
+        "*readarr*",
+        "*sabnzbd*",
+        "*sonarr*",
+        "*tautulli*"
+      ],
       "matchUpdateTypes": ["minor", "patch"],
-      "requiredStatusChecks": null,
+      "requiredStatusChecks": null
+    },
+    {
+      "addLabels": ["action/automerge"],
+      "automerge": true,
+      "automergeType": "branch",
+      "matchDatasources": ["github-tags"],
+      "matchPackageNames": [
+        "renovatebot/github-action"
+      ],
+      "matchUpdateTypes": ["minor", "patch"],
+      "requiredStatusChecks": null
     }
   ]
 }

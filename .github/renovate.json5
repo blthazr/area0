@@ -8,7 +8,7 @@
     ":separatePatchReleases",
     "docker:enableMajor",
     ":enablePreCommit",
-    // "github>christopherburnham/area0//.github/renovate/autoMerge",
+    "github>christopherburnham/area0//.github/renovate/autoMerge",
     "github>christopherburnham/area0//.github/renovate/commitMessage",
     "github>christopherburnham/area0//.github/renovate/labels",
     "github>christopherburnham/area0//.github/renovate/packageGroups",
@@ -97,22 +97,6 @@
         "helm"
       ],
       "ignoreDeprecated": true
-    },
-
-    // plex autoMerge only between 3-5am
-    {
-      "addLabels": ["action/automerge"],
-      "automerge": true,
-      "automergeType": "branch",
-      "matchDatasources": ["docker","helm"],
-      "matchPackageNames": [
-        "ghcr.io/k8s-at-home/plex",
-        "plex"
-      ],
-      "matchUpdateTypes": ["minor", "patch"],
-      "requiredStatusChecks": null,
-      "schedule": ["after 3am and before 5am"]
     }
-
   ]
 }
