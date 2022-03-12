@@ -48,7 +48,7 @@ jobs:
         with:
           ref: "${{ env.DEFAULT_BRANCH }}"
           path: default
-      - name: Install Helm
+      - name: Install helm
         uses: azure/setup-helm@v1
         with:
           version: v3.6.3
@@ -71,8 +71,8 @@ jobs:
       - name: Create or update comment
         uses: peter-evans/create-or-update-comment@v1
         with:
-          body: "${{ steps.diff.outputs.diff }}"
-          comment-id: "${{ steps.find-comment.outputs.comment-id }}"
-          edit-mode: replace
-          issue-number: "${{ github.event.pull_request.number }}"
           token: "${{ steps.generate-token.outputs.token }}"
+          comment-id: "${{ steps.find-comment.outputs.comment-id }}"
+          issue-number: "${{ github.event.pull_request.number }}"
+          body: "${{ steps.diff.outputs.diff }}"
+          edit-mode: replace
