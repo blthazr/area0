@@ -19,16 +19,16 @@
       "automergeType": "branch",
       "matchDatasources": ["docker","helm"],
       "matchPackagePatterns": [
-        "*kube-prometheus-stack*",
-        "*lidarr*",
-        "*nzbhydra2*",
-        "*overseerr*",
-        "*prowlarr*",
-        "*radarr*",
-        "*readarr*",
-        "*sabnzbd*",
-        "*sonarr*",
-        "*tautulli*"
+        "kube-prometheus-stack",
+        "lidarr",
+        "nzbhydra2",
+        "overseerr",
+        "prowlarr",
+        "radarr",
+        "readarr",
+        "sabnzbd",
+        "sonarr",
+        "tautulli"
       ],
       "matchUpdateTypes": ["minor", "patch"],
       "requiredStatusChecks": null
