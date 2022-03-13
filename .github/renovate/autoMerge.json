@@ -3,7 +3,7 @@
     {
       "addLabels": ["action/automerge"],
       "automerge": true,
-      "automergeType": "branch",
+      "automergeType": "pr",
       "matchDatasources": ["docker","helm"],
       "matchPackageNames": [
         "ghcr.io/k8s-at-home/plex",
@@ -16,7 +16,7 @@
     {
       "addLabels": ["action/automerge"],
       "automerge": true,
-      "automergeType": "branch",
+      "automergeType": "pr",
       "matchDatasources": ["docker","helm"],
       "matchPackagePatterns": [
         "kube-prometheus-stack",
@@ -36,7 +36,7 @@
     {
       "addLabels": ["action/automerge"],
       "automerge": true,
-      "automergeType": "branch",
+      "automergeType": "pr",
       "matchDatasources": ["github-tags"],
       "matchPackageNames": [
         "renovatebot/github-action"
