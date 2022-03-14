@@ -67,8 +67,9 @@ spec:
           cpu: 100m
           memory: 100Mi
       service:
+        externalIPs:
+          - "${SVC_NGINX_ADDRESS}"
         externalTrafficPolicy: Local
-        loadBalancerIP: "${SVC_NGINX_ADDRESS}"
         type: LoadBalancer
       tolerations:
         - effect: NoSchedule
