@@ -1,0 +1,15 @@
+{
+  "packageRules": [
+    {
+      "addLabels": ["action/automerge"],
+      "automerge": true,
+      "automergeType": "pr",
+      "matchDatasources": ["github-tags"],
+      "matchPackageNames": [
+        "renovatebot/github-action"
+      ],
+      "matchUpdateTypes": ["minor","patch"],
+      "requiredStatusChecks": null
+    }
+  ]
+}
