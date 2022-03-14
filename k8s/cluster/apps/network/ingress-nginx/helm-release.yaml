@@ -31,6 +31,7 @@ spec:
         client-body-timeout: 120
         custom-http-errors: >-
           401,403,404,500,501,502,503
+        enable-brotli: "true"
         forwarded-for-header: "CF-Connecting-IP"
         keep-alive: 120
         keep-alive-requests: 10000
