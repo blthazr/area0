@@ -18,8 +18,6 @@ resources:
   - prowlarr
   - radarr
   - radarr4k
-  # - readarr-audio
-  # - readarr-ebooks
   - sabnzbd
   - sonarr
   - sonarr4k
