@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: prometheus-snmp-exporter
-      version: 0.2.0
+      version: 1.0.0
       sourceRef:
         kind: HelmRepository
         name: prometheus-community-charts
@@ -37,12 +37,10 @@ spec:
       enabled: true
       namespace: observability
       params:
-        enabled: true
-        conf:
+        - name: synology
           module:
             - synology
-          target:
-            - "${SVC_SYNOLOGY_ADDRESS}"
+          target: "${SVC_SYNOLOGY_ADDRESS}"
       path: /snmp
       relabelings:
         - sourceLabels: [__param_target]
