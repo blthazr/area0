@@ -9,6 +9,7 @@ on: # yamllint disable-line rule:truthy
       - "k8s/cluster/**.yaml"
 
 env:
+  # Currently no way to detect automatically
   DEFAULT_BRANCH: main
   BOT_USERNAME: "maudie-bot[bot]"
 
@@ -35,24 +36,24 @@ jobs:
       matrix:
         file: ${{ fromJSON(needs.detect-file-changes.outputs.yaml_files) }}
     steps:
-      - name: Check out code
+      - name: Checkout
         uses: actions/checkout@v3
-      - name: Generate token
-        id: generate-token
+      - name: Generate Token
         uses: tibdex/github-app-token@v1
+        id: generate-token
         with:
-          app_id: ${{ secrets.BOT_APP_ID }}
-          private_key: ${{ secrets.BOT_PRIVATE_KEY }}
+          app_id: "${{ secrets.BOT_APP_ID }}"
+          private_key: "${{ secrets.BOT_PRIVATE_KEY }}"
       - name: Checkout default branch
         uses: actions/checkout@v3
         with:
           ref: "${{ env.DEFAULT_BRANCH }}"
           path: default
-      - name: Install helm
+      - name: Install Helm
         uses: azure/setup-helm@v1
         with:
           version: v3.6.3
-      - name: Run helm release differ
+      - name: Helm Release Differ
         id: diff
         run: |
           diff=$(.github/scripts/helm-release-differ.sh --source-file "default/${{ matrix.file }}" --target-file "${{ matrix.file }}" --remove-common-labels)
@@ -61,9 +62,9 @@ jobs:
           diff="${diff//$'\n'/'%0A'}"
           diff="${diff//$'\r'/'%0D'}"
           echo "::set-output name=diff::$(echo ${diff})"
-      - name: Find comment
-        id: find-comment
+      - name: Find Comment
         uses: peter-evans/find-comment@v1
+        id: find-comment
         with:
           issue-number: "${{ github.event.pull_request.number }}"
           comment-author: "${{ env.BOT_USERNAME }}"
