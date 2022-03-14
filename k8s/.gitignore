@@ -1,0 +1,8 @@
+# Local Helm
+*-helm.y*ml
+*-helm.md
+helm-values.y*ml
+default-values.y*ml
+
+# Deployment
+deployment.md

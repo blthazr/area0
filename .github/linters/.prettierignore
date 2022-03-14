@@ -1,4 +1,8 @@
+k8s/charts/
+docs/
 .private/
 .terraform/
+.vscode/
 *.sops.*
 *-shard.*
+gotk-components.yaml

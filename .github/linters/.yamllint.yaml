@@ -1,9 +1,14 @@
 ---
 extends: default
 ignore: |
+  k8s/charts/
+  docs/
   .private/
+  .terraform/
+  .vscode/
   *.sops.*
   *-shard.*
+  gotk-components.yaml
 rules:
   braces:
     max-spaces-inside: 1
