@@ -84,11 +84,13 @@ spec:
     defaultBackend:
       enabled: true
       extraEnvs:
-        - name: ERROR_FILES_PATH
-          value: ./themes/ghost
+        - name: SHOW_DETAILS
+          value: "false"
+        - name: TEMPLATE_NAME
+          value: ghost
       image:
-        repository: ghcr.io/181192/custom-error-pages
-        tag: 1.2.1
+        repository: ghcr.io/tarampampam/error-pages
+        tag: 2.7.0
   valuesFrom:
     - kind: ConfigMap
       name: cloudflare-proxied-networks
