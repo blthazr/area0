@@ -15,7 +15,7 @@ jobs:
     name: Cloudflare Proxied Networks
     runs-on: ubuntu-latest
     steps:
-      - name: Check out code
+      - name: Check out repository
         uses: actions/checkout@v3
       - name: Generate token
         id: generate-token
@@ -30,7 +30,7 @@ jobs:
         uses: peter-evans/create-pull-request@v3
         with:
           body: |
-            Update cloudflare proxy networks configmap from https://www.cloudflare.com/ips/
+            Update Cloudflare proxy networks configmap from https://www.cloudflare.com/ips/
           branch: github-action/update-cloudflare-proxied-networks
           commit-message: "chore(github-action): update cloudflare proxied networks"
           delete-branch: true

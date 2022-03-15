@@ -9,7 +9,6 @@ on: # yamllint disable-line rule:truthy
       - "k8s/cluster/**.yaml"
 
 env:
-  # Currently no way to detect automatically
   DEFAULT_BRANCH: main
   BOT_USERNAME: "maudie-bot[bot]"
 
@@ -18,9 +17,11 @@ jobs:
     name: Detect File Changes
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: dorny/paths-filter@v2
+      - name: Check out repository
+        uses: actions/checkout@v3
+      - name: Find modified files
         id: filter
+        uses: dorny/paths-filter@v2
         with:
           list-files: json
           filters: |
@@ -36,24 +37,24 @@ jobs:
       matrix:
         file: ${{ fromJSON(needs.detect-file-changes.outputs.yaml_files) }}
     steps:
-      - name: Checkout
+      - name: Check out repository
         uses: actions/checkout@v3
-      - name: Generate Token
-        uses: tibdex/github-app-token@v1
+      - name: Generate token
         id: generate-token
+        uses: tibdex/github-app-token@v1
         with:
           app_id: "${{ secrets.BOT_APP_ID }}"
           private_key: "${{ secrets.BOT_PRIVATE_KEY }}"
       - name: Checkout default branch
         uses: actions/checkout@v3
         with:
-          ref: "${{ env.DEFAULT_BRANCH }}"
           path: default
+          ref: "${{ env.DEFAULT_BRANCH }}"
       - name: Install Helm
         uses: azure/setup-helm@v1
         with:
           version: v3.6.3
-      - name: Helm Release Differ
+      - name: Helm release differ
         id: diff
         run: |
           diff=$(.github/scripts/helm-release-differ.sh --source-file "default/${{ matrix.file }}" --target-file "${{ matrix.file }}" --remove-common-labels)
@@ -62,7 +63,7 @@ jobs:
           diff="${diff//$'\n'/'%0A'}"
           diff="${diff//$'\r'/'%0D'}"
           echo "::set-output name=diff::$(echo ${diff})"
-      - name: Find Comment
+      - name: Find comment
         uses: peter-evans/find-comment@v1
         id: find-comment
         with:
@@ -72,8 +73,8 @@ jobs:
       - name: Create or update comment
         uses: peter-evans/create-or-update-comment@v1
         with:
-          token: "${{ steps.generate-token.outputs.token }}"
-          comment-id: "${{ steps.find-comment.outputs.comment-id }}"
-          issue-number: "${{ github.event.pull_request.number }}"
           body: "${{ steps.diff.outputs.diff }}"
+          comment-id: "${{ steps.find-comment.outputs.comment-id }}"
           edit-mode: replace
+          issue-number: "${{ github.event.pull_request.number }}"
+          token: "${{ steps.generate-token.outputs.token }}"

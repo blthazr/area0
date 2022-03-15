@@ -14,9 +14,9 @@ jobs:
     name: Detect File Changes
     runs-on: ubuntu-latest
     steps:
-      - name: Check out code
+      - name: Check out repository
         uses: actions/checkout@v3
-      - name: Get modified files
+      - name: Find modified files
         id: filter
         uses: dorny/paths-filter@v2
         with:
@@ -37,7 +37,7 @@ jobs:
       matrix:
         file: ${{ fromJSON(needs.detect-file-changes.outputs.yaml_files) }}
     steps:
-      - name: Check out code
+      - name: Check out repository
         uses: actions/checkout@v3
       - name: Install Jo
         run: |
@@ -58,16 +58,16 @@ jobs:
       matrix: ${{ fromJSON(needs.detect-containers.outputs.containers) }}
       fail-fast: false
     steps:
-      - name: Check out code
+      - name: Check out repository
         uses: actions/checkout@v3
-      - name: Scan container
+      - name: Scan container(s)
         uses: aquasecurity/trivy-action@0.2.2
         with:
-          image-ref: ${{ matrix.containers }}
-          vuln-type: os,library
-          severity: CRITICAL,HIGH
           format: sarif
+          image-ref: ${{ matrix.containers }}
           output: trivy-results.sarif
+          severity: CRITICAL,HIGH
+          vuln-type: os,library
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v1
         with:
