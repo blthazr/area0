@@ -72,3 +72,5 @@
     PR that has been autoMerged by Renovate
 - name: do-not-merge
   color: "ee0701"
+- name: link-checker
+  color: "7B55D7"
