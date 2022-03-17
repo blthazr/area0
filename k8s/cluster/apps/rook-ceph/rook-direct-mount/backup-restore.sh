@@ -12,7 +12,7 @@
 #   @description    :   Script Constants, Variables
 # --------------------------------------------------------------------------------------------------
 DEFAULT_ACTION="backup"
-NFS_MOUNT_PATH="/mnt/nfsdata"
+NFS_MOUNT_PATH="/mnt/nfs-data"
 RBD_MOUNT_PATH="/mnt/data"
 ROOK_POOL="ceph-blockpool"
 PVC_BACKUP_PATH="${NFS_MOUNT_PATH}/backup/rook-ceph/pvc/$(date +%Y-%m-%d)"
