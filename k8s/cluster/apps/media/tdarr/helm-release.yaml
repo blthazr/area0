@@ -51,6 +51,15 @@ spec:
         limits:
           gpu.intel.com/i915: 1
     persistence:
+      backup:
+        enabled: true
+        mountPath: /app/server/Tdarr/Backups
+        readOnly: false
+        type: custom
+        volumeSpec:
+          nfs:
+            server: "${SVC_SYNOLOGY_ADDRESS}"
+            path: "${NAS_NFS_PATH}/backup/app/tdarr"
       data:
         enabled: true
         existingClaim: tdarr-data-v1
@@ -64,6 +73,10 @@ spec:
             server: "${MEDIA_SERVER_NODE_ADDRESS}"
             path: "${MEDIA_SERVER_NFS_PATH}"
       shared:
+        enabled: true
+        medium: Memory
+        type: emptyDir
+      transcode:
         enabled: true
         medium: Memory
         type: emptyDir
