@@ -8,7 +8,6 @@
     ":separatePatchReleases",
     "docker:enableMajor",
     ":enablePreCommit",
-    "github>christopherburnham/area0//.github/renovate/autoMerge",
     "github>christopherburnham/area0//.github/renovate/commitMessage",
     "github>christopherburnham/area0//.github/renovate/labels",
     "github>christopherburnham/area0//.github/renovate/packageGroups",
