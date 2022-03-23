@@ -30,19 +30,45 @@
       "requiredStatusChecks": null
     },
     {
-      "description": "Enable automerge for Plex apps",
+      "description": "Enable scheduled automerge for media apps",
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeType": "pr",
       "matchDatasources": ["docker","helm"],
-      "matchPackageNames": [
-        "ghcr.io/k8s-at-home/plex",
+      "matchPackagePatterns": [
         "plex",
         "overseerr"
       ],
       "matchUpdateTypes": ["minor","patch"],
       "requiredStatusChecks": null,
       "schedule": ["after 3am and before 7am"]
+    },
+    {
+      "description": "Enable anytime automerge for media apps",
+      "addLabels": ["action/automerge"],
+      "automerge": true,
+      "automergeType": "pr",
+      "matchDatasources": ["docker","helm"],
+      "matchPackagePatterns": [
+        "bazarr",
+        "calibre",
+        "calibre-web",
+        "dizquetv",
+        "gaps",
+        "komga",
+        "lidarr",
+        "mylar",
+        "nzbhydra2",
+        "prowlarr",
+        "radarr",
+        "readarr",
+        "sabnzbd",
+        "sonarr",
+        "tautulli",
+        "tdarr"
+      ],
+      "matchUpdateTypes": ["minor","patch"],
+      "requiredStatusChecks": null
     }
   ]
 }
