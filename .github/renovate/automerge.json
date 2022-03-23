@@ -1,6 +1,23 @@
 {
   "packageRules": [
     {
+      "description": "Enable automerge for observability apps",
+      "addLabels": ["action/automerge"],
+      "automerge": true,
+      "automergeType": "pr",
+      "matchDatasources": ["helm"],
+      "matchPackageNames": [
+        "grafana",
+        "kube-prometheus-stack",
+        "snmp-exporter",
+        "speedtest-exporter",
+        "thanos",
+        "unifi-poller"
+      ],
+      "matchUpdateTypes": ["minor","patch"],
+      "requiredStatusChecks": null
+    },
+    {
       "description": "Enable automerge for github action tags",
       "addLabels": ["action/automerge"],
       "automerge": true,
