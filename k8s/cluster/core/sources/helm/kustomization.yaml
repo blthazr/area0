@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - bitnami.yaml
   - coredns.yaml
+  - cribl.yaml
   - deliveryhero.yaml
   - descheduler.yaml
   - external-dns.yaml
