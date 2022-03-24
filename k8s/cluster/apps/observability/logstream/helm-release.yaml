@@ -52,7 +52,3 @@ spec:
           external: false
           port: 4200
           protocol: TCP
-        - name: syslog-udp
-          external: true
-          port: 9514
-          protocol: UDP
