@@ -1,6 +1,8 @@
 ---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+patchesStrategicMerge:
+  - persistent-volume-claim.yaml
 resources:
   - helm-release.yaml
   - ingress.yaml
