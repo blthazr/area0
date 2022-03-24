@@ -6,6 +6,9 @@ metadata:
   labels:
     kasten.io/backup-volume: "enabled"
 spec:
+  accessModes:
+    - ReadWriteOnce
   resources:
     requests:
       storage: 20Gi
+  storageClassName: ceph-block
