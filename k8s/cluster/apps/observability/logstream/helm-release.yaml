@@ -1,0 +1,58 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: logstream
+spec:
+  chart:
+    spec:
+      chart: logstream-leader
+      version: 3.4.0
+      sourceRef:
+        kind: HelmRepository
+        name: cribl-charts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  interval: 5m
+  upgrade:
+    remediation:
+      retries: 3
+  values:
+    config:
+      scName: ceph-block
+      adminPassword: "${SECRET_LOGSTREAM_ADMIN_PASSWORD}"
+    criblImage:
+      repository: cribl/cribl
+      tag: 3.4.0
+    fullnameOverride: logstream
+    podAnnotations:
+      configmap.reloader.stakater.com/reload: logstream
+    resources:
+      limits:
+        cpu: 2000m
+        memory: 4Gi
+      requests:
+        cpu: 500m
+        memory: 1Gi
+    service:
+      annotations:
+        metallb.universe.tf/allow-shared-ip: logstream
+      externalLoadBalancerIP: "${SVC_LOGSTREAM_ADDRESS}"
+      externalType: LoadBalancer
+      internalType: ClusterIP
+      ports:
+        - name: api
+          external: true
+          port: 9000
+          protocol: TCP
+        - name: leadercomm
+          external: false
+          port: 4200
+          protocol: TCP
+        - name: syslog-udp
+          external: true
+          port: 9514
+          protocol: UDP
