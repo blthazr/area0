@@ -5,8 +5,8 @@
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeType": "pr",
-      "matchDatasources": ["helm"],
-      "matchPackageNames": [
+      "matchDatasources": ["docker","helm"],
+      "matchPackagePatterns": [
         "grafana",
         "kube-prometheus-stack",
         "snmp-exporter",
