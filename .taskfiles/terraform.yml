@@ -24,5 +24,26 @@ tasks:
   apply:cloudflare:
     desc: execute generated plan
     cmds:
-      - terraform plan
+      - terraform apply
     dir: terraform/cloudflare
+
+  # task terraform:init:minio
+  init:minio:
+    desc: initialize terraform
+    cmds:
+      - terraform init
+    dir: terraform/minio
+
+  # task terraform:plan:minio
+  plan:minio:
+    desc: generate execution plan
+    cmds:
+      - terraform plan
+    dir: terraform/minio
+
+  # task terraform:apply:minio
+  apply:minio:
+    desc: execute generated plan
+    cmds:
+      - terraform apply
+    dir: terraform/minio
