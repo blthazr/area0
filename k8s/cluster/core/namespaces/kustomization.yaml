@@ -6,7 +6,6 @@ resources:
   - game.yaml
   - home.yaml
   - home-automation.yaml
-  - kasten-io.yaml
   - media.yaml
   - metallb-system.yaml
   - network.yaml
