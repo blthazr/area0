@@ -12,6 +12,7 @@ resources:
   - ingress-nginx.yaml
   - jetstack.yaml
   - k8s-at-home.yaml
+  - kasten.yaml
   - metallb.yaml
   - metrics-server.yaml
   - minecraft-server.yaml
