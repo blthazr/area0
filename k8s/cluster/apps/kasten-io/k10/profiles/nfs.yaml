@@ -1,0 +1,19 @@
+---
+apiVersion: config.kio.kasten.io/v1alpha1
+kind: Profile
+metadata:
+  name: nfs
+spec:
+  locationSpec:
+    credential:
+      secret:
+        apiVersion: ""
+        kind: ""
+        name: ""
+        namespace: ""
+      secretType: ""
+    fileStore:
+      claimName: k10-backups
+      path: dcff1f7f-c0fc-448b-a9ab-cdea22ae914a/migration
+    type: FileStore
+  type: Location

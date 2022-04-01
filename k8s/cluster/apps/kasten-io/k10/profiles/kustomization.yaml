@@ -4,4 +4,5 @@ kind: Kustomization
 resources:
   - k10-disaster-recovery.yaml
   - minio.yaml
+  - nfs.yaml
   - secret.sops.yaml
