@@ -15,7 +15,7 @@ spec:
     type: ObjectStore
     objectStore:
       endpoint: "http://${SVC_MINIO_ADDRESS}:9000"
-      name: minio-k10
+      name: kasten-io
       objectStoreType: S3
       path: k10/dcff1f7f-c0fc-448b-a9ab-cdea22ae914a/migration
       pathType: Directory
