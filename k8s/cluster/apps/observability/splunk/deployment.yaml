@@ -95,7 +95,8 @@ spec:
           persistentVolumeClaim:
             claimName: splunk-etc-v1
         - name: splunk-var
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: splunk-var-v1
         - name: bootstrap
           configMap:
             name: splunk-bootstrap
