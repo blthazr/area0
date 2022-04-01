@@ -6,5 +6,6 @@ resources:
   - persistent-volume.yaml
   - persistent-volume-claim.yaml
   - secret.sops.yaml
+  - monitoring
   - policies
   - profiles
