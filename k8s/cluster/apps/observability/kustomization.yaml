@@ -8,6 +8,6 @@ resources:
   - logstream
   - snmp-exporter
   - speedtest-exporter
-  # - splunk
+  - splunk
   - thanos
   - unifi-poller
