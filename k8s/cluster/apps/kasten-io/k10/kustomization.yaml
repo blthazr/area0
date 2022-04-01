@@ -2,8 +2,9 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
+  - helm-release.yaml
   - persistent-volume.yaml
   - persistent-volume-claim.yaml
-  - helm-release.yaml
   - secret.sops.yaml
   - policies
+  - profiles
