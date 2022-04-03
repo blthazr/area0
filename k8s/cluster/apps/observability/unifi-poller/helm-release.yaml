@@ -24,14 +24,19 @@ spec:
     env:
       TZ: "${CLUSTER_TIME_ZONE}"
       UP_INFLUXDB_DISABLE: true
+      UP_LOKI_URL: http://loki
       UP_PROMETHEUS_DISABLE: false
       UP_PROMETHEUS_NAMESPACE: unifipoller
-      UP_UNIFI_DEFAULT_PASS: "${SECRET_UNIFI_POLLER_PASSWORD}"
+      UP_UNIFI_DEFAULT_SAVE_ALARMS: true
+      UP_UNIFI_DEFAULT_SAVE_ANOMALIES: true
       UP_UNIFI_DEFAULT_SAVE_DPI: true
+      UP_UNIFI_DEFAULT_SAVE_EVENTS: true
+      UP_UNIFI_DEFAULT_SAVE_IDS: true
       UP_UNIFI_DEFAULT_SAVE_SITES: true
-      UP_UNIFI_DEFAULT_URL: "https://${SVC_UNIFI_NETWORK_ADDRESS}"
-      UP_UNIFI_DEFAULT_USER: "${SECRET_UNIFI_POLLER_USER}"
       UP_UNIFI_DEFAULT_VERIFY_SSL: false
+    envFrom:
+      - secretRef:
+          name: unifi-poller-credentials
     image:
       repository: ghcr.io/k8s-at-home/unpoller
       tag: 2.1.3
@@ -42,5 +47,3 @@ spec:
         scrapeTimeout: 30s
       prometheusRule:
         enabled: true
-    podAnnotations:
-      configmap.reloader.stakater.com/reload: unifi-poller
