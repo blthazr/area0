@@ -29,10 +29,10 @@ spec:
       dashboardproviders.yaml:
         apiVersion: 1
         providers:
-          - disableDeletion: false
+          - name: default
+            disableDeletion: false
             editable: true
             folder: ""
-            name: default
             options:
               path: /var/lib/grafana/dashboards/default
             orgId: 1
@@ -93,11 +93,18 @@ spec:
       datasources.yaml:
         apiVersion: 1
         datasources:
-          - access: proxy
+          - name: Prometheus
+            access: proxy
             isDefault: true
-            name: Prometheus
             type: prometheus
             url: http://thanos-query:9090/
+          - name: Loki
+            type: loki
+            access: proxy
+            url: http://loki:3100
+        deleteDatasources:
+          - name: Loki
+            orgId: 1
     env:
       GF_DATE_FORMATS_FULL_DATE: "MMM Do, YYYY hh:mm:ss a"
       GF_EXPLORE_ENABLED: true
