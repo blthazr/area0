@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - catalog.yaml
   - cert-manager.yaml
+  - download.yaml
   - game.yaml
   - home.yaml
   - home-automation.yaml
