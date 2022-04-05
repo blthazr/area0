@@ -39,6 +39,15 @@ spec:
           - hosts:
               - "bazarr.${SECRET_DOMAIN}"
     persistence:
+      backup:
+        enabled: true
+        mountPath: /config/backup
+        readOnly: false
+        type: custom
+        volumeSpec:
+          nfs:
+            server: "${SVC_SYNOLOGY_ADDRESS}"
+            path: "${NAS_NFS_PATH}/backup/app/bazarr"
       config:
         enabled: true
         existingClaim: bazarr-config-v1
