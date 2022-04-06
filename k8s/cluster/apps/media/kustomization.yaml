@@ -13,7 +13,6 @@ resources:
   - nzbhydra2
   - overseerr
   - plex
-  - prowlarr
   - radarr
   - radarr4k
   - sabnzbd
