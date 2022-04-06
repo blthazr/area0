@@ -1,0 +1,67 @@
+env:
+  TZ: "${CLUSTER_TIME_ZONE}"
+image:
+  repository: ghcr.io/k8s-at-home/sonarr
+  tag: v3.0.7.1477
+ingress:
+  main:
+    annotations:
+      nginx.ingress.kubernetes.io/configuration-snippet: |
+        proxy_set_header Accept-Encoding "";
+        sub_filter
+        '</head>'
+        '<link rel="stylesheet" type="text/css" href="https://theme-park.dev/css/base/sonarr/dark.css">
+        </head>';
+        sub_filter_once on;
+    enabled: true
+    hosts:
+      - host: &host "sonarr.${SECRET_DOMAIN}"
+        paths:
+          - path: /
+            pathType: Prefix
+    ingressClassName: nginx
+    tls:
+      - hosts:
+          - *host
+metrics:
+  enabled: true
+  exporter:
+    env:
+      additionalMetrics: true
+      port: 9794
+      unknownQueueItems: true
+    image:
+      repository: ghcr.io/onedr0p/exportarr
+      tag: v1.0.0
+  prometheusRule:
+    enabled: true
+  serviceMonitor:
+    interval: 3m
+    scrapeTimeout: 1m
+nodeSelector:
+  node-role.kubernetes.io/media: "true"
+persistence:
+  backup:
+    enabled: true
+    mountPath: /config/Backups
+    readOnly: false
+    type: custom
+    volumeSpec:
+      nfs:
+        server: "${SVC_SYNOLOGY_ADDRESS}"
+        path: "${NAS_NFS_PATH}/backup/app/sonarr"
+  config:
+    enabled: true
+    existingClaim: sonarr-config-v1
+  media:
+    enabled: true
+    mountPath: /media
+    readOnly: false
+    type: custom
+    volumeSpec:
+      nfs:
+        server: "${MEDIA_SERVER_NODE_ADDRESS}"
+        path: "${MEDIA_SERVER_NFS_PATH}"
+podSecurityContext:
+  supplementalGroups:
+    - 100
