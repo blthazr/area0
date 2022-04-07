@@ -20,29 +20,6 @@ spec:
   upgrade:
     remediation:
       retries: 3
-  values:
-    extraArgs:
-      - "--config.file=/config/snmp.yaml"
-    extraConfigmapMounts:
-      - name: snmp-exporter-synology
-        configMap: snmp-exporter-synology
-        defaultMode: 420
-        mountPath: /config/snmp.yaml
-        readOnly: true
-        subPath: snmp.yaml
-    fullnameOverride: snmp-exporter-synology
-    image:
-      repository: quay.io/prometheus/snmp-exporter
-    serviceMonitor:
-      enabled: true
-      namespace: observability
-      params:
-        - name: synology
-          module:
-            - synology
-          target: "${SVC_SYNOLOGY_ADDRESS}"
-      path: /snmp
-      relabelings:
-        - sourceLabels: [__param_target]
-          targetLabel: instance
-      scrapeTimeout: 10s
+  valuesFrom:
+    - kind: ConfigMap
+      name: snmp-exporter-synology-helm-values
