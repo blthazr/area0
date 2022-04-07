@@ -34,5 +34,5 @@ spec:
           tls:
             - hosts:
                 - "protect.${SECRET_DOMAIN}"
-        ip: "${SVC_UNIFI_PROTECT_ADDRESS}"
+        ip: "${UNIFI_PROTECT_ADDRESS}"
         port: 443

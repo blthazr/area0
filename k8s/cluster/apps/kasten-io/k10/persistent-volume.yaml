@@ -9,7 +9,7 @@ spec:
   capacity:
     storage: 1Mi
   nfs:
-    server: "${SVC_SYNOLOGY_ADDRESS}"
+    server: "${NAS_ADDRESS}"
     path: "${NAS_NFS_PATH}/backup/k10"
   persistentVolumeReclaimPolicy: Retain
   storageClassName: k10-backup-nfs

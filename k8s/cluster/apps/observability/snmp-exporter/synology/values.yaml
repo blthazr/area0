@@ -17,7 +17,7 @@ serviceMonitor:
     - name: synology
       module:
         - synology
-      target: "${SVC_SYNOLOGY_ADDRESS}"
+      target: "${NAS_ADDRESS}"
   path: /snmp
   relabelings:
     - sourceLabels: [__param_target]

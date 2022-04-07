@@ -50,7 +50,7 @@ persistence:
     type: custom
     volumeSpec:
       nfs:
-        server: "${SVC_SYNOLOGY_ADDRESS}"
+        server: "${NAS_ADDRESS}"
         path: "${NAS_NFS_PATH}/backup/app/sonarr4k"
   config:
     enabled: true
@@ -62,7 +62,7 @@ persistence:
     type: custom
     volumeSpec:
       nfs:
-        server: "${MEDIA_SERVER_NODE_ADDRESS}"
+        server: "${MEDIA_SERVER_ADDRESS}"
         path: "${MEDIA_SERVER_NFS_PATH}"
 podSecurityContext:
   supplementalGroups:

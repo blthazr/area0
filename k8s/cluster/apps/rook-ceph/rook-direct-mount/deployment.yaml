@@ -70,7 +70,7 @@ spec:
                 path: mon-endpoints
         - name: nfs-data
           nfs:
-            server: "${SVC_SYNOLOGY_ADDRESS}"
+            server: "${NAS_ADDRESS}"
             path: "${NAS_NFS_PATH}"
         - name: direct-mount-scripts
           projected:

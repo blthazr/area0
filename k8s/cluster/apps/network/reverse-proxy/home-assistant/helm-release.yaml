@@ -33,5 +33,5 @@ spec:
           tls:
             - hosts:
                 - "home-assistant.${SECRET_DOMAIN}"
-        ip: "${SVC_HOME_ASSISTANT_ADDRESS}"
+        ip: "${HOME_ASSISTANT_ADDRESS}"
         port: 8123
