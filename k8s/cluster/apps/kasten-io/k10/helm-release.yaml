@@ -23,27 +23,6 @@ spec:
     crds: CreateReplace
     remediation:
       retries: 3
-  values:
-    auth:
-      tokenAuth:
-        enabled: true
-    clusterName: area0
-    eula:
-      accept: true
-      company: "${SECRET_KASTEN_COMPANY_NAME}"
-      email: "${SECRET_KASTEN_EMAIL}"
-    global:
-      persistence:
-        storageClass: ceph-block
-    grafana:
-      enabled: false
-    ingress:
-      class: nginx
-      create: true
-      host: &host "k10.${SECRET_DOMAIN}"
-      hosts:
-        - *host
-      tls:
-        enabled: true
-        secretName: "${SECRET_DOMAIN/./-}-tls"
-      urlPath: k10
+  valuesFrom:
+    - kind: ConfigMap
+      name: k10-helm-values
