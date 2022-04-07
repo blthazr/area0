@@ -1,0 +1,73 @@
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: feature.node.kubernetes.io/custom-intel-gpu
+              operator: In
+              values:
+                - "true"
+env:
+  TZ: "${CLUSTER_TIME_ZONE}"
+image:
+  repository: ghcr.io/k8s-at-home/plex
+  tag: v1.25.8.5663-e071c3d62
+ingress:
+  main:
+    annotations:
+      external-dns.alpha.kubernetes.io/target: "${SECRET_DOMAIN}"
+      external-dns/is-public: "true"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+      nginx.ingress.kubernetes.io/configuration-snippet: |
+        proxy_set_header Accept-Encoding "";
+        sub_filter
+        '</head>'
+        '<link rel="stylesheet" type="text/css" href="https://theme-park.dev/css/base/plex/dark.css">
+        </head>';
+        sub_filter_once on;
+    enabled: true
+    hosts:
+      - host: &host "plex.${SECRET_DOMAIN}"
+        paths:
+          - path: /
+            pathType: Prefix
+    ingressClassName: nginx
+    tls:
+      - hosts:
+          - *host
+nodeSelector:
+  node-role.kubernetes.io/media: "true"
+persistence:
+  config:
+    enabled: true
+    existingClaim: plex-config-v1
+  media:
+    enabled: true
+    mountPath: /media
+    readOnly: false
+    type: custom
+    volumeSpec:
+      nfs:
+        server: "${MEDIA_SERVER_NODE_ADDRESS}"
+        path: "${MEDIA_SERVER_NFS_PATH}"
+  transcode:
+    enabled: true
+    medium: Memory
+    type: emptyDir
+podSecurityContext:
+  supplementalGroups:
+    - 44 # Hardware acceleration using an Intel iGPU w/ QuickSync
+    - 109 # Hardware acceleration using an Intel iGPU w/ QuickSync
+    - 100
+resources:
+  limits:
+    gpu.intel.com/i915: 1
+  requests:
+    gpu.intel.com/i915: 1
+service:
+  main:
+    annotations:
+      metallb.universe.tf/allow-shared-ip: plex
+    externalTrafficPolicy: Local
+    loadBalancerIP: "${SVC_PLEX_ADDRESS}"
+    type: LoadBalancer
