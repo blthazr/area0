@@ -4,6 +4,7 @@ kind: Kustomization
 namespace: catalog
 resources:
   - bazarr
+  - prowlarr
   - radarr
   - radarr4k
   - sabnzbd
