@@ -1,0 +1,12 @@
+env:
+  TZ: "${CLUSTER_TIME_ZONE}"
+image:
+  repository: ghcr.io/miguelndecarvalho/speedtest-exporter
+  tag: v3.4.3
+metrics:
+  enabled: true
+  serviceMonitor:
+    interval: 60m
+    scrapeTimeout: 1m
+  prometheusRule:
+    enabled: false

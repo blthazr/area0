@@ -20,16 +20,6 @@ spec:
   upgrade:
     remediation:
       retries: 3
-  values:
-    env:
-      TZ: "${CLUSTER_TIME_ZONE}"
-    image:
-      repository: ghcr.io/miguelndecarvalho/speedtest-exporter
-      tag: v3.4.3
-    metrics:
-      enabled: true
-      serviceMonitor:
-        interval: 60m
-        scrapeTimeout: 1m
-      prometheusRule:
-        enabled: false
+  valuesFrom:
+    - kind: ConfigMap
+      name: speedtest-exporter-helm-values
