@@ -1,0 +1,11 @@
+env:
+  TZ: "${CLUSTER_TIME_ZONE}"
+image:
+  repository: ghcr.io/flaresolverr/flaresolverr
+  tag: v2.2.2
+resources:
+  requests:
+    memory: 100Mi
+    cpu: 100m
+  limits:
+    memory: 1000Mi
