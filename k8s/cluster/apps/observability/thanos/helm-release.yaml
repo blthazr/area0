@@ -20,39 +20,6 @@ spec:
   upgrade:
     remediation:
       retries: 3
-  values:
-    bucketweb:
-      enabled: true
-    compactor:
-      enabled: true
-      persistence:
-        enabled: false
-    existingObjstoreSecret: thanos-objstore
-    image:
-      registry: public.ecr.aws
-      repository: bitnami/thanos
-    metrics:
-      enabled: true
-      serviceMonitor:
-        enabled: true
-    query:
-      dnsDiscovery:
-        sidecarsService: prometheus-thanos-discovery
-        sidecarsNamespace: observability
-      enabled: true
-      ingress:
-        enabled: true
-        hostname: "thanos.${SECRET_DOMAIN}"
-        ingressClassName: nginx
-        tls: true
-      replicaLabels:
-        - replica
-    queryFrontend:
-      enabled: false
-    ruler:
-      enabled: false
-    storegateway:
-      enabled: true
-      persistence:
-        enabled: true
-        size: 5Gi
+  valuesFrom:
+    - kind: ConfigMap
+      name: thanos-helm-values
