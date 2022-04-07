@@ -5,6 +5,7 @@ namespace: catalog
 resources:
   - bazarr
   - flaresolverr
+  - gaps
   - prowlarr
   - radarr
   - radarr4k

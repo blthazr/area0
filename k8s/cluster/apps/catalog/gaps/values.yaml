@@ -1,0 +1,21 @@
+env:
+  TZ: "${CLUSTER_TIME_ZONE}"
+image:
+  repository: housewrecker/gaps
+  tag: v0.9.12
+ingress:
+  main:
+    enabled: true
+    hosts:
+      - host: &host "gaps.${SECRET_DOMAIN}"
+        paths:
+          - path: /
+            pathType: Prefix
+    ingressClassName: nginx
+    tls:
+      - hosts:
+          - *host
+persistence:
+  data:
+    enabled: true
+    existingClaim: gaps-data-v1
