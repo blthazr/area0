@@ -36,15 +36,6 @@ persistence:
   config:
     enabled: true
     existingClaim: sabnzbd-config-v1
-  history:
-    enabled: true
-    mountPath: /config/history
-    readOnly: false
-    type: custom
-    volumeSpec:
-      nfs:
-        server: "${SVC_SYNOLOGY_ADDRESS}"
-        path: "${NAS_NFS_PATH}/backup/app/sabnzbd/history"
   media:
     enabled: true
     mountPath: /media
