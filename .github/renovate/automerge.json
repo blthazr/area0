@@ -18,18 +18,6 @@
       "requiredStatusChecks": null
     },
     {
-      "description": "Enable automerge for github action tags",
-      "addLabels": ["action/automerge"],
-      "automerge": true,
-      "automergeType": "pr",
-      "matchDatasources": ["github-tags"],
-      "matchPackageNames": [
-        "renovatebot/github-action"
-      ],
-      "matchUpdateTypes": ["minor","patch"],
-      "requiredStatusChecks": null
-    },
-    {
       "description": "Enable scheduled automerge for media apps",
       "addLabels": ["action/automerge"],
       "automerge": true,
