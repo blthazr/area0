@@ -9,6 +9,7 @@
       "matchPackagePatterns": [
         "grafana",
         "kube-prometheus-stack",
+        "loki",
         "snmp-exporter",
         "speedtest-exporter",
         "thanos",
