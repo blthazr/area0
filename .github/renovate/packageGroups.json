@@ -3,22 +3,51 @@
     {
       "additionalBranchPrefix": "",
       "groupName": "external-snapshotter-suite",
-      "matchDatasources": ["docker", "github-releases"],
-      "matchPackagePatterns": ["external-snapshotter", "snapshot-controller"],
+      "matchDatasources": [
+        "docker",
+        "github-releases"
+      ],
+      "matchPackagePatterns": [
+        "external-snapshotter",
+        "snapshot-controller"
+      ],
       "separateMinorPatch": true
     },
     {
       "additionalBranchPrefix": "",
       "groupName": "rook-ceph-suite",
-      "matchDatasources": ["docker", "helm"],
-      "matchPackagePatterns": ["^rook.ceph"],
+      "matchDatasources": [
+        "docker",
+        "helm"
+      ],
+      "matchPackagePatterns": [
+        "^rook.ceph"
+      ],
       "separateMinorPatch": true
     },
     {
       "additionalBranchPrefix": "",
       "groupName": "system-upgrade-controller-suite",
-      "matchDatasources": ["docker", "github-tags"],
-      "matchPackagePatterns": ["rancher/system-upgrade-controller"],
+      "matchDatasources": [
+        "docker",
+        "github-tags"
+      ],
+      "matchPackagePatterns": [
+        "rancher/system-upgrade-controller"
+      ],
+      "separateMinorPatch": true
+    },
+    {
+      "additionalBranchPrefix": "",
+      "groupName": "vector-suite",
+      "matchDatasources": [
+        "docker",
+        "github-releases",
+        "helm"
+      ],
+      "matchPackagePatterns": [
+        "vector"
+      ],
       "separateMinorPatch": true
     }
   ]
