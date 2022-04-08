@@ -18,7 +18,7 @@
   "platform": "github",
   "username": "maudie-bot[bot]",
   "repositories": ["christopherburnham/area0"],
-  "timezone": "America/Chicago",
+//   "timezone": "America/Chicago",
   "onboarding": false,
   "requireConfig": false,
   "gitAuthor": "maudie-bot <16470300+maudie-bot[bot]@users.noreply.github.com>",
@@ -37,66 +37,66 @@
     "ghcr.io/fluxcd/notification-controller",
     "ghcr.io/fluxcd/source-controller"
   ],
-  // configure flux manager
-  "flux": {
-    "fileMatch": [
-      "k8s/cluster/.+\\.ya?ml$"
-    ]
-  },
-  // configure helm-values manager
-  "helm-values": {
-    "fileMatch": [
-      "k8s/cluster/.+\\.ya?ml$"
-    ]
-  },
-  // configure helmv3 manager
-  "helmv3": {
-    "fileMatch": [
-      "k8s/charts/.+/Chart\\.ya?ml$"
-    ]
-  },
-  // configure kubernetes manager
-  "kubernetes": {
-    "fileMatch": [
-      "k8s/cluster/.+\\.ya?ml$"
-    ]
-  },
-  "regexManagers": [
-    // configure regex manager for github-releases
-    {
-      "fileMatch": [
-        "k8s/cluster/.+\\.ya?ml$",
-        "ansible/.+\\.ya?ml$",
-        // "hack/.+\\.sh$"
-      ],
-      "matchStrings": [
-        "datasource=(?<datasource>.*?)\n *url: https:\/\/github\\.com\/(?<depName>.*?)\\.git\n *ref:\n *tag: (?<currentValue>.*)\n",
-        "datasource=(?<datasource>.*?) depName=(?<depName>.*?)\n.*?_version: \"(?<currentValue>.*)\"\n",
-        "datasource=(?<datasource>.*?) depName=(?<depName>.*?)\n.*?_VERSION=\"(?<currentValue>.*)\"\n"
-      ],
-      "datasourceTemplate": "github-releases"
-    },
-    // configure regex manager for custom resource definitions
-    {
-      "fileMatch": [
-        "k8s/cluster/.+\\.ya?ml$"
-      ],
-      "matchStrings": [
-        // cert-manager
-        "registryUrl=(?<registryUrl>.*?) chart=(?<depName>.*?)\n.*\\/(?<currentValue>.*?)\\/",
-        // external-dns, external-snapshotter, kube-prometheus-stack
-        "datasource=(?<datasource>.*?)\n *url: https://github\\.com/(?<depName>.*?)\\.git\n *ref:\n *tag: (?<currentValue>.*)\n"
-      ],
-      "datasourceTemplate": "helm"
-    },
-  ],
-  "packageRules": [
-    // configure helm datasource
-    {
-      "matchDatasources": [
-        "helm"
-      ],
-      "ignoreDeprecated": true
-    }
-  ]
+//   // configure flux manager
+//   "flux": {
+//     "fileMatch": [
+//       "k8s/cluster/.+\\.ya?ml$"
+//     ]
+//   },
+//   // configure helm-values manager
+//   "helm-values": {
+//     "fileMatch": [
+//       "k8s/cluster/.+\\.ya?ml$"
+//     ]
+//   },
+//   // configure helmv3 manager
+//   "helmv3": {
+//     "fileMatch": [
+//       "k8s/charts/.+/Chart\\.ya?ml$"
+//     ]
+//   },
+//   // configure kubernetes manager
+//   "kubernetes": {
+//     "fileMatch": [
+//       "k8s/cluster/.+\\.ya?ml$"
+//     ]
+//   },
+//   "regexManagers": [
+//     // configure regex manager for github-releases
+//     {
+//       "fileMatch": [
+//         "k8s/cluster/.+\\.ya?ml$",
+//         "ansible/.+\\.ya?ml$",
+//         // "hack/.+\\.sh$"
+//       ],
+//       "matchStrings": [
+//         "datasource=(?<datasource>.*?)\n *url: https:\/\/github\\.com\/(?<depName>.*?)\\.git\n *ref:\n *tag: (?<currentValue>.*)\n",
+//         "datasource=(?<datasource>.*?) depName=(?<depName>.*?)\n.*?_version: \"(?<currentValue>.*)\"\n",
+//         "datasource=(?<datasource>.*?) depName=(?<depName>.*?)\n.*?_VERSION=\"(?<currentValue>.*)\"\n"
+//       ],
+//       "datasourceTemplate": "github-releases"
+//     },
+//     // configure regex manager for custom resource definitions
+//     {
+//       "fileMatch": [
+//         "k8s/cluster/.+\\.ya?ml$"
+//       ],
+//       "matchStrings": [
+//         // cert-manager
+//         "registryUrl=(?<registryUrl>.*?) chart=(?<depName>.*?)\n.*\\/(?<currentValue>.*?)\\/",
+//         // external-dns, external-snapshotter, kube-prometheus-stack
+//         "datasource=(?<datasource>.*?)\n *url: https://github\\.com/(?<depName>.*?)\\.git\n *ref:\n *tag: (?<currentValue>.*)\n"
+//       ],
+//       "datasourceTemplate": "helm"
+//     },
+//   ],
+//   "packageRules": [
+//     // configure helm datasource
+//     {
+//       "matchDatasources": [
+//         "helm"
+//       ],
+//       "ignoreDeprecated": true
+//     }
+//   ]
 }
