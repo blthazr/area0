@@ -4,10 +4,9 @@ kind: Kustomization
 configurations:
   - kustomize-config.yaml
 configMapGenerator:
-  - name: grafana-helm-values
+  - name: teslamate-helm-values
     files:
       - values.yaml
 resources:
   - helm-release.yaml
   - persistent-volume-claim.yaml
-  - secret.sops.yaml
