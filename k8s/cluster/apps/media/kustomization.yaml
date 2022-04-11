@@ -5,7 +5,6 @@ namespace: media
 resources:
   - calibre
   - calibre-web
-  - dizquetv
   - komga
   - lidarr
   - mylar
