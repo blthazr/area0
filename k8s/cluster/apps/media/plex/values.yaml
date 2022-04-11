@@ -7,6 +7,11 @@ affinity:
               operator: In
               values:
                 - "true"
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - k3s-5
 env:
   TZ: "${CLUSTER_TIME_ZONE}"
 image:
@@ -35,8 +40,6 @@ ingress:
     tls:
       - hosts:
           - *host
-nodeSelector:
-  node-role.kubernetes.io/media: "true"
 persistence:
   config:
     enabled: true
