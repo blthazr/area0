@@ -2,7 +2,7 @@ env:
   TZ: "${CLUSTER_TIME_ZONE}"
 image:
   repository: ghcr.io/k8s-at-home/radarr-nightly
-  tag: v4.1.0.6176
+  tag: v4.1.0.6182
 ingress:
   main:
     annotations:
