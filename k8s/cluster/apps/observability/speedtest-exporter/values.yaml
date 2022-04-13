@@ -2,7 +2,7 @@ env:
   TZ: "${CLUSTER_TIME_ZONE}"
 image:
   repository: ghcr.io/miguelndecarvalho/speedtest-exporter
-  tag: v3.5.0
+  tag: v3.5.1
 metrics:
   enabled: true
   serviceMonitor:
