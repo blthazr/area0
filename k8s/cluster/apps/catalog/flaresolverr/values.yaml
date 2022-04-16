@@ -2,7 +2,7 @@ env:
   TZ: "${CLUSTER_TIME_ZONE}"
 image:
   repository: ghcr.io/flaresolverr/flaresolverr
-  tag: v2.2.2
+  tag: v2.2.3
 resources:
   requests:
     memory: 100Mi
