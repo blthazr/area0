@@ -6,6 +6,7 @@
 version: "3"
 
 includes:
+  deps: .taskfiles/deps.yml
   format: .taskfiles/format.yml
   lint: .taskfiles/lint.yml
   pre-commit: .taskfiles/pre-commit.yml
@@ -21,6 +22,7 @@ tasks:
     desc: install/upgrade dependencies
     cmds:
       - task: deps:pre-commit
+      - task: deps:ansible
 
   # task pre-commit
   pre-commit:

@@ -1,0 +1,28 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   playbooks/synology/fix-letsencrypt-certificates.yml
+#   @description    :   fix broken letsencrypt certificates for synology nas
+#   @usage          :   ansible-playbook playbooks/synology/fix-letsencrypt-certificates.yml
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+- hosts:
+    - synology
+  become: true
+  gather_facts: true
+
+  vars:
+    acme_home: "/usr/local/share/acme.sh"
+
+  tasks:
+    - name: load sops encrypted variables
+      community.sops.load_vars:
+        file: cloudflare.sops.yml
+      become: false
+      delegate_to: localhost
+      run_once: true
+
+    - name: force certificate upgrade
+      ansible.builtin.shell:
+        chdir: /tmp/acme.sh-master
+        cmd: |
+          source ~/.profile
+          ./acme.sh --force --upgrade --nocron --home {{ acme_home }}

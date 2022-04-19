@@ -1,0 +1,39 @@
+cloudflare_domain: ENC[AES256_GCM,data:bNTi87xXLNYDcFk=,iv:mdCCHhO3R8bF8/ZCpNRV5Kiv5V/K7vYikxFk0wBrztM=,tag:01XcCPSdKje13gO5C57CrQ==,type:str]
+cloudflare_letsencrypt_token: ENC[AES256_GCM,data:2+DJUwCEHu+M2ZbbtTP7lcJysvIgoHPwkC7+LQQI/uUwXk719IYwKA==,iv:KJ5Of6Dh1m7yulvs3PiTsTMsmshZUrnfwxQKNbhqNOo=,tag:YBBORPaH5fXlrNJ0LCBTYg==,type:str]
+cloudflare_account_id: ENC[AES256_GCM,data:4XqzRHXMMf/T6FYTQlVNqdoHCzqM8EtAmNz6I/ha46w=,iv:4c1d+a5BPTXQdo09J6FoJn5i3paCqlQoCX2bP6jHR10=,tag:Ur578fEUh96nY2XBL92YIw==,type:str]
+cloudflare_email: ENC[AES256_GCM,data:AXx3vVum5o0TjkPb3QKcXVUH/L5lFCPjuU10ozj5,iv:wZrNJv2l6nzN9gFVhg6noB/q6ZZFgV43p0JfjJdWZ8Y=,tag:Mzre1Dd2EnsEfMlnn5YBeQ==,type:str]
+synology_username: ENC[AES256_GCM,data:soOZ5jFRqk8=,iv:EUEj/lTaBCjM9TiRQB56gM/erB0SrmZGXZ3eLeR9ZnM=,tag:2LOhREEiFfcVm1ERIeav+Q==,type:str]
+synology_password: ENC[AES256_GCM,data:yWehHXqbBdxY,iv:OBcmxhc2rmStQRazYiX69jcy/PGblNMfC7I6FsL2X0w=,tag:rs8K1dR0i2WDR/2zSKnpwQ==,type:str]
+le_discord_webhook: ENC[AES256_GCM,data:LeKrM62dtheGTZ2/vjc49fnaJFNEctghQuzA2WMQTX8N7BtbC//s2TV2uF9qerSJG5NHuZeIp65Zta95PRyBlQQf4aqjRMhES586qIRy2J+3Dv2eZtNwdNL9ih48VSL6qETSZ4G3k9lchK55j6BRYee48Qu5XPAL,iv:W8uyYpfe2f/eOrwlJkDZgrKvn4lr8ADeuQIHumqU65U=,tag:RDwkW3Rn/6ykMuPH78iUCg==,type:str]
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age: []
+    lastmodified: "2022-04-19T19:16:06Z"
+    mac: ENC[AES256_GCM,data:5XbQSictZB5atRQmNTltp1xGmtUds8kSsO6L+P+7znPQOXn9c/trdgLcB5zNzK3z65sQWzCUV3wztkumWgryBl0NiuZM+1CVrdwapOu3PParFFp74PENLpAsE1/houIpFUnDxB31KQHzavenVDehw3qWr3F7xOnTy/BSRNAhPKc=,iv:yHidw5GSt7HppaRVb+ETHUDMFhvskIigUaTx1kJs+1g=,tag:hf+2byGmSxKbcvO1T6Ix+g==,type:str]
+    pgp:
+        - created_at: "2021-08-23T22:45:34Z"
+          enc: |
+            -----BEGIN PGP MESSAGE-----
+
+            hQIMAwPOEQiOSsoiAQ/+JwxlT6qqdtlq1pjMGKsT9PpHdsFA8/WLo3W89F4s7XXx
+            pMviblqSQwHKkVZNmGxgUYHpUnEnPrM/lP8MBHXQsBdjAB3uAhxB0v/OQ4sYkXFO
+            QYzG+eDfglSpjoFFMplhgoJ6NJyOXzBiE1WlkTgRPuIdut+J5FTSp0DvFxa1n+Zs
+            8Gr984NyWmIwh3SZM9b/LH1iaEKxp6onl3UbtZ7KtjFFg5m1s8kHyJPZ/E67W67T
+            mWYSa5Sv32hG9eTWQTIocNEYISovEhtquoN5E2ksUeDffRlqPwpaXaFMDzhuNdOZ
+            +KWvsnrVbaHWqkMhlpgD6D8+iuL/p62wlo4464KpgCZkHAFlPiQOTkue3EQicSid
+            NTnphABfGOjqmCf6PQdUcTKXDSWFs0bhQ4XSvVv92sd8OofBztByHDaONGhxBvsJ
+            RwsYj/vKrh+ozCkkFmSuE0o4yn9a0RvPSm35VhnzdvfgqKkSEysJ+t2l8opA4F7Z
+            fDXyz7mRZFDZrvkalGMOvNJ1+ejVbrekS0lXspajPm22lIOOHPEcJlHI7NyB7xmu
+            I08wGdJebs3FvPaggWMm0YTh/yhW6wfYc3MuNESGLvu0+MY2XRr49i7bOnzbozAT
+            EjzegR1JeTXKPqY6Dip9Bt9s5vqSTukApJc0fMOmLYVJQAPUWipix3kKfHFsbazU
+            ZgEJAhWeOHcgN/A6TvVe7wtMh37kONUNJRJRJhvxM+R6pIsIp4V3n0Uk8MwA/S9t
+            1h2aRRiasbyUZFw7R9Bzzf++5OS2x37Nh2FKYcf0GCpgdTikBfY/sy5bGjsAOlhc
+            Iey0ed3C/w==
+            =X3Vx
+            -----END PGP MESSAGE-----
+          fp: FE500DAA9FCF81233B25CF576ECB20C0433B483E
+    unencrypted_regex: ^(kind)$
+    version: 3.7.2
