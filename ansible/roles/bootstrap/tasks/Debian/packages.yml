@@ -1,0 +1,20 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   tasks/Debian/packages.yml
+#   @description    :
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+- name: "{{ ansible_os_family }} | packages | install packages"
+  ansible.builtin.apt:
+    name: "{{ packages.debian.apt_install }}"
+    install_recommends: false
+    update_cache: true
+    cache_valid_time: 3600
+    autoclean: true
+    autoremove: true
+  register: apt_install_packages
+  retries: 5
+  until: apt_install_packages is success
+  when:
+    - packages.debian.apt_install is defined
+    - packages.debian.apt_install is iterable
+    - packages.debian.apt_install | length > 0

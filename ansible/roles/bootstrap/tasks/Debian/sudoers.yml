@@ -1,0 +1,34 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   tasks/Debian/sudoers.yml
+#   @description    :
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+- name: "{{ ansible_os_family }} | sudoers | create sudoers.d directory"
+  ansible.builtin.file:
+    path: "/etc/sudoers.d"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: "{{ ansible_os_family }} | sudoers | detect /etc/sudoers"
+  ansible.builtin.stat:
+    path: "/etc/sudoers"
+  register: etc_sudoers
+
+- name: "{{ ansible_os_family }} | sudoers | set includedir in sudoers"
+  ansible.builtin.lineinfile:
+    path: "/etc/sudoers"
+    line: "#includedir /etc/sudoers.d"
+    state: present
+    validate: "/usr/sbin/visudo -cf %s"
+  when: etc_sudoers.stat.exists
+
+- name: "{{ ansible_os_family }} | sudoers | disable sudo requiretty for Ansible pipelining"
+  ansible.builtin.lineinfile:
+    backrefs: true
+    dest: "/etc/sudoers"
+    line: '#Defaults\1\2requiretty\3'
+    regexp: '^Defaults(\s+)(.*)requiretty(.*)'
+    validate: "/usr/sbin/visudo -cf %s"
+  when: etc_sudoers.stat.exists
