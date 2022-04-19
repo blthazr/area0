@@ -18,6 +18,14 @@ serviceMonitor:
       module:
         - apcups
       target: "${APC_ATS_1_ADDRESS}"
+    - name: apc-pdu-1
+      module:
+        - apcups
+      target: "${APC_PDU_1_ADDRESS}"
+    - name: apc-pdu-2
+      module:
+        - apcups
+      target: "${APC_PDU_2_ADDRESS}"
     - name: apc-ups-1
       module:
         - apcups
