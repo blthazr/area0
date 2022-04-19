@@ -1,0 +1,29 @@
+extraArgs:
+  - "--config.file=/config/snmp.yaml"
+extraConfigmapMounts:
+  - name: snmp-exporter-apc-ups
+    configMap: snmp-exporter-apc-ups
+    defaultMode: 420
+    mountPath: /config/snmp.yaml
+    readOnly: true
+    subPath: snmp.yaml
+fullnameOverride: snmp-exporter-apc-ups
+image:
+  repository: quay.io/prometheus/snmp-exporter
+serviceMonitor:
+  enabled: true
+  namespace: observability
+  params:
+    - name: apc-ups-1
+      module:
+        - apcups
+      target: "${APC_UPS_1_ADDRESS}"
+    - name: apc-ups-2
+      module:
+        - apcups
+      target: "${APC_UPS_2_ADDRESS}"
+  path: /snmp
+  relabelings:
+    - sourceLabels: [__param_target]
+      targetLabel: instance
+  scrapeTimeout: 10s
