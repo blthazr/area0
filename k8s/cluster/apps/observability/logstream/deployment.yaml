@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: logstream-leader
-          image: cribl/cribl:3.4.0
+          image: cribl/cribl:3.4.1
           imagePullPolicy: Always
           volumeMounts:
             - name: config-storage
