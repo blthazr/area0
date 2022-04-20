@@ -1,0 +1,76 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   defaults/main.yml
+#   @description    :   default variables for ansible-role-users
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+# --------------------------------------------------------------------------------------------------
+# defaults
+# --------------------------------------------------------------------------------------------------
+# (string) default user's home directory
+default_users_home: "/home"
+
+# (string) default shell if none is specified
+default_users_shell: "/bin/bash"
+
+# (string) fallback if not creating a per-user group
+default_group: "users"
+
+# (bool) create a group for each user as their primary group
+group_per_user: true
+# ==================================================================================================
+
+# --------------------------------------------------------------------------------------------------
+# users
+# --------------------------------------------------------------------------------------------------
+# (list) list of users to add
+users: []
+# users:
+#     # (string) [required] <no spaces>
+#   - username: foo
+#     # (bool) append user to groups specified in `groups`. When false user will only be added to groups specified in `groups`, while removed from all others.
+#     append: true|[false]
+#     # (list) configure SSH authorized keys for user accounts
+#     authorized_keys:
+#         # (string) the SSH public key added to user accounts
+#       - 'ssh-rsa AAAAA.... foo@machine'
+#     # (bool) create a home directory for the user
+#    create_home: [true]|false
+#     # (string) sets the user's primary group
+#     group: 'developers'
+#     # (list) list of groups user will be added to
+#     groups: ['ssh','systemd-journal']
+#     # (string) set the path of the user's home directory
+#     home: /home/foo
+#     # (string) https://docs.ansible.com/ansible/latest/reference_appendices/faq.html#how-do-i-generate-encrypted-passwords-for-the-user-module
+#     password: <hash created with mkpasswd>
+#     # (string) set the user's shell
+#     shell: /bin/bash
+#     # (bool) add user to sudoers
+#     sudo: true|[false]
+#     # (bool) add user to sudoers with no password required
+#     sudo_nopasswd: true|[false]
+#     # (bool) create the user as a system account
+#     system: true|[false]
+#     # (int) set the UID of the user
+#     uid: 1001
+#     # (string) `always` will update password if they differ, `on_create` will only set the password for newly created users
+#    update_password: [always]|on_create
+# ==================================================================================================
+
+# --------------------------------------------------------------------------------------------------
+# groups
+# --------------------------------------------------------------------------------------------------
+# (list) list of groups to add
+user_groups: []
+# user_groups:
+#     # (string) [required] <no spaces>
+#   - name: developers
+#     # (int) set the GID of the group
+#     gid: 10000
+#     # (bool) create the group as a system group
+#     system: true|[false]
+#     # (bool) add group to sudoers
+#     sudo: true|false
+#     # (bool) add group to sudoers with no password required
+#     sudo_nopasswd: true|false
+# ==================================================================================================

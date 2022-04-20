@@ -1,0 +1,120 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   tasks/Debian/main.yml
+#   @description    :   Debian tasks executed by ansible-role-users
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+- name: "{{ ansible_os_family }} | main | create user group(s)"
+  ansible.builtin.group:
+    name: "{{ item.name }}"
+    gid: "{{ item.gid | default(omit) }}"
+    state: present
+    system: "{{ item.system | default('no') }}"
+  with_items: "{{ user_groups }}"
+
+- name: "{{ ansible_os_family }} | main | create prerequesite primary group(s)"
+  ansible.builtin.group:
+    name: "{{ item.group }}"
+    state: present
+  when: '"group" in item'
+  with_items: "{{ users }}"
+
+- name: "{{ ansible_os_family }} | main | create a group per-user"
+  ansible.builtin.group:
+    name: "{{ item.username }}"
+    state: present
+  when:
+    - "users is defined"
+    - 'group_per_user and "group" not in item'
+  with_items: "{{ users }}"
+
+- name: "{{ ansible_os_family }} | main | generate a list of user group(s)"
+  ansible.builtin.set_fact:
+    user_groups_list: "{% for item in user_groups %}{{ item.name }}{{ '' if loop.last else ',' }}{% endfor %}"
+  when: "user_groups is defined"
+
+- name: "{{ ansible_os_family }} | main | create user(s)"
+  ansible.builtin.user:
+    append: "{{ item.append | default(omit) }}"
+    createhome: "{{ item.create_home | default(omit) }}"
+    group: "{{ item.group | default(item.username if group_per_user else (default_group if default_group is defined else omit)) }}"
+    # empty string removes user from all secondary groups
+    groups: '{{ item.groups | join(",") if item.groups is defined else (user_groups_list if user_groups_list is defined else '''') }}'
+    home: '{{ item.home | default(default_users_home ~ "/" ~ item.username) }}'
+    name: "{{ item.username }}"
+    password: "{{ item.password | default(omit) }}"
+    shell: "{{ item.shell if item.shell is defined else (default_users_shell if default_users_shell is defined else omit) }}"
+    state: present
+    system: "{{ item.system | default(omit) }}"
+    uid: "{{ item.uid | default(omit) }}"
+    update_password: "{{ item.update_password | default(omit) }}"
+  when:
+    - "users is defined"
+    - 'item.username != "root"'
+  with_items: "{{ users }}"
+
+- name: "{{ ansible_os_family }} | main | set authorized key(s) for users"
+  ansible.posix.authorized_key:
+    user: "{{ item.username }}"
+    key: '{{ item.authorized_keys | default([]) | join("\n") }}'
+    state: present
+  when:
+    - '"authorized_keys" in item'
+  with_items: "{{ users }}"
+
+- name: "{{ ansible_os_family }} | main | enable sudo for user(s)"
+  ansible.builtin.lineinfile:
+    path: "/etc/sudoers.d/{{ item.username }}"
+    line: "{{ item.username }} ALL=(ALL:ALL) ALL"
+    state: present
+    owner: root
+    group: root
+    mode: 0440
+    create: true
+    validate: "/usr/sbin/visudo -cf %s"
+  when: "item.sudo is defined and item.sudo"
+  with_items: "{{ users }}"
+
+- name: "{{ ansible_os_family }} | main | enable passwordless sudo for user(s)"
+  ansible.builtin.lineinfile:
+    path: "/etc/sudoers.d/{{ item.username }}"
+    line: "{{ item.username }} ALL=(ALL:ALL) NOPASSWD:ALL"
+    state: present
+    owner: root
+    group: root
+    mode: 0440
+    create: true
+    validate: "/usr/sbin/visudo -cf %s"
+  when:
+    - "item.sudo_nopasswd is defined"
+    - "item.sudo_nopasswd"
+  with_items: "{{ users }}"
+
+- name: "{{ ansible_os_family }} | main | enable sudo for group(s)"
+  ansible.builtin.lineinfile:
+    path: "/etc/sudoers.d/{{ item.name }}"
+    line: "%{{ item.name }} ALL=(ALL:ALL) ALL"
+    state: present
+    owner: root
+    group: root
+    mode: 0440
+    create: true
+    validate: "/usr/sbin/visudo -cf %s"
+  when:
+    - "item.sudo is defined"
+    - "item.sudo"
+  with_items: "{{ user_groups }}"
+
+- name: "{{ ansible_os_family }} | main | enable passwordless sudo for group(s)"
+  ansible.builtin.lineinfile:
+    path: "/etc/sudoers.d/{{ item.name }}"
+    line: "%{{ item.name }} ALL=(ALL) NOPASSWD:ALL"
+    state: present
+    owner: root
+    group: root
+    mode: 0440
+    create: true
+    validate: "/usr/sbin/visudo -cf %s"
+  when:
+    - "item.sudo_nopasswd is defined"
+    - "item.sudo_nopasswd"
+  with_items: "{{ user_groups }}"
