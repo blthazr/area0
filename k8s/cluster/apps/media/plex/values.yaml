@@ -41,6 +41,15 @@ ingress:
       - hosts:
           - *host
 persistence:
+  backup:
+    enabled: true
+    mountPath: /config/backup
+    readOnly: false
+    type: custom
+    volumeSpec:
+      nfs:
+        server: "${NAS_ADDRESS}"
+        path: "${NAS_NFS_PATH}/backup/app/plex"
   config:
     enabled: true
     existingClaim: plex-config-v1
