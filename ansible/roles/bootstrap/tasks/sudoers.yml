@@ -9,3 +9,4 @@
     - sudoers.yml
   loop_control:
     loop_var: sudoers_tasks
+  when: ansible_os_family != 'NA'
