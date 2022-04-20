@@ -28,5 +28,6 @@
   loop:
     - robertdebock.bootstrap
     - users
+    - os
   loop_control:
     loop_var: bootstrap_roles

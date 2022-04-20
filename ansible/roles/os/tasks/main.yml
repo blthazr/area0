@@ -1,0 +1,8 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   tasks/main.yml
+#   @description    :   main list of tasks executed by ansible-role-os
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+- name: main | include os-specific tasks
+  ansible.builtin.include_tasks: "{{ ansible_os_family }}/main.yml"
+  when: ansible_os_family != 'NA'

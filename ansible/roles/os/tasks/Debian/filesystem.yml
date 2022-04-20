@@ -1,0 +1,23 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   tasks/Debian/filesystem.yml
+#   @description    :   Debian filesystem tasks
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+- name: "{{ ansible_os_family }} | filesystem | check for smartd.conf"
+  ansible.builtin.stat:
+    path: "/etc/smartd.conf"
+  register: smartd_conf
+
+- name: "{{ ansible_os_family }} | filesystem | backup smartd.conf"
+  ansible.builtin.command:
+    cmd: sed -i.bak -e 's/^\([^#].*\)/# \1/g' /etc/smartd.conf
+  when:
+    - smartd_conf.stat.exists
+
+- name: "{{ ansible_os_family }} | filesystem | configure smartd"
+  ansible.builtin.copy:
+    dest: /etc/smartd.conf
+    mode: 0644
+    content: |
+      DEVICESCAN -a -o on -S on -n standby,q -s (S/../.././02|L/../../6/03) -W 4,35,40
+  notify: smartd configuration changed

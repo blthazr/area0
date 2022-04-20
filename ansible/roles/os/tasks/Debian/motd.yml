@@ -1,0 +1,17 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   tasks/Debian/motd.yml
+#   @description    :   configure motd
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+- name: "{{ ansible_os_family }} | motd | get motd-news configuration"
+  ansible.builtin.stat:
+    path: /etc/default/motd-news
+  register: motd_result
+
+- name: "{{ ansible_os_family }} | motd | disable motd-news"
+  ansible.builtin.lineinfile:
+    dest: /etc/default/motd-news
+    line: "ENABLED=0"
+    regexp: "^ENABLED="
+    state: present
+  when: motd_result.stat.exists

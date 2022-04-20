@@ -1,0 +1,62 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   defaults/main.yml
+#   @description    :   default variables for ansible-role-os
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+# --------------------------------------------------------------------------------------------------
+# packages
+# --------------------------------------------------------------------------------------------------
+packages:
+  debian:
+    apt_install:
+      - apt-transport-https
+      - arptables
+      - ca-certificates
+      - curl
+      - ebtables
+      - htop
+      - iputils-ping
+      - ipvsadm
+      - lvm2
+      - net-tools
+      - nfs-common
+      - nano
+      - ntpdate
+      - open-iscsi
+      - psmisc
+      - python3-apt
+      - python3-reportbug
+      - python3-software-properties
+      - python3
+      - python
+      - rsync
+      - smartmontools
+      - software-properties-common
+      - sudo
+      - unattended-upgrades
+      - unzip
+    apt_remove:
+      - apparmor
+      - apport
+      - bcache-tools
+      - btrfs-progs
+      - byobu
+      - cloud-init
+      - cloud-guest-utils
+      - cloud-initramfs-copymods
+      - cloud-initramfs-dyn-netconf
+      - friendly-recovery
+      - fwupd
+      - landscape-common
+      - lxd-agent-loader
+      - ntfs-3g
+      - open-vm-tools
+      - plymouth
+      - plymouth-theme-ubuntu-text
+      - popularity-contest
+      - snapd
+      - sosreport
+      - tmux
+      - ubuntu-advantage-tools
+      - ufw
+# ==================================================================================================

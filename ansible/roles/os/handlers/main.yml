@@ -1,0 +1,36 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   handlers/main.yml
+#   @description    :   handlers file for ansible-role-os
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+- name: "handler | restart timesyncd service"
+  ansible.builtin.systemd:
+    name: systemd-timesyncd.service
+    daemon_reload: true
+    enabled: true
+    state: restarted
+  listen: systemd-timesyncd configuration changed
+
+- name: "handler | restart unattended-upgrades service"
+  ansible.builtin.systemd:
+    name: unattended-upgrades.service
+    daemon_reload: true
+    enabled: true
+    state: restarted
+  listen: unattended-upgrades configuration changed
+
+- name: "handler | restart logind service"
+  ansible.builtin.systemd:
+    name: systemd-logind.service
+    daemon_reload: true
+    enabled: true
+    state: restarted
+  listen: logind configuration changed
+
+- name: "handler | restart smartd service"
+  ansible.builtin.systemd:
+    name: smartd.service
+    daemon_reload: true
+    enabled: true
+    state: restarted
+  listen: smartd configuration changed

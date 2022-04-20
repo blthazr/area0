@@ -1,0 +1,31 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   tasks/Debian/main.yml
+#   @description    :   Debian tasks executed by ansible-role-os
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+- name: "{{ ansible_os_family }} | main | include tasks"
+  ansible.builtin.include_tasks: "{{ ansible_os_family }}/{{ os_tasks }}"
+  loop:
+    - apt.yml
+    - filesystem.yml
+    - host.yml
+    - motd.yml
+    - packages.yml
+    - sudoers.yml
+    - time.yml
+    - unattended-upgrades.yml
+    - users.yml
+  loop_control:
+    loop_var: os_tasks
+
+- name: "{{ ansible_os_family }} | main | reboot check"
+  ansible.builtin.stat:
+    path: "/var/run/reboot-required"
+  register: reboot_required
+
+- name: "{{ ansible_os_family }} | main | reboot required"
+  ansible.builtin.debug:
+    msg: "{{ reboot_required.stat.exists }}"
+  notify: configuration changed reboot required
+  when:
+    - reboot_required.stat.exists
