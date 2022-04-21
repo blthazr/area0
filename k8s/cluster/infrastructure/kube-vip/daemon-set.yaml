@@ -39,7 +39,7 @@ spec:
               value: "false"
             - name: vip_address
               value: "${KUBE_VIP_ADDRESS}"
-          image: ghcr.io/kube-vip/kube-vip:v0.4.3
+          image: ghcr.io/kube-vip/kube-vip:v0.4.4
           imagePullPolicy: Always
           name: kube-vip
           resources: {}
