@@ -2,7 +2,7 @@
 apiVersion: notification.toolkit.fluxcd.io/v1beta1
 kind: Receiver
 metadata:
-  name: auth0
+  name: area0
 spec:
   events:
     - "ping"
@@ -10,6 +10,15 @@ spec:
   resources:
     - kind: GitRepository
       name: flux-system
+    - kind: Kustomization
+      name: cluster-apps
+      apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+    - kind: Kustomization
+      name: cluster-core
+      apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+    - kind: Kustomization
+      name: cluster-infrastructure
+      apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
   secretRef:
     name: github-webhook-token
   type: github
