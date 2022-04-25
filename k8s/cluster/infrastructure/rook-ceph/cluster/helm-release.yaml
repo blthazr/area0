@@ -50,13 +50,6 @@ spec:
         enabled: true
         urlPrefix: /
         ssl: false
-      placement:
-        all:
-          tolerations:
-            - effect: NoSchedule
-              operator: Exists
-            - effect: NoExecute
-              operator: Exists
       mgr:
         count: 2
       storage:
