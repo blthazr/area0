@@ -18,11 +18,11 @@ spec:
   install:
     createNamespace: true
     remediation:
-      retries: 3
+      retries: 5
   interval: 5m
   upgrade:
     remediation:
-      retries: 3
+      retries: 5
   values:
     cephBlockPoolsVolumeSnapshotClass:
       annotations:
@@ -31,6 +31,10 @@ spec:
       name: csi-rbdplugin-snapclass
     cephFileSystems: []
     cephObjectStores: []
+    configOverride: |
+      [global]
+      bdev_enable_discard = true
+      bdev_async_discard = true
     ingress:
       dashboard:
         annotations:
@@ -42,8 +46,11 @@ spec:
           - hosts:
               - "rook.${SECRET_DOMAIN}"
     monitoring:
+      createPrometheusRules: true
       enabled: true
     cephClusterSpec:
+      cephVersion:
+        image: quay.io/ceph/ceph:v17.2.0
       crashCollector:
         disable: false
       dashboard:
