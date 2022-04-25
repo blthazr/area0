@@ -13,10 +13,10 @@ alertmanager:
       slack_api_url: "${SECRET_ALERT_MANAGER_DISCORD_WEBHOOK}"
     inhibit_rules:
       - equal: ["alertname", "namespace"]
-        source_match:
-          severity: "critical"
-        target_match:
-          severity: "warning"
+        source_matchers:
+          - severity = "critical"
+        target_matchers:
+          - severity = "warning"
     receivers:
       - name: "null"
       - name: "discord"
@@ -45,11 +45,8 @@ alertmanager:
       repeat_interval: 6h
       routes:
         - receiver: "null"
-          match:
-            alertname: InfoInhibitor
-        - receiver: "null"
-          match:
-            alertname: Watchdog
+          matchers:
+            - alertname =~ "InfoInhibitor|Watchdog"
         - receiver: "discord"
           continue: true
           match_re:
@@ -65,7 +62,6 @@ alertmanager:
           - *host
 fullnameOverride: prometheus
 grafana:
-  defaultDashboardsTimezone: "${CLUSTER_TIME_ZONE}"
   enabled: false
   forceDeployDashboards: true
   sidecar:
@@ -168,7 +164,7 @@ prometheus:
       objectStorageConfig:
         key: objstore.yml
         name: thanos-objstore
-      version: v0.22.0
+      version: v0.25.2
     walCompression: true
   thanosService:
     enabled: true
@@ -186,12 +182,3 @@ prometheus-node-exporter:
           sourceLabels:
             - __meta_kubernetes_pod_node_name
           targetLabel: kubernetes_node
-prometheusOperator:
-  prometheusConfigReloader:
-    resources:
-      limits:
-        cpu: 200m
-        memory: 100Mi
-      requests:
-        cpu: 100m
-        memory: 50Mi
