@@ -11,6 +11,7 @@ spec:
       - flux-system
   podMetricsEndpoints:
     - port: http-prom
+      honorLabels: true
   selector:
     matchExpressions:
       - key: app
