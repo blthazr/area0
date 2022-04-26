@@ -4,7 +4,6 @@ kind: Kustomization
 namespace: media
 resources:
   - calibre
-  - calibre-web
   - lidarr
   - overseerr
   - plex
