@@ -1,0 +1,10 @@
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta1
+kind: Provider
+metadata:
+  name: github
+spec:
+  address: https://github.com/christopherburnham/area0
+  secretRef:
+    name: github-token
+  type: github
