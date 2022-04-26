@@ -30,7 +30,7 @@ spec:
             - name: vip_cidr
               value: "32"
             - name: cp_enable
-              value: "True"
+              value: "true"
             - name: cp_namespace
               value: kube-system
             - name: svc_enable
@@ -40,7 +40,7 @@ spec:
             - name: vip_address
               value: "${KUBE_VIP_ADDRESS}"
           image: ghcr.io/kube-vip/kube-vip:v0.4.4
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           name: kube-vip
           resources: {}
           securityContext:
