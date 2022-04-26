@@ -36,3 +36,9 @@ persistence:
   config:
     enabled: true
     existingClaim: prowlarr-config-v1
+resources:
+  limits:
+    memory: 1000Mi
+  requests:
+    cpu: 100m
+    memory: 250Mi

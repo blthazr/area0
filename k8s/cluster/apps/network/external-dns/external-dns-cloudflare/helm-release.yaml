@@ -39,7 +39,12 @@ spec:
     nameOverride: external-dns-cloudflare
     policy: sync
     provider: cloudflare
-    resources: {}
+    resources:
+      limits:
+        memory: 250Mi
+      requests:
+        memory: 100Mi
+        cpu: 25m
     sources:
       - ingress
     txtPrefix: "k8s."
