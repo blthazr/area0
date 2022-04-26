@@ -15,8 +15,10 @@ spec:
         values:
           - "true"
   prepare:
-    args: ["prepare", "k3s-server"]
     image: rancher/k3s-upgrade
+    args:
+      - "prepare"
+      - "k3s-server"
   serviceAccountName: system-upgrade
   upgrade:
     image: rancher/k3s-upgrade
