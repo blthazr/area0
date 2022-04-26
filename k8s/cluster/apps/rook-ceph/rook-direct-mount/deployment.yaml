@@ -50,7 +50,6 @@ spec:
               mountPath: /mnt/nfs-data
             - name: direct-mount-scripts
               mountPath: /scripts
-      # if hostNetwork: false, the "rbd map" command hangs, see https://github.com/rook/rook/issues/2021
       hostNetwork: true
       volumes:
         - name: dev
