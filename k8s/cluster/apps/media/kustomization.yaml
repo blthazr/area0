@@ -7,7 +7,6 @@ resources:
   - calibre-web
   - komga
   - lidarr
-  - mylar
   - overseerr
   - plex
   - tautulli
