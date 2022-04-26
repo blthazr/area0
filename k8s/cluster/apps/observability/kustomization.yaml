@@ -5,7 +5,6 @@ namespace: observability
 resources:
   - grafana
   - kube-prometheus-stack
-  - logstream
   - loki
   - snmp-exporter
   - speedtest-exporter
