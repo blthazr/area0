@@ -18,11 +18,11 @@ spec:
   install:
     createNamespace: true
     remediation:
-      retries: 5
+      retries: 10
   interval: 5m
   upgrade:
     remediation:
-      retries: 5
+      retries: 10
   values:
     cephBlockPoolsVolumeSnapshotClass:
       annotations:
