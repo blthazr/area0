@@ -15,4 +15,3 @@ resources:
   - observability.yaml
   - rook-ceph.yaml
   - system-upgrade.yaml
-  - vpn.yaml
