@@ -6,5 +6,4 @@ resources:
   - coredns
   - external-dns
   - ingress-nginx
-  - reverse-proxy
   - wildcard-certificate
