@@ -4,7 +4,6 @@ kind: Kustomization
 namespace: observability
 resources:
   - grafana
-  - loki
   - snmp-exporter
   - speedtest-exporter
   - splunk
