@@ -8,7 +8,6 @@ resources:
   - flux-system
   - game
   - home
-  - home-automation
   - kasten-io
   - kube-system
   - media
@@ -16,4 +15,3 @@ resources:
   - observability
   - rook-ceph
   - system-upgrade
-  - vpn
