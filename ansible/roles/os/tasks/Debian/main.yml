@@ -7,10 +7,10 @@
   ansible.builtin.include_tasks: "{{ ansible_os_family }}/{{ os_tasks }}"
   loop:
     - apt.yml
+    - packages.yml
     - filesystem.yml
     - host.yml
     - motd.yml
-    - packages.yml
     - sudoers.yml
     - time.yml
     - unattended-upgrades.yml
@@ -26,6 +26,7 @@
 - name: "{{ ansible_os_family }} | main | reboot required"
   ansible.builtin.debug:
     msg: "{{ reboot_required.stat.exists }}"
-  notify: configuration changed reboot required
+  notify: reboot required
   when:
     - reboot_required.stat.exists
+    - reboot_if_needed

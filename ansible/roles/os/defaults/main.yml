@@ -6,8 +6,11 @@
 # --------------------------------------------------------------------------------------------------
 # packages
 # --------------------------------------------------------------------------------------------------
-packages:
+# -- (dict) operating system packages
+os_packages:
+  # -- (dict) debian operating system
   debian:
+    # -- (list, str) packages to install
     apt_install:
       - apt-transport-https
       - arptables
@@ -18,9 +21,9 @@ packages:
       - iputils-ping
       - ipvsadm
       - lvm2
+      - nano
       - net-tools
       - nfs-common
-      - nano
       - ntpdate
       - open-iscsi
       - psmisc
@@ -29,12 +32,12 @@ packages:
       - python3-software-properties
       - python3
       - python
-      - rsync
       - smartmontools
       - software-properties-common
       - sudo
       - unattended-upgrades
       - unzip
+    # -- (list, str) packages to uninstall
     apt_remove:
       - apparmor
       - apport

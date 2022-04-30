@@ -17,7 +17,7 @@
         mode: 0644
         owner: "root"
         src: "etc/systemd/timesyncd.conf.j2"
-      notify: systemd-timesyncd configuration changed
+      notify: restart systemd-timesyncd
       when:
         - ntp_servers.primary is defined
         - ntp_servers.primary is iterable

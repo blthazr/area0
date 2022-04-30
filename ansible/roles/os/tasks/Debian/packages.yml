@@ -16,29 +16,22 @@
 
 - name: "{{ ansible_os_family }} | packages | install packages"
   ansible.builtin.apt:
-    name: "{{ packages.debian.apt_install }}"
+    name: "{{ os_packages.debian.apt_install | default([]) }}"
     install_recommends: false
   register: apt_install_packages
   retries: 5
   until: apt_install_packages is success
-  when:
-    - packages.debian.apt_install is defined
-    - packages.debian.apt_install is iterable
-    - packages.debian.apt_install | length > 0
 
-- name: "{{ ansible_os_family }} | packages | remove packages"
+- name: "{{ ansible_os_family }} | packages | gather installed packages"
+  ansible.builtin.package_facts:
+    manager: auto
+
+- name: "{{ ansible_os_family }} | packages | remove snapd"
   block:
-    - name: "{{ ansible_os_family }} | packages | gather installed packages"
-      ansible.builtin.package_facts:
-        manager: auto
-
     - name: "{{ ansible_os_family }} | packages | check if snap is installed"
       ansible.builtin.debug:
         msg: "snapd is installed"
       register: snapd_check
-      when:
-        - "'snapd' in packages.debian.apt_remove"
-        - "'snapd' in ansible_facts.packages"
 
     - name: "{{ ansible_os_family }} | packages | remove snap packages"
       ansible.builtin.command: snap remove {{ snapd_packages }}
@@ -50,8 +43,6 @@
       loop_control:
         loop_var: snapd_packages
       when:
-        - "'snapd' in packages.debian.apt_remove"
-        - "'snapd' in ansible_facts.packages"
         - snapd_check.failed is defined
 
     - name: "{{ ansible_os_family }} | packages | remove snap files"
@@ -67,28 +58,26 @@
         - "/usr/lib/snapd"
       loop_control:
         loop_var: snapd_packages
-      when:
-        - "'snapd' in packages.debian.apt_remove"
 
-    - name: "{{ ansible_os_family }} | packages | remove cloud-init files"
-      ansible.builtin.file:
-        state: absent
-        path: "{{ cloud_init_packages }}"
-      loop:
-        - "/etc/cloud"
-        - "/var/lib/cloud"
-      loop_control:
-        loop_var: cloud_init_packages
-      when:
-        - "'cloud-init' in packages.debian.apt_remove"
-
-    - name: "{{ ansible_os_family }} | packages | remove packages"
-      ansible.builtin.apt:
-        autoremove: true
-        name: "{{ packages.debian.apt_remove }}"
-        purge: true
-        state: absent
   when:
-    - packages.debian.apt_remove is defined
-    - packages.debian.apt_remove is iterable
-    - packages.debian.apt_remove | length > 0
+    - "'snapd' in os_packages.debian.apt_remove"
+    - "'snapd' in ansible_facts.packages"
+
+- name: "{{ ansible_os_family }} | packages | remove cloud-init files"
+  ansible.builtin.file:
+    state: absent
+    path: "{{ cloud_init_packages }}"
+  loop:
+    - "/etc/cloud"
+    - "/var/lib/cloud"
+  loop_control:
+    loop_var: cloud_init_packages
+  when:
+    - "'cloud-init' in os_packages.debian.apt_remove"
+
+- name: "{{ ansible_os_family }} | packages | remove packages"
+  ansible.builtin.apt:
+    autoremove: true
+    name: "{{ os_packages.debian.apt_remove | default([]) }}"
+    purge: true
+    state: absent
