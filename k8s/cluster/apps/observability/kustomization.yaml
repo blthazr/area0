@@ -6,5 +6,4 @@ resources:
   - snmp-exporter
   - speedtest-exporter
   - splunk
-  - thanos
   - unifi-poller
