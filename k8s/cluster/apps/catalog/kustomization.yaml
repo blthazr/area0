@@ -4,7 +4,6 @@ kind: Kustomization
 namespace: catalog
 resources:
   - bazarr
-  - flaresolverr
   - gaps
   - prowlarr
   - radarr
