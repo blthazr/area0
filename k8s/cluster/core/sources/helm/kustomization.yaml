@@ -5,6 +5,7 @@ resources:
   - emberstack.yaml
   - ingress-nginx.yaml
   - jetstack.yaml
+  - kasten.yaml
   - metallb.yaml
   - metrics-server.yaml
   - rook-ceph.yaml
