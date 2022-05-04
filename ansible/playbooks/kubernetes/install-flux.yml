@@ -1,7 +1,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#   @file           :   playbooks/kubernetes/bootstrap-flux.yml
-#   @description    :   bootstrap flux gitops toolkit for a new k3s cluster
-#   @usage          :   ansible-playbook playbooks/kubernetes/bootstrap-flux.yml
+#   @file           :   playbooks/kubernetes/install-flux.yml
+#   @description    :   deploy flux gitops toolkit on k3s cluster
+#   @usage          :   ansible-playbook playbooks/kubernetes/install-flux.yml
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ---
 - hosts:
@@ -75,20 +75,15 @@
           ansible.builtin.shell:
             cmd: "cat ${SOPS_AGE_KEY_FILE} | kubectl create secret generic sops-age --namespace=flux-system --from-file=age.agekey=/dev/stdin"
 
-        - name: bootstrap flux
+        - name: install flux
           ansible.builtin.shell:
-            cmd: |
-              flux bootstrap github \
-              --author-email="{{ github_email }}" \
-              --author-name="{{ github_author_name}}" \
-              --branch="{{ repo_branch }}" \
-              --owner="{{ github_user }}" \
-              --path="{{ flux_repo_path }}" \
-              --personal=true \
-              --private=false \
-              --repository="{{ github_repo }}"
-          environment:
-            GITHUB_TOKEN: "{{ github_token }}"
+            cmd: "kubectl apply --kustomize={{ local_repo_path }}/k8s/cluster/base/flux-system"
+          ignore_errors: true
+
+        - name: finalize flux installation
+          # due to a flux race condition this command must be run twice
+          ansible.builtin.shell:
+            cmd: "kubectl apply --kustomize={{ local_repo_path }}/k8s/cluster/base/flux-system"
 
       become: false
       delegate_to: localhost
