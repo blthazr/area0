@@ -13,6 +13,10 @@ spec:
         operator: In
         values:
           - "true"
+      - key: k3s-upgrade
+        operator: In
+        values:
+          - "true"
   serviceAccountName: system-upgrade
   tolerations:
     - key: node-role.kubernetes.io/control-plane
