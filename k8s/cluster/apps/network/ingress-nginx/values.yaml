@@ -21,15 +21,6 @@ controller:
       value: "${CLUSTER_TIME_ZONE}"
   ingressClassResource:
     default: true
-  metrics:
-    enabled: true
-    serviceMonitor:
-      enabled: true
-      namespace: network
-      namespaceSelector:
-        any: true
-    prometheusRule:
-      enabled: false
   podAnnotations:
     configmap.reloader.stakater.com/reload: "cloudflare-proxied-networks"
   publishService:
