@@ -6,4 +6,5 @@ resources:
   - ingress-nginx.yaml
   - jetstack.yaml
   - metallb.yaml
+  - metrics-server.yaml
   - stakater.yaml
