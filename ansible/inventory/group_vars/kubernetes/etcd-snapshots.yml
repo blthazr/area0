@@ -1,0 +1,26 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   ansible/inventory/group_vars/kubernetes/etcd-snapshots.yml
+#   @description    :   etcd-snapshot variables for ansible-role-k3s
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+# --------------------------------------------------------------------------------------------------
+# ansible-role-k3s | etcd-snapshots
+# --------------------------------------------------------------------------------------------------
+# -- (bool) export etcd backups to s3
+k3s_etcd_s3: true
+
+# -- (str) s3 endpoint for etcd backups
+k3s_etcd_s3_endpoint: s3.theburnh.am
+
+# -- (str) etcd-snapshot bucket name
+k3s_etcd_s3_bucket: k3s
+
+# -- (str) etcd-snapshot cron schedule
+k3s_etcd_snapshot_schedule_cron: "0 */6 * * *"
+
+# -- (int) etcd-snapshot retention
+k3s_etcd_snapshot_retention: 28
+
+# -- (str) namespace of etcd-coredns
+etcd_coredns_namespace: network
+# ==================================================================================================

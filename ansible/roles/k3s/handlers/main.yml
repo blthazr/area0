@@ -1,0 +1,28 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   handlers/main.yml
+#   @description    :   handlers file for ansible-role-k3s
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+- name: handler | restart journald service
+  ansible.builtin.systemd:
+    name: systemd-journald.service
+    daemon_reload: true
+    enabled: true
+    state: restarted
+  listen: restart journald
+
+- name: handler | enable k3s-killall service
+  ansible.builtin.systemd:
+    name: k3s-killall
+    daemon-reload: true
+    enabled: true
+  listen: enable k3s-killall
+
+- name: hander | reload systemd daemon
+  ansible.builtin.systemd:
+    daemon-reload: true
+  listen: reload systemd
+
+- name: handler | perform system reboot
+  ansible.builtin.reboot:
+  listen: reboot required

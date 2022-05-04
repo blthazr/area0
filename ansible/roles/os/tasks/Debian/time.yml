@@ -1,11 +1,13 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #   @file           :   tasks/Debian/time.yml
-#   @description    :   configure time/locale
+#   @description    :   Debian time/locale tasks
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ---
 - name: "{{ ansible_os_family }} | time | set timezone"
   community.general.timezone:
-    name: "{{ timezone | default('America/Chicago') }}"
+    name: "{{ os_timezone }}"
+  when:
+    - os_timezone is defined
 
 - name: configure ntp
   block:
@@ -17,7 +19,7 @@
         mode: 0644
         owner: "root"
         src: "etc/systemd/timesyncd.conf.j2"
-      notify: restart systemd-timesyncd
+      notify: restart timesyncd
       when:
         - ntp_servers.primary is defined
         - ntp_servers.primary is iterable

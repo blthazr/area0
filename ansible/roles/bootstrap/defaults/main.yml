@@ -1,23 +1,28 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #   @file           :   defaults/main.yml
-#   @description    :   default variables for ansible-role-bootstrap
+#   @description    :   defaults for ansible-role-bootstrap
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ---
 # --------------------------------------------------------------------------------------------------
 # defaults
 # --------------------------------------------------------------------------------------------------
-# (string) User for bootstrapping ansible managed node
+# -- (str) user for bootstrapping ansible managed node
 bootstrap_user: root
 
-# (string) SSH public key file used for bootstrapping ansible managed node
+# -- (str) SSH public key file used for bootstrapping ansible managed node
 bootstrap_user_ssh_public_key_file: null
 # ==================================================================================================
 
 # --------------------------------------------------------------------------------------------------
-# packages
+# operating system packages
 # --------------------------------------------------------------------------------------------------
-packages:
+# -- (dict) operating system packages
+bootstrap_os_packages:
+
+  # -- (dict) operating system family
   debian:
+
+    # -- (list) flat list of packages to be installed with apt
     apt_install:
       - sudo
 # ==================================================================================================

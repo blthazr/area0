@@ -5,7 +5,7 @@
 ---
 galaxy_info:
   author: Chris Burnham
-  description: Bootstrap Ansible-managed nodes
+  description: Bootstrap Ansibled managed nodes
 
   license: "license Unlicense"
 
@@ -13,9 +13,6 @@ galaxy_info:
 
   # https://galaxy.ansible.com/api/v1/platforms/
   platforms:
-    - name: Ubuntu
-      versions:
-        - all
     - name: Debian
       versions:
         - buster

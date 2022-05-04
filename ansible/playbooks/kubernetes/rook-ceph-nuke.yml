@@ -1,0 +1,48 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   playbooks/kubernetes/rook-ceph-nuke.yml
+#   @description    :   nuke rook-ceph disks
+#   @usage          :   ansible-playbook playbooks/kubernetes/rook-ceph-nuke.yml
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+- hosts:
+    - kubernetes
+  become: true
+  gather_facts: true
+  any_errors_fatal: false
+
+  vars_prompt:
+    name: run_confirmation
+    prompt: "This will DESTROY your rook-ceph data. Do you wish to continue? [Y/n]"
+    default: "n"
+    private: false
+
+  pre_tasks:
+    - name: rook-ceph-nuke | check confirmation
+      fail:
+        msg: "Abort."
+      when: run_confirmation != "Y"
+
+  tasks:
+    - name: rook-ceph-nuke | remove /var/lib/rook
+      ansible.builtin.file:
+        path: "/var/lib/rook"
+        state: absent
+
+    - name: rook-ceph-nuke | zap the drives
+      ansible.builtin.shell:
+        cmd: "sgdisk --zap-all {{ item }} || true"
+      loop:
+        - "{{ rook_devices | default([]) }}"
+
+    - name: rook-ceph-nuke | remove lvm partitions
+      ansible.builtin.shell: "{{ item }}"
+      loop:
+        - ls /dev/mapper/ceph--* | xargs -I% -- fuser --kill %
+        - ls /dev/mapper/ceph--* | xargs -I% -- dmsetup clear %
+        - ls /dev/mapper/ceph--* | xargs -I% -- dmsetup remove -f %
+        - ls /dev/mapper/ceph--* | xargs -I% -- rm -rf %
+
+    - name: rook-ceph-nuke | wipe the block device
+      ansible.builtin.command: "wipefs -af {{ item }}"
+      with_items:
+        - "{{ rook_devices | default([]) }}"

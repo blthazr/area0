@@ -9,14 +9,14 @@
     gid: "{{ item.gid | default(omit) }}"
     state: present
     system: "{{ item.system | default('no') }}"
-  with_items: "{{ user_groups }}"
+  loop: "{{ user_groups }}"
 
 - name: "{{ ansible_os_family }} | main | create prerequesite primary group(s)"
   ansible.builtin.group:
     name: "{{ item.group }}"
     state: present
   when: '"group" in item'
-  with_items: "{{ users }}"
+  loop: "{{ users }}"
 
 - name: "{{ ansible_os_family }} | main | create a group per-user"
   ansible.builtin.group:
@@ -25,7 +25,7 @@
   when:
     - "users is defined"
     - 'group_per_user and "group" not in item'
-  with_items: "{{ users }}"
+  loop: "{{ users }}"
 
 - name: "{{ ansible_os_family }} | main | generate a list of user group(s)"
   ansible.builtin.set_fact:
@@ -50,7 +50,7 @@
   when:
     - "users is defined"
     - 'item.username != "root"'
-  with_items: "{{ users }}"
+  loop: "{{ users }}"
 
 - name: "{{ ansible_os_family }} | main | set authorized key(s) for users"
   ansible.posix.authorized_key:
@@ -59,7 +59,7 @@
     state: present
   when:
     - '"authorized_keys" in item'
-  with_items: "{{ users }}"
+  loop: "{{ users }}"
 
 - name: "{{ ansible_os_family }} | main | enable sudo for user(s)"
   ansible.builtin.lineinfile:
@@ -72,7 +72,7 @@
     create: true
     validate: "/usr/sbin/visudo -cf %s"
   when: "item.sudo is defined and item.sudo"
-  with_items: "{{ users }}"
+  loop: "{{ users }}"
 
 - name: "{{ ansible_os_family }} | main | enable passwordless sudo for user(s)"
   ansible.builtin.lineinfile:
@@ -87,7 +87,7 @@
   when:
     - "item.sudo_nopasswd is defined"
     - "item.sudo_nopasswd"
-  with_items: "{{ users }}"
+  loop: "{{ users }}"
 
 - name: "{{ ansible_os_family }} | main | enable sudo for group(s)"
   ansible.builtin.lineinfile:
@@ -102,7 +102,7 @@
   when:
     - "item.sudo is defined"
     - "item.sudo"
-  with_items: "{{ user_groups }}"
+  loop: "{{ user_groups }}"
 
 - name: "{{ ansible_os_family }} | main | enable passwordless sudo for group(s)"
   ansible.builtin.lineinfile:
@@ -117,4 +117,4 @@
   when:
     - "item.sudo_nopasswd is defined"
     - "item.sudo_nopasswd"
-  with_items: "{{ user_groups }}"
+  loop: "{{ user_groups }}"

@@ -1,0 +1,67 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   tasks/Debian/security.yml
+#   @description    :   Debian security tasks
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+- name: "{{ ansible_os_family }} | security | check for existance of grub"
+  ansible.builtin.stat:
+    path: /etc/default/grub
+  register: grub_result
+
+- name: "{{ ansible_os_family }} | security | check for apparmor"
+  ansible.builtin.shell:
+    cmd: grep "GRUB_CMDLINE_LINUX=" /etc/default/grub | grep -c "apparmor=0"
+  changed_when: apparmor_grub_status.rc != 0
+  ignore_errors: true
+  register: apparmor_grub_status
+
+- name: "{{ ansible_os_family }} | security | disable apparmor"
+  ansible.builtin.replace:
+    path: /etc/default/grub
+    regexp: '^(GRUB_CMDLINE_LINUX=(?:(?![" ]{{ option | regex_escape }}=).)*)(?:[" ]{{ option | regex_escape }}=\S+)?(.*")$'
+    replace: '\1 {{ option }}={{ value }}\2'
+  vars:
+    option: apparmor
+    value: 0
+  when:
+    - grub_result.stat.exists
+    - not apparmor_grub_status.changed
+
+- name: "{{ ansible_os_family }} | security | check for mitigations"
+  ansible.builtin.shell:
+    cmd: grep "GRUB_CMDLINE_LINUX=" /etc/default/grub | grep -c "mitigations=off"
+  changed_when: mitigations_grub_status.rc != 0
+  ignore_errors: true
+  register: mitigations_grub_status
+
+- name: "{{ ansible_os_family }} | security | disable mitigations"
+  ansible.builtin.replace:
+    path: /etc/default/grub
+    regexp: '^(GRUB_CMDLINE_LINUX=(?:(?![" ]{{ option | regex_escape }}=).)*)(?:[" ]{{ option | regex_escape }}=\S+)?(.*")$'
+    replace: '\1 {{ option }}={{ value }}\2'
+  vars:
+    option: mitigations
+    value: "off"
+  when:
+    - grub_result.stat.exists
+    - not mitigations_grub_status.changed
+
+- name: "{{ ansible_os_family }} | security | run grub-mkconfig"
+  ansible.builtin.command:
+    cmd: update-grub
+  when:
+    - grub_result.stat.exists
+    - (apparmor_grub_status.changed or mitigations_grub_status.changed)
+
+- name: "{{ ansible_os_family }} | security | get apparmor status"
+  ansible.builtin.shell:
+    cmd: cat /sys/module/apparmor/parameters/enabled
+  register: apparmor_status
+
+- name: "{{ ansible_os_family }} | security | mark host for reboot"
+  ansible.builtin.debug:
+    var: apparmor_status.stdout
+  notify: reboot required
+  when:
+    - apparmor_status.stdout == "Y"
+    - k3s_allow_reboot_during_install

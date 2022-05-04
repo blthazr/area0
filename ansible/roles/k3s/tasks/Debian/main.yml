@@ -1,0 +1,19 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   tasks/Debian/main.yml
+#   @description    :   Debian tasks executed by ansible-role-k3s
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+- name: "{{ ansible_os_family }} | main | include tasks"
+  ansible.builtin.include_tasks: "{{ ansible_os_family }}/{{ k3s_os_tasks }}"
+  loop:
+    - apt.yml
+    - packages.yml
+    - filesystem.yml
+    - host.yml
+    - iptables.yml
+    - journald.yml
+    - kernel.yml
+    - network.yml
+    - security.yml
+  loop_control:
+    loop_var: k3s_os_tasks

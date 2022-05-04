@@ -1,0 +1,32 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   tasks/Debian/filesystem.yml
+#   @description    :   Debian filesystem tasks
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+- name: "{{ ansible_os_family }} | filesystem | update max_user_watches"
+  ansible.posix.sysctl:
+    name: fs.inotify.max_user_watches
+    value: "524288"
+    state: present
+    sysctl_file: /etc/sysctl.d/99-max-user-watches.conf
+
+- name: "{{ ansible_os_family }} | filesystem | update max_user_instances"
+  ansible.posix.sysctl:
+    name: fs.inotify.max_user_instances
+    value: "512"
+    state: present
+    sysctl_file: /etc/sysctl.d/99-max-user-instances.conf
+
+- name: "{{ ansible_os_family }} | filesystem | disable swap at runtime"
+  ansible.builtin.command: swapoff -a
+  when:
+    - ansible_swaptotal_mb > 0
+
+- name: "{{ ansible_os_family }} | filesystem | disable swap on boot"
+  ansible.posix.mount:
+    name: "{{ item }}"
+    fstype: swap
+    state: absent
+  loop:
+    - swap
+    - none

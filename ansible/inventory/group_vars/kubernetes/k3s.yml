@@ -1,0 +1,65 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   ansible/inventory/group_vars/kubernetes/k3s.yml
+#   @description    :   global/cluster variables for ansible-role-k3s
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+# --------------------------------------------------------------------------------------------------
+# ansible-role-k3s | k3s settings
+# --------------------------------------------------------------------------------------------------
+# -- (str) kubeconfig context to be used for this cluster
+k3s_context: "k3s [HOME]" # k8s-at-home
+
+# -- (str) kubeconfig context to be selected during k3s-nuke
+default_k3s_context: docker-desktop
+# ==================================================================================================
+
+# --------------------------------------------------------------------------------------------------
+# ansible-role-k3s | xanmanning.k3s | global/cluster
+# https://github.com/PyratLabs/ansible-role-k3s#globalcluster-variables
+# --------------------------------------------------------------------------------------------------
+# -- (str) use a specific version of k3s
+# renovate: datasource=github-releases depName=k3s-io/k3s
+k3s_release_version: "v1.23.6+k3s1"
+
+# -- (bool) install using hard links rather than symbolic links
+k3s_install_hard_links: true
+
+# -- (bool) enable debug logging on the k3s service
+k3s_debug: false
+
+# -- (bool) enable etcd embedded datastore
+k3s_etcd_datastore: true
+
+# -- (bool) allow the use of unsupported configurations in k3s
+k3s_use_unsupported_config: true
+
+# -- (str) control plane registration address
+k3s_registration_address: "{{ kube_vip_address }}"
+
+# -- (list) a flat list of templates to deploy on the primary control plane node
+# -- /var/lib/rancher/k3s/server/manifests
+k3s_server_manifests_templates:
+  - "calico/calico-installation.yaml.j2"
+  - "kube-vip/kube-vip-daemonset.yaml.j2"
+
+# -- (list) a list(dict) of manifest URLs to deploy on the primary control plane node
+# -- /var/lib/rancher/k3s/server/manifests
+k3s_server_manifests_urls:
+  - url: https://docs.projectcalico.org/archive/v3.22/manifests/tigera-operator.yaml
+    filename: tigera-operator.yaml
+  - url: https://kube-vip.io/manifests/rbac.yaml
+    filename: kube-vip-rbac.yaml
+
+# -- (list) a flat list of templates to supplement the k3s_server configuration
+# -- /etc/rancher/k3s/config.yaml.d
+k3s_server_config_yaml_d_files:
+  - "k3s/10-etcd-snapshots.yaml.j2"
+# ==================================================================================================
+
+# --------------------------------------------------------------------------------------------------
+# ansible-role-k3s | xanmanning.k3s | ansible controller
+# https://github.com/PyratLabs/ansible-role-k3s#ansible-controller-configuration-variables
+# --------------------------------------------------------------------------------------------------
+# -- (bool) escalate user privileges for all tasks
+k3s_become: true
+# ==================================================================================================

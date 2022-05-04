@@ -3,14 +3,11 @@
 #   @description    :   Debian tasks executed by ansible-role-bootstrap
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ---
-- name: "{{ ansible_os_family }} | main | include apt tasks"
-  ansible.builtin.include_tasks: "{{ ansible_os_family }}/apt.yml"
-  when: ansible_os_family != 'NA'
-
-- name: "{{ ansible_os_family }} | main | include package tasks"
-  ansible.builtin.include_tasks: "{{ ansible_os_family }}/packages.yml"
-  when: ansible_os_family != 'NA'
-
-- name: "{{ ansible_os_family }} | main | include sudoers tasks"
-  ansible.builtin.include_tasks: "{{ ansible_os_family }}/sudoers.yml"
-  when: ansible_os_family != 'NA'
+- name: "{{ ansible_os_family }} | main | include tasks"
+  ansible.builtin.include_tasks: "{{ ansible_os_family }}/{{ os_tasks }}"
+  loop:
+    - apt.yml
+    - packages.yml
+    - sudoers.yml
+  loop_control:
+    loop_var: os_tasks

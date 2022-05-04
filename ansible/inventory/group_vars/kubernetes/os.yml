@@ -1,0 +1,65 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   ansible/inventory/group_vars/kubernetes/os.yml
+#   @description    :   os variables for ansible-role-k3s
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+# --------------------------------------------------------------------------------------------------
+# ansible-role-k3s | operating system
+# --------------------------------------------------------------------------------------------------
+# -- (bool) reboot node after k3s uninstallation
+k3s_reboot_after_uninstall: true
+
+# -- (bool) reboot host during installation, as needed
+k3s_allow_reboot_during_install: false
+
+# -- (bool) enable k3s-killall.service
+k3s_killall_service: true
+# ==================================================================================================
+
+# --------------------------------------------------------------------------------------------------
+# ansible-role-k3s | operating system packages
+# --------------------------------------------------------------------------------------------------
+# -- (dict) operating system packages
+k3s_os_packages:
+
+  # -- (dict) operating system family
+  debian:
+
+    # -- (list) flat list of packages to be installed with apt
+    apt_install:
+      - arptables
+      - ebtables
+      - gdisk
+      - git
+      - hdparm
+      - iputils-ping
+      - ipvsadm
+      - lvm2
+      - net-tools
+      - nfs-common
+      - nvme-cli
+      - open-iscsi
+      - smartmontools
+      - socat
+
+    # -- (list) flat list of packages to be uninstalled with apt
+    apt_remove:
+      - apparmor
+      - apport
+      - byobu
+      - cloud-init
+      - cloud-guest-utils
+      - cloud-initramfs-copymods
+      - cloud-initramfs-dyn-netconf
+      - friendly-recovery
+      - landscape-common
+      - lxd-agent-loader
+      - ntfs-3g
+      - plymouth
+      - plymouth-theme-ubuntu-text
+      - popularity-contest
+      - snapd
+      - sosreport
+      - ubuntu-advantage-tools
+      - ufw
+# ==================================================================================================

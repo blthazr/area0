@@ -1,0 +1,108 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   playbooks/kubernetes/bootstrap-flux.yml
+#   @description    :   deploy flux gitops toolkit on k3s cluster
+#   @usage          :   ansible-playbook playbooks/kubernetes/bootstrap-flux.yml
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+- hosts:
+    - kubernetes
+  become: true
+  gather_facts: true
+
+  vars:
+    kubeconfig: "{{ local_repo_path }}/kubeconfig"
+
+  tasks:
+    - block:
+        - ansible.builtin.shell:
+            cmd: "git rev-parse --show-toplevel"
+          register: local_repo_path
+
+        - ansible.builtin.set_fact:
+            local_repo_path: "{{ local_repo_path.stdout }}"
+
+        - name: load sops encrypted variables
+          community.sops.load_vars:
+            file: flux.sops.yml
+
+        - name: get cluster information
+          kubernetes.core.k8s_cluster_info:
+            kubeconfig: "{{ kubeconfig }}"
+          register: cluster_api_status
+
+        - ansible.builtin.fail:
+            msg: "{{ cluster_api_status }}"
+          when:
+            - cluster_api_status.failed != false
+
+        - name: run flux pre-check
+          ansible.builtin.shell:
+            cmd: flux --kubeconfig "{{ kubeconfig }}" check --pre
+          register: flux_pre
+
+        - ansible.builtin.fail:
+            msg: "{{ flux_pre }}"
+          when:
+            - '"prerequisites checks passed" not in flux_pre.stderr'
+
+        - name: create the flux-system namespace
+          kubernetes.core.k8s:
+            api_version: v1
+            kubeconfig: "{{ kubeconfig }}"
+            kind: Namespace
+            name: flux-system
+            state: present
+
+        - kubernetes.core.k8s_info:
+            kubeconfig: "{{ kubeconfig }}"
+            kind: Secret
+            namespace: flux-system
+            name: sops-age
+          register: sops_secret
+
+        - name: delete the sops-age key
+          kubernetes.core.k8s:
+            kubeconfig: "{{ kubeconfig }}"
+            state: absent
+            api_version: v1
+            kind: Secret
+            namespace: flux-system
+            name: sops-age
+          when:
+            - sops_secret.resources | length > 0
+
+        - name: create sops-age secret
+          ansible.builtin.shell:
+            cmd: "cat ${SOPS_AGE_KEY_FILE} | kubectl create secret generic sops-age --namespace=flux-system --from-file=age.agekey=/dev/stdin"
+
+        # - name: create sops-age secret
+        #   kubernetes.core.k8s:
+        #     kubeconfig: "{{ kubeconfig }}"
+        #     resource_definition:
+        #       apiVersion: v1
+        #       data:
+        #         age.agekey: "{{ sops_private_key}}"
+        #       kind: Secret
+        #       metadata:
+        #         name: sops-age
+        #         namespace: flux-system
+        #       type: Opaque
+
+        - name: bootstrap flux
+          ansible.builtin.shell:
+            cmd: |
+              flux bootstrap github \
+              --author-email="{{ github_email }}" \
+              --author-name="{{ github_author_name}}" \
+              --branch="{{ repo_branch }}" \
+              --owner="{{ github_user }}" \
+              --path="{{ flux_repo_path }}" \
+              --personal=true \
+              --private=false \
+              --repository="{{ github_repo }}"
+          environment:
+            GITHUB_TOKEN: "{{ github_token }}"
+
+      become: false
+      delegate_to: localhost
+      run_once: true

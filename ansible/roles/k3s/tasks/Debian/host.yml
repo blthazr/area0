@@ -1,0 +1,17 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   tasks/Debian/hosts.yml
+#   @description    :   Debian hosts file tasks
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+- name: "{{ ansible_os_family }} | host | add all k3s control nodes to /etc/hosts file"
+  ansible.builtin.lineinfile:
+    backup: true
+    path: "/etc/hosts"
+    regexp: ".*{{ item }}$"
+    line: "{{ hostvars[item].ansible_default_ipv4.address }} {{ hostvars[item].ansible_fqdn }} {{ hostvars[item].ansible_hostname }}"
+    state: present
+  loop: "{{ groups['all'] }}"
+  when:
+    - hostvars[item]['k3s_control_node'] is defined
+    - hostvars[item]['ansible_default_ipv4']['address'] is defined
+    - ansible_hostname != item

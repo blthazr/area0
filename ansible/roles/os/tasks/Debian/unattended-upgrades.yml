@@ -1,6 +1,6 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #   @file           :   tasks/Debian/unattended-upgrades.yml
-#   @description    :   configure unattended upgrades
+#   @description    :   Debian unattended upgrades tasks
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ---
 - name: "{{ ansible_os_family }} | unattended-upgrades"
@@ -30,4 +30,5 @@
               "${distro_id} ${distro_codename}-updates";
           };
 
-  notify: restart unattended-upgrades
+  notify:
+    - restart unattended-upgrades

@@ -1,6 +1,6 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #   @file           :   tasks/main.yml
-#   @description    :   main list of tasks executed by ansible-role-bootstrap
+#   @description    :   tasks executed by ansible-role-bootstrap
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ---
 - name: main | configure ssh authorized_keys
@@ -23,7 +23,8 @@
   ansible.builtin.include_tasks: "{{ ansible_os_family }}/main.yml"
   when: ansible_os_family != 'NA'
 
-- ansible.builtin.include_role:
+- name: main | include roles
+  ansible.builtin.include_role:
     name: "{{ bootstrap_roles }}"
   loop:
     - robertdebock.bootstrap

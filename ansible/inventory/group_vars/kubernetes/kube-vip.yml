@@ -1,0 +1,45 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   ansible/inventory/group_vars/kubernetes/kube-vip.yml
+#   @description    :   kube-vip variables for ansible-role-k3s
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+# --------------------------------------------------------------------------------------------------
+# ansible-role-k3s | kube-vip
+# --------------------------------------------------------------------------------------------------
+# -- (str) kube-vip image
+kube_vip_image: ghcr.io/kube-vip/kube-vip
+
+# -- (str) kube-vip image tag
+# renovate: datasource=github-releases depName=kube-vip/kube-vip
+kube_vip_image_tag: "v0.4.3"
+
+# -- (str) enable ARP broadcasts from leader
+kube_vip_arp: true
+
+# -- (str) interface that the vip should bind to
+kube_vip_interface: enp3s0f0
+
+# -- (int) port for the kube-vip
+kube_vip_port: 6443
+
+# -- (int) cidr that the vip will use
+kube_vip_cidr: 32
+
+# -- (bool) enable kube-vip control-plane functionality
+kube_vip_control_plane: true
+
+# -- (str) namespace of the control-plane
+kube_vip_control_plane_namespace: kube-system
+
+# -- (bool) enables kube-vip to watch services of type:LoadBalancer
+kube_vip_service_loadbalancer: false
+
+# -- (bool) enable ddns support
+kube_vip_ddns: false
+
+# -- (str) the ARP address kube-vip broadcasts
+kube_vip_address: 10.0.101.10
+
+# -- (int) set to 5 for debugging logs
+kube_vip_log_level: 4
+# ==================================================================================================

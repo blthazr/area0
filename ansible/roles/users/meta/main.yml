@@ -5,7 +5,7 @@
 ---
 galaxy_info:
   author: Chris Burnham
-  description:
+  description: Configure users on Ansible managed nodes
 
   license: "license Unlicense"
 
@@ -13,11 +13,8 @@ galaxy_info:
 
   # https://galaxy.ansible.com/api/v1/platforms/
   platforms:
-    - name: Ubuntu
-      versions:
-        - all
     - name: Debian
       versions:
-        - all
+        - buster
 
 dependencies: []

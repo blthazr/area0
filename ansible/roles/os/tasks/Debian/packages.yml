@@ -1,6 +1,6 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #   @file           :   tasks/Debian/packages.yml
-#   @description    :   configure packages
+#   @description    :   Debian package tasks
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ---
 - name: "{{ ansible_os_family }} | packages | upgrade all system packages"
@@ -60,6 +60,7 @@
         loop_var: snapd_packages
 
   when:
+    - os_packages.debian.apt_remove is defined
     - "'snapd' in os_packages.debian.apt_remove"
     - "'snapd' in ansible_facts.packages"
 
@@ -73,11 +74,11 @@
   loop_control:
     loop_var: cloud_init_packages
   when:
+    - os_packages.debian.apt_remove is defined
     - "'cloud-init' in os_packages.debian.apt_remove"
 
 - name: "{{ ansible_os_family }} | packages | remove packages"
   ansible.builtin.apt:
     autoremove: true
     name: "{{ os_packages.debian.apt_remove | default([]) }}"
-    purge: true
     state: absent

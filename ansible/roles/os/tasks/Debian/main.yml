@@ -8,13 +8,13 @@
   loop:
     - apt.yml
     - packages.yml
-    - filesystem.yml
+    - disks.yml
     - host.yml
     - motd.yml
     - sudoers.yml
     - time.yml
     - unattended-upgrades.yml
-    - users.yml
+    - user.yml
   loop_control:
     loop_var: os_tasks
 
