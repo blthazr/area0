@@ -7,3 +7,4 @@ resources:
   - flux-system
   - kube-system
   - network
+  - rook-ceph
