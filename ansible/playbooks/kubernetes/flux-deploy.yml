@@ -1,7 +1,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#   @file           :   playbooks/kubernetes/install-flux.yml
-#   @description    :   deploy flux gitops toolkit on k3s cluster
-#   @usage          :   ansible-playbook playbooks/kubernetes/install-flux.yml
+#   @file           :   playbooks/kubernetes/flux-deploy.yml
+#   @description    :   deploy existing flux gitops toolkit on a k3s cluster
+#   @usage          :   ansible-playbook playbooks/kubernetes/flux-deploy.yml
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ---
 - hosts:
@@ -11,23 +11,33 @@
 
   vars:
     kubeconfig: "{{ local_repo_path }}/kubeconfig"
+    flux_repo_path: "{{ local_repo_path }}/k8s/cluster/base/flux-system"
 
   tasks:
     - block:
-        - ansible.builtin.shell:
+        - name: load sops encrypted variables
+          community.sops.load_vars:
+            file: flux.sops.yml
+
+        - name: get local repo path
+          ansible.builtin.shell:
             cmd: "git rev-parse --show-toplevel"
           register: local_repo_path
 
         - ansible.builtin.set_fact:
             local_repo_path: "{{ local_repo_path.stdout }}"
 
-        - name: load sops encrypted variables
-          community.sops.load_vars:
-            file: flux.sops.yml
+        - name: check for kubeconfig
+          ansible.builtin.assert:
+            that:
+              - kubeconfig is defined
+              - kubeconfig | length > 0
+            fail_msg: "Required variable 'kubeconfig' does not exist."
 
         - name: get cluster information
           kubernetes.core.k8s_cluster_info:
             kubeconfig: "{{ kubeconfig }}"
+            context: "{{ k3s_context }}"
           register: cluster_api_status
 
         - ansible.builtin.fail:
@@ -37,7 +47,7 @@
 
         - name: run flux pre-check
           ansible.builtin.shell:
-            cmd: flux --kubeconfig "{{ kubeconfig }}" check --pre
+            cmd: flux --kubeconfig "{{ kubeconfig }}" --context "{{ k3s_context }}" check --pre
           register: flux_pre
 
         - ansible.builtin.fail:
@@ -49,20 +59,24 @@
           kubernetes.core.k8s:
             api_version: v1
             kubeconfig: "{{ kubeconfig }}"
+            context: "{{ k3s_context }}"
             kind: Namespace
             name: flux-system
             state: present
 
-        - kubernetes.core.k8s_info:
+        - name: check for existing sops-age secret
+          kubernetes.core.k8s_info:
             kubeconfig: "{{ kubeconfig }}"
+            context: "{{ k3s_context }}"
             kind: Secret
             namespace: flux-system
             name: sops-age
           register: sops_secret
 
-        - name: delete the sops-age key
+        - name: delete existing sops-age secret
           kubernetes.core.k8s:
             kubeconfig: "{{ kubeconfig }}"
+            context: "{{ k3s_context }}"
             state: absent
             api_version: v1
             kind: Secret
@@ -72,18 +86,28 @@
             - sops_secret.resources | length > 0
 
         - name: create sops-age secret
-          ansible.builtin.shell:
-            cmd: "cat ${SOPS_AGE_KEY_FILE} | kubectl create secret generic sops-age --namespace=flux-system --from-file=age.agekey=/dev/stdin"
+          kubernetes.core.k8s:
+            kubeconfig: "{{ kubeconfig }}"
+            context: "{{ k3s_context }}"
+            resource_definition:
+              apiVersion: v1
+              data:
+                age.agekey: "{{ sops_private_key | string | b64encode }}"
+              kind: Secret
+              metadata:
+                name: sops-age
+                namespace: flux-system
+              type: Opaque
 
         - name: install flux
           ansible.builtin.shell:
-            cmd: "kubectl apply --kustomize={{ local_repo_path }}/k8s/cluster/base/flux-system"
+            cmd: "kubectl apply --kustomize={{ flux_repo_path }}"
           ignore_errors: true
 
         - name: finalize flux installation
           # due to a flux race condition this command must be run twice
           ansible.builtin.shell:
-            cmd: "kubectl apply --kustomize={{ local_repo_path }}/k8s/cluster/base/flux-system"
+            cmd: "kubectl apply --kustomize={{ flux_repo_path }}"
 
       become: false
       delegate_to: localhost
