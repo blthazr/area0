@@ -1,7 +1,6 @@
-# Local Helm
-*-helm.y*ml
-*-helm.md
-helm-values.y*ml
+# Local Test/Helm
+*-local.*
+*-test.*
 default-values.y*ml
 
 # Deployment
