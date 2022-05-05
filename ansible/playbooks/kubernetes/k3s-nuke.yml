@@ -11,7 +11,7 @@
   any_errors_fatal: false
 
   vars:
-    reboot_after_k3s_uninstall: false
+    reboot_after_k3s_uninstall: true
 
   vars_prompt:
     name: "run_confirmation"

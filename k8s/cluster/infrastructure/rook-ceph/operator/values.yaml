@@ -1,9 +1,0 @@
----
-crds:
-  enabled: false
-resources:
-  limits:
-    memory: 256Mi
-  requests:
-    cpu: 100m
-    memory: 128Mi
