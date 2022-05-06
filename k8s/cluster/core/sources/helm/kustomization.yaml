@@ -6,3 +6,4 @@ resources:
   - ingress-nginx.yaml
   - jetstack.yaml
   - metallb.yaml
+  - rook-ceph.yaml
