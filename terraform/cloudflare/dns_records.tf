@@ -3,20 +3,24 @@ data "http" "ipv4" {
   url = "http://ipv4.icanhazip.com"
 }
 
-resource "cloudflare_record" "apex_root" {
+#
+# base records
+#
+
+resource "cloudflare_record" "apex_ipv4" {
   zone_id = lookup(data.cloudflare_zones.domain.zones[0], "id")
-  name    = data.sops_file.cloudflare_secrets.data["cloudflare_domain"]
+  name    = "ipv4"
   type    = "A"
   value   = chomp(data.http.ipv4.body)
   ttl     = 1
   proxied = true
 }
 
-resource "cloudflare_record" "cname_ipv4" {
+resource "cloudflare_record" "cname_root" {
   zone_id = lookup(data.cloudflare_zones.domain.zones[0], "id")
-  name    = "ipv4"
+  name    = data.sops_file.cloudflare_secrets.data["cloudflare_domain"]
   type    = "CNAME"
-  value   = data.sops_file.cloudflare_secrets.data["cloudflare_domain"]
+  value   = "ipv4.${data.sops_file.cloudflare_secrets.data["cloudflare_domain"]}"
   ttl     = 1
   proxied = true
 }

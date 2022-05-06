@@ -5,7 +5,7 @@ resource "cloudflare_zone_settings_override" "cloudflare_settings" {
     ssl = "strict"
     # /ssl-tls/edge-certificates
     always_use_https         = "on"
-    min_tls_version          = "1.0"
+    min_tls_version          = "1.2"
     opportunistic_encryption = "on"
     tls_1_3                  = "zrt"
     automatic_https_rewrites = "on"
@@ -22,7 +22,7 @@ resource "cloudflare_zone_settings_override" "cloudflare_settings" {
       js   = "on"
       html = "on"
     }
-    rocket_loader = "on"
+    rocket_loader = "off"
     # /caching/configuration
     always_online    = "off"
     development_mode = "off"
