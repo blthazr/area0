@@ -1,0 +1,22 @@
+---
+domainFilters:
+  - "${SECRET_DOMAIN}"
+env:
+  - name: CF_API_EMAIL
+    value: "${SECRET_CLOUDFLARE_EMAIL}"
+  - name: CF_API_KEY
+    valueFrom:
+      secretKeyRef:
+        name: external-dns-cloudflare-api
+        key: api-token
+extraArgs:
+  - --cloudflare-proxied
+  - --annotation-filter=external-dns/is-public in (true)
+interval: 5m
+logLevel: debug
+policy: sync
+provider: cloudflare
+sources:
+  - ingress
+txtPrefix: "k8s."
+txtOwnerId: "default"
