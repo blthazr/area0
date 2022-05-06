@@ -16,13 +16,6 @@ ingress:
       - hosts:
           - *host
 cephClusterSpec:
-  cephVersion:
-    image: quay.io/ceph/ceph:v17.2.0
-  connections:
-    compression:
-      enabled: true
-  crashCollector:
-    disable: false
   dashboard:
     enabled: true
     ssl: false
