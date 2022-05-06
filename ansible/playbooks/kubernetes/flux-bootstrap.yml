@@ -11,7 +11,6 @@
 
   vars:
     kubeconfig: "{{ local_repo_path }}/kubeconfig"
-    flux_repo_path: "{{ local_repo_path }}/k8s/cluster/base/flux-system"
 
   tasks:
     - block:
