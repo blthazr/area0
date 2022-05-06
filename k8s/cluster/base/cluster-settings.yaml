@@ -14,3 +14,6 @@ data:
   # kube-vip
   KUBE_VIP_ADDRESS: 10.0.101.10
   KUBE_VIP_INTERFACE: enp3s0f0
+
+  # Service Addresses
+  SVC_NGINX_ADDRESS: 10.0.100.100
