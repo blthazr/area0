@@ -4,4 +4,3 @@ kind: Kustomization
 namespace: network
 resources:
   - ingress-nginx
-  - wildcard-certificate
