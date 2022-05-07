@@ -6,5 +6,6 @@ resources:
   - ingress-nginx.yaml
   - jetstack.yaml
   - kasten.yaml
+  - k8s-at-home.yaml
   - metallb.yaml
   - rook-ceph.yaml
