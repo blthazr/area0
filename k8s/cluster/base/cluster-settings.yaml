@@ -15,5 +15,11 @@ data:
   KUBE_VIP_ADDRESS: 10.0.101.10
   KUBE_VIP_INTERFACE: enp3s0f0
 
+  # NFS
+  NAS_NFS_PATH: "/volume1/data"
+
   # Service Addresses
   SVC_NGINX_ADDRESS: 10.0.100.100
+
+  # site addresses
+  NAS_ADDRESS: 172.16.70.100
