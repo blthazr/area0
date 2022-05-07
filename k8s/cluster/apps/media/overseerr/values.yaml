@@ -28,8 +28,6 @@ ingress:
     tls:
       - hosts:
           - *host
-nodeSelector:
-  node-role.kubernetes.io/media: "true"
 persistence:
   config:
     enabled: true
