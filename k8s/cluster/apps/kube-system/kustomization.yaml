@@ -4,4 +4,5 @@ kind: Kustomization
 namespace: kube-system
 resources:
   - intel-gpu-plugin
+  - metrics-server
   - node-feature-discovery
