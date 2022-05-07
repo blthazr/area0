@@ -1,0 +1,12 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+configurations:
+  - kustomize-config.yaml
+configMapGenerator:
+  - name: tautulli-helm-values
+    files:
+      - values.yaml
+resources:
+  - helm-release.yaml
+  - persistent-volume-claim.yaml
