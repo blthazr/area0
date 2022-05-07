@@ -4,3 +4,4 @@ kind: Kustomization
 namespace: media
 resources:
   - overseerr
+  - plex

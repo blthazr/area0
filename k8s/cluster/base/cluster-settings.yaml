@@ -17,9 +17,11 @@ data:
 
   # NFS
   NAS_NFS_PATH: "/volume1/data"
+  MEDIA_SERVER_NFS_PATH: "/data/media"
 
   # Service Addresses
   SVC_NGINX_ADDRESS: 10.0.100.100
 
   # site addresses
   NAS_ADDRESS: 172.16.70.100
+  MEDIA_SERVER_ADDRESS: 10.0.101.15
