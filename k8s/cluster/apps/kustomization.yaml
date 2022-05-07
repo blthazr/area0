@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - cert-manager
   - default
+  - download
   - flux-system
   - kasten-io
   - kube-system
