@@ -4,5 +4,6 @@ kind: Kustomization
 namespace: download
 resources:
   - radarr
+  - radarr4k
   - sabnzbd
   - sonarr
