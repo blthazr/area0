@@ -61,7 +61,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v3
       - name: Scan container(s)
-        uses: aquasecurity/trivy-action@0.2.5
+        uses: aquasecurity/trivy-action@0.3.0
         with:
           format: sarif
           image-ref: ${{ matrix.containers }}
