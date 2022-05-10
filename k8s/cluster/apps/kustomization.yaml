@@ -6,6 +6,7 @@ resources:
   - default
   - download
   - flux-system
+  - home
   - kasten-io
   - kube-system
   - media
