@@ -8,6 +8,7 @@ resources:
   - flux-system
   - game
   - home
+  - home-automation
   - kasten-io
   - kube-system
   - media
