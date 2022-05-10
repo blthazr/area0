@@ -5,15 +5,14 @@
     ":disableRateLimiting",
     ":dependencyDashboard",
     ":semanticCommits",
-    ":separatePatchReleases",
     "docker:enableMajor",
     ":enablePreCommit",
-    "github>christopherburnham/area0//.github/renovate/autoMerge",
-    "github>christopherburnham/area0//.github/renovate/commitMessage",
-    "github>christopherburnham/area0//.github/renovate/labels",
-    "github>christopherburnham/area0//.github/renovate/packageGroups",
-    "github>christopherburnham/area0//.github/renovate/semanticCommits",
-    "github>christopherburnham/area0//.github/renovate/versioning"
+    "github>christopherburnham/area0//.github/renovate/autoMerge.json5",
+    "github>christopherburnham/area0//.github/renovate/commitMessage.json5",
+    "github>christopherburnham/area0//.github/renovate/labels.json5",
+    "github>christopherburnham/area0//.github/renovate/packageGroups.json5",
+    "github>christopherburnham/area0//.github/renovate/semanticCommits.json5",
+    "github>christopherburnham/area0//.github/renovate/versioning.json5"
   ],
   "platform": "github",
   "username": "maudie-bot[bot]",
@@ -87,14 +86,5 @@
       ],
       "datasourceTemplate": "helm"
     },
-  ],
-  "packageRules": [
-    // configure helm datasource
-    {
-      "matchDatasources": [
-        "helm"
-      ],
-      "ignoreDeprecated": true
-    }
   ]
 }
