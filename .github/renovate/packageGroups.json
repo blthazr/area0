@@ -1,8 +1,9 @@
 {
   "packageRules": [
     {
-      "additionalBranchPrefix": "",
-      "groupName": "external-snapshotter-suite",
+      "description": "External Snapshotter CRDs and image",
+      "group": { "commitMessageTopic": "{{{groupName}}} group" },
+      "groupName": "External Snapshotter",
       "matchDatasources": [
         "docker",
         "github-releases"
@@ -14,23 +15,26 @@
       "separateMinorPatch": true
     },
     {
-      "additionalBranchPrefix": "",
-      "groupName": "rook-ceph-suite",
+      "description": "Rook-Ceph image and chart",
+      "group": { "commitMessageTopic": "{{{groupName}}} group" },
+      "groupName": "Rook Ceph",
       "matchDatasources": [
         "docker",
         "helm"
       ],
       "matchPackagePatterns": [
-        "^rook.ceph"
+        "rook.ceph"
       ],
       "separateMinorPatch": true
     },
     {
-      "additionalBranchPrefix": "",
-      "groupName": "system-upgrade-controller-suite",
+      "description": "System Upgrade Controller CRDs and image",
+      "group": { "commitMessageTopic": "{{{groupName}}} group" },
+      "groupName": "System Upgrade Controller",
       "matchDatasources": [
         "docker",
-        "github-tags"
+        "github-tags",
+        "github-releases"
       ],
       "matchPackagePatterns": [
         "rancher/system-upgrade-controller"
@@ -38,17 +42,22 @@
       "separateMinorPatch": true
     },
     {
-      "additionalBranchPrefix": "",
-      "groupName": "vector-suite",
+      "description": "Thanos image and chart versions",
+      "group": { "commitMessageTopic": "{{{groupName}}} group" },
+      "groupName": "Thanos",
       "matchDatasources": [
         "docker",
         "github-releases",
         "helm"
       ],
       "matchPackagePatterns": [
-        "vector"
+        "thanos"
       ],
-      "separateMinorPatch": true
+      "matchUpdateTypes": [
+        "minor", "patch"
+      ],
+      "separateMinorPatch": false,
+      "stabilityDays": 3
     }
   ]
 }
