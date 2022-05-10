@@ -1,6 +1,7 @@
 {
   "packageRules": [
     {
+      "description": "Use loose versioning for certain packages",
       "matchDatasources": [
         "docker",
         "github-releases"
