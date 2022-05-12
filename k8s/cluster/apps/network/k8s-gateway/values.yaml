@@ -1,0 +1,10 @@
+---
+fullnameOverride: k8s-gateway
+domain: ${SECRET_DOMAIN}
+ttl: 1
+service:
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: "${SVC_K8S_GATEWAY_ADDRESS}"
+  externalTrafficPolicy: Local
+  port: 53
+  type: LoadBalancer
