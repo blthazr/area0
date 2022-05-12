@@ -13,5 +13,5 @@ args:
   - "2"
 image:
   repository: intel/intel-gpu-plugin
-  tag: 0.23.0
+  tag: 0.24.0
   pullPolicy: IfNotPresent
