@@ -50,6 +50,11 @@ dashboards:
       datasource: Prometheus
       gnetId: 11312
       revision: 8
+    # Ref: https://grafana.com/grafana/dashboards/7845
+    zfs:
+      gnetId: 7845
+      revision: 4
+      datasource: Prometheus
 dashboardProviders:
   dashboardproviders.yaml:
     apiVersion: 1
