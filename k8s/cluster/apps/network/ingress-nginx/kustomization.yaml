@@ -11,4 +11,5 @@ configMapGenerator:
     files:
       - cloudflare-proxied-networks.txt
 resources:
+  - dashboard
   - helm-release.yaml
