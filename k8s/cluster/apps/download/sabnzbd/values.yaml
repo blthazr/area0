@@ -1,3 +1,4 @@
+---
 env:
   HOST_WHITELIST_ENTRIES: >-
     sabnzbd,

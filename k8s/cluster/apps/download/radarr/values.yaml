@@ -1,3 +1,4 @@
+---
 env:
   TZ: "${CLUSTER_TIME_ZONE}"
 image:
