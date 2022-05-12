@@ -24,6 +24,21 @@ ingress:
     tls:
       - hosts:
           - *host
+metrics:
+  enabled: true
+  exporter:
+    env:
+      additionalMetrics: true
+      port: 9794
+      unknownQueueItems: true
+    image:
+      repository: ghcr.io/onedr0p/exportarr
+      tag: v1.0.0
+  prometheusRule:
+    enabled: false
+  serviceMonitor:
+    interval: 5m
+    scrapeTimeout: 1m
 nameOverride: radarr4k
 nodeSelector:
   node-role.kubernetes.io/media: "true"
