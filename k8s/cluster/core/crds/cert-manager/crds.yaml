@@ -48,7 +48,7 @@ spec:
           value: cert-manager
         - op: add
           path: /metadata/labels/app.kubernetes.io~1version
-          # renovate: registryUrl=https://charts.jetstack.io chart=cert-manager
+          # renovate: registryUrl=https://charts.jetstack.io depName=cert-manager
           value: v1.8.0
         - op: remove
           path: /metadata/annotations
