@@ -3,9 +3,3 @@ crds:
   enabled: false
 monitoring:
   enabled: true
-resources:
-  limits:
-    memory: 256Mi
-  requests:
-    cpu: 100m
-    memory: 128Mi
