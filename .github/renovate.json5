@@ -62,7 +62,7 @@
   },
   "regexManagers": [
     {
-      "description": "configure regex manager for github-releases",
+      "description": "configure regex manager",
       "fileMatch": [
         "k8s/cluster/.+\\.ya?ml$",
         "ansible/.+\\.ya?ml$",
