@@ -28,6 +28,10 @@ spec:
       kind: Kustomization
       name: flux-system
       namespace: flux-system
+    - apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+      kind: Kustomization
+      name: rook-ceph-crds
+      namespace: flux-system
   secretRef:
     name: github-webhook-token
   type: github

@@ -1,20 +1,6 @@
 {
   "packageRules": [
     {
-      "description": "External Snapshotter CRDs and image",
-      "group": { "commitMessageTopic": "{{{groupName}}} group" },
-      "groupName": "External Snapshotter",
-      "matchDatasources": [
-        "docker",
-        "github-releases"
-      ],
-      "matchPackagePatterns": [
-        "external-snapshotter",
-        "snapshot-controller"
-      ],
-      "separateMinorPatch": true
-    },
-    {
       "description": "Rook-Ceph image and chart",
       "group": { "commitMessageTopic": "{{{groupName}}} group" },
       "groupName": "Rook Ceph",
