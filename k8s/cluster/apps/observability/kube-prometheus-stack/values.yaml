@@ -20,6 +20,11 @@ alertmanager:
           - severity = "warning"
     receivers:
       - name: "null"
+      - name: "pagerduty"
+        pagerduty_configs:
+          - description: |-
+              {{ template "pagerduty.custom.description" . }}
+            routing_key: "${SECRET_PAGERDUTY_TOKEN}"
       - name: "discord"
         slack_configs:
           - channel: "#prometheus-alerts"
@@ -48,10 +53,18 @@ alertmanager:
         - receiver: "null"
           matchers:
             - alertname =~ "InfoInhibitor|Watchdog"
+        - receiver: "pagerduty"
+          continue: true
+          matchers:
+            - severity = "critical"
         - receiver: "discord"
           continue: true
           matchers:
             - severity = "critical"
+    templates: ["*.tmpl"]
+  templateFiles:
+    pagerduty-custom.tmpl: |-
+      {{- define "pagerduty.custom.description" -}}[{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ if ne .CommonAnnotations.summary ""}}{{ .CommonAnnotations.summary }} {{ else if ne .CommonAnnotations.message ""}}{{ .CommonAnnotations.message }} {{ else if ne .CommonAnnotations.description ""}}{{ .CommonAnnotations.description }} {{ else }}{{ .CommonLabels.alertname }}{{ end }}{{- end -}}
   ingress:
     enabled: true
     hosts:
