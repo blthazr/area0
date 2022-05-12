@@ -1,2 +1,6 @@
 ---
 fullnameOverride: reloader
+reloader:
+  podMonitor:
+    enabled: true
+    namespace: kube-system
