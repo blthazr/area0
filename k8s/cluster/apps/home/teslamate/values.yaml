@@ -37,17 +37,9 @@ postgresql:
   persistence:
     enabled: true
     existingClaim: teslamate-db-v1
-probes:
-  liveness:
-    spec:
-      failureThreshold: 15
-      periodSeconds: 10
-  readiness:
-    spec:
-      failureThreshold: 15
-      periodSeconds: 10
-  startup:
-    spec:
-      failureThreshold: 30
-      initialDelaySeconds: 15
-      periodSeconds: 10
+resources:
+  requests:
+    memory: 250Mi
+    cpu: 50m
+  limits:
+    memory: 500Mi
