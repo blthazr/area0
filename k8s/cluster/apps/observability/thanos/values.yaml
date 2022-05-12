@@ -18,7 +18,7 @@ objstoreConfig:
   type: s3
 query:
   dnsDiscovery:
-    sidecarsService: prometheus-thanos-discovery
+    sidecarsService: kube-prometheus-stack-thanos-discovery
     sidecarsNamespace: observability
   enabled: true
   ingress:
