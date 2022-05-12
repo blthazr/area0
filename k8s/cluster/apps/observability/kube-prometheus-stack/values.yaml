@@ -173,7 +173,7 @@ prometheus:
     probeSelectorNilUsesHelmValues: false
     replicaExternalLabelName: replica
     replicas: 1
-    retention: 6h
+    retention: 2d
     ruleSelectorNilUsesHelmValues: false
     serviceMonitorSelectorNilUsesHelmValues: false
     storageSpec:
