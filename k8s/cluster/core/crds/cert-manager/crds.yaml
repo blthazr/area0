@@ -1,0 +1,54 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: GitRepository
+metadata:
+  name: cert-manager-crd-source
+  namespace: flux-system
+spec:
+  ignore: |
+    # exclude all
+    /*
+    # include crds
+    !/deploy/crds
+    # exclude file extensions from crd dir
+    /deploy/crds/*.md
+    /deploy/crds/*.bazel
+  interval: 12h
+  ref:
+    # renovate: registryUrl=https://charts.jetstack.io chart=cert-manager
+    tag: v1.8.0
+  url: https://github.com/cert-manager/cert-manager.git
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: cert-manager-crds
+  namespace: flux-system
+spec:
+  interval: 30m
+  prune: false
+  sourceRef:
+    kind: GitRepository
+    name: cert-manager-crd-source
+  wait: true
+  # Remove the Helm templating from labels and annotations
+  patches:
+    - target:
+        version: v1
+        kind: CustomResourceDefinition
+      patch: |-
+        - op: replace
+          path: /metadata/labels/app
+          value: cert-manager
+        - op: replace
+          path: /metadata/labels/app.kubernetes.io~1name
+          value: cert-manager
+        - op: replace
+          path: /metadata/labels/app.kubernetes.io~1instance
+          value: cert-manager
+        - op: add
+          path: /metadata/labels/app.kubernetes.io~1version
+          # renovate: registryUrl=https://charts.jetstack.io chart=cert-manager
+          value: v1.8.0
+        - op: remove
+          path: /metadata/annotations
