@@ -1,0 +1,42 @@
+---
+bucketweb:
+  enabled: true
+compactor:
+  enabled: true
+  persistence:
+    enabled: false
+image:
+  registry: public.ecr.aws
+  repository: bitnami/thanos
+objstoreConfig:
+  config:
+    bucket: thanos
+    endpoint: "${MINIO_ADDRESS}:9000"
+    access_key: "${SECRET_MINIO_ACCESS_KEY}"
+    secret_key: "${SECRET_MINIO_SECRET_KEY}"
+    insecure: true
+  type: s3
+query:
+  dnsDiscovery:
+    sidecarsService: prometheus-thanos-discovery
+    sidecarsNamespace: observability
+  enabled: true
+  ingress:
+    enabled: true
+    hostname: &host "thanos.${SECRET_DOMAIN}"
+    ingressClassName: nginx
+    tls: true
+    extraTls:
+      - hosts:
+          - *host
+  replicaLabels:
+    - replica
+queryFrontend:
+  enabled: false
+ruler:
+  enabled: false
+storegateway:
+  enabled: true
+  persistence:
+    enabled: true
+    size: 8Gi
