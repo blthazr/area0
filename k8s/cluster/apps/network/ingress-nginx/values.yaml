@@ -35,12 +35,6 @@ controller:
   publishService:
     enabled: true
   replicaCount: 1
-  resources:
-    limits:
-      memory: 1000Mi
-    requests:
-      cpu: 100m
-      memory: 100Mi
   service:
     externalIPs:
       - "${SVC_NGINX_ADDRESS}"

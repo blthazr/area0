@@ -173,12 +173,6 @@ prometheus:
     probeSelectorNilUsesHelmValues: false
     replicaExternalLabelName: replica
     replicas: 1
-    resources:
-      limits:
-        memory: 6000Mi
-      requests:
-        cpu: 250m
-        memory: 2000Mi
     retention: 6h
     ruleSelectorNilUsesHelmValues: false
     serviceMonitorSelectorNilUsesHelmValues: false

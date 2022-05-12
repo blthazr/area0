@@ -37,9 +37,3 @@ persistence:
   config:
     enabled: true
     existingClaim: tautulli-config-v1
-resources:
-  limits:
-    memory: 500Mi
-  requests:
-    cpu: 100m
-    memory: 250Mi

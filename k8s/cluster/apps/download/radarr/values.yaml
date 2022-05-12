@@ -66,9 +66,3 @@ persistence:
 podSecurityContext:
   supplementalGroups:
     - 100
-resources:
-  limits:
-    memory: 2000Mi
-  requests:
-    cpu: 100m
-    memory: 250Mi
