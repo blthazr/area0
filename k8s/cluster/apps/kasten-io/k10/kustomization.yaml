@@ -8,6 +8,7 @@ configMapGenerator:
     files:
       - values.yaml
 resources:
+  - monitoring
   - profiles
   - helm-release.yaml
   - secret.sops.yaml
