@@ -65,5 +65,5 @@ cephBlockPools:
         csi.storage.k8s.io/fstype: ext4
       reclaimPolicy: Delete
 monitoring:
-  createPrometheusRules: true
+  createPrometheusRules: false
   enabled: true
