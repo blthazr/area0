@@ -10,7 +10,7 @@
 kube_vip_image: ghcr.io/kube-vip/kube-vip
 
 # -- (str) kube-vip image tag
-# renovate: datasource=github-releases depName=kube-vip/kube-vip
+# renovate: datasource=docker depName=ghcr.io/kube-vip/kube-vip
 kube_vip_image_tag: "v0.4.3"
 
 # -- (str) enable ARP broadcasts from leader
