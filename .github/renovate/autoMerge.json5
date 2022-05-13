@@ -1,21 +1,6 @@
 {
   "packageRules": [
     {
-      "description": "Enable automerge for observability apps",
-      "addLabels": ["action/automerge"],
-      "automerge": true,
-      "automergeType": "pr",
-      "matchDatasources": ["docker","helm"],
-      "matchPackagePatterns": [
-        "grafana",
-        "kube-prometheus-stack",
-        "thanos",
-        "unifi-poller"
-      ],
-      "matchUpdateTypes": ["minor","patch"],
-      "requiredStatusChecks": null
-    },
-    {
       "description": "Enable scheduled automerge for media apps",
       "addLabels": ["action/automerge"],
       "automerge": true,
@@ -29,6 +14,37 @@
       "matchUpdateTypes": ["minor","patch"],
       "requiredStatusChecks": null,
       "schedule": ["after 3am and before 7am"]
+    },
+    {
+      "description": "Enable automerge for download apps",
+      "addLabels": ["action/automerge"],
+      "automerge": true,
+      "automergeType": "pr",
+      "matchDatasources": ["docker","helm"],
+      "matchPackagePatterns": [
+        "gaps",
+        "prowlarr",
+        "radarr",
+        "sabnzbd",
+        "sonarr"
+      ],
+      "matchUpdateTypes": ["minor","patch"],
+      "requiredStatusChecks": null,
+    },
+    {
+      "description": "Enable automerge for observability apps",
+      "addLabels": ["action/automerge"],
+      "automerge": true,
+      "automergeType": "pr",
+      "matchDatasources": ["docker","helm"],
+      "matchPackagePatterns": [
+        "grafana",
+        "kube-prometheus-stack",
+        "thanos",
+        "unifi-poller"
+      ],
+      "matchUpdateTypes": ["minor","patch"],
+      "requiredStatusChecks": null
     }
   ]
 }
