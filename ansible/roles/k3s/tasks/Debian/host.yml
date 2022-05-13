@@ -8,7 +8,7 @@
     backup: true
     path: "/etc/hosts"
     regexp: ".*{{ item }}$"
-    line: "{{ hostvars[item].ansible_default_ipv4.address }} {{ hostvars[item].ansible_fqdn }} {{ hostvars[item].ansible_hostname }}"
+    line: "{{ hostvars[item].ansible_default_ipv4.address }} {{ hostvars[item].ansible_hostname }}"
     state: present
   loop: "{{ groups['all'] }}"
   when:
