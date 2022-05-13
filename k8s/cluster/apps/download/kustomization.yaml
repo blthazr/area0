@@ -5,6 +5,7 @@ namespace: download
 resources:
   - bazarr
   - gaps
+  - lidarr
   - prowlarr
   - radarr
   - radarr4k
