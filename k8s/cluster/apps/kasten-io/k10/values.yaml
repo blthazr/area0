@@ -1,8 +1,17 @@
 ---
 auth:
-  tokenAuth:
+  oidcAuth:
     enabled: true
-clusterName: area0
+    providerURL: "https://${SECRET_AUTH0_TENANT}.us.auth0.com/"
+    redirectURL: "https://k10.${SECRET_DOMAIN}/"
+    scopes: "profile email"
+    prompt: login
+    clientID: "${SECRET_AUTH0_K10_CLIENT_ID}"
+    clientSecret: "${SECRET_AUTH0_K10_CLIENT_SECRET}"
+    usernameClaim: email
+  tokenAuth:
+    enabled: false
+clusterName: "${CLUSTER_NAME}"
 eula:
   accept: true
   company: "${SECRET_KASTEN_COMPANY_NAME}"

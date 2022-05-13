@@ -11,4 +11,5 @@ resources:
   - monitoring
   - profiles
   - helm-release.yaml
+  - rbac.yaml
   - secret.sops.yaml
