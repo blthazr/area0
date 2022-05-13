@@ -9,9 +9,6 @@
       "matchPackagePatterns": [
         "grafana",
         "kube-prometheus-stack",
-        "loki",
-        "snmp-exporter",
-        "speedtest-exporter",
         "thanos",
         "unifi-poller"
       ],
@@ -25,40 +22,13 @@
       "automergeType": "pr",
       "matchDatasources": ["docker","helm"],
       "matchPackagePatterns": [
+        "overseerr",
         "plex",
-        "overseerr"
+        "tautulli"
       ],
       "matchUpdateTypes": ["minor","patch"],
       "requiredStatusChecks": null,
       "schedule": ["after 3am and before 7am"]
-    },
-    {
-      "description": "Enable anytime automerge for media apps",
-      "addLabels": ["action/automerge"],
-      "automerge": true,
-      "automergeType": "pr",
-      "matchDatasources": ["docker","helm"],
-      "matchPackagePatterns": [
-        "bazarr",
-        "calibre",
-        "calibre-web",
-        "dizquetv",
-        "flaresolverr",
-        "gaps",
-        "komga",
-        "lidarr",
-        "mylar",
-        "nzbhydra2",
-        "prowlarr",
-        "radarr",
-        "readarr",
-        "sabnzbd",
-        "sonarr",
-        "tautulli",
-        "tdarr"
-      ],
-      "matchUpdateTypes": ["minor","patch"],
-      "requiredStatusChecks": null
     }
   ]
 }
