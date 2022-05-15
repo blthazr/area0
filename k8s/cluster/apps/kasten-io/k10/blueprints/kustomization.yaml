@@ -6,4 +6,5 @@ resources:
   - game.yaml
   - home.yaml
   - media.yaml
+  - observability.yaml
   - secret.sops.yaml
