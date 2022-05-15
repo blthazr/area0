@@ -1,0 +1,56 @@
+---
+apiVersion: config.kio.kasten.io/v1alpha1
+kind: Policy
+metadata:
+  name: game
+spec:
+  frequency: "@daily"
+  subFrequency:
+    minutes:
+      - 30
+    hours:
+      - 7
+    weekdays:
+      - 0
+    days:
+      - 1
+    months:
+      - 1
+  retention:
+    daily: 7
+    weekly: 4
+  selector:
+    matchExpressions:
+      - key: k10.kasten.io/appNamespace
+        operator: In
+        values:
+          - game
+  actions:
+    - action: backup
+      backupParameters:
+        filters:
+          includeResources:
+            - matchExpressions:
+                - key: kasten.io/backup-volume
+                  operator: In
+                  values:
+                    - enabled
+        hooks:
+          onSuccess:
+            actionName: post-export
+            blueprint: game
+        profile:
+          name: game
+          namespace: kasten-io
+    - action: export
+      exportParameters:
+        exportData:
+          enabled: true
+        frequency: "@daily"
+        profile:
+          name: game
+          namespace: kasten-io
+      retention:
+        daily: 7
+        weekly: 4
+        monthly: 12
