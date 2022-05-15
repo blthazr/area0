@@ -7,7 +7,7 @@ spec:
   frequency: "@daily"
   subFrequency:
     minutes:
-      - 00
+      - 0
     hours:
       - 7
     weekdays:
