@@ -8,6 +8,11 @@ podDnsConfig:
     - 1.1.1.1
     - 9.9.9.9
 podDnsPolicy: "None"
+prometheus:
+  enabled: true
+  servicemonitor:
+    enabled: true
+    prometheusInstance: observability
 replicaCount: 1
 webhook:
   enabled: true
