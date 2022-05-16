@@ -1,0 +1,19 @@
+---
+apiVersion: config.kio.kasten.io/v1alpha1
+kind: Profile
+metadata:
+  name: home
+spec:
+  locationSpec:
+    credential:
+      secret:
+        apiVersion: ""
+        kind: ""
+        name: ""
+        namespace: ""
+      secretType: ""
+    fileStore:
+      claimName: k10-backups
+      path: home
+    type: FileStore
+  type: Location
