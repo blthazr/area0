@@ -9,7 +9,6 @@ resources:
   - game
   - home
   - home-automation
-  - kasten-io
   - kube-system
   - media
   - network
