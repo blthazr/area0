@@ -8,7 +8,7 @@ configMapGenerator:
     files:
       - values.yaml
 resources:
-  - blueprints
+  # - blueprints
   - monitoring
   # - policies
   - profiles
