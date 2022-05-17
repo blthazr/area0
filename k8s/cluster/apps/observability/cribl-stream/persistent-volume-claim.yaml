@@ -1,9 +1,14 @@
 ---
-# Add labels
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: leader-config-claim
-  namespace: observability
   labels:
     kasten.io/backup-volume: "enabled"
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+  storageClassName: ceph-block

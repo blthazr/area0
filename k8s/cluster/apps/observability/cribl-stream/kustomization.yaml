@@ -7,8 +7,7 @@ configMapGenerator:
   - name: cribl-stream-helm-values
     files:
       - values.yaml
-patchesStrategicMerge:
-  - cribl-stream-patches.yaml
 resources:
   - helm-release.yaml
+  - persistent-volume-claim.yaml
   - secret.sops.yaml
