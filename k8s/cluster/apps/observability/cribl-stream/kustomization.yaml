@@ -9,5 +9,6 @@ configMapGenerator:
       - values.yaml
 resources:
   - helm-release.yaml
+  - ingress.yaml
   - persistent-volume-claim.yaml
   - secret.sops.yaml
