@@ -5,3 +5,4 @@ namespace: home
 resources:
   - grocy
   - mealie
+  - teslamate
