@@ -6,6 +6,5 @@ resources:
   - cribl-stream
   - grafana
   - kube-prometheus-stack
-  - prometheus-rules
   - thanos
   - unifi-poller

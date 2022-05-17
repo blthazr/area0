@@ -9,3 +9,4 @@ configMapGenerator:
       - values.yaml
 resources:
   - helm-release.yaml
+  - rules
