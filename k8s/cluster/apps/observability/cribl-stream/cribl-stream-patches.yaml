@@ -1,0 +1,9 @@
+---
+# Add labels
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: leader-config-claim
+  namespace: observability
+  labels:
+    kasten.io/backup-volume: "enabled"
