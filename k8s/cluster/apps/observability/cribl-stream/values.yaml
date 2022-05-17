@@ -8,3 +8,20 @@ service:
     metallb.universe.tf/allow-shared-ip: cribl-stream
   externalLoadBalancerIP: "${SVC_CRIBL_STREAM_ADDRESS}"
   externalType: LoadBalancer
+  ports:
+    - name: api
+      port: 9000
+      protocol: TCP
+      external: true
+    - name: leadercomm
+      port: 4200
+      protocol: TCP
+      external: false
+    - name: syslog-udp
+      port: 9514
+      protocol: UDP
+      external: true
+    - name: syslog-unifi
+      port: 9520
+      protocol: UDP
+      targetPort: 9520
