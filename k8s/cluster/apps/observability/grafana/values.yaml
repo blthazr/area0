@@ -67,14 +67,6 @@ dashboardProviders:
           path: /var/lib/grafana/dashboards/default
         orgId: 1
         type: file
-      - name: teslamate
-        disableDeletion: false
-        editable: true
-        folder: TeslaMate
-        options:
-          path: /var/lib/grafana/dashboards/teslamate
-        orgId: 1
-        type: file
 datasources:
   datasources.yaml:
     apiVersion: 1
