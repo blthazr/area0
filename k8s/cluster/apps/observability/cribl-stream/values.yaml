@@ -24,4 +24,4 @@ service:
     - name: syslog-unifi
       port: 9520
       protocol: UDP
-      targetPort: 9520
+      external: true
