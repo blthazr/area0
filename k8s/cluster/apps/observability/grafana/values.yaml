@@ -86,7 +86,7 @@ datasources:
           password: "${SECRET_TESLAMATE_POSTGRES_PASSWORD}"
         type: postgres
         url: teslamate-postgresql.home.svc.cluster.local:5432
-        user: "${SECRET_TESLAMATE_POSTGRES_USER}"
+        user: "${SECRET_TESLAMATE_POSTGRES_USERNAME}"
 env:
   GF_DATE_FORMATS_FULL_DATE: "MMM Do, YYYY hh:mm:ss a"
   GF_EXPLORE_ENABLED: true
