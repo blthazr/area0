@@ -1,0 +1,10 @@
+---
+config:
+  adminPassword: "${SECRET_STREAM_PASSWORD}"
+nameOverride: "cribl-stream-leader"
+resources: {}
+service:
+  annotations:
+    metallb.universe.tf/allow-shared-ip: cribl-stream
+  externalLoadBalancerIP: "${SVC_CRIBL_STREAM_ADDRESS}"
+  externalType: LoadBalancer
