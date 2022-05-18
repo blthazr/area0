@@ -12,6 +12,9 @@ spec:
         kind: HelmRepository
         name: bitnami-charts
         namespace: flux-system
+  dependsOn:
+    - name: kube-prometheus-stack
+      namespace: observability
   install:
     createNamespace: true
     remediation:
