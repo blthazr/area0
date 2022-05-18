@@ -12,6 +12,9 @@ spec:
         kind: HelmRepository
         name: k8s-at-home-charts
         namespace: flux-system
+  dependsOn:
+    - name: intel-gpu-plugin
+      namespace: kube-system
   install:
     createNamespace: true
     remediation:
