@@ -1,0 +1,29 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+configMapGenerator:
+  - name: unifi-client-dpi-dashboard
+    files:
+      - unifi-client-dpi-dashboard.json=https://raw.githubusercontent.com/unpoller/dashboards/master/v2.0.0/UniFi-Poller_%20Client%20DPI%20-%20Prometheus.json
+  - name: unifi-client-insights-dashboard
+    files:
+      - unifi-client-insights-dashboard.json=https://raw.githubusercontent.com/unpoller/dashboards/master/v2.0.0/UniFi-Poller_%20Client%20Insights%20-%20Prometheus.json
+  - name: unifi-network-sites-dashboard
+    files:
+      - unifi-network-sites-dashboard.json=https://raw.githubusercontent.com/unpoller/dashboards/master/v2.0.0/UniFi-Poller_%20Network%20Sites%20-%20Prometheus.json
+  - name: unifi-uap-insights-dashboard
+    files:
+      - unifi-uap-insights-dashboard.json=https://raw.githubusercontent.com/unpoller/dashboards/master/v2.0.0/UniFi-Poller_%20UAP%20Insights%20-%20Prometheus.json
+  - name: unifi-usg-insights-dashboard
+    files:
+      - unifi-usg-insights-dashboard.json=https://raw.githubusercontent.com/unpoller/dashboards/master/v2.0.0/UniFi-Poller_%20USG%20Insights%20-%20Prometheus.json
+  - name: unifi-usw-insights-dashboard
+    files:
+      - unifi-usw-insights-dashboard.json=https://raw.githubusercontent.com/unpoller/dashboards/master/v2.0.0/UniFi-Poller_%20USW%20Insights%20-%20Prometheus.json
+generatorOptions:
+  annotations:
+    grafana_folder: Unifi
+    kustomize.toolkit.fluxcd.io/substitute: disabled
+  disableNameSuffixHash: true
+  labels:
+    grafana_dashboard: "true"
