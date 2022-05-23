@@ -51,3 +51,5 @@ worker:
                 class: ["02"]
                 vendor: ["0658"]
                 device: ["0200"]
+  nodeSelector:
+    node-role.kubernetes.io/worker: "true"
