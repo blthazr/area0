@@ -33,7 +33,6 @@ ntp_enabled: true
 
 # -- (dict) ntp servers
 ntp_servers:
-
   # -- (list) flat list of primary ntp servers
   primary:
     - "time.cloudflare.com"
