@@ -36,4 +36,4 @@ deschedulerPolicy:
         includeSoftConstraints: true
 kind: Deployment
 podAnnotations:
-  configmap.reloader.stakater.com/reload: "descheduler"
+  configmap.reloader.stakater.com/reload: descheduler
