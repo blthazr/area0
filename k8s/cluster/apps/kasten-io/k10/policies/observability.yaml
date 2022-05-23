@@ -18,7 +18,7 @@ spec:
       - 1
   retention:
     daily: 7
-    weekly: 4
+    weekly: 2
   selector:
     matchExpressions:
       - key: k10.kasten.io/appNamespace
@@ -51,6 +51,6 @@ spec:
           name: observability
           namespace: kasten-io
       retention:
-        daily: 7
+        daily: 14
         weekly: 4
         monthly: 12
