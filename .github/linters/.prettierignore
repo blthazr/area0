@@ -1,8 +1,12 @@
+ansible/collections/*
+ansible/roles-galaxy/*
 k8s/charts/
 docs/
 .private/
 .terraform/
 .vscode/
 *.sops.*
+*-local.*
 *-shard.*
+default-values.y*ml
 gotk-components.yaml
