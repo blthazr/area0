@@ -2,6 +2,8 @@
 nodeFeatureRule:
   createCRD: true
 worker:
+  annotations:
+    configmap.reloader.stakater.com/reload: node-feature-discovery-worker-conf
   config:
     core:
       sources:
