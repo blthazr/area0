@@ -1,5 +1,5 @@
-ansible/collections/*
-ansible/roles-galaxy/*
+ansible/collections/
+ansible/roles-galaxy/
 k8s/charts/
 docs/
 .private/
