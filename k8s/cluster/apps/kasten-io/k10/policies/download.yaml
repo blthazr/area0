@@ -4,6 +4,7 @@ kind: Policy
 metadata:
   name: download
 spec:
+  comment: Policy to create daily backups of PVC resources in the `download` namespace. This policy enables 3-2-1 backups.
   frequency: "@daily"
   subFrequency:
     minutes:

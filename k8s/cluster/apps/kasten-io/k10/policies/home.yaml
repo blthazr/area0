@@ -4,6 +4,7 @@ kind: Policy
 metadata:
   name: home
 spec:
+  comment: Policy to create daily backups of PVC resources in the `home` namespace. This policy enables 3-2-1 backups.
   frequency: "@daily"
   subFrequency:
     minutes:
