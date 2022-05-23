@@ -4,6 +4,7 @@ kind: Kustomization
 namespace: network
 resources:
   - external-dns
+  - external-services
   - ingress-nginx
   - k8s-gateway
   - wildcard-certificate
