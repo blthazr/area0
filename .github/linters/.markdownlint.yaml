@@ -7,7 +7,7 @@ MD013:
   code_block_line_length: 80
   # Include code blocks
   code_blocks: true
-  # Include headers
+  # Include headings
   headers: true
   # Number of characters for headings
   heading_line_length: 80
