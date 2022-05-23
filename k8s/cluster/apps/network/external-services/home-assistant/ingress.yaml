@@ -6,7 +6,6 @@ metadata:
   labels:
     app.kubernetes.io/name: *app
     app.kubernetes.io/instance: *app
-  annotations:
 spec:
   ingressClassName: nginx
   rules:
