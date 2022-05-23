@@ -5,30 +5,42 @@
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeType": "pr",
-      "matchDatasources": ["docker","helm"],
+      "matchDatasources": [
+        "docker",
+        "helm",
+      ],
       "matchPackagePatterns": [
         "overseerr",
         "plex",
-        "tautulli"
+        "tautulli",
       ],
-      "matchUpdateTypes": ["minor","patch"],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+      ],
       "requiredStatusChecks": null,
-      "schedule": ["after 3am and before 7am"]
+      "schedule": ["after 3am and before 7am"],
     },
     {
       "description": "Enable automerge for download apps",
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeType": "pr",
-      "matchDatasources": ["docker","helm"],
+      "matchDatasources": [
+        "docker",
+        "helm",
+      ],
       "matchPackagePatterns": [
         "gaps",
         "prowlarr",
         "radarr",
         "sabnzbd",
-        "sonarr"
+        "sonarr",
       ],
-      "matchUpdateTypes": ["minor","patch"],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+      ],
       "requiredStatusChecks": null,
     },
     {
@@ -36,15 +48,21 @@
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeType": "pr",
-      "matchDatasources": ["docker","helm"],
+      "matchDatasources": [
+        "docker",
+        "helm",
+      ],
       "matchPackagePatterns": [
         "grafana",
         "kube-prometheus-stack",
         "thanos",
-        "unifi-poller"
+        "unifi-poller",
       ],
-      "matchUpdateTypes": ["minor","patch"],
-      "requiredStatusChecks": null
-    }
-  ]
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+      ],
+      "requiredStatusChecks": null,
+    },
+  ],
 }
