@@ -1,0 +1,32 @@
+---
+global:
+  nameOverride: &app theme-park
+image:
+  repository: ghcr.io/k8s-at-home/theme-park
+  tag: v1.9.3
+ingress:
+  main:
+    annotations:
+      external-dns.alpha.kubernetes.io/target: "ipv4.${SECRET_DOMAIN}"
+      external-dns/is-public: "true"
+    enabled: true
+    hosts:
+      - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
+        paths:
+          - path: /
+            pathType: Prefix
+    ingressClassName: nginx
+    tls:
+      - hosts:
+          - *host
+resources:
+  limits:
+    memory: 150Mi
+  requests:
+    cpu: 10m
+    memory: 50Mi
+service:
+  main:
+    ports:
+      http:
+        port: 8080
