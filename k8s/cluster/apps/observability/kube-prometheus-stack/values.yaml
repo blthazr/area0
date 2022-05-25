@@ -168,6 +168,7 @@ prometheus:
         static_configs:
           - targets:
               - "${NAS_ADDRESS}:9100"
+              - "${HOME_ASSISTANT_ADDRESS}:9100"
     enableAdminAPI: true
     podMonitorSelectorNilUsesHelmValues: false
     probeSelectorNilUsesHelmValues: false
