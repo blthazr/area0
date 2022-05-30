@@ -19,7 +19,7 @@ jobs:
           app_id: "${{ secrets.BOT_APP_ID }}"
           private_key: "${{ secrets.BOT_PRIVATE_KEY }}"
       - name: Run link checker
-        uses: lycheeverse/lychee-action@v1.4.1
+        uses: lycheeverse/lychee-action@v1.5.0
         env:
           GITHUB_TOKEN: "${{ steps.generate-token.outputs.token }}"
         id: lychee
