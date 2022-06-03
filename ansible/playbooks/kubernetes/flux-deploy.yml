@@ -1,6 +1,6 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #   @file           :   playbooks/kubernetes/flux-deploy.yml
-#   @description    :   deploy existing flux gitops toolkit on a k3s cluster
+#   @description    :   deploy existing flux gitops toolkit
 #   @usage          :   ansible-playbook playbooks/kubernetes/flux-deploy.yml
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ---
@@ -10,8 +10,12 @@
   gather_facts: true
 
   vars:
+    flux_repo_branch: main
+    flux_repo_owner: christopherburnham
+    flux_repo_path: ./k8s/cluster/base
+    github_repo: area0
     kubeconfig: "{{ local_repo_path }}/kubeconfig"
-    flux_repo_path: "{{ local_repo_path }}/k8s/cluster/base/flux-system"
+    local_flux_path: "{{ local_repo_path }}/{{ flux_repo_path }}/flux-system"
 
   tasks:
     - block:
@@ -27,17 +31,23 @@
         - ansible.builtin.set_fact:
             local_repo_path: "{{ local_repo_path.stdout }}"
 
-        - name: check for kubeconfig
+        - name: check for required variables
           ansible.builtin.assert:
             that:
-              - kubeconfig is defined
-              - kubeconfig | length > 0
-            fail_msg: "Required variable 'kubeconfig' does not exist."
+              - "{{ item }} is defined"
+              - "{{ item }} | length > 0"
+            fail_msg: "Required variable '{{ item }}' is not defined"
+          loop:
+            - flux_repo_path
+            - kubeconfig
+            - local_flux_path
+            - sops_private_key
 
+        - debug:
+            var: local_flux_path
         - name: get cluster information
           kubernetes.core.k8s_cluster_info:
             kubeconfig: "{{ kubeconfig }}"
-            context: "{{ k3s_context }}"
           register: cluster_api_status
 
         - ansible.builtin.fail:
@@ -47,7 +57,7 @@
 
         - name: run flux pre-check
           ansible.builtin.shell:
-            cmd: flux --kubeconfig "{{ kubeconfig }}" --context "{{ k3s_context }}" check --pre
+            cmd: flux --kubeconfig "{{ kubeconfig }}" check --pre
           register: flux_pre
 
         - ansible.builtin.fail:
@@ -59,7 +69,6 @@
           kubernetes.core.k8s:
             api_version: v1
             kubeconfig: "{{ kubeconfig }}"
-            context: "{{ k3s_context }}"
             kind: Namespace
             name: flux-system
             state: present
@@ -67,7 +76,6 @@
         - name: check for existing sops-age secret
           kubernetes.core.k8s_info:
             kubeconfig: "{{ kubeconfig }}"
-            context: "{{ k3s_context }}"
             kind: Secret
             namespace: flux-system
             name: sops-age
@@ -76,7 +84,6 @@
         - name: delete existing sops-age secret
           kubernetes.core.k8s:
             kubeconfig: "{{ kubeconfig }}"
-            context: "{{ k3s_context }}"
             state: absent
             api_version: v1
             kind: Secret
@@ -88,7 +95,6 @@
         - name: create sops-age secret
           kubernetes.core.k8s:
             kubeconfig: "{{ kubeconfig }}"
-            context: "{{ k3s_context }}"
             resource_definition:
               apiVersion: v1
               data:
@@ -99,15 +105,18 @@
                 namespace: flux-system
               type: Opaque
 
-        - name: install flux
+        - name: deploy flux gitops toolkit
           ansible.builtin.shell:
-            cmd: "kubectl apply --kustomize={{ flux_repo_path }}"
+            cmd: "kubectl apply --kustomize={{ local_flux_path }}"
           ignore_errors: true
-
-        - name: finalize flux installation
-          # due to a flux race condition this command must be run twice
-          ansible.builtin.shell:
-            cmd: "kubectl apply --kustomize={{ flux_repo_path }}"
+          register: flux_result
+          changed_when:
+            - "flux_result.stdout is search('created')"
+          environment:
+            KUBECONFIG: "{{ kubeconfig }}"
+          until: flux_result is succeeded
+          retries: 10
+          delay: 5
 
       become: false
       delegate_to: localhost

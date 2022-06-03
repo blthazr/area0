@@ -1,10 +1,6 @@
+flux_author_email: ENC[AES256_GCM,data:HDH6fxtfK/T+j3D20ILBQV05jHU0QO70uij1joU+Lv5/Qqhoi2zHftzDzIRAT09H1FIhqg==,iv:W+DCIX0/GLrI45O7qqTW9wnI3FLDH7VaYl9N2Q/vE/I=,tag:30pEHwJsY64ssdDMOqiYwA==,type:str]
+flux_author_name: ENC[AES256_GCM,data:BjaiO4s7E3Sdyf8NEw==,iv:aC0QxefHrTxu9zH7qbO+pLh0NYsAsL+jdHgm6aMVs7k=,tag:XZueMreVU6A6coIDmk9dKA==,type:str]
 github_token: ENC[AES256_GCM,data:t8rTlDyeCJOecw4RNL6j+5/BH9UqmJHqrGWwDiIDDNv7jL+unvBzTg==,iv:0TrtIXFdAZXQXf6kKt6Fh6J7skdXiU6N4kMVZ7ojD/E=,tag:JbXQqFM1a0ihmY04xhJKmA==,type:str]
-github_user: ENC[AES256_GCM,data:zT2rj4/QylOQq9BS5nARrRhC,iv:RGmPf9XxJbsDmmovX+g8TbGUa6FIdkYgKfL21XswjwE=,tag:t5OFK7Wp0I0ImTtkWL3C9g==,type:str]
-github_repo: ENC[AES256_GCM,data:1ofCNT4=,iv:G4q0xiszQhPOJc4gLACUYj8er+EM6M9TNOl3Vo1nuiI=,tag:WfQ7rySJ++x1Prs3nDnJ0w==,type:str]
-flux_repo_path: ENC[AES256_GCM,data:V6wK5Ya/6Y2s3k4wmyN+CbHP,iv:BVI+zb0AH9KITZaLOhx9jqMI5etx+5g2v7ZObY3WBb4=,tag:3yOFa8mYl/ephIK/Gqcqug==,type:str]
-github_email: ENC[AES256_GCM,data:kgT5dGitQDDPo/CSsj7vKJoNmt7VUF+xBlim0z+Xr7dyMSSTlxKisRNGAg59K9zABIghYQ==,iv:FLnVUY8rxIH60yLVckQjQbUd7eho7ZkNdnDNC5HILlc=,tag:DEaKsEfisjCBaFz0/+vrnQ==,type:str]
-github_author_name: ENC[AES256_GCM,data:mXZovME79KypxGDYJg==,iv:rTNmyG7X0Q68S+ZMSxw1BnA2yVsjYfK7406N/TdZnvQ=,tag:r1haUvsGuIanmNxPGdGvog==,type:str]
-github_repo_branch: ENC[AES256_GCM,data:suB90g==,iv:nj1ld4NZW7M6mr8GBZxU6MDcEAvG9LigBIowheCRQcc=,tag:X/r7cBNWrBs5zI3LqzkbkQ==,type:str]
 sops_private_key: ENC[AES256_GCM,data:zLt5K1rG4Ax2CkeUc//yYex24J8h3YVVsYpeYdSWOXJPdnnlqUCcdoq7i2lxjwC7u/5RdSSx5tXHMxK5qIXD6PCfgj3c2wguV0QTwk7ZboySUEOrrYppcNyZOB7MIV4SN0qHGkPB/pACbGTwXUg/9QXR/+bMHxMF4qjysD9uo48ifVybKv4QW4LIxsqii4sCUDipBv6VMNt7C6XvD1scuu4GgRH8IcS77JRgymCudyPHnK4aaVjiAiMWacRL,iv:a3xE/B88w36IBWm2F3WHac6Tc2l7I4Obr9tsNNdCczs=,tag:bYQLaFN9GD8Y4bLIgNCuUw==,type:str]
 sops:
     kms: []
@@ -21,8 +17,8 @@ sops:
             NXQvQy9qb2hHSDUzWktjc3E5WXdzK0EKf7fID5cHlSJTPGbwjIlxcGv5KXl3r1mp
             3sh8pzGru6U/oz+y2hkTsdwHZN3QqhZITBxpSBTWIm/NtwQKdi3FDg==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2022-05-05T19:55:34Z"
-    mac: ENC[AES256_GCM,data:zIsCWg/ucmBjqVIOs67wR8Gt+bN0RlHZ81w2LEPFZZNE7iHDMs8NxljA3ayIoNqwQzauojHu8ogHVSWGSfMFLS/cW2w8R7x4AWFQvOBy/jDe1Xfbvyxy1qbUnW3iTno/nCSRwaX9fB+XRxdkaD0UpI51gtJHWL64sVOotRbEeKI=,iv:SOotfiJ3DK6tjOCZ7MXQViJ5Feg8VYP/r/5KkXQHL0c=,tag:7+FAKQfuMzbB1+3VuYclOA==,type:str]
+    lastmodified: "2022-06-03T21:53:35Z"
+    mac: ENC[AES256_GCM,data:7vC16WgYTXIIHVpcHn/5oNC/t+6EUIDCbDOiH9vXyxEvQoFIIQi0O6CIpXL8ssQjXdkYFpKdT6TrfE9TSinHjUTcTTZx9yOAuGYqLO2t+iN3/q4dTgcfd+dyGag1u5Grjd/zJKSD3DzkxUzXrEACtdjINxH/fkSTuzsrH5kd/xM=,iv:AM1OJrK3ZgaI5sgIoA4X/Ad5JJ9t7+Knakb/zQ58ns0=,tag:gQ+W9LsvqZ1cNFY1K1Ur8Q==,type:str]
     pgp: []
     unencrypted_regex: ^(kind)$
     version: 3.7.2

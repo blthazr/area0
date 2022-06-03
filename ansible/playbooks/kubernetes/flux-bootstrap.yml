@@ -1,6 +1,6 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #   @file           :   playbooks/kubernetes/flux-bootstrap.yml
-#   @description    :   bootstrap new flux gitops toolkit on a k3s cluster
+#   @description    :   bootstrap new flux gitops toolkit deployment
 #   @usage          :   ansible-playbook playbooks/kubernetes/flux-bootstrap.yml
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ---
@@ -10,6 +10,10 @@
   gather_facts: true
 
   vars:
+    flux_repo_branch: main
+    flux_repo_owner: christopherburnham
+    flux_repo_path: ./k8s/cluster/base
+    github_repo: area0
     kubeconfig: "{{ local_repo_path }}/kubeconfig"
 
   tasks:
@@ -26,17 +30,26 @@
         - ansible.builtin.set_fact:
             local_repo_path: "{{ local_repo_path.stdout }}"
 
-        - name: check for kubeconfig
+        - name: check for required variables
           ansible.builtin.assert:
             that:
-              - kubeconfig is defined
-              - kubeconfig | length > 0
-            fail_msg: "Required variable 'kubeconfig' does not exist."
+              - "{{ item }} is defined"
+              - "{{ item }} | length > 0"
+            fail_msg: "Required variable '{{ item }}' is not defined"
+          loop:
+            - flux_author_email
+            - flux_author_name
+            - flux_repo_branch
+            - flux_repo_owner
+            - flux_repo_path
+            - github_repo
+            - github_token
+            - kubeconfig
+            - sops_private_key
 
         - name: get cluster information
           kubernetes.core.k8s_cluster_info:
             kubeconfig: "{{ kubeconfig }}"
-            context: "{{ k3s_context }}"
           register: cluster_api_status
 
         - ansible.builtin.fail:
@@ -46,7 +59,7 @@
 
         - name: run flux pre-check
           ansible.builtin.shell:
-            cmd: flux --kubeconfig "{{ kubeconfig }}" --context "{{ k3s_context }}" check --pre
+            cmd: flux --kubeconfig "{{ kubeconfig }}" check --pre
           register: flux_pre
 
         - ansible.builtin.fail:
@@ -58,7 +71,6 @@
           kubernetes.core.k8s:
             api_version: v1
             kubeconfig: "{{ kubeconfig }}"
-            context: "{{ k3s_context }}"
             kind: Namespace
             name: flux-system
             state: present
@@ -66,7 +78,6 @@
         - name: check for existing sops-age secret
           kubernetes.core.k8s_info:
             kubeconfig: "{{ kubeconfig }}"
-            context: "{{ k3s_context }}"
             kind: Secret
             namespace: flux-system
             name: sops-age
@@ -75,7 +86,6 @@
         - name: delete existing sops-age secret
           kubernetes.core.k8s:
             kubeconfig: "{{ kubeconfig }}"
-            context: "{{ k3s_context }}"
             state: absent
             api_version: v1
             kind: Secret
@@ -87,7 +97,6 @@
         - name: create sops-age secret
           kubernetes.core.k8s:
             kubeconfig: "{{ kubeconfig }}"
-            context: "{{ k3s_context }}"
             resource_definition:
               apiVersion: v1
               data:
@@ -98,35 +107,21 @@
                 namespace: flux-system
               type: Opaque
 
-        - name: check for required flux variables
-          ansible.builtin.assert:
-            that:
-              - "{{ item }} is defined"
-              - "{{ item }} | length > 0"
-            fail_msg: "Required variable '{{ item }}' is not defined"
-          loop:
-            - flux_repo_path
-            - github_author_name
-            - github_email
-            - github_repo
-            - github_token
-            - github_user
-            - github_repo_branch
-
         - name: bootstrap flux
           ansible.builtin.shell:
             cmd: |
               flux bootstrap github \
-              --author-email="{{ github_email }}" \
-              --author-name="{{ github_author_name }}" \
-              --branch="{{ github_repo_branch }}" \
-              --owner="{{ github_user }}" \
+              --author-email="{{ flux_author_email }}" \
+              --author-name="{{ flux_author_name }}" \
+              --branch="{{ flux_repo_branch }}" \
+              --owner="{{ flux_repo_owner }}" \
               --path="{{ flux_repo_path }}" \
               --personal=true \
               --private=false \
               --repository="{{ github_repo }}"
           environment:
             GITHUB_TOKEN: "{{ github_token }}"
+            KUBECONFIG: "{{ kubeconfig }}"
 
       become: false
       delegate_to: localhost
