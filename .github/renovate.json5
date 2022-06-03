@@ -19,7 +19,7 @@
   "repositories": ["christopherburnham/area0"],
   "timezone": "America/Chicago",
   "onboarding": false,
-  "requireConfig": false,
+  "requireConfig": "optional",
   "gitAuthor": "maudie-bot <16470300+maudie-bot[bot]@users.noreply.github.com>",
   "dependencyDashboardTitle": "Renovate Dashboard 🤖",
   "suppressNotifications": ["prIgnoreNotification"],
