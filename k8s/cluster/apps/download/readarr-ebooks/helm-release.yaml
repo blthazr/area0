@@ -22,4 +22,4 @@ spec:
       retries: 3
   valuesFrom:
     - kind: ConfigMap
-      name: radarr-ebooks-helm-values
+      name: readarr-ebooks-helm-values
