@@ -3,7 +3,6 @@ api:
   env:
     BASE_URL: "https://recipes.${SECRET_DOMAIN}"
     DEFAULT_EMAIL: "admin@${SECRET_DOMAIN}"
-    TOKEN_TIME: 720
     TZ: "${CLUSTER_TIME_ZONE}"
   image:
     repository: hkotel/mealie
