@@ -28,21 +28,36 @@
         path: "/var/lib/rook"
         state: absent
 
-    - name: rook-ceph-nuke | zap the drives
+    - name: rook-ceph-nuke | zap the devices
       ansible.builtin.shell:
         cmd: "sgdisk --zap-all {{ item }} || true"
       loop:
         - "{{ rook_devices | default([]) }}"
 
-    - name: rook-ceph-nuke | remove lvm partitions
-      ansible.builtin.shell: "{{ item }}"
+    - name: rook-ceph-nuke | wipe beginning of disk to remove lvm metadata
+      ansible.builtin.shell:
+        cmd: "blkdiscard {{ item }}"
+      loop:
+        - "{{ rook_devices | default([]) }}"
+
+    - name: rook-ceph-nuke | remove lvm and device mapper data
+      ansible.builtin.shell:
+        cmd: "{{ item }}"
       loop:
         - ls /dev/mapper/ceph--* | xargs -I% -- fuser --kill %
         - ls /dev/mapper/ceph--* | xargs -I% -- dmsetup clear %
         - ls /dev/mapper/ceph--* | xargs -I% -- dmsetup remove -f %
         - ls /dev/mapper/ceph--* | xargs -I% -- rm -rf %
 
+    - name: rook-ceph-nuke | remove ceph-volumes
+      ansible.builtin.shell:
+        cmd: "rm -rf {{ item }}"
+      loop:
+        - /dev/ceph-*
+        - /dev/mapper/ceph--*
+
     - name: rook-ceph-nuke | wipe the block device
-      ansible.builtin.command: "wipefs -af {{ item }}"
+      ansible.builtin.shell:
+        cmd: "wipefs -af {{ item }}"
       with_items:
         - "{{ rook_devices | default([]) }}"
