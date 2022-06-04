@@ -1,8 +1,10 @@
 # See https://toolkit.fluxcd.io/components/source/gitrepositories/#excluding-files
 .github/
 .taskfiles/
+.vscode/
 ansible/
 terraform/
+tools/
 .gitattributes
 .gitignore
 .pre-commit-config.yaml
