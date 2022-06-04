@@ -1,0 +1,36 @@
+---
+env:
+  TZ: "${CLUSTER_TIME_ZONE}"
+image:
+  repository: ghcr.io/k8s-at-home/readarr-nightly
+  tag: v0.1.1.1352
+ingress:
+  main:
+    enabled: true
+    hosts:
+      - host: &host "audiobooks.${SECRET_DOMAIN}"
+        paths:
+          - path: /
+            pathType: Prefix
+    ingressClassName: nginx
+    tls:
+      - hosts:
+          - *host
+nodeSelector:
+  node-role.kubernetes.io/media: "true"
+persistence:
+  config:
+    enabled: true
+    existingClaim: readarr-audio-config-v1
+  media:
+    enabled: true
+    mountPath: /media
+    readOnly: false
+    type: custom
+    volumeSpec:
+      nfs:
+        server: "${MEDIA_SERVER_ADDRESS}"
+        path: "${MEDIA_SERVER_NFS_PATH}"
+podSecurityContext:
+  supplementalGroups:
+    - 100
