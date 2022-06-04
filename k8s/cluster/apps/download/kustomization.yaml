@@ -9,7 +9,6 @@ resources:
   - prowlarr
   - radarr
   - radarr4k
-  - readarr-audio
   - sabnzbd
   - sonarr
   - sonarr4k
