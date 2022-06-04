@@ -1,7 +1,6 @@
 ---
 api:
   env:
-    ALLOW_SIGNUP: "false"
     BASE_URL: "https://recipes.${SECRET_DOMAIN}"
     DEFAULT_EMAIL: "admin@${SECRET_DOMAIN}"
     TOKEN_TIME: 720
@@ -10,7 +9,6 @@ api:
     repository: hkotel/mealie
     tag: api-v1.0.0beta-2
 env:
-  ALLOW_SIGNUP: "false"
   TZ: "${CLUSTER_TIME_ZONE}"
 image:
   repository: hkotel/mealie
