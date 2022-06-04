@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mealie-config-v1
+  name: mealie-config-v2
   labels:
     kasten.io/backup-volume: "enabled"
 spec:
