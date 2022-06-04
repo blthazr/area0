@@ -9,7 +9,7 @@ resources:
   - prowlarr
   - radarr
   - radarr4k
-  - readarr-ebooks
+  # - readarr-ebooks
   - sabnzbd
   - sonarr
   - sonarr4k
