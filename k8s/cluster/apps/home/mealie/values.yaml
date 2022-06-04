@@ -10,11 +10,10 @@ image:
 ingress:
   annotations:
     external-dns.alpha.kubernetes.io/target: "ipv4.${SECRET_DOMAIN}"
-    external-dns/is-public: "true"
   main:
     enabled: true
     hosts:
-      - host: &host "recipes.${SECRET_DOMAIN}"
+      - host: &host "mealie.${SECRET_DOMAIN}"
         paths:
           - path: /
             pathType: Prefix
@@ -31,7 +30,7 @@ persistence:
     volumeSpec:
       nfs:
         server: "${NAS_ADDRESS}"
-        path: "${NAS_NFS_PATH}/backup/app/mealie"
+        path: "${NAS_NFS_PATH}/backup/app/mealie-legacy"
   config:
     enabled: true
     existingClaim: mealie-config-v1
