@@ -46,4 +46,4 @@ defaultBackend:
       value: ghost
   image:
     repository: ghcr.io/tarampampam/error-pages
-    tag: 2.15.0
+    tag: 2.16.0
