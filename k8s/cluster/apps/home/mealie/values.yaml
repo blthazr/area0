@@ -7,6 +7,11 @@ api:
   image:
     repository: hkotel/mealie
     tag: api-v1.0.0beta-2
+  volumeMounts:
+    - name: api-data
+      mountPath: /app/data/
+    - name: backup
+      mountPath: /app/data/backups
 env:
   TZ: "${CLUSTER_TIME_ZONE}"
 image:
