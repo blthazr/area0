@@ -1,0 +1,57 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   .taskfiles/flux.yml
+#   @description    :   flux tasks
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+version: "3"
+
+tasks:
+  # task flux:sync:all
+  sync:all:
+    - task: flux:sync:sources
+    - task: flux:sync:ks
+    - task: flux:sync:hr
+    - task: flux:sync:alerts
+    - task: flux:sync:receivers
+
+  # task flux:sync:sources
+  sync:sources:
+    desc: reconcile flux sources
+    cmds:
+      - flux reconcile source git flux-system --namespace flux-system
+      - flux get sources git --all-namespaces --no-header | awk '{ print $1, $2}' | grep -v "flux-system flux-system" | xargs -r -n2 sh -c 'flux reconcile source git $1 --namespace $0'
+      - flux get sources helm --all-namespaces --no-header | awk '{ print $1, $2}' | xargs -r -n2 sh -c 'flux reconcile source helm $1 --namespace $0'
+    silent: true
+
+  # task flux:sync:ks
+  sync:ks:
+    desc: reconcile flux kustomizations
+    cmds:
+      - flux reconcile kustomization flux-system --namespace flux-system --with-source
+      - flux reconcile kustomization cluster-core --namespace flux-system --with-source
+      - flux get kustomizations --all-namespaces --no-header | awk '{ print $1, $2}' | grep crds | xargs -r -n2 sh -c 'flux reconcile kustomization $1 --namespace $0 --with-source' | xargs
+      - flux reconcile kustomization cluster-infrastructure --namespace flux-system --with-source
+      - flux reconcile kustomization cluster-apps --namespace flux-system --with-source
+    silent: true
+
+  # task flux:sync:hr
+  sync:hr:
+    desc: reconcile helm releases
+    cmds:
+      - flux get helmreleases --all-namespaces --no-header | awk '{ print $1, $2}' | xargs -r -n2 sh -c 'flux reconcile helmrelease $1 --namespace $0 --with-source' | xargs
+    silent: true
+
+  # task flux:sync:alerts
+  sync:alerts:
+    desc: reconcile flux alerts and alert providers
+    cmds:
+      - flux get alert-providers --all-namespaces --no-header | awk '{ print $1, $2}' | xargs -r -n2 sh -c 'flux reconcile alert-provider $1 --namespace $0' | xargs
+      - flux get alerts --all-namespaces --no-header | awk '{ print $1, $2}' | xargs -r -n2 sh -c 'flux reconcile alert $1 --namespace $0' | xargs
+    silent: true
+
+  # task flux:sync:receivers
+  sync:receivers:
+    desc: reconcile flux receivers
+    cmds:
+      - flux get receivers --all-namespaces --no-header | awk '{ print $1, $2}' | xargs -r -n2 sh -c 'flux reconcile receiver $1 --namespace $0' | xargs
+    silent: true
