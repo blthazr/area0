@@ -1,6 +1,7 @@
 ---
 api:
   env:
+    ALLOW_SIGNUP: false
     BASE_URL: "https://recipes.${SECRET_DOMAIN}"
     DEFAULT_EMAIL: "admin@${SECRET_DOMAIN}"
     TZ: "${CLUSTER_TIME_ZONE}"
