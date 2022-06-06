@@ -1,6 +1,7 @@
 ---
 api:
   env:
+    ALLOW_SIGNUP: '"false"'
     BASE_URL: "https://recipes.${SECRET_DOMAIN}"
     DEFAULT_EMAIL: "admin@${SECRET_DOMAIN}"
     TZ: "${CLUSTER_TIME_ZONE}"
@@ -13,6 +14,7 @@ api:
     - name: backup
       mountPath: /app/data/backups
 env:
+  ALLOW_SIGNUP: "False"
   TZ: "${CLUSTER_TIME_ZONE}"
 image:
   repository: hkotel/mealie
