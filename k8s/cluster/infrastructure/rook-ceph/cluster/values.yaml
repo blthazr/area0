@@ -1,9 +1,9 @@
 ---
-cephBlockPoolsVolumeSnapshotClass:
-  annotations:
-    k10.kasten.io/is-snapshot-class: "true"
-  enabled: true
-  name: csi-rbdplugin-snapclass
+# cephBlockPoolsVolumeSnapshotClass:
+#   annotations:
+#     k10.kasten.io/is-snapshot-class: "true"
+#   enabled: true
+#   name: csi-rbdplugin-snapclass
 cephFileSystems: []
 cephObjectStores: []
 configOverride: |
