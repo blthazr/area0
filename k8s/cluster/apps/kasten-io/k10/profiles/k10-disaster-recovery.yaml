@@ -1,0 +1,19 @@
+---
+apiVersion: config.kio.kasten.io/v1alpha1
+kind: Profile
+metadata:
+  name: k10-disaster-recovery
+spec:
+  locationSpec:
+    credential:
+      secret:
+        apiVersion: ""
+        kind: ""
+        name: ""
+        namespace: ""
+      secretType: ""
+    fileStore:
+      claimName: k10-backups
+      path: k10-disaster-recovery
+    type: FileStore
+  type: Location
