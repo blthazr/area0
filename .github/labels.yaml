@@ -1,38 +1,40 @@
 ---
 # Area
 - name: area/ansible
-  color: "72ccf3"
+  color: "72CCF3"
   description: >-
     Changes made in the ansible directory
 - name: area/github
-  color: "72ccf3"
+  color: "72CCF3"
   description: >-
     Changes made in the github directory
 - name: area/cluster
-  color: "72ccf3"
+  color: "72CCF3"
   description: >-
     Changes made in the cluster directory
 - name: area/hack
-  color: "72ccf3"
+  color: "72CCF3"
   description: >-
     Changes made in the hack directory
 - name: area/terraform
-  color: "72ccf3"
+  color: "72CCF3"
   description: >-
     Changes made in the terraform directory
+
 # Renovate
 - name: renovate/ansible
-  color: "ffc300"
+  color: "FFC300"
 - name: renovate/container
-  color: "ffc300"
+  color: "FFC300"
 - name: renovate/github-action
-  color: "ffc300"
+  color: "FFC300"
 - name: renovate/github-release
-  color: "ffc300"
+  color: "FFC300"
 - name: renovate/helm
-  color: "ffc300"
+  color: "FFC300"
 - name: renovate/terraform
-  color: "ffc300"
+  color: "FFC300"
+
 # Semantic Type
 - name: type/major
   color: "F6412D"
@@ -40,37 +42,55 @@
   color: "FF9800"
 - name: type/patch
   color: "FFEC19"
+
 # Size
 - name: size/XS
   color: "009900"
   description: >-
     PR that changes 0-9 lines, ignoring generated files.
 - name: size/S
-  color: "77bb00"
+  color: "77BB00"
   description: >-
     PR that changes 10-29 lines, ignoring generated files.
 - name: size/M
-  color: "eebb00"
+  color: "EEBB00"
   description: >-
     PR that changes 30-99 lines, ignoring generated files.
 - name: size/L
-  color: "ee9900"
+  color: "EE9900"
   description: >-
     PR that changes 100-499 lines, ignoring generated files.
 - name: size/XL
-  color: "ee5500"
+  color: "EE5500"
   description: >-
     PR that changes 500-999 lines, ignoring generated files.
 - name: size/XXL
-  color: "ee0000"
+  color: "EE0000"
   description: >-
     PR that changes 1000+ lines, ignoring generated files.
+
 # Uncategorized
 - name: action/automerge
   color: "5319E7"
   description: >-
-    PR that has been autoMerged by Renovate
+    PR that has been AutoMerged by Renovate
+- name: bug
+  color: "EE0701"
+  description: >-
+    Something isn't working
+- name: documentation
+  color: "0075CA"
+  description: >-
+    Improvements or additions to documentation
 - name: do-not-merge
-  color: "ee0701"
+  color: "EE0701"
+- name: enhancement
+  color: "A2EEEF"
+  description: >-
+    New feature or request
 - name: link-checker
   color: "7B55D7"
+- name: question
+  color: "D876E3"
+  description: >-
+    Further information is requested
