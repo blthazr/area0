@@ -11,5 +11,7 @@ resources:
   - blueprints
   - profiles
   - helm-release.yaml
+  - persistent-volume.yaml
+  - persistent-volume-claim.yaml
   - rbac.yaml
   - secret.sops.yaml

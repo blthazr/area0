@@ -13,15 +13,3 @@ spec:
     path: "${NAS_NFS_PATH}/backup/k10"
   persistentVolumeReclaimPolicy: Retain
   storageClassName: k10-backup-nfs
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: k10-backups
-spec:
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 1Mi
-  storageClassName: k10-backup-nfs
