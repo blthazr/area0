@@ -1,17 +1,20 @@
 {
   "packageRules": [
     {
-      "description": "Enable automerge for github action tags",
+      "description": "Automerge github action tags",
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeType": "pr",
       "matchDatasources": ["github-tags"],
       "matchPackageNames": ["renovatebot/github-action"],
-      "matchUpdateTypes": ["minor", "patch"],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+      ],
       "requiredStatusChecks": null,
     },
     {
-      "description": "Enable scheduled automerge for media apps",
+      "description": "Automerge public media apps during maintenance window",
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeType": "pr",
@@ -20,19 +23,20 @@
         "helm",
       ],
       "matchPackagePatterns": [
+        "dizquetv",
         "overseerr",
         "plex",
-        "tautulli",
       ],
       "matchUpdateTypes": [
         "minor",
         "patch",
       ],
       "requiredStatusChecks": null,
-      "schedule": ["after 3am and before 7am"],
+      "schedule": ["after 3am, before 6am"],
+      "stabilityDays": 1,
     },
     {
-      "description": "Enable automerge for download apps",
+      "description": "Automerge apps anytime",
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeType": "pr",
@@ -41,6 +45,7 @@
         "helm",
       ],
       "matchPackagePatterns": [
+        "bazarr",
         "gaps",
         "lidarr",
         "prowlarr",
@@ -48,6 +53,9 @@
         "readarr",
         "sabnzbd",
         "sonarr",
+        "tautulli",
+        "teslamate",
+        "theme-park",
       ],
       "matchUpdateTypes": [
         "minor",
@@ -56,7 +64,7 @@
       "requiredStatusChecks": null,
     },
     {
-      "description": "Enable automerge for observability apps",
+      "description": "Automerge observability apps during maintenance window",
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeType": "pr",
@@ -75,6 +83,8 @@
         "patch",
       ],
       "requiredStatusChecks": null,
+      "schedule": ["after 3am, before 6am"],
+      "stabilityDays": 2,
     },
   ],
 }
