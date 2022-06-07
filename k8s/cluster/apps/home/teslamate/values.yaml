@@ -22,10 +22,6 @@ ingress:
     tls:
       - hosts:
           - *host
-persistence:
-  config:
-    enabled: true
-    existingClaim: teslamate-config-v1
 postgresql:
   enabled: true
   image:
