@@ -8,4 +8,5 @@ resources:
   - k10-disaster-recovery.yaml
   - media.yaml
   - observability.yaml
+  - pod-spec-override.yaml
   - secret.sops.yaml
