@@ -26,8 +26,11 @@ data:
     [hass]
     remotePath = volume:volume_smartstore/$_index_name
 
-    [unifi]
+    [linux]
     remotePath = volume:volume_smartstore/$_index_name
 
     [pihole]
+    remotePath = volume:volume_smartstore/$_index_name
+
+    [unifi]
     remotePath = volume:volume_smartstore/$_index_name
