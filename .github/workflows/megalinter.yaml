@@ -30,7 +30,29 @@ jobs:
         env:
           ANSIBLE_ANSIBLE_LINT_CONFIG_FILE: .github/linters/.ansible-lint
           ANSIBLE_DIRECTORY: ansible
-          ENABLE_LINTERS: ACTION_ACTIONLINT, ANSIBLE_ANSIBLE_LINT, BASH_SHELLCHECK, COPYPASTE_JSCPD, CREDENTIALS_SECRETLINT, DOCKERFILE_HADOLINT, ENV_DOTENV_LINTER, GIT_GIT_DIFF, JSON_JSONLINT, KUBERNETES_KUBEVAL, MARKDOWN_MARKDOWNLINT, TERRAFORM_TFLINT, YAML_YAMLLINT
+          ENABLE_LINTERS: |-
+            ${{
+              join(
+                fromJSON('
+                  [
+                    "ACTION_ACTIONLINT",
+                    "ANSIBLE_ANSIBLE_LINT",
+                    "BASH_SHELLCHECK",
+                    "COPYPASTE_JSCPD",
+                    "CREDENTIALS_SECRETLINT",
+                    "DOCKERFILE_HADOLINT",
+                    "ENV_DOTENV_LINTER",
+                    "GIT_GIT_DIFF",
+                    "JSON_JSONLINT",
+                    "KUBERNETES_KUBEVAL",
+                    "MARKDOWN_MARKDOWNLINT",
+                    "TERRAFORM_TFLINT",
+                    "YAML_YAMLLINT"
+                  ]
+                '),
+                ','
+              )
+            }}
           GITHUB_TOKEN: "${{ steps.generate-token.outputs.token }}"
           KUBERNETES_DIRECTORY: k8s
           KUBERNETES_KUBEVAL_ARGUMENTS: --ignore-missing-schemas
