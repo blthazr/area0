@@ -28,16 +28,18 @@ jobs:
           private_key: "${{ secrets.BOT_PRIVATE_KEY }}"
       - name: Run MegaLinter
         env:
-          ANSIBLE_ANSIBLE_LINT_CONFIG_FILE: .ansible-lint
+          ANSIBLE_ANSIBLE_LINT_CONFIG_FILE: .github/linters/.ansible-lint
           ANSIBLE_DIRECTORY: ansible
-          ENABLE_LINTERS: ACTION_ACTIONLINT, ANSIBLE_ANSIBLE_LINT, BASH_SHELLCHECK, DOCKERFILE_HADOLINT, ENV_DOTENV_LINTER, GIT_GIT_DIFF, JSON_JSONLINT, KUBERNETES_KUBEVAL, MARKDOWN_MARKDOWNLINT, TERRAFORM_TFLINT, YAML_YAMLLINT
+          ENABLE_LINTERS: ACTION_ACTIONLINT, ANSIBLE_ANSIBLE_LINT, BASH_SHELLCHECK, COPYPASTE_JSCPD, CREDENTIALS_SECRETLINT, DOCKERFILE_HADOLINT, ENV_DOTENV_LINTER, GIT_GIT_DIFF, JSON_JSONLINT, KUBERNETES_KUBEVAL, MARKDOWN_MARKDOWNLINT, TERRAFORM_TFLINT, YAML_YAMLLINT
           GITHUB_TOKEN: "${{ steps.generate-token.outputs.token }}"
           KUBERNETES_DIRECTORY: k8s
           KUBERNETES_KUBEVAL_ARGUMENTS: --ignore-missing-schemas
-          MARKDOWN_MARKDOWNLINT_CONFIG_FILE: .markdownlint.yaml
-          TERRAFORM_TFLINT_CONFIG_FILE: .tflint.hcl
+          KUBERNETES_KUBEVAL_FILTER_REGEX_INCLUDE: "(k8s/cluster)"
+          MARKDOWN_MARKDOWNLINT_CONFIG_FILE: .github/linters/.markdownlint.yaml
+          PRINT_ALPACA: false
+          TERRAFORM_TFLINT_CONFIG_FILE: .github/linters/.tflint.hcl
           VALIDATE_ALL_CODEBASE: ${{ github.event_name == 'workflow_dispatch' }}
-          YAML_YAMLLINT_CONFIG_FILE: .yamllint.yaml
+          YAML_YAMLLINT_CONFIG_FILE: .github/linters/.yamllint.yaml
         uses: megalinter/megalinter/flavors/terraform@v5
       - name: Archive production artifacts
         if: ${{ success() }} || ${{ failure() }}
