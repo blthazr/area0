@@ -5,3 +5,4 @@ resources:
   - download.yaml
   - game.yaml
   - home.yaml
+  - media.yaml

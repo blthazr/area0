@@ -6,3 +6,4 @@ resources:
   - game.yaml
   - home.yaml
   - k10-disaster-recovery.yaml
+  - media.yaml
