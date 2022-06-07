@@ -9,7 +9,6 @@ configMapGenerator:
       - values.yaml
 resources:
   - blueprints
-  - policies
   - profiles
   - helm-release.yaml
   - persistent-volume.yaml
