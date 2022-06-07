@@ -6,3 +6,4 @@ resources:
   - game.yaml
   - home.yaml
   - media.yaml
+  - observability.yaml
