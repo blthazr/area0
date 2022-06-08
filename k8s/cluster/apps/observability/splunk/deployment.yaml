@@ -17,7 +17,7 @@ spec:
   template:
     metadata:
       annotations:
-        configmap.reloader.stakater.com/reload: splunk-bootstrap
+        configmap.reloader.stakater.com/reload: splunk-config
       labels:
         app.kubernetes.io/name: *app
         app.kubernetes.io/instance: *app
@@ -86,9 +86,8 @@ spec:
               mountPath: /opt/splunk/etc
             - name: splunk-var
               mountPath: /opt/splunk/var
-            - name: bootstrap
-              mountPath: "/opt/splunk-etc/system/local"
-              readOnly: true
+            - name: splunk-config
+              mountPath: /opt/splunk/etc/apps/splunk-config/default
       hostname: splunk
       volumes:
         - name: splunk-etc
@@ -97,9 +96,6 @@ spec:
         - name: splunk-var
           persistentVolumeClaim:
             claimName: splunk-var-v1
-        - name: bootstrap
+        - name: splunk-config
           configMap:
-            name: splunk-bootstrap
-            items:
-              - key: "indexes.conf"
-                path: "indexes.conf"
+            name: splunk-config

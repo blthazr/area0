@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: splunk-bootstrap
+  name: splunk-config
 data:
   indexes.conf: |
     [default]
