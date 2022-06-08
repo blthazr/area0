@@ -87,7 +87,7 @@ spec:
             - name: splunk-var
               mountPath: /opt/splunk/var
             - name: splunk-config
-              mountPath: /opt/splunk/etc/apps/splunk-config/default
+              mountPath: /opt/splunk-etc/apps/splunk-config/default
               readOnly: true
       hostname: splunk
       volumes:
