@@ -5,6 +5,7 @@
 ansible/
 terraform/
 tools/
+.envrc
 .gitattributes
 .gitignore
 .pre-commit-config.yaml
