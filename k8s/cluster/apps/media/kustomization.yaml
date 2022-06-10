@@ -4,6 +4,7 @@ kind: Kustomization
 namespace: media
 resources:
   - dizquetv
+  - mylar
   - overseerr
   - plex
   - tautulli
