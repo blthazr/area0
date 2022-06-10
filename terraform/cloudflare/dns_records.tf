@@ -25,18 +25,9 @@ resource "cloudflare_record" "cname_root" {
   proxied = true
 }
 
-resource "cloudflare_record" "cname_www" {
+resource "cloudflare_record" "cname_vpn" {
   zone_id = lookup(data.cloudflare_zones.domain.zones[0], "id")
-  name    = "www"
-  type    = "CNAME"
-  value   = "hsv-1.${data.sops_file.cloudflare_secrets.data["cloudflare_domain"]}"
-  ttl     = 1
-  proxied = true
-}
-
-resource "cloudflare_record" "cname_wireguard" {
-  zone_id = lookup(data.cloudflare_zones.domain.zones[0], "id")
-  name    = "wg"
+  name    = "vpn"
   type    = "CNAME"
   value   = "hsv-1.${data.sops_file.cloudflare_secrets.data["cloudflare_domain"]}"
   ttl     = 1
