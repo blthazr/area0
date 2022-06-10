@@ -4,31 +4,32 @@ kind: CronJob
 metadata:
   name: &app cloudflare-ddns
 spec:
+  schedule: "*/15 * * * *"
   concurrencyPolicy: "Forbid"
+  successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 5
   jobTemplate:
     spec:
       backoffLimit: 3
+      ttlSecondsAfterFinished: 300
       template:
         spec:
           automountServiceAccountToken: false
+          restartPolicy: Never
           containers:
             - name: *app
-              command:
-                - "/bin/bash"
-                - &scriptPath "/app/cloudflare-ddns.sh"
+              image: ghcr.io/k8s-at-home/kubectl:v1.24.1
               envFrom:
                 - secretRef:
                     name: *app
-                - secretRef:
-                    name: cluster-secrets
-              image: ghcr.io/k8s-at-home/kubectl:v1.24.1
+              command:
+                - "/bin/bash"
+                - &scriptPath "/app/cloudflare-ddns.sh"
               volumeMounts:
                 - name: *app
                   mountPath: *scriptPath
-                  readOnly: true
                   subPath: &scriptName cloudflare-ddns.sh
-          restartPolicy: Never
+                  readOnly: true
           volumes:
             - name: *app
               projected:
@@ -39,6 +40,3 @@ spec:
                       items:
                         - key: *scriptName
                           path: *scriptName
-      ttlSecondsAfterFinished: 300
-  schedule: "*/15 * * * *"
-  successfulJobsHistoryLimit: 3
