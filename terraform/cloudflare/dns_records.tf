@@ -7,9 +7,9 @@ data "http" "ipv4" {
 # base records
 #
 
-resource "cloudflare_record" "apex_ipv4" {
+resource "cloudflare_record" "apex_hsv_1" {
   zone_id = lookup(data.cloudflare_zones.domain.zones[0], "id")
-  name    = "ipv4"
+  name    = "hsv-1"
   type    = "A"
   value   = chomp(data.http.ipv4.body)
   ttl     = 1
@@ -20,7 +20,7 @@ resource "cloudflare_record" "cname_root" {
   zone_id = lookup(data.cloudflare_zones.domain.zones[0], "id")
   name    = data.sops_file.cloudflare_secrets.data["cloudflare_domain"]
   type    = "CNAME"
-  value   = "ipv4.${data.sops_file.cloudflare_secrets.data["cloudflare_domain"]}"
+  value   = "hsv-1.${data.sops_file.cloudflare_secrets.data["cloudflare_domain"]}"
   ttl     = 1
   proxied = true
 }
@@ -29,7 +29,7 @@ resource "cloudflare_record" "cname_www" {
   zone_id = lookup(data.cloudflare_zones.domain.zones[0], "id")
   name    = "www"
   type    = "CNAME"
-  value   = "ipv4.${data.sops_file.cloudflare_secrets.data["cloudflare_domain"]}"
+  value   = "hsv-1.${data.sops_file.cloudflare_secrets.data["cloudflare_domain"]}"
   ttl     = 1
   proxied = true
 }
@@ -38,7 +38,7 @@ resource "cloudflare_record" "cname_wireguard" {
   zone_id = lookup(data.cloudflare_zones.domain.zones[0], "id")
   name    = "wg"
   type    = "CNAME"
-  value   = "ipv4.${data.sops_file.cloudflare_secrets.data["cloudflare_domain"]}"
+  value   = "hsv-1.${data.sops_file.cloudflare_secrets.data["cloudflare_domain"]}"
   ttl     = 1
   proxied = false
 }

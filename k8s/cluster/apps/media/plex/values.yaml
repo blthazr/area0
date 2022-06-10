@@ -7,7 +7,7 @@ image:
 ingress:
   main:
     annotations:
-      external-dns.alpha.kubernetes.io/target: "ipv4.${SECRET_DOMAIN}"
+      external-dns.alpha.kubernetes.io/target: "hsv-1.${SECRET_DOMAIN}"
       external-dns/is-public: "true"
       nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
       nginx.ingress.kubernetes.io/configuration-snippet: |

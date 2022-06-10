@@ -21,7 +21,7 @@ image:
   tag: frontend-v1.0.0beta-3
 ingress:
   annotations:
-    external-dns.alpha.kubernetes.io/target: "ipv4.${SECRET_DOMAIN}"
+    external-dns.alpha.kubernetes.io/target: "hsv-1.${SECRET_DOMAIN}"
     external-dns/is-public: "true"
   main:
     enabled: true
