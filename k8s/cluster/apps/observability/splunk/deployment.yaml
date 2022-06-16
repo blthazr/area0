@@ -39,7 +39,7 @@ spec:
               value: "true"
             - name: SPLUNK_HOSTNAME
               value: *app
-          image: splunk/splunk:8.2.6
+          image: splunk/splunk:9.0.0
           imagePullPolicy: IfNotPresent
           livenessProbe:
             exec:
