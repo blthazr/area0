@@ -3,7 +3,7 @@ env:
   TZ: "${CLUSTER_TIME_ZONE}"
 image:
   repository: linuxserver/grocy
-  tag: version-v3.1.2
+  tag: 3.3.1
 ingress:
   main:
     annotations:
