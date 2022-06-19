@@ -4,13 +4,13 @@ kind: Kustomization
 configMapGenerator:
   - name: ceph-cluster-dashboard
     files:
-      - ceph-cluster-dashboard.json=https://raw.githubusercontent.com/onedr0p/home-ops/main/cluster/apps/rook-ceph/dashboard/ceph-cluster-dashboard.json
+      - ceph-cluster-dashboard.json
   - name: ceph-osd-dashboard
     files:
-      - ceph-osd-dashboard.json=https://raw.githubusercontent.com/onedr0p/home-ops/main/cluster/apps/rook-ceph/dashboard/ceph-osd-dashboard.json
+      - ceph-osd-dashboard.json
   - name: ceph-pools-dashboard
     files:
-      - ceph-pools-dashboard.json=https://raw.githubusercontent.com/onedr0p/home-ops/main/cluster/apps/rook-ceph/dashboard/ceph-pools-dashboard.json
+      - ceph-pools-dashboard.json
 generatorOptions:
   annotations:
     grafana_folder: Rook Ceph
