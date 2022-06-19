@@ -1,6 +1,6 @@
 ---
 fullnameOverride: k8s-gateway
-domain: ${SECRET_DOMAIN}
+domain: "${SECRET_DOMAIN}"
 ttl: 1
 service:
   annotations:
