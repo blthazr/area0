@@ -42,10 +42,6 @@
   "helm-values": {
     "fileMatch": ["k8s/cluster/.+\\.ya?ml$"],
   },
-  // configure helmv3 manager
-  "helmv3": {
-    "fileMatch": ["k8s/charts/.+/Chart\\.ya?ml$"],
-  },
   // configure kubernetes manager
   "kubernetes": {
     "fileMatch": ["k8s/cluster/.+\\.ya?ml$"],
