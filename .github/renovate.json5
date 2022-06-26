@@ -51,8 +51,8 @@
     {
       "description": "configure regex manager",
       "fileMatch": [
-        "k8s/cluster/.+\\.ya?ml$",
         "ansible/.+\\.ya?ml$",
+        "k8s/cluster/.+\\.ya?ml$",
       ],
       "matchStrings": [
         "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( versioning=(?<versioning>\\S+))?\n.*?\"(?<currentValue>.*)\"\n",
@@ -62,7 +62,9 @@
     },
     {
       "description": "configure regex manager for custom resource definitions",
-      "fileMatch": ["cluster/core/crds/.+\\.ya?ml$"],
+      "fileMatch": [
+        "k8s/cluster/core/crds/.+\\.ya?ml$",
+      ],
       "matchStrings": [
         "registryUrl=(?<registryUrl>\\S+) chart=(?<depName>\\S+)\n.*?(?<currentValue>[^-\\s]*)\n",
         "datasource=(?<datasource>\\S+) image=(?<depName>\\S+)\n.*?-\\s(.*?)\/(?<currentValue>[^/]+)\/[^/]+\n",
