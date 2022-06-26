@@ -4,7 +4,7 @@
       "description": "Use loose versioning for certain packages",
       "matchDatasources": [
         "docker",
-        "github-releases"
+        "github-releases",
       ],
       "matchPackageNames": [
         "ghcr.io/k8s-at-home/plex",

@@ -1,7 +1,7 @@
 {
   "packageRules": [
     {
-      "description": "Automerge github action tags",
+      "description": "Auto merge github action tags",
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeType": "pr",
@@ -14,7 +14,7 @@
       "requiredStatusChecks": null,
     },
     {
-      "description": "Automerge public media apps during maintenance window",
+      "description": "Auto merge key media apps only during maintenance window",
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeType": "pr",
@@ -36,7 +36,7 @@
       "stabilityDays": 1,
     },
     {
-      "description": "Automerge apps anytime",
+      "description": "Auto merge apps anytime",
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeType": "pr",
@@ -64,7 +64,7 @@
       "requiredStatusChecks": null,
     },
     {
-      "description": "Automerge observability apps during maintenance window",
+      "description": "Auto merge key observability apps only during maintenance window",
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeType": "pr",

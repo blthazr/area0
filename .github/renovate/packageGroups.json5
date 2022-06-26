@@ -1,31 +1,44 @@
 {
   "packageRules": [
     {
+      "description": "Cert-Manager CRD kustomization image and chart",
+      "group": { "commitMessageTopic": "{{{groupName}}} group" },
+      "groupName": "Cert-Manager",
+      "matchDatasources": [
+        "docker",
+        "helm",
+      ],
+      "matchPackagePatterns": [
+        "cert-manager",
+      ],
+      "separateMinorPatch": true,
+    },
+    {
+      "description": "External Snapshotter CRD kustomization image and chart",
+      "group": { "commitMessageTopic": "{{{groupName}}} group" },
+      "groupName": "External Snapshotter",
+      "matchDatasources": [
+        "docker",
+        "github-tags",
+      ],
+      "matchPackagePatterns": [
+        "external-snapshotter",
+        "snapshot-controller",
+      ],
+      "separateMinorPatch": true,
+    },
+    {
       "description": "Rook-Ceph image and chart",
       "group": { "commitMessageTopic": "{{{groupName}}} group" },
       "groupName": "Rook Ceph",
       "matchDatasources": [
         "docker",
-        "helm"
+        "helm",
       ],
       "matchPackagePatterns": [
-        "rook.ceph"
+        "rook.ceph",
       ],
-      "separateMinorPatch": true
-    },
-    {
-      "description": "System Upgrade Controller CRDs and image",
-      "group": { "commitMessageTopic": "{{{groupName}}} group" },
-      "groupName": "System Upgrade Controller",
-      "matchDatasources": [
-        "docker",
-        "github-tags",
-        "github-releases"
-      ],
-      "matchPackagePatterns": [
-        "rancher/system-upgrade-controller"
-      ],
-      "separateMinorPatch": true
+      "separateMinorPatch": true,
     },
     {
       "description": "Thanos image and chart versions",
@@ -34,16 +47,15 @@
       "matchDatasources": [
         "docker",
         "github-releases",
-        "helm"
+        "helm",
       ],
       "matchPackagePatterns": [
-        "thanos"
+        "thanos",
       ],
       "matchUpdateTypes": [
-        "minor", "patch"
+        "minor", "patch",
       ],
       "separateMinorPatch": false,
-      "stabilityDays": 3
-    }
-  ]
+    },
+  ],
 }

@@ -7,6 +7,7 @@
     ":disableRateLimiting",
     ":enablePreCommit",
     ":semanticCommits",
+    "github>christopherburnham/area0//.github/renovate/allowedVersions.json5",
     "github>christopherburnham/area0//.github/renovate/autoMerge.json5",
     "github>christopherburnham/area0//.github/renovate/commitMessage.json5",
     "github>christopherburnham/area0//.github/renovate/labels.json5",
@@ -57,16 +58,16 @@
         "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( versioning=(?<versioning>\\S+))?\n.*?\"(?<currentValue>.*)\"\n",
       ],
       "datasourceTemplate": "{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}",
-      "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
+      "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}",
     },
     {
       "description": "configure regex manager for custom resource definitions",
       "fileMatch": ["cluster/core/crds/.+\\.ya?ml$"],
       "matchStrings": [
         "registryUrl=(?<registryUrl>\\S+) chart=(?<depName>\\S+)\n.*?(?<currentValue>[^-\\s]*)\n",
-        "datasource=(?<datasource>\\S+) image=(?<depName>\\S+)\n.*?-\\s(.*?)\/(?<currentValue>[^/]+)\/[^/]+\n"
+        "datasource=(?<datasource>\\S+) image=(?<depName>\\S+)\n.*?-\\s(.*?)\/(?<currentValue>[^/]+)\/[^/]+\n",
       ],
-      "datasourceTemplate": "{{#if datasource}}{{{datasource}}}{{else}}helm{{/if}}"
-    }
+      "datasourceTemplate": "{{#if datasource}}{{{datasource}}}{{else}}helm{{/if}}",
+    },
   ],
 }
