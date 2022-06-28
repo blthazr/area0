@@ -9,7 +9,11 @@ spec:
     provider: sops
     secretRef:
       name: sops-age
-  interval: 10m0s
+  dependsOn:
+    - name: cluster-charts
+    - name: cluster-config
+    - name: cluster-crds
+  interval: 10m
   path: ./k8s/cluster/core
   postBuild:
     substitute: {}

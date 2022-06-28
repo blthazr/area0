@@ -8,12 +8,12 @@ spec:
   ignore: |
     # exclude all
     /*
-    # include crds
+    # include crd directory
     !/deploy/examples/crds.yaml
   interval: 12h
   ref:
     # renovate: registryUrl=https://charts.rook.io/release chart=rook-ceph
-    tag: "v1.9.2"
+    tag: v1.9.2
   url: https://github.com/rook/rook.git
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2

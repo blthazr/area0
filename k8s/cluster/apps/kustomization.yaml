@@ -16,4 +16,3 @@ resources:
   - observability
   - rook-ceph
   - system-upgrade
-  - vpn
