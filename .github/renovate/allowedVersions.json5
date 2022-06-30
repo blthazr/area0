@@ -1,9 +1,0 @@
-{
-  "packageRules": [
-    {
-      "allowedVersions": "<10",
-      "matchDatasources": ["docker"],
-      "matchPackageNames": ["docker.io/kopia/kopia"],
-    },
-  ],
-}
