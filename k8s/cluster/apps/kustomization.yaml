@@ -12,3 +12,4 @@ resources:
   - media
   - network
   - observability
+  - system-upgrade
