@@ -1,0 +1,17 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: GitRepository
+metadata:
+  name: rook-ceph
+  namespace: flux-system
+spec:
+  ignore: |
+    # exclude all
+    /*
+    # include crd directory
+    !/deploy/examples/crds.yaml
+  interval: 12h
+  ref:
+    # renovate: registryUrl=https://charts.rook.io/release chart=rook-ceph
+    tag: v1.9.2
+  url: https://github.com/rook/rook.git
