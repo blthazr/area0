@@ -2,7 +2,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: GitRepository
 metadata:
-  name: rook-ceph
+  name: rook-ceph-source
   namespace: flux-system
 spec:
   ignore: |

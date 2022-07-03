@@ -9,5 +9,5 @@ spec:
   prune: false
   sourceRef:
     kind: GitRepository
-    name: rook-ceph-crd-source
+    name: rook-ceph-source
   wait: true
