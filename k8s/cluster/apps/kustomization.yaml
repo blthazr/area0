@@ -11,3 +11,4 @@ resources:
   - kube-system
   - media
   - network
+  - observability
