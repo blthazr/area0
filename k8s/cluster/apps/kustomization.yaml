@@ -6,5 +6,6 @@ resources:
   - game
   - flux-system
   - home
+  - home-automation
   - kube-system
   - network
