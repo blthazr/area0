@@ -15,5 +15,6 @@ resources:
   - k8s-gateway.yaml
   - kasten.yaml
   - metallb.yaml
+  - metrics-server.yaml
   - prometheus-community.yaml
   - rook-ceph.yaml
