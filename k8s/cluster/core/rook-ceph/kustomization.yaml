@@ -5,5 +5,5 @@ namespace: rook-ceph
 resources:
   - namespace.yaml
   - cluster
-  - dashboard
   - operator
+  - dashboard
