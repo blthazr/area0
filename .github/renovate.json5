@@ -54,6 +54,7 @@
       "description": "configure regex manager for custom resource definitions",
       "fileMatch": [
         "k8s/cluster/crds/.+\\.ya?ml$",
+        "k8s/cluster/sources/git/.+\\.ya?ml$",
       ],
       "matchStrings": [
         "registryUrl=(?<registryUrl>\\S+) chart=(?<depName>\\S+)\n.*?(?<currentValue>[^-\\s]*)\n",
