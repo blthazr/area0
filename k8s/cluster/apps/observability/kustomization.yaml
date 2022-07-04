@@ -6,4 +6,5 @@ resources:
   - namespace.yaml
   - cribl-stream
   - grafana
+  - kube-prometheus-stack
   - splunk
