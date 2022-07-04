@@ -13,3 +13,4 @@ resources:
   - persistent-volume-claim.yaml
   - rbac.yaml
   - secret.sops.yaml
+  - profiles
