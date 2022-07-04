@@ -4,3 +4,5 @@ kind: Kustomization
 namespace: game
 resources:
   - namespace.yaml
+  - minecraft-bedrock-creative
+  - minecraft-bedrock-survival

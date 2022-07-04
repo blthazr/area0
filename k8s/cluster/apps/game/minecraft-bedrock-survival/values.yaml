@@ -1,0 +1,17 @@
+---
+minecraftServer:
+  eula: "TRUE"
+  version: "LATEST"
+  difficulty: easy
+  ops: "${SECRET_MINECRAFT_BEDROCK_SURVIVAL_OPS}"
+  levelName: world
+  gameMode: survival
+  serverName: "\u00A75\u00A7lHungry \u00A72\u00A7lGames"
+  cheats: true
+  serviceType: LoadBalancer
+  loadBalancerIP: "${SVC_MINECRAFT_BEDROCK_SURVIVAL_ADDRESS}"
+  externalTrafficPolicy: Local
+persistence:
+  dataDir:
+    enabled: true
+    existingClaim: minecraft-bedrock-survival-config-v1
