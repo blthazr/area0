@@ -22,3 +22,4 @@ resources:
   - prometheus-community.yaml
   - rook-ceph.yaml
   - splunk-otel-collector.yaml
+  - stakater.yaml
