@@ -1,0 +1,40 @@
+---
+env:
+  TZ: "${CLUSTER_TIME_ZONE}"
+image:
+  repository: gotson/komga
+  tag: 0.154.4
+ingress:
+  main:
+    annotations:
+      external-dns.alpha.kubernetes.io/hostname: "comics.${SECRET_DOMAIN}"
+      external-dns.alpha.kubernetes.io/target: "hsv-1.${SECRET_DOMAIN}"
+      external-dns/is-public: "true"
+    enabled: true
+    hosts:
+      - host: &host "comics.${SECRET_DOMAIN}"
+        paths:
+          - path: /
+            pathType: Prefix
+    ingressClassName: nginx
+    tls:
+      - hosts:
+          - *host
+nodeSelector:
+  node-role.kubernetes.io/media: "true"
+persistence:
+  config:
+    enabled: true
+    existingClaim: komga-config-v1
+  media:
+    enabled: true
+    mountPath: /media
+    readOnly: false
+    type: custom
+    volumeSpec:
+      nfs:
+        server: "${MEDIA_SERVER_ADDRESS}"
+        path: "${MEDIA_SERVER_NFS_PATH}"
+podSecurityContext:
+  supplementalGroups:
+    - 100

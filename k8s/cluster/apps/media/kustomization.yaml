@@ -5,6 +5,7 @@ namespace: media
 resources:
   - namespace.yaml
   - dizquetv
+  - komga
   - mylar
   - plex
   - tautulli
