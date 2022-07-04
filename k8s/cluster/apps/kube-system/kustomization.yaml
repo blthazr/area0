@@ -8,4 +8,5 @@ resources:
   - external-snapshotter
   - intel-gpu-plugin
   - metrics-server
+  - reflector
   - reloader
