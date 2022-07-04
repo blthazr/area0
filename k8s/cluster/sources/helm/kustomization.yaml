@@ -18,5 +18,6 @@ resources:
   - metrics-server.yaml
   - minecraft-server.yaml
   - node-feature-discovery.yaml
+  - otel-collector.yaml
   - prometheus-community.yaml
   - rook-ceph.yaml
