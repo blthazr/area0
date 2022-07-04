@@ -1,0 +1,36 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: splunk-config
+data:
+  indexes.conf: |
+    [default]
+    repFactor = auto
+    maxDataSize = auto
+    homePath = $SPLUNK_DB/$_index_name/db
+    coldPath = $SPLUNK_DB/$_index_name/colddb
+    thawedPath = $SPLUNK_DB/$_index_name/thaweddb
+    remotePath = volume:volume_smartstore/$_index_name
+
+    [volume:volume_smartstore]
+    storageType = remote
+    path = s3://splunk-s2/
+    remote.s3.access_key = ${SECRET_MINIO_ACCESS_KEY}
+    remote.s3.secret_key= ${SECRET_MINIO_SECRET_KEY}
+    remote.s3.endpoint = http://${MINIO_ADDRESS}:9000
+
+    [main]
+    remotePath = volume:volume_smartstore/$_index_name
+
+    [hass]
+    remotePath = volume:volume_smartstore/$_index_name
+
+    [linux]
+    remotePath = volume:volume_smartstore/$_index_name
+
+    [pihole]
+    remotePath = volume:volume_smartstore/$_index_name
+
+    [unifi]
+    remotePath = volume:volume_smartstore/$_index_name
