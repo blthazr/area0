@@ -7,3 +7,4 @@ resources:
   - bazarr
   - gaps
   - lidarr
+  - prowlarr
