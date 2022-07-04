@@ -19,11 +19,11 @@ spec:
   install:
     createNamespace: true
     remediation:
-      retries: 3
+      retries: 5
   interval: 15m
   upgrade:
     remediation:
-      retries: 3
+      retries: 5
   valuesFrom:
     - kind: ConfigMap
       name: thanos-helm-values

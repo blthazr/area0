@@ -17,12 +17,12 @@ spec:
     crds: CreateReplace
     createNamespace: true
     remediation:
-      retries: 3
+      retries: 5
   interval: 15m
   upgrade:
     crds: CreateReplace
     remediation:
-      retries: 3
+      retries: 5
   valuesFrom:
     - kind: ConfigMap
       name: node-feature-discovery-helm-values
