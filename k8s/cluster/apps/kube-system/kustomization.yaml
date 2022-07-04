@@ -6,5 +6,6 @@ resources:
   - namespace.yaml
   - cert-manager
   - external-snapshotter
+  - intel-gpu-plugin
   - metrics-server
   - reloader
