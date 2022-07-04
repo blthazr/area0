@@ -1,0 +1,11 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pod-spec-override
+data:
+  override: |
+    kind: Pod
+    spec:
+      nodeSelector:
+        node-role.kubernetes.io/worker: "true"
