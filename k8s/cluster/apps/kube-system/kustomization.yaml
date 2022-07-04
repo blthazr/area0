@@ -6,3 +6,4 @@ resources:
   - namespace.yaml
   - cert-manager
   - external-snapshotter
+  - metrics-server
