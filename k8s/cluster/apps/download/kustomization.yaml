@@ -4,3 +4,4 @@ kind: Kustomization
 namespace: download
 resources:
   - namespace.yaml
+  - bazarr
