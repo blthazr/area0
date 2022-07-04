@@ -4,5 +4,6 @@ kind: Kustomization
 namespace: network
 resources:
   - namespace.yaml
+  - external-services
   - k8s-gateway
   - metallb
