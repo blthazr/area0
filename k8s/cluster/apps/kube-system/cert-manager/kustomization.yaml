@@ -10,3 +10,4 @@ configMapGenerator:
 resources:
   - dashboard
   - helm-release.yaml
+  - prometheus-rule.yaml
