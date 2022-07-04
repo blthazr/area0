@@ -6,6 +6,7 @@ resources:
   - cribl.yaml
   - deliveryhero.yaml
   - descheduler.yaml
+  - emberstack.yaml
   - jetstack.yaml
   - prometheus-community.yaml
   - rook-ceph.yaml
