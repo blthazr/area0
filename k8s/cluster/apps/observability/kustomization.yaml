@@ -5,3 +5,4 @@ namespace: observability
 resources:
   - namespace.yaml
   - cribl-stream
+  - grafana
