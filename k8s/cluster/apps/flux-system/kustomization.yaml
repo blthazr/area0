@@ -5,4 +5,5 @@ namespace: flux-system
 resources:
   - namespace.yaml
   - dashboard
+  - monitoring
   - webhook
