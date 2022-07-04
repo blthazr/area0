@@ -16,5 +16,6 @@ resources:
   - kasten.yaml
   - metallb.yaml
   - metrics-server.yaml
+  - minecraft-server.yaml
   - prometheus-community.yaml
   - rook-ceph.yaml
