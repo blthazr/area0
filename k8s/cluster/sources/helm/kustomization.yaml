@@ -9,6 +9,7 @@ resources:
   - emberstack.yaml
   - external-dns.yaml
   - grafana.yaml
+  - ingress-nginx.yaml
   - jetstack.yaml
   - prometheus-community.yaml
   - rook-ceph.yaml
