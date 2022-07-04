@@ -4,6 +4,7 @@ kind: Kustomization
 namespace: network
 resources:
   - namespace.yaml
+  - cloudflare-ddns
   - external-dns
   - external-services
   - k8s-gateway

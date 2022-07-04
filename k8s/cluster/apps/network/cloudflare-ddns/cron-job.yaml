@@ -1,0 +1,42 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: &app cloudflare-ddns
+spec:
+  concurrencyPolicy: "Forbid"
+  failedJobsHistoryLimit: 5
+  schedule: "*/15 * * * *"
+  successfulJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 3
+      template:
+        spec:
+          automountServiceAccountToken: false
+          containers:
+            - name: *app
+              command:
+                - "/bin/bash"
+                - &scriptPath "/app/cloudflare-ddns.sh"
+              envFrom:
+                - secretRef:
+                    name: *app
+              image: ghcr.io/k8s-at-home/kubectl:v1.24.1
+              volumeMounts:
+                - name: *app
+                  mountPath: *scriptPath
+                  subPath: &scriptName cloudflare-ddns.sh
+                  readOnly: true
+          restartPolicy: Never
+          volumes:
+            - name: *app
+              projected:
+                defaultMode: 0775
+                sources:
+                  - configMap:
+                      name: *app
+                      items:
+                        - key: *scriptName
+                          path: *scriptName
+      ttlSecondsAfterFinished: 300
