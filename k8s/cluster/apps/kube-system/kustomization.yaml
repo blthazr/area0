@@ -7,3 +7,4 @@ resources:
   - cert-manager
   - external-snapshotter
   - metrics-server
+  - reloader
