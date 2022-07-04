@@ -4,3 +4,4 @@ kind: Kustomization
 namespace: network
 resources:
   - namespace.yaml
+  - metallb
