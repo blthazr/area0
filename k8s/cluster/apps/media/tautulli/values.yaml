@@ -1,0 +1,36 @@
+---
+env:
+  TZ: "${CLUSTER_TIME_ZONE}"
+image:
+  repository: ghcr.io/k8s-at-home/tautulli
+  tag: v2.10.1
+ingress:
+  main:
+    annotations:
+      nginx.ingress.kubernetes.io/configuration-snippet: |
+        proxy_set_header Accept-Encoding "";
+        sub_filter '</head>' '<link rel="stylesheet" type="text/css" href="https://theme-park.${SECRET_DOMAIN}/css/base/tautulli/dark.css"></head>';
+        sub_filter_once on;
+    enabled: true
+    hosts:
+      - host: &host "tautulli.${SECRET_DOMAIN}"
+        paths:
+          - path: /
+            pathType: Prefix
+    ingressClassName: nginx
+    tls:
+      - hosts:
+          - *host
+persistence:
+  backup:
+    enabled: true
+    mountPath: /config/backups
+    readOnly: false
+    type: custom
+    volumeSpec:
+      nfs:
+        server: "${NAS_ADDRESS}"
+        path: "${NAS_NFS_PATH}/backup/app/tautulli"
+  config:
+    enabled: true
+    existingClaim: tautulli-config-v1
