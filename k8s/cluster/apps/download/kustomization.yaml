@@ -5,3 +5,4 @@ namespace: download
 resources:
   - namespace.yaml
   - bazarr
+  - gaps
