@@ -12,6 +12,7 @@ spec:
         kind: HelmRepository
         name: rook-ceph-charts
         namespace: flux-system
+      interval: 15m
   dependsOn:
     - name: rook-ceph-operator
       namespace: rook-ceph
@@ -19,7 +20,7 @@ spec:
     createNamespace: true
     remediation:
       retries: 5
-  interval: 5m
+  interval: 15m
   upgrade:
     remediation:
       retries: 5

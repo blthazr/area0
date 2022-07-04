@@ -12,6 +12,7 @@ spec:
         kind: HelmRepository
         name: ingress-nginx-charts
         namespace: flux-system
+      interval: 15m
   dependsOn:
     - name: cert-manager
       namespace: kube-system
