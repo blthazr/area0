@@ -1,0 +1,24 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  labels:
+    app.kubernetes.io/instance: stream
+    app.kubernetes.io/name: cribl-stream-leader
+  name: cribl-stream-leader
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: &host "stream.${SECRET_DOMAIN}"
+      http:
+        paths:
+          - backend:
+              service:
+                name: stream-cribl-stream-leader
+                port:
+                  number: 9000
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - *host
