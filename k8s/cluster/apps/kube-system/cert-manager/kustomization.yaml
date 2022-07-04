@@ -8,4 +8,5 @@ configMapGenerator:
     files:
       - values.yaml
 resources:
+  - dashboard
   - helm-release.yaml
