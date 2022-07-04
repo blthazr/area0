@@ -30,7 +30,7 @@ metrics:
       unknownQueueItems: true
     image:
       repository: ghcr.io/onedr0p/exportarr
-      tag: v1.0.0
+      tag: v1.1.0
   prometheusRule:
     enabled: false
   serviceMonitor:
