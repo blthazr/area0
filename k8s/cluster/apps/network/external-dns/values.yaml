@@ -1,0 +1,28 @@
+---
+domainFilters:
+  - "${SECRET_DOMAIN}"
+env:
+  - name: CF_API_TOKEN
+    valueFrom:
+      secretKeyRef:
+        name: external-dns-cloudflare-api
+        key: api-token
+extraArgs:
+  - --cloudflare-proxied
+  - --annotation-filter=external-dns/is-public in (true)
+interval: 15m
+logLevel: debug
+policy: sync
+provider: cloudflare
+resources:
+  limits:
+    memory: 250Mi
+  requests:
+    cpu: 25m
+    memory: 100Mi
+serviceMonitor:
+  enabled: true
+sources:
+  - ingress
+txtOwnerId: "default"
+txtPrefix: "k8s."
