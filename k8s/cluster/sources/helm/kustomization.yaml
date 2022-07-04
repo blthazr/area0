@@ -8,6 +8,7 @@ resources:
   - descheduler.yaml
   - emberstack.yaml
   - external-dns.yaml
+  - grafana.yaml
   - jetstack.yaml
   - prometheus-community.yaml
   - rook-ceph.yaml
