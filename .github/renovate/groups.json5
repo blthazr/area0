@@ -1,0 +1,75 @@
+{
+  "packageRules": [
+    {
+      "description": "Cert-Manager CRD kustomization image and chart",
+      "group": { "commitMessageTopic": "{{{groupName}}} group" },
+      "groupName": "Cert-Manager",
+      "matchDatasources": [
+        "docker",
+        "helm",
+      ],
+      "matchPackagePatterns": [
+        "cert-manager",
+      ],
+      "separateMinorPatch": true,
+    },
+    {
+      "description": "External Snapshotter CRD kustomization image and chart",
+      "group": { "commitMessageTopic": "{{{groupName}}} group" },
+      "groupName": "External Snapshotter",
+      "matchDatasources": [
+        "docker",
+        "github-tags",
+      ],
+      "matchPackagePatterns": [
+        "external-snapshotter",
+        "snapshot-controller",
+      ],
+      "separateMinorPatch": true,
+    },
+    {
+      "description": "Node Feature Discovery CRD kustomization image and chart",
+      "group": { "commitMessageTopic": "{{{groupName}}} group" },
+      "groupName": "Node Feature Discovery",
+      "matchDatasources": [
+        "helm",
+        "github-tags",
+      ],
+      "matchPackagePatterns": [
+       "node-feature-discovery",
+      ],
+      "separateMinorPatch": true,
+    },
+    {
+      "description": "Rook-Ceph image and chart",
+      "group": { "commitMessageTopic": "{{{groupName}}} group" },
+      "groupName": "Rook-Ceph",
+      "matchDatasources": [
+        "docker",
+        "helm",
+      ],
+      "matchPackagePatterns": [
+        "rook.ceph",
+      ],
+      "separateMinorPatch": true,
+    },
+    {
+      "description": "Thanos image and chart versions",
+      "group": { "commitMessageTopic": "{{{groupName}}} group" },
+      "groupName": "Thanos",
+      "matchDatasources": [
+        "docker",
+        "github-releases",
+        "helm",
+      ],
+      "matchPackagePatterns": [
+        "thanos",
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+      ],
+      "separateMinorPatch": false,
+    },
+  ],
+}

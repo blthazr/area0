@@ -1,0 +1,73 @@
+{
+  "packageRules": [
+    {
+      "description": "Auto merge scheduled apps during maintenance window",
+      "addLabels": ["action/automerge"],
+      "automerge": true,
+      "automergeType": "pr",
+      "matchDatasources": [
+        "docker",
+        "helm",
+      ],
+      "matchPackagePatterns": [
+        "dizquetv",
+        "grafana",
+        "kube-prometheus-stack",
+        "overseerr",
+        "plex",
+        "thanos",
+        "unifi-poller",
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+      ],
+      "requiredStatusChecks": null,
+      "schedule": ["after 3am, before 6am"],
+    },
+    {
+      "description": "Auto merge github actions",
+      "addLabels": ["action/automerge"],
+      "automerge": true,
+      "automergeType": "pr",
+      "matchDatasources": ["github-tags"],
+      "matchPackageNames": [
+        "lycheeverse/lychee-action",
+        "renovatebot/github-action",
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+      ],
+      "requiredStatusChecks": null,
+    },
+    {
+      "description": "Auto merge unscheduled apps",
+      "addLabels": ["action/automerge"],
+      "automerge": true,
+      "automergeType": "pr",
+      "matchDatasources": [
+        "docker",
+        "helm",
+      ],
+      "matchPackagePatterns": [
+        "bazarr",
+        "gaps",
+        "lidarr",
+        "prowlarr",
+        "radarr",
+        "readarr",
+        "sabnzbd",
+        "sonarr",
+        "tautulli",
+        "teslamate",
+        "theme-park",
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+      ],
+      "requiredStatusChecks": null,
+    }
+  ],
+}
