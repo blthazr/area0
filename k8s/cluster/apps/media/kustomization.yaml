@@ -4,6 +4,7 @@ kind: Kustomization
 namespace: media
 resources:
   - namespace.yaml
+  - audiobookshelf
   - dizquetv
   - komga
   - mylar
