@@ -4,6 +4,7 @@ kind: Kustomization
 namespace: media
 resources:
   - namespace.yaml
+  - dizquetv
   - mylar
   - plex
   - tautulli
