@@ -5,6 +5,7 @@ resources:
   - bitnami.yaml
   - cribl.yaml
   - deliveryhero.yaml
+  - descheduler.yaml
   - jetstack.yaml
   - prometheus-community.yaml
   - rook-ceph.yaml
