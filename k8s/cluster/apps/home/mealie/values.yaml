@@ -1,0 +1,49 @@
+---
+api:
+  env:
+    ALLOW_SIGNUP: false
+    BASE_URL: "https://recipes.${SECRET_DOMAIN}"
+    DEFAULT_EMAIL: "admin@${SECRET_DOMAIN}"
+    TZ: "${CLUSTER_TIME_ZONE}"
+  image:
+    repository: hkotel/mealie
+    tag: api-v1.0.0beta-3
+  volumeMounts:
+    - name: api-data
+      mountPath: /app/data/
+    - name: backup
+      mountPath: /app/data/backups
+env:
+  ALLOW_SIGNUP: "False"
+  TZ: "${CLUSTER_TIME_ZONE}"
+image:
+  repository: hkotel/mealie
+  tag: frontend-v1.0.0beta-3
+ingress:
+  annotations:
+    external-dns.alpha.kubernetes.io/target: "hsv-1.${SECRET_DOMAIN}"
+    external-dns/is-public: "true"
+  main:
+    enabled: true
+    hosts:
+      - host: &host "recipes.${SECRET_DOMAIN}"
+        paths:
+          - path: /
+            pathType: Prefix
+    ingressClassName: nginx
+    tls:
+      - hosts:
+          - *host
+persistence:
+  api-data:
+    enabled: true
+    existingClaim: mealie-config-v2
+  backup:
+    enabled: true
+    mountPath: /app/data/backups
+    readOnly: false
+    type: custom
+    volumeSpec:
+      nfs:
+        server: "${NAS_ADDRESS}"
+        path: "${NAS_NFS_PATH}/backup/app/mealie"
