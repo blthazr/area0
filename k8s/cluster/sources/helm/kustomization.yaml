@@ -11,5 +11,6 @@ resources:
   - grafana.yaml
   - ingress-nginx.yaml
   - jetstack.yaml
+  - k8s-at-home.yaml
   - prometheus-community.yaml
   - rook-ceph.yaml
