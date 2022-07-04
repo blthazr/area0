@@ -6,4 +6,5 @@ resources:
   - namespace.yaml
   - dashboard
   - monitoring
+  - notifications
   - webhook
