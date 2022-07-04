@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - bitnami.yaml
   - cribl.yaml
+  - deliveryhero.yaml
   - jetstack.yaml
   - prometheus-community.yaml
   - rook-ceph.yaml
