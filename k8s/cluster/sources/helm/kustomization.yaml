@@ -13,5 +13,6 @@ resources:
   - jetstack.yaml
   - k8s-at-home.yaml
   - k8s-gateway.yaml
+  - kasten.yaml
   - prometheus-community.yaml
   - rook-ceph.yaml
