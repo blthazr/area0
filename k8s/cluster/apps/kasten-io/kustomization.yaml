@@ -4,3 +4,4 @@ kind: Kustomization
 namespace: kasten-io
 resources:
   - namespace.yaml
+  - k10
