@@ -27,9 +27,10 @@ postgresql:
   image:
     repository: postgres
     tag: "14"
-  postgresqlUsername: "${SECRET_TESLAMATE_POSTGRES_USERNAME}"
-  postgresqlPassword: "${SECRET_TESLAMATE_POSTGRES_PASSWORD}"
-  postgresqlDatabase: teslamate
+  auth:
+    database: teslamate
+    postgresPassword: "${SECRET_TESLAMATE_POSTGRES_PASSWORD}"
+    username: "${SECRET_TESLAMATE_POSTGRES_USERNAME}"
   persistence:
     enabled: true
     existingClaim: teslamate-db-v1
