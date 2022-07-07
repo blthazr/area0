@@ -5,5 +5,10 @@
       "matchDatasources": ["docker"],
       "matchPackageNames": ["docker.io/kopia/kopia"],
     },
+    {
+      allowedVersions: "<5",
+      matchDatasources: ["helm"],
+      matchPackageNames: ["k10"],
+    },
   ],
 }
