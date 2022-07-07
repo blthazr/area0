@@ -9,4 +9,3 @@ configMapGenerator:
       - values.yaml
 resources:
   - helm-release.yaml
-  - ip-address-pool.yaml

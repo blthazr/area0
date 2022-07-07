@@ -1,9 +1,0 @@
----
-apiVersion: metallb.io/v1beta1
-kind: IPAddressPool
-metadata:
-  name: default
-spec:
-  addresses:
-    - "${METALLB_DEFAULT_ADDRESS_POOL}"
-  autoAssign: true

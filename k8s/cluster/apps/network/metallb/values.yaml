@@ -1,19 +1,7 @@
 ---
-controller:
-  image:
-    repository: quay.io/metallb/controller
-    tag: v0.13.3
-  logLevel: error
-crds:
-  enabled: true
-prometheus:
-  serviceAccount: kube-prometheus-stack-prometheus
-  namespace: observability
-  podMonitor:
-    enabled: true
-  prometheusRule:
-    enabled: true
-speaker:
-  image:
-    repository: quay.io/metallb/speaker
-    tag: v0.13.3
+configInline:
+  address-pools:
+    - name: default
+      protocol: layer2
+      addresses:
+        - "${METALLB_DEFAULT_ADDRESS_POOL}"
