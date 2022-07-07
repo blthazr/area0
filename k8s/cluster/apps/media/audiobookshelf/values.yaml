@@ -3,7 +3,7 @@ env:
   TZ: "${CLUSTER_TIME_ZONE}"
 image:
   repository: ghcr.io/advplyr/audiobookshelf
-  tag: 2.0.22
+  tag: 2.0.23
 ingress:
   main:
     enabled: true
