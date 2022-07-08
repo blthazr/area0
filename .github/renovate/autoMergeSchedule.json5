@@ -1,0 +1,49 @@
+{
+  "packageRules": [
+    {
+      "description": "Auto merge media apps during maintenance window",
+      "addLabels": ["action/automerge"],
+      "automerge": true,
+      "automergeType": "pr",
+      "matchDatasources": [
+        "docker",
+        "helm",
+      ],
+      "matchPackagePatterns": [
+        "dizquetv",
+        "overseerr",
+        "plex",
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+      ],
+      "requiredStatusChecks": null,
+      "schedule": ["after 3am, before 6am"],
+      "stabilityDays": 1,
+    },
+    {
+      "description": "Auto merge observability apps during maintenance window",
+      "addLabels": ["action/automerge"],
+      "automerge": true,
+      "automergeType": "pr",
+      "matchDatasources": [
+        "docker",
+        "helm",
+      ],
+      "matchPackagePatterns": [
+        "grafana",
+        "kube-prometheus-stack",
+        "thanos",
+        "unifi-poller",
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+      ],
+      "requiredStatusChecks": null,
+      "schedule": ["after 3am, before 6am"],
+      "stabilityDays": 1,
+    },
+  ],
+}

@@ -8,6 +8,7 @@
     ":semanticCommits",
     "github>christopherburnham/area0//.github/renovate/allowedVersions.json5",
     "github>christopherburnham/area0//.github/renovate/autoMerge.json5",
+    "github>christopherburnham/area0//.github/renovate/autoMergeSchedule.json5",
     "github>christopherburnham/area0//.github/renovate/commitMessage.json5",
     "github>christopherburnham/area0//.github/renovate/groups.json5",
     "github>christopherburnham/area0//.github/renovate/labels.json5",
