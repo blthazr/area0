@@ -62,7 +62,7 @@ jobs:
           TERRAFORM_TFLINT_CONFIG_FILE: .tflint.hcl
           VALIDATE_ALL_CODEBASE: ${{ github.event_name == 'workflow_dispatch' }}
           YAML_YAMLLINT_CONFIG_FILE: .yamllint.yaml
-        uses: megalinter/megalinter/flavors/terraform@v5
+        uses: megalinter/megalinter/flavors/terraform@v6
       - name: Archive production artifacts
         if: ${{ success() }} || ${{ failure() }}
         uses: actions/upload-artifact@v3
