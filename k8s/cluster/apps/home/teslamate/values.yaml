@@ -31,6 +31,7 @@ postgresql:
     database: teslamate
     postgresPassword: "${SECRET_TESLAMATE_POSTGRES_PASSWORD}"
     username: "${SECRET_TESLAMATE_POSTGRES_USERNAME}"
-  persistence:
-    enabled: true
-    existingClaim: teslamate-db-v1
+  primary:
+    persistence:
+      enabled: true
+      existingClaim: teslamate-db-v1
