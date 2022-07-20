@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: logstream-leader
-      version: 3.4.2
+      version: 3.5.1
       sourceRef:
         kind: HelmRepository
         name: cribl-charts
