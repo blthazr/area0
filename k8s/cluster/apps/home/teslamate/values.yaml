@@ -9,7 +9,7 @@ env:
   MQTT_PASSWORD: "${SECRET_MQTT_PASSWORD}"
 image:
   repository: teslamate/teslamate
-  tag: 1.27.0
+  tag: 1.27.1
 ingress:
   main:
     enabled: true
