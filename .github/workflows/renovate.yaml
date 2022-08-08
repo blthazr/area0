@@ -9,7 +9,7 @@ on: # yamllint disable-line rule:truthy
       - ".github/renovate.json5"
       - ".github/renovate/**.json5"
   schedule:
-    - cron: "7 */2 * * *"
+    - cron: "7 * * * *"
   workflow_dispatch:
     inputs:
       dryRun:
