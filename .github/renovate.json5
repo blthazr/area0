@@ -40,7 +40,7 @@
   },
   "regexManagers": [
     {
-      "description": "configure regex manager",
+      "description": "configure regex manager for other dependencies",
       "fileMatch": [
         "ansible/.+\\.ya?ml$",
         "k8s/cluster/.+\\.ya?ml$",
