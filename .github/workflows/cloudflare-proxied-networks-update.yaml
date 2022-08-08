@@ -12,7 +12,7 @@ env:
 
 jobs:
   cloudflare-proxied-networks-update:
-    name: Cloudflare Proxied Networks
+    name: Update Cloudflare Proxied Networks List
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
