@@ -6,9 +6,9 @@
       "matchPackageNames": ["docker.io/kopia/kopia"],
     },
     {
-      allowedVersions: "<5",
-      matchDatasources: ["helm"],
-      matchPackageNames: ["k10"],
+      "allowedVersions": "<5",
+      "matchDatasources": ["helm"],
+      "matchPackageNames": ["k10"],
     },
   ],
 }
