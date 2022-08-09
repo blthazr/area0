@@ -1,4 +1,13 @@
 ---
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: feature.node.kubernetes.io/custom-intel-gpu
+              operator: In
+              values:
+                - "true"
 env:
   TZ: "${CLUSTER_TIME_ZONE}"
 image:
