@@ -6,4 +6,3 @@ resources:
   - namespace.yaml
   - cribl-stream
   - grafana
-  - unifi-poller
