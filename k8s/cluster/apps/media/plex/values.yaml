@@ -68,8 +68,8 @@ persistence:
     type: emptyDir
 podSecurityContext:
   supplementalGroups:
-    - 44 # Hardware acceleration using an Intel iGPU w/ QuickSync
-    - 109 # Hardware acceleration using an Intel iGPU w/ QuickSync
+    - 44 # cat /etc/group | grep "video"
+    - 107 # cat /etc/group | grep "render"
     - 100
 resources:
   limits:
