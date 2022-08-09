@@ -16,8 +16,6 @@ ingress:
     tls:
       - hosts:
           - *host
-nodeSelector:
-  node-role.kubernetes.io/media: "true"
 persistence:
   backup:
     enabled: true
