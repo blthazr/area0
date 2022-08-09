@@ -16,6 +16,8 @@ spec:
   dependsOn:
     - name: intel-gpu-plugin
       namespace: kube-system
+    - name: node-feature-discovery
+      namespace: kube-system
   install:
     createNamespace: true
     remediation:
