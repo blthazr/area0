@@ -19,6 +19,15 @@ ingress:
 nodeSelector:
   node-role.kubernetes.io/media: "true"
 persistence:
+  backup:
+    enabled: true
+    mountPath: /metadata/backups
+    readOnly: false
+    type: custom
+    volumeSpec:
+      nfs:
+        server: "${NAS_ADDRESS}"
+        path: "${NAS_NFS_PATH}/backup/app/audiobookshelf"
   config:
     enabled: true
     existingClaim: audiobookshelf-config-v1
