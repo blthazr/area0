@@ -13,7 +13,7 @@ ingress:
         sub_filter_once on;
     enabled: true
     hosts:
-      - host: &host "lidarr.${SECRET_DOMAIN}"
+      - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
         paths:
           - path: /
             pathType: Prefix

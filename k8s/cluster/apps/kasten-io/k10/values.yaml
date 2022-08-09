@@ -24,7 +24,7 @@ grafana:
 ingress:
   class: nginx
   create: true
-  host: &host "k10.${SECRET_DOMAIN}"
+  host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
   hosts:
     - *host
   tls:

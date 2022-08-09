@@ -23,7 +23,7 @@ query:
   enabled: true
   ingress:
     enabled: true
-    hostname: &host "thanos.${SECRET_DOMAIN}"
+    hostname: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
     ingressClassName: nginx
     tls: true
     extraTls:

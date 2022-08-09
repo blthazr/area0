@@ -8,7 +8,7 @@ ingress:
   main:
     enabled: true
     hosts:
-      - host: &host "audiobookshelf.${SECRET_DOMAIN}"
+      - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
         paths:
           - path: /
             pathType: Prefix

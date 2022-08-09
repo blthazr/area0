@@ -121,11 +121,11 @@ grafana.ini:
     plugins: /var/lib/grafana/plugins
     provisioning: /etc/grafana/provisioning
   server:
-    root_url: "https://grafana.${SECRET_DOMAIN}"
+    root_url: "{{ .Release.Name }}.${SECRET_DOMAIN}"
 ingress:
   enabled: true
   hosts:
-    - &host "grafana.${SECRET_DOMAIN}"
+    - &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
   ingressClassName: nginx
   tls:
     - hosts:
