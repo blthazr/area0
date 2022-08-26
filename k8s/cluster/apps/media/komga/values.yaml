@@ -3,7 +3,7 @@ env:
   TZ: "${CLUSTER_TIME_ZONE}"
 image:
   repository: gotson/komga
-  tag: 0.157.0
+  tag: 0.157.1
 ingress:
   main:
     annotations:
