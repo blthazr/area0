@@ -1,28 +1,16 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#   @file           :   .taskfiles/deps.yml
-#   @description    :   dependencies tasks
+#   @file           :   .taskfiles/ansible.yml
+#   @description    :   ansible tasks
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ---
 version: "3"
 
 tasks:
-  # task deps:all
-  all:
-    - task: ansible
-    - task: pre-commit
-
-  # task deps:ansible
-  ansible:
+  # task ansible:deps
+  deps:
     desc: install/upgrade ansible dependencies
     cmds:
       - "ansible-galaxy role install --roles-path ./roles-galaxy  --role-file ./requirements.yml --force"
       - "ansible-galaxy collection install --collections-path ./collections --requirements-file ./requirements.yml --force"
     dir: ansible
     silent: true
-
-  # task deps:pre-commit
-  pre-commit:
-    desc: install/upgrade pre-commit dependencies
-    cmds:
-      - pre-commit autoupdate
-      - pre-commit install --install-hooks

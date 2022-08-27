@@ -6,6 +6,13 @@
 version: "3"
 
 tasks:
+  # task pre-commit:deps
+  deps:
+    desc: install/upgrade pre-commit dependencies
+    cmds:
+      - pre-commit autoupdate
+      - pre-commit install --install-hooks
+
   # task pre-commit:init
   init:
     desc: initialize pre-commit hooks
@@ -19,3 +26,9 @@ tasks:
     desc: update pre-commit config to each repos' latest version
     cmds:
       - pre-commit autoupdate
+
+  # task pre-commit:run
+  run:
+    desc: run pre-commit on all files
+    cmds:
+      - pre-commit run --all-files
