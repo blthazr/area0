@@ -6,27 +6,8 @@
 version: "3"
 
 includes:
-  deps: .taskfiles/deps.yml
   flux: .taskfiles/flux.yml
-  format: .taskfiles/format.yml
-  lint: .taskfiles/lint.yml
-  pre-commit: .taskfiles/pre-commit.yml
-  terraform: .taskfiles/terraform.yml
 
 vars:
   PROJECT_DIR:
     sh: "git rev-parse --show-toplevel"
-
-tasks:
-  # task deps
-  deps:
-    desc: install/upgrade dependencies
-    cmds:
-      - task: deps:pre-commit
-      - task: deps:ansible
-
-  # task pre-commit
-  pre-commit:
-    desc: Run pre-commit
-    cmds:
-      - pre-commit run --all-files
