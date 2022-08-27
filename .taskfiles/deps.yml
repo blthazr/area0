@@ -6,6 +6,11 @@
 version: "3"
 
 tasks:
+  # task deps:all
+  all:
+    - task: ansible
+    - task: pre-commit
+
   # task deps:ansible
   ansible:
     desc: install/upgrade ansible dependencies
