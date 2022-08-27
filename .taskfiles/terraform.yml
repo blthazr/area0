@@ -5,6 +5,9 @@
 ---
 version: "3"
 
+vars:
+  TERRAFORM_DIR: "{{.PROJECT_DIR}}/terraform"
+
 tasks:
   # task terraform:init:cloudflare
   init:cloudflare:

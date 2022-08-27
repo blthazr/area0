@@ -5,6 +5,9 @@
 ---
 version: "3"
 
+vars:
+  ANSIBLE_DIR: "{{.PROJECT_DIR}}/ansible"
+
 tasks:
   # task ansible:deps
   deps:
@@ -12,5 +15,5 @@ tasks:
     cmds:
       - "ansible-galaxy role install --roles-path ./roles-galaxy  --role-file ./requirements.yml --force"
       - "ansible-galaxy collection install --collections-path ./collections --requirements-file ./requirements.yml --force"
-    dir: ansible
+    dir: "{{.ANSIBLE_DIR}}"
     silent: true
