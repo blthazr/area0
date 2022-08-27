@@ -8,7 +8,7 @@ version: "3"
 tasks:
   # task terraform:init:cloudflare
   init:cloudflare:
-    desc: initialize terraform
+    desc: initialize terraform dependencies
     cmds:
       - terraform init
     dir: terraform/cloudflare
@@ -29,7 +29,7 @@ tasks:
 
   # task terraform:init:minio
   init:minio:
-    desc: initialize terraform
+    desc: initialize terraform dependencies
     cmds:
       - terraform init
     dir: terraform/minio
