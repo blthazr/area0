@@ -11,39 +11,39 @@ tasks:
     desc: initialize terraform dependencies
     cmds:
       - terraform init
-    dir: terraform/cloudflare
+    dir: "{{.TERRAFORM_DIR}}/cloudflare"
 
   # task terraform:plan:cloudflare
   plan:cloudflare:
     desc: generate execution plan
     cmds:
       - terraform plan
-    dir: terraform/cloudflare
+    dir: "{{.TERRAFORM_DIR}}/cloudflare"
 
   # task terraform:apply:cloudflare
   apply:cloudflare:
     desc: execute generated plan
     cmds:
       - terraform apply
-    dir: terraform/cloudflare
+    dir: "{{.TERRAFORM_DIR}}/cloudflare"
 
   # task terraform:init:minio
   init:minio:
     desc: initialize terraform dependencies
     cmds:
       - terraform init
-    dir: terraform/minio
+    dir: "{{.TERRAFORM_DIR}}/minio"
 
   # task terraform:plan:minio
   plan:minio:
     desc: generate execution plan
     cmds:
       - terraform plan
-    dir: terraform/minio
+    dir: "{{.TERRAFORM_DIR}}/minio"
 
   # task terraform:apply:minio
   apply:minio:
     desc: execute generated plan
     cmds:
       - terraform apply
-    dir: terraform/minio
+    dir: "{{.TERRAFORM_DIR}}/minio"
