@@ -59,3 +59,17 @@ tasks:
     cmds:
       - flux get receivers --all-namespaces --no-header | awk '{ print $1, $2}' | xargs -r -n2 sh -c 'flux reconcile receiver $1 --namespace $0' | xargs
     silent: true
+
+# task flux:logs
+logs:
+  desc: get flux logs
+  cmds:
+    - flux logs -A --level=error
+  silent: true
+
+# task flux:logs:follow
+logs:follow:
+  desc: tail flux logs
+  cmds:
+    - flux logs -A -f --level=error
+  silent: true
