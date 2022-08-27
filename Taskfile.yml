@@ -9,6 +9,7 @@ includes:
   ansible: .taskfiles/ansible.yml
   flux: .taskfiles/flux.yml
   pre-commit: .taskfiles/pre-commit.yml
+  rook: .taskfiles/rook.yml
 
 vars:
   PROJECT_DIR:
