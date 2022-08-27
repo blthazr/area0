@@ -52,11 +52,8 @@ tasks:
   tf:
     desc: lint terraform
     cmds:
-      - >-
-        tflint
-        --config .github/linters/.tflint.hcl
-        --loglevel info
-        terraform/cloudflare
+      - tflint --config .github/linters/.tflint.hcl --loglevel info terraform/cloudflare
+      - tflint --config .github/linters/.tflint.hcl --loglevel info terraform/minio
     ignore_error: true
 
   # task lint:yaml
