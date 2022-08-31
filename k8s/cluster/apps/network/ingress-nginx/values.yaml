@@ -4,7 +4,7 @@ controller:
     client-body-buffer-size: "100M"
     client-body-timeout: 120
     client-header-timeout: 120
-    custom-http-errors: >-
+    custom-http-errors: |-
       401,403,404,500,501,502,503
     enable-brotli: "true"
     forwarded-for-header: "CF-Connecting-IP"
@@ -35,39 +35,16 @@ controller:
   replicaCount: 1
   resources:
     limits:
-      memory: 1000Mi
+      memory: 500Mi
     requests:
-      cpu: 100m
-      memory: 100Mi
+      cpu: 10m
+      memory: 250Mi
   service:
-    externalIPs:
-      - "${SVC_NGINX_ADDRESS}"
+    annotations:
+      metallb.universe.tf/loadBalancerIPs: |-
+        "${SVC_NGINX_ADDRESS}"
     externalTrafficPolicy: Local
-  topologySpreadConstraints:
-    - topologyKey: kubernetes.io/hostname
-      labelSelector:
-        matchLabels:
-          app.kubernetes.io/name: ingress-nginx
-          app.kubernetes.io/component: controller
-      maxSkew: 1
-      whenUnsatisfiable: DoNotSchedule
 defaultBackend:
-  affinity:
-    podAntiAffinity:
-      preferredDuringSchedulingIgnoredDuringExecution:
-        - weight: 100
-          podAffinityTerm:
-            labelSelector:
-              matchExpressions:
-                - key: app.kubernetes.io/name
-                  operator: In
-                  values:
-                    - ingress-nginx
-                - key: app.kubernetes.io/component
-                  operator: In
-                  values:
-                    - default-backend
-            topologyKey: kubernetes.io/hostname
   enabled: true
   extraEnvs:
     - name: TEMPLATE_NAME
