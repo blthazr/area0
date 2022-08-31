@@ -34,3 +34,7 @@ service:
       port: 9520
       protocol: UDP
       external: true
+    - name: otlp
+      port: 4317
+      protocol: TCP
+      external: true
