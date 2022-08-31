@@ -6,4 +6,5 @@ resources:
   - namespace.yaml
   - cluster
   - operator
+  - rook-direct-mount
   - dashboard
