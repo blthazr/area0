@@ -7,6 +7,8 @@ configMapGenerator:
   - name: teslamate-helm-values
     files:
       - values.yaml
+generatorOptions:
+  disableNameSuffixHash: true
 resources:
   - dashboard
   - helm-release.yaml

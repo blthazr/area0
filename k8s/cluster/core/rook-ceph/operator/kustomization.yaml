@@ -7,5 +7,7 @@ configMapGenerator:
   - name: rook-ceph-operator-helm-values
     files:
       - values.yaml
+generatorOptions:
+  disableNameSuffixHash: true
 resources:
   - helm-release.yaml
