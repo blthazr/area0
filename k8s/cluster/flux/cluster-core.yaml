@@ -16,7 +16,6 @@ spec:
   interval: 10m
   path: ./k8s/cluster/core
   postBuild:
-    substitute: {}
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings
