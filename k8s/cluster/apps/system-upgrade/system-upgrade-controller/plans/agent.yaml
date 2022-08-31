@@ -6,7 +6,6 @@ metadata:
   labels:
     k3s-upgrade: agent
 spec:
-  channel: https://update.k3s.io/v1-release/channels/v1.23
   concurrency: 1
   nodeSelector:
     matchExpressions:
@@ -22,3 +21,5 @@ spec:
   serviceAccountName: system-upgrade
   upgrade:
     image: rancher/k3s-upgrade
+  # renovate: datasource=github-releases depName=k3s-io/k3s
+  version: "v1.24.4+k3s1"
