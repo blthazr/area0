@@ -40,9 +40,8 @@ controller:
       cpu: 10m
       memory: 250Mi
   service:
-    annotations:
-      metallb.universe.tf/loadBalancerIPs: |-
-        "${SVC_NGINX_ADDRESS}"
+    externalIPs:
+      - "${SVC_NGINX_ADDRESS}"
     externalTrafficPolicy: Local
 defaultBackend:
   enabled: true
