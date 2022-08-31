@@ -14,7 +14,7 @@ spec:
           - "true"
   serviceAccountName: system-upgrade
   tolerations:
-    - key: node-role.kubernetes.io/control-plane
+    - key: "node-role.kubernetes.io/control-plane"
       operator: "Exists"
   upgrade:
     image: rancher/k3s-upgrade
