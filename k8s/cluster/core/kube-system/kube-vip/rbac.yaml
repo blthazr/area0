@@ -4,6 +4,17 @@ kind: ServiceAccount
 metadata:
   name: kube-vip
   namespace: kube-system
+secrets:
+  - name: kube-vip
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  annotations:
+    kubernetes.io/service-account.name: kube-vip
+  name: kube-vip
+  namespace: kube-system
+type: kubernetes.io/service-account-token
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
