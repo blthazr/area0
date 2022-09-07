@@ -20,10 +20,10 @@ image:
   repository: hkotel/mealie
   tag: frontend-v1.0.0beta-3
 ingress:
-  annotations:
-    external-dns.alpha.kubernetes.io/target: "hsv-1.${SECRET_DOMAIN}"
-    external-dns/is-public: "true"
   main:
+    annotations:
+      external-dns.alpha.kubernetes.io/target: "hsv-1.${SECRET_DOMAIN}"
+      external-dns/is-public: "true"
     enabled: true
     hosts:
       - host: &host "recipes.${SECRET_DOMAIN}"
