@@ -1,13 +1,16 @@
 ---
-nameOverride: "cribl-leader"
-
 config:
   adminPassword: "${SECRET_STREAM_PASSWORD}"
+  groups:
+    - default
   scName: ceph-block
+  token: "${SECRET_CRIBL_LEADER_SECRET}"
 
 criblImage:
   repository: cribl/cribl
   tag: 3.5.2
+
+nameOverride: "cribl-leader"
 
 service:
   annotations:
