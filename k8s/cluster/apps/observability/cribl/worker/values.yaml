@@ -19,9 +19,9 @@ nameOverride: "cribl-stream-worker"
 resources:
   limits:
     cpu: 2000m
-    memory: 2048Mi
+    memory: 4096Mi
   requests:
-    cpu: 500m
+    cpu: 1250m
     memory: 256Mi
 
 service:
