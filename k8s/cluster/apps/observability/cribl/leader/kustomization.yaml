@@ -12,3 +12,5 @@ generatorOptions:
 resources:
   - helm-release.yaml
   - secret.sops.yaml
+patchesStrategicMerge:
+  - patches/persistent-volume-claim.yaml
