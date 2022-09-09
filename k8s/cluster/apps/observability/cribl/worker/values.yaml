@@ -38,3 +38,6 @@ service:
     - name: syslog-unifi
       port: 9520
       protocol: UDP
+    - name: s2s
+      port: 9997
+      protocol: TCP
