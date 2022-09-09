@@ -35,3 +35,6 @@ service:
     - name: syslog-udp
       port: 9514
       protocol: UDP
+    - name: syslog-unifi
+      port: 9520
+      protocol: UDP
