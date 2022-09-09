@@ -1,0 +1,26 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: cribl-leader
+spec:
+  chart:
+    spec:
+      chart: logstream-leader
+      version: 3.5.2
+      sourceRef:
+        kind: HelmRepository
+        name: cribl-charts
+        namespace: flux-system
+      interval: 15m
+  install:
+    createNamespace: true
+    remediation:
+      retries: 5
+  interval: 15m
+  upgrade:
+    remediation:
+      retries: 5
+  valuesFrom:
+    - kind: ConfigMap
+      name: cribl-leader-helm-values
