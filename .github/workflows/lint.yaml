@@ -65,4 +65,4 @@ jobs:
           PRINT_ALPACA: false
           VALIDATE_ALL_CODEBASE: ${{ github.event_name == 'workflow_dispatch' }}
           YAML_YAMLLINT_CONFIG_FILE: .github/linters/.yamllint.yaml
-        uses: oxsecurity/megalinter@v6.7.1
+        uses: oxsecurity/megalinter@v6.9.1
