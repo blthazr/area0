@@ -1,5 +1,5 @@
 ---
-nameOverride: &app "{{ .Release.Name }}"
+nameOverride: &app sabnzbd
 env:
   SABNZBD__PORT: &port 8080
   SABNZBD__HOST_WHITELIST_ENTRIES: >-
