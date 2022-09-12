@@ -12,6 +12,7 @@ resources:
   - kasten-io
   - kube-system
   - media
+  - media-automation
   - media-download
   - network
   - observability
