@@ -4,3 +4,4 @@ kind: Kustomization
 namespace: media-automation
 resources:
   - namespace.yaml
+  - overseerr
