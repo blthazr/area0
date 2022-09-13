@@ -6,4 +6,5 @@ resources:
   - namespace.yaml
   - overseerr
   - sonarr
+  - sonarr4k
   - tautulli
