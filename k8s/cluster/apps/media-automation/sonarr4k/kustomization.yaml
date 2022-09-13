@@ -13,6 +13,6 @@ configMapGenerator:
 generatorOptions:
   disableNameSuffixHash: true
 resources:
+  - secret.sops.yaml
   - persistent-volume-claim.yaml
   - helm-release.yaml
-  - secret.sops.yaml
