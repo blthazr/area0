@@ -4,12 +4,4 @@ kind: Kustomization
 namespace: download
 resources:
   - namespace.yaml
-  - bazarr
-  - gaps
-  - lidarr
-  - prowlarr
-  - radarr
-  - radarr4k
   - sabnzbd
-  - sonarr
-  - sonarr4k
