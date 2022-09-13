@@ -2,7 +2,7 @@
 nameOverride: &app overseerr
 env:
   LOG_LEVEL: "info"
-  PORT: &port 80
+  PORT: &port 5055
   TZ: "${CLUSTER_TIME_ZONE}"
 image:
   repository: ghcr.io/sct/overseerr

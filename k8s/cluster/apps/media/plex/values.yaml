@@ -9,6 +9,7 @@ affinity:
               values:
                 - "true"
 env:
+  PLEX__PORT: &port 32400
   TZ: "${CLUSTER_TIME_ZONE}"
 image:
   repository: ghcr.io/onedr0p/plex
@@ -81,5 +82,5 @@ service:
     loadBalancerIP: "${SVC_PLEX_ADDRESS}"
     ports:
       http:
-        port: 32400
+        port: *port
     type: LoadBalancer

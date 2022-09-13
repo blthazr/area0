@@ -4,7 +4,7 @@ env:
   SONARR__APPLICATION_URL: "https://{{ .Release.Name }}.${SECRET_DOMAIN}"
   SONARR__INSTANCE_NAME: Sonarr4K
   SONARR__LOG_LEVEL: info
-  SONARR__PORT: &port 80
+  SONARR__PORT: &port 8989
   TZ: "${CLUSTER_TIME_ZONE}"
 envFrom:
   - secretRef:

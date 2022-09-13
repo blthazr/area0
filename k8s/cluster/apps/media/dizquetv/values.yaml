@@ -1,5 +1,6 @@
 ---
 env:
+  DIZQUETV__PORT: &port 8000
   TZ: "${CLUSTER_TIME_ZONE}"
 image:
   repository: vexorian/dizquetv
@@ -28,5 +29,5 @@ service:
     loadBalancerIP: "${SVC_DIZQUETV_ADDRESS}"
     ports:
       http:
-        port: 8000
+        port: *port
     type: LoadBalancer
