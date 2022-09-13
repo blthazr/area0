@@ -38,7 +38,7 @@ nodeSelector:
 persistence:
   config:
     enabled: true
-    existingClaim: sabnzbd-config
+    existingClaim: sabnzbd-config-v1
   incomplete:
     enabled: true
     type: emptyDir
