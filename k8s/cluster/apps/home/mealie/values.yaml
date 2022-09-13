@@ -1,7 +1,9 @@
 ---
+nameOverride: &app mealie
 api:
   env:
     ALLOW_SIGNUP: false
+    API__PORT: &api-port 9000
     BASE_URL: "https://recipes.${SECRET_DOMAIN}"
     DEFAULT_EMAIL: "admin@${SECRET_DOMAIN}"
     TZ: "${CLUSTER_TIME_ZONE}"
@@ -14,7 +16,7 @@ api:
     - name: backup
       mountPath: /app/data/backups
 env:
-  ALLOW_SIGNUP: "False"
+  MEALIE__PORT: &app-port 3000
   TZ: "${CLUSTER_TIME_ZONE}"
 image:
   repository: hkotel/mealie
@@ -41,9 +43,14 @@ persistence:
   backup:
     enabled: true
     mountPath: /app/data/backups
-    readOnly: false
-    type: custom
-    volumeSpec:
-      nfs:
-        server: "${NAS_ADDRESS}"
-        path: "${NAS_NFS_PATH}/backup/app/mealie"
+    path: "${NAS_NFS_PATH}/backup/app/mealie"
+    server: "${NAS_ADDRESS}"
+    type: nfs
+service:
+  main:
+    ports:
+      api:
+        enabled: true
+        port: *api-port
+      http:
+        port: *app-port
