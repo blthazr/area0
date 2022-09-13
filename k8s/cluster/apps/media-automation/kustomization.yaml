@@ -5,6 +5,7 @@ namespace: media-automation
 resources:
   - namespace.yaml
   - overseerr
+  - prowlarr
   - sonarr
   - sonarr4k
   - tautulli
