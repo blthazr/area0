@@ -5,15 +5,14 @@ resources:
   - calico-system
   - default
   - download
-  - game
   - flux-system
+  - game
   - home
   - home-automation
   - kasten-io
   - kube-system
   - media
   - media-automation
-  - media-download
   - network
   - observability
   - system-upgrade
