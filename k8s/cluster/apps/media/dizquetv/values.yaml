@@ -26,4 +26,7 @@ service:
   main:
     externalTrafficPolicy: Local
     loadBalancerIP: "${SVC_DIZQUETV_ADDRESS}"
+    ports:
+      http:
+        port: 8000
     type: LoadBalancer

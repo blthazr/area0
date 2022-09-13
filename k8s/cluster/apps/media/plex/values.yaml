@@ -11,8 +11,8 @@ affinity:
 env:
   TZ: "${CLUSTER_TIME_ZONE}"
 image:
-  repository: ghcr.io/k8s-at-home/plex
-  tag: v1.28.2.6151-914ddd2b3
+  repository: ghcr.io/onedr0p/plex
+  tag: 1.28.2.6151-914ddd2b3@sha256:0b1c10bda8403bb984eb8ae77ec19dd5abdaacc57e2ec42be4316f9dafec6977
 ingress:
   main:
     annotations:
@@ -44,29 +44,26 @@ persistence:
   backup:
     enabled: true
     mountPath: /config/backup
-    readOnly: false
-    type: custom
-    volumeSpec:
-      nfs:
-        server: "${NAS_ADDRESS}"
-        path: "${NAS_NFS_PATH}/backup/app/plex"
+    path: "${NAS_NFS_PATH}/backup/app/plex"
+    server: "${NAS_ADDRESS}"
+    type: nfs
   config:
     enabled: true
     existingClaim: plex-config-v1
   media:
     enabled: true
     mountPath: /media
-    readOnly: false
-    type: custom
-    volumeSpec:
-      nfs:
-        server: "${MEDIA_SERVER_ADDRESS}"
-        path: "${MEDIA_SERVER_NFS_PATH}"
+    path: "${MEDIA_SERVER_NFS_PATH}"
+    server: "${MEDIA_SERVER_ADDRESS}"
+    type: nfs
   transcode:
     enabled: true
-    medium: Memory
     type: emptyDir
 podSecurityContext:
+  fsGroup: 568
+  fsGroupChangePolicy: "OnRootMismatch"
+  runAsGroup: 568
+  runAsUser: 568
   supplementalGroups:
     - 44 # cat /etc/group | grep "video"
     - 107 # cat /etc/group | grep "render"
@@ -82,4 +79,7 @@ service:
       metallb.universe.tf/allow-shared-ip: plex
     externalTrafficPolicy: Local
     loadBalancerIP: "${SVC_PLEX_ADDRESS}"
+    ports:
+      http:
+        port: 32400
     type: LoadBalancer
