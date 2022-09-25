@@ -6,12 +6,12 @@
       "groupName": "Cert-Manager",
       "matchDatasources": [
         "docker",
-        "helm",
+        "helm"
       ],
       "matchPackagePatterns": [
-        "cert-manager",
+        "cert-manager"
       ],
-      "separateMinorPatch": true,
+      "separateMinorPatch": true
     },
     {
       "description": "External Snapshotter CRD kustomization image and chart",
@@ -19,13 +19,13 @@
       "groupName": "External Snapshotter",
       "matchDatasources": [
         "docker",
-        "github-tags",
+        "github-tags"
       ],
       "matchPackagePatterns": [
         "external-snapshotter",
-        "snapshot-controller",
+        "snapshot-controller"
       ],
-      "separateMinorPatch": true,
+      "separateMinorPatch": true
     },
     {
       "description": "Node Feature Discovery CRD kustomization image and chart",
@@ -33,12 +33,12 @@
       "groupName": "Node Feature Discovery",
       "matchDatasources": [
         "helm",
-        "github-tags",
+        "github-tags"
       ],
       "matchPackagePatterns": [
-       "node-feature-discovery",
+       "node-feature-discovery"
       ],
-      "separateMinorPatch": true,
+      "separateMinorPatch": true
     },
     {
       "description": "Rook-Ceph image and chart",
@@ -46,12 +46,12 @@
       "groupName": "Rook-Ceph",
       "matchDatasources": [
         "docker",
-        "helm",
+        "helm"
       ],
       "matchPackagePatterns": [
-        "rook.ceph",
+        "rook.ceph"
       ],
-      "separateMinorPatch": true,
+      "separateMinorPatch": true
     },
     {
       "description": "Thanos image and chart versions",
@@ -60,16 +60,34 @@
       "matchDatasources": [
         "docker",
         "github-releases",
-        "helm",
+        "helm"
       ],
       "matchPackagePatterns": [
-        "thanos",
+        "thanos"
       ],
       "matchUpdateTypes": [
         "minor",
-        "patch",
+        "patch"
       ],
-      "separateMinorPatch": false,
+      "separateMinorPatch": false
     },
-  ],
+    {
+      "description": "Cribl stream image and chart versions",
+      "group": { "commitMessageTopic": "{{{groupName}}} group" },
+      "groupName": "Cribl Stream",
+      "matchDatasources": [
+        "docker",
+        "github-releases",
+        "helm"
+      ],
+      "matchPackagePatterns": [
+        "cribl"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "separateMinorPatch": false
+    }
+  ]
 }
