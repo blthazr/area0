@@ -1,20 +1,20 @@
 {
   "packageRules": [
     {
-      "description": "Auto merge github actions",
+      "description": "Auto merge GitHub Actions",
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeType": "pr",
       "matchDatasources": ["github-tags"],
       "matchPackageNames": [
         "lycheeverse/lychee-action",
-        "renovatebot/github-action",
+        "renovatebot/github-action"
       ],
       "matchUpdateTypes": [
         "minor",
-        "patch",
+        "patch"
       ],
-      "requiredStatusChecks": null,
+      "requiredStatusChecks": null
     },
     {
       "description": "Auto merge media apps",
@@ -23,24 +23,25 @@
       "automergeType": "pr",
       "matchDatasources": [
         "docker",
-        "helm",
+        "helm"
       ],
       "matchPackagePatterns": [
         "bazarr",
         "gaps",
         "lidarr",
+        "plex",
         "prowlarr",
         "radarr",
         "readarr",
         "sabnzbd",
         "sonarr",
-        "tautulli",
+        "tautulli"
       ],
       "matchUpdateTypes": [
         "minor",
-        "patch",
+        "patch"
       ],
-      "requiredStatusChecks": null,
+      "requiredStatusChecks": null
     },
     {
       "description": "Auto merge default apps",
@@ -49,16 +50,16 @@
       "automergeType": "pr",
       "matchDatasources": [
         "docker",
-        "helm",
+        "helm"
       ],
       "matchPackagePatterns": [
-        "theme-park",
+        "theme-park"
       ],
       "matchUpdateTypes": [
         "minor",
-        "patch",
+        "patch"
       ],
-      "requiredStatusChecks": null,
+      "requiredStatusChecks": null
     },
     {
       "description": "Auto merge home apps",
@@ -67,16 +68,16 @@
       "automergeType": "pr",
       "matchDatasources": [
         "docker",
-        "helm",
+        "helm"
       ],
       "matchPackagePatterns": [
-        "teslamate",
+        "teslamate"
       ],
       "matchUpdateTypes": [
         "minor",
-        "patch",
+        "patch"
       ],
-      "requiredStatusChecks": null,
-    },
-  ],
+      "requiredStatusChecks": null
+    }
+  ]
 }
