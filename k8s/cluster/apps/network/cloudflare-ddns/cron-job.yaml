@@ -21,7 +21,7 @@ spec:
               envFrom:
                 - secretRef:
                     name: *app
-              image: ghcr.io/k8s-at-home/kubectl:v1.25.0
+              image: ghcr.io/k8s-at-home/kubectl:v1.25.2
               volumeMounts:
                 - name: *app
                   mountPath: *scriptPath
