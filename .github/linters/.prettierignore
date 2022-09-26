@@ -1,6 +1,6 @@
 ansible/collections/
 ansible/roles-galaxy/
-k8s/charts/
+k8s/cluster/sources/
 docs/
 .private/
 .terraform/
