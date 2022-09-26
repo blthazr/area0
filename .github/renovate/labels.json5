@@ -2,39 +2,43 @@
   "packageRules": [
     {
       "matchUpdateTypes": ["major"],
-      "labels": ["type/major"],
+      "labels": ["type/major"]
     },
     {
       "matchUpdateTypes": ["minor"],
-      "labels": ["type/minor"],
+      "labels": ["type/minor"]
     },
     {
       "matchUpdateTypes": ["patch"],
-      "labels": ["type/patch"],
+      "labels": ["type/patch"]
     },
     {
       "matchDatasources": ["docker"],
-      "addLabels": ["renovate/container"],
+      "addLabels": ["renovate/container"]
     },
     {
       "matchDatasources": ["galaxy", "galaxy-collection"],
-      "addLabels": ["renovate/ansible"],
+      "addLabels": ["renovate/ansible"]
     },
     {
       "matchManagers": ["github-actions"],
-      "addLabels": ["renovate/github-action"],
+      "addLabels": ["renovate/github-action"]
     },
     {
       "matchDatasources": ["github-releases", "github-tags"],
-      "addLabels": ["renovate/github-release"],
+      "addLabels": ["renovate/github-release"]
     },
     {
       "matchDatasources": ["helm"],
-      "addLabels": ["renovate/helm"],
+      "addLabels": ["renovate/helm"]
+    },
+    {
+      "matchDatasources": ["pypi"],
+      "addLabels": ["renovate/pip"]
     },
     {
       "matchDatasources": ["terraform-provider"],
-      "addLabels": ["renovate/terraform"],
-    },
-  ],
+      "addLabels": ["renovate/terraform"]
+    }
+  ]
 }
