@@ -15,4 +15,5 @@ resources:
   - media-automation
   - network
   - observability
+  - rook-ceph
   - system-upgrade

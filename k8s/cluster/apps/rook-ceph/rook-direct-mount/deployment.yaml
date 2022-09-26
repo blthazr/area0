@@ -1,0 +1,74 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: &app rook-direct-mount
+  labels:
+    app.kubernetes.io/name: *app
+    app.kubernetes.io/instance: *app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: *app
+      app.kubernetes.io/instance: *app
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: *app
+        app.kubernetes.io/instance: *app
+    spec:
+      containers:
+        - name: *app
+          args: ["-m", "-c", "/usr/local/bin/toolbox.sh"]
+          command: ["/bin/bash"]
+          image: rook/ceph:v1.10.1
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: ROOK_CEPH_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: rook-ceph-mon
+                  key: ceph-username
+            - name: ROOK_CEPH_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: rook-ceph-mon
+                  key: ceph-secret
+          securityContext:
+            privileged: true
+            runAsUser: 0
+          tty: true
+          volumeMounts:
+            - mountPath: /dev
+              name: dev
+            - mountPath: /sys/bus
+              name: sysbus
+            - mountPath: /lib/modules
+              name: libmodules
+            - name: mon-endpoint-volume
+              mountPath: /etc/rook
+            - name: nfs-data
+              mountPath: /mnt/nfs-data
+      dnsPolicy: ClusterFirstWithHostNet
+      hostNetwork: true
+      volumes:
+        - name: dev
+          hostPath:
+            path: /dev
+        - name: sysbus
+          hostPath:
+            path: /sys/bus
+        - name: libmodules
+          hostPath:
+            path: /lib/modules
+        - name: mon-endpoint-volume
+          configMap:
+            name: rook-ceph-mon-endpoints
+            items:
+              - key: data
+                path: mon-endpoints
+        - name: nfs-data
+          nfs:
+            server: "${NAS_ADDRESS}"
+            path: "${NAS_NFS_PATH}"
