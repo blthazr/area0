@@ -1,20 +1,24 @@
 ---
+nameOverride: &app "cribl-leader"
 config:
-  adminPassword: "${SECRET_STREAM_PASSWORD}"
+  adminPassword: "${LEADER_ADMIN_PASSWORD}"
   groups:
     - default
   scName: ceph-block
   token: "${SECRET_CRIBL_LEADER_SECRET}"
-
 criblImage:
   repository: cribl/cribl
   tag: 3.5.3
-
-nameOverride: "cribl-leader"
-
+resources:
+  limits:
+    cpu: 2000m
+    memory: 4096Mi
+  requests:
+    cpu: 500m
+    memory: 1024Mi
 service:
   annotations:
-    metallb.universe.tf/allow-shared-ip: cribl-leader
+    metallb.universe.tf/allow-shared-ip: *app
   externalLoadBalancerIP: "${SVC_CRIBL_LEADER_ADDRESS}"
   ports:
     - name: api
