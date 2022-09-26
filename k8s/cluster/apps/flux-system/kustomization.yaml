@@ -4,7 +4,6 @@ kind: Kustomization
 namespace: flux-system
 resources:
   - namespace.yaml
-  - dashboard
-  - monitoring
   - notifications
+  - observability
   - webhook
