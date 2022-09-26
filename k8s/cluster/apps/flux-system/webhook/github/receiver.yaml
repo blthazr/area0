@@ -30,6 +30,10 @@ spec:
       namespace: flux-system
     - apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
       kind: Kustomization
+      name: cluster-sources
+      namespace: flux-system
+    - apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+      kind: Kustomization
       name: flux-cluster
       namespace: flux-system
   secretRef:
