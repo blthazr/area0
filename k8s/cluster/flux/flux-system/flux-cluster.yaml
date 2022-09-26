@@ -5,11 +5,6 @@ metadata:
   name: flux-cluster
   namespace: flux-system
 spec:
-  ignore: |
-    # exclude all
-    /*
-    # include gitops dirs
-    !/k8s
   interval: 10m
   ref:
     branch: main
