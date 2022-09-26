@@ -10,9 +10,9 @@ spec:
     secretRef:
       name: sops-age
   dependsOn:
+    - name: cluster-sources
     - name: cluster-config
     - name: cluster-crds
-    - name: cluster-sources
   interval: 10m
   path: ./k8s/cluster/core
   postBuild:
