@@ -1,4 +1,5 @@
 ---
+nameOverride: &app plex
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
@@ -77,7 +78,7 @@ resources:
 service:
   main:
     annotations:
-      metallb.universe.tf/allow-shared-ip: plex
+      metallb.universe.tf/allow-shared-ip: *app
     externalTrafficPolicy: Local
     loadBalancerIP: "${SVC_PLEX_ADDRESS}"
     ports:
