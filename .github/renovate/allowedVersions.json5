@@ -3,12 +3,12 @@
     {
       "allowedVersions": "<10",
       "matchDatasources": ["docker"],
-      "matchPackageNames": ["docker.io/kopia/kopia"],
+      "matchPackageNames": ["docker.io/kopia/kopia"]
     },
     {
       "allowedVersions": "<5",
       "matchDatasources": ["helm"],
-      "matchPackageNames": ["k10"],
-    },
-  ],
+      "matchPackageNames": ["k10"]
+    }
+  ]
 }
