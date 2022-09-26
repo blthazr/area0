@@ -1,4 +1,0 @@
----
-configuration:
-  logging:
-    minimumLevel: Debug
