@@ -1,0 +1,50 @@
+---
+nameOverride: &app bazarr
+env:
+  BAZARR__PORT: &port 6767
+  TZ: "${CLUSTER_TIME_ZONE}"
+image:
+  repository: ghcr.io/onedr0p/bazarr
+  tag: 1.1.1
+ingress:
+  main:
+    enabled: true
+    hosts:
+      - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
+        paths:
+          - path: /
+            pathType: Prefix
+    ingressClassName: nginx
+    tls:
+      - hosts:
+          - *host
+nodeSelector:
+  node-role.kubernetes.io/media: "true"
+persistence:
+  backup:
+    enabled: true
+    mountPath: /config/backup
+    path: "${NAS_NFS_PATH}/backup/app/bazarr"
+    server: "${NAS_ADDRESS}"
+    type: nfs
+  config:
+    enabled: true
+    existingClaim: bazarr-config-v1
+  media:
+    enabled: true
+    mountPath: /media
+    path: "${MEDIA_SERVER_NFS_PATH}"
+    server: "${MEDIA_SERVER_ADDRESS}"
+    type: nfs
+podSecurityContext:
+  fsGroup: 568
+  fsGroupChangePolicy: "OnRootMismatch"
+  runAsGroup: 568
+  runAsUser: 568
+  supplementalGroups:
+    - 100
+service:
+  main:
+    ports:
+      http:
+        port: *port
