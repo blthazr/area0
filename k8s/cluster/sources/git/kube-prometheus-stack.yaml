@@ -8,7 +8,7 @@ spec:
   ignore: |
     # exclude all
     /*
-    # include crds
+    # include crd directory
     !/charts/kube-prometheus-stack/crds
   interval: 12h
   ref:
