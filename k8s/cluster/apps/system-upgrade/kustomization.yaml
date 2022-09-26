@@ -4,4 +4,4 @@ kind: Kustomization
 namespace: system-upgrade
 resources:
   - namespace.yaml
-  # - system-upgrade-controller
+  - system-upgrade-controller
