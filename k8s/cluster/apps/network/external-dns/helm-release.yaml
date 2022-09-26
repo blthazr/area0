@@ -12,7 +12,6 @@ spec:
         kind: HelmRepository
         name: external-dns-charts
         namespace: flux-system
-      interval: 15m
   install:
     createNamespace: true
     remediation:
