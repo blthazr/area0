@@ -3,6 +3,7 @@ crds:
   enabled: false
 monitoring:
   enabled: true
+pspEnable: false
 resources:
   limits:
     memory: 256Mi
