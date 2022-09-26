@@ -1,4 +1,5 @@
 ---
+nameOverride: &app dizquetv
 env:
   DIZQUETV__PORT: &port 8000
   TZ: "${CLUSTER_TIME_ZONE}"
