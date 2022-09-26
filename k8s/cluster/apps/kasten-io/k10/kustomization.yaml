@@ -10,11 +10,11 @@ configMapGenerator:
 generatorOptions:
   disableNameSuffixHash: true
 resources:
-  - helm-release.yaml
+  - secret.sops.yaml
   - persistent-volume.yaml
   - persistent-volume-claim.yaml
+  - helm-release.yaml
   - rbac.yaml
-  - secret.sops.yaml
   - blueprints
-  - monitoring
   - profiles
+  - observability
