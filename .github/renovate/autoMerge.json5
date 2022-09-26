@@ -1,18 +1,6 @@
 {
   "packageRules": [
-    {
-      "description": "Auto merge container digests",
-      "addLabels": ["action/automerge"],
-      "automerge": true,
-      "automergeType": "pr",
-      "matchDatasources": ["docker"],
-      "matchPackagePattern": [
-        "ghcr.io/k8s-at-home",
-        "ghcr.io/onedr0p"
-      ],
-      "matchUpdateTypes": ["digest"],
-      "requiredStatusChecks": null
-    },
+
     {
       "description": "Auto merge GitHub Actions",
       "addLabels": ["action/automerge"],
@@ -22,69 +10,6 @@
       "matchPackageNames": [
         "lycheeverse/lychee-action",
         "renovatebot/github-action"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-      "requiredStatusChecks": null
-    },
-    {
-      "description": "Auto merge media apps",
-      "addLabels": ["action/automerge"],
-      "automerge": true,
-      "automergeType": "pr",
-      "matchDatasources": [
-        "docker",
-        "helm"
-      ],
-      "matchPackagePatterns": [
-        "bazarr",
-        "gaps",
-        "lidarr",
-        "plex",
-        "prowlarr",
-        "radarr",
-        "readarr",
-        "sabnzbd",
-        "sonarr",
-        "tautulli"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-      "requiredStatusChecks": null
-    },
-    {
-      "description": "Auto merge default apps",
-      "addLabels": ["action/automerge"],
-      "automerge": true,
-      "automergeType": "pr",
-      "matchDatasources": [
-        "docker",
-        "helm"
-      ],
-      "matchPackagePatterns": [
-        "theme-park"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-      "requiredStatusChecks": null
-    },
-    {
-      "description": "Auto merge home apps",
-      "addLabels": ["action/automerge"],
-      "automerge": true,
-      "automergeType": "pr",
-      "matchDatasources": [
-        "docker",
-        "helm"
-      ],
-      "matchPackagePatterns": [
-        "teslamate"
       ],
       "matchUpdateTypes": [
         "minor",
