@@ -22,13 +22,6 @@ metadata:
   name: flux-installation
   namespace: flux-system
 spec:
-  interval: 10m
-  path: ./manifests/install
-  prune: true
-  wait: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-installation
   images:
     - name: fluxcd/helm-controller
       newName: ghcr.io/fluxcd/helm-controller
@@ -42,6 +35,13 @@ spec:
       newName: ghcr.io/fluxcd/notification-controller
     - name: fluxcd/source-controller
       newName: ghcr.io/fluxcd/source-controller
+  interval: 10m
+  path: ./manifests/install
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-installation
+  wait: true
   patches:
     - target:
         group: networking.k8s.io
