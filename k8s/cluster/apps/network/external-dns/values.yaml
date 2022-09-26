@@ -10,8 +10,8 @@ env:
 extraArgs:
   - --cloudflare-proxied
   - --annotation-filter=external-dns/is-public in (true)
-interval: 5m
-logLevel: debug
+interval: 2m
+# logLevel: debug
 policy: sync
 provider: cloudflare
 resources:
