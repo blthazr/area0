@@ -50,6 +50,7 @@ jobs:
                     "REPOSITORY_GIT_DIFF",
                     "REPOSITORY_SECRETLINT",
                     "TERRAFORM_TERRAFORM_FMT",
+                    "YAML_PRETTIER",
                     "YAML_YAMLLINT"
                   ]
                 '),
@@ -59,10 +60,12 @@ jobs:
           GITHUB_TOKEN: "${{ steps.generate-token.outputs.token }}"
           KUBERNETES_DIRECTORY: k8s
           KUBERNETES_KUBEVAL_ARGUMENTS: --ignore-missing-schemas
-          KUBERNETES_KUBEVAL_FILTER_REGEX_INCLUDE: "(k8s/cluster)"
+          KUBERNETES_KUBEVAL_FILTER_REGEX_INCLUDE: "(kubernetes)"
           MARKDOWN_MARKDOWNLINT_CONFIG_FILE: .github/linters/.markdownlint.yaml
           MARKDOWN_MARKDOWNLINT_RULES_PATH: .github/
           PRINT_ALPACA: false
           VALIDATE_ALL_CODEBASE: ${{ github.event_name == 'workflow_dispatch' }}
+          YAML_PRETTIER_CONFIG_FILE: .github/linters/.prettierrc.yaml
+          YAML_PRETTIER_FILTER_REGEX_EXCLUDE: "(.*\\.sops\\.ya?ml)"
           YAML_YAMLLINT_CONFIG_FILE: .github/linters/.yamllint.yaml
         uses: oxsecurity/megalinter@v6.10.0
