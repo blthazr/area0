@@ -5,8 +5,6 @@ metadata:
   name: cluster-crds
   namespace: flux-system
 spec:
-  dependsOn:
-    - name: cluster-sources
   interval: 10m
   path: ./k8s/cluster/crds
   prune: false
