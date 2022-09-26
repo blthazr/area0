@@ -5,7 +5,7 @@ controller:
     client-body-timeout: 120
     client-header-timeout: 120
     custom-http-errors: |-
-      401,403,404,500,501,502,503
+      400,401,403,404,500,502,503,504
     enable-brotli: "true"
     forwarded-for-header: "CF-Connecting-IP"
     hsts-max-age: "31449600"
@@ -43,7 +43,29 @@ controller:
     externalIPs:
       - "${SVC_NGINX_ADDRESS}"
     externalTrafficPolicy: Local
+  topologySpreadConstraints:
+    - labelSelector:
+        matchLabels:
+          app.kubernetes.io/name: ingress-nginx
+          app.kubernetes.io/component: controller
+      maxSkew: 1
+      topologyKey: kubernetes.io/hostname
+      whenUnsatisfiable: DoNotSchedule
 defaultBackend:
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          podAffinityTerm:
+            labelSelector:
+              matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values: ["ingress-nginx"]
+                - key: app.kubernetes.io/component
+                  operator: In
+                  values: ["default-backend"]
+            topologyKey: kubernetes.io/hostname
   enabled: true
   extraEnvs:
     - name: TEMPLATE_NAME
