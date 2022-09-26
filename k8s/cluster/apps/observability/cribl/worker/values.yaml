@@ -1,21 +1,17 @@
 ---
+nameOverride: &app "cribl-stream-worker"
 autoscaling:
   enabled: true
   minReplicas: 1
   maxReplicas: 5
   targetCPUUtilizationPercentage: 50
-
 config:
   group: default
   host: cribl-leader-internal
   token: "${SECRET_CRIBL_LEADER_SECRET}"
-
 criblImage:
   repository: cribl/cribl
   tag: 3.5.3
-
-nameOverride: "cribl-stream-worker"
-
 resources:
   limits:
     cpu: 2000m
@@ -23,10 +19,9 @@ resources:
   requests:
     cpu: 1250m
     memory: 256Mi
-
 service:
   annotations:
-    metallb.universe.tf/allow-shared-ip: cribl-worker
+    metallb.universe.tf/allow-shared-ip: *app
   loadBalancerIP: "${SVC_CRIBL_WORKER_ADDRESS}"
   ports:
     - name: syslog-tcp
