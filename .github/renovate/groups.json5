@@ -81,7 +81,8 @@
         "helm"
       ],
       "matchPackagePatterns": [
-        "cribl"
+        "cribl",
+        "logstream"
       ],
       "matchUpdateTypes": [
         "minor",
