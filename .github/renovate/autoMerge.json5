@@ -1,6 +1,19 @@
 {
   "packageRules": [
     {
+      "description": "Auto merge container digests",
+      "addLabels": ["action/automerge"],
+      "automerge": true,
+      "automergeType": "pr",
+      "matchDatasources": ["docker"],
+      "matchPackagePattern": [
+        "ghcr.io/k8s-at-home",
+        "ghcr.io/onedr0p"
+      ],
+      "matchUpdateTypes": ["digest"],
+      "requiredStatusChecks": null
+    },
+    {
       "description": "Auto merge GitHub Actions",
       "addLabels": ["action/automerge"],
       "automerge": true,
