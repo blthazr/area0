@@ -36,7 +36,7 @@
         "github-tags"
       ],
       "matchPackagePatterns": [
-       "node-feature-discovery"
+        "node-feature-discovery"
       ],
       "separateMinorPatch": true
     },
@@ -84,11 +84,7 @@
         "cribl",
         "logstream"
       ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-      "separateMinorPatch": false
+      "separateMinorPatch": true
     }
   ]
 }
