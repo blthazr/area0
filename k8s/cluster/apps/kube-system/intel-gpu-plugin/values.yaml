@@ -10,8 +10,38 @@ affinity:
                 - "true"
 args:
   - -shared-dev-num
-  - "2"
+  - "4"
+controller:
+  type: daemonset
+  strategy: RollingUpdate
 image:
-  repository: intel/intel-gpu-plugin
+  repository: docker.io/intel/intel-gpu-plugin
   tag: 0.24.0
-  pullPolicy: IfNotPresent
+persistence:
+  devfs:
+    enabled: true
+    hostPath: /dev/dri
+    hostPathType: Directory
+    type: hostPath
+    readOnly: true
+  sysfs:
+    enabled: true
+    hostPath: /sys/class/drm
+    hostPathType: Directory
+    type: hostPath
+    readOnly: true
+  kubeletsockets:
+    enabled: true
+    hostPath: /var/lib/kubelet/device-plugins
+    hostPathType: Directory
+    type: hostPath
+probes:
+  liveness:
+    enabled: false
+  readiness:
+    enabled: false
+  startup:
+    enabled: false
+service:
+  main:
+    enabled: false
