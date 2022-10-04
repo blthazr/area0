@@ -1,6 +1,5 @@
 {
   "packageRules": [
-
     {
       "description": "Auto merge GitHub Actions",
       "addLabels": ["action/automerge"],
@@ -12,6 +11,35 @@
         "renovatebot/github-action"
       ],
       "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "requiredStatusChecks": null
+    },
+    {
+      "description": "Auto merge media apps",
+      "addLabels": ["action/automerge"],
+      "automerge": true,
+      "automergeType": "pr",
+      "matchDatasources": [
+        "docker",
+        "helm"
+      ],
+      "matchPackagePatterns": [
+        "bazarr",
+        "dizquetv",
+        "gaps",
+        "lidarr",
+        "overseerr",
+        "plex",
+        "prowlarr",
+        "radarr",
+        "sabnzbd",
+        "sonarr",
+        "tautulli"
+      ],
+      "matchUpdateTypes": [
+        "digest",
         "minor",
         "patch"
       ],
