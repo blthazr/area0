@@ -17,7 +17,30 @@
       "requiredStatusChecks": null
     },
     {
-      "description": "Auto merge media apps",
+      "description": "Auto merge media apps during maintenance window",
+      "addLabels": ["action/automerge"],
+      "automerge": true,
+      "automergeType": "pr",
+      "matchDatasources": [
+        "docker",
+        "helm"
+      ],
+      "matchPackagePatterns": [
+        "dizquetv",
+        "overseerr",
+        "plex"
+      ],
+      "matchUpdateTypes": [
+        "digest",
+        "minor",
+        "patch"
+      ],
+      "requiredStatusChecks": null,
+      "schedule": ["after 3am, before 6am"],
+      "stabilityDays": 1
+    },
+    {
+      "description": "Auto merge media apps anytime",
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeType": "pr",
@@ -27,11 +50,8 @@
       ],
       "matchPackagePatterns": [
         "bazarr",
-        "dizquetv",
         "gaps",
         "lidarr",
-        "overseerr",
-        "plex",
         "prowlarr",
         "radarr",
         "sabnzbd",
