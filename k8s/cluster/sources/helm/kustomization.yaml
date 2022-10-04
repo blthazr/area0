@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - bitnami.yaml
   - bjw-s.yaml
+  - cloudnative-pg.yaml
   - cribl.yaml
   - deliveryhero.yaml
   - descheduler.yaml
