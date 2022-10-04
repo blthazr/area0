@@ -1,23 +1,35 @@
 {
   "packageRules": [
     {
-      "description": "Auto merge GitHub Actions",
+      "description": "Auto merge apps [anytime]",
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeType": "pr",
-      "matchDatasources": ["github-tags"],
-      "matchPackageNames": [
-        "lycheeverse/lychee-action",
-        "renovatebot/github-action"
+      "matchDatasources": [
+        "docker",
+        "helm"
+      ],
+      "matchPackagePatterns": [
+        "bazarr",
+        "gaps",
+        "lidarr",
+        "mealie",
+        "prowlarr",
+        "radarr",
+        "sabnzbd",
+        "sonarr",
+        "tautulli",
+        "theme-park"
       ],
       "matchUpdateTypes": [
+        "digest",
         "minor",
         "patch"
       ],
       "requiredStatusChecks": null
     },
     {
-      "description": "Auto merge media apps during maintenance window",
+      "description": "Auto merge apps [maintenance window] [1 stability day]",
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeType": "pr",
@@ -40,33 +52,7 @@
       "stabilityDays": 1
     },
     {
-      "description": "Auto merge media apps anytime",
-      "addLabels": ["action/automerge"],
-      "automerge": true,
-      "automergeType": "pr",
-      "matchDatasources": [
-        "docker",
-        "helm"
-      ],
-      "matchPackagePatterns": [
-        "bazarr",
-        "gaps",
-        "lidarr",
-        "prowlarr",
-        "radarr",
-        "sabnzbd",
-        "sonarr",
-        "tautulli"
-      ],
-      "matchUpdateTypes": [
-        "digest",
-        "minor",
-        "patch"
-      ],
-      "requiredStatusChecks": null
-    },
-    {
-      "description": "Auto merge observability apps during maintenance window",
+      "description": "Auto merge apps [maintenance window] [2 stability days]",
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeType": "pr",
@@ -87,6 +73,22 @@
       "requiredStatusChecks": null,
       "schedule": ["after 3am, before 6am"],
       "stabilityDays": 2
+    },
+    {
+      "description": "Auto merge GitHub Actions",
+      "addLabels": ["action/automerge"],
+      "automerge": true,
+      "automergeType": "pr",
+      "matchDatasources": ["github-tags"],
+      "matchPackageNames": [
+        "lycheeverse/lychee-action",
+        "renovatebot/github-action"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "requiredStatusChecks": null
     }
   ]
 }
