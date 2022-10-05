@@ -9,7 +9,7 @@ api:
     TZ: "${CLUSTER_TIME_ZONE}"
   image:
     repository: hkotel/mealie
-    tag: api-v1.0.0beta-3
+    tag: api-v1.0.0beta-2
   volumeMounts:
     - name: api-data
       mountPath: /app/data/
@@ -20,7 +20,7 @@ env:
   TZ: "${CLUSTER_TIME_ZONE}"
 image:
   repository: hkotel/mealie
-  tag: frontend-v1.0.0beta-3
+  tag: frontend-v1.0.0beta-2
 ingress:
   main:
     annotations:
