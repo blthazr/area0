@@ -15,10 +15,10 @@ image:
 ingress:
   main:
     annotations:
-      # nginx.ingress.kubernetes.io/configuration-snippet: |
-      #   proxy_set_header Accept-Encoding "";
-      #   sub_filter '</head>' '<link rel="stylesheet" type="text/css" href="https://theme-park.${SECRET_DOMAIN}/css/base/sonarr/aquamarine.css"><link rel="stylesheet" type="text/css" href="https://theme-park.${SECRET_DOMAIN}/css/addons/sonarr/sonarr-4k-logo/sonarr-4k-logo.css"></head>';
-      #   sub_filter_once on;
+      nginx.ingress.kubernetes.io/configuration-snippet: |
+        proxy_set_header Accept-Encoding "";
+        sub_filter '</head>' '<link rel="stylesheet" type="text/css" href="https://theme-park.${SECRET_DOMAIN}/css/base/sonarr/aquamarine.css"><link rel="stylesheet" type="text/css" href="https://theme-park.${SECRET_DOMAIN}/css/addons/sonarr/sonarr-4k-logo/sonarr-4k-logo.css"></head>';
+        sub_filter_once on;
     enabled: true
     hosts:
       - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
