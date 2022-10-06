@@ -134,6 +134,15 @@ prometheus:
       - hosts:
           - *host
   prometheusSpec:
+    additionalScrapeConfigs:
+      - job_name: node-exporter
+        honor_timestamps: true
+        scrape_interval: 1m
+        scrape_timeout: 10s
+        static_configs:
+          - targets:
+              - "${NAS_ADDRESS}:9100"
+              - "${HOME_ASSISTANT_ADDRESS}:9100"
     enableAdminAPI: true
     externalLabels:
       cluster: area0
