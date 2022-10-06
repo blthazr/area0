@@ -1,0 +1,176 @@
+---
+nameOverride: &app kube-prometheus-stack
+alertmanager:
+  alertmanagerSpec:
+    podAntiAffinity: hard
+    replicas: 1
+    storage:
+      volumeClaimTemplate:
+        spec:
+          resources:
+            requests:
+              storage: 1Gi
+          storageClassName: ceph-block
+  config:
+    global:
+      resolve_timeout: 5m
+      slack_api_url: "${SECRET_ALERT_MANAGER_DISCORD_WEBHOOK}"
+    inhibit_rules:
+      - equal: ["alertname", "namespace"]
+        source_matchers:
+          - severity = "critical"
+        target_matchers:
+          - severity = "warning"
+    receivers:
+      - name: "null"
+      - name: "discord"
+        slack_configs:
+          - channel: "#prometheus-alerts"
+            icon_url: https://avatars3.githubusercontent.com/u/3380462
+            send_resolved: true
+            text: >-
+              {{ range .Alerts -}}
+                **Alert:** {{ .Annotations.title }}{{ if .Labels.severity }} - `{{ .Labels.severity }}`{{ end }}
+
+              **Description:** {{ if ne .Annotations.description ""}}{{ .Annotations.description }}{{else}}N/A{{ end }}
+
+              **Details:**
+                {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
+                {{ end }}
+              {{ end }}
+            title: |-
+              [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ if ne .CommonAnnotations.summary ""}}{{ .CommonAnnotations.summary }}{{ else }}{{ .CommonLabels.alertname }}{{ end }}
+            username: "Prometheus"
+    route:
+      group_by: ["alertname", "job"]
+      group_interval: 5m
+      group_wait: 30s
+      receiver: "discord"
+      repeat_interval: 6h
+      routes:
+        - receiver: "null"
+          matchers:
+            - alertname =~ "InfoInhibitor|Watchdog"
+        - receiver: "discord"
+          continue: true
+          matchers:
+            - severity = "critical"
+  ingress:
+    enabled: true
+    hosts:
+      - &host "alert-manager.${SECRET_DOMAIN}"
+    ingressClassName: nginx
+    pathType: Prefix
+    tls:
+      - hosts:
+          - *host
+grafana:
+  enabled: false
+  forceDeployDashboards: true
+  sidecar:
+    dashboards:
+      multicluster:
+        etcd:
+          enabled: true
+kubeApiServer:
+  enabled: true
+kubeControllerManager:
+  enabled: true
+  endpoints:
+    - "${K3S_NODE_1_ADDRESS}"
+    - "${K3S_NODE_2_ADDRESS}"
+    - "${K3S_NODE_3_ADDRESS}"
+kubeEtcd:
+  enabled: true
+  endpoints:
+    - "${K3S_NODE_1_ADDRESS}"
+    - "${K3S_NODE_2_ADDRESS}"
+    - "${K3S_NODE_3_ADDRESS}"
+  service:
+    enabled: true
+    port: 2381
+    targetPort: 2381
+kubeProxy:
+  enabled: true
+  endpoints:
+    - "${K3S_NODE_1_ADDRESS}"
+    - "${K3S_NODE_2_ADDRESS}"
+    - "${K3S_NODE_3_ADDRESS}"
+kubeScheduler:
+  enabled: true
+  endpoints:
+    - "${K3S_NODE_1_ADDRESS}"
+    - "${K3S_NODE_2_ADDRESS}"
+    - "${K3S_NODE_3_ADDRESS}"
+kubelet:
+  enabled: true
+  serviceMonitor:
+    metricRelabelings:
+      - action: replace
+        sourceLabels:
+          - node
+        targetLabel: instance
+kube-state-metrics:
+  metricLabelsAllowlist:
+    - "persistentvolumeclaims=[*]"
+  prometheus:
+    monitor:
+      enabled: true
+      relabelings:
+        - action: replace
+          regex: (.*)
+          replacement: $1
+          sourceLabels:
+            - __meta_kubernetes_pod_node_name
+          targetLabel: kubernetes_node
+prometheus:
+  ingress:
+    enabled: true
+    hosts:
+      - &host "prometheus.${SECRET_DOMAIN}"
+    ingressClassName: nginx
+    pathType: Prefix
+    tls:
+      - hosts:
+          - *host
+  prometheusSpec:
+    enableAdminAPI: true
+    externalLabels:
+      cluster: area0
+    podAntiAffinity: hard
+    podMonitorSelectorNilUsesHelmValues: false
+    probeSelectorNilUsesHelmValues: false
+    replicas: 1
+    replicaExternalLabelName: __replica__
+    retention: 14d
+    retentionSize: 45GB
+    ruleSelectorNilUsesHelmValues: false
+    serviceMonitorSelectorNilUsesHelmValues: false
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: ceph-block
+          resources:
+            requests:
+              storage: 50Gi
+    thanos:
+      image: quay.io/thanos/thanos:v0.28.0
+      # renovate: datasource=docker depName=quay.io/thanos/thanos
+      version: "v0.28.0"
+    walCompression: true
+  thanosIngress:
+    annotations:
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
+    enabled: true
+    hosts:
+      - &host "thanos-sidecar.${SECRET_PUBLIC_DOMAIN}"
+    ingressClassName: nginx
+    pathType: Prefix
+    tls:
+      - hosts:
+          - *host
+  thanosService:
+    enabled: true
+  thanosServiceMonitor:
+    enabled: true
