@@ -1,0 +1,33 @@
+---
+nameOverride: &app thanos
+bucketweb:
+  enabled: false
+compactor:
+  enabled: false
+metrics:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+query:
+  dnsDiscovery:
+    sidecarsService: kube-prometheus-stack-thanos-discovery
+    sidecarsNamespace: observability
+  enabled: true
+  ingress:
+    enabled: true
+    hostname: &host "thanos-query.${SECRET_DOMAIN}"
+    ingressClassName: nginx
+    tls: true
+    extraTls:
+      - hosts:
+          - *host
+  podAntiAffinityPreset: hard
+  replicaCount: 3
+  replicaLabel:
+    - __replica__
+queryFrontend:
+  enabled: false
+ruler:
+  enabled: false
+storegateway:
+  enabled: false

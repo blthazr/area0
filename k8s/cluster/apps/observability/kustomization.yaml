@@ -7,3 +7,4 @@ resources:
   - cribl
   - grafana
   - kube-prometheus-stack
+  - thanos
