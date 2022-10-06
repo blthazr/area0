@@ -1,6 +1,7 @@
 ---
 nameOverride: &app sonarr4k
 env:
+  SONARR__ANALYTICS_ENABLED: false
   SONARR__APPLICATION_URL: "https://{{ .Release.Name }}.${SECRET_DOMAIN}"
   SONARR__INSTANCE_NAME: Sonarr4K
   SONARR__LOG_LEVEL: info
