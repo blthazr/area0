@@ -4,6 +4,7 @@ kind: Kustomization
 namespace: kube-system
 resources:
   - cert-manager
+  - descheduler
   - external-snapshotter
   - intel-gpu-plugin
   - metrics-server
