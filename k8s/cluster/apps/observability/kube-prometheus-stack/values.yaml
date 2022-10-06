@@ -164,7 +164,7 @@ prometheus:
       nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
     enabled: true
     hosts:
-      - &host "thanos-sidecar.${SECRET_PUBLIC_DOMAIN}"
+      - &host "thanos-sidecar.${SECRET_DOMAIN}"
     ingressClassName: nginx
     pathType: Prefix
     tls:
