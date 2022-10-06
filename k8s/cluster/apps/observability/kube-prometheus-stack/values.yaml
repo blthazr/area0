@@ -135,6 +135,14 @@ prometheus:
           - *host
   prometheusSpec:
     additionalScrapeConfigs:
+      - job_name: minio
+        honor_timestamps: true
+        metrics_path: /minio/v2/metrics/cluster
+        scrape_interval: 1m
+        scrape_timeout: 10s
+        static_configs:
+          - targets:
+              - "${MINIO_ADDRESS}:9000"
       - job_name: node-exporter
         honor_timestamps: true
         scrape_interval: 1m
