@@ -10,8 +10,8 @@ envFrom:
   - secretRef:
       name: *app
 image:
-  repository: lscr.io/linuxserver/sonarr
-  tag: 3.0.9
+  repository: ghcr.io/onedr0p/sonarr-develop
+  tag: 3.0.9.1555@sha256:63e06362f8c14829086c908e6e92768bc22568b70095bc21124cdf21f235e785
 ingress:
   main:
     annotations:
