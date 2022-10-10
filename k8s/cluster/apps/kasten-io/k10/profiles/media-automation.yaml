@@ -1,0 +1,19 @@
+---
+apiVersion: config.kio.kasten.io/v1alpha1
+kind: Profile
+metadata:
+  name: media-automation
+spec:
+  locationSpec:
+    credential:
+      secret:
+        apiVersion: ""
+        kind: ""
+        name: ""
+        namespace: ""
+      secretType: ""
+    fileStore:
+      claimName: k10-backups
+      path: media-automation
+    type: FileStore
+  type: Location

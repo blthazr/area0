@@ -7,4 +7,5 @@ resources:
   - home.yaml
   - k10-disaster-recovery.yaml
   - media.yaml
+  - media-automation.yaml
   - observability.yaml
