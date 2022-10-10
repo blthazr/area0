@@ -1,0 +1,10 @@
+{
+  "packageRules": [
+    {
+      "description": "Disable kubernetes-api",
+      "enabled": false,
+      "matchDatasources": ["kubernetes-api"],
+      "matchManagers": ["kubernetes"]
+    }
+  ]
+}
