@@ -12,11 +12,10 @@ configOverride: |
   bdev_async_discard = true
 ingress:
   dashboard:
-    annotations:
-      kubernetes.io/ingress.class: nginx
     host:
       name: &host "rook.${SECRET_DOMAIN}"
-      path: "/"
+      path: /
+    ingressClassName: nginx
     tls:
       - hosts:
           - *host
