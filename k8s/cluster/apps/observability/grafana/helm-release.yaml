@@ -6,7 +6,7 @@ metadata:
 spec:
   chart:
     spec:
-      chart: app-template
+      chart: grafana
       version: 6.40.3
       sourceRef:
         kind: HelmRepository
