@@ -166,10 +166,10 @@ prometheus:
     storageSpec:
       volumeClaimTemplate:
         spec:
-          storageClassName: ceph-block
           resources:
             requests:
               storage: 50Gi
+          storageClassName: ceph-block
     thanos:
       image: quay.io/thanos/thanos:v0.28.1
       # renovate: datasource=docker depName=quay.io/thanos/thanos
