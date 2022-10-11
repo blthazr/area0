@@ -6,6 +6,7 @@ resources:
   - cloudnative-pg
   - external-snapshotter
   - kube-prometheus-stack
+  - metallb
   - node-feature-discovery
   - rook-ceph
   - system-upgrade-controller
