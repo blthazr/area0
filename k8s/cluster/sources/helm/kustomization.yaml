@@ -10,6 +10,7 @@ resources:
   - descheduler.yaml
   - emberstack.yaml
   - external-dns.yaml
+  - fairwinds.yaml
   - grafana.yaml
   - ingress-nginx.yaml
   - jetstack.yaml

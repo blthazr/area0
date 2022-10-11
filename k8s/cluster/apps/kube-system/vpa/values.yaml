@@ -1,0 +1,12 @@
+---
+nameOverride: &app vpa
+admissionController:
+  enabled: false
+recommender:
+  enabled: true
+  extraArgs:
+    prometheus-address: |-
+      http://thanos-query.monitoring.svc.cluster.local:9090
+    storage: prometheus
+updater:
+  enabled: false

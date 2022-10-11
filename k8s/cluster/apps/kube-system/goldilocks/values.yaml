@@ -1,0 +1,28 @@
+---
+nameOverride: &app goldilocks
+controller:
+  resources:
+    limits:
+      memory: 250M
+    requests:
+      cpu: 10m
+      memory: 64M
+dashboard:
+  ingress:
+    enabled: true
+    hosts:
+      - host: &host "goldilocks.${SECRET_DOMAIN}"
+        paths:
+          - path: /
+            type: Prefix
+    ingressClassName: nginx
+    tls:
+      - hosts:
+          - *host
+  replicaCount: 1
+  resources:
+    limits:
+      memory: 150Mi
+    requests:
+      cpu: 10m
+      memory: 50Mi
