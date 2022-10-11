@@ -93,7 +93,7 @@ ingress:
         - *host
 persistence:
   enabled: true
-  existingClaim: grafana-config-v1
+  existingClaim: *app
 plugins:
   - grafana-clock-panel
   - grafana-piechart-panel
