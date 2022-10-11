@@ -1,8 +1,6 @@
 ---
 nameOverride: &app metallb
-configInline:
-  address-pools:
-    - name: default
-      protocol: layer2
-      addresses:
-        - "${METALLB_DEFAULT_ADDRESS_POOL}"
+crds:
+  enabled: false
+psp:
+  create: false
