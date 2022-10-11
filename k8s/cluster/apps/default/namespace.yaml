@@ -4,5 +4,6 @@ kind: Namespace
 metadata:
   name: default
   labels:
+    goldilocks.fairwinds.com/enabled: "true"
     k10.kasten.io/ignorebackuppolicy: "true"
     kustomize.toolkit.fluxcd.io/prune: disabled

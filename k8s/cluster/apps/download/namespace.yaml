@@ -4,5 +4,6 @@ kind: Namespace
 metadata:
   name: download
   labels:
+    goldilocks.fairwinds.com/enabled: "true"
     kustomize.toolkit.fluxcd.io/prune: disabled
     vpn-routed-gateway: "true"
