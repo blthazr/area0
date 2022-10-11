@@ -2,11 +2,11 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: k10
+  name: &app k10
 spec:
   chart:
     spec:
-      chart: k10
+      chart: *app
       version: 4.5.15
       sourceRef:
         kind: HelmRepository

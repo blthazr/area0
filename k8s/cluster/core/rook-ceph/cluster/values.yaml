@@ -1,4 +1,5 @@
 ---
+nameOverride: &app rook-ceph-cluster
 cephBlockPoolsVolumeSnapshotClass:
   annotations:
     k10.kasten.io/is-snapshot-class: "true"

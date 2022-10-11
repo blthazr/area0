@@ -2,11 +2,11 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: node-feature-discovery
+  name: &app node-feature-discovery
 spec:
   chart:
     spec:
-      chart: node-feature-discovery
+      chart: *app
       version: 0.11.2
       sourceRef:
         kind: HelmRepository

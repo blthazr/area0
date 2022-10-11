@@ -3,15 +3,14 @@ nameOverride: &app descheduler
 affinity:
   podAntiAffinity:
     preferredDuringSchedulingIgnoredDuringExecution:
-      - weight: 100
-        podAffinityTerm:
+      - podAffinityTerm:
           labelSelector:
             matchExpressions:
               - key: app.kubernetes.io/name
                 operator: In
-                values:
-                  - *app
+                values: [*app]
           topologyKey: kubernetes.io/hostname
+        weight: 100
 deschedulerPolicy:
   strategies:
     LowNodeUtilization:

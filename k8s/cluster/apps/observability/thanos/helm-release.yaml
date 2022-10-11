@@ -6,7 +6,7 @@ metadata:
 spec:
   chart:
     spec:
-      chart: thanos
+      chart: *app
       version: 11.5.5
       sourceRef:
         kind: HelmRepository

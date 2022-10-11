@@ -2,11 +2,11 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: reloader
+  name: &app reloader
 spec:
   chart:
     spec:
-      chart: reloader
+      chart: *app
       version: v0.0.122
       sourceRef:
         kind: HelmRepository

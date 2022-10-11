@@ -1,4 +1,5 @@
 ---
+nameOverride: &app metallb
 configInline:
   address-pools:
     - name: default

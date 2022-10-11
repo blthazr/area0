@@ -1,5 +1,5 @@
 ---
-nameOverride: &app "cribl-leader"
+nameOverride: &app cribl-leader
 config:
   adminPassword: "${LEADER_ADMIN_PASSWORD}"
   groups:

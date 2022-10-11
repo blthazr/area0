@@ -1,5 +1,5 @@
 ---
-nameOverride: &app "cribl-stream-worker"
+nameOverride: &app cribl-stream-worker
 autoscaling:
   enabled: true
   minReplicas: 1

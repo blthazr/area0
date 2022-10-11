@@ -1,4 +1,5 @@
 ---
+nameOverride: &app intel-gpu-plugin
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
@@ -6,8 +7,7 @@ affinity:
         - matchExpressions:
             - key: feature.node.kubernetes.io/custom-intel-gpu
               operator: In
-              values:
-                - "true"
+              values: ["true"]
 args:
   - -shared-dev-num
   - "4"

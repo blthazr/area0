@@ -1,6 +1,7 @@
 ---
+nameOverride: &app k8s-gateway
 domain: "${SECRET_DOMAIN}"
-fullnameOverride: k8s-gateway
+fullnameOverride: *app
 service:
   annotations:
     metallb.universe.tf/loadBalancerIPs: "${SVC_K8S_GATEWAY_ADDRESS}"

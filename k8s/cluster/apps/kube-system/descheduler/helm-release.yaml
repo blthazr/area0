@@ -6,7 +6,7 @@ metadata:
 spec:
   chart:
     spec:
-      chart: descheduler
+      chart: *app
       version: 0.24.1
       sourceRef:
         kind: HelmRepository
