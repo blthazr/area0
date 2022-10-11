@@ -13,5 +13,5 @@ spec:
   interval: 12h
   ref:
     # renovate: registryUrl=https://charts.rook.io/release chart=rook-ceph
-    tag: v1.10.2
+    tag: v1.10.3
   url: https://github.com/rook/rook.git
