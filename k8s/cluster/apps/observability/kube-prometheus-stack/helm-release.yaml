@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: *app
-      version: 41.2.0
+      version: 41.3.2
       sourceRef:
         kind: HelmRepository
         name: prometheus-community-charts
