@@ -11,7 +11,7 @@ config:
   token: "${SECRET_CRIBL_LEADER_SECRET}"
 criblImage:
   repository: cribl/cribl
-  tag: 3.5.3
+  tag: 3.5.4
 resources:
   limits:
     cpu: 2000m
