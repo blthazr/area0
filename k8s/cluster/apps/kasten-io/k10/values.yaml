@@ -22,13 +22,3 @@ global:
     storageClass: ceph-block
 grafana:
   enabled: false
-ingress:
-  class: nginx
-  create: true
-  host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
-  hosts:
-    - *host
-  tls:
-    enabled: true
-    secretName: "${SECRET_DOMAIN/./-}-tls"
-  urlPath: k10
