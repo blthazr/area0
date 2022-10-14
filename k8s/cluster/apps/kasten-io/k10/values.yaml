@@ -23,8 +23,7 @@ global:
 grafana:
   enabled: false
 ingress:
-  annotations:
-    kubernetes.io/ingress.class: nginx
+  class: nginx
   create: true
   host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
   hosts:

@@ -6,8 +6,8 @@ metadata:
 spec:
   chart:
     spec:
-      chart: *app
-      version: 4.5.15
+      chart: k10
+      version: 5.0.9
       sourceRef:
         kind: HelmRepository
         name: kasten-charts
@@ -17,7 +17,7 @@ spec:
     crds: CreateReplace
     remediation:
       retries: 5
-  interval: 15m
+  interval: 5m
   releaseName: k10
   upgrade:
     crds: CreateReplace
