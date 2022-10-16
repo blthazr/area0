@@ -9,18 +9,18 @@ data:
   CLUSTER_TIME_ZONE: America/Chicago
   CLUSTER_NAME: area0
 
-  # MetalLB
+  # metallb
   METALLB_DEFAULT_ADDRESS_POOL: 10.0.100.100-10.0.100.199
 
   # kube-vip
   KUBE_VIP_ADDRESS: 10.0.101.10
   KUBE_VIP_INTERFACE: enp3s0f0
 
-  # NFS
+  # nfs
   NAS_NFS_PATH: "/volume1/data"
   MEDIA_SERVER_NFS_PATH: "/data/media"
 
-  # Service Addresses
+  # service addresses
   SVC_NGINX_ADDRESS: 10.0.100.100
   SVC_K8S_GATEWAY_ADDRESS: 10.0.100.101
   SVC_PLEX_ADDRESS: 10.0.100.103
