@@ -72,8 +72,11 @@ podSecurityContext:
 resources:
   limits:
     gpu.intel.com/i915: 1
+    memory: 10000Mi
   requests:
+    cpu: 100m
     gpu.intel.com/i915: 1
+    memory: 2000Mi
 service:
   main:
     annotations:
