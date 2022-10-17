@@ -22,7 +22,7 @@ query:
       - hosts:
           - *host
   podAntiAffinityPreset: hard
-  replicaCount: 3
+  replicaCount: 1
   replicaLabel:
     - __replica__
 queryFrontend:
