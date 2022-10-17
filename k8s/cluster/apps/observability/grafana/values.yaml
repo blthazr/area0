@@ -1,7 +1,7 @@
 ---
 nameOverride: &app grafana
 admin:
-  existingSecret: grafana-secrets
+  existingSecret: grafana-admin
 affinity:
   podAntiAffinity:
     preferredDuringSchedulingIgnoredDuringExecution:
@@ -64,11 +64,11 @@ env:
   GF_PATHS_PLUGINS: /var/lib/grafana/plugins
   GF_PATHS_PROVISIONING: /etc/grafana/provisioning
   GF_SECURITY_ALLOW_EMBEDDING: true
-  GF_SECURITY_COOKIE_SAMESITE: grafana
+  GF_SECURITY_COOKIE_SAMESITE: *app
   GF_SERVER_ROOT_URL: "{{ .Release.Name }}.${SECRET_DOMAIN}"
 grafana.ini:
   auth.basic:
-    disable_login_form: false
+    enabled: false
   auth.generic_oauth:
     allow_sign_up: true
     allowed_organizations:
@@ -82,8 +82,12 @@ grafana.ini:
     team_ids:
     token_url: "https://${SECRET_AUTH0_TENANT}.us.auth0.com/oauth/token"
   auth.generic_oauth.group_mapping:
-    role_attribute_path: contains("https://${SECRET_DOMAIN}/groups"[*], 'Grafana Admins') && 'Admin' || contains("https://${SECRET_DOMAIN}/groups"[*], 'Grafana Editors') && 'Editor' || 'Viewer'
+    role_attribute_path: |
+      contains("https://${SECRET_DOMAIN}/groups"[*], 'Grafana Admins') && 'Admin' || contains("https://${SECRET_DOMAIN}/groups"[*], 'Grafana Editors') && 'Editor' || 'Viewer'
 ingress:
+  annotations:
+    external-dns.alpha.kubernetes.io/target: "hsv-1.${SECRET_DOMAIN}"
+    external-dns/is-public: "true"
   enabled: true
   hosts:
     - &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
@@ -93,7 +97,7 @@ ingress:
         - *host
 persistence:
   enabled: true
-  existingClaim: *app
+  existingClaim: grafana-config-v1
 plugins:
   - grafana-clock-panel
   - grafana-piechart-panel
@@ -104,9 +108,6 @@ plugins:
 rbac:
   pspEnabled: false
 replicas: 1
-serviceAccount:
-  create: true
-  autoMount: true
 serviceMonitor:
   enabled: true
 sidecar:
