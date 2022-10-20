@@ -21,7 +21,9 @@ spec:
       retries: 5
   interval: 15m
   upgrade:
+    cleanupOnFail: true
     remediation:
+      remediateLastFailure: true
       retries: 5
   valuesFrom:
     - kind: ConfigMap
