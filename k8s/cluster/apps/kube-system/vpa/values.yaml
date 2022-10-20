@@ -6,7 +6,7 @@ recommender:
   enabled: true
   extraArgs:
     prometheus-address: |-
-      http://thanos-query.monitoring.svc.cluster.local:9090
+      http://kube-prometheus-stack-prometheus.observability.svc.cluster.local:9090
     storage: prometheus
 updater:
   enabled: false
