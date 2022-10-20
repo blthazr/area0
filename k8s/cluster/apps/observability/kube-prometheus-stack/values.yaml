@@ -157,13 +157,10 @@ prometheus:
       cluster: area0
     podAnnotations:
       secret.reloader.stakater.com/reload: thanos-objstore
-    podAntiAffinity: hard
     podMonitorSelectorNilUsesHelmValues: false
     probeSelectorNilUsesHelmValues: false
-    replicas: 1
-    replicaExternalLabelName: __replica__
-    retention: 14d
-    retentionSize: 45GB
+    retention: 7d
+    retentionSize: 20GB
     ruleSelectorNilUsesHelmValues: false
     serviceMonitorSelectorNilUsesHelmValues: false
     storageSpec:
@@ -171,7 +168,7 @@ prometheus:
         spec:
           resources:
             requests:
-              storage: 50Gi
+              storage: 30Gi
           storageClassName: ceph-block
     thanos:
       image: quay.io/thanos/thanos:v0.28.1
@@ -181,6 +178,17 @@ prometheus:
       # renovate: datasource=docker depName=quay.io/thanos/thanos
       version: "v0.28.1"
     walCompression: true
+  thanosIngress:
+    annotations:
+      nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    enabled: true
+    hosts:
+      - &host "thanos-sidecar.${SECRET_DOMAIN}"
+    ingressClassName: nginx
+    tls:
+      - hosts:
+          - *host
   thanosService:
     enabled: true
   thanosServiceMonitor:
