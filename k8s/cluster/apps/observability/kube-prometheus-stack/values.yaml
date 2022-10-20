@@ -138,6 +138,7 @@ prometheus:
       - job_name: minio
         honor_timestamps: true
         metrics_path: /minio/v2/metrics/cluster
+        scheme: http
         scrape_interval: 1m
         scrape_timeout: 10s
         static_configs:
@@ -154,6 +155,8 @@ prometheus:
     enableAdminAPI: true
     externalLabels:
       cluster: area0
+    podAnnotations:
+      secret.reloader.stakater.com/reload: thanos-objstore
     podAntiAffinity: hard
     podMonitorSelectorNilUsesHelmValues: false
     probeSelectorNilUsesHelmValues: false
@@ -172,21 +175,12 @@ prometheus:
           storageClassName: ceph-block
     thanos:
       image: quay.io/thanos/thanos:v0.28.1
+      objectStorageConfig:
+        key: objstore.yml
+        name: thanos-objstore
       # renovate: datasource=docker depName=quay.io/thanos/thanos
       version: "v0.28.1"
     walCompression: true
-  thanosIngress:
-    annotations:
-      nginx.ingress.kubernetes.io/ssl-redirect: "true"
-      nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
-    enabled: true
-    hosts:
-      - &host "thanos-sidecar.${SECRET_DOMAIN}"
-    ingressClassName: nginx
-    pathType: Prefix
-    tls:
-      - hosts:
-          - *host
   thanosService:
     enabled: true
   thanosServiceMonitor:
