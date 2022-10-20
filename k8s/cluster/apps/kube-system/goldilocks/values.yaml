@@ -22,7 +22,7 @@ dashboard:
   replicaCount: 1
   resources:
     limits:
-      memory: 150Mi
+      memory: 64Mi
     requests:
       cpu: 10m
-      memory: 50Mi
+      memory: 64Mi
