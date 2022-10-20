@@ -5,8 +5,16 @@ admissionController:
 recommender:
   enabled: true
   extraArgs:
+    pod-recommendation-min-cpu-millicores: 15
+    pod-recommendation-min-memory-mb: 50
     prometheus-address: |-
       http://kube-prometheus-stack-prometheus.observability.svc.cluster.local:9090
     storage: prometheus
+  resources:
+    requests:
+      cpu: 15m
+      memory: 120Mi
+    limits:
+      memory: 350M
 updater:
   enabled: false
