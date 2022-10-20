@@ -50,7 +50,7 @@ datasources:
         access: proxy
         isDefault: true
         type: prometheus
-        url: http://thanos-query:9090/
+        url: http://kube-prometheus-stack-prometheus:9090/
 env:
   GF_ANALYTICS_CHECK_FOR_UPDATES: false
   GF_DATE_FORMATS_FULL_DATE: "MMM Do, YYYY hh:mm:ss a"
