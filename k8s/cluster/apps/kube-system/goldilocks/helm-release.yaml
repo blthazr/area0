@@ -12,6 +12,9 @@ spec:
         kind: HelmRepository
         name: fairwinds-charts
         namespace: flux-system
+  dependsOn:
+    - name: vpa
+      namespace: kube-system
   install:
     createNamespace: true
     remediation:
