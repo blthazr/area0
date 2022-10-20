@@ -33,7 +33,7 @@ controller:
     configmap.reloader.stakater.com/reload: cloudflare-proxied-networks
   publishService:
     enabled: true
-  replicaCount: 1
+  replicaCount: 3
   resources:
     limits:
       memory: 500Mi
@@ -44,6 +44,11 @@ controller:
     externalIPs:
       - "${SVC_NGINX_ADDRESS}"
     externalTrafficPolicy: Local
+  tolerations:
+    - effect: NoExecute
+      operator: Exists
+    - effect: NoSchedule
+      operator: Exists
   topologySpreadConstraints:
     - labelSelector:
         matchLabels:
