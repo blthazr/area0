@@ -2,5 +2,10 @@
 nameOverride: &app metallb
 crds:
   enabled: false
-psp:
-  create: false
+prometheus:
+  podMonitor:
+    enabled: true
+  prometheusRule:
+    enabled: true
+  namespace: observability
+  serviceAccount: prometheus-prometheus
