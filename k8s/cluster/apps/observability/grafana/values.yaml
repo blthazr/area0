@@ -65,13 +65,12 @@ env:
   GF_PATHS_PROVISIONING: /etc/grafana/provisioning
   GF_SECURITY_ALLOW_EMBEDDING: true
   GF_SECURITY_COOKIE_SAMESITE: *app
-  GF_SERVER_ROOT_URL: "{{ .Release.Name }}.${SECRET_DOMAIN}"
+  GF_SERVER_ROOT_URL: "https://{{ .Release.Name }}.${SECRET_DOMAIN}"
 grafana.ini:
   auth.basic:
     enabled: false
   auth.generic_oauth:
     allow_sign_up: true
-    allowed_organizations:
     api_url: "https://${SECRET_AUTH0_TENANT}.us.auth0.com/userinfo"
     auth_url: "https://${SECRET_AUTH0_TENANT}.us.auth0.com/authorize"
     client_id: "${SECRET_AUTH0_GRAFANA_CLIENT_ID}"
@@ -79,7 +78,6 @@ grafana.ini:
     enabled: true
     name: Auth0
     scopes: openid profile email
-    team_ids:
     token_url: "https://${SECRET_AUTH0_TENANT}.us.auth0.com/oauth/token"
   auth.generic_oauth.group_mapping:
     role_attribute_path: |
@@ -98,6 +96,9 @@ ingress:
 persistence:
   enabled: true
   existingClaim: grafana-config-v1
+podAnnotations:
+  configmap.reloader.stakater.com/reload: grafana
+  secret.reloader.stakater.com/reload: grafana-admin
 plugins:
   - grafana-clock-panel
   - grafana-piechart-panel
@@ -105,8 +106,6 @@ plugins:
   - natel-discrete-panel
   - pr0ps-trackmap-panel
   - vonage-status-panel
-rbac:
-  pspEnabled: false
 replicas: 1
 serviceMonitor:
   enabled: true
