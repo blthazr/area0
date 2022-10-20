@@ -16,9 +16,12 @@ spec:
     createNamespace: true
     remediation:
       retries: 5
-  interval: 15m
+  interval: 6h
+  maxHistory: 2
+  timeout: 20m
   upgrade:
     remediation:
+      remediateLastFailure: true
       retries: 5
   valuesFrom:
     - kind: ConfigMap
