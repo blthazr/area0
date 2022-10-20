@@ -13,4 +13,5 @@ configMapGenerator:
 generatorOptions:
   disableNameSuffixHash: true
 resources:
+  - secret.sops.yaml
   - helm-release.yaml

@@ -4,6 +4,7 @@ bucketweb:
   enabled: false
 compactor:
   enabled: false
+existingObjstoreSecret: &secret thanos-objstore
 metrics:
   enabled: true
   serviceMonitor:
@@ -21,13 +22,14 @@ query:
     extraTls:
       - hosts:
           - *host
-  podAntiAffinityPreset: hard
-  replicaCount: 1
-  replicaLabel:
-    - __replica__
 queryFrontend:
   enabled: false
 ruler:
   enabled: false
 storegateway:
-  enabled: false
+  enabled: true
+  persistence:
+    enabled: true
+    size: 8Gi
+  podAnnotations:
+    secret.reloader.stakater.com/reload: *secret
