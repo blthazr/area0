@@ -18,6 +18,7 @@ spec:
       retries: 5
   interval: 15m
   upgrade:
+    cleanupOnFail: true
     remediation:
       retries: 5
   valuesFrom:
