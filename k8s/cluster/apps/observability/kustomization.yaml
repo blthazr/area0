@@ -6,5 +6,3 @@ resources:
   - namespace.yaml
   - cribl
   - grafana
-  - kube-prometheus-stack
-  - thanos
