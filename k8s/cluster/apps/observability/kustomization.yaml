@@ -5,6 +5,6 @@ namespace: observability
 resources:
   - namespace.yaml
   - cribl
-  - grafana
+  # - grafana
   - kube-prometheus-stack
   - thanos
