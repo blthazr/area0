@@ -9,7 +9,7 @@ actions:
       - name: hookPhase
         func: KubeTask
         args:
-          image: docker.io/rclone/rclone:1.59.2
+          image: docker.io/rclone/rclone:1.60.0
           namespace: kasten-io
           podOverride:
             containers:
