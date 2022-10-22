@@ -3,10 +3,11 @@ nameOverride: &app goldilocks
 controller:
   resources:
     limits:
-      memory: 250M
+      cpu: 100m
+      memory: 128Mi
     requests:
-      cpu: 10m
-      memory: 64M
+      cpu: 35m
+      memory: 80Mi
 dashboard:
   ingress:
     enabled: true
@@ -22,7 +23,8 @@ dashboard:
   replicaCount: 1
   resources:
     limits:
-      memory: 64Mi
+      cpu: 60m
+      memory: 136M
     requests:
-      cpu: 10m
+      cpu: 15m
       memory: 64Mi
