@@ -14,5 +14,4 @@ generatorOptions:
   disableNameSuffixHash: true
 resources:
   - helm-release.yaml
-  - certificate.yaml
   - observability
