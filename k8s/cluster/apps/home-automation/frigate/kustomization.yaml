@@ -10,3 +10,4 @@ configMapGenerator:
       - config.yaml
 resources:
   - secret.sops.yaml
+  - persistent-volume-claim.yaml
