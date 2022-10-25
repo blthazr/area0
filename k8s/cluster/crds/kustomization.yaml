@@ -9,4 +9,3 @@ resources:
   - metallb
   - node-feature-discovery
   - rook-ceph
-  - system-upgrade-controller
