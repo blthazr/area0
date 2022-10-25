@@ -9,7 +9,12 @@ resources:
   - plans
 patchesStrategicMerge:
   # Delete namespace resource
-  - ./system-upgrade-patches.yaml
+  - |
+    $patch: delete
+    apiVersion: v1
+    kind: Namespace
+    metadata:
+      name: system-upgrade
   # Add labels
   - |-
     apiVersion: apps/v1

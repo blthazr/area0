@@ -10,7 +10,8 @@ spec:
   nodeSelector:
     matchExpressions:
       - key: node-role.kubernetes.io/control-plane
-        operator: DoesNotExist
+        operator: NotIn
+        values: ["true"]
   prepare:
     args:
       - "prepare"
