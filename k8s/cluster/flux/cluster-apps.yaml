@@ -11,7 +11,7 @@ spec:
       name: sops-age
   dependsOn:
     - name: cluster-core
-  interval: 10m
+  interval: 30m
   path: ./k8s/cluster/apps
   postBuild:
     substituteFrom:
