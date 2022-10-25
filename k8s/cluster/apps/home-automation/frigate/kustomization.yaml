@@ -4,10 +4,18 @@ kind: Kustomization
 commonLabels:
   app.kubernetes.io/instance: &app frigate
   app.kubernetes.io/name: *app
+configurations:
+  - kustomize-config.yaml
 configMapGenerator:
   - name: frigate-config
     files:
       - config.yaml
+  - name: frigate-helm-values
+    files:
+      - values.yaml
+generatorOptions:
+  disableNameSuffixHash: true
 resources:
   - secret.sops.yaml
   - persistent-volume-claim.yaml
+  - helm-release.yaml
