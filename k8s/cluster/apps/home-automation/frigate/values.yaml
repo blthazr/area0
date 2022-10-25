@@ -90,6 +90,9 @@ securityContext:
   privileged: true
 service:
   main:
+    externalTrafficPolicy: Local
+    loadBalancerIP: "${SVC_FRIGATE_ADDRESS}"
     ports:
       http:
         port: *port
+    type: LoadBalancer
