@@ -4,5 +4,9 @@ kind: Kustomization
 commonLabels:
   app.kubernetes.io/instance: &app frigate
   app.kubernetes.io/name: *app
+configMapGenerator:
+  - name: frigate-config
+    files:
+      - config.yaml
 resources:
   - secret.sops.yaml
