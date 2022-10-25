@@ -5,8 +5,8 @@
 mqtt:
   host: "${MQTT_ADDRESS}"
   port: 1883
-  user: "{FRIGATE_MQTT_USER}"
-  password: "{FRIGATE_MQTT_PASSWORD}"
+  user: "${SECRET_MQTT_USERNAME}"
+  password: "${SECRET_MQTT_PASSWORD}"
 # ==================================================================================================
 
 # --------------------------------------------------------------------------------------------------
