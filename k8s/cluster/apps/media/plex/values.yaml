@@ -71,7 +71,6 @@ podSecurityContext:
     - 100
 resources:
   limits:
-    cpu: null
     gpu.intel.com/i915: 1
     memory: 12Gi
   requests:
