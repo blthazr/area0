@@ -13,7 +13,7 @@ env:
   TZ: "${CLUSTER_TIME_ZONE}"
 envFrom:
   - secretRef:
-      name: *app
+      name: frigate-secrets
 image:
   repository: docker.io/blakeblackshear/frigate
   tag: 0.11.1
