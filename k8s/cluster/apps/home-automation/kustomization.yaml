@@ -4,3 +4,4 @@ kind: Kustomization
 namespace: home-automation
 resources:
   - namespace.yaml
+  - frigate
