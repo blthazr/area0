@@ -10,6 +10,9 @@ spec:
     secretRef:
       name: sops-age
   dependsOn:
+    - name: cluster-sources
+    - name: cluster-config
+    - name: cluster-crds
     - name: cluster-core
   interval: 30m
   path: ./k8s/cluster/apps
