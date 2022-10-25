@@ -4,16 +4,16 @@ kind: Kustomization
 commonLabels:
   app.kubernetes.io/instance: &app cert-manager
   app.kubernetes.io/name: *app
-configurations:
-  - kustomize-config.yaml
-configMapGenerator:
-  - name: cert-manager-helm-values
-    files:
-      - values.yaml
-generatorOptions:
-  disableNameSuffixHash: true
+# configurations:
+#   - kustomize-config.yaml
+# configMapGenerator:
+#   - name: cert-manager-helm-values
+#     files:
+#       - values.yaml
+# generatorOptions:
+#   disableNameSuffixHash: true
 resources:
-  - helm-release.yaml
-  - issuers
+  # - helm-release.yaml
+  # - issuers
   - certificates
-  - observability
+  # - observability
