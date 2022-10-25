@@ -14,6 +14,8 @@ configMapGenerator:
     files:
       - values.yaml
 generatorOptions:
+  annotations:
+    kustomize.toolkit.fluxcd.io/substitute: disabled
   disableNameSuffixHash: true
 resources:
   - secret.sops.yaml
