@@ -9,7 +9,7 @@ configurations:
 configMapGenerator:
   - name: frigate-config
     files:
-      - config.yaml
+      - config/frigate-config.yaml
   - name: frigate-helm-values
     files:
       - values.yaml
