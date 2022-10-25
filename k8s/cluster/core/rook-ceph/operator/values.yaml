@@ -1,7 +1,7 @@
 ---
 nameOverride: &app rook-ceph-operator
 crds:
-  enabled: false
+  enabled: true
 monitoring:
   enabled: true
 pspEnable: false

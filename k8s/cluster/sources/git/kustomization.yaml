@@ -5,4 +5,3 @@ resources:
   - cloudnative-pg.yaml
   - kube-prometheus-stack.yaml
   - metallb.yaml
-  - rook-ceph.yaml
