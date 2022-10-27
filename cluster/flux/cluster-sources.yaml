@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 30m
-  path: ./k8s/cluster/sources
+  path: ./cluster/sources
   prune: true
   sourceRef:
     kind: GitRepository

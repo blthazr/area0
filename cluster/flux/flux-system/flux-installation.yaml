@@ -10,10 +10,10 @@ spec:
     /*
     # path to manifests
     !/manifests
-  interval: 30m
+  interval: 10m
   ref:
     # renovate: datasource=github-releases depName=fluxcd/flux2
-    tag: "v0.36.0"
+    tag: "v0.35.0"
   url: https://github.com/fluxcd/flux2
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
@@ -35,7 +35,7 @@ spec:
       newName: ghcr.io/fluxcd/notification-controller
     - name: fluxcd/source-controller
       newName: ghcr.io/fluxcd/source-controller
-  interval: 30m
+  interval: 10m
   path: ./manifests/install
   prune: true
   sourceRef:
@@ -52,4 +52,4 @@ spec:
         apiVersion: networking.k8s.io/v1
         kind: NetworkPolicy
         metadata:
-          name: all
+          name: not-used
