@@ -14,5 +14,5 @@ generatorOptions:
   disableNameSuffixHash: true
 resources:
   - helm-release.yaml
-  # - issuers
+  - issuers
   # - certificates
