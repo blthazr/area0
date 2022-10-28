@@ -15,4 +15,4 @@ generatorOptions:
 resources:
   - helm-release.yaml
   - issuers
-  # - certificates
+  - certificates
