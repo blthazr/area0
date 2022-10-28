@@ -4,5 +4,6 @@ kind: Kustomization
 namespace: kube-system
 resources:
   - namespace.yaml
+  - intel-gpu-plugin
   - kube-vip
   - node-feature-discovery

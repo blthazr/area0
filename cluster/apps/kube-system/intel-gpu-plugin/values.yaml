@@ -1,0 +1,47 @@
+---
+nameOverride: &app intel-gpu-plugin
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: feature.node.kubernetes.io/custom-intel-gpu
+              operator: In
+              values: ["true"]
+args:
+  - -shared-dev-num
+  - "4"
+controller:
+  type: daemonset
+  strategy: RollingUpdate
+image:
+  repository: docker.io/intel/intel-gpu-plugin
+  tag: 0.24.0
+persistence:
+  devfs:
+    enabled: true
+    hostPath: /dev/dri
+    hostPathType: Directory
+    type: hostPath
+    readOnly: true
+  sysfs:
+    enabled: true
+    hostPath: /sys/class/drm
+    hostPathType: Directory
+    type: hostPath
+    readOnly: true
+  kubeletsockets:
+    enabled: true
+    hostPath: /var/lib/kubelet/device-plugins
+    hostPathType: Directory
+    type: hostPath
+probes:
+  liveness:
+    enabled: false
+  readiness:
+    enabled: false
+  startup:
+    enabled: false
+service:
+  main:
+    enabled: false
