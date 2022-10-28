@@ -7,6 +7,10 @@ metadata:
 data:
   # site
   CLUSTER_NAME: area0
+  CLUSTER_TIME_ZONE: America/Chicago
 
   # kube-vip
   KUBE_VIP_ADDRESS: 10.0.101.10
+
+  # service addresses
+  SVC_NGINX_ADDRESS: 10.0.100.100
