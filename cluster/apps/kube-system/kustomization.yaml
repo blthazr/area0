@@ -4,3 +4,4 @@ kind: Kustomization
 namespace: kube-system
 resources:
   - namespace.yaml
+  - kube-vip

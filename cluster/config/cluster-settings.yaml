@@ -7,3 +7,6 @@ metadata:
 data:
   # site
   CLUSTER_NAME: area0
+
+  # kube-vip
+  KUBE_VIP_ADDRESS: 10.0.101.10
