@@ -6,4 +6,5 @@ resources:
   - default
   - flux-system
   - kube-system
+  - rook-ceph
   - tigera-operator

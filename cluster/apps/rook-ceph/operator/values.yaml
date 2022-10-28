@@ -1,0 +1,12 @@
+---
+nameOverride: &app rook-ceph-operator
+crds:
+  enabled: true
+monitoring:
+  enabled: true
+resources:
+  limits:
+    memory: 256Mi
+  requests:
+    cpu: 10m
+    memory: 128Mi
