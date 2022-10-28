@@ -5,4 +5,4 @@ namespace: rook-ceph
 resources:
   - namespace.yaml
   - operator
-  # - cluster
+  - cluster
