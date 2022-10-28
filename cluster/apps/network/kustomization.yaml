@@ -6,3 +6,4 @@ resources:
   - namespace.yaml
   - cert-manager
   - ingress-nginx
+  - metallb
