@@ -1,0 +1,27 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: "kasten-io-k10-k10-${CLUSTER_NAME}-admin"
+subjects:
+  - kind: User
+    apiGroup: rbac.authorization.k8s.io
+    name: "${SECRET_KASTEN_ADMIN_EMAIL}"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: k10-admin
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: "kasten-io-k10-k10-${CLUSTER_NAME}-ns-admin"
+  namespace: kasten-io
+subjects:
+  - kind: User
+    apiGroup: rbac.authorization.k8s.io
+    name: "${SECRET_KASTEN_ADMIN_EMAIL}"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: k10-ns-admin

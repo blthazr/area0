@@ -5,6 +5,7 @@ resources:
   - calico-system
   - default
   - flux-system
+  - kasten-io
   - kube-system
   - media
   - network
