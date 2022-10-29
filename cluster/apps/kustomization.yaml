@@ -8,6 +8,7 @@ resources:
   - kasten-io
   - kube-system
   - media
+  - media-automation
   - network
   - rook-ceph
   - tigera-operator
