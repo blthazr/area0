@@ -6,3 +6,4 @@ resources:
   - namespace.yaml
   - operator
   - cluster
+  - rook-direct-mount
