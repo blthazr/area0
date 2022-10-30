@@ -1,0 +1,26 @@
+---
+nameOverride: &app grocy
+env:
+  TZ: "${CLUSTER_TIME_ZONE}"
+image:
+  repository: quay.io/linuxserver.io/grocy
+  tag: 3.3.1
+ingress:
+  main:
+    annotations:
+      external-dns.alpha.kubernetes.io/target: "hsv-1.${SECRET_DOMAIN}"
+      external-dns/is-public: "true"
+    enabled: true
+    hosts:
+      - host: &host "grocy.${SECRET_DOMAIN}"
+        paths:
+          - path: /
+            pathType: Prefix
+    ingressClassName: nginx
+    tls:
+      - hosts:
+          - *host
+persistence:
+  config:
+    enabled: true
+    existingClaim: grocy-config-v1
