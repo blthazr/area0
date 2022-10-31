@@ -26,6 +26,9 @@ ingress:
             return 301 $scheme://$host/web/index.html;
           }
         }
+        proxy_set_header Accept-Encoding "";
+        sub_filter '</head>' '<link rel="stylesheet" type="text/css" href="https://theme-park.${SECRET_DOMAIN}/css/base/plex/dark.css"></head>';
+        sub_filter_once on;
     enabled: true
     hosts:
       - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"

@@ -14,6 +14,11 @@ image:
   tag: 4.3.0.6671@sha256:edb7ee1c4c50119263c76d9073dcebbe4876506bb22dd583e8ef50241eb597d9
 ingress:
   main:
+    annotations:
+      nginx.ingress.kubernetes.io/configuration-snippet: |
+        proxy_set_header Accept-Encoding "";
+        sub_filter '</head>' '<link rel="stylesheet" type="text/css" href="https://theme-park.${SECRET_DOMAIN}/css/base/radarr/dark.css"></head>';
+        sub_filter_once on;
     enabled: true
     hosts:
       - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
