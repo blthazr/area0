@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - calico-system
   - default
+  - download
   - flux-system
   - home
   - kasten-io
