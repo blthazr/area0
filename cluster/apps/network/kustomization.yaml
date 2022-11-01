@@ -7,6 +7,7 @@ resources:
   - cert-manager
   - cloudflare-ddns
   - external-dns
+  - external-services
   - ingress-nginx
   - k8s-gateway
   - metallb
