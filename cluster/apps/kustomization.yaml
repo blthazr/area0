@@ -7,6 +7,7 @@ resources:
   - download
   - flux-system
   - home
+  - home-automation
   - kasten-io
   - kube-system
   - media
