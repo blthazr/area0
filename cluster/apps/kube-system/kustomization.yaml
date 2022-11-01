@@ -7,4 +7,5 @@ resources:
   - external-snapshotter
   - intel-gpu-plugin
   - kube-vip
+  - metrics-server
   - node-feature-discovery
