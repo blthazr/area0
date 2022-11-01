@@ -12,8 +12,8 @@ args:
   - -shared-dev-num
   - "4"
 controller:
-  type: daemonset
   strategy: RollingUpdate
+  type: daemonset
 image:
   repository: docker.io/intel/intel-gpu-plugin
   tag: 0.25.0
