@@ -1,6 +1,6 @@
 ansible/collections/
 ansible/roles-galaxy/
-k8s/cluster/sources/
+cluster/sources/
 docs/
 .private/
 .terraform/
@@ -9,4 +9,3 @@ docs/
 *-local.*
 *-shard.*
 default-values.y*ml
-gotk-components.yaml

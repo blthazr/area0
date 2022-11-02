@@ -3,7 +3,7 @@ extends: default
 ignore: |
   ansible/collections/
   ansible/roles-galaxy/
-  k8s/cluster/sources/
+  cluster/sources/
   docs/
   .private/
   .terraform/
@@ -12,7 +12,6 @@ ignore: |
   *-local.*
   *-shard.*
   default-values.y*ml
-  gotk-components.yaml
 rules:
   braces:
     max-spaces-inside: 1
