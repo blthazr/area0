@@ -5,6 +5,7 @@ namespace: media-automation
 resources:
   - namespace.yaml
   - bazarr
+  - gaps
   - lidarr
   - overseerr
   - prowlarr
