@@ -12,6 +12,7 @@ spec:
   dependsOn:
     - name: cluster-config
     - name: cluster-sources
+    - name: cluster-crds
   interval: 30m
   path: ./cluster/apps
   postBuild:
