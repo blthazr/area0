@@ -6,6 +6,7 @@ resources:
   - external-dns.yaml
   - ingress-nginx.yaml
   - jetstack.yaml
+  - kasten.yaml
   - k8s-gateway.yaml
   - metallb.yaml
   - metrics-server.yaml
