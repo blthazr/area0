@@ -8,5 +8,4 @@ resources:
   - kube-vip
   - metrics-server
   - node-feature-discovery
-  - reloader
   - snapshot-controller
