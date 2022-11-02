@@ -4,8 +4,8 @@ kind: Kustomization
 namespace: kube-system
 resources:
   - namespace.yaml
-  - external-snapshotter
   - intel-gpu-plugin
   - kube-vip
   - metrics-server
   - node-feature-discovery
+  - snapshot-controller
