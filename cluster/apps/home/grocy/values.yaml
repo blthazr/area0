@@ -1,11 +1,10 @@
 ---
 nameOverride: &app grocy
 env:
-  GROCY__PORT: &port 80
   TZ: "${CLUSTER_TIME_ZONE}"
 image:
   repository: quay.io/linuxserver.io/grocy
-  tag: version-v3.3.1
+  tag: version-v3.1.3
 ingress:
   main:
     annotations:
@@ -29,4 +28,4 @@ service:
   main:
     ports:
       http:
-        port: *port
+        port: 80
