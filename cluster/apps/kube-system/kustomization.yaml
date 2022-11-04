@@ -6,6 +6,5 @@ resources:
   - namespace.yaml
   - intel-gpu-plugin
   - kube-vip
-  - metrics-server
   - node-feature-discovery
   - snapshot-controller
