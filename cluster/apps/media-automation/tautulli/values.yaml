@@ -33,6 +33,12 @@ persistence:
   config:
     enabled: true
     existingClaim: tautulli-config-v1
+  data:
+    enabled: true
+    mountPath: /data
+    path: "${NAS_NFS_PATH}/apps/tautulli"
+    server: "${NAS_ADDRESS}"
+    type: nfs
 podSecurityContext:
   fsGroup: 568
   fsGroupChangePolicy: "OnRootMismatch"
