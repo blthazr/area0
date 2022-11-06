@@ -36,6 +36,12 @@ ingress:
 nodeSelector:
   node-role.kubernetes.io/media: "true"
 persistence:
+  backup:
+    enabled: true
+    mountPath: /config/Backup
+    path: "${NAS_NFS_PATH}/backup/app/sabnzbd"
+    server: "${NAS_ADDRESS}"
+    type: nfs
   config:
     enabled: true
     existingClaim: sabnzbd-config-v1
