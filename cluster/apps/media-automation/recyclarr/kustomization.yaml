@@ -8,3 +8,4 @@ generatorOptions:
   disableNameSuffixHash: true
 resources:
   - secret.sops.yaml
+  - config
