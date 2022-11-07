@@ -9,3 +9,4 @@ generatorOptions:
 resources:
   - secret.sops.yaml
   - config
+  - cron-job.yaml
