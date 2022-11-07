@@ -1,0 +1,53 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: &app recyclarr
+spec:
+  schedule: "@daily"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          automountServiceAccountToken: false
+          initContainers:
+            - name: render-configs
+              args:
+                - "envsubst < /config/recyclarr-config.yaml > /shared/recyclarr.yaml"
+              command:
+                - "/bin/bash"
+                - -c
+              envFrom:
+                - secretRef:
+                    name: *app
+              image: ghcr.io/onedr0p/recyclarr:2.5.0@sha256:bd4dc562a12c31857c2e198de154d4ffa734d5e7f6fe817283c6fdf5807c5fb1
+              volumeMounts:
+                - name: config
+                  mountPath: /config
+                - name: shared
+                  mountPath: /shared
+          containers:
+            - name: radarr
+              args:
+                - radarr
+                - --config
+                - /config/recyclarr.yaml
+              command:
+                - /app/recyclarr
+              env:
+                - name: TZ
+                  value: "${TIMEZONE}"
+              image: ghcr.io/onedr0p/recyclarr:2.5.0@sha256:bd4dc562a12c31857c2e198de154d4ffa734d5e7f6fe817283c6fdf5807c5fb1
+              volumeMounts:
+                - name: shared
+                  mountPath: /config/recyclarr.yaml
+                  readOnly: true
+                  subPath: recyclarr.yaml
+          restartPolicy: OnFailure
+          volumes:
+            - name: config
+              configMap:
+                name: recyclarr-config
+            - name: shared
+              emptyDir: {}
+      ttlSecondsAfterFinished: 86400

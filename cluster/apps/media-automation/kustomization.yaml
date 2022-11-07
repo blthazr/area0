@@ -10,5 +10,6 @@ resources:
   - overseerr
   - prowlarr
   - radarr
+  - recyclarr
   - sonarr
   - tautulli
