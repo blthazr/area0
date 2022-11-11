@@ -10,8 +10,6 @@ auth:
     clientID: "${SECRET_AUTH0_K10_CLIENT_ID}"
     clientSecret: "${SECRET_AUTH0_K10_CLIENT_SECRET}"
     usernameClaim: email
-  tokenAuth:
-    enabled: false
 clusterName: "${CLUSTER_NAME}"
 eula:
   accept: true
@@ -23,11 +21,11 @@ global:
 grafana:
   enabled: false
 ingress:
+  annotations:
+    nginx.ingress.kubernetes.io/whitelist-source-range: "10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
   class: nginx
   create: true
   host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
-  hosts:
-    - *host
   tls:
     enabled: true
     secretName: "${SECRET_DOMAIN/./-}-tls"
