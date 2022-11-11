@@ -1,17 +1,17 @@
 ---
 nameOverride: &app "k10"
 auth:
-  # oidcAuth:
-  #   enabled: true
-  #   providerURL: "https://${SECRET_AUTH0_TENANT}.us.auth0.com/"
-  #   redirectURL: "https://k10.${SECRET_DOMAIN}/"
-  #   scopes: "profile email"
-  #   prompt: login
-  #   clientID: "${SECRET_AUTH0_K10_CLIENT_ID}"
-  #   clientSecret: "${SECRET_AUTH0_K10_CLIENT_SECRET}"
-  #   usernameClaim: email
+  oidcAuth:
+    enabled: true
+    providerURL: "https://${SECRET_AUTH0_TENANT}.us.auth0.com/"
+    redirectURL: "https://k10.${SECRET_DOMAIN}/"
+    scopes: "profile email"
+    prompt: login
+    clientID: "${SECRET_AUTH0_K10_CLIENT_ID}"
+    clientSecret: "${SECRET_AUTH0_K10_CLIENT_SECRET}"
+    usernameClaim: email
   tokenAuth:
-    enabled: true # false
+    enabled: false
 clusterName: "${CLUSTER_NAME}"
 eula:
   accept: true
