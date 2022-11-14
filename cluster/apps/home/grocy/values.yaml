@@ -3,8 +3,8 @@ nameOverride: &app grocy
 env:
   TZ: "${CLUSTER_TIME_ZONE}"
 image:
-  repository: quay.io/linuxserver.io/grocy
-  tag: version-v3.1.3
+  repository: linuxserver/grocy
+  tag: version-v3.3.1
 ingress:
   main:
     annotations:
