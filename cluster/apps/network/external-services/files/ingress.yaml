@@ -4,7 +4,6 @@ kind: Ingress
 metadata:
   name: &app files
   annotations:
-    external-dns.alpha.kubernetes.io/target: hsv-1.theburnh.am
     external-dns/is-public: 'true'
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:

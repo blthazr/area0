@@ -8,7 +8,6 @@ image:
 ingress:
   main:
     annotations:
-      external-dns.alpha.kubernetes.io/target: "hsv-1.${SECRET_DOMAIN}"
       external-dns/is-public: "true"
     enabled: true
     hosts:
