@@ -44,7 +44,7 @@ jobs:
           echo "RENOVATE_DRY_RUN=${{ github.event.inputs.dryRun || env.RENOVATE_DRY_RUN }}" >> "${GITHUB_ENV}"
           echo "LOG_LEVEL=${{ github.event.inputs.logLevel || env.LOG_LEVEL }}" >> "${GITHUB_ENV}"
       - name: Run renovate
-        uses: renovatebot/github-action@e7bf565604a91a093ba01eebb8d20806fcaa8674 # v34.40.2
+        uses: renovatebot/github-action@708343d5c41dfd577133569d3153b3e089bac520 # v34.41.1
         with:
           configurationFile: "${{ env.RENOVATE_CONFIG_FILE }}"
           token: "${{ steps.generate-token.outputs.token }}"
