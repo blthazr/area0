@@ -17,7 +17,10 @@
       "addLabels": ["renovate/container"]
     },
     {
-      "matchDatasources": ["galaxy", "galaxy-collection"],
+      "matchDatasources": [
+        "galaxy",
+        "galaxy-collection"
+      ],
       "addLabels": ["renovate/ansible"]
     },
     {
@@ -25,7 +28,10 @@
       "addLabels": ["renovate/github-action"]
     },
     {
-      "matchDatasources": ["github-releases", "github-tags"],
+      "matchDatasources": [
+        "github-releases",
+        "github-tags"
+      ],
       "addLabels": ["renovate/github-release"]
     },
     {

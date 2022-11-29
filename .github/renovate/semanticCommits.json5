@@ -18,18 +18,27 @@
       "semanticCommitScope": "container"
     },
     {
-      "matchDatasources": ["galaxy", "galaxy-collection"],
+      "matchDatasources": [
+        "galaxy",
+        "galaxy-collection"
+      ],
       "matchUpdateTypes": ["major"],
       "commitMessagePrefix": ":boom: feat(ansible)!: "
     },
     {
-      "matchDatasources": ["galaxy", "galaxy-collection"],
+      "matchDatasources": [
+        "galaxy",
+        "galaxy-collection"
+      ],
       "matchUpdateTypes": ["minor"],
       "semanticCommitType": ":dizzy: feat",
       "semanticCommitScope": "ansible"
     },
     {
-      "matchDatasources": ["galaxy", "galaxy-collection"],
+      "matchDatasources": [
+        "galaxy",
+        "galaxy-collection"
+      ],
       "matchUpdateTypes": ["patch"],
       "semanticCommitType": ":arrow_up: fix",
       "semanticCommitScope": "ansible"
@@ -52,18 +61,27 @@
       "semanticCommitScope": "github-action"
     },
     {
-      "matchDatasources": ["github-releases", "github-tags"],
+      "matchDatasources": [
+        "github-releases",
+        "github-tags"
+      ],
       "matchUpdateTypes": ["major"],
       "commitMessagePrefix": ":boom: feat(github-release)!: "
     },
     {
-      "matchDatasources": ["github-releases", "github-tags"],
+      "matchDatasources": [
+        "github-releases",
+        "github-tags"
+      ],
       "matchUpdateTypes": ["minor"],
       "semanticCommitType": ":dizzy: feat",
       "semanticCommitScope": "github-release"
     },
     {
-      "matchDatasources": ["github-releases", "github-tags"],
+      "matchDatasources": [
+        "github-releases",
+        "github-tags"
+      ],
       "matchUpdateTypes": ["patch"],
       "semanticCommitType": ":arrow_up: fix",
       "semanticCommitScope": "github-release"
