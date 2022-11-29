@@ -10,6 +10,7 @@ resources:
   - home-automation
   - kasten-io
   - kube-system
+  - kyverno
   - media
   - media-automation
   - network
