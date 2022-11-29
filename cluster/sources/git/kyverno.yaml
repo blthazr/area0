@@ -1,0 +1,16 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: GitRepository
+metadata:
+  name: kyverno
+spec:
+  ignore: |
+    # exclude all
+    /*
+    # include crd directory
+    !/config/crds
+  interval: 12h
+  ref:
+    # renovate: registryUrl=https://kyverno.github.io/kyverno chart=kyverno
+    tag: kyverno-chart-2.6.2
+  url: https://github.com/kyverno/kyverno.git
