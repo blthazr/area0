@@ -10,7 +10,7 @@ envFrom:
       name: *app
 image:
   repository: ghcr.io/onedr0p/prowlarr-nightly
-  tag: 0.4.10.2086@sha256:5c772a00fd925ee590231f62ad12557c5d1b40f25da964ff282dcbafdc14d2ad
+  tag: 0.4.10.2099@sha256:dc6a466c3a08b10486d8c44d97e792fb8afa42e5f55dbf808ab121cfd239a0c3
 ingress:
   main:
     annotations:
