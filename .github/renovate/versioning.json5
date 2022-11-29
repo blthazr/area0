@@ -2,10 +2,7 @@
   "packageRules": [
     {
       "description": "Use loose versioning for certain packages",
-      "matchDatasources": [
-        "docker",
-        "github-releases"
-      ],
+      "matchDatasources": ["docker"],
       "matchPackageNames": [
         "ghcr.io/onedr0p/plex",
         "ghcr.io/onedr0p/qbittorrent"
