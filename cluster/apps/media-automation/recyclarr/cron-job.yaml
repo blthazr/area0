@@ -20,7 +20,7 @@ spec:
               envFrom:
                 - secretRef:
                     name: *app
-              image: ghcr.io/onedr0p/recyclarr:2.6.1@sha256:365025bc338e6941c40f8e7cb545a6847181ff3864cadda50583b46ce9994c87
+              image: ghcr.io/onedr0p/recyclarr:2.6.1@sha256:73beee5edfd8ee6bc788ea7627f3d6b2c4c186d14337bace4f36ff3d489b3303
               volumeMounts:
                 - name: config
                   mountPath: /config
@@ -37,7 +37,7 @@ spec:
               env:
                 - name: TZ
                   value: "${TIMEZONE}"
-              image: ghcr.io/onedr0p/recyclarr:2.6.1@sha256:365025bc338e6941c40f8e7cb545a6847181ff3864cadda50583b46ce9994c87
+              image: ghcr.io/onedr0p/recyclarr:2.6.1@sha256:73beee5edfd8ee6bc788ea7627f3d6b2c4c186d14337bace4f36ff3d489b3303
               volumeMounts:
                 - name: shared
                   mountPath: /config/recyclarr.yaml
@@ -53,7 +53,7 @@ spec:
               env:
                 - name: TZ
                   value: "${TIMEZONE}"
-              image: ghcr.io/onedr0p/recyclarr:2.6.1@sha256:365025bc338e6941c40f8e7cb545a6847181ff3864cadda50583b46ce9994c87
+              image: ghcr.io/onedr0p/recyclarr:2.6.1@sha256:73beee5edfd8ee6bc788ea7627f3d6b2c4c186d14337bace4f36ff3d489b3303
               volumeMounts:
                 - name: shared
                   mountPath: /config/recyclarr.yaml
