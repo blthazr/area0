@@ -13,5 +13,5 @@ spec:
   interval: 12h
   ref:
     # renovate: registryUrl=https://kyverno.github.io/kyverno chart=kyverno
-    tag: kyverno-chart-2.6.2
+    tag: kyverno-chart-2.6.4
   url: https://github.com/kyverno/kyverno.git
