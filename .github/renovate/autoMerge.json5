@@ -81,10 +81,7 @@
       "automerge": true,
       "automergeType": "pr",
       "matchDatasources": ["github-tags"],
-      "matchPackageNames": [
-        "lycheeverse/lychee-action",
-        "renovatebot/github-action"
-      ],
+      "matchManagers": ["github-actions"],
       "matchUpdateTypes": [
         "minor",
         "patch"

@@ -119,23 +119,6 @@
       "matchUpdateTypes": ["patch"],
       "semanticCommitType": ":arrow_up: fix",
       "semanticCommitScope": "terraform"
-    },
-    {
-      "matchDatasources": ["pypi"],
-      "matchUpdateTypes": ["major"],
-      "commitMessagePrefix": ":boom: feat(pip)!: "
-    },
-    {
-      "matchDatasources": ["pypi"],
-      "matchUpdateTypes": ["minor"],
-      "semanticCommitType": ":dizzy: feat",
-      "semanticCommitScope": "pip"
-    },
-    {
-      "matchDatasources": ["pypi"],
-      "matchUpdateTypes": ["patch"],
-      "semanticCommitType": ":arrow_up: fix",
-      "semanticCommitScope": "pip"
     }
   ]
 }

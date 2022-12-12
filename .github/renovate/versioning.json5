@@ -1,11 +1,11 @@
 {
   "packageRules": [
     {
-      "description": "Use loose versioning for certain packages",
+      "description": "Use loose versioning for non-semver packages",
       "matchDatasources": ["docker"],
-      "matchPackageNames": [
-        "ghcr.io/onedr0p/plex",
-        "ghcr.io/onedr0p/qbittorrent"
+      "matchPackagePatterns": [
+        "plex",
+        "qbittorrent"
       ],
       "versioning": "loose"
     }

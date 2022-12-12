@@ -1,42 +1,6 @@
 {
   "packageRules": [
     {
-      "description": "Cert-Manager image (for CRDs) and chart",
-      "group": { "commitMessageTopic": "{{{groupName}}} group" },
-      "groupName": "Cert-Manager",
-      "matchDatasources": [
-        "docker",
-        "helm"
-      ],
-      "matchPackagePatterns": ["cert-manager"],
-      "separateMinorPatch": true
-    },
-    {
-      "description": "External Snapshotter kustomization (for CRDs) and chart",
-      "group": { "commitMessageTopic": "{{{groupName}}} group" },
-      "groupName": "External Snapshotter",
-      "matchDatasources": [
-        "docker",
-        "github-tags"
-      ],
-      "matchPackagePatterns": [
-        "external-snapshotter",
-        "snapshot-controller"
-      ],
-      "separateMinorPatch": true
-    },
-    {
-      "description": "Node Feature Discovery kustomization (for CRDs) and chart",
-      "group": { "commitMessageTopic": "{{{groupName}}} group" },
-      "groupName": "Node Feature Discovery",
-      "matchDatasources": [
-        "helm",
-        "github-tags"
-      ],
-      "matchPackagePatterns": ["node-feature-discovery"],
-      "separateMinorPatch": true
-    },
-    {
       "description": "Rook-Ceph image and chart",
       "group": { "commitMessageTopic": "{{{groupName}}} group" },
       "groupName": "Rook-Ceph",
@@ -62,21 +26,6 @@
         "patch"
       ],
       "separateMinorPatch": false
-    },
-    {
-      "description": "Cribl stream image and chart versions",
-      "group": { "commitMessageTopic": "{{{groupName}}} group" },
-      "groupName": "Cribl Stream",
-      "matchDatasources": [
-        "docker",
-        "github-releases",
-        "helm"
-      ],
-      "matchPackagePatterns": [
-        "cribl",
-        "logstream"
-      ],
-      "separateMinorPatch": true
     }
   ]
 }
