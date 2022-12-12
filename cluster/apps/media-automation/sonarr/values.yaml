@@ -12,7 +12,7 @@ envFrom:
       name: *app
 image:
   repository: ghcr.io/onedr0p/sonarr-develop
-  tag: 4.0.0.124@sha256:4b2a08090f0caa00628125604c945e1dfc7c03e4419f753b2afd1786e398bbbd
+  tag: 4.0.0.280@sha256:d0d574a531adf5f92dfd94c70fc2729d008c233444f0a456e0e44fc51c7e1608
 ingress:
   main:
     annotations:
