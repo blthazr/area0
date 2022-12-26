@@ -2,13 +2,13 @@
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
-  name: apply-ingress-external-dns-annotations
+  name: ingress-external-dns-annotations
   annotations:
-    policies.kyverno.io/title: Apply Ingress External-DNS Annotations
+    policies.kyverno.io/title: Ingress External-DNS Annotations
     policies.kyverno.io/subject: Ingress
     policies.kyverno.io/description: >-
       This policy creates external-dns annotations on ingresses.
-      When the `external-dns/is-public` annotation is `true`
+      When the `external-dns.home.arpa/enabled` annotation is `true`
       it applies the external-dns annotations for use with external
       application access.
 spec:
@@ -20,7 +20,7 @@ spec:
         any:
           - resources:
               annotations:
-                external-dns/is-public: "true"
+                external-dns.home.arpa/enabled: "true"
               kinds: ["Ingress"]
       mutate:
         patchStrategicMerge:
