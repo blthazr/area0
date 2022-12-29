@@ -6,6 +6,7 @@
     "ms-kubernetes-tools.vscode-kubernetes-tools",
     "oderwat.indent-rainbow",
     "redhat.ansible",
+    "redhat.vscode-yaml",
     "signageos.signageos-vscode-sops"
   ]
 }
