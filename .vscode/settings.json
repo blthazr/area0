@@ -1,20 +1,27 @@
 {
   "ansible.ansibleLint.arguments": "-c .github/linters/.ansible-lint",
-  "explorer.autoReveal": false,
   "editor.bracketPairColorization.enabled": true,
-  "editor.guides.bracketPairs":"active",
+  "editor.guides.bracketPairs": true,
+  "editor.guides.bracketPairsHorizontal": true,
+  "editor.guides.highlightActiveBracketPair": true,
   "editor.hover.delay": 1500,
+  "editor.rulers": [
+    100
+  ],
+  "explorer.autoReveal": false,
   "files.associations": {
     "*.json5": "jsonc",
     "**/ansible/**/*.yml": "ansible",
     "**/ansible/**/*.sops.yml": "yaml",
     "**/ansible/**/inventory/**/*.yml": "yaml",
-    "**/k8s/**/*.sops.toml": "plaintext",
-    "**/=terraform/**/*.tf": "terraform",
+    "**/terraform/**/*.tf": "terraform",
+    "**/kubernetes/**/*.sops.toml": "plaintext"
   },
+  "files.trimTrailingWhitespace": true,
   "prettier.configPath": ".github/linters/.prettierrc.yaml",
   "prettier.ignorePath": ".github/linters/.prettierignore",
   "yaml.schemas": {
-    "Kubernetes": "k8s/cluster/*.yaml"
+    "ansible": "ansible/**/*.yml",
+    "kubernetes": "kubernetes/**/*.yaml"
   }
 }
