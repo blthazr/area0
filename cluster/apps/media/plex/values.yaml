@@ -17,17 +17,8 @@ image:
 ingress:
   main:
     annotations:
-      external-dns/is-public: "true"
+      external-dns.home.arpa/enabled: "true"
       nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-      nginx.ingress.kubernetes.io/configuration-snippet: |
-        location = / {
-          if ($http_x_plex_device = ""){
-            return 301 $scheme://$host/web/index.html;
-          }
-        }
-        proxy_set_header Accept-Encoding "";
-        sub_filter '</head>' '<link rel="stylesheet" type="text/css" href="https://theme-park.${SECRET_DOMAIN}/css/base/plex/dark.css"></head>';
-        sub_filter_once on;
     enabled: true
     hosts:
       - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"

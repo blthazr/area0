@@ -12,7 +12,7 @@ image:
 ingress:
   main:
     annotations:
-      external-dns/is-public: "true"
+      external-dns.home.arpa/enabled: "true"
     enabled: true
     hosts:
       - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
