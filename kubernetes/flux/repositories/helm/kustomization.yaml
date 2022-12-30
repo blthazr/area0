@@ -6,3 +6,4 @@ resources:
   - ./external-dns.yaml
   - ./jetstack.yaml
   - ./metallb.yaml
+  - ./rook-ceph.yaml
