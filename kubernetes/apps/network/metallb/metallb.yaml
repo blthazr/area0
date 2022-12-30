@@ -20,23 +20,3 @@ spec:
     kind: GitRepository
     name: flux-cluster
   timeout: 3m
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
-kind: Kustomization
-metadata:
-  name: cluster-apps-metallb-config
-  namespace: flux-system
-  labels:
-    substitution.flux.home.arpa/enabled: "true"
-spec:
-  dependsOn:
-    - name: cluster-apps-metallb
-  interval: 30m
-  path: ./kubernetes/apps/network/metallb/config
-  prune: true
-  retryInterval: 1m
-  sourceRef:
-    kind: GitRepository
-    name: flux-cluster
-  timeout: 3m
-  wait: true
