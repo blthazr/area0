@@ -3,10 +3,7 @@ extends: default
 ignore: |
   ansible/collections/
   ansible/roles-galaxy/
-  cluster/sources/
-  docs/
   .private/
-  .terraform/
   .vscode/
   *.sops.*
   *-local.*
