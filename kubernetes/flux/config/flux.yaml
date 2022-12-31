@@ -1,0 +1,36 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: OCIRepository
+metadata:
+  name: flux-manifests
+  namespace: flux-system
+spec:
+  interval: 10m
+  ref:
+    tag: v0.38.2
+  url: oci://ghcr.io/fluxcd/flux-manifests
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: flux
+  namespace: flux-system
+spec:
+  interval: 10m
+  path: ./
+  prune: true
+  sourceRef:
+    kind: OCIRepository
+    name: flux-manifests
+  wait: true
+  patches:
+    - patch: |
+        $patch: delete
+        apiVersion: networking.k8s.io/v1
+        kind: NetworkPolicy
+        metadata:
+          name: not-used
+      target:
+        group: networking.k8s.io
+        version: v1
+        kind: NetworkPolicy
