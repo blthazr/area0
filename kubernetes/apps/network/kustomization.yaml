@@ -3,6 +3,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - ./namespace.yaml
+  - ./cloudflare-ddns/cloudflare-ddns.yaml
+  - ./k8s-gateway/k8s-gateway.yaml
   - ./metallb/metallb.yaml
   - ./metallb/metallb-config.yaml
-  - ./k8s-gateway/k8s-gateway.yaml
