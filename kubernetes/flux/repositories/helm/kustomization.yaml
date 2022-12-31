@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - ./bjw-s.yaml
   - ./external-dns.yaml
+  - ./ingress-nginx.yaml
   - ./jetstack.yaml
   - ./k8s-gateway.yaml
   - ./metallb.yaml
