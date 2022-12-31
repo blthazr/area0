@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./cloudflare-ddns/cloudflare-ddns.yaml
+  - ./external-dns/external-dns.yaml
   - ./k8s-gateway/k8s-gateway.yaml
   - ./metallb/metallb.yaml
   - ./metallb/metallb-config.yaml
