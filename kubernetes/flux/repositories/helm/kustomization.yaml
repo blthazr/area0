@@ -6,6 +6,7 @@ resources:
   - ./external-dns.yaml
   - ./ingress-nginx.yaml
   - ./jetstack.yaml
+  - ./kastern.yaml
   - ./kyverno.yaml
   - ./k8s-gateway.yaml
   - ./metallb.yaml
