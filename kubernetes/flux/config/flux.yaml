@@ -7,7 +7,7 @@ metadata:
 spec:
   interval: 10m
   ref:
-    tag: v0.38.2
+    tag: v0.37.0
   url: oci://ghcr.io/fluxcd/flux-manifests
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
