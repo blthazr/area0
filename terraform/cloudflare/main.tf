@@ -24,7 +24,7 @@ provider "cloudflare" {
   api_key = data.sops_file.cloudflare_secrets.data["cloudflare_apikey"]
 }
 
-data "cloudflare_zones" "domain" {
+data "cloudflare_zones" "public_domain" {
   filter {
     name = data.sops_file.cloudflare_secrets.data["cloudflare_domain"]
   }

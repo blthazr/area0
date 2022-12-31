@@ -1,108 +1,99 @@
-# get current ip address
 data "http" "ipv4" {
   url = "http://ipv4.icanhazip.com"
 }
 
-#
-# base records
-#
-
-resource "cloudflare_record" "apex_hsv_1" {
-  zone_id = lookup(data.cloudflare_zones.domain.zones[0], "id")
+resource "cloudflare_record" "public_domain_apex" {
   name    = "hsv-1"
+  zone_id = lookup(data.cloudflare_zones.public_domain.zones[0], "id")
+  value   = chomp(data.http.ipv4.response_body)
+  proxied = true
   type    = "A"
-  value   = chomp(data.http.ipv4.body)
   ttl     = 1
-  proxied = true
 }
 
-resource "cloudflare_record" "cname_root" {
-  zone_id = lookup(data.cloudflare_zones.domain.zones[0], "id")
+resource "cloudflare_record" "public_domain_root" {
   name    = data.sops_file.cloudflare_secrets.data["cloudflare_domain"]
-  type    = "CNAME"
+  zone_id = lookup(data.cloudflare_zones.public_domain.zones[0], "id")
   value   = "hsv-1.${data.sops_file.cloudflare_secrets.data["cloudflare_domain"]}"
-  ttl     = 1
   proxied = true
+  type    = "CNAME"
+  ttl     = 1
 }
 
-resource "cloudflare_record" "cname_vpn" {
-  zone_id = lookup(data.cloudflare_zones.domain.zones[0], "id")
-  name    = "vpn"
-  type    = "CNAME"
+resource "cloudflare_record" "public_domain_www" {
+  name    = "www"
+  zone_id = lookup(data.cloudflare_zones.public_domain.zones[0], "id")
   value   = "hsv-1.${data.sops_file.cloudflare_secrets.data["cloudflare_domain"]}"
+  proxied = true
+  type    = "CNAME"
   ttl     = 1
-  proxied = false
 }
 
 resource "cloudflare_record" "txt_root_spf" {
-  zone_id = lookup(data.cloudflare_zones.domain.zones[0], "id")
   name    = data.sops_file.cloudflare_secrets.data["cloudflare_domain"]
-  type    = "TXT"
+  zone_id = lookup(data.cloudflare_zones.public_domain.zones[0], "id")
   value   = "v=spf1 a mx ~all"
-  ttl     = 1
   proxied = false
+  type    = "TXT"
+  ttl     = 1
 }
 
-#
-# name.com email
-#
-
 resource "cloudflare_record" "mx_root_mx3" {
-  zone_id  = lookup(data.cloudflare_zones.domain.zones[0], "id")
   name     = data.sops_file.cloudflare_secrets.data["cloudflare_domain"]
-  type     = "MX"
+  zone_id  = lookup(data.cloudflare_zones.public_domain.zones[0], "id")
   value    = "mx3.name.com"
+  proxied  = false
+  type     = "MX"
   ttl      = 1
   priority = 20
-  proxied  = false
 }
 
 resource "cloudflare_record" "mx_root_mx4" {
-  zone_id  = lookup(data.cloudflare_zones.domain.zones[0], "id")
   name     = data.sops_file.cloudflare_secrets.data["cloudflare_domain"]
-  type     = "MX"
+  zone_id  = lookup(data.cloudflare_zones.public_domain.zones[0], "id")
   value    = "mx4.name.com"
+  proxied  = false
+  type     = "MX"
   ttl      = 1
   priority = 50
-  proxied  = false
 }
 
 resource "cloudflare_record" "mx_root_mx5" {
-  zone_id  = lookup(data.cloudflare_zones.domain.zones[0], "id")
   name     = data.sops_file.cloudflare_secrets.data["cloudflare_domain"]
-  type     = "MX"
+  zone_id  = lookup(data.cloudflare_zones.public_domain.zones[0], "id")
   value    = "mx5.name.com"
+  proxied  = false
+  type     = "MX"
   ttl      = 1
   priority = 60
-  proxied  = false
 }
 
 resource "cloudflare_record" "mx_root_mx6" {
-  zone_id  = lookup(data.cloudflare_zones.domain.zones[0], "id")
   name     = data.sops_file.cloudflare_secrets.data["cloudflare_domain"]
-  type     = "MX"
+  zone_id  = lookup(data.cloudflare_zones.public_domain.zones[0], "id")
   value    = "mx6.name.com"
+  proxied  = false
+  type     = "MX"
   ttl      = 1
   priority = 30
-  proxied  = false
 }
 
 resource "cloudflare_record" "mx_root_mx7" {
-  zone_id  = lookup(data.cloudflare_zones.domain.zones[0], "id")
   name     = data.sops_file.cloudflare_secrets.data["cloudflare_domain"]
-  type     = "MX"
+  zone_id  = lookup(data.cloudflare_zones.public_domain.zones[0], "id")
   value    = "mx7.name.com"
+  proxied  = false
+  type     = "MX"
   ttl      = 1
   priority = 10
-  proxied  = false
 }
 
 resource "cloudflare_record" "mx_root_mx8" {
-  zone_id  = lookup(data.cloudflare_zones.domain.zones[0], "id")
   name     = data.sops_file.cloudflare_secrets.data["cloudflare_domain"]
-  type     = "MX"
+  zone_id  = lookup(data.cloudflare_zones.public_domain.zones[0], "id")
   value    = "mx8.name.com"
+  proxied  = false
+  type     = "MX"
   ttl      = 1
   priority = 40
-  proxied  = false
 }
