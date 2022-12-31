@@ -8,10 +8,10 @@
   color: "72CCF3"
   description: >-
     Changes made in the github directory
-- name: area/cluster
+- name: area/kubernetes
   color: "72CCF3"
   description: >-
-    Changes made in the cluster directory
+    Changes made in the kubernetes directory
 - name: area/hack
   color: "72CCF3"
   description: >-
@@ -41,6 +41,8 @@
 - name: type/minor
   color: "FF9800"
 - name: type/patch
+  color: "FFEC19"
+- name: type/digest
   color: "FFEC19"
 
 # Size

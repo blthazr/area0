@@ -2,11 +2,11 @@
   "extends": [
     "config:base",
     "docker:enableMajor",
+    "helpers:pinGitHubActionDigests",
     ":dependencyDashboard",
     ":disableRateLimiting",
     ":enablePreCommit",
     ":semanticCommits",
-    "helpers:pinGitHubActionDigests",
     "github>christopherburnham/area0//.github/renovate/autoMerge.json5",
     "github>christopherburnham/area0//.github/renovate/commitMessage.json5",
     "github>christopherburnham/area0//.github/renovate/groups.json5",
@@ -27,22 +27,22 @@
   "commitBodyTable": true,
   // configure flux manager
   "flux": {
-    "fileMatch": ["cluster/.+\\.ya?ml$"]
+    "fileMatch": ["kubernetes/.+\\.ya?ml$"]
   },
   // configure helm-values manager
   "helm-values": {
-    "fileMatch": ["cluster/.+\\.ya?ml$"]
+    "fileMatch": ["kubernetes/.+\\.ya?ml$"]
   },
   // configure kubernetes manager
   "kubernetes": {
-    "fileMatch": ["cluster/.+\\.ya?ml$"]
+    "fileMatch": ["kubernetes/.+\\.ya?ml$"]
   },
   "regexManagers": [
     {
       "description": "configure regex manager for custom dependencies",
       "fileMatch": [
         "ansible/.+\\.ya?ml$",
-        "cluster/.+\\.ya?ml$"
+        "kubernetes/.+\\.ya?ml$"
       ],
       "matchStrings": [
         "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( versioning=(?<versioning>\\S+))?\n.*?\"(?<currentValue>.*)\"\n"
