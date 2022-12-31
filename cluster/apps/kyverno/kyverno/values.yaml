@@ -1,3 +1,0 @@
----
-nameOverride: &app kyverno
-installCRDs: false
