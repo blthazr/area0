@@ -5,6 +5,7 @@
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeType": "pr",
+      "ignoreTests": true,
       "matchDatasources": [
         "docker",
         "helm"
@@ -26,14 +27,14 @@
         "digest",
         "minor",
         "patch"
-      ],
-      "requiredStatusChecks": null
+      ]
     },
     {
       "description": "Auto merge apps [maintenance window] [1 stability day]",
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeType": "pr",
+      "ignoreTests": true,
       "matchDatasources": [
         "docker",
         "helm"
@@ -48,7 +49,6 @@
         "minor",
         "patch"
       ],
-      "requiredStatusChecks": null,
       "schedule": ["after 3am, before 6am"],
       "stabilityDays": 1
     },
@@ -57,6 +57,7 @@
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeType": "pr",
+      "ignoreTests": true,
       "matchDatasources": [
         "docker",
         "helm"
@@ -71,7 +72,6 @@
         "minor",
         "patch"
       ],
-      "requiredStatusChecks": null,
       "schedule": ["after 3am, before 6am"],
       "stabilityDays": 2
     },
@@ -80,13 +80,13 @@
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeType": "pr",
+      "ignoreTests": true,
       "matchDatasources": ["github-tags"],
       "matchManagers": ["github-actions"],
       "matchUpdateTypes": [
         "minor",
         "patch"
-      ],
-      "requiredStatusChecks": null
+      ]
     }
   ]
 }

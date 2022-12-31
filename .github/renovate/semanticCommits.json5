@@ -13,8 +13,14 @@
     },
     {
       "matchDatasources": ["docker"],
-      "matchUpdateTypes": ["digest", "patch"],
+      "matchUpdateTypes": ["patch"],
       "semanticCommitType": ":arrow_up: fix",
+      "semanticCommitScope": "container"
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchUpdateTypes": ["digest"],
+      "semanticCommitType": ":arrow_up: chore",
       "semanticCommitScope": "container"
     },
     {

@@ -1,7 +1,7 @@
 {
+  "commitMessageTopic": "{{depName}}",
   "commitMessageExtra": "to {{newVersion}}",
   "commitMessageSuffix": "",
-  "commitMessageTopic": "{{depName}}",
   "packageRules": [
     {
       "matchDatasources": ["docker"],

@@ -2,7 +2,9 @@
   "packageRules": [
     {
       "description": "Rook-Ceph image and chart",
-      "group": { "commitMessageTopic": "{{{groupName}}} group" },
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
       "groupName": "Rook-Ceph",
       "matchDatasources": [
         "docker",
@@ -13,7 +15,9 @@
     },
     {
       "description": "Thanos image and chart - mismatched versions",
-      "group": { "commitMessageTopic": "{{{groupName}}} group" },
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
       "groupName": "Thanos",
       "matchDatasources": [
         "docker",
