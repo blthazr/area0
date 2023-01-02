@@ -5,6 +5,7 @@ resources:
   - ./bjw-s.yaml
   - ./external-dns.yaml
   - ./ingress-nginx.yaml
+  - ./intel.yaml
   - ./jetstack.yaml
   - ./kastern.yaml
   - ./kyverno.yaml
