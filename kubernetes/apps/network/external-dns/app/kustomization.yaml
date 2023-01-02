@@ -10,7 +10,7 @@ configurations:
 configMapGenerator:
   - name: external-dns-helm-values
     files:
-      - values.yaml
+      - ./values.yaml
 generatorOptions:
   disableNameSuffixHash: true
 resources:
