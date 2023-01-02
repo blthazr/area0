@@ -18,6 +18,7 @@ spec:
     remediation:
       retries: 3
   interval: 15m
+  maxHistory: 3
   upgrade:
     remediation:
       retries: 3
