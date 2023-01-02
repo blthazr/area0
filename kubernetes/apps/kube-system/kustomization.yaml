@@ -6,3 +6,4 @@ resources:
   - ./kube-vip/kube-vip.yaml
   - ./node-feature-discovery/node-feature-discovery.yaml
   - ./reloader/reloader.yaml
+  - ./snapshot-controller/snapshot-controller.yaml
