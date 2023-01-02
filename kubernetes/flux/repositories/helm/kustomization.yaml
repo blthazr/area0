@@ -12,5 +12,6 @@ resources:
   - ./metallb.yaml
   - ./metrics-server.yaml
   - ./node-feature-discovery.yaml
+  - ./piraeus.yaml
   - ./rook-ceph.yaml
   - ./stakater.yaml
