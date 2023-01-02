@@ -1,0 +1,5 @@
+---
+fullnameOverride: &app reloader
+reloader:
+  reloadOnCreate: false
+  reloadStrategy: annotations

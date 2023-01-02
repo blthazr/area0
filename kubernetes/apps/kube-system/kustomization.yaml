@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./kube-vip/kube-vip.yaml
+  - ./reloader/reloader.yaml
