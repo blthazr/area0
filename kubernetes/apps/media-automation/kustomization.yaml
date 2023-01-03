@@ -7,5 +7,6 @@ resources:
   - ./gaps/gaps.yaml
   - ./lidarr/lidarr.yaml
   - ./overseerr/overseerr.yaml
+  - ./prowlarr/prowlarr.yaml
   - ./sonarr/sonarr.yaml
   - ./tautulli/tautulli.yaml
