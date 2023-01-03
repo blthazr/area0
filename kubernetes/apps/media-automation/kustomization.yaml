@@ -5,4 +5,5 @@ resources:
   - ./namespace.yaml
   - ./bazarr/bazarr.yaml
   - ./gaps/gaps.yaml
+  - ./overseerr/overseerr.yaml
   - ./tautulli/tautulli.yaml
