@@ -8,5 +8,6 @@ resources:
   - ./lidarr/lidarr.yaml
   - ./overseerr/overseerr.yaml
   - ./prowlarr/prowlarr.yaml
+  - ./radarr/radarr.yaml
   - ./sonarr/sonarr.yaml
   - ./tautulli/tautulli.yaml
