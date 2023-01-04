@@ -5,4 +5,5 @@ resources:
   - ./bitnami.yaml
   - ./bjw-s.yaml
   - ./external-dns.yaml
+  - ./grafana.yaml
   - ./rook-ceph.yaml
