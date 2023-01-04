@@ -1,3 +1,10 @@
 ---
 nameOverride: &app kyverno
 installCRDs: true
+topologySpreadConstraints:
+  - labelSelector:
+      matchLabels:
+        app.kubernetes.io/instance: kyverno
+    maxSkew: 1
+    topologyKey: kubernetes.io/hostname
+    whenUnsatisfiable: DoNotSchedule
