@@ -6,70 +6,39 @@
 version: "3"
 
 tasks:
-  # task flux:sync:all
-  sync:all:
-    - task: sync:sources
-    - task: sync:ks
-    - task: sync:hr
-    - task: sync:alerts
-    - task: sync:receivers
-
-  # task flux:sync:sources
-  sync:sources:
-    desc: reconcile flux sources
+  # task flux:verify
+  verify:
+    desc: verify flux meets the prerequisites
     cmds:
-      - flux reconcile source git flux-installation --namespace flux-system
-      - flux reconcile source git flux-cluster --namespace flux-system
-      - flux get sources git --all-namespaces --no-header | awk '{ print $1, $2}' | grep -v "flux-system flux-" | xargs -r -n2 sh -c 'flux reconcile source git $1 --namespace $0'
-      - flux get sources helm --all-namespaces --no-header | awk '{ print $1, $2}' | xargs -r -n2 sh -c 'flux reconcile source helm $1 --namespace $0'
-    silent: true
+      - flux check --pre
 
-  # task flux:sync:ks
-  sync:ks:
-    desc: reconcile flux kustomizations
+  # task flux:install
+  install:
+    desc: install Flux into the cluster
     cmds:
-      - flux reconcile kustomization flux-installation --namespace flux-system --with-source
-      - flux reconcile kustomization flux-cluster --namespace flux-system --with-source
-      - flux reconcile kustomization cluster-config --namespace flux-system --with-source
-      - flux reconcile kustomization cluster-sources --namespace flux-system --with-source
-      - flux reconcile kustomization cluster-crds --namespace flux-system --with-source
-      - flux reconcile kustomization cluster-core --namespace flux-system --with-source
-      - flux reconcile kustomization cluster-apps --namespace flux-system --with-source
-      - flux get kustomizations --all-namespaces --no-header  | awk '{ print $1, $2}' | grep -v "flux-system cluster-" | grep -v "flux-system flux-" | xargs -r -n2 sh -c 'flux reconcile kustomization $1 --namespace $0 --with-source' | xargs
-    silent: true
+      - kubectl apply --server-side --kustomize {{.KUBERNETES_DIR}}/bootstrap/flux
+      - cat {{.SOPS_AGE_KEY_FILE}} | kubectl -n flux-system create secret generic sops-age --from-file=age.agekey=/dev/stdin
+      - sops --decrypt {{.KUBERNETES_DIR}}/bootstrap/flux/github-deploy-key.sops.yaml | kubectl apply -f -
+      - sops --decrypt {{.KUBERNETES_DIR}}/flux/vars/cluster-secrets.sops.yaml | kubectl apply -f -
+      - kubectl apply -f {{.KUBERNETES_DIR}}/flux/vars/cluster-settings.yaml
+      - kubectl apply --server-side --kustomize {{.KUBERNETES_DIR}}/flux/config
+      - task: reconcile
+    preconditions:
+      - sh: test -f {{.SOPS_AGE_KEY_FILE}}
+        msg: |
+          Age key file is not found. Did you forget to create it?
+    vars:
+      SOPS_AGE_KEY_FILE: "${SOPS_AGE_KEY_FILE}"
 
-  # task flux:sync:hr
-  sync:hr:
-    desc: reconcile helm releases
+  # task flux:reconcile
+  reconcile:
+    desc: force Flux to pull in changes from your Git repository
     cmds:
-      - flux get helmreleases --all-namespaces --no-header | awk '{ print $1, $2}' | xargs -r -n2 sh -c 'flux reconcile helmrelease $1 --namespace $0 --with-source' | xargs
-    silent: true
+      - flux reconcile -n flux-system source git area0
+      - flux reconcile -n flux-system kustomization cluster
 
-  # task flux:sync:alerts
-  sync:alerts:
-    desc: reconcile flux alerts and alert providers
+  # task flux:uninstall
+  uninstall:
+    desc: remove Flux from the cluster
     cmds:
-      - flux get alert-providers --all-namespaces --no-header | awk '{ print $1, $2}' | xargs -r -n2 sh -c 'flux reconcile alert-provider $1 --namespace $0' | xargs
-      - flux get alerts --all-namespaces --no-header | awk '{ print $1, $2}' | xargs -r -n2 sh -c 'flux reconcile alert $1 --namespace $0' | xargs
-    silent: true
-
-  # task flux:sync:receivers
-  sync:receivers:
-    desc: reconcile flux receivers
-    cmds:
-      - flux get receivers --all-namespaces --no-header | awk '{ print $1, $2}' | xargs -r -n2 sh -c 'flux reconcile receiver $1 --namespace $0' | xargs
-    silent: true
-
-# task flux:logs
-logs:
-  desc: get flux logs
-  cmds:
-    - flux logs -A --level=error
-  silent: true
-
-# task flux:logs:follow
-logs:follow:
-  desc: tail flux logs
-  cmds:
-    - flux logs -A -f --level=error
-  silent: true
+      - flux uninstall
