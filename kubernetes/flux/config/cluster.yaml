@@ -2,7 +2,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: GitRepository
 metadata:
-  name: flux-cluster
+  name: area0
   namespace: flux-system
 spec:
   ignore: |
