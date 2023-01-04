@@ -9,5 +9,6 @@ resources:
   - ./ingress-nginx.yaml
   - ./intel.yaml
   - ./jetstack.yaml
+  - ./prometheus-community.yaml
   - ./rook-ceph.yaml
   - ./stakater.yaml
