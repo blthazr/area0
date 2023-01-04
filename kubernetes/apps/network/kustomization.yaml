@@ -5,5 +5,6 @@ resources:
   - ./namespace.yaml
   - ./external-dns/external-dns.yaml
   - ./ingress-nginx/ingress-nginx.yaml
+  - ./ingress-nginx/ingress-nginx-certificates.yaml
   - ./metallb/metallb.yaml
   - ./metallb/config.yaml
