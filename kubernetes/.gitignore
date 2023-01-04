@@ -1,0 +1,7 @@
+# Local Test/Helm
+*-local.*
+*-test.*
+default-values.y*ml
+
+# Deployment
+deployment.md
