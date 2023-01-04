@@ -11,6 +11,7 @@ resources:
   - ./jetstack.yaml
   - ./kasten.yaml
   - ./kyverno.yaml
+  - ./metallb.yaml
   - ./prometheus-community.yaml
   - ./rook-ceph.yaml
   - ./stakater.yaml
