@@ -40,5 +40,5 @@ spec:
   prune: true
   sourceRef:
     kind: GitRepository
-    name: flux-cluster
+    name: area0
   wait: false
