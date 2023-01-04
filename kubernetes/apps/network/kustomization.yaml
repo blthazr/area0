@@ -4,5 +4,6 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./external-dns/external-dns.yaml
+  - ./ingress-nginx/ingress-nginx.yaml
   - ./metallb/metallb.yaml
   - ./metallb/config.yaml

@@ -12,6 +12,9 @@ data:
   # metallb
   METALLB_DEFAULT_ADDRESS_POOL: 10.0.100.100-10.0.100.199
 
+  # service addresses
+  SVC_NGINX_ADDRESS: 10.0.100.100
+
   # site addresses
   MEDIA_SERVER_ADDRESS: 10.0.101.15
   NAS_ADDRESS: 172.16.70.100
