@@ -7,4 +7,5 @@ resources:
   - ./external-dns.yaml
   - ./grafana.yaml
   - ./ingress-nginx.yaml
+  - ./intel.yaml
   - ./rook-ceph.yaml
