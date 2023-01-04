@@ -1,0 +1,74 @@
+---
+nameOverride: &app sabnzbd
+env:
+  SABNZBD__PORT: &port 8080
+  SABNZBD__HOST_WHITELIST_ENTRIES: >-
+    sabnzbd,
+    sabnzbd.download,
+    sabnzbd.download.svc,
+    sabnzbd.download.svc.cluster,
+    sabnzbd.download.svc.cluster.local,
+    sabnzbd.${SECRET_DOMAIN}
+  TZ: "${CLUSTER_TIME_ZONE}"
+envFrom:
+  - secretRef:
+      name: *app
+image:
+  repository: ghcr.io/onedr0p/sabnzbd
+  tag: 3.7.1@sha256:e1a805ab246712b2c9a834b88ffefd77aba89b2ffcfdf1a9535333fcb4a60f91
+ingress:
+  main:
+    annotations:
+      nginx.ingress.kubernetes.io/configuration-snippet: |
+        proxy_set_header Accept-Encoding "";
+        sub_filter '</head>' '<link rel="stylesheet" type="text/css" href="https://theme-park.${SECRET_DOMAIN}/css/base/sabnzbd/dark.css"></head>';
+        sub_filter_once on;
+    enabled: true
+    hosts:
+      - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
+        paths:
+          - path: /
+            pathType: Prefix
+    ingressClassName: nginx
+    tls:
+      - hosts:
+          - *host
+nodeSelector:
+  node-role.kubernetes.io/media: "true"
+persistence:
+  backup:
+    enabled: true
+    mountPath: /config/Backup
+    path: "${NAS_NFS_PATH}/backup/app/sabnzbd"
+    server: "${NAS_ADDRESS}"
+    type: nfs
+  config:
+    enabled: true
+    existingClaim: sabnzbd-config-v1
+  incomplete:
+    enabled: true
+    type: emptyDir
+  media:
+    enabled: true
+    mountPath: /media
+    path: "${MEDIA_SERVER_NFS_PATH}"
+    server: "${MEDIA_SERVER_ADDRESS}"
+    type: nfs
+podSecurityContext:
+  fsGroup: 568
+  fsGroupChangePolicy: "OnRootMismatch"
+  runAsGroup: 568
+  runAsUser: 568
+  supplementalGroups:
+    - 100
+resources:
+  limits:
+    memory: 8000Mi
+  requests:
+    cpu: 10m
+    memory: 250Mi
+service:
+  main:
+    ports:
+      http:
+        port: *port
