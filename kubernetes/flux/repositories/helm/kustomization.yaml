@@ -12,6 +12,7 @@ resources:
   - ./kasten.yaml
   - ./kyverno.yaml
   - ./metallb.yaml
+  - ./piraeus.yaml
   - ./prometheus-community.yaml
   - ./rook-ceph.yaml
   - ./stakater.yaml
