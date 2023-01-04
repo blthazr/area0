@@ -8,4 +8,5 @@ resources:
   - ./grafana.yaml
   - ./ingress-nginx.yaml
   - ./intel.yaml
+  - ./jetstack.yaml
   - ./rook-ceph.yaml
