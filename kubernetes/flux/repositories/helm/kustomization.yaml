@@ -10,3 +10,4 @@ resources:
   - ./intel.yaml
   - ./jetstack.yaml
   - ./rook-ceph.yaml
+  - ./stakater.yaml
