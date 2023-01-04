@@ -4,4 +4,5 @@ kind: Kustomization
 resources:
   - ./bitnami.yaml
   - ./bjw-s.yaml
+  - ./external-dns.yaml
   - ./rook-ceph.yaml
