@@ -5,3 +5,4 @@ resources:
   - ./namespace.yaml
   - ./bazarr/bazarr.yaml
   - ./gaps/gaps.yaml
+  - ./lidarr/lidarr.yaml
