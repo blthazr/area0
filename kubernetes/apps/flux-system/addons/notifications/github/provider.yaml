@@ -1,0 +1,11 @@
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta2
+kind: Provider
+metadata:
+  name: github
+spec:
+  address: https://github.com/blthazr/area0
+  interval: 10m
+  secretRef:
+    name: github-token
+  type: github
