@@ -6,5 +6,6 @@ resources:
   - ./external-dns/external-dns.yaml
   - ./ingress-nginx/ingress-nginx.yaml
   - ./ingress-nginx/ingress-nginx-certificates.yaml
+  - ./k8s-gateway/k8s-gateway.yaml
   - ./metallb/metallb.yaml
   - ./metallb/config.yaml
