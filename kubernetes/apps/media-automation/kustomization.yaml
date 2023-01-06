@@ -9,4 +9,5 @@ resources:
   - ./overseerr/overseerr.yaml
   - ./prowlarr/prowlarr.yaml
   - ./radarr/radarr.yaml
+  - ./sonarr/sonarr.yaml
   - ./tautulli/tautulli.yaml
