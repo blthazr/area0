@@ -6,3 +6,4 @@ resources:
   - ./bazarr/bazarr.yaml
   - ./gaps/gaps.yaml
   - ./lidarr/lidarr.yaml
+  - ./overseerr/overseerr.yaml
