@@ -1,6 +1,19 @@
 {
   "packageRules": [
     {
+      "description": "Flux bootstrap and image",
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "groupName": "Flux",
+      "matchDatasources": [
+        "docker",
+        "github-tags"
+      ],
+      "matchPackagePatterns": ["fluxcd"],
+      "separateMinorPatch": true
+    },
+    {
       "description": "Rook-Ceph image and chart",
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
