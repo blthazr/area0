@@ -1,0 +1,51 @@
+---
+nameOverride: &app descheduler
+deschedulerPolicy:
+  strategies:
+    LowNodeUtilization:
+      enabled: false
+    RemoveDuplicates:
+      enabled: true
+    RemoveFailedPods:
+      enabled: true
+      params:
+        failedPods:
+          excludeOwnerKinds: ["Job"]
+          includingInitContainers: true
+          minPodLifetimeSeconds: 3600
+    RemovePodsHavingTooManyRestarts:
+      enabled: true
+      params:
+        podsHavingTooManyRestarts:
+          includingInitContainers: true
+          podRestartThreshold: 100
+    RemovePodsViolatingNodeAffinity:
+      enabled: true
+      params:
+        nodeAffinityType: ["requiredDuringSchedulingIgnoredDuringExecution"]
+    RemovePodsViolatingNodeTaints:
+      enabled: true
+    RemovePodsViolatingInterPodAntiAffinity:
+      enabled: true
+      params:
+        nodeFit: true
+    RemovePodsViolatingTopologySpreadConstraint:
+      enabled: true
+      params:
+        includeSoftConstraints: true
+kind: Deployment
+leaderElection:
+  enabled: true
+  leaseDuration: 15s
+  renewDeadline: 10s
+  retryPeriod: 2s
+  resourceLock: leases
+  resourceName: descheduler
+  resourceNamescape: default
+podAnnotations:
+  configmap.reloader.stakater.com/reload: "descheduler"
+replicas: 1
+service:
+  enabled: true
+serviceMonitor:
+  enabled: true
