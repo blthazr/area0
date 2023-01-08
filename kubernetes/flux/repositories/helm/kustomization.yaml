@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - ./bitnami.yaml
   - ./bjw-s.yaml
+  - ./descheduler.yaml
   - ./external-dns.yaml
   - ./grafana.yaml
   - ./ingress-nginx.yaml
