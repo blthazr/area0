@@ -10,7 +10,7 @@ spec:
   dependsOn:
     - name: cluster-apps-kyverno
   interval: 30m
-  path: ./kubernetes/apps/kyverno/cluster-policies/policies
+  path: ./kubernetes/apps/kyverno/config/policies
   prune: true
   retryInterval: 1m
   sourceRef:
