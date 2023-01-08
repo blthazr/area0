@@ -8,4 +8,4 @@ resources:
   - ./metrics-server/metrics-server.yaml
   - ./node-feature-discovery/node-feature-discovery.yaml
   - ./reloader/reloader.yaml
-  # - ./snapshot-controller/snapshot-controller.yaml
+  - ./snapshot-controller/snapshot-controller.yaml
