@@ -1,0 +1,5 @@
+---
+nameOverride: &app intel-device-plugin-gpu
+name: intel-gpu-plugin
+nodeFeatureRule: true
+sharedDevNum: 3
