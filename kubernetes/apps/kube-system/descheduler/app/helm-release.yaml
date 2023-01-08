@@ -6,11 +6,11 @@ metadata:
 spec:
   chart:
     spec:
-      chart: descheduler-charts
+      chart: *app
       version: 0.25.2
       sourceRef:
         kind: HelmRepository
-        name: descheduler
+        name: descheduler-charts
         namespace: flux-system
   install:
     createNamespace: true
