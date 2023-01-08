@@ -47,5 +47,3 @@ podAnnotations:
 replicas: 1
 service:
   enabled: true
-serviceMonitor:
-  enabled: true
