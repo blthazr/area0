@@ -15,8 +15,8 @@ spec:
   dependsOn:
     - name: snapshot-controller
   install:
-    createNamespace: true
     crds: Skip
+    createNamespace: true
     remediation:
       retries: 3
   interval: 15m
