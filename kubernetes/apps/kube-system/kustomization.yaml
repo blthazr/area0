@@ -7,3 +7,4 @@ resources:
   - ./kube-vip/kube-vip.yaml
   - ./metrics-server/metrics-server.yaml
   - ./node-feature-discovery/node-feature-discovery.yaml
+  - ./snapshot-controller/snapshot-controller.yaml
