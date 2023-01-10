@@ -1,0 +1,63 @@
+---
+nameOverride: &app mealie
+additionalContainers:
+  api:
+    name: mealie-api
+    image: docker.io/hkotel/mealie:api-nightly@sha256:4b8694d65505d26c9f837300944e5580b7bcc42dac0b50e30d4ccc08aaf902de
+    imagePullPolicy: IfNotPresent
+    env:
+      - name: ALLOW_SIGNUP
+        value: "false"
+      - name: API_PORT
+        value: "9000"
+      - name: BASE_URL
+        value: "https://recipes.${SECRET_DOMAIN}"
+      - name: DEFAULT_EMAIL
+        value: "admin@${SECRET_DOMAIN}"
+      - name: TZ
+        value: "${CLUSTER_TIME_ZONE}"
+    ports:
+      - name: api
+        containerPort: 9000
+    volumeMounts:
+      - name: api-data
+        mountPath: /app/data/
+      - name: backup
+        mountPath: /config/Backups
+env:
+  TZ: "${CLUSTER_TIME_ZONE}"
+image:
+  repository: docker.io/hkotel/mealie
+  tag: frontend-nightly@sha256:2cb11572ca08eccae4c2623141155f81933d73826aec2afe5dd8e48da929dec9
+ingress:
+  main:
+    annotations:
+      external-dns.home.arpa/enabled: "true"
+    enabled: true
+    hosts:
+      - host: &host "recipes.${SECRET_DOMAIN}"
+        paths:
+          - path: /
+            pathType: Prefix
+    ingressClassName: nginx
+    tls:
+      - hosts:
+          - *host
+persistence:
+  api-data:
+    enabled: true
+    existingClaim: mealie-config-v2
+  backup:
+    enabled: true
+    mountPath: /config/Backups
+    path: "${NAS_NFS_PATH}/backup/app/mealie"
+    server: "${NAS_ADDRESS}"
+    type: nfs
+service:
+  main:
+    ports:
+      api:
+        enabled: true
+        port: 9000
+      http:
+        port: 3000
