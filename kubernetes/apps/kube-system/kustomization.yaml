@@ -5,7 +5,7 @@ resources:
   - ./namespace.yaml
   - ./descheduler/app.yaml
   # - ./intel-device-plugin/gpu.yaml
-  # - ./intel-device-plugin/operator.yaml
+  - ./intel-device-plugin/operator.yaml
   - ./kube-vip/app.yaml
   - ./metrics-server/app.yaml
   - ./node-feature-discovery/app.yaml
