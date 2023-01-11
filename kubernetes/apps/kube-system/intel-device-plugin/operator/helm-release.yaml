@@ -19,6 +19,7 @@ spec:
   interval: 15m
   maxHistory: 3
   upgrade:
+    cleanupOnFail: true
     crds: CreateReplace
     remediation:
       retries: 3
