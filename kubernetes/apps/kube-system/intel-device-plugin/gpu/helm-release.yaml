@@ -6,7 +6,7 @@ metadata:
 spec:
   chart:
     spec:
-      chart: *app
+      chart: intel-device-plugins-gpu
       version: 0.25.1
       sourceRef:
         kind: HelmRepository
