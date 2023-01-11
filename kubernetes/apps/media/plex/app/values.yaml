@@ -1,14 +1,5 @@
 ---
 nameOverride: &app plex
-affinity:
-  podAntiAffinity:
-    requiredDuringSchedulingIgnoredDuringExecution:
-      - labelSelector:
-          matchExpressions:
-            - key: app.kubernetes.io/name
-              operator: In
-              values: ["frigate"]
-        topologyKey: kubernetes.io/hostname
 env:
   PLEX__PORT: &port 32400
   TZ: "${CLUSTER_TIME_ZONE}"
