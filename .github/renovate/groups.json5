@@ -27,6 +27,19 @@
       "separateMinorPatch": true
     },
     {
+      "description": "External Snapshot Controller charts",
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "groupName": "External Snapshot Controller",
+      "matchDatasources": ["helm"],
+      "matchPackagePatterns": [
+        "snapshot-controller",
+        "snapshot-validation-webhook"
+      ],
+      "separateMinorPatch": true
+    },
+    {
       "description": "Thanos image and chart - mismatched versions",
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
