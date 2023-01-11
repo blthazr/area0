@@ -1,10 +1,6 @@
 ---
 nameOverride: &app node-feature-discovery
-nodeFeatureRule:
-  createCRD: true
 worker:
-  annotations:
-    configmap.reloader.stakater.com/reload: node-feature-discovery-worker-conf
   config:
     core:
       sources:
@@ -24,33 +20,5 @@ worker:
           - class
           - vendor
           - device
-      custom:
-        - name: coral-tpu
-          matchOn:
-            - usbId:
-                vendor: ["1a6e", "18d1"]
-        - name: intel-gpu
-          matchOn:
-            - pciId:
-                class: ["0300"]
-                vendor: ["8086"]
-        - name: rflink
-          matchOn:
-            - usbId:
-                class: ["02"]
-                vendor: ["2341"]
-                device: ["0042"]
-        - name: zigbee
-          matchOn:
-            - usbId:
-                class: ["ff"]
-                vendor: ["1a86"]
-                device: ["7523"]
-        - name: zwave
-          matchOn:
-            - usbId:
-                class: ["02"]
-                vendor: ["0658"]
-                device: ["0200"]
   nodeSelector:
     node-role.kubernetes.io/worker: "true"
