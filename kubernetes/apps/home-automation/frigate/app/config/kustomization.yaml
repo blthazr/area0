@@ -6,4 +6,6 @@ configMapGenerator:
     files:
       - ./config.yaml
 generatorOptions:
+  annotations:
+    kustomize.toolkit.fluxcd.io/substitute: disabled
   disableNameSuffixHash: true
