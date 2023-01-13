@@ -1,0 +1,109 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: &app frigate
+spec:
+  chart:
+    spec:
+      chart: app-template
+      version: 1.2.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  interval: 15m
+  maxHistory: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    env:
+      LIBVA_DRIVER_NAME: i965
+      TZ: "${CLUSTER_TIME_ZONE}"
+    envFrom:
+      - secretRef:
+          name: frigate-secrets
+    image:
+      repository: ghcr.io/blakeblackshear/frigate
+      tag: 0.12.0-beta3
+    ingress:
+      main:
+        enabled: true
+        hosts:
+          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        ingressClassName: nginx
+        tls:
+          - hosts:
+              - *host
+    nodeSelector:
+      google.feature.node.kubernetes.io/coral: "true"
+      intel.feature.node.kubernetes.io/gpu: "true"
+      node-role.kubernetes.io/worker: "true"
+    persistence:
+      cache:
+        enabled: true
+        medium: Memory
+        mountPath: /dev/shm
+        sizeLimit: 4Gi
+        type: emptyDir
+      config-file:
+        enabled: true
+        name: frigate-configmap
+        mountPath: /config/config.yml
+        readOnly: true
+        subPath: config.yaml
+        type: configMap
+      data:
+        enabled: true
+        existingClaim: frigate-data-v1
+      media:
+        enabled: true
+        mountPath: /media
+        path: "${NAS_NFS_PATH}/apps/frigate"
+        server: "${NAS_ADDRESS}"
+        type: nfs
+      usb:
+        enabled: true
+        hostPath: /dev/bus/usb
+        hostPathType: Directory
+        mountPath: /dev/bus/usb
+        type: hostPath
+    probes:
+      liveness: &probes
+        enabled: true
+        custom: true
+        spec:
+          httpGet:
+            path: /api/version
+            port: 5000
+          initialDelaySeconds: 0
+          periodSeconds: 10
+          timeoutSeconds: 1
+          failureThreshold: 3
+      readiness: *probes
+      startup:
+        enabled: false
+    service:
+      main:
+        externalTrafficPolicy: Local
+        loadBalancerIP: "${SVC_FRIGATE_ADDRESS}"
+        ports:
+          http:
+            port: 5000
+          rtsp:
+            enabled: true
+            port: 8554
+        type: LoadBalancer
+    securityContext:
+      privileged: true
