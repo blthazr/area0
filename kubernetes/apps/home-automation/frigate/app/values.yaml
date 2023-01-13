@@ -32,10 +32,10 @@ persistence:
     mountPath: /dev/shm
     sizeLimit: 4Gi
     type: emptyDir
-  config:
+  config-file:
     enabled: true
     mountPath: /config/config.yml
-    name: frigate-config
+    name: frigate-configmap
     readOnly: true
     subPath: config.yaml
     type: configMap
@@ -54,9 +54,6 @@ persistence:
     hostPathType: Directory
     mountPath: /dev/bus/usb
     type: hostPath
-podAnnotations:
-  configmap.reloader.stakater.com/reload: frigate-config
-  secret.reloader.stakater.com/reload: frigate-secrets
 probes:
   liveness: &probe
     custom: true

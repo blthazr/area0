@@ -8,6 +8,9 @@ commonLabels:
 configurations:
   - ./kustomize-config.yaml
 configMapGenerator:
+  - name: frigate-configmap
+    files:
+      - ./config.yaml
   - name: frigate-helm-values
     files:
       - ./values.yaml
@@ -16,6 +19,5 @@ generatorOptions:
 resources:
   - ./secret.sops.yaml
   - ./persistent-volume-claim.yaml
-  - ./config
   - ./node-feature-rule.yaml
   - ./helm-release.yaml
