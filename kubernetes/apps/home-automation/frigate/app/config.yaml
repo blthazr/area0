@@ -28,29 +28,11 @@ database:
 # --------------------------------------------------------------------------------------------------
 # global | ffmpeg
 # --------------------------------------------------------------------------------------------------
-ffmpeg:
-  hwaccel_args:
-    - -hwaccel
-    - vaapi
-    - -hwaccel_device
-    - /dev/dri/renderD128
-    - -hwaccel_output_format
-    - yuv420p
+  global_args: ["-hide_banner", "-loglevel", "warning"]
+  hwaccel_args: ["-hwaccel", "vaapi", "-hwaccel_device", "/dev/dri/renderD128", "-hwaccel_output_format", "yuv420p"]
+  # https://github.com/blakeblackshear/frigate/issues/3296
   output_args:
-    record:
-      - -f segment
-      - -segment_time 10
-      - -segment_format mp4
-      - -reset_timestamps 1
-      - -strftime 1
-      - -c:v copy
-      - -ar 44100
-      - -c:a aac
-    rtmp:
-      - -c:v copy
-      - -f flv
-      - -ar 44100
-      - -c:a aac
+    record: -f segment -segment_time 10 -segment_format mp4 -reset_timestamps 1 -strftime 1 -map 0:v:0 -map 0:a:0 -c copy
 # ==================================================================================================
 
 # --------------------------------------------------------------------------------------------------
