@@ -29,13 +29,13 @@ database:
 # global | ffmpeg
 # --------------------------------------------------------------------------------------------------
 ffmpeg:
-  global_args:
-    - -hide_banner
-    - -loglevel warning
   hwaccel_args:
-    - -hwaccel vaapi
-    - -hwaccel_device /dev/dri/renderD128
-    - -hwaccel_output_format yuv420p
+    - -hwaccel
+    - vaapi
+    - -hwaccel_device
+    - /dev/dri/renderD128
+    - -hwaccel_output_format
+    - yuv420p
   output_args:
     record:
       - -f segment
@@ -43,9 +43,14 @@ ffmpeg:
       - -segment_format mp4
       - -reset_timestamps 1
       - -strftime 1
-      - -map 0:v:0
-      - -map 0:a:0
-      - -c copy
+      - -c:v copy
+      - -ar 44100
+      - -c:a aac
+    rtmp:
+      - -c:v copy
+      - -f flv
+      - -ar 44100
+      - -c:a aac
 # ==================================================================================================
 
 # --------------------------------------------------------------------------------------------------
@@ -59,17 +64,6 @@ snapshots:
     default: 7
 # ==================================================================================================
 
-# --------------------------------------------------------------------------------------------------
-# global | objects
-# --------------------------------------------------------------------------------------------------
-objects:
-  track: ["person"]
-  filters:
-    person:
-      min_area: 5000
-      max_area: 100000
-      threshold: 0.7
-# ==================================================================================================
 
 cameras:
 # --------------------------------------------------------------------------------------------------
@@ -78,15 +72,12 @@ cameras:
   frigate_front_door:
     ffmpeg:
       inputs:
-        - path: rtsp://localhost:8554/frigate_front_door
+        # High (1600x1200)
+        - path: "rtsps://${UNIFI_PROTECT_ADDRESS}:7441/BkoLvCjvhphS7FQ5?enableSrtp"
           roles:
             - record
-        # High (1600x1200)
-        - path: "rtsp://${UNIFI_PROTECT_ADDRESS}:7447/BkoLvCjvhphS7FQ5"
-          roles:
-            - restream
         # Medium (960x720)
-        - path: "rtsp://${UNIFI_PROTECT_ADDRESS}:7447/dfsiwxmeWkdRHWiX"
+        - path: "rtsps://${UNIFI_PROTECT_ADDRESS}:7441/dfsiwxmeWkdRHWiX?enableSrtp"
           roles:
             - detect
             - rtmp
@@ -94,7 +85,7 @@ cameras:
       enabled: true
       width: 960
       height: 720
-      fps: 10
+      fps: 5
     motion:
       mask:
         - 0,0,0,60,200,60,200,0 # timestamp
@@ -105,6 +96,7 @@ cameras:
         - bicycle
         - car
         - dog
+        - person
     record:
       enabled: false
     rtmp:
@@ -112,4 +104,31 @@ cameras:
     snapshots:
       enabled: true
       bounding_box: false
+    zones:
+      approach-zone:
+        coordinates: 889,449,701,409,716,509,919,607,960,462
+        objects:
+          - person
+      entire-yard-zone:
+        coordinates: 417,547,719,485,924,549,931,431,681,389,393,432
+        objects:
+          - bicycle
+          - dog
+          - person
+      front-porch-zone:
+        coordinates: 0,128,376,127,375,446,723,414,960,454,960,720,0,720
+        objects:
+          - bicycle
+          - dog
+          - person
+      front-yard-zone:
+        coordinates: 417,547,719,485,924,549,931,431,681,389,393,432
+        objects:
+          - bicycle
+          - dog
+          - person
+      garden-zone:
+        coordinates: 663,464,605,397,389,411,396,541
+        objects:
+          - person
 # ==================================================================================================
