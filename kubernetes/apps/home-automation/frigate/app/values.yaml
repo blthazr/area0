@@ -2,17 +2,9 @@
 nameOverride: &app frigate
 env:
   LIBVA_DRIVER_NAME: i965
-  MQTT_ADDRESS:
-    valueFrom:
-      configMapRef:
-        name: cluster-settings
-        key: MQTT_ADDRESS
+  MQTT_ADDRESS: "${MQTT_ADDRESS}"
   TZ: "${CLUSTER_TIME_ZONE}"
-  UNIFI_PROTECT_ADDRESS:
-    valueFrom:
-      configMapRef:
-        name: cluster-settings
-        key: UNIFI_PROTECT_ADDRESS
+  UNIFI_PROTECT_ADDRESS: "${UNIFI_PROTECT_ADDRESS}"
 envFrom:
   - secretRef:
       name: frigate-secrets
