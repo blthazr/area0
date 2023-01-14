@@ -11,3 +11,5 @@ configMapGenerator:
       - ./frigate-config.yaml
 generatorOptions:
   disableNameSuffixHash: true
+resources:
+  - ./secret.sops.yaml
