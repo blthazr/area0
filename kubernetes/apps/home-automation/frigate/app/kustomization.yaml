@@ -5,11 +5,7 @@ namespace: home-automation
 commonLabels:
   app.kubernetes.io/instance: &app frigate
   app.kubernetes.io/name: *app
-configMapGenerator:
-  - name: frigate-config
-    files:
-      - ./frigate-config.yaml
 generatorOptions:
   disableNameSuffixHash: true
 resources:
-  - ./secret.sops.yaml
+  - ./config

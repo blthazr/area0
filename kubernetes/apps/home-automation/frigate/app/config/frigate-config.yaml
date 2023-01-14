@@ -3,10 +3,10 @@
 # global | mqtt
 # --------------------------------------------------------------------------------------------------
 mqtt:
-  host: "${MQTT_ADDRESS}"
+  host: "{MQTT_ADDRESS}"
   port: 1883
-  user: "${SECRET_MQTT_USERNAME}"
-  password: "${SECRET_MQTT_PASSWORD}"
+  user: "{FRIGATE_MQTT_USER}"
+  password: "{FRIGATE_MQTT_PASSWORD}"
 # ==================================================================================================
 
 # --------------------------------------------------------------------------------------------------
@@ -46,4 +46,47 @@ objects:
       min_area: 5000
       max_area: 100000
       threshold: 0.7
+# ==================================================================================================
+
+cameras:
+# --------------------------------------------------------------------------------------------------
+# camera | front door
+# --------------------------------------------------------------------------------------------------
+  frigate_front_door:
+    ffmpeg:
+      inputs:
+        - path: rtsp://localhost:8554/frigate_front_door
+          roles:
+            - record
+        # High (1600x1200)
+        - path: "rtsp://{UNIFI_PROTECT_ADDRESS}:7447/BkoLvCjvhphS7FQ5"
+          roles:
+            - restream
+        # Medium (960x720)
+        - path: "rtsp://{UNIFI_PROTECT_ADDRESS}:7447/dfsiwxmeWkdRHWiX"
+          roles:
+            - detect
+            - rtmp
+    detect:
+      enabled: true
+      width: 960
+      height: 720
+      fps: 10
+    motion:
+      mask:
+        - 0,0,0,60,200,60,200,0 # timestamp
+        - 314,162,288,182,194,0,286,0 # door top light
+        - 960,300,612,322,612,402,647,407,649,381,960,420 # sidewalk and street
+    objects:
+      track:
+        - bicycle
+        - car
+        - dog
+    record:
+      enabled: false
+    rtmp:
+      enabled: false
+    snapshots:
+      enabled: true
+      bounding_box: false
 # ==================================================================================================
