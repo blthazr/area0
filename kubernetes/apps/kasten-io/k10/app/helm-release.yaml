@@ -17,16 +17,16 @@ spec:
     createNamespace: true
     remediation:
       retries: 3
-#   interval: 15m
-#   maxHistory: 3
+  interval: 15m
+  maxHistory: 3
   releaseName: k10
   upgrade:
     crds: CreateReplace
     cleanupOnFail: true
     remediation:
       retries: 3
-#   uninstall:
-#     keepHistory: false
+  uninstall:
+    keepHistory: false
   valuesFrom:
     - kind: ConfigMap
       name: k10-helm-values
