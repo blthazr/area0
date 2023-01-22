@@ -37,7 +37,7 @@ controller:
     configmap.reloader.stakater.com/reload: cloudflare-networks
   publishService:
     enabled: true
-  replicaCount: 2
+  replicaCount: 3
   resources:
     limits:
       memory: 500Mi
