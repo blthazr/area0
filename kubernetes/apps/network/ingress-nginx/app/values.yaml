@@ -25,7 +25,7 @@ controller:
     use-forwarded-headers: "true"
   extraArgs:
     default-ssl-certificate: |-
-      "network/${SECRET_DOMAIN/./-}-tls"
+      network/${SECRET_DOMAIN/./-}-tls
   extraEnvs:
     - name: TZ
       value: "${CLUSTER_TIME_ZONE}"
