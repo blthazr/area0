@@ -24,7 +24,8 @@ controller:
     ssl-protocols: "TLSv1.3 TLSv1.2"
     use-forwarded-headers: "true"
   extraArgs:
-    default-ssl-certificate: "network/${SECRET_DOMAIN/./-}-tls"
+    default-ssl-certificate: |-
+      "network/${SECRET_DOMAIN/./-}-tls"
   extraEnvs:
     - name: TZ
       value: "${CLUSTER_TIME_ZONE}"
