@@ -1,0 +1,24 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: &app files
+  annotations:
+    external-dns.home.arpa/enabled: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: &host "files.${SECRET_DOMAIN}"
+      http:
+        paths:
+          - backend:
+              service:
+                name: *app
+                port:
+                  name: http
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - *host
