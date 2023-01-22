@@ -1,0 +1,44 @@
+---
+nameOverride: &app theme-park
+controller:
+  replicas: 1
+  strategy: RollingUpdate
+env:
+  THEME_PARK__PORT: &port 8080
+  TZ: "${CLUSTER_TIME_ZONE}"
+image:
+  repository: ghcr.io/onedr0p/theme-park
+  tag: 1.13.3@sha256:497f6d27ab4ffd23c32299334b56ad915a36137693bab5e7c0968d2210b7a42e
+ingress:
+  main:
+    annotations:
+      external-dns.home.arpa/enabled: "true"
+      hajimari.io/enable: "false"
+    enabled: true
+    hosts:
+      - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
+        paths:
+          - path: /
+            pathType: Prefix
+    ingressClassName: nginx
+    tls:
+      - hosts:
+          - *host
+resources:
+  limits:
+    memory: 50Mi
+  requests:
+    cpu: 5m
+    memory: 10Mi
+service:
+  main:
+    ports:
+      http:
+        port: *port
+topologySpreadConstraints:
+  - labelSelector:
+      matchLabels:
+        app.kubernetes.io/name: *app
+    maxSkew: 1
+    topologyKey: kubernetes.io/hostname
+    whenUnsatisfiable: DoNotSchedule
