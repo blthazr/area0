@@ -1,0 +1,23 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: &app protect
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: &host "protect.${SECRET_DOMAIN}"
+      http:
+        paths:
+          - backend:
+              service:
+                name: *app
+                port:
+                  name: https
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - *host

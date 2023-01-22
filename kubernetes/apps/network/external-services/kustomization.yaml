@@ -4,4 +4,5 @@ kind: Kustomization
 namespace: network
 resources:
   - ./home-assistant
+  - ./protect
   - ./unifi
