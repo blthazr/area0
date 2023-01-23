@@ -5,3 +5,4 @@ resources:
   - ./namespace.yaml
   - ./addons/notifications.yaml
   - ./addons/webhooks.yaml
+  - ./weave-gitops/app.yaml
