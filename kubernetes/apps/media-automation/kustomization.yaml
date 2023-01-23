@@ -9,5 +9,6 @@ resources:
   - ./overseerr/app.yaml
   - ./prowlarr/app.yaml
   - ./radarr/app.yaml
+  - ./recyclarr/app.yaml
   - ./sonarr/app.yaml
   - ./tautulli/app.yaml

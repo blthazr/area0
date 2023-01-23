@@ -1,0 +1,30 @@
+---
+nameOverride: &app recyclarr
+args: ["sync"]
+command: ["/app/recyclarr/recyclarr"]
+controller:
+  cronjob:
+    schedule: "@daily"
+    ttlSecondsAfterFinished: 86400
+  type: cronjob
+envFrom:
+  - secretRef:
+      name: radarr
+  - secretRef:
+      name: sonarr
+image:
+  repository: ghcr.io/recyclarr/recyclarr
+  tag: edge@sha256:652f89d357e7756e40dd668facdda7ba88d3f77c7b0419f97701fab65541d948
+persistence:
+  config:
+    defaultMode: 0775
+    enabled: true
+    mountPath: /config/recyclarr.yml
+    name: recyclarr-configmap
+    readOnly: true
+    subPath: recyclarr.yml
+    type: configMap
+restartPolicy: OnFailure
+service:
+  main:
+    enabled: false
