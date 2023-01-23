@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./system-upgrade-controller/app.yaml
+  - ./system-upgrade-controller/plans.yaml
