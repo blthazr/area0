@@ -1,3 +1,4 @@
+---
 nameOverride: &app "k10"
 auth:
   oidcAuth:
@@ -20,6 +21,8 @@ global:
 grafana:
   enabled: false
 ingress:
+  annotations:
+    external-dns.home.arpa/enabled: "false"
   class: nginx
   create: true
   host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
