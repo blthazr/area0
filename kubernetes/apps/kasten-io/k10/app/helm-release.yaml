@@ -6,7 +6,7 @@ metadata:
 spec:
   chart:
     spec:
-      chart: k10
+      chart: *app
       version: 5.5.3
       sourceRef:
         kind: HelmRepository
@@ -16,7 +16,7 @@ spec:
     crds: CreateReplace
     createNamespace: true
     remediation:
-      retries: 3
+      retries: 5
   interval: 15m
   maxHistory: 3
   releaseName: k10
@@ -24,7 +24,8 @@ spec:
     crds: CreateReplace
     cleanupOnFail: true
     remediation:
-      retries: 3
+      retries: 5
+    remediateLastFailure: true
   uninstall:
     keepHistory: false
   valuesFrom:
