@@ -28,7 +28,7 @@ env:
   TZ: "${CLUSTER_TIME_ZONE}"
 image:
   repository: docker.io/hkotel/mealie
-  tag: frontend-nightly@sha256:9f892c9445b7a9e4ef4b142173a4e1cc4444de841b8e67339e639c52bc0d4238
+  tag: frontend-nightly@sha256:c69d256ddcbfc6190adfd9ca56dde823d5a49d445b7fa71671610c9a7299566c
 ingress:
   main:
     annotations:
