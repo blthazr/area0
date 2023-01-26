@@ -24,7 +24,7 @@ repos:
       - id: end-of-file-fixer # ensures that a file is either empty, or ends with one newline
       - id: mixed-line-ending # replaces or checks mixed line ending
   - repo: https://github.com/Lucas-C/pre-commit-hooks
-    rev: v1.4.1
+    rev: v1.4.2
     hooks:
       - id: remove-crlf
       - id: remove-tabs
