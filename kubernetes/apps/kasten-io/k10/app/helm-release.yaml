@@ -26,34 +26,6 @@ spec:
     crds: CreateReplace
     remediation:
       retries: 5
-  values:
-    auth:
-      tokenAuth:
-        enabled: true
-    clusterName: "${CLUSTER_NAME}"
-    eula:
-      accept: true
-      company: "${SECRET_KASTEN_COMPANY_NAME}"
-      email: "${SECRET_KASTEN_EMAIL}"
-    global:
-      persistence:
-        storageClass: ceph-block
-    grafana:
-      enabled: false
-    ingress:
-      annotations:
-        external-dns.home.arpa/enabled: "true"
-      class: nginx
-      create: true
-      host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
-      hosts:
-        - *host
-      tls:
-        enabled: true
-        secretName: "${SECRET_DOMAIN/./-}-tls"
-      urlPath: k10
-    networkPolicy:
-      create: false
-    prometheus:
-      networkPolicy:
-        enabled: false
+  valuesFrom:
+    - kind: ConfigMap
+      name: k10-helm-values
