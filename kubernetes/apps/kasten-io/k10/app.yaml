@@ -16,7 +16,7 @@ spec:
       namespace: kasten-io
   interval: 30m
   path: ./kubernetes/apps/kasten-io/k10/app
-  prune: true
+  prune: false
   retryInterval: 1m
   sourceRef:
     kind: GitRepository
