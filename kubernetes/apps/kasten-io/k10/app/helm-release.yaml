@@ -24,8 +24,8 @@ spec:
     crds: CreateReplace
     cleanupOnFail: true
     remediation:
+      remediateLastFailure: true
       retries: 5
-    remediateLastFailure: true
   uninstall:
     keepHistory: false
   valuesFrom:
