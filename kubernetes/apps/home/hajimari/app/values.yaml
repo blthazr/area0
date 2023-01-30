@@ -3,8 +3,6 @@ nameOverride: &app hajimari
 env:
   TZ: "${CLUSTER_TIME_ZONE}"
 hajimari:
-  alwaysTargetBlank: true
-  darkTheme: lime
   defaultEnable: true
   namespaceSelector:
     matchNames:
@@ -19,17 +17,20 @@ hajimari:
       - network
       - observability
       - rook-ceph
-  showAppGroups: false
-  showAppStatus: false
-  showAppUrls: false
-  showBookmarkGroups: false
-  showGlobalBookmarks: false
-  showGreeting: false
   title: Apps
+  lightTheme: lime
+  darkTheme: lime
+  customThemes: []
+  showGreeting: true
+  showAppGroups: true
+  showAppUrls: true
+  showAppInfo: true
+  showAppStatus: true
+  showBookmarkGroups: true
+  showGlobalBookmarks: false
+  alwaysTargetBlank: false
 ingress:
   main:
-    annotations:
-      hajimari.io/enable: "false"
     enabled: true
     hosts:
       - host: &host "apps.${SECRET_DOMAIN}"
