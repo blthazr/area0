@@ -1,4 +1,5 @@
 ---
+nameOverride: &app "k10"
 auth:
   oidcAuth:
     clientID: "${SECRET_AUTH0_K10_CLIENT_ID}"
@@ -25,8 +26,6 @@ ingress:
   class: nginx
   create: true
   host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
-  hosts:
-    - *host
   tls:
     enabled: true
     secretName: "${SECRET_DOMAIN/./-}-tls"
