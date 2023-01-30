@@ -4,8 +4,11 @@ env:
   TZ: "${CLUSTER_TIME_ZONE}"
 hajimari:
   alwaysTargetBlank: true
+  darkTheme: lime
+  defaultEnable: true
   namespaceSelector:
     matchNames:
+      - default
       - download
       - game
       - home
@@ -20,6 +23,7 @@ hajimari:
   showAppStatus: false
   showAppUrls: false
   showBookmarkGroups: false
+  showGlobalBookmarks: false
   showGreeting: false
   title: Apps
 ingress:
