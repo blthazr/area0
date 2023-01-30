@@ -1,0 +1,48 @@
+---
+nameOverride: &app hajimari
+env:
+  TZ: "${CLUSTER_TIME_ZONE}"
+hajimari:
+  alwaysTargetBlank: true
+  namespaceSelector:
+    matchNames:
+      - download
+      - game
+      - home
+      - home-automation
+      - flux-system
+      - media
+      - media-automation
+      - network
+      - observability
+      - rook-ceph
+  showAppGroups: false
+  showAppStatus: false
+  showAppUrls: false
+  showBookmarkGroups: false
+  showGreeting: false
+  title: Apps
+ingress:
+  main:
+    annotations:
+      hajimari.io/enable: "false"
+    enabled: true
+    hosts:
+      - host: &host "apps.${SECRET_DOMAIN}"
+        paths:
+          - path: /
+            pathType: Prefix
+    ingressClassName: nginx
+    tls:
+      - hosts:
+          - *host
+persistence:
+  data:
+    enabled: true
+    type: emptyDir
+podAnnotations:
+  configmap.reloader.stakater.com/reload: "hajimari-settings"
+resources:
+  requests:
+    cpu: 100m
+    memory: 128M
