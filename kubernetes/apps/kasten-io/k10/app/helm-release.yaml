@@ -14,6 +14,7 @@ spec:
         namespace: flux-system
   install:
     crds: CreateReplace
+    createNamespace: true
     remediation:
       retries: 5
   interval: 15m
@@ -25,6 +26,7 @@ spec:
     cleanupOnFail: true
     crds: CreateReplace
     remediation:
+      remediateLastFailure: true
       retries: 5
   valuesFrom:
     - kind: ConfigMap
