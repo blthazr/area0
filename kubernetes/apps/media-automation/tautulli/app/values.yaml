@@ -9,6 +9,8 @@ image:
 ingress:
   main:
     annotations:
+      hajimari.io/group: Media
+      hajimari.io/icon: mdi:chart-bar
       nginx.ingress.kubernetes.io/configuration-snippet: |
         proxy_set_header Accept-Encoding "";
         sub_filter '</head>' '<link rel="stylesheet" type="text/css" href="https://theme-park.${SECRET_DOMAIN}/css/base/tautulli/dark.css"></head>';

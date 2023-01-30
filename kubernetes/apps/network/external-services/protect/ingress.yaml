@@ -4,6 +4,9 @@ kind: Ingress
 metadata:
   name: &app protect
   annotations:
+    hajimari.io/appName: Unifi Protect
+    hajimari.io/group: Home-Automation
+    hajimari.io/icon: mdi:cctv
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
   ingressClassName: nginx

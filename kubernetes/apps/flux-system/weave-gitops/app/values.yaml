@@ -4,6 +4,10 @@ adminUser:
   create: true
   username: admin
 ingress:
+  annotations:
+    hajimari.io/appName: Weave GitOps
+    hajimari.io/group: GitOps
+    hajimari.io/icon: mdi:sawtooth-wave
   className: nginx
   enabled: true
   hosts:

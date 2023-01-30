@@ -5,6 +5,8 @@ metadata:
   name: &app files
   annotations:
     external-dns.home.arpa/enabled: "true"
+    hajimari.io/group: Home
+    hajimari.io/icon: mdi:database
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
   ingressClassName: nginx

@@ -59,6 +59,10 @@ configOverride: |
   bdev_async_discard = true
 ingress:
   dashboard:
+    annotations:
+      hajimari.io/appName: Rook/Ceph
+      hajimari.io/group: Storage
+      hajimari.io/icon: mdi:chess-rook
     host:
       name: &host "rook.${SECRET_DOMAIN}"
       path: /

@@ -10,6 +10,9 @@ ingress:
   main:
     annotations:
       external-dns.home.arpa/enabled: "true"
+      hajimari.io/group: Media
+      hajimari.io/icon: mdi:plex
+      hajimari.io/url: "https://plex.${SECRET_DOMAIN}/web/index.html"
       nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     enabled: true
     hosts:

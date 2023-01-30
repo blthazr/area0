@@ -5,6 +5,8 @@ metadata:
   name: &app home-assistant
   annotations:
     external-dns.home.arpa/enabled: "true"
+    hajimari.io/group: Home-Automation
+    hajimari.io/icon: mdi:home-assistant
 spec:
   ingressClassName: nginx
   rules:

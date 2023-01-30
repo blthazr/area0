@@ -33,6 +33,9 @@ ingress:
   main:
     annotations:
       external-dns.home.arpa/enabled: "true"
+      hajimari.io/appName: Recipes
+      hajimari.io/group: Home
+      hajimari.io/icon: mdi:food
     enabled: true
     hosts:
       - host: &host "recipes.${SECRET_DOMAIN}"

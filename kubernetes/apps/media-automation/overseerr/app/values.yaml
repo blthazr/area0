@@ -11,6 +11,9 @@ ingress:
   main:
     annotations:
       external-dns.home.arpa/enabled: "true"
+      hajimari.io/appName: Requests Portal
+      hajimari.io/group: Media
+      hajimari.io/icon: mdi:link-box-variant
       nginx.ingress.kubernetes.io/configuration-snippet: |
         proxy_set_header Accept-Encoding "";
         sub_filter '</head>' '<link rel="stylesheet" type="text/css" href="https://theme-park.${SECRET_DOMAIN}/css/base/overseerr/dark.css"></head>';
