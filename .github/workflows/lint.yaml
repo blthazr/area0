@@ -68,4 +68,4 @@ jobs:
           YAML_PRETTIER_CONFIG_FILE: .github/linters/.prettierrc.yaml
           YAML_PRETTIER_FILTER_REGEX_EXCLUDE: "(.*\\.sops\\.ya?ml)"
           YAML_YAMLLINT_CONFIG_FILE: .github/linters/.yamllint.yaml
-        uses: oxsecurity/megalinter@8fd433c675d27ceca5a61ace53177c1bbfbf7f49 # v6.18.0
+        uses: oxsecurity/megalinter@f8d535e8f1b5be62df8ea5c9c8548035fc298788 # v6.19.0
