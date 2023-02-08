@@ -4,6 +4,7 @@ kind: Ingress
 metadata:
   name: &app unifi
   annotations:
+    hajimari.io/appName: Unifi Network
     hajimari.io/group: Management
     hajimari.io/icon: mdi:lan
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
