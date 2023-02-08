@@ -14,8 +14,6 @@ additionalContainers:
         value: "https://recipes.${SECRET_DOMAIN}"
       - name: DEFAULT_EMAIL
         value: "admin@${SECRET_DOMAIN}"
-      - name: TZ
-        value: "${CLUSTER_TIME_ZONE}"
     ports:
       - name: api
         containerPort: 9000
@@ -24,8 +22,6 @@ additionalContainers:
         mountPath: /app/data/
       - name: backup
         mountPath: /config/Backups
-env:
-  TZ: "${CLUSTER_TIME_ZONE}"
 image:
   repository: docker.io/hkotel/mealie
   tag: frontend-nightly@sha256:faec7877d1b8f16811f12573e3b82d59206a71a166501da186640525d74cece6

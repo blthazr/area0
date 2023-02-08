@@ -26,9 +26,6 @@ controller:
   extraArgs:
     default-ssl-certificate: |-
       network/${SECRET_DOMAIN/./-}-tls
-  extraEnvs:
-    - name: TZ
-      value: "${CLUSTER_TIME_ZONE}"
   ingressClassResource:
     default: true
   metrics:

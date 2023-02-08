@@ -2,7 +2,6 @@
 nameOverride: &app tautulli
 env:
   TAUTULLI__PORT: &port 8181
-  TZ: "${CLUSTER_TIME_ZONE}"
 image:
   repository: ghcr.io/onedr0p/tautulli
   tag: 2.11.1@sha256:15cb54a760d7574c6ded14c8c8151ab516b133fa5baf85a41b6fa88cf27fe0db

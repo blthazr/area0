@@ -1,7 +1,5 @@
 ---
 nameOverride: &app hajimari
-env:
-  TZ: "${CLUSTER_TIME_ZONE}"
 hajimari:
   defaultEnable: true
   namespaceSelector:

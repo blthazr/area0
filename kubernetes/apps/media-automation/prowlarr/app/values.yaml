@@ -4,7 +4,6 @@ env:
   PROWLARR__INSTANCE_NAME: Prowlarr
   PROWLARR__LOG_LEVEL: info
   PROWLARR__PORT: &port 9696
-  TZ: "${CLUSTER_TIME_ZONE}"
 envFrom:
   - secretRef:
       name: *app

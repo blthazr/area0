@@ -1,0 +1,55 @@
+---
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: inject-timezone
+  annotations:
+    policies.kyverno.io/title: Inject timezone
+    policies.kyverno.io/category: Other
+    policies.kyverno.io/subject: Pod
+    policies.kyverno.io/description: >-
+      This policy injects an initContainer to Pods and setup TZ
+      environment variable so the container will have the correct
+      time.
+spec:
+  generateExistingOnPolicyUpdate: true
+  mutateExistingOnPolicyUpdate: true
+  rules:
+    - name: inject-timezone
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+      mutate:
+        patchStrategicMerge:
+          spec:
+            initContainers:
+              - name: provide-timezone
+                args:
+                  - bootstrap
+                image: quay.io/k8tz/k8tz:0.11.0@sha256:2f41510761f428fedf71afc8081e962b4f0348c19a01b2da92aa78a06606f860
+                imagePullPolicy: IfNotPresent
+                resources:
+                  requests:
+                    cpu: 10m
+                    memory: 100Mi
+                volumeMounts:
+                  - name: timezone
+                    mountPath: /mnt/zoneinfo
+            containers:
+              - (name): "*"
+                env:
+                  - name: TZ
+                    value: &timezone "${CLUSTER_TIME_ZONE}"
+                volumeMounts:
+                  - name: timezone
+                    mountPath: /etc/localtime
+                    readOnly: true
+                    subPath: *timezone
+                  - name: timezone
+                    mountPath: /usr/share/zoneinfo
+                    readOnly: true
+            volumes:
+              - name: timezone
+                emptyDir: {}

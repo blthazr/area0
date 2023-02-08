@@ -2,7 +2,6 @@
 nameOverride: &app bazarr
 env:
   BAZARR__PORT: &port 6767
-  TZ: "${CLUSTER_TIME_ZONE}"
 image:
   repository: ghcr.io/onedr0p/bazarr
   tag: 1.1.4

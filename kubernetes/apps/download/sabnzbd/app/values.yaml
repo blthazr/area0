@@ -9,7 +9,6 @@ env:
     sabnzbd.download.svc.cluster,
     sabnzbd.download.svc.cluster.local,
     sabnzbd.${SECRET_DOMAIN}
-  TZ: "${CLUSTER_TIME_ZONE}"
 envFrom:
   - secretRef:
       name: *app
