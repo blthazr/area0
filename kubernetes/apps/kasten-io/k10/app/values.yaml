@@ -26,7 +26,7 @@ ingress:
     hajimari.io/appName: Kasten K10
     hajimari.io/group: Storage
     hajimari.io/icon: mdi:cloud-upload
-    hajimari.io/url: "https://k10.${SECRET_DOMAIN}/k10/"
+    hajimari.io/url: "https://k10.${SECRET_DOMAIN}/k10"
   class: nginx
   create: true
   host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
