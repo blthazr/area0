@@ -78,5 +78,5 @@ defaultBackend:
       value: lost-in-space
   image:
     repository: ghcr.io/tarampampam/error-pages
-    tag: 2.19.0
+    tag: 2.20.0
   replicaCount: 1
