@@ -5,3 +5,4 @@ resources:
   - ./namespace.yaml
   - ./hajimari/app.yaml
   - ./mealie/app.yaml
+  - ./theme-park/app.yaml
