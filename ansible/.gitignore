@@ -1,0 +1,13 @@
+# Ansible Runtime
+*~
+._*
+*.log
+*.retry
+*.swp
+*.tmp
+
+# Ansible Collections
+collections/*
+
+# Ansible Roles
+roles-galaxy/*
