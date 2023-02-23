@@ -1,0 +1,24 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   playbooks/kubernetes/k3s-deploy.yml
+#   @description    :   initialize k3s cluster
+#   @usage          :   ansible-playbook playbooks/kubernetes/k3s-deploy.yml
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+- hosts:
+    - kubernetes
+  become: true
+  gather_facts: true
+  any_errors_fatal: true
+
+  pre_tasks:
+    - name: Pausing for 2 seconds...
+      pause:
+        seconds: 2
+
+  tasks:
+    - name: apply ansible-role-os
+      ansible.builtin.include_role:
+        name: os
+    - name: apply ansible-role-k3s
+      ansible.builtin.include_role:
+        name: k3s

@@ -1,0 +1,102 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   inventory/group_vars/control_node/k3s.yml
+#   @description    :   variables for k3s control_node group
+#   @url            :   https://rancher.com/docs/k3s/latest/en/installation/install-options/server-config/
+#                   :   https://github.com/PyratLabs/ansible-role-k3s#server-control-plane-configuration
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+# --------------------------------------------------------------------------------------------------
+# xanmanning.k3s | group/host
+# https://github.com/PyratLabs/ansible-role-k3s#grouphost-variables
+# --------------------------------------------------------------------------------------------------
+# -- (bool) enable host as a member of the control-plane
+k3s_control_node: true
+
+# -- (dict) k3s flags for all control-plane nodes
+k3s_server:
+  # -- (str) ip address to advertise for node
+  node-ip: "{{ ansible_host }}"
+
+  # -- (list) additional hostnames or IP as a Subject Alternative Name in the TLS cert
+  tls-san:
+    # -- (str) kube-vip
+    - "{{ kubevip_address }}"
+
+  # -- (bool) use default containerd CRI
+  docker: false
+
+  # -- (str) options: 'none', 'vxlan', 'ipsec', 'host-gw', 'wireguard'
+  flannel-backend: "none" # This needs to be in quotes
+
+  # -- (str) options: 'agent', 'cluster', 'pod', 'disabled'
+  # https://github.com/k3s-io/k3s/issues/5835
+  # https://github.com/k3s-io/k3s/issues/5633
+  # egress-selector-mode: disabled
+
+  # -- (list) disable k3s components
+  disable:
+    - flannel # replaced with Calico
+    - local-storage # replaced with Rook-Ceph
+    - metrics-server # installed with Flux
+    - servicelb # replaced with MetalLB and installed with Flux
+    - traefik # replaced with ingress-nginx
+
+  # -- (bool) disable k3s default network policy controller
+  disable-network-policy: true
+
+  # -- (bool) disable k3s default cloud controller manager
+  disable-cloud-controller: true
+
+  # -- (str)
+  write-kubeconfig-mode: "644"
+
+  # -- (str) network cidr to use for pod IPs
+  # cluster-cidr: "{{ k3s_cluster_cidr | default('10.42.0.0/16') }}"
+  cluster-cidr: "10.42.0.0/16"
+
+  # -- (str) network cidr to use for service IPs
+  # service-cidr: "{{ k3s_service_cidr | default('10.43.0.0/16') }}"
+  service-cidr: "10.43.0.0/16"
+
+  # -- (bool) expose etcd metrics to client interface
+  etcd-expose-metrics: true
+
+  # -- (list) kubelet args
+  kubelet-arg:
+    # -- (str) allow pods to be rescheduled quicker in the case of a node failure
+    # -- https://github.com/k3s-io/k3s/issues/1264
+    - "node-status-update-frequency=4s"
+
+  # -- (list) kube-apiserver args
+  kube-apiserver-arg:
+    # -- (str) required for HAProxy health-checks
+    - "anonymous-auth=true"
+    # -- (str) enable the audit log
+    - "--audit-log-path=/var/lib/rancher/k3s/audit.log"
+    - "--audit-policy-file=/var/lib/rancher/k3s/audit-policy.yaml"
+    - "--audit-log-maxage=2"
+    # -- (str) allow pods to be rescheduled quicker in the case of a node failure
+    # -- https://github.com/k3s-io/k3s/issues/1264
+    - "default-not-ready-toleration-seconds=20"
+    - "default-unreachable-toleration-seconds=20"
+
+  # -- (list) kube-controller-manager args
+  kube-controller-manager-arg:
+    # -- (str) required to monitor kube-controller-manager with kube-prometheus-stack
+    - "bind-address=0.0.0.0"
+    # -- (str) allow pods to be rescheduled quicker in the case of a node failure
+    # -- https://github.com/k3s-io/k3s/issues/1264
+    - "node-monitor-period=4s"
+    - "node-monitor-grace-period=16s"
+    - "pod-eviction-timeout=20s"
+
+  # -- (list) kube-proxy args
+  kube-proxy-arg:
+    # -- (str) required to monitor kube-proxy with kube-prometheus-stack
+    - "metrics-bind-address=0.0.0.0"
+
+  # -- (list) kube-scheduler args
+  kube-scheduler-arg:
+    # -- (str) required to monitor kube-scheduler with kube-prometheus-stack
+    - "bind-address=0.0.0.0"
+# ==================================================================================================
