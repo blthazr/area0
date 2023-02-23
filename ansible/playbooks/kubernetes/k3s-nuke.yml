@@ -1,0 +1,32 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   playbooks/kubernetes/k3s-nuke.yml
+#   @description    :   nuke k3s cluster
+#   @usage          :   ansible-playbook playbooks/kubernetes/k3s-nuke.yml
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+- hosts:
+    - kubernetes
+  become: true
+  gather_facts: true
+  any_errors_fatal: true
+
+  vars:
+    k3s_reboot_after_uninstall: true
+
+  vars_prompt:
+    - name: run_confirmation
+      prompt: "This will DESTROY your k3s cluster. Do you wish to continue? [Y/n]"
+      default: "n"
+      private: false
+
+  pre_tasks:
+    - name: cluster-nuke | check confirmation
+      ansible.builtin.fail:
+        msg: "Aborting!"
+      when: run_confirmation != "Y"
+
+  tasks:
+    - name: k3s-nuke | run nuke-cluster from ansible-role-k3s
+      ansible.builtin.import_role:
+        name: k3s
+        tasks_from: nuke-cluster
