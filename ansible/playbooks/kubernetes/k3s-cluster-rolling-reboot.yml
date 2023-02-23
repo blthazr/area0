@@ -1,0 +1,38 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   playbooks/kubernetes/k3s-cluster-rolling-reboot.yml
+#   @description    :   rolling reboot for k3s cluster
+#   @usage          :   ansible-playbook playbooks/kubernetes/k3s-cluster-rolling-reboot.yml
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+- hosts:
+    - kubernetes
+  become: true
+  gather_facts: true
+  any_errors_fatal: true
+
+  pre_tasks:
+    - name: Pausing for 2 seconds...
+      pause:
+        seconds: 2
+
+  tasks:
+    - name: draining node (this might take awhile)
+      kubernetes.core.k8s_drain:
+        state: drain
+        name: "{{ inventory_hostname }}"
+        delete_options:
+          delete_emptydir_data: true
+          ignore_daemonsets: true
+        force: true
+        terminate_grace_period: 900
+      notify: reboot node
+    - name: uncordoning node
+      kubernetes.core.k8s_drain:
+        state: uncordon
+        name: "{{ inventory_hostname }}"
+
+  handlers:
+    - name: handler | perform system reboot
+      ansible.builtin.reboot:
+        msg: Rebooting node
+      listen: reboot node

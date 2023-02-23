@@ -1,0 +1,22 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   playbooks/kubernetes/k3s-cluster-reboot.yml
+#   @description    :   force reboot for k3s cluster
+#   @usage          :   ansible-playbook playbooks/kubernetes/k3s-cluster-reboot.yml
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+- hosts:
+    - kubernetes
+  become: true
+  gather_facts: true
+  any_errors_fatal: true
+
+  pre_tasks:
+    - name: Pausing for 2 seconds...
+      pause:
+        seconds: 2
+
+  tasks:
+    - name: perform system reboot
+      ansible.builtin.reboot:
+        msg: Rebooting node
+        reboot_timeout: 3600
