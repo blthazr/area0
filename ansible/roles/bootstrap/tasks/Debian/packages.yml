@@ -1,0 +1,16 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   tasks/Debian/packages.yml
+#   @description    :   Debian package tasks
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+- name: "{{ ansible_os_family }} | packages | install packages"
+  ansible.builtin.apt:
+    name: "{{ bootstrap_os_packages.debian.apt_install | default([]) }}"
+    autoclean: true
+    autoremove: true
+    cache_valid_time: 3600
+    install_recommends: false
+    update_cache: true
+  register: apt_install_packages
+  retries: 5
+  until: apt_install_packages is success
