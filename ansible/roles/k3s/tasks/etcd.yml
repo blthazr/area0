@@ -1,0 +1,38 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   tasks/etcd.yml
+#   @description    :   configure etcd for k3s
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+- set_fact:
+    k3s_host_arch: "{{ arch_dict[ansible_architecture] }}"
+
+- set_fact:
+    etcd_name: "etcd-{{ etcd_version }}-linux-{{ k3s_host_arch }}"
+
+- name: etcd | install etcdctl
+  ansible.builtin.shell:
+    cmd: "curl -sSfL https://github.com/etcd-io/etcd/releases/download/{{ etcd_version }}/{{ etcd_name }}.tar.gz | tar xzvf - -C /usr/local/bin --strip-components=1 {{ etcd_name }}/etcdctl"
+
+- name: etcd | create etcd-defrag service
+  ansible.builtin.template:
+    dest: /etc/systemd/system/etcd-defrag.service
+    group: root
+    mode: 0644
+    owner: root
+    src: etcd/etcd-defrag.service.j2
+  notify: enable etcd-defrag service
+  when:
+    - k3s_etcd_defrag_service is defined
+    - k3s_etcd_defrag_service
+
+- name: etcd | create etcd-defrag service timer
+  ansible.builtin.template:
+    dest: /etc/systemd/system/etcd-defrag.timer
+    group: root
+    mode: 0644
+    owner: root
+    src: etcd/etcd-defrag.timer.j2
+  notify: enable etcd-defrag timer
+  when:
+    - k3s_etcd_defrag_service is defined
+    - k3s_etcd_defrag_service

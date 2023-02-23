@@ -1,0 +1,122 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   defaults/main.yml
+#   @description    :   defaults for ansible-role-k3s
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+# --------------------------------------------------------------------------------------------------
+# calico
+# --------------------------------------------------------------------------------------------------
+# -- (str) encapsulation type
+k3s_calico_encapsulation: "None"
+
+# -- (str) calico node cidr address
+k3s_calico_node_cidr: "{{ (ansible_default_ipv4.network + '/' + ansible_default_ipv4.netmask) | ansible.utils.ipaddr('network/prefix') }}"
+# ==================================================================================================
+
+# --------------------------------------------------------------------------------------------------
+# containerd
+# --------------------------------------------------------------------------------------------------
+# -- (bool) enable k3s-killall.service
+k3s_killall_service: true
+# ==================================================================================================
+
+# --------------------------------------------------------------------------------------------------
+# etcdctl
+# --------------------------------------------------------------------------------------------------
+# -- (str) etcdctl version
+etcd_version: "v3.5.3"
+# ==================================================================================================
+
+# --------------------------------------------------------------------------------------------------
+# etcd-defrag
+# --------------------------------------------------------------------------------------------------
+# -- (bool) enable etcd-defrag.service
+k3s_etcd_defrag_service: true
+# ==================================================================================================
+
+# --------------------------------------------------------------------------------------------------
+# etcd-snapshots
+# --------------------------------------------------------------------------------------------------
+# -- (bool) export etcd backups to s3
+k3s_etcd_s3: true
+
+# -- (str) s3 endpoint for etcd backups
+k3s_etcd_s3_endpoint: "s3.{{ domain }}"
+
+# -- (str) etcd-snapshot bucket name
+k3s_etcd_s3_bucket: k3s-etcd
+
+# -- (str) etcd-snapshot cron schedule
+k3s_etcd_snapshot_schedule_cron: "0 */6 * * *"
+
+# -- (int) etcd-snapshot retention
+k3s_etcd_snapshot_retention: 14
+
+# -- (str) s3 bucket access key
+k3s_etcd_s3_access_key:
+
+# -- (str) s3 bucket secret key
+k3s_etcd_s3_secret_key:
+# ==================================================================================================
+
+# --------------------------------------------------------------------------------------------------
+# kubeconfig
+# --------------------------------------------------------------------------------------------------
+# -- (str) kubeconfig context to be used for this cluster
+k3s_context: "k8s-at-home"
+# ==================================================================================================
+
+# --------------------------------------------------------------------------------------------------
+# kube-vip
+# --------------------------------------------------------------------------------------------------
+# -- (str) the ARP address that kube-vip broadcasts
+kubevip_address: "192.168.1.1"
+# ==================================================================================================
+
+
+# --------------------------------------------------------------------------------------------------
+# os
+# --------------------------------------------------------------------------------------------------
+# -- (dict) operating system packages
+k3s_os_packages:
+  # -- (dict) operating system family
+  debian:
+    # -- (list) flat list of packages to be installed with apt
+    apt_install:
+      - arptables
+      - ebtables
+      - gdisk
+      - hdparm
+      - iputils-ping
+      - ipvsadm
+      - lvm2
+      - net-tools
+      - nvme-cli
+      - open-iscsi
+      - smartmontools
+      - socat
+
+    # -- (list) flat list of packages to be uninstalled with apt
+    apt_remove:
+      - apparmor
+      - apport
+      - byobu
+      - cloud-init
+      - cloud-guest-utils
+      - cloud-initramfs-copymods
+      - cloud-initramfs-dyn-netconf
+      - friendly-recovery
+      - landscape-common
+      - lxd-agent-loader
+      - ntfs-3g
+      - plymouth
+      - plymouth-theme-ubuntu-text
+      - popularity-contest
+      - snapd
+      - sosreport
+      - ubuntu-advantage-tools
+      - ufw
+
+# -- (bool) reboot node after k3s uninstallation
+k3s_reboot_after_uninstall: true
+# ==================================================================================================

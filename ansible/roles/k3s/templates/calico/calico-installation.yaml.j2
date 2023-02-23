@@ -1,0 +1,22 @@
+---
+apiVersion: operator.tigera.io/v1
+kind: Installation
+metadata:
+  name: default
+spec:
+  calicoNetwork:
+    # Note: The ipPools section cannot be modified post-install.
+    ipPools:
+      - blockSize: 26
+        cidr: "{{ k3s_server['cluster-cidr'] }}"
+        encapsulation: "{{ k3s_calico_encapsulation }}"
+        natOutgoing: Enabled
+        nodeSelector: all()
+    # https://projectcalico.docs.tigera.io/networking/ip-autodetection
+    nodeAddressAutodetectionV4:
+      cidrs:
+        - "{{ k3s_calico_node_cidr }}"
+  imagePath: calico
+  nodeMetricsPort: 9091
+  registry: quay.io
+  typhaMetricsPort: 9093

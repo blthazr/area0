@@ -1,0 +1,35 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   handlers/main.yml
+#   @description    :   handlers file for ansible-role-k3s
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+- name: handler | enable etcd-defrag service
+  ansible.builtin.systemd:
+    name: etcd-defrag.service
+    daemon-reload: true
+    enabled: true
+    state: restarted
+  listen: enable etcd-defrag service
+
+- name: handler | enable etcd-defrag timer
+  ansible.builtin.systemd:
+    name: etcd-defrag.timer
+    daemon-reload: true
+    enabled: true
+    state: restarted
+  listen: enable etcd-defrag timer
+
+- name: handler | enable k3s-killall service
+  ansible.builtin.service:
+    name: k3s-killall.service
+    enabled: true
+    daemon-reload: true
+    state: restarted
+  listen: enable k3s-killall service
+
+- name: handler | restart journald service
+  ansible.builtin.service:
+    name: systemd-journald.service
+    enabled: true
+    state: restarted
+  listen: restart journald service

@@ -1,0 +1,45 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   tasks/cluster-nuke.yml
+#   @description    :   nuke k3s cluster
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+- name: cluster-nuke | uninstall k3s
+  block:
+    - name: cluster-nuke | uninstall k3s
+      ansible.builtin.include_role:
+        name: xanmanning.k3s
+        public: true
+      vars:
+        k3s_state: uninstalled
+
+- name: cluster-nuke | cni files
+  block:
+    - name: cluster-nuke | cni files | check if cni files exist
+      ansible.builtin.stat:
+        path: /etc/cni/net.d
+      register: cli_files_path
+
+    - name: cluster-nuke | cni files | get list of cni files to delete
+      ansible.builtin.find:
+        paths: /etc/cni/net.d
+        patterns: "*"
+        hidden: true
+      register: cni_files_to_delete
+      when:
+        - cli_files_path.stat.exists
+
+    - name: cluster-nuke | cni files | delete cni files
+      ansible.builtin.file:
+        path: "{{ item.path }}"
+        state: absent
+      loop: "{{ cni_files_to_delete.files }}"
+      when:
+        - cni_files_to_delete.files is defined
+        - cni_files_to_delete.files is iterable
+        - cni_files_to_delete.files | length > 0
+
+- name: cluster-nuke | reboot
+  ansible.builtin.reboot:
+  when:
+    - k3s_reboot_after_uninstall is defined
+    - k3s_reboot_after_uninstall

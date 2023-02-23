@@ -1,0 +1,20 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   tasks/Debian/filesystem.yml
+#   @description    :   Debian filesystem tasks
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+- name: "{{ ansible_os_family }} | filesystem | disable swap at runtime"
+  ansible.builtin.command: swapoff -a
+  when:
+    - ansible_swaptotal_mb > 0
+
+- name: "{{ ansible_os_family }} | filesystem | disable swap on boot"
+  ansible.posix.mount:
+    name: "{{ swap_mount }}"
+    fstype: swap
+    state: absent
+  loop:
+    - swap
+    - none
+  loop_control:
+    loop_var: swap_mount

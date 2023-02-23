@@ -1,0 +1,20 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   meta/main.yml
+#   @description    :   metadata for ansible-role-k3s
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+galaxy_info:
+  author: Chris Burnham
+  description: Deploy K3S cluster
+
+  license: "license Unlicense"
+
+  min_ansible_version: 2.1
+
+  # https://galaxy.ansible.com/api/v1/platforms/
+  platforms:
+    - name: Debian
+      versions:
+        - buster
+
+dependencies: []
