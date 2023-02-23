@@ -1,0 +1,14 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   tasks/Debian/disks.yml
+#   @description    :   Debian disk tasks
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+- name: "{{ ansible_os_family }} | disks | configure smartd"
+  ansible.builtin.template:
+    backup: true
+    dest: /etc/smartd.conf
+    group: root
+    mode: 0644
+    owner: root
+    src: etc/smartd.conf.j2
+  notify: restart smartd
