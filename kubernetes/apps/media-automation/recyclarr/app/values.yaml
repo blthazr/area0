@@ -14,7 +14,7 @@ envFrom:
       name: sonarr
 image:
   repository: ghcr.io/recyclarr/recyclarr
-  tag: edge@sha256:b360eb31004f8515910e1a8dbaefd46bd5079a08ff4e6418c3bf622a1aa2ce4f
+  tag: edge@sha256:1761d19a8fdf3faa42ff8ba77554c451538bca2f163cf42905bddeaf5aa40987
 persistence:
   config:
     defaultMode: 0775
