@@ -12,11 +12,11 @@
     - bootstrap_user_ssh_public_key_file is defined
     - bootstrap_user is defined
 
-- name: test ssh connection
+- name: main | test ssh connection
   ansible.builtin.ping:
   register: host_ssh_connection
 
-- name: gather ansible facts
+- name: main | gather ansible facts
   ansible.builtin.setup:
 
 - name: main | include os-specific tasks
