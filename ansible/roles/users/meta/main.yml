@@ -4,12 +4,13 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ---
 galaxy_info:
+  role_name: users
   author: Chris Burnham
   description: Configure users on Ansible managed nodes
 
   license: "license Unlicense"
 
-  min_ansible_version: 2.1
+  min_ansible_version: "2.1"
 
   # https://galaxy.ansible.com/api/v1/platforms/
   platforms:
@@ -17,4 +18,5 @@ galaxy_info:
       versions:
         - buster
 
-dependencies: []
+dependencies:
+  - role: os-identification

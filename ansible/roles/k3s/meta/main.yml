@@ -4,12 +4,13 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ---
 galaxy_info:
+  role_name: k3s
   author: Chris Burnham
   description: Deploy K3S cluster
 
   license: "license Unlicense"
 
-  min_ansible_version: 2.1
+  min_ansible_version: "2.1"
 
   # https://galaxy.ansible.com/api/v1/platforms/
   platforms:
@@ -17,4 +18,5 @@ galaxy_info:
       versions:
         - buster
 
-dependencies: []
+dependencies:
+  - role: os-identification
