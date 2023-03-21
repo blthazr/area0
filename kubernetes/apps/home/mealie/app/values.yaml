@@ -24,7 +24,7 @@ additionalContainers:
         mountPath: /config/Backups
 image:
   repository: docker.io/hkotel/mealie
-  tag: frontend-nightly@sha256:e0caa6b411e0827da82a0db0dd13831b0a3a31a63918e4b340cd64b86f0b6b6d
+  tag: frontend-nightly@sha256:0141b39b354d54ebcd1a8103b8b8cee3d2d4b91d9715894fc0a16984b620f94c
 ingress:
   main:
     annotations:
