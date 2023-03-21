@@ -12,7 +12,7 @@ roles:
   - name: geerlingguy.docker
     version: 6.1.0
   - name: robertdebock.bootstrap
-    version: 6.0.3
+    version: 6.1.5
   - name: xanmanning.k3s
     src: https://github.com/PyratLabs/ansible-role-k3s.git
     version: v3.3.1
