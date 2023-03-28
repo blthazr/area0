@@ -10,3 +10,4 @@ generatorOptions:
 resources:
   - ./secret.sops.yaml
   - ./config
+  - ./node-feature-rule.yaml
