@@ -3,7 +3,7 @@ nameOverride: &app mealie
 additionalContainers:
   api:
     name: mealie-api
-    image: docker.io/hkotel/mealie:api-nightly@sha256:eb27380d97ebc72f167fd7bbd4878e1c3f62d94e23e840362e264affeaa63783
+    image: docker.io/hkotel/mealie:api-nightly@sha256:cdf8bb285f3ba80ed2af7b66f4baa7ddb468586e14636e4d5b28a3265b846c88
     imagePullPolicy: IfNotPresent
     env:
       - name: ALLOW_SIGNUP
