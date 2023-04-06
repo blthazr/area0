@@ -22,6 +22,19 @@
         "snapshot-validation-webhook"
       ],
       "separateMinorPatch": true
+    },
+    {
+      "description": "Flux Group",
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "groupName": "Flux",
+      "matchDatasources": [
+        "docker",
+        "github-tags"
+      ],
+      "matchPackagePatterns": ["flux"],
+      "separateMinorPatch": true
     }
   ]
 }
