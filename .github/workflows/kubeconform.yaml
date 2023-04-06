@@ -1,0 +1,49 @@
+---
+name: Kubeconform
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - kubernetes/**
+  workflow_dispatch:
+
+env:
+  KUBERNETES_DIR: ./kubernetes
+  SCHEMA_DIR: /home/runner/.datree/crdSchemas
+
+jobs:
+  kubeconform:
+    name: Kubeconform
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Generate token
+        id: generate-token
+        uses: tibdex/github-app-token@b62528385c34dbc9f38e5f4225ac829252d1ea92 # v1.8.0
+        with:
+          app_id: "${{ secrets.BOT_APP_ID }}"
+          private_key: "${{ secrets.BOT_PRIVATE_KEY }}"
+
+      - name: Checkout
+        uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3 # v3.5.0
+        with:
+          token: "${{ steps.generate-token.outputs.token }}"
+
+      - name: Setup Homebrew
+        uses: Homebrew/actions/setup-homebrew@master
+
+      - name: Setup Tools
+        run: |
+          brew install fluxcd/tap/flux kubeconform kustomize
+
+      - name: Download CRDs
+        run: |
+          mkdir -p ${{ env.SCHEMA_DIR }}
+          flux pull artifact oci://ghcr.io/onedr0p/kubernetes-schemas-oci:latest \
+              --output=${{ env.SCHEMA_DIR }}
+
+      - name: Run kubeconform
+        run: |
+          bash ./.github/scripts/kubeconform.sh ${{ env.KUBERNETES_DIR }} ${{ env.SCHEMA_DIR }}
