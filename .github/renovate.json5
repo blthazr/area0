@@ -15,12 +15,9 @@
     "github>christopherburnham/area0//.github/renovate/versioning.json5"
   ],
   "platform": "github",
-  "username": "maudie-bot[bot]",
-  "repositories": ["blthazr/area0"],
   "onboarding": false,
   "requireConfig": "optional",
   "timezone": "America/Chicago",
-  "gitAuthor": "maudie-bot <16470300+maudie-bot[bot]@users.noreply.github.com>",
   "dependencyDashboardTitle": "Renovate Dashboard 🤖",
   "suppressNotifications": ["prIgnoreNotification"],
   "rebaseWhen": "conflicted",
