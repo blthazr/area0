@@ -1,48 +1,27 @@
 {
   "packageRules": [
     {
-      "description": "Rook-Ceph image and chart",
+      "description": "Rook-Ceph Group",
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
       },
-      "groupName": "Rook-Ceph",
-      "matchDatasources": [
-        "docker",
-        "helm"
-      ],
-      "matchPackagePatterns": ["rook.ceph"],
-      "separateMinorPatch": true
+    "groupName": "Rook-Ceph",
+    "matchDatasources": ["helm"],
+    "matchPackagePatterns": ["rook.ceph"],
+    "separateMinorPatch": true
     },
     {
-      "description": "External Snapshot Controller charts",
+      "description": "External Snapshot Controller Group",
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
       },
       "groupName": "External Snapshot Controller",
       "matchDatasources": ["helm"],
-      "matchPackagePatterns": [
+      "matchPackageNames": [
         "snapshot-controller",
         "snapshot-validation-webhook"
       ],
       "separateMinorPatch": true
-    },
-    {
-      "description": "Thanos image and chart - mismatched versions",
-      "group": {
-        "commitMessageTopic": "{{{groupName}}} group"
-      },
-    "groupName": "Thanos",
-      "matchDatasources": [
-        "docker",
-        "github-releases",
-        "helm"
-      ],
-    "matchPackagePatterns": ["thanos"],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-    "separateMinorPatch": false
     }
   ]
 }
