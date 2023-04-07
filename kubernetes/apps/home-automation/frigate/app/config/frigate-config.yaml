@@ -114,7 +114,6 @@ rtmp:
   enabled: false
 # ==================================================================================================
 
-
 # --------------------------------------------------------------------------------------------------
 # global | snapshots
 # --------------------------------------------------------------------------------------------------
@@ -146,6 +145,30 @@ cameras:
     motion:
       mask:
         - 0,0,0,25,140,25,140,0 # timestamp
+    objects:
+      track:
+        - bicycle
+        - dog
+        - person
+    zones:
+      back-porch-zone:
+        coordinates: 0,0,0,360,523,360,468,0
+        objects:
+          - bicycle
+          - dog
+          - person
+      back-yard-zone:
+        coordinates: 523,360,640,360,640,0,468,0
+        objects:
+          - bicycle
+          - dog
+          - person
+      entire-yard-zone:
+        coordinates: 523,360,640,360,640,0,468,0
+        objects:
+          - bicycle
+          - dog
+          - person
 # ==================================================================================================
 
 
@@ -167,6 +190,24 @@ cameras:
     motion:
       mask:
         - 0,0,0,25,140,25,140,0 # timestamp
+    objects:
+      track:
+        - bicycle
+        - dog
+        - person
+    zones:
+      back-yard-zone:
+        coordinates: 0,360,640,360,640,100,258,19,0,24
+        objects:
+          - bicycle
+          - dog
+          - person
+      entire-yard-zone:
+        coordinates: 0,360,640,360,640,100,258,19,0,24
+        objects:
+          - bicycle
+          - dog
+          - person
 # ==================================================================================================
 
 
@@ -188,6 +229,24 @@ cameras:
     motion:
       mask:
         - 0,0,0,25,140,25,140,0 # timestamp
+    objects:
+      track:
+        - bicycle
+        - dog
+        - person
+    zones:
+      back-yard-zone:
+        coordinates: 0,360,640,360,640,38,527,30,0,168
+        objects:
+          - bicycle
+          - dog
+          - person
+      entire-yard-zone:
+        coordinates: 0,360,640,360,640,38,527,30,0,168
+        objects:
+          - bicycle
+          - dog
+          - person
 # ==================================================================================================
 
 
@@ -209,6 +268,24 @@ cameras:
     motion:
       mask:
         - 0,0,0,25,140,25,140,0 # timestamp
+    objects:
+      track:
+        - bicycle
+        - dog
+        - person
+    zones:
+      back-yard-zone:
+        coordinates: 0,360,640,360,640,57,367,36,88,35
+        objects:
+          - bicycle
+          - dog
+          - person
+      entire-yard-zone:
+        coordinates: 0,360,640,360,640,57,367,36,88,35
+        objects:
+          - bicycle
+          - dog
+          - person
 # ==================================================================================================
 
 
@@ -235,6 +312,19 @@ cameras:
         - bicycle
         - dog
         - person
+    zones:
+      back-yard-zone:
+        coordinates: 0,360,640,360,501,59,235,67,0,98
+        objects:
+          - bicycle
+          - dog
+          - person
+      entire-yard-zone:
+        coordinates: 0,360,640,360,501,59,235,67,0,98
+        objects:
+          - bicycle
+          - dog
+          - person
 # ==================================================================================================
 
 
@@ -256,6 +346,44 @@ cameras:
     motion:
       mask:
         - 0,0,0,25,140,25,140,0 # timestamp
+    objects:
+      track:
+        - bicycle
+        - car
+        - dog
+        - person
+    zones:
+      driveway-zone:
+        coordinates: 196,65,490,65,620,360,0,360
+        objects:
+          - bicycle
+          - car
+          - person
+      entire-yard-zone:
+        coordinates: 0,360,640,360,640,127,0,121
+        objects:
+          - bicycle
+          - dog
+          - person
+      front-yard-zone:
+        coordinates: 0,360,640,360,640,127,0,121
+        objects:
+          - bicycle
+          - dog
+          - person
+      sidewalk-zone:
+        coordinates: 0,70,0,123,640,130,640,71
+        objects:
+          - bicycle
+          - dog
+          - person
+      street-zone:
+        coordinates: 0,63,640,65,640,0,0,0
+        objects:
+          - bicycle
+          - car
+          - dog
+          - person
 # ==================================================================================================
 
 
@@ -279,9 +407,35 @@ cameras:
         - 0,0,0,25,140,25,140,0 # timestamp
         - 157,81,144,91,97,0,143,0 # door top light
         - 480,150,306,161,306,201,324,203,324,190,480,210 # sidewalk and street
+    objects:
+      track:
+        - bicycle
+        - dog
+        - person
     snapshots:
       enabled: true
       bounding_box: false
+    zones:
+      approach-zone:
+        coordinates: 357,202,480,227,480,264,336,234,304,203,314,181
+        objects:
+          - person
+      entire-yard-zone:
+        coordinates: 480,214,343,191,308,200,349,222,480,248
+        objects:
+          - bicycle
+          - dog
+          - person
+      front-porch-zone:
+        coordinates: 0,0,91,0,150,92,187,271,350,235,480,276,480,360,0,360
+        objects:
+          - bicycle
+          - dog
+          - person
+      garden-zone:
+        coordinates: 323,235,311,200,283,195,192,204,194,266
+        objects:
+          - person
 # ==================================================================================================
 
 
@@ -303,6 +457,12 @@ cameras:
     motion:
       mask:
         - 0,0,0,25,140,25,140,0 # timestamp
+    objects:
+      track:
+        - bicycle
+        - dog
+        - person
+    # zones:
 # ==================================================================================================
 
 
@@ -324,6 +484,24 @@ cameras:
     motion:
       mask:
         - 0,0,0,25,140,25,140,0 # timestamp
+    objects:
+      track:
+        - bicycle
+        - dog
+        - person
+    zones:
+      entire-yard-zone:
+        coordinates: 640,360,640,0,365,62,380,160,117,360
+        objects:
+          - bicycle
+          - dog
+          - person
+      front-yard-zone:
+        coordinates: 640,360,640,0,365,62,380,160,117,360
+        objects:
+          - bicycle
+          - dog
+          - person
 # ==================================================================================================
 
 
@@ -345,6 +523,24 @@ cameras:
     motion:
       mask:
         - 0,0,0,25,140,25,140,0 # timestamp
+    objects:
+      track:
+        - bicycle
+        - dog
+        - person
+    zones:
+      entire-yard-zone:
+        coordinates: 0,360,640,360,640,203,357,100,341,0,0,0
+        objects:
+          - bicycle
+          - dog
+          - person
+      front-yard-zone:
+        coordinates: 0,360,640,360,640,203,357,100,341,0,0,0
+        objects:
+          - bicycle
+          - dog
+          - person
 # ==================================================================================================
 
 
@@ -368,6 +564,42 @@ cameras:
         - 0,0,0,25,140,25,140,0 # timestamp
         - 53,32,597,47,613,59,61,60 # far sidewalk
         - 640,78,530,90,600,101 # neighbor driveway
+    objects:
+      track:
+        - bicycle
+        - car
+        - dog
+        - person
+    zones:
+      approach-zone:
+        coordinates: 261,231,443,235,553,248,586,152,397,139,76,175
+        objects:
+          - person
+      entire-yard-zone:
+        coordinates: 74,360,640,360,640,147,458,100,68,118
+        objects:
+          - bicycle
+          - dog
+          - person
+      front-yard-zone:
+        coordinates: 74,360,640,360,640,147,458,100,68,118
+        objects:
+          - bicycle
+          - dog
+          - person
+      sidewalk-zone:
+        coordinates: 412,84,458,100,68,118,68,95
+        objects:
+          - bicycle
+          - dog
+          - person
+      street-zone:
+        coordinates: 373,62,412,84,68,95,69,64
+        objects:
+          - bicycle
+          - car
+          - dog
+          - person
 # ==================================================================================================
 
 
@@ -389,6 +621,10 @@ cameras:
     motion:
       mask:
         - 0,0,0,25,140,25,140,0 # timestamp
+    objects:
+      track:
+        - dog
+        - person
 # ==================================================================================================
 
 
@@ -418,6 +654,32 @@ cameras:
         - car
         - dog
         - person
+    zones:
+      entire-yard-zone:
+        coordinates: 298,147,0,176,0,360,640,360
+        objects:
+          - bicycle
+          - dog
+          - person
+      front-yard-zone:
+        coordinates: 298,147,0,176,0,360,640,360
+        objects:
+          - bicycle
+          - dog
+          - person
+      sidewalk-zone:
+        coordinates: 0,176,0,147,438,110,472,129
+        objects:
+          - bicycle
+          - dog
+          - person
+      street-zone:
+        coordinates: 0,102,386,81,438,110,0,147
+        objects:
+          - bicycle
+          - car
+          - dog
+          - person
 # ==================================================================================================
 
 
@@ -441,4 +703,36 @@ cameras:
         - 0,0,0,25,140,25,140,0 # timestamp
         - 640,0,283,0,260,55,640,45 # far sidewalk
         - 192,121,38,91,0,102,0,173 # neighbor yard
+    objects:
+      track:
+        - bicycle
+        - car
+        - dog
+        - person
+    zones:
+      entire-yard-zone:
+        coordinates: 640,360,120,360,458,154,640,166
+        objects:
+          - bicycle
+          - dog
+          - person
+      front-yard-zone:
+        coordinates: 640,360,120,360,458,154,640,166
+        objects:
+          - bicycle
+          - dog
+          - person
+      sidewalk-zone:
+        coordinates: 640,166,317,133,381,94,640,104
+        objects:
+          - bicycle
+          - dog
+          - person
+      street-zone:
+        coordinates: 640,104,381,94,450,40,640,24
+        objects:
+          - bicycle
+          - car
+          - dog
+          - person
 # ==================================================================================================
