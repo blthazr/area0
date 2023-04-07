@@ -3,9 +3,10 @@ nameOverride: &app frigate
 env:
   LIBVA_DRIVER_NAME: i965
   FRIGATE_MQTT_HOST: "${MQTT_ADDRESS}"
-  FRIGATE_MQTT_USER: "${SECRET_FRIGATE_MQTT_USERNAME}"
-  FRIGATE_MQTT_PASSWORD: "${SECRET_FRIGATE_MQTT_PASSWORD}"
   FRIGATE_UNIFI_PROTECT_ADDRESS: "${UNIFI_PROTECT_ADDRESS}"
+envFrom:
+  - secretRef:
+      name: frigate-secrets
 image:
   repository: ghcr.io/blakeblackshear/frigate
   tag: 0.12.0-rc1
@@ -59,6 +60,7 @@ persistence:
     type: hostPath
 podAnnotations:
   configmap.reloader.stakater.com/reload: frigate-config
+  secret.reloader.stakater.com/reload: frigate-secrets
 probes:
   liveness: &probes
     enabled: true
