@@ -77,7 +77,7 @@ go2rtc:
 # global | mqtt
 # --------------------------------------------------------------------------------------------------
 mqtt:
-  host: "{FRIGATE_MQTT_HOST}"
+  host: 172.16.30.20 # "{FRIGATE_MQTT_HOST}"
   port: 1883
   user: "{FRIGATE_MQTT_USER}"
   password: "{FRIGATE_MQTT_PASSWORD}"
