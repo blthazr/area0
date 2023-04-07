@@ -38,6 +38,42 @@ ffmpeg:
 
 
 # --------------------------------------------------------------------------------------------------
+# global | go2rtc
+# --------------------------------------------------------------------------------------------------
+go2rtc:
+  streams:
+    frigate_back_porch_hq: "rtspx://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7441/9rjrmfiO4vikAIv5" # 1920x1080
+    frigate_back_porch_lq: "rtspx://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7441/xBwtp9Rdzyl4UdZH" # 640x360
+    frigate_back_side_yard_east_hq: "rtspx://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7441/3GhpQKAHuEwdKt1L" # 1920x1080
+    frigate_back_side_yard_east_lq: "rtspx://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7441/vnJgGcTIIQqDk9M7" # 640x360
+    frigate_back_side_yard_west_hq: "rtspx://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7441/Yp6cvhUbWGddZftR" # 1920x1080
+    frigate_back_side_yard_west_lq: "rtspx://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7441/t4AYRBcdODKElvyU" # 640x360
+    frigate_back_yard_east_hq: "rtspx://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7441/nDg952brQmpDyQpV" # 1920x1080
+    frigate_back_yard_east_lq: "rtspx://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7441/ThN91YX4uB02f5nJ" # 640x360
+    frigate_back_yard_west_hq: "rtspx://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7441/r1VOzDfEw7qHCxan" # 1920x1080
+    frigate_back_yard_west_lq: "rtspx://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7441/Z4wgSLvn21NGu3s4" # 640x360
+    frigate_driveway_hq: "rtspx://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7441/PLRgCzMZyaUNNvLK" # 1920x1080
+    frigate_driveway_lq: "rtspx://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7441/7goP2Rc47d1WEj7I" # 640x360
+    frigate_front_door_hq: "rtspx://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7441/BkoLvCjvhphS7FQ5" # 1600x1200
+    frigate_front_door_lq: "rtspx://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7441/frbvpMGwHYA1uItJ" # 480x360
+    frigate_front_porch_hq: "rtspx://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7441/ovfxp7TjO8wnlAE5" # 1920x1080
+    frigate_front_porch_lq: "rtspx://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7441/Z4qxsUW3AJoi5BRg" # 640x360
+    frigate_front_side_yard_east_hq: "rtspx://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7441/4wG8579z6TKf7AW4" # 1920x1080
+    frigate_front_side_yard_east_lq: "rtspx://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7441/Vb0pw1vaj4Yz56SG" # 640x360
+    frigate_front_side_yard_west_hq: "rtspx://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7441/w8WdgHa3iJ9CtZ2H" # 1920x1080
+    frigate_front_side_yard_west_lq: "rtspx://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7441/o43ONbJVUPYuxhrT" # 640x360
+    frigate_front_yard_hq: "rtspx://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7441/iMCRQRk6KJTplJ8v" # 1920x1080
+    frigate_front_yard_lq: "rtspx://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7441/SyLhIcaAq1MQ3JGr" # 640x360
+    frigate_garage_hq: "rtspx://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7441/WuwQ9P7ztJhaEaby" # 1920x1080
+    frigate_garage_lq: "rtspx://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7441/weT5BrArFLlHIdTC" # 640x360
+    frigate_street_east_hq: "rtspx://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7441/dk0G7TaMvDNcVN2t" # 1920x1080
+    frigate_street_east_lq: "rtspx://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7441/OkJZ4RyTYbVdiAYy" # 640x360
+    frigate_street_west_hq: "rtspx://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7441/kfBdhgaaVEBNMnNI" # 1920x1080
+    frigate_street_west_lq: "rtspx://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7441/MpoM3I9K0xN6fpzF" # 640x360
+# ==================================================================================================
+
+
+# --------------------------------------------------------------------------------------------------
 # global | mqtt
 # --------------------------------------------------------------------------------------------------
 mqtt:
