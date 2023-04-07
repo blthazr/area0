@@ -126,6 +126,7 @@ snapshots:
     default: 7
 # ==================================================================================================
 
+
 cameras:
 # --------------------------------------------------------------------------------------------------
 # camera | back porch
@@ -133,27 +134,20 @@ cameras:
   frigate_back_porch:
     ffmpeg:
       inputs:
-        - path: rtsp://localhost:8554/frigate_back_porch
-          roles:
-            - record
-        # High (1920x1080)
-        - path: "rtsp://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7447/9rjrmfiO4vikAIv5"
-          roles:
-            - restream
-        # Medium (1024x576)
-        - path: "rtsp://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7447/ncheQTiEjSTRAKoA"
-          roles:
-            - detect
-            - rtmp
+        - path: rtsp://localhost:8554/frigate_back_porch_lq
+          roles: ["detect"]
+        - path: rtsp://localhost:8554/frigate_back_porch_hq
+          roles: ["record"]
     detect:
       enabled: true
-      width: 1024
-      height: 576
+      width: 640
+      height: 360
       fps: 10
     motion:
       mask:
-        - 0,0,0,45,190,45,190,0 # timestamp
+        - 0,0,0,25,140,25,140,0 # timestamp
 # ==================================================================================================
+
 
 # --------------------------------------------------------------------------------------------------
 # camera | back side yard east
@@ -161,27 +155,20 @@ cameras:
   frigate_back_side_yard_east:
     ffmpeg:
       inputs:
-        - path: rtsp://localhost:8554/frigate_back_side_yard_east
-          roles:
-            - record
-        # High (1920x1080)
-        - path: "rtsp://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7447/3GhpQKAHuEwdKt1L"
-          roles:
-            - restream
-        # Medium (1024x576)
-        - path: "rtsp://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7447/nwBvKItQMbFbSsnn"
-          roles:
-            - detect
-            - rtmp
+        - path: rtsp://localhost:8554/frigate_back_side_yard_east_lq
+          roles: ["detect"]
+        - path: rtsp://localhost:8554/frigate_back_side_yard_east_hq
+          roles: ["record"]
     detect:
       enabled: true
-      width: 1024
-      height: 576
+      width: 640
+      height: 360
       fps: 10
     motion:
       mask:
-        - 0,0,0,45,190,45,190,0 # timestamp
+        - 0,0,0,25,140,25,140,0 # timestamp
 # ==================================================================================================
+
 
 # --------------------------------------------------------------------------------------------------
 # camera | back side yard west
@@ -189,27 +176,20 @@ cameras:
   frigate_back_side_yard_west:
     ffmpeg:
       inputs:
-        - path: rtsp://localhost:8554/frigate_back_side_yard_west
-          roles:
-            - record
-        # High (1920x1080)
-        - path: "rtsp://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7447/Yp6cvhUbWGddZftR"
-          roles:
-            - restream
-        # Medium (1024x576)
-        - path: "rtsp://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7447/JaXpUinPAdqfPuNI"
-          roles:
-            - detect
-            - rtmp
+        - path: rtsp://localhost:8554/frigate_back_side_yard_west_lq
+          roles: ["detect"]
+        - path: rtsp://localhost:8554/frigate_back_side_yard_west_hq
+          roles: ["record"]
     detect:
       enabled: true
-      width: 1024
-      height: 576
+      width: 640
+      height: 360
       fps: 10
     motion:
       mask:
-        - 0,0,0,45,190,45,190,0 # timestamp
+        - 0,0,0,25,140,25,140,0 # timestamp
 # ==================================================================================================
+
 
 # --------------------------------------------------------------------------------------------------
 # camera | back yard east
@@ -217,22 +197,20 @@ cameras:
   frigate_back_yard_east:
     ffmpeg:
       inputs:
-        - path: rtsp://localhost:8554/frigate_back_yard_east
-          roles:
-            - record
-        # High (1920x1080)
-        - path: "rtsp://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7447/nDg952brQmpDyQpV"
-          roles:
-            - restream
-        # Medium (1024x576)
-        - path: "rtsp://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7447/PHUs74Co8Tmi4ukf"
-          roles:
-            - detect
-            - rtmp
+        - path: rtsp://localhost:8554/frigate_back_yard_east_lq
+          roles: ["detect"]
+        - path: rtsp://localhost:8554/frigate_back_yard_east_hq
+          roles: ["record"]
+    detect:
+      enabled: true
+      width: 640
+      height: 360
+      fps: 10
     motion:
       mask:
-        - 0,0,0,45,190,45,190,0 # timestamp
+        - 0,0,0,25,140,25,140,0 # timestamp
 # ==================================================================================================
+
 
 # --------------------------------------------------------------------------------------------------
 # camera | back yard west
@@ -240,21 +218,18 @@ cameras:
   frigate_back_yard_west:
     ffmpeg:
       inputs:
-        - path: rtsp://localhost:8554/frigate_back_yard_west
-          roles:
-            - record
-        # High (1920x1080)
-        - path: "rtsp://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7447/r1VOzDfEw7qHCxan"
-          roles:
-            - restream
-        # Medium (1024x576)
-        - path: "rtsp://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7447/o0vG2B9uPf3tcnyU"
-          roles:
-            - detect
-            - rtmp
+        - path: rtsp://localhost:8554/frigate_back_yard_west_lq
+          roles: ["detect"]
+        - path: rtsp://localhost:8554/frigate_back_yard_west_hq
+          roles: ["record"]
+    detect:
+      enabled: true
+      width: 640
+      height: 360
+      fps: 10
     motion:
       mask:
-        - 0,0,0,45,190,45,190,0 # timestamp
+        - 0,0,0,25,140,25,140,0 # timestamp
     objects:
       track:
         - bicycle
@@ -262,33 +237,27 @@ cameras:
         - person
 # ==================================================================================================
 
+
 # --------------------------------------------------------------------------------------------------
 # camera | driveway
 # --------------------------------------------------------------------------------------------------
   frigate_driveway:
     ffmpeg:
       inputs:
-        - path: rtsp://localhost:8554/frigate_driveway
-          roles:
-            - record
-        # High (1920x1080)
-        - path: "rtsp://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7447/PLRgCzMZyaUNNvLK"
-          roles:
-            - restream
-        # Medium (1024x576)
-        - path: "rtsp://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7447/gKdGjLhqS7Lo8u0q"
-          roles:
-            - detect
-            - rtmp
+        - path: rtsp://localhost:8554/frigate_driveway_lq
+          roles: ["detect"]
+        - path: rtsp://localhost:8554/frigate_driveway_hq
+          roles: ["record"]
     detect:
       enabled: true
-      width: 1024
-      height: 576
+      width: 640
+      height: 360
       fps: 10
     motion:
       mask:
-        - 0,0,0,45,190,45,190,0 # timestamp
+        - 0,0,0,25,140,25,140,0 # timestamp
 # ==================================================================================================
+
 
 # --------------------------------------------------------------------------------------------------
 # camera | front door
@@ -296,32 +265,25 @@ cameras:
   frigate_front_door:
     ffmpeg:
       inputs:
-        - path: rtsp://localhost:8554/frigate_front_door
-          roles:
-            - record
-        # High (1600x1200)
-        - path: "rtsp://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7447/BkoLvCjvhphS7FQ5"
-          roles:
-            - restream
-        # Medium (960x720)
-        - path: "rtsp://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7447/dfsiwxmeWkdRHWiX"
-          roles:
-            - detect
-            - rtmp
+        - path: rtsp://localhost:8554/frigate_front_door_lq
+          roles: ["detect"]
+        - path: rtsp://localhost:8554/frigate_front_door_hq
+          roles: ["record"]
     detect:
       enabled: true
-      width: 960
-      height: 720
+      width: 480
+      height: 360
       fps: 10
     motion:
       mask:
-        - 0,0,0,60,200,60,200,0 # timestamp
-        - 314,162,288,182,194,0,286,0 # door top light
-        - 960,300,612,322,612,402,647,407,649,381,960,420 # sidewalk and street
+        - 0,0,0,25,140,25,140,0 # timestamp
+        - 157,81,144,91,97,0,143,0 # door top light
+        - 480,150,306,161,306,201,324,203,324,190,480,210 # sidewalk and street
     snapshots:
       enabled: true
       bounding_box: false
 # ==================================================================================================
+
 
 # --------------------------------------------------------------------------------------------------
 # camera | front porch
@@ -329,27 +291,20 @@ cameras:
   frigate_front_porch:
     ffmpeg:
       inputs:
-        - path: rtsp://localhost:8554/frigate_front_porch
-          roles:
-            - record
-        # High (1920x1080)
-        - path: "rtsp://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7447/ovfxp7TjO8wnlAE5"
-          roles:
-            - restream
-        # Medium (1024x576)
-        - path: "rtsp://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7447/KCJwfncYnOsnesQZ"
-          roles:
-            - detect
-            - rtmp
+        - path: rtsp://localhost:8554/frigate_front_porch_lq
+          roles: ["detect"]
+        - path: rtsp://localhost:8554/frigate_front_porch_hq
+          roles: ["record"]
     detect:
       enabled: true
-      width: 1024
-      height: 576
+      width: 640
+      height: 360
       fps: 10
     motion:
       mask:
-        - 0,0,0,45,190,45,190,0 # timestamp
+        - 0,0,0,25,140,25,140,0 # timestamp
 # ==================================================================================================
+
 
 # --------------------------------------------------------------------------------------------------
 # camera | front side yard east
@@ -357,27 +312,20 @@ cameras:
   frigate_front_side_yard_east:
     ffmpeg:
       inputs:
-        - path: rtsp://localhost:8554/frigate_front_side_yard_east
-          roles:
-            - record
-        # High (1920x1080)
-        - path: "rtsp://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7447/4wG8579z6TKf7AW4"
-          roles:
-            - restream
-        # Medium (1024x576)
-        - path: "rtsp://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7447/vrnJmvBnU6doeoZA"
-          roles:
-            - detect
-            - rtmp
+        - path: rtsp://localhost:8554/frigate_front_side_yard_east_lq
+          roles: ["detect"]
+        - path: rtsp://localhost:8554/frigate_front_side_yard_east_hq
+          roles: ["record"]
     detect:
       enabled: true
-      width: 1024
-      height: 576
+      width: 640
+      height: 360
       fps: 10
     motion:
       mask:
-        - 0,0,0,45,190,45,190,0 # timestamp
+        - 0,0,0,25,140,25,140,0 # timestamp
 # ==================================================================================================
+
 
 # --------------------------------------------------------------------------------------------------
 # camera | front side yard west
@@ -385,27 +333,20 @@ cameras:
   frigate_front_side_yard_west:
     ffmpeg:
       inputs:
-        - path: rtsp://localhost:8554/frigate_front_side_yard_west
-          roles:
-            - record
-        # High (1920x1080)
-        - path: "rtsp://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7447/w8WdgHa3iJ9CtZ2H"
-          roles:
-            - restream
-        # Medium (1024x576)
-        - path: "rtsp://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7447/94S03tiSKTohcds2"
-          roles:
-            - detect
-            - rtmp
+        - path: rtsp://localhost:8554/frigate_front_side_yard_west_lq
+          roles: ["detect"]
+        - path: rtsp://localhost:8554/frigate_front_side_yard_west_hq
+          roles: ["record"]
     detect:
       enabled: true
-      width: 1024
-      height: 576
+      width: 640
+      height: 360
       fps: 10
     motion:
       mask:
-        - 0,0,0,45,190,45,190,0 # timestamp
+        - 0,0,0,25,140,25,140,0 # timestamp
 # ==================================================================================================
+
 
 # --------------------------------------------------------------------------------------------------
 # camera | front yard
@@ -413,29 +354,22 @@ cameras:
   frigate_front_yard:
     ffmpeg:
       inputs:
-        - path: rtsp://localhost:8554/frigate_front_yard
-          roles:
-            - record
-        # High (1920x1080)
-        - path: "rtsp://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7447/iMCRQRk6KJTplJ8v"
-          roles:
-            - restream
-        # Medium (1024x576)
-        - path: "rtsp://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7447/uH3It6wAtdB7AOCs"
-          roles:
-            - detect
-            - rtmp
+        - path: rtsp://localhost:8554/frigate_front_yard_lq
+          roles: ["detect"]
+        - path: rtsp://localhost:8554/frigate_front_yard_hq
+          roles: ["record"]
     detect:
       enabled: true
-      width: 1024
-      height: 576
+      width: 640
+      height: 360
       fps: 10
     motion:
       mask:
-        - 0,0,0,45,190,45,190,0 # timestamp
-        - 86,52,956,76,981,95,99,96 # far sidewalk
-        - 1024,126,848,145,960,163 # neighbor driveway
+        - 0,0,0,25,140,25,140,0 # timestamp
+        - 53,32,597,47,613,59,61,60 # far sidewalk
+        - 640,78,530,90,600,101 # neighbor driveway
 # ==================================================================================================
+
 
 # --------------------------------------------------------------------------------------------------
 # camera | garage
@@ -443,27 +377,20 @@ cameras:
   frigate_garage:
     ffmpeg:
       inputs:
-        - path: rtsp://localhost:8554/frigate_garage
-          roles:
-            - record
-        # High (1920x1080)
-        - path: "rtsp://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7447/WuwQ9P7ztJhaEaby"
-          roles:
-            - restream
-        # Medium (1024x576)
-        - path: "rtsp://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7447/RTfaZKpjCy1KeJOl"
-          roles:
-            - detect
-            - rtmp
+        - path: rtsp://localhost:8554/frigate_garage_lq
+          roles: ["detect"]
+        - path: rtsp://localhost:8554/frigate_garage_hq
+          roles: ["record"]
     detect:
       enabled: true
-      width: 1024
-      height: 576
+      width: 640
+      height: 360
       fps: 10
     motion:
       mask:
-        - 0,0,0,45,190,45,190,0 # timestamp
+        - 0,0,0,25,140,25,140,0 # timestamp
 # ==================================================================================================
+
 
 # --------------------------------------------------------------------------------------------------
 # camera | street east
@@ -471,28 +398,20 @@ cameras:
   frigate_street_east:
     ffmpeg:
       inputs:
-        - path: rtsp://localhost:8554/frigate_street_east
-          roles:
-            - record
-        # High (1920x1080)
-        - path: "rtsp://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7447/dk0G7TaMvDNcVN2t"
-          roles:
-            - restream
-        # Medium (1024x576)
-        - path: "rtsp://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7447/HVGfCkPEmcvwwFkw"
-          roles:
-            - detect
-            - rtmp
+        - path: rtsp://localhost:8554/frigate_street_east_lq
+          roles: ["detect"]
+        - path: rtsp://localhost:8554/frigate_street_east_hq
+          roles: ["record"]
     detect:
       enabled: true
-      width: 1024
-      height: 576
+      width: 640
+      height: 360
       fps: 10
     motion:
       mask:
-        - 0,0,0,45,190,45,190,0 # timestamp
-        - 0,107,1024,82,1024,118,0,162 # far sidewalk
-        - 535,189,1024,116,1024,304 # neighbor driveway
+        - 0,0,0,25,140,25,140,0 # timestamp
+        - 0,66,640,51,640,73,0,101 # far sidewalk
+        - 334,118,640,72,640,190 # neighbor driveway
     objects:
       track:
         - bicycle
@@ -501,32 +420,25 @@ cameras:
         - person
 # ==================================================================================================
 
+
 # --------------------------------------------------------------------------------------------------
 # camera | street west
 # --------------------------------------------------------------------------------------------------
   frigate_street_west:
     ffmpeg:
       inputs:
-        - path: rtsp://localhost:8554/frigate_street_west
-          roles:
-            - record
-        # High (1920x1080)
-        - path: "rtsp://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7447/kfBdhgaaVEBNMnNI"
-          roles:
-            - restream
-        # Medium (1024x576)
-        - path: "rtsp://{FRIGATE_UNIFI_PROTECT_ADDRESS}:7447/InrynFoRDt7LWp37"
-          roles:
-            - detect
-            - rtmp
+        - path: rtsp://localhost:8554/frigate_street_west_lq
+          roles: ["detect"]
+        - path: rtsp://localhost:8554/frigate_street_west_hq
+          roles: ["record"]
     detect:
       enabled: true
-      width: 1024
-      height: 576
+      width: 640
+      height: 360
       fps: 10
     motion:
       mask:
-        - 0,0,0,45,190,45,190,0 # timestamp
-        - 1024,0,454,0,417,89,1024,72 # far sidewalk
-        - 308,194,62,146,0,164,0,278 # neighbor yard
+        - 0,0,0,25,140,25,140,0 # timestamp
+        - 640,0,283,0,260,55,640,45 # far sidewalk
+        - 192,121,38,91,0,102,0,173 # neighbor yard
 # ==================================================================================================
