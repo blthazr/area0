@@ -1,12 +1,14 @@
-# Bootstrap Flux
+# Bootstrap
 
-## Install Flux manifests
+## Flux
+
+### Install Flux
 
 ```sh
 kubectl apply --server-side --kustomize ./kubernetes/bootstrap/flux
 ```
 
-## Apply Cluster Configuration
+### Apply Cluster Configuration
 
 _These cannot be applied with `kubectl` in the regular fashion due to be encrypted with sops_
 
@@ -17,7 +19,7 @@ sops --decrypt kubernetes/flux/vars/cluster-secrets.sops.yaml | kubectl apply -f
 kubectl apply -f kubernetes/flux/vars/cluster-settings.yaml
 ```
 
-## 3. Apply the Flux resources to bootstrap the cluster
+### Apply the Flux resources to finish bootstrapping the cluster
 
 ```sh
 kubectl apply --server-side --kustomize ./kubernetes/flux/config
