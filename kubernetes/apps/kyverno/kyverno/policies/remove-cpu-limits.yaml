@@ -14,7 +14,7 @@ spec:
   generateExistingOnPolicyUpdate: true
   mutateExistingOnPolicyUpdate: true
   rules:
-    - name: delete-containers-cpu-limits
+    - name: remove-containers-cpu-limits
       exclude:
         any:
           - resources:
@@ -31,7 +31,7 @@ spec:
             patchesJson6902: |-
               - path: /spec/containers/{{elementIndex}}/resources/limits/cpu
                 op: remove
-    - name: delete-initcontainers-cpu-limits
+    - name: remove-initcontainers-cpu-limits
       match:
         any:
           - resources:

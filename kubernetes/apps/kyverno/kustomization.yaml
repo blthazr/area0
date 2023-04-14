@@ -4,4 +4,4 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./kyverno/app.yaml
-  - ./config/policies.yaml
+  - ./kyverno/policies.yaml

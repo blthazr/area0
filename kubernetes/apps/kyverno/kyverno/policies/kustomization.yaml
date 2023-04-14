@@ -6,4 +6,4 @@ resources:
   - ./ingress-external-dns-annotations.yaml
   - ./ingress-whitelist-annotations.yaml
   - ./inject-tz.yaml
-  - ./remove-cpu-limit.yaml
+  - ./remove-cpu-limits.yaml
