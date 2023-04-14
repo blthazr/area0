@@ -31,12 +31,7 @@ controller:
   ingressClassResource:
     default: true
   metrics:
-    enabled: true
-    serviceMonitor:
-      enabled: true
-      namespace: network
-      namespaceSelector:
-        any: true
+    enabled: false
   podAnnotations:
     configmap.reloader.stakater.com/reload: cloudflare-networks
   replicaCount: 2
