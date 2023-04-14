@@ -1,6 +1,7 @@
 ---
 nameOverride: &app kyverno
-installCRDs: true
+crds:
+  install: true
 topologySpreadConstraints:
   - labelSelector:
       matchLabels:
