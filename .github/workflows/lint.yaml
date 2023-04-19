@@ -31,7 +31,6 @@ jobs:
 
       - name: Run MegaLinter
         env:
-          ANSIBLE_ANSIBLE_LINT_CONFIG_FILE: .ansible-lint
           ANSIBLE_DIRECTORY: ansible
           ENABLE_LINTERS: |-
             ${{
@@ -40,32 +39,18 @@ jobs:
                   [
                     "ACTION_ACTIONLINT",
                     "ANSIBLE_ANSIBLE_LINT",
-                    "BASH_SHELLCHECK",
-                    "COPYPASTE_JSCPD",
-                    "DOCKERFILE_HADOLINT",
-                    "ENV_DOTENV_LINTER",
-                    "JSON_JSONLINT",
-                    "KUBERNETES_KUBEVAL",
-                    "MARKDOWN_MARKDOWNLINT",
+                    "KUBERNETES_KUBECONFORM",
                     "REPOSITORY_GIT_DIFF",
                     "REPOSITORY_SECRETLINT",
-                    "TERRAFORM_TERRAFORM_FMT",
-                    "YAML_PRETTIER",
-                    "YAML_YAMLLINT"
+                    "TERRAFORM_TERRAFORM_FMT"
                   ]
                 '),
                 ','
               )
             }}
           GITHUB_TOKEN: "${{ steps.generate-token.outputs.token }}"
-          KUBERNETES_DIRECTORY: k8s
-          KUBERNETES_KUBEVAL_ARGUMENTS: --ignore-missing-schemas
-          KUBERNETES_KUBEVAL_FILTER_REGEX_INCLUDE: "(kubernetes)"
-          MARKDOWN_MARKDOWNLINT_CONFIG_FILE: .github/linters/.markdownlint.yaml
-          MARKDOWN_MARKDOWNLINT_RULES_PATH: .github/
+          KUBERNETES_KUBECONFORM_ARGUMENTS: -ignore-missing-schemas
+          KUBERNETES_KUBECONFORM_FILTER_REGEX_INCLUDE: "(cluster)"
           PRINT_ALPACA: false
           VALIDATE_ALL_CODEBASE: ${{ github.event_name == 'workflow_dispatch' }}
-          YAML_PRETTIER_CONFIG_FILE: .github/linters/.prettierrc.yaml
-          YAML_PRETTIER_FILTER_REGEX_EXCLUDE: "(.*\\.sops\\.ya?ml)"
-          YAML_YAMLLINT_CONFIG_FILE: .github/linters/.yamllint.yaml
         uses: oxsecurity/megalinter@93700f8c21c59ea784a32abe23896e49e54463b8 # v6.22.2
