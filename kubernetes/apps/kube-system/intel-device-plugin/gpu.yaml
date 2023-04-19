@@ -14,7 +14,7 @@ spec:
       kind: HelmRelease
       name: intel-device-plugin-gpu
       namespace: kube-system
-  interval: 30m
+  interval: 15m
   path: ./kubernetes/apps/kube-system/intel-device-plugin/gpu
   prune: true
   retryInterval: 1m

@@ -14,7 +14,7 @@ spec:
       kind: HelmRelease
       name: gaps
       namespace: media-automation
-  interval: 30m
+  interval: 15m
   path: ./kubernetes/apps/media-automation/gaps/app
   prune: true
   retryInterval: 1m

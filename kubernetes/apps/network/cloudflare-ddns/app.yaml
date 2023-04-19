@@ -12,7 +12,7 @@ spec:
       kind: HelmRelease
       name: cloudflare-ddns
       namespace: network
-  interval: 30m
+  interval: 15m
   path: ./kubernetes/apps/network/cloudflare-ddns/app
   prune: true
   retryInterval: 1m

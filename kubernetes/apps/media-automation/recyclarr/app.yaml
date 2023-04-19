@@ -10,7 +10,7 @@ spec:
   dependsOn:
     - name: cluster-apps-radarr
     - name: cluster-apps-sonarr
-  interval: 30m
+  interval: 15m
   path: ./kubernetes/apps/media-automation/recyclarr/app
   prune: true
   retryInterval: 1m

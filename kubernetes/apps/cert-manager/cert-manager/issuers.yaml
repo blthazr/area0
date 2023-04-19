@@ -9,7 +9,7 @@ metadata:
 spec:
   dependsOn:
     - name: cluster-apps-cert-manager
-  interval: 30m
+  interval: 15m
   path: ./kubernetes/apps/cert-manager/cert-manager/issuers
   prune: true
   retryInterval: 1m

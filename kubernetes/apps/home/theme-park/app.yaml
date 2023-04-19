@@ -12,7 +12,7 @@ spec:
       kind: HelmRelease
       name: theme-park
       namespace: home
-  interval: 30m
+  interval: 15m
   path: ./kubernetes/apps/home/theme-park/app
   prune: true
   retryInterval: 1m

@@ -10,7 +10,7 @@ spec:
   dependsOn:
     - name: cluster-apps-intel-device-plugin-gpu
     - name: cluster-apps-rook-ceph-cluster
-  interval: 30m
+  interval: 15m
   path: ./kubernetes/apps/home-automation/frigate/app
   prune: true
   retryInterval: 1m

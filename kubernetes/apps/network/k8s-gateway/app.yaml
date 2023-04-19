@@ -14,7 +14,7 @@ spec:
       kind: HelmRelease
       name: k8s-gateway
       namespace: network
-  interval: 30m
+  interval: 15m
   path: ./kubernetes/apps/network/k8s-gateway/app
   prune: true
   retryInterval: 1m

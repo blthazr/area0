@@ -12,7 +12,7 @@ spec:
       kind: HelmRelease
       name: descheduler
       namespace: kube-system
-  interval: 30m
+  interval: 15m
   path: ./kubernetes/apps/kube-system/descheduler/app
   prune: true
   retryInterval: 1m

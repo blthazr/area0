@@ -14,7 +14,7 @@ spec:
       kind: HelmRelease
       name: overseerr
       namespace: media-automation
-  interval: 30m
+  interval: 15m
   path: ./kubernetes/apps/media-automation/overseerr/app
   prune: true
   retryInterval: 1m

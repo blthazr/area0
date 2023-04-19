@@ -12,7 +12,7 @@ spec:
       kind: HelmRelease
       name: kyverno
       namespace: kyverno
-  interval: 30m
+  interval: 15m
   path: ./kubernetes/apps/kyverno/kyverno/app
   prune: true
   retryInterval: 1m

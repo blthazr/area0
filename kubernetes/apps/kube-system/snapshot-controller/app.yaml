@@ -16,7 +16,7 @@ spec:
       kind: HelmRelease
       name: snapshot-validation-webhook
       namespace: kube-system
-  interval: 30m
+  interval: 15m
   path: ./kubernetes/apps/kube-system/snapshot-controller/app
   prune: true
   retryInterval: 1m

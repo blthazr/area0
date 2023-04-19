@@ -12,7 +12,7 @@ spec:
       kind: HelmRelease
       name: metrics-server
       namespace: kube-system
-  interval: 30m
+  interval: 15m
   path: ./kubernetes/apps/kube-system/metrics-server/app
   prune: true
   retryInterval: 1m

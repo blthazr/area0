@@ -12,7 +12,7 @@ spec:
       kind: HelmRelease
       name: hajimari
       namespace: home
-  interval: 30m
+  interval: 15m
   path: ./kubernetes/apps/home/hajimari/app
   prune: true
   retryInterval: 1m

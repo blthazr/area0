@@ -16,7 +16,7 @@ spec:
       kind: HelmRelease
       name: ingress-nginx
       namespace: network
-  interval: 30m
+  interval: 15m
   path: ./kubernetes/apps/network/ingress-nginx/app
   prune: true
   retryInterval: 1m

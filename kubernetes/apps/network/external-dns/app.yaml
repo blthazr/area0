@@ -12,7 +12,7 @@ spec:
       kind: HelmRelease
       name: external-dns
       namespace: network
-  interval: 30m
+  interval: 15m
   path: ./kubernetes/apps/network/external-dns/app
   prune: true
   retryInterval: 1m

@@ -12,7 +12,7 @@ spec:
       kind: HelmRelease
       name: metallb
       namespace: network
-  interval: 30m
+  interval: 15m
   path: ./kubernetes/apps/network/metallb/app
   prune: true
   retryInterval: 1m

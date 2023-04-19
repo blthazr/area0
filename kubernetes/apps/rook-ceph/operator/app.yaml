@@ -12,7 +12,7 @@ spec:
       kind: HelmRelease
       name: rook-ceph-operator
       namespace: rook-ceph
-  interval: 30m
+  interval: 15m
   path: ./kubernetes/apps/rook-ceph/operator/app
   prune: true
   retryInterval: 1m

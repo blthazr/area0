@@ -14,7 +14,7 @@ spec:
       kind: HelmRelease
       name: sabnzbd
       namespace: download
-  interval: 30m
+  interval: 15m
   path: ./kubernetes/apps/download/sabnzbd/app
   prune: true
   retryInterval: 1m

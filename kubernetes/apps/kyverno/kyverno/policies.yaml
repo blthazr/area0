@@ -9,7 +9,7 @@ metadata:
 spec:
   dependsOn:
     - name: cluster-apps-kyverno
-  interval: 30m
+  interval: 15m
   path: ./kubernetes/apps/kyverno/kyverno/policies
   prune: true
   retryInterval: 1m

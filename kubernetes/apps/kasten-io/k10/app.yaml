@@ -14,7 +14,7 @@ spec:
       kind: HelmRelease
       name: k10
       namespace: kasten-io
-  interval: 30m
+  interval: 15m
   path: ./kubernetes/apps/kasten-io/k10/app
   prune: false
   retryInterval: 1m

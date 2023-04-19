@@ -14,7 +14,7 @@ spec:
       kind: HelmRelease
       name: lidarr
       namespace: media-automation
-  interval: 30m
+  interval: 15m
   path: ./kubernetes/apps/media-automation/lidarr/app
   prune: true
   retryInterval: 1m

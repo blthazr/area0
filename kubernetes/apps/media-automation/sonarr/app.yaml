@@ -14,7 +14,7 @@ spec:
       kind: HelmRelease
       name: sonarr
       namespace: media-automation
-  interval: 30m
+  interval: 15m
   path: ./kubernetes/apps/media-automation/sonarr/app
   prune: true
   retryInterval: 1m

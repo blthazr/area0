@@ -14,7 +14,7 @@ spec:
       kind: HelmRelease
       name: rook-ceph-cluster
       namespace: rook-ceph
-  interval: 30m
+  interval: 15m
   path: ./kubernetes/apps/rook-ceph/cluster/app
   prune: true
   retryInterval: 1m

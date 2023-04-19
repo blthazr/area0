@@ -9,7 +9,7 @@ metadata:
 spec:
   dependsOn:
     - name: cluster-apps-cert-manager-issuers
-  interval: 30m
+  interval: 15m
   path: ./kubernetes/apps/network/ingress-nginx/certificates
   prune: true
   retryInterval: 1m

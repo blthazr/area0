@@ -12,7 +12,7 @@ spec:
       kind: HelmRelease
       name: node-feature-discovery
       namespace: kube-system
-  interval: 30m
+  interval: 15m
   path: ./kubernetes/apps/kube-system/node-feature-discovery/app
   prune: true
   retryInterval: 1m
