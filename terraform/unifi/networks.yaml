@@ -1,0 +1,49 @@
+guest:
+  dhcp_dns: ["8.8.8.8"]
+  dhcp_enabled: true
+  dhcp_start: "172.16.11.100"
+  dhcp_stop: "172.16.11.254"
+  name: "Guest"
+  purpose: "guest"
+  subnet: "172.16.11.0/24"
+  vlan_id: 11
+
+home:
+  dhcp_dns: ["172.16.70.3"]
+  dhcp_enabled: true
+  dhcp_start: "172.16.20.100"
+  dhcp_stop: "172.16.20.254"
+  igmp_snooping: true
+  multicast_dns: true
+  name: "Home"
+  purpose: "corporate"
+  subnet: "172.16.20.0/24"
+  vlan_id: 20
+
+management:
+  dhcp_dns: ["172.16.70.3"]
+  dhcp_enabled: true
+  dhcp_start: "172.16.10.200"
+  dhcp_stop: "172.16.10.254"
+  dhcp_v6_dns_auto: false
+  dhcp_v6_lease: 0
+  multicast_dns: true
+  name: "Management"
+  purpose: "corporate"
+  subnet: "172.16.10.0/24"
+
+wan:
+  dhcp_lease: 0
+  dhcp_v6_dns_auto: false
+  dhcp_v6_lease: 0
+  domain_name: null
+  ipv6_interface_type: "none"
+  ipv6_ra_preferred_lifetime: 0
+  ipv6_ra_valid_lifetime: 0
+  name: "Google Fiber"
+  network_group: ""
+  purpose: "wan"
+  wan_dns: ["1.1.1.1","1.0.0.1"]
+  wan_networkgroup: "WAN"
+  wan_type: "dhcp"
+  wan_type_v6: "disabled"
