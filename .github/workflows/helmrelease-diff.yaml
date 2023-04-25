@@ -78,7 +78,7 @@ jobs:
       - name: Find Comment
         if: ${{ always() && steps.diff.outputs.diff != '' }}
         id: find-comment
-        uses: peter-evans/find-comment@034abe94d3191f9c89d870519735beae326f2bdb # v2.3.0
+        uses: peter-evans/find-comment@a54c31d7fa095754bfef525c0c8e5e5674c4b4b1 # v2.4.0
         with:
           body-includes: ${{ matrix.file }}
           comment-author: ${{ env.BOT_USERNAME }}
