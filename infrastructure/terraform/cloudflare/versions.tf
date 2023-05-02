@@ -13,9 +13,5 @@ terraform {
       version = "0.7.2"
     }
   }
-  required_version = ">= 1.3.0"
-}
-
-data "sops_file" "cloudflare_secrets" {
-  source_file = "secret.sops.yaml"
+  required_version = ">= 1.4.0"
 }
