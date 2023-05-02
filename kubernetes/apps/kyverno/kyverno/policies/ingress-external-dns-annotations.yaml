@@ -28,4 +28,4 @@ spec:
           metadata:
             annotations:
               +(external-dns.alpha.kubernetes.io/target): |-
-                hsv-1.${SECRET_DOMAIN}
+                ingress.${SECRET_DOMAIN}
