@@ -35,12 +35,12 @@ module "zone" {
   source   = "./modules/zone"
   for_each = local.config_domains.domains
 
-  account_id  = module.account.account_id
-  name        = each.value.name
-  paused      = try(each.value.paused, false)
-  plan        = try(each.value.plan, "free")
-  type        = try(each.value.type, "full")
-  dns_records = try(each.value.dns_records, [])
+  account_id     = module.account.account_id
+  name           = each.value.name
+  paused         = try(each.value.paused, false)
+  plan           = try(each.value.plan, "free")
+  type           = try(each.value.type, "full")
+  dns_records    = try(each.value.dns_records, [])
   firewall_rules = try(each.value.firewall_rules, [])
   page_rules     = try(each.value.page_rules, [])
 }

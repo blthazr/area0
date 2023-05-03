@@ -119,7 +119,7 @@ variable "firewall_rules" {
     expression  = string
     paused      = optional(bool, false)
     priority    = optional(number, null)
-    ref = optional(string)
+    ref         = optional(string)
   }))
   validation {
     condition     = alltrue([for rule in var.firewall_rules : contains(["block", "challenge", "allow", "js_challenge", "managed_challenge", "log", "bypass"], rule.action)])
@@ -128,7 +128,7 @@ variable "firewall_rules" {
 }
 
 variable "page_rules" {
-    description = <<-DOC
+  description = <<-DOC
       A list of maps containing Cloudflare page rules.
 
       [required]
@@ -141,18 +141,18 @@ variable "page_rules" {
           The page rule status. is active or disabled.
           Supported status: `active`, `disabled`.
     DOC
-  default = null
+  default     = null
   type = list(object({
     actions = object({
-      always_use_https            = optional(bool, false)
-      automatic_https_rewrites    = optional(string)
-      cache_level                 = optional(string)
-      disable_apps                = optional(bool, false)
-      disable_performance         = optional(bool, false)
-      disable_railgun             = optional(bool, false)
-      disable_security            = optional(bool, false)
-      disable_zaraz               = optional(bool, false)
-      rocket_loader               = optional(string)
+      always_use_https         = optional(bool, false)
+      automatic_https_rewrites = optional(string)
+      cache_level              = optional(string)
+      disable_apps             = optional(bool, false)
+      disable_performance      = optional(bool, false)
+      disable_railgun          = optional(bool, false)
+      disable_security         = optional(bool, false)
+      disable_zaraz            = optional(bool, false)
+      rocket_loader            = optional(string)
     })
     id       = string
     priority = optional(number, 0)
