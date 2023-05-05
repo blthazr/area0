@@ -5,6 +5,10 @@ namespace: network
 commonLabels:
   app.kubernetes.io/instance: &app cloudflared
   app.kubernetes.io/name: *app
+configMapGenerator:
+  - name: cloudflared-configmap
+    files:
+      - ./config/config.yaml
 generatorOptions:
   disableNameSuffixHash: true
 resources:
