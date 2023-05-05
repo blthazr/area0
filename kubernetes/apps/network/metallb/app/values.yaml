@@ -2,5 +2,3 @@
 nameOverride: &app metallb
 crds:
   enabled: true
-psp:
-  create: false

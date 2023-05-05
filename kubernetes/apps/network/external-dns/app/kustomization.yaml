@@ -15,4 +15,5 @@ generatorOptions:
   disableNameSuffixHash: true
 resources:
   - ./secret.sops.yaml
+  - ./custom-resource-definition.yaml
   - ./helm-release.yaml

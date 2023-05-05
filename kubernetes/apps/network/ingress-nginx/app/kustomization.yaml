@@ -8,9 +8,6 @@ configMapGenerator:
   - name: ingress-nginx-helm-values
     files:
       - ./values.yaml
-  - name: cloudflare-networks
-    files:
-      - ./cloudflare-networks.txt
 generatorOptions:
   disableNameSuffixHash: true
 resources:

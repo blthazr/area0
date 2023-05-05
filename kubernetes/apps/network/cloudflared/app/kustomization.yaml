@@ -3,16 +3,20 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: network
 commonLabels:
-  app.kubernetes.io/instance: &app cloudflare-ddns
+  app.kubernetes.io/instance: &app cloudflared
   app.kubernetes.io/name: *app
+configurations:
+  - ./kustomize-config.yaml
 configMapGenerator:
-  - name: cloudflare-ddns-configmap
+  - name: cloudflared-configmap
     files:
-      - ./cloudflare-ddns.sh
+      - ./config/config.yaml
+  - name: cloudflared-helm-values
+    files:
+      - ./values.yaml
 generatorOptions:
-  annotations:
-    kustomize.toolkit.fluxcd.io/substitute: disabled
   disableNameSuffixHash: true
 resources:
   - ./secret.sops.yaml
+  - ./dns-endpoint.yaml
   - ./helm-release.yaml
