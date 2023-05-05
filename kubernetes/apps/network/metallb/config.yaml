@@ -4,8 +4,6 @@ kind: Kustomization
 metadata:
   name: cluster-apps-metallb-config
   namespace: flux-system
-  labels:
-    substitution.flux.home.arpa/enabled: "true"
 spec:
   dependsOn:
     - name: cluster-apps-metallb
@@ -17,3 +15,4 @@ spec:
     kind: GitRepository
     name: area0
   timeout: 3m
+  wait: true
