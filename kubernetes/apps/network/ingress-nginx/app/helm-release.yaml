@@ -27,7 +27,3 @@ spec:
   valuesFrom:
     - name: ingress-nginx-helm-values
       kind: ConfigMap
-    - name: cloudflare-networks
-      kind: ConfigMap
-      targetPath: controller.config.proxy-real-ip-cidr
-      valuesKey: cloudflare-networks.txt
