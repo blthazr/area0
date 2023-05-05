@@ -5,6 +5,8 @@ namespace: network
 commonLabels:
   app.kubernetes.io/instance: &app cloudflared
   app.kubernetes.io/name: *app
+configurations:
+  - ./kustomize-config.yaml
 configMapGenerator:
   - name: cloudflared-configmap
     files:
@@ -17,3 +19,4 @@ generatorOptions:
 resources:
   - ./secret.sops.yaml
   - ./dns-endpoint.yaml
+  - ./helm-release.yaml
