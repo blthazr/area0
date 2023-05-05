@@ -1,0 +1,77 @@
+---
+nameOverride: &app cloudflared
+args:
+  - tunnel
+  - --config
+  - /etc/cloudflared/config/config.yaml
+  - run
+  - "$(TUNNEL_ID)"
+controller:
+  replicas: 1
+  strategy: RollingUpdate
+  annotations:
+    reloader.stakater.com/auto: "true"
+env:
+  NO_AUTOUPDATE: "true"
+  TUNNEL_CRED_FILE: /etc/cloudflared/creds/credentials.json
+  TUNNEL_ID:
+    valueFrom:
+      secretKeyRef:
+        name: cloudflared-tunnel-secret
+        key: TunnelID
+  TUNNEL_METRICS: 0.0.0.0:8080
+  TUNNEL_TRANSPORT_PROTOCOL: auto
+image:
+  repository: docker.io/cloudflare/cloudflared
+  tag: 2023.5.0
+persistence:
+  config:
+    enabled: true
+    type: configMap
+    name: cloudflared-configmap
+    subPath: config.yaml
+    mountPath: /etc/cloudflared/config/config.yaml
+    readOnly: true
+  creds:
+    enabled: true
+    type: secret
+    name: cloudflared-tunnel-secret
+    subPath: credentials.json
+    mountPath: /etc/cloudflared/creds/credentials.json
+    readOnly: true
+probes:
+  liveness: &probes
+    enabled: true
+    custom: true
+    spec:
+      httpGet:
+        path: /ready
+        port: http
+      initialDelaySeconds: 0
+      periodSeconds: 10
+      timeoutSeconds: 1
+      failureThreshold: 3
+  readiness: *probes
+  startup:
+    enabled: false
+resources:
+  limits:
+    memory: 256Mi
+  requests:
+    cpu: 5m
+    memory: 10Mi
+service:
+  main:
+    ports:
+      http:
+        port: 8080
+serviceMonitor:
+  main:
+    enabled: false
+topologySpreadConstraints:
+  - labelSelector:
+      matchLabels:
+        app.kubernetes.io/name: *app
+    maxSkew: 1
+    topologyKey: kubernetes.io/hostname
+    whenUnsatisfiable: DoNotSchedule
