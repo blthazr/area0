@@ -13,6 +13,9 @@ includes:
   flux:
     taskfile: .taskfiles/flux.yml
     optional: true
+  pre-commit:
+    taskfile: .taskfiles/pre-commit.yml
+    optional: true
 
 vars:
   PROJECT_DIR:
