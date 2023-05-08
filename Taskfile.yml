@@ -6,7 +6,13 @@
 version: "3"
 
 includes:
-  flux: .taskfiles/flux.yml
+  ansible:
+    dir: "./infrastructure/ansible"
+    taskfile: .taskfiles/ansible.yml
+    optional: true
+  flux:
+    taskfile: .taskfiles/flux.yml
+    optional: true
 
 vars:
   PROJECT_DIR:
