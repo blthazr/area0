@@ -1,0 +1,52 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   tasks/Debian/time.yml
+#   @description    :   Debian time/locale tasks
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+- name: "{{ ansible_os_family }} | time | set timezone"
+  community.general.timezone:
+    name: "{{ os_timezone }}"
+  when:
+    - os_timezone is defined
+
+- name: configure ntp
+  block:
+    - name: "{{ ansible_os_family }} | time | configure timesyncd"
+      ansible.builtin.template:
+        backup: true
+        dest: "/etc/systemd/timesyncd.conf"
+        group: "root"
+        mode: 0644
+        owner: "root"
+        src: "etc/systemd/timesyncd.conf.j2"
+      notify: restart timesyncd
+      when:
+        - os_ntp_servers.primary is defined
+        - os_ntp_servers.primary is iterable
+        - os_ntp_servers.primary | length > 0
+        - os_ntp_servers.fallback is defined
+        - os_ntp_servers.fallback is iterable
+        - os_ntp_servers.fallback | length > 0
+
+    - name: "{{ ansible_os_family }} | time | start timesyncd service"
+      ansible.builtin.systemd:
+        name: systemd-timesyncd
+        enabled: true
+        state: started
+
+    - name: "{{ ansible_os_family }} | time | run timedatectl status"
+      ansible.builtin.command:
+        cmd: /usr/bin/timedatectl show
+      changed_when: false
+      check_mode: false
+      register: timedatectl_result
+
+    - name: "{{ ansible_os_family }} | time | enable ntp"
+      ansible.builtin.command:
+        cmd: /usr/bin/timedatectl set-ntp true
+      when:
+        - "'NTP=no' in timedatectl_result.stdout"
+
+  when:
+    - os_ntp_enabled is defined
+    - os_ntp_enabled

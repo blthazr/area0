@@ -1,0 +1,33 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   handlers/main.yml
+#   @description    :   handlers file for ansible-role-os
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+- name: handler | reboot system
+  ansible.builtin.reboot:
+    msg: Rebooting node
+    reboot_timeout: 3600
+  listen: reboot node
+
+- name: handler | restart smartd service
+  ansible.builtin.service:
+    name: smartd.service
+    enabled: true
+    state: restarted
+  listen: restart smartd
+
+- name: handler | restart timesyncd service
+  ansible.builtin.systemd:
+    name: systemd-timesyncd.service
+    daemon_reload: true
+    enabled: true
+    state: restarted
+  listen: restart timesyncd
+
+- name: handler | restart unattended-upgrades service
+  ansible.builtin.systemd:
+    name: unattended-upgrades.service
+    daemon_reload: true
+    enabled: true
+    state: restarted
+  listen: restart unattended-upgrades
