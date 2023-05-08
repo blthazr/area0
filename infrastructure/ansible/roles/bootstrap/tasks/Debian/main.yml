@@ -1,0 +1,13 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   tasks/Debian/main.yml
+#   @description    :   Debian tasks executed by ansible-role-bootstrap
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+- name: "{{ ansible_os_family }} | main | include tasks"
+  ansible.builtin.include_tasks: "{{ ansible_os_family }}/{{ bootstrap_os_tasks }}"
+  loop:
+    - apt.yml
+    - packages.yml
+    - sudoers.yml
+  loop_control:
+    loop_var: bootstrap_os_tasks
