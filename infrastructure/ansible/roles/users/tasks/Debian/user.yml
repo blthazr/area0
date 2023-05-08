@@ -1,0 +1,28 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   tasks/Debian/user.yml
+#   @description    :   Debian user tasks
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+- name: "{{ ansible_os_family }} | main | generate a list of user group(s)"
+  ansible.builtin.set_fact:
+    user_groups_list: "{% for item in user_groups %}{{ item.name }}{{ '' if loop.last else ',' }}{% endfor %}"
+  when: "user_groups is defined"
+
+- name: "{{ ansible_os_family }} | main | create user(s)"
+  ansible.builtin.user:
+    append: "{{ item.append | default(omit) }}"
+    createhome: "{{ item.create_home | default(omit) }}"
+    group: "{{ item.group | default(item.username if group_per_user else (default_group if default_group is defined else omit)) }}"
+    groups: '{{ item.groups | join(",") if item.groups is defined else (user_groups_list if user_groups_list is defined else '''') }}' # empty string removes user from all secondary groups
+    home: '{{ item.home | default(default_users_home ~ "/" ~ item.username) }}'
+    name: "{{ item.username }}"
+    password: "{{ item.password | default(omit) }}"
+    shell: "{{ item.shell if item.shell is defined else (default_users_shell if default_users_shell is defined else omit) }}"
+    state: present
+    system: "{{ item.system | default(omit) }}"
+    uid: "{{ item.uid | default(omit) }}"
+    update_password: "{{ item.update_password | default(omit) }}"
+  when:
+    - "users is defined"
+    - 'item.username != "root"'
+  loop: "{{ users }}"

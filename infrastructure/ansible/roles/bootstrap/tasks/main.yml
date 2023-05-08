@@ -28,7 +28,7 @@
     name: "{{ bootstrap_roles }}"
   loop:
     - robertdebock.bootstrap
-#     - users
+    - users
 #     - os
   loop_control:
     loop_var: bootstrap_roles

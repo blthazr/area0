@@ -1,0 +1,62 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   tasks/Debian/sudo.yml
+#   @description    :   Debian sudo tasks
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+- name: "{{ ansible_os_family }} | main | enable sudo for user(s)"
+  ansible.builtin.lineinfile:
+    path: "/etc/sudoers.d/{{ item.username }}"
+    line: "{{ item.username }} ALL=(ALL:ALL) ALL"
+    state: present
+    owner: root
+    group: root
+    mode: 0440
+    create: true
+    validate: "/usr/sbin/visudo -cf %s"
+  when: "item.sudo is defined and item.sudo"
+  loop: "{{ users }}"
+
+- name: "{{ ansible_os_family }} | main | enable passwordless sudo for user(s)"
+  ansible.builtin.lineinfile:
+    path: "/etc/sudoers.d/{{ item.username }}"
+    line: "{{ item.username }} ALL=(ALL:ALL) NOPASSWD:ALL"
+    state: present
+    owner: root
+    group: root
+    mode: 0440
+    create: true
+    validate: "/usr/sbin/visudo -cf %s"
+  when:
+    - "item.sudo_nopasswd is defined"
+    - "item.sudo_nopasswd"
+  loop: "{{ users }}"
+
+- name: "{{ ansible_os_family }} | main | enable sudo for group(s)"
+  ansible.builtin.lineinfile:
+    path: "/etc/sudoers.d/{{ item.name }}"
+    line: "%{{ item.name }} ALL=(ALL:ALL) ALL"
+    state: present
+    owner: root
+    group: root
+    mode: 0440
+    create: true
+    validate: "/usr/sbin/visudo -cf %s"
+  when:
+    - "item.sudo is defined"
+    - "item.sudo"
+  loop: "{{ user_groups }}"
+
+- name: "{{ ansible_os_family }} | main | enable passwordless sudo for group(s)"
+  ansible.builtin.lineinfile:
+    path: "/etc/sudoers.d/{{ item.name }}"
+    line: "%{{ item.name }} ALL=(ALL) NOPASSWD:ALL"
+    state: present
+    owner: root
+    group: root
+    mode: 0440
+    create: true
+    validate: "/usr/sbin/visudo -cf %s"
+  when:
+    - "item.sudo_nopasswd is defined"
+    - "item.sudo_nopasswd"
+  loop: "{{ user_groups }}"
