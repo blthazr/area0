@@ -1,0 +1,20 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   playbooks/bootstrap-managed-node.yml
+#   @description    :   bootstrap a node to be managed by ansible
+#   @usage          :   ansible-playbook playbooks/bootstrap-managed-node.yml -K -e "host=<hostname>"
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+- hosts: "{{ host }}"
+  become: true
+  gather_facts: false
+
+  vars:
+    bootstrap_user: "{{ ansible_user }}"
+    bootstrap_user_ssh_public_key_file: "{{ ansible_ssh_public_key_file }}"
+
+  tasks:
+    - name: bootstrap ansible managed node
+      ansible.builtin.include_role:
+        name: bootstrap
+      vars:
+        ansible_become_method: su
