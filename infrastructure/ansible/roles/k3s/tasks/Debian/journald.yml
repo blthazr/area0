@@ -1,0 +1,19 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   tasks/Debian/journald.yml
+#   @description    :   Debian journald tasks
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+- name: "{{ ansible_os_family }} | journald | copy 20system-max-use config"
+  ansible.builtin.blockinfile:
+    path: "/etc/systemd/journald.conf.d/20system-max-use"
+    mode: 0644
+    create: true
+    block: |
+      SystemMaxUse=200M;
+  notify: restart journald service
+
+- name: "{{ ansible_os_family }} | journald | start service"
+  ansible.builtin.systemd:
+    name: systemd-journald
+    enabled: true
+    state: started
