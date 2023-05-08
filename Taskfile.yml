@@ -29,3 +29,28 @@ tasks:
   default:
     silent: true
     cmds: ["task -l"]
+
+  # task init
+  init:
+    desc: Initialize workstation dependencies with Brew
+    cmds:
+      - brew install {{.DEPS}} {{.CLI_ARGS}}
+    preconditions:
+      - sh: command -v brew
+        msg: |
+          Homebrew is not installed. Using MacOS, Linux or WSL?
+          Head over to https://brew.sh to get up and running.
+    vars:
+      DEPS: >-
+        age
+        ansible
+        direnv
+        fluxcd/tap/flux
+        go-task/tap/go-task
+        helm
+        kubernetes-cli
+        kustomize
+        pre-commit
+        sops
+        weaveworks/tap/gitops
+        yamllint
