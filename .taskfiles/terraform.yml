@@ -5,7 +5,38 @@
 ---
 version: "3"
 
-vars:
-  TERRAFORM_DIR: "{{.PROJECT_DIR}}/infrastructure/terraform"
-
 tasks:
+  # task terraform:format
+  format:
+    desc: format terraform configuration files to a canonical format
+    cmds:
+      - terraform fmt -recursive
+    silent: true
+
+  # task terraform:init:all
+  init:all:
+    desc: initialize all terraform dependencies
+    cmds:
+      - task: init:cloudflare
+
+  # task terraform:init:cloudflare
+  init:cloudflare:
+    desc: initialize cloudflare terraform dependencies
+    cmds:
+      - terraform init
+
+    silent: true
+
+  # task terraform:plan:cloudflare
+  plan:cloudflare:
+    desc: generate cloudflare execution plan
+    cmds:
+      - terraform plan
+    dir: ./cloudflare
+
+  # task terraform:apply:cloudflare
+  apply:cloudflare:
+    desc: execute generated cloudflare plan
+    cmds:
+      - terraform apply
+    dir: ./cloudflare
