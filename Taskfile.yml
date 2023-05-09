@@ -16,6 +16,10 @@ includes:
   pre-commit:
     taskfile: .taskfiles/pre-commit.yml
     optional: true
+  terraform:
+    dir: "./infrastructure/terraform"
+    taskfile: .taskfiles/terraform.yml
+    optional: true
 
 vars:
   PROJECT_DIR:

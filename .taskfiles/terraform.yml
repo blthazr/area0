@@ -1,0 +1,11 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   .taskfiles/terraform.yml
+#   @description    :   terraform tasks
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+version: "3"
+
+vars:
+  TERRAFORM_DIR: "{{.PROJECT_DIR}}/infrastructure/terraform"
+
+tasks:
