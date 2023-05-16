@@ -6,7 +6,7 @@ variable "account_id" {
 variable "dns_records" {
   default     = []
   description = <<-DOC
-    A list of maps containing Cloudflare dns records
+    A list of maps containing Cloudflare dns records.
 
     [required]
       name (string):
@@ -88,7 +88,7 @@ variable "firewall_rules" {
 
 variable "jump_start" {
   default     = null
-  description = "Scan for DNS records on creation"
+  description = "Scan for DNS records on creation."
   type        = bool
 }
 
@@ -104,9 +104,10 @@ variable "page_rules" {
       [required]
         target (string):
         The URL pattern to target with the page rule.
+
       [optional]
         priority (number):
-          The priority of the page rule among others for this target
+          The priority of the page rule among others for this target.
         status:
           The page rule status. is active or disabled.
           Supported status: `active`, `disabled`.
@@ -137,7 +138,7 @@ variable "page_rules" {
 
 variable "paused" {
   default     = false
-  description = "Zone is paused (traffic bypasses Cloudflare)"
+  description = "Zone is paused (traffic bypasses Cloudflare)."
   type        = bool
 }
 
