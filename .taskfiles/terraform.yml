@@ -24,7 +24,7 @@ tasks:
     desc: initialize cloudflare terraform dependencies
     cmds:
       - terraform init
-
+    dir: ./cloudflare
     silent: true
 
   # task terraform:plan:cloudflare
@@ -33,6 +33,7 @@ tasks:
     cmds:
       - terraform plan
     dir: ./cloudflare
+    silent: true
 
   # task terraform:apply:cloudflare
   apply:cloudflare:
@@ -40,3 +41,28 @@ tasks:
     cmds:
       - terraform apply
     dir: ./cloudflare
+    silent: true
+
+  # task terraform:init:unifi
+  init:unifi:
+    desc: initialize unifi terraform dependencies
+    cmds:
+      - terraform init
+    dir: ./unifi
+    silent: true
+
+  # task terraform:plan:unifi
+  plan:unifi:
+    desc: generate unifi execution plan
+    cmds:
+      - terraform plan
+    dir: ./unifi
+    silent: true
+
+  # task terraform:apply:unifi
+  apply:unifi:
+    desc: execute generated unifi plan
+    cmds:
+      - terraform apply
+    dir: ./unifi
+    silent: true
