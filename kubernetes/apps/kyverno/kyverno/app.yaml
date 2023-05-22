@@ -5,11 +5,6 @@ metadata:
   name: cluster-apps-kyverno
   namespace: flux-system
 spec:
-  healthChecks:
-    - apiVersion: helm.toolkit.fluxcd.io/v2beta1
-      kind: HelmRelease
-      name: kyverno
-      namespace: kyverno
   interval: 15m
   path: ./kubernetes/apps/kyverno/kyverno/app
   prune: true
@@ -18,3 +13,4 @@ spec:
     kind: GitRepository
     name: area0
   timeout: 3m
+  wait: true

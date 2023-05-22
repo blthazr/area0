@@ -8,11 +8,6 @@ spec:
   dependsOn:
     - name: cluster-apps-metallb
     - name: cluster-apps-metallb-config
-  healthChecks:
-    - apiVersion: helm.toolkit.fluxcd.io/v2beta1
-      kind: HelmRelease
-      name: k8s-gateway
-      namespace: network
   interval: 15m
   path: ./kubernetes/apps/network/k8s-gateway/app
   prune: true
@@ -21,3 +16,4 @@ spec:
     kind: GitRepository
     name: area0
   timeout: 3m
+  wait: true
