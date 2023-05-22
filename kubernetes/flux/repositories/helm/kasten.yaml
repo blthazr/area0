@@ -5,6 +5,5 @@ metadata:
   name: kasten-charts
   namespace: flux-system
 spec:
-  interval: "${HELM_REPO_DEFAULT_INTERVAL}"
-  timeout: "${HELM_REPO_DEFAULT_TIMEOUT}"
+  interval: 2h
   url: https://charts.kasten.io/
