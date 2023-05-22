@@ -158,7 +158,7 @@ sites:
         ip_address: 172.16.10.100
         mac: "78:45:58:ed:0f:63"
         name: "UniFi Cloud Key [ network ]"
-        network: management
+        network: "management"
         unifi_device_fingerprint_id: 2638
       pancake:
         mac: "e0:63:da:af:4e:cd"
@@ -222,10 +222,10 @@ sites:
         name: "PC | Nikolas [ taxi ]"
         unifi_device_fingerprint_id: 2663
       video:
-        ip_address: "172.16.30.100"
+        ip_address: "172.16.50.100"
         mac: "68:d7:9a:56:f4:e0"
         name: "UniFi Protect NVR [ video ]"
-        network_id: 643733b04b3443078876c842
+        network: "smarthome"
       watch:
         mac: "2c:f0:5d:5d:e2:95"
         name: "k3s-5 [ watch ]"
@@ -296,7 +296,7 @@ sites:
           2:
             port_profile: "all"
           3:
-            port_profile_id: "643733b14b3443078876c843"
+            port_profile: "smarthome"
           4:
             port_profile: "all"
           5:
@@ -373,31 +373,31 @@ sites:
           11:
             port_profile: "all"
           12:
-            port_profile_id: "643733b14b3443078876c843"
+            port_profile: "smarthome"
           13:
-            port_profile_id: "643733b14b3443078876c843"
+            port_profile: "smarthome"
           14:
-            port_profile_id: "643733b14b3443078876c843"
+            port_profile: "smarthome"
           15:
-            port_profile_id: "643733b14b3443078876c843"
+            port_profile: "smarthome"
           16:
-            port_profile_id: "643733b14b3443078876c843"
+            port_profile: "smarthome"
           17:
-            port_profile_id: "643733b14b3443078876c843"
+            port_profile: "smarthome"
           18:
-            port_profile_id: "643733b14b3443078876c843"
+            port_profile: "smarthome"
           19:
-            port_profile_id: "643733b14b3443078876c843"
+            port_profile: "smarthome"
           20:
-            port_profile_id: "643733b14b3443078876c843"
+            port_profile: "smarthome"
           21:
-            port_profile_id: "643733b14b3443078876c843"
+            port_profile: "smarthome"
           22:
-            port_profile_id: "643733b14b3443078876c843"
+            port_profile: "smarthome"
           23:
-            port_profile_id: "643733b14b3443078876c843"
+            port_profile: "smarthome"
           24:
-            port_profile_id: "643733b14b3443078876c843"
+            port_profile: "smarthome"
           25:
             port_profile: "all"
           26:
@@ -482,6 +482,13 @@ sites:
         purpose: "corporate"
         subnet: "172.16.50.0/24"
         vlan: 50
+        wifi:
+          band: "2g"
+          fast_roaming: true
+          multicast_enhancement: true
+          pmf_mode: "optional"
+          security: "wpapsk"
+          ssid: "Area 51"
       wan:
         dhcp_lease: 0
         dhcp_v6_dns_auto: false
