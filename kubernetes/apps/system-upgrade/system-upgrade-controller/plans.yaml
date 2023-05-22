@@ -7,7 +7,7 @@ metadata:
 spec:
   dependsOn:
     - name: cluster-apps-system-upgrade-controller
-  interval: 15m
+  interval: 30m
   path: ./kubernetes/apps/system-upgrade/system-upgrade-controller/plans
   prune: true
   retryInterval: 1m

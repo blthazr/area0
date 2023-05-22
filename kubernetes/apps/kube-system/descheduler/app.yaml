@@ -5,12 +5,12 @@ metadata:
   name: cluster-apps-descheduler
   namespace: flux-system
 spec:
-  interval: 15m
+  interval: 30m
   path: ./kubernetes/apps/kube-system/descheduler/app
   prune: true
   retryInterval: 1m
   sourceRef:
     kind: GitRepository
     name: area0
-  timeout: 3m
+  timeout: 5m
   wait: true

@@ -7,12 +7,12 @@ metadata:
 spec:
   dependsOn:
     - name: cluster-apps-node-feature-discovery
-  interval: 15m
+  interval: 30m
   path: ./kubernetes/apps/kube-system/node-feature-discovery/rules
   prune: true
   retryInterval: 1m
   sourceRef:
     kind: GitRepository
     name: area0
-  timeout: 3m
+  timeout: 5m
   wait: true
