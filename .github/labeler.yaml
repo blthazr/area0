@@ -1,6 +1,6 @@
 ---
 area/ansible:
-  - "ansible/**/*"
+  - "infrastructure/ansible/**/*"
 area/github:
   - ".github/**/*"
 area/kubernetes:
@@ -8,4 +8,4 @@ area/kubernetes:
 area/hack:
   - "hack/**/*"
 area/terraform:
-  - "terraform/**/*"
+  - "infrastructure/terraform/**/*"
