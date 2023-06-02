@@ -5,17 +5,17 @@
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
       },
-    "groupName": "Rook-Ceph",
-    "matchDatasources": ["helm"],
-    "matchPackagePatterns": ["rook.ceph"],
-    "separateMinorPatch": true
+      "groupName": "Rook-Ceph",
+      "matchDatasources": ["helm"],
+      "matchPackagePatterns": ["rook.ceph"],
+      "separateMinorPatch": true
     },
     {
-      "description": "External Snapshot Controller Group",
+      "description": "External Snapshotter Group",
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
       },
-      "groupName": "External Snapshot Controller",
+      "groupName": "External Snapshotter",
       "matchDatasources": ["helm"],
       "matchPackageNames": [
         "snapshot-controller",
@@ -34,7 +34,8 @@
         "github-tags"
       ],
       "matchPackagePatterns": ["flux"],
-      "separateMinorPatch": true
+      "separateMinorPatch": true,
+      "versioning": "semver"
     }
   ]
 }

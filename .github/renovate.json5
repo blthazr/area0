@@ -7,6 +7,7 @@
     ":disableRateLimiting",
     ":enablePreCommit",
     ":semanticCommits",
+    "github>christopherburnham/area0//.github/renovate/allowedVersions.json5",
     "github>christopherburnham/area0//.github/renovate/autoMerge.json5",
     "github>christopherburnham/area0//.github/renovate/commitMessage.json5",
     "github>christopherburnham/area0//.github/renovate/groups.json5",
@@ -20,8 +21,6 @@
   "timezone": "America/Chicago",
   "dependencyDashboardTitle": "Renovate Dashboard 🤖",
   "suppressNotifications": ["prIgnoreNotification"],
-  "rebaseWhen": "conflicted",
-  "commitBodyTable": true,
   // configure flux manager
   "flux": {
     "fileMatch": ["kubernetes/.+\\.ya?ml$"]
@@ -38,7 +37,7 @@
     {
       "description": "configure regex manager for custom dependencies",
       "fileMatch": [
-        "ansible/.+\\.ya?ml$",
+        "infrastructure/ansible/.+\\.ya?ml$",
         "kubernetes/.+\\.ya?ml$"
       ],
       "matchStrings": [
@@ -46,6 +45,17 @@
       ],
       "datasourceTemplate": "{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}",
       "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
+    },
+    {
+      "description": "process imageName values",
+      "fileMatch": [
+        "kubernetes/.+\\.ya?ml$"
+      ],
+      "matchStrings": [
+        "imageName: (?<depName>\\S+):(?<currentValue>.*\\-.*)"
+      ],
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "redhat"
     }
   ]
 }
