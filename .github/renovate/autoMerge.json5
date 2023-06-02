@@ -14,7 +14,6 @@
         "bazarr",
         "gaps",
         "lidarr",
-        "mealie",
         "prowlarr",
         "radarr",
         "recyclarr",
@@ -30,6 +29,27 @@
       ]
     },
     {
+      "description": "Auto merge apps [maintenance window]",
+      "addLabels": ["action/automerge"],
+      "automerge": true,
+      "automergeType": "pr",
+      "ignoreTests": true,
+      "matchDatasources": [
+        "docker",
+        "helm"
+      ],
+      "matchPackagePatterns": [
+        "frigate",
+        "mealie"
+      ],
+      "matchUpdateTypes": [
+        "digest",
+        "minor",
+        "patch"
+      ],
+      "schedule": ["after 3am, before 6am"],
+    },
+    {
       "description": "Auto merge apps [maintenance window] [1 stability day]",
       "addLabels": ["action/automerge"],
       "automerge": true,
@@ -40,7 +60,6 @@
         "helm"
       ],
       "matchPackagePatterns": [
-        "dizquetv",
         "overseerr",
         "plex"
       ],
@@ -51,29 +70,6 @@
       ],
       "schedule": ["after 3am, before 6am"],
       "stabilityDays": 1
-    },
-    {
-      "description": "Auto merge apps [maintenance window] [2 stability days]",
-      "addLabels": ["action/automerge"],
-      "automerge": true,
-      "automergeType": "pr",
-      "ignoreTests": true,
-      "matchDatasources": [
-        "docker",
-        "helm"
-      ],
-      "matchPackagePatterns": [
-        "grafana",
-        "kube-prometheus-stack",
-        "thanos",
-        "unifi-poller"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-      "schedule": ["after 3am, before 6am"],
-      "stabilityDays": 2
     },
     {
       "description": "Auto merge GitHub Actions",
