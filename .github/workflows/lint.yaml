@@ -53,4 +53,4 @@ jobs:
           KUBERNETES_KUBECONFORM_FILTER_REGEX_INCLUDE: "(cluster)"
           PRINT_ALPACA: false
           VALIDATE_ALL_CODEBASE: ${{ github.event_name == 'workflow_dispatch' }}
-        uses: oxsecurity/megalinter@93700f8c21c59ea784a32abe23896e49e54463b8 # v6.22.2
+        uses: oxsecurity/megalinter@a7b1a3af0f3bd4de4db855969d27e224005665a6 # v7.1.0
