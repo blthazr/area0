@@ -14,5 +14,5 @@ spec:
   sourceRef:
     kind: GitRepository
     name: area0
-  timeout: 5m
-  wait: true
+  timeout: 15m
+  wait: false # no flux ks dependents
