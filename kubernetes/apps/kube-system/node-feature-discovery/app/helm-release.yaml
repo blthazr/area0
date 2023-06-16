@@ -13,19 +13,39 @@ spec:
         name: node-feature-discovery-charts
         namespace: flux-system
   install:
-    createNamespace: true
     crds: CreateReplace
+    createNamespace: true
     remediation:
       retries: 3
-  interval: 15m
+  interval: 30m
   maxHistory: 2
   upgrade:
-    cleanupOnFail: true
     crds: CreateReplace
+    cleanupOnFail: true
     remediation:
       retries: 3
   uninstall:
     keepHistory: false
-  valuesFrom:
-    - kind: ConfigMap
-      name: node-feature-discovery-helm-values
+  values:
+    worker:
+      config:
+        core:
+          sources:
+            - custom
+            - pci
+            - usb
+        sources:
+          usb:
+            deviceClassWhitelist:
+              - "02"
+              - "03"
+              - "0e"
+              - "ef"
+              - "fe"
+              - "ff"
+            deviceLabelFields:
+              - class
+              - vendor
+              - device
+      nodeSelector:
+        node-role.kubernetes.io/worker: "true"
