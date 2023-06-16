@@ -16,7 +16,7 @@ spec:
     createNamespace: true
     remediation:
       retries: 3
-  interval: 15m
+  interval: 30m
   maxHistory: 2
   upgrade:
     cleanupOnFail: true
@@ -24,6 +24,13 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
-  valuesFrom:
-    - kind: ConfigMap
-      name: cert-manager-helm-values
+  values:
+    extraArgs:
+      - --dns01-recursive-nameservers=1.1.1.1:53,9.9.9.9:53
+      - --dns01-recursive-nameservers-only
+    installCRDs: true
+    podDnsConfig:
+      nameservers:
+        - 1.1.1.1
+        - 9.9.9.9
+    podDnsPolicy: None
