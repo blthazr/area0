@@ -16,14 +16,22 @@ spec:
     createNamespace: true
     remediation:
       retries: 3
-  interval: 15m
+  interval: 30m
   maxHistory: 2
+  timeout: 15m
   upgrade:
     cleanupOnFail: true
     remediation:
       retries: 3
   uninstall:
     keepHistory: false
-  valuesFrom:
-    - kind: ConfigMap
-      name: rook-ceph-operator-helm-values
+  values:
+    crds:
+      enabled: true
+    pspEnable: false
+    resources:
+      limits:
+        memory: 256Mi
+      requests:
+        cpu: 10m
+        memory: 128Mi
