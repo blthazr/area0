@@ -6,7 +6,6 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: cluster-apps-metallb
     - name: cluster-apps-metallb-config
   interval: 30m
   path: ./kubernetes/apps/network/k8s-gateway/app
@@ -16,4 +15,4 @@ spec:
     kind: GitRepository
     name: area0
   timeout: 5m
-  wait: true
+  wait: false # no flux ks dependents
