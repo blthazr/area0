@@ -6,7 +6,6 @@ metadata:
   namespace: flux-system
 data:
   # site
-  CLUSTER_NAME: area0
   CLUSTER_TIME_ZONE: America/Chicago
 
   # metallb
@@ -14,11 +13,19 @@ data:
 
   # service addresses
   SVC_NGINX_ADDRESS: 10.0.100.100
+
+  # site addresses
+  MINIO_ADDRESS: 172.16.70.100
+
+  # legacy | site
+  CLUSTER_NAME: area0
+
+  # legacy | service addresses
   SVC_K8S_GATEWAY_ADDRESS: 10.0.100.101
   SVC_PLEX_ADDRESS: 10.0.100.103
   SVC_FRIGATE_ADDRESS: 10.0.100.121
 
-  # site addresses
+  # legacy | site addresses
   MEDIA_SERVER_ADDRESS: 10.0.101.15
   UNIFI_NETWORK_ADDRESS: 172.16.10.100
   HOME_ASSISTANT_ADDRESS: 172.16.30.20
@@ -26,6 +33,6 @@ data:
   UNIFI_PROTECT_ADDRESS: 172.16.50.100
   NAS_ADDRESS: 172.16.70.100
 
-  # nfs
+  # legacy | nfs
   MEDIA_SERVER_NFS_PATH: "/data/media"
   NAS_NFS_PATH: "/volume1/data"
