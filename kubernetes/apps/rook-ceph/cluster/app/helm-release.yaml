@@ -164,8 +164,5 @@ spec:
         tls:
           - hosts:
               - *host
-    monitoring:
-      createPrometheusRules: true
-      enabled: true
     toolbox:
       enabled: true
