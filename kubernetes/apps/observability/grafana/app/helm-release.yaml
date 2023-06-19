@@ -136,11 +136,15 @@ spec:
       dashboards:
         enabled: true
         folderAnnotation: grafana_folder
+        labelValue: ""
+        label: grafana_dashboard
         provider:
+          disableDelete: true
           foldersFromFilesStructure: true
         searchNamespace: ALL
       datasources:
         enabled: true
+        labelValue: ""
         searchNamespace: ALL
     testFramework:
       enabled: false
