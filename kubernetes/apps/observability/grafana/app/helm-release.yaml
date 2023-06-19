@@ -62,7 +62,7 @@ spec:
       GF_DATE_FORMATS_USE_BROWSER_LOCALE: true
       GF_EXPLORE_ENABLED: true
       GF_SECURITY_COOKIE_SAMESITE: grafana
-      GF_SERVER_ROOT_URL: "{{ .Release.Name }}.${SECRET_DOMAIN}"
+      GF_SERVER_ROOT_URL: "https://grafana.${SECRET_DOMAIN}"
     grafana.ini:
       analytics:
         check_for_updates: false
@@ -125,6 +125,8 @@ spec:
       datasources:
         enabled: true
         searchNamespace: ALL
+    testFramework:
+      enabled: false
     topologySpreadConstraints:
       - maxSkew: 1
         topologyKey: kubernetes.io/hostname
