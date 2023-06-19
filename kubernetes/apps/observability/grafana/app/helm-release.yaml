@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: *app
-      version: 6.57.2
+      version: 6.57.3
       sourceRef:
         kind: HelmRepository
         name: grafana-charts
