@@ -5,6 +5,5 @@ resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
   # Flux-Kustomizations
-  - ./grafana/app.yaml
   - ./kube-prometheus-stack/app.yaml
   - ./thanos/app.yaml
