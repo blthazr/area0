@@ -6,7 +6,6 @@ resources:
   - ./bjw-s.yaml
   - ./descheduler.yaml # legacy
   - ./external-dns.yaml
-  - ./grafana-operator.yaml
   - ./hajimari.yaml
   - ./ingress-nginx.yaml
   - ./intel.yaml
