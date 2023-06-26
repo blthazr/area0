@@ -8,5 +8,6 @@ resources:
   - ./grafana/operator.yaml
   - ./grafana/instance.yaml
   - ./grafana/datasource.yaml
+  - ./grafana/dashboard.yaml
   - ./kube-prometheus-stack/app.yaml
   - ./thanos/app.yaml
