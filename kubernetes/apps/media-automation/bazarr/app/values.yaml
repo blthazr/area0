@@ -68,7 +68,7 @@ sidecars:
       - --depth=1
       - --wait=21600 # 6 hours
       - --root=/add-ons/subcleaner
-    image: registry.k8s.io/git-sync/git-sync:v3.6.6
+    image: registry.k8s.io/git-sync/git-sync:v3.6.8
     imagePullPolicy: IfNotPresent
     volumeMounts:
       - { name: add-ons, mountPath: /add-ons }
