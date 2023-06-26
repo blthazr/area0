@@ -6,5 +6,6 @@ resources:
   - ./namespace.yaml
   # Flux-Kustomizations
   - ./grafana/operator.yaml
+  - ./grafana/instance.yaml
   - ./kube-prometheus-stack/app.yaml
   - ./thanos/app.yaml
