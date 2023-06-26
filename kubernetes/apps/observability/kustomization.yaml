@@ -11,3 +11,4 @@ resources:
   - ./grafana/dashboard.yaml
   - ./kube-prometheus-stack/app.yaml
   - ./thanos/app.yaml
+  - ./unpoller/app.yaml
