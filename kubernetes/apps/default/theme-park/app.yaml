@@ -6,11 +6,11 @@ metadata:
   namespace: flux-system
 spec:
   interval: 30m
-  path: ./kubernetes/apps/home/theme-park/app
+  path: ./kubernetes/apps/default/theme-park/app
   prune: true
   retryInterval: 1m
   sourceRef:
     kind: GitRepository
     name: area0
   timeout: 5m
-  wait: true
+  wait: false # no flux ks dependents
