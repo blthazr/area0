@@ -28,7 +28,7 @@ spec:
     additionalContainers:
       api:
         name: mealie-api
-        image: docker.io/hkotel/mealie:api-nightly@sha256:1a94a01602a9fb5b0a3b18f95957bce92ec4fd5626a94e726937f274e3388b74
+        image: docker.io/hkotel/mealie:api-nightly@sha256:2d25c51a9b864b8307c5140630cd60eeb526408f7eb11d4a4db5bf72d46fd608
         imagePullPolicy: IfNotPresent
         env:
           - name: ALLOW_SIGNUP
