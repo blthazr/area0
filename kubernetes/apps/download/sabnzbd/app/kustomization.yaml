@@ -17,3 +17,4 @@ resources:
   - ./secret.sops.yaml
   - ./persistent-volume-claim.yaml
   - ./helm-release.yaml
+  - ./volsync.yaml
