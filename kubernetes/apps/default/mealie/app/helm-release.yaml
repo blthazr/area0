@@ -51,7 +51,7 @@ spec:
             mountPath: /config/Backups
     image:
       repository: docker.io/hkotel/mealie
-      tag: frontend-nightly@sha256:9f0cb2dd56e2fcc2f00611abcd2598fe30b7a9d97705e738af84946a48b20593
+      tag: frontend-nightly@sha256:02038edcd246da7300ae088c0a7a505f450a96707d7f201f5224b07185123b5f
     ingress:
       main:
         annotations:
