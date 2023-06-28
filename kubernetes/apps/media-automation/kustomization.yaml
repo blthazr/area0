@@ -4,7 +4,6 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./bazarr/app.yaml
-  - ./gaps/app.yaml
   - ./lidarr/app.yaml
   - ./overseerr/app.yaml
   - ./prowlarr/app.yaml
