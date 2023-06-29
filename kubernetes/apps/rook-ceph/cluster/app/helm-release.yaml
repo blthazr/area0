@@ -47,11 +47,6 @@ spec:
             csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
             csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
           reclaimPolicy: Delete
-    cephBlockPoolsVolumeSnapshotClass:
-      annotations:
-        k10.kasten.io/is-snapshot-class: "true"
-      enabled: true
-      name: csi-rbdplugin-snapclass
     cephClusterSpec:
       crashCollector:
         disable: false
@@ -60,11 +55,11 @@ spec:
         ssl: false
         urlPrefix: /
       network:
-        provider: host
         connections:
           compression:
             # TODO: Test out enabling this on next cluster rebuild
             enabled: false
+        provider: host
       storage:
         config:
           osdsPerDevice: "1"
@@ -109,10 +104,10 @@ spec:
             csi.storage.k8s.io/controller-expand-secret-name: rook-csi-cephfs-provisioner
             csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
             csi.storage.k8s.io/fstype: ext4
-            csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
-            csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
             csi.storage.k8s.io/node-stage-secret-name: rook-csi-cephfs-node
             csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
+            csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
+            csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
           pool: data0
           reclaimPolicy: Delete
     cephObjectStores:
