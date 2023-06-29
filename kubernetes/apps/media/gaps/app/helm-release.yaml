@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: &app gaps
+  name: &app __APP_NAME
 spec:
   chart:
     spec:
@@ -12,6 +12,9 @@ spec:
         kind: HelmRepository
         name: bjw-s-charts
         namespace: flux-system
+  dependsOn:
+    - name: plex
+      namespace: media
   install:
     createNamespace: true
     remediation:
@@ -46,8 +49,6 @@ spec:
         tls:
           - hosts:
               - *host
-    nodeSelector:
-      node-role.kubernetes.io/media: "true"
     persistence:
       data:
         enabled: true

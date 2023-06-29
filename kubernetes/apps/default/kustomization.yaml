@@ -5,7 +5,6 @@ resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
   # Flux-Kustomizations
-  - ./gaps/app.yaml
   - ./hajimari/app.yaml
   - ./mealie/app.yaml
   - ./theme-park/app.yaml

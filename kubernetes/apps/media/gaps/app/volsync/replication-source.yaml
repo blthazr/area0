@@ -1,0 +1,18 @@
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: gaps
+spec:
+  restic:
+    copyMethod: Snapshot
+    pruneIntervalDays: 10
+    repository: gaps-restic-secret
+    retain:
+      daily: 10
+      within: 3d
+    storageClassName: ceph-block
+    volumeSnapshotClassName: csi-ceph-blockpool
+  sourcePVC: gaps-data-v1
+  trigger:
+    schedule: 0 8 * * *
