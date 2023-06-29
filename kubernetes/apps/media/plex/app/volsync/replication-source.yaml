@@ -1,15 +1,4 @@
 ---
-apiVersion: v1
-kind: Secret
-metadata:
-  name: plex-restic-secret
-stringData:
-  AWS_ACCESS_KEY_ID: "${SECRET_MINIO_ACCESS_KEY}"
-  AWS_SECRET_ACCESS_KEY: "${SECRET_MINIO_SECRET_KEY}"
-  RESTIC_PASSWORD: "${SECRET_RESTIC_PASSWORD_S3}"
-  RESTIC_REPOSITORY: "${SECRET_RESTIC_REPOSITORY_S3}/plex"
-type: Opaque
----
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
