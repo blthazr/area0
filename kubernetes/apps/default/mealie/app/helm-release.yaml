@@ -25,33 +25,11 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    additionalContainers:
-      api:
-        name: mealie-api
-        image: docker.io/hkotel/mealie:api-nightly@sha256:2d25c51a9b864b8307c5140630cd60eeb526408f7eb11d4a4db5bf72d46fd608
-        imagePullPolicy: IfNotPresent
-        env:
-          - name: ALLOW_SIGNUP
-            value: "false"
-          - name: API_PORT
-            value: "9000"
-          - name: BASE_URL
-            value: "https://recipes.${SECRET_DOMAIN}"
-          - name: DEFAULT_EMAIL
-            value: "admin@${SECRET_DOMAIN}"
-          - name: TZ
-            value: "${CLUSTER_TIME_ZONE}"
-        ports:
-          - name: api
-            containerPort: 9000
-        volumeMounts:
-          - name: api-data
-            mountPath: /app/data/
-          - name: backup
-            mountPath: /config/Backups
+    env:
+      TZ: "${CLUSTER_TIME_ZONE}"
     image:
       repository: docker.io/hkotel/mealie
-      tag: frontend-nightly@sha256:02038edcd246da7300ae088c0a7a505f450a96707d7f201f5224b07185123b5f
+      tag: frontend-v1.0.0beta-5
     ingress:
       main:
         annotations:
@@ -75,7 +53,7 @@ spec:
         existingClaim: mealie-config-v2
       backup:
         enabled: true
-        mountPath: /config/Backups
+        mountPath: /api-data/backups
         path: "${NAS_NFS_PATH}/backup/app/mealie"
         server: "${NAS_ADDRESS}"
         type: nfs
@@ -87,3 +65,31 @@ spec:
             port: 9000
           http:
             port: 3000
+    sidecars:
+      api:
+        env:
+          - name: ALLOW_SIGNUP
+            value: "false"
+          - name: API_PORT
+            value: "9000"
+          - name: AUTO_BACKUP_ENABLED
+            value: "true"
+          - name: BASE_URL
+            value: "https://recipes.${SECRET_DOMAIN}"
+          - name: DEFAULT_EMAIL
+            value: "admin@${SECRET_DOMAIN}"
+          - name: TOKEN_TIME
+            value: 720
+          - name: TZ
+            value: "${CLUSTER_TIME_ZONE}"
+        name: mealie-api
+        image: docker.io/hkotel/mealie:api-v1.0.0beta-5
+        imagePullPolicy: IfNotPresent
+        ports:
+          - name: api
+            containerPort: 9000
+        volumeMounts:
+          - name: api-data
+            mountPath: /app/data/
+          - name: backup
+            mountPath: /app/data/backups

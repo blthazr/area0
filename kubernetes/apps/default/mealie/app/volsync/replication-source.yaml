@@ -1,0 +1,22 @@
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: mealie
+spec:
+  restic:
+    copyMethod: Snapshot
+    moverSecurityContext:
+      fsGroup: 911
+      runAsGroup: 911
+      runAsUser: 911
+    pruneIntervalDays: 10
+    repository: mealie-restic-secret
+    retain:
+      daily: 10
+      within: 3d
+    storageClassName: ceph-block
+    volumeSnapshotClassName: csi-ceph-blockpool
+  sourcePVC: mealie-config-v2
+  trigger:
+    schedule: 0 8 * * *

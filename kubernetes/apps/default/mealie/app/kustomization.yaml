@@ -5,3 +5,4 @@ namespace: default
 resources:
   - ./persistent-volume-claim.yaml
   - ./helm-release.yaml
+  - ./volsync
