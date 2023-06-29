@@ -29,7 +29,7 @@ spec:
       TZ: "${CLUSTER_TIME_ZONE}"
     image:
       repository: docker.io/hkotel/mealie
-      tag: frontend-v1.0.0beta-5
+      tag: frontend-nightly@sha256:02038edcd246da7300ae088c0a7a505f450a96707d7f201f5224b07185123b5f
     ingress:
       main:
         annotations:
@@ -83,7 +83,7 @@ spec:
           - name: TZ
             value: "${CLUSTER_TIME_ZONE}"
         name: mealie-api
-        image: docker.io/hkotel/mealie:api-v1.0.0beta-5
+        image: docker.io/hkotel/mealie:api-nightly@sha256:2d25c51a9b864b8307c5140630cd60eeb526408f7eb11d4a4db5bf72d46fd608
         imagePullPolicy: IfNotPresent
         ports:
           - name: api
