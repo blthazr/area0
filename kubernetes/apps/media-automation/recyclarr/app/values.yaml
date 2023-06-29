@@ -7,6 +7,8 @@ controller:
     schedule: "@daily"
     ttlSecondsAfterFinished: 86400
   type: cronjob
+env:
+  TZ: "${CLUSTER_TIME_ZONE}"
 envFrom:
   - secretRef:
       name: radarr

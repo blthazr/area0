@@ -4,6 +4,7 @@ env:
   LIBVA_DRIVER_NAME: i965
   # FRIGATE_MQTT_HOST: "${MQTT_ADDRESS}"
   FRIGATE_UNIFI_PROTECT_ADDRESS: "${UNIFI_PROTECT_ADDRESS}"
+  TZ: "${CLUSTER_TIME_ZONE}"
 envFrom:
   - secretRef:
       name: frigate-secrets
