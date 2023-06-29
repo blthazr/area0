@@ -19,6 +19,14 @@ sops --decrypt kubernetes/flux/vars/cluster-secrets.sops.yaml | kubectl apply -f
 kubectl apply -f kubernetes/flux/vars/cluster-settings.yaml
 ```
 
+### Apply CRD's
+
+This avoids the dependency loop with many helmreleases requiring Prometheus CRD's. When Prometheus reconciles, it will take these over.
+
+```sh
+kubectl apply  -k ./bootstrap/crds/
+```
+
 ### Apply the Flux resources to finish bootstrapping the cluster
 
 ```sh
