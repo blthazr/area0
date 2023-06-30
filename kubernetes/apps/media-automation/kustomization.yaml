@@ -2,12 +2,4 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ./namespace.yaml
-  - ./bazarr/app.yaml
-  - ./lidarr/app.yaml
-  - ./overseerr/app.yaml
-  - ./prowlarr/app.yaml
-  - ./radarr/app.yaml
-  # - ./recyclarr/app.yaml
-  - ./sonarr/app.yaml
-  - ./tautulli/app.yaml
+  - ./media-automation-pvc
