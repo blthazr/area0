@@ -5,6 +5,7 @@ resources:
   - ./namespace.yaml
   - ./bazarr/app.yaml
   - ./gaps/app.yaml
+  - ./overseerr/app.yaml
   - ./plex/app.yaml
   - ./prowlarr/app.yaml
   - ./radarr/app.yaml
