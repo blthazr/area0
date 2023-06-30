@@ -1,0 +1,19 @@
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: frigate
+spec:
+  cacheCapacity: 2Gi
+  restic:
+    copyMethod: Snapshot
+    pruneIntervalDays: 10
+    repository: frigate-restic-secret
+    retain:
+      daily: 10
+      within: 3d
+    storageClassName: ceph-block
+    volumeSnapshotClassName: csi-ceph-blockpool
+  sourcePVC: frigate-config-v1
+  trigger:
+    schedule: 0 8 * * *

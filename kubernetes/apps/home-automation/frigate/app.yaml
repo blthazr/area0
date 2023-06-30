@@ -6,8 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: cluster-apps-intel-device-plugin-gpu
-    - name: cluster-apps-rook-ceph-cluster
+    - name: cluster-apps-node-feature-rules
   interval: 30m
   path: ./kubernetes/apps/home-automation/frigate/app
   prune: true
@@ -16,4 +15,4 @@ spec:
     kind: GitRepository
     name: area0
   timeout: 5m
-  wait: true
+  wait: false # no flux ks dependents

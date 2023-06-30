@@ -7,16 +7,23 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.4.0
+      version: 1.5.1
       sourceRef:
         kind: HelmRepository
         name: bjw-s-charts
         namespace: flux-system
+  dependsOn:
+    - name: intel-device-plugin-gpu
+      namespace: kube-system
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
+    - name: volsync
+      namespace: volsync
   install:
     createNamespace: true
     remediation:
       retries: 3
-  interval: 15m
+  interval: 30m
   maxHistory: 2
   upgrade:
     cleanupOnFail: true
@@ -24,6 +31,93 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
-  valuesFrom:
-    - kind: ConfigMap
-      name: frigate-helm-values
+  values:
+    env:
+      LIBVA_DRIVER_NAME: i965
+      FRIGATE_UNIFI_PROTECT_ADDRESS: "${UNIFI_PROTECT_ADDRESS}"
+      TZ: "${CLUSTER_TIME_ZONE}"
+    envFrom:
+      - secretRef:
+          name: frigate-secrets
+    image:
+      repository: ghcr.io/blakeblackshear/frigate
+      tag: 0.12.1
+    ingress:
+      main:
+        annotations:
+          hajimari.io/group: Home-Automation
+          hajimari.io/icon: mdi:camera-enhance
+        enabled: true
+        hosts:
+          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        ingressClassName: nginx
+        tls:
+          - hosts:
+              - *host
+    nodeSelector:
+      google.feature.node.kubernetes.io/coral: "true"
+      intel.feature.node.kubernetes.io/gpu: "true"
+      node-role.kubernetes.io/worker: "true"
+    persistence:
+      cache:
+        enabled: true
+        medium: Memory
+        mountPath: /dev/shm
+        sizeLimit: 4Gi
+        type: emptyDir
+      config-file:
+        enabled: true
+        mountPath: /config/config.yml
+        name: frigate-config
+        readOnly: true
+        subPath: frigate-config.yaml
+        type: configMap
+      data:
+        enabled: true
+        existingClaim: frigate-data-v1
+      media:
+        enabled: true
+        mountPath: /media
+        path: "${NAS_NFS_PATH}/apps/frigate"
+        server: "${NAS_ADDRESS}"
+        type: nfs
+      usb:
+        enabled: true
+        hostPath: /dev/bus/usb
+        hostPathType: Directory
+        mountPath: /dev/bus/usb
+        type: hostPath
+    podAnnotations:
+      configmap.reloader.stakater.com/reload: frigate-config
+      secret.reloader.stakater.com/reload: frigate-secrets
+    probes:
+      liveness: &probes
+        custom: true
+        enabled: true
+        spec:
+          failureThreshold: 3
+          httpGet:
+            path: /api/version
+            port: &port 5000
+          initialDelaySeconds: 0
+          periodSeconds: 10
+          timeoutSeconds: 1
+      readiness: *probes
+      startup:
+        enabled: false
+    securityContext:
+      privileged: true
+    service:
+      main:
+        externalTrafficPolicy: Local
+        loadBalancerIP: "${SVC_FRIGATE_ADDRESS}"
+        ports:
+          http:
+            port: *port
+          rtsp:
+            enabled: true
+            port: 8554
+        type: LoadBalancer
