@@ -6,5 +6,6 @@ resources:
   - ./namespace.yaml
   # Flux-Kustomizations
   - ./addons/notifications.yaml
+  - ./addons/observability.yaml
   - ./addons/webhooks.yaml
-  # - ./weave-gitops/app.yaml
+  - ./weave-gitops/app.yaml
