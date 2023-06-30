@@ -60,7 +60,7 @@ spec:
         type: emptyDir
       backup:
         enabled: true
-        mountPath: /config/Backups
+        mountPath: /config/backup
         path: "${NAS_NFS_PATH}/backup/app/bazarr"
         server: "${NAS_ADDRESS}"
         type: nfs
