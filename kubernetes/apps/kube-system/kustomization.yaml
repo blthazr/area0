@@ -8,6 +8,7 @@ resources:
   - ./kube-vip/app.yaml
   - ./local-path-provisioner/app.yaml
   - ./metrics-server/app.yaml
+  - ./node-feature-discovery/app.yaml
   - ./reloader/app.yaml
   - ./snapshot-controller/app.yaml
   - ./snapshot-controller/validation.yaml
