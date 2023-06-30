@@ -5,5 +5,4 @@ namespace: kyverno
 resources:
   - ./ingress-external-dns-annotations.yaml
   - ./ingress-whitelist-annotations.yaml
-  - ./inject-tz.yaml
   - ./remove-cpu-limits.yaml
