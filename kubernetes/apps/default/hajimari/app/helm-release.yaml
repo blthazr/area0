@@ -32,8 +32,9 @@ spec:
       namespaceSelector:
         matchNames:
           - default
+          - download
           - flux-system
-          - network
+          - media
           - observability
           - rook-ceph
       title: Apps
