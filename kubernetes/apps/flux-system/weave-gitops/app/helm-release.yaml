@@ -56,3 +56,8 @@ spec:
           verbs: ["get", "list", "patch"]
       create: true
       impersonationResourceNames: ["admin"]
+  valuesFrom:
+    - kind: Secret
+      name: weave-gitops-secret
+      targetPath: adminUser.passwordHash
+      valuesKey: adminPassword
