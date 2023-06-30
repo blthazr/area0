@@ -6,5 +6,6 @@ resources:
   - ./bazarr/app.yaml
   - ./gaps/app.yaml
   - ./plex/app.yaml
+  - ./prowlarr/app.yaml
   - ./radarr/app.yaml
   - ./sonarr/app.yaml
