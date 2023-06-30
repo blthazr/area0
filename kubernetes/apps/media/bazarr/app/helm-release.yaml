@@ -1,0 +1,110 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: &app bazarr
+spec:
+  chart:
+    spec:
+      chart: app-template
+      version: 1.5.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  dependsOn:
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
+    - name: volsync
+      namespace: volsync
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  interval: 30m
+  maxHistory: 2
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    env:
+      BAZARR__PORT: &port 6767
+      TZ: "${CLUSTER_TIME_ZONE}"
+    image:
+      repository: ghcr.io/onedr0p/bazarr
+      tag: 1.2.2@sha256:9656191a1347e44de7fc883912bb00d6a8d5c190dbd0dd77d5ba1ba075095b65
+    ingress:
+      main:
+        annotations:
+          hajimari.io/group: Media
+          hajimari.io/icon: mdi:subtitles-outline
+        enabled: true
+        hosts:
+          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        ingressClassName: nginx
+        tls:
+          - hosts:
+              - *host
+    nodeSelector:
+      node-role.kubernetes.io/media: "true"
+    persistence:
+      add-ons:
+        enabled: true
+        mountPath: /add-ons
+        type: emptyDir
+      backup:
+        enabled: true
+        mountPath: /config/Backups
+        path: "${NAS_NFS_PATH}/backup/app/bazarr"
+        server: "${NAS_ADDRESS}"
+        type: nfs
+      config:
+        enabled: true
+        existingClaim: bazarr-config-v1
+      media:
+        enabled: true
+        mountPath: /media
+        path: "${MEDIA_SERVER_NFS_PATH}"
+        server: "${MEDIA_SERVER_ADDRESS}"
+        type: nfs
+      scripts:
+        defaultMode: 0775
+        enabled: true
+        name: bazarr-scripts # overriden by kustomizeconfig
+        readOnly: true
+        type: configMap
+    podSecurityContext:
+      fsGroup: 568
+      fsGroupChangePolicy: "OnRootMismatch"
+      runAsGroup: 568
+      runAsUser: 568
+      supplementalGroups:
+        - 100
+    resources:
+      limits:
+        memory: 2000Mi
+      requests:
+        cpu: 10m
+        memory: 250Mi
+    service:
+      main:
+        ports:
+          http:
+            port: *port
+    sidecars:
+      subcleaner:
+        args:
+          - --repo=https://github.com/KBlixt/subcleaner
+          - --branch=master
+          - --wait=86400 # 1 day
+          - --root=/add-ons
+        image: registry.k8s.io/git-sync/git-sync:v3.6.8
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+          - { name: add-ons, mountPath: /add-ons }
