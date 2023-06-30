@@ -6,7 +6,7 @@ metadata:
 spec:
   chart:
     spec:
-      chart: intel-device-plugins-operator
+      chart: *app
       version: 0.27.1
       sourceRef:
         kind: HelmRepository
@@ -16,8 +16,8 @@ spec:
     crds: CreateReplace
     remediation:
       retries: 3
-  interval: 15m
-  maxHistory: 3
+  interval: 30m
+  maxHistory: 2
   upgrade:
     cleanupOnFail: true
     crds: CreateReplace
@@ -25,6 +25,3 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
-  valuesFrom:
-    - kind: ConfigMap
-      name: intel-device-plugin-operator-helm-values

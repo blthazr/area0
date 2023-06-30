@@ -6,7 +6,7 @@ metadata:
 spec:
   chart:
     spec:
-      chart: intel-device-plugins-gpu
+      chart: *app
       version: 0.27.1
       sourceRef:
         kind: HelmRepository
@@ -15,7 +15,7 @@ spec:
   install:
     remediation:
       retries: 3
-  interval: 15m
+  interval: 30m
   maxHistory: 2
   upgrade:
     cleanupOnFail: true
@@ -23,6 +23,7 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
-  valuesFrom:
-    - kind: ConfigMap
-      name: intel-device-plugin-gpu-helm-values
+  values:
+    name: intel-gpu-plugin
+    nodeFeatureRule: true
+    sharedDevNum: 3
