@@ -5,9 +5,6 @@ resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
   # Flux-Kustomizations
-  - ./intel-device-plugin/exporter.yaml
-  - ./intel-device-plugin/gpu.yaml
-  - ./intel-device-plugin/operator.yaml
   - ./kube-vip/app.yaml
   - ./local-path-provisioner/app.yaml
   - ./metrics-server/app.yaml
