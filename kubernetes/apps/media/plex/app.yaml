@@ -5,6 +5,8 @@ metadata:
   name: cluster-apps-plex
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: cluster-apps-node-feature-rules
   interval: 30m
   path: ./kubernetes/apps/media/plex/app
   prune: true
