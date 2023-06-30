@@ -4,8 +4,8 @@ kind: ReplicationSource
 metadata:
   name: frigate
 spec:
-  cacheCapacity: 2Gi
   restic:
+    cacheCapacity: 2Gi
     copyMethod: Snapshot
     pruneIntervalDays: 10
     repository: frigate-restic-secret
