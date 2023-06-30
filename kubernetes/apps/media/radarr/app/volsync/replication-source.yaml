@@ -5,6 +5,7 @@ metadata:
   name: radarr
 spec:
   restic:
+    cacheCapacity: 2Gi
     copyMethod: Snapshot
     moverSecurityContext:
       fsGroup: 568
