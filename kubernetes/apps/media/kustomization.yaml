@@ -11,3 +11,4 @@ resources:
   - ./prowlarr/app.yaml
   - ./radarr/app.yaml
   - ./sonarr/app.yaml
+  - ./tautulli/app.yaml
