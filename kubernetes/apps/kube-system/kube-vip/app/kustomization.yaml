@@ -6,5 +6,5 @@ labels:
   - pairs:
       kustomize.toolkit.fluxcd.io/prune: disabled
 resources:
-  - ./rbac.yaml
   - ./daemon-set.yaml
+  - ./rbac.yaml
