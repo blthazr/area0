@@ -35,15 +35,16 @@ jobs:
         uses: Homebrew/actions/setup-homebrew@master
 
       - name: Setup Tools
-        run: |
-          brew install fluxcd/tap/flux kubeconform kustomize
+        run: brew install fluxcd/tap/flux kubeconform kustomize
+        shell: bash
 
       - name: Download CRDs
         run: |
           mkdir -p ${{ env.SCHEMA_DIR }}
           flux pull artifact oci://ghcr.io/onedr0p/manifests/kubernetes-schemas:latest \
               --output=${{ env.SCHEMA_DIR }}
+        shell: bash
 
       - name: Run kubeconform
-        run: |
-          bash ./.github/scripts/kubeconform.sh ${{ env.KUBERNETES_DIR }} ${{ env.SCHEMA_DIR }}
+        run: bash ./.github/scripts/kubeconform.sh ${{ env.KUBERNETES_DIR }} ${{ env.SCHEMA_DIR }}
+        shell: bash
