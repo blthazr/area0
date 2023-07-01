@@ -9,6 +9,8 @@ on:
 jobs:
   flux-diff:
     name: Flux Diff
+    permissions:
+      pull-requests: write
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -34,7 +36,7 @@ jobs:
         uses: mshick/add-pr-comment@7c0890544fb33b0bdd2e59467fbacb62e028a096 # v2
         with:
           message-failure: Diff was not successful
-          message-id: ${{ matrix.path }}/${{ matrix.resource }}
+          message-id: "${{ github.event.pull_request.number }}/${{ matrix.path }}/${{ matrix.resource }}"
           message: |
             ```diff
             ${{ steps.diff.outputs.diff }}
