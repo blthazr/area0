@@ -11,3 +11,4 @@ patches:
 resources:
   - ./network
   - ./storage
+  - ./system
