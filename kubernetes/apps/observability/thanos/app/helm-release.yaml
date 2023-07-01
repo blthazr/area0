@@ -50,6 +50,10 @@ spec:
       registry: quay.io
       repository: thanos/thanos
       tag: v0.31.0
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
     objstoreConfig:
       config:
         bucket: thanos
@@ -71,15 +75,15 @@ spec:
         annotations:
           hajimari.io/enable: "false"
         enabled: true
-        ingressClassName: nginx
         hostname: &host "thanos-query-frontend.${SECRET_DOMAIN}"
+        ingressClassName: nginx
         tls: true
         extraTls:
           - hosts:
               - *host
-      replicaCount: 3
+      replicaCount: 1 # 3
     ruler:
-      alertmanagers: ["http://kube-prometheus-stack-alertmanager.monitoring.svc.cluster.local:9093"]
+      alertmanagers: ["http://kube-prometheus-stack-alertmanager.observability.svc.cluster.local:9093"]
       config: |-
         groups:
           - name: PrometheusWatcher
