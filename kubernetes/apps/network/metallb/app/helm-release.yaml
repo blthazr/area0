@@ -25,5 +25,10 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    crds:
-      enabled: true
+    prometheus:
+      namespace: observability
+      prometheusRule:
+        enabled: true
+      serviceAccount: kube-prometheus-stack-prometheus
+      serviceMonitor:
+        enabled: true
