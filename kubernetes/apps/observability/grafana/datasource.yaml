@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: cluster-apps-grafana-operator
+    - name: cluster-apps-grafana-instance
   interval: 30m
   path: ./kubernetes/apps/observability/grafana/datasource
   prune: true
