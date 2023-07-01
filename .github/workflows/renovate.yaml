@@ -14,12 +14,12 @@ on: # yamllint disable-line rule:truthy
   workflow_dispatch:
     inputs:
       dryRun:
-        description: "Dry-Run"
+        description: Dry-Run
         default: "false"
         required: false
       logLevel:
-        description: "Log-Level"
-        default: "debug"
+        description: Log-Level
+        default: debug
         required: false
 
 env:
@@ -49,6 +49,7 @@ jobs:
         run: |
           echo "RENOVATE_DRY_RUN=${{ github.event.inputs.dryRun || env.RENOVATE_DRY_RUN }}" >> "${GITHUB_ENV}"
           echo "LOG_LEVEL=${{ github.event.inputs.logLevel || env.LOG_LEVEL }}" >> "${GITHUB_ENV}"
+        shell: bash
 
       - name: Run renovate
         uses: renovatebot/github-action@2a87d1192eaa0cac92b6566233afedf68fd3472a # v38.1.8
