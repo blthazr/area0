@@ -12,11 +12,14 @@ spec:
         kind: HelmRepository
         name: bjw-s-charts
         namespace: flux-system
+  dependsOn:
+    - name: ingress-nginx
+      namespace: network
   install:
     createNamespace: true
     remediation:
       retries: 3
-  interval: 15m
+  interval: 30m
   maxHistory: 2
   upgrade:
     cleanupOnFail: true
@@ -24,6 +27,80 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
-  valuesFrom:
-    - kind: ConfigMap
-      name: cloudflared-helm-values
+  values:
+    args:
+      - tunnel
+      - --config
+      - /etc/cloudflared/config/config.yaml
+      - run
+      - "${SECRET_CLOUDFLARE_TUNNEL_ID}"
+    controller:
+      annotations:
+        reloader.stakater.com/auto: "true"
+      replicas: 2
+      strategy: RollingUpdate
+    env:
+      NO_AUTOUPDATE: "true"
+      TUNNEL_CRED_FILE: /etc/cloudflared/creds/credentials.json
+      TUNNEL_METRICS: 0.0.0.0:8080
+      TUNNEL_TRANSPORT_PROTOCOL: auto
+    image:
+      repository: docker.io/cloudflare/cloudflared
+      tag: 2023.6.1
+    persistence:
+      config:
+        enabled: true
+        mountPath: /etc/cloudflared/config/config.yaml
+        name: cloudflared-configmap
+        readOnly: true
+        subPath: config.yaml
+        type: configMap
+      creds:
+        enabled: true
+        mountPath: /etc/cloudflared/creds/credentials.json
+        name: cloudflared-tunnel-secret
+        readOnly: true
+        subPath: credentials.json
+        type: secret
+    probes:
+      liveness: &probes
+        custom: true
+        enabled: true
+        spec:
+          failureThreshold: 3
+          httpGet:
+            path: /ready
+            port: http
+          initialDelaySeconds: 0
+          periodSeconds: 10
+          timeoutSeconds: 1
+      readiness: *probes
+      startup:
+        enabled: false
+    resources:
+      limits:
+        memory: 256Mi
+      requests:
+        cpu: 5m
+        memory: 10Mi
+    service:
+      main:
+        ports:
+          http:
+            port: 8080
+    serviceMonitor:
+      main:
+        enabled: true
+        endpoints:
+          - interval: 1m
+            path: /metrics
+            port: http
+            scheme: http
+            scrapeTimeout: 30s
+    topologySpreadConstraints:
+      - labelSelector:
+          matchLabels:
+            app.kubernetes.io/name: *app
+        maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: DoNotSchedule
