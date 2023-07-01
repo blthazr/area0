@@ -16,7 +16,7 @@ spec:
     createNamespace: true
     remediation:
       retries: 3
-  interval: 15m
+  interval: 30m
   maxHistory: 2
   upgrade:
     cleanupOnFail: true
@@ -24,6 +24,49 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
-  valuesFrom:
-    - name: ingress-nginx-helm-values
-      kind: ConfigMap
+  values:
+    controller:
+      config:
+        client-body-buffer-size: 100M
+        client-body-timeout: 120
+        client-header-timeout: 120
+        enable-brotli: "true"
+        enable-real-ip: "true"
+        hsts-max-age: 31449600
+        keep-alive: 120
+        keep-alive-requests: 10000
+        proxy-body-size: 0
+        proxy-buffer-size: 16k
+        ssl-protocols: TLSv1.3 TLSv1.2
+      extraArgs:
+        default-ssl-certificate: |-
+          network/${SECRET_DOMAIN/./-}-tls
+      ingressClassResource:
+        default: true
+      metrics:
+        enabled: true
+        serviceMonitor:
+          enabled: true
+          namespace: network
+          namespaceSelector:
+            any: true
+      replicaCount: 2
+      resources:
+        limits:
+          memory: 500Mi
+        requests:
+          cpu: 100m
+          memory: 250Mi
+      service:
+        externalIPs: ["${SVC_NGINX_ADDRESS}"]
+        externalTrafficPolicy: Local
+      topologySpreadConstraints:
+        - labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+              app.kubernetes.io/component: controller
+          maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+    defaultBackend:
+      enabled: false
