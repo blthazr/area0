@@ -13,7 +13,6 @@ metadata:
       application access.
 spec:
   generateExistingOnPolicyUpdate: true
-  mutateExistingOnPolicyUpdate: true
   rules:
     - name: external-dns
       match:

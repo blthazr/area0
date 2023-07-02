@@ -13,7 +13,6 @@ metadata:
       internal application access.
 spec:
   generateExistingOnPolicyUpdate: true
-  mutateExistingOnPolicyUpdate: true
   rules:
     - name: whitelist-source-range
       exclude:
