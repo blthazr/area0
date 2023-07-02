@@ -35,6 +35,7 @@ spec:
           - download
           - flux-system
           - media
+          - network
           - observability
           - rook-ceph
       title: Apps
