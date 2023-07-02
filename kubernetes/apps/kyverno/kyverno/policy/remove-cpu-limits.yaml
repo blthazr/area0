@@ -15,16 +15,10 @@ spec:
   generateExistingOnPolicyUpdate: true
   rules:
     - name: remove-containers-cpu-limits
-      # exclude:
-      #   any:
-      #     - resources:
-      #         annotations:
-      #           kyverno.io/ignore: "true"
       match:
         any:
           - resources:
-              kinds:
-                - Pod
+              kinds: ["Pod"]
       mutate:
         foreach:
           - list: "request.object.spec.containers"
@@ -35,8 +29,7 @@ spec:
       match:
         any:
           - resources:
-              kinds:
-                - Pod
+              kinds: ["Pod"]
       mutate:
         foreach:
           - list: "request.object.spec.initContainers"
