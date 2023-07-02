@@ -12,3 +12,5 @@ resources:
   - ./k8s-gateway/app.yaml
   - ./metallb/app.yaml
   - ./metallb/config.yaml
+  # Standard Resources
+  - ./external-services
