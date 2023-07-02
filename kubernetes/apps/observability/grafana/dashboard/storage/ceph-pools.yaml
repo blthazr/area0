@@ -1,0 +1,10 @@
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: ceph-pools
+spec:
+  # Ref: https://grafana.com/grafana/dashboards/5342/
+  grafanaCom:
+    id: 5342
+    revision: 9

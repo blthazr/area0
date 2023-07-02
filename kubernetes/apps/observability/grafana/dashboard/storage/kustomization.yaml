@@ -7,4 +7,7 @@ patches:
       kind: GrafanaDashboard
       group: grafana.integreatly.org
       version: v1beta1
-resources: []
+resources:
+  - ./ceph-cluster.yaml
+  - ./ceph-osd.yaml
+  - ./ceph-pools.yaml
