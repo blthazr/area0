@@ -8,8 +8,5 @@ metadata:
 spec:
   endpoints:
     - dnsName: "tunnel.${SECRET_DOMAIN}"
-      providerSpecific:
-        - name: external-dns.alpha.kubernetes.io/cloudflare-proxied
-          value: "true"
       recordType: CNAME
       targets: ["${SECRET_CLOUDFLARE_TUNNEL_ID}.cfargotunnel.com"]
