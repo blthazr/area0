@@ -7,4 +7,10 @@ patches:
       kind: GrafanaDashboard
       group: grafana.integreatly.org
       version: v1beta1
-resources: []
+resources:
+  - ./unifi-client-dpi.yaml
+  - ./unifi-client-insights.yaml
+  - ./unifi-network-sites.yaml
+  - ./unifi-uap-insights.yaml
+  - ./unifi-usg-insights.yaml
+  - ./unifi-usw-insights.yaml

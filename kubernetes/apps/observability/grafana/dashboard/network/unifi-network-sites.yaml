@@ -1,0 +1,13 @@
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: unifi-network-sites
+spec:
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: Prometheus
+  # Ref: https://grafana.com/grafana/dashboards/11311/
+  grafanaCom:
+    id: 11311
+    revision: 5
