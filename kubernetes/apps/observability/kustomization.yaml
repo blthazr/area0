@@ -5,11 +5,12 @@ resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
   # Flux-Kustomizations
-  - ./grafana/operator.yaml
-  - ./grafana/instance.yaml
-  - ./grafana/datasource.yaml
   - ./grafana/dashboard.yaml
+  - ./grafana/datasource.yaml
+  - ./grafana/instance.yaml
+  - ./grafana/operator.yaml
   - ./kube-prometheus-stack/app.yaml
+  - ./splunk/app.yaml
   - ./splunk/operator.yaml
   - ./thanos/app.yaml
   - ./unpoller/app.yaml

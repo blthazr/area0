@@ -1,0 +1,21 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: &app splunk
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: &host "splunk.${SECRET_DOMAIN}"
+      http:
+        paths:
+          - backend:
+              service:
+                name: splunk-splunk-standalone-service
+                port:
+                  number: 8000
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - *host
