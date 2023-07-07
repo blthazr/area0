@@ -10,5 +10,6 @@ resources:
   - ./grafana/datasource.yaml
   - ./grafana/dashboard.yaml
   - ./kube-prometheus-stack/app.yaml
+  - ./splunk/operator.yaml
   - ./thanos/app.yaml
   - ./unpoller/app.yaml

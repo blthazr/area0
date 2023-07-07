@@ -20,5 +20,6 @@ resources:
   - ./piraeus.yaml
   - ./prometheus-community.yaml
   - ./rook-ceph.yaml
+  - ./splunk.yaml
   - ./stakater.yaml
   - ./weave-gitops.yaml # legacy
