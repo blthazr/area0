@@ -13,5 +13,5 @@ resources:
   # - ./kube-prometheus-stack/app.yaml
   # - ./splunk/app.yaml
   # - ./splunk/operator.yaml
-  # - ./thanos/app.yaml
+  - ./thanos/app.yaml
   # - ./unpoller/app.yaml
