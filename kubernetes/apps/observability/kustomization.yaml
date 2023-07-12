@@ -14,4 +14,4 @@ resources:
   # - ./splunk/app.yaml
   # - ./splunk/operator.yaml
   - ./thanos/app.yaml
-  # - ./unpoller/app.yaml
+  - ./unpoller/app.yaml
