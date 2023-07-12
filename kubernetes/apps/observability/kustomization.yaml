@@ -10,7 +10,7 @@ resources:
   # - ./grafana/datasource.yaml
   # - ./grafana/instance.yaml
   # - ./grafana/operator.yaml
-  # - ./kube-prometheus-stack/app.yaml
+  - ./kube-prometheus-stack/app.yaml
   # - ./splunk/app.yaml
   # - ./splunk/operator.yaml
   - ./thanos/app.yaml
