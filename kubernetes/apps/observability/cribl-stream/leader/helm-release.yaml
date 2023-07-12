@@ -44,8 +44,6 @@ spec:
       tls:
         - hosts:
             - *host
-    nodeSelector:
-      node-role.kubernetes.io/worker: "true"
     service:
       annotations:
         metallb.universe.tf/allow-shared-ip: cribl-stream
