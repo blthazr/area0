@@ -5,3 +5,4 @@ namespace: observability
 resources:
   - ./persistent-volume-claim.yaml
   - ./helm-release.yaml
+  - ./volsync

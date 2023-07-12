@@ -1,0 +1,18 @@
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: cribl-stream-leader
+spec:
+  restic:
+    copyMethod: Snapshot
+    pruneIntervalDays: 10
+    repository: cribl-stream-leader-restic-secret
+    retain:
+      daily: 10
+      within: 3d
+    storageClassName: ceph-block
+    volumeSnapshotClassName: csi-ceph-blockpool
+  sourcePVC: leader-config-claim
+  trigger:
+    schedule: 0 8 * * *
