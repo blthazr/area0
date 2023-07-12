@@ -28,12 +28,12 @@ jobs:
         id: diff
         uses: allenporter/flux-local/action/diff@main
         with:
-          path: ${{ matrix.path }}
-          resource: ${{ matrix.resource }}
+          path: "${{ matrix.path }}"
+          resource: "${{ matrix.resource }}"
 
       - name: Add comment
         if: ${{ steps.diff.outputs.diff != '' }}
-        uses: mshick/add-pr-comment@7c0890544fb33b0bdd2e59467fbacb62e028a096 # v2
+        uses: mshick/add-pr-comment@7c0890544fb33b0bdd2e59467fbacb62e028a096 # v2.8.1
         with:
           message-failure: Diff was not successful
           message-id: "${{ github.event.pull_request.number }}/${{ matrix.path }}/${{ matrix.resource }}"
@@ -41,4 +41,4 @@ jobs:
             ```diff
             ${{ steps.diff.outputs.diff }}
             ```
-          repo-token: ${{ steps.generate-token.outputs.token }}
+          repo-token: "${{ steps.generate-token.outputs.token }}"
