@@ -6,7 +6,7 @@ resources:
   - ./bitnami.yaml
   - ./bjw-s.yaml
   - ./cribl.yaml
-  - ./descheduler.yaml # legacy
+  - ./descheduler.yaml
   - ./external-dns.yaml
   - ./hajimari.yaml
   - ./ingress-nginx.yaml
@@ -22,4 +22,4 @@ resources:
   - ./rook-ceph.yaml
   - ./splunk.yaml
   - ./stakater.yaml
-  - ./weave-gitops.yaml # legacy
+  - ./weave-gitops.yaml

@@ -81,7 +81,7 @@ spec:
         type: emptyDir
     podSecurityContext:
       fsGroup: 568
-      fsGroupChangePolicy: "OnRootMismatch"
+      fsGroupChangePolicy: OnRootMismatch
       runAsGroup: 568
       runAsUser: 568
       supplementalGroups:

@@ -70,7 +70,7 @@ spec:
         existingClaim: tautulli-config-v1
     podSecurityContext:
       fsGroup: 568
-      fsGroupChangePolicy: "OnRootMismatch"
+      fsGroupChangePolicy: OnRootMismatch
       runAsGroup: 568
       runAsUser: 568
       supplementalGroups:
