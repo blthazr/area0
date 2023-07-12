@@ -6,12 +6,12 @@ resources:
   - ./namespace.yaml
   # Flux-Kustomizations
   # - ./cribl-stream/leader.yaml
-  - ./grafana/dashboard.yaml
-  - ./grafana/datasource.yaml
-  - ./grafana/instance.yaml
-  - ./grafana/operator.yaml
-  - ./kube-prometheus-stack/app.yaml
-  - ./splunk/app.yaml
-  - ./splunk/operator.yaml
-  - ./thanos/app.yaml
-  - ./unpoller/app.yaml
+  # - ./grafana/dashboard.yaml
+  # - ./grafana/datasource.yaml
+  # - ./grafana/instance.yaml
+  # - ./grafana/operator.yaml
+  # - ./kube-prometheus-stack/app.yaml
+  # - ./splunk/app.yaml
+  # - ./splunk/operator.yaml
+  # - ./thanos/app.yaml
+  # - ./unpoller/app.yaml
