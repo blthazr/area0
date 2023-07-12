@@ -20,7 +20,6 @@ spec:
     - name: thanos
       namespace: observability
   install:
-    crds: CreateReplace
     createNamespace: true
     remediation:
       retries: 3
@@ -29,7 +28,6 @@ spec:
   timeout: 15m
   upgrade:
     cleanupOnFail: true
-    crds: CreateReplace
     remediation:
       retries: 3
   uninstall:
@@ -102,6 +100,8 @@ spec:
           - hosts:
               - *alertmanagerhost
     cleanPrometheusOperatorObjectNames: true
+    crds:
+      enabled: true
     grafana:
       enabled: false
       forceDeployDashboards: true
