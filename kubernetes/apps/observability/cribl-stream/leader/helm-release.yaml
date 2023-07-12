@@ -1,0 +1,60 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: &app cribl-stream-leader
+spec:
+  chart:
+    spec:
+      chart: logstream-leader
+      version: 4.1.3
+      sourceRef:
+        kind: HelmRepository
+        name: cribl-charts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  interval: 30m
+  maxHistory: 2
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    config:
+      adminPassword: "${SECRET_CRIBL_STREAM_PASSWORD}"
+    ingress:
+      annotations:
+        hajimari.io/appName: "Cribl Stream"
+        hajimari.io/icon: mdi:chart-sankey-variant
+      enable: true
+      host: &host "stream.${SECRET_DOMAIN}"
+      ingressClassName: nginx
+      prefix: /
+      tls:
+        - hosts:
+            - *host
+    nameOverride: "cribl-stream-leader"
+    resources: {}
+    service:
+      annotations:
+        metallb.universe.tf/allow-shared-ip: cribl-stream
+      externalLoadBalancerIP: "${SVC_CRIBL_STREAM_ADDRESS}"
+      externalType: LoadBalancer
+      ports:
+        - name: api
+          port: 9000
+          protocol: TCP
+          external: true
+        - name: leadercomm
+          port: 4200
+          protocol: TCP
+          external: false
+        - name: syslog-udp
+          port: 9514
+          protocol: UDP
+          external: true

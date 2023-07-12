@@ -5,6 +5,7 @@ resources:
   - ./backube.yaml
   - ./bitnami.yaml
   - ./bjw-s.yaml
+  - ./cribl.yaml
   - ./descheduler.yaml # legacy
   - ./external-dns.yaml
   - ./hajimari.yaml
