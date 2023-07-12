@@ -13,7 +13,6 @@ resources:
   - ./intel.yaml
   - ./jetstack.yaml
   - ./k8s-gateway.yaml
-  - ./kasten.yaml # legacy
   - ./kyverno.yaml
   - ./metallb.yaml
   - ./metrics-server.yaml
