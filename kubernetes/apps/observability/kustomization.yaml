@@ -5,7 +5,7 @@ resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
   # Flux-Kustomizations
-  # - ./cribl-stream/leader.yaml
+  - ./cribl-stream/leader.yaml
   - ./grafana/dashboard.yaml
   - ./grafana/datasource.yaml
   - ./grafana/instance.yaml
