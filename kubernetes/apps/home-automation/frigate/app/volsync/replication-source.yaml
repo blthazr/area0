@@ -14,6 +14,6 @@ spec:
       within: 3d
     storageClassName: ceph-block
     volumeSnapshotClassName: csi-ceph-blockpool
-  sourcePVC: frigate-config-v1
+  sourcePVC: frigate-data-v1
   trigger:
     schedule: 0 8 * * *
