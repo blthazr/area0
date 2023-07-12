@@ -12,21 +12,27 @@ spec:
         kind: HelmRepository
         name: cribl-charts
         namespace: flux-system
+  dependsOn:
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
+    - name: volsync
+      namespace: volsync
   install:
     createNamespace: true
     remediation:
       retries: 3
   interval: 30m
   maxHistory: 2
+  uninstall:
+    keepHistory: false
   upgrade:
     cleanupOnFail: true
     remediation:
       retries: 3
-  uninstall:
-    keepHistory: false
   values:
     config:
       adminPassword: "${SECRET_CRIBL_STREAM_PASSWORD}"
+      scName: ceph-block
     ingress:
       annotations:
         hajimari.io/appName: "Cribl Stream"
@@ -38,8 +44,8 @@ spec:
       tls:
         - hosts:
             - *host
-    nameOverride: "cribl-stream-leader"
-    resources: {}
+    nodeSelector:
+      node-role.kubernetes.io/worker: "true"
     service:
       annotations:
         metallb.universe.tf/allow-shared-ip: cribl-stream
@@ -47,14 +53,14 @@ spec:
       externalType: LoadBalancer
       ports:
         - name: api
+          external: true
           port: 9000
           protocol: TCP
-          external: true
         - name: leadercomm
+          external: false
           port: 4200
           protocol: TCP
-          external: false
         - name: syslog-udp
+          external: true
           port: 9514
           protocol: UDP
-          external: true

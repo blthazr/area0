@@ -5,6 +5,7 @@ metadata:
   name: cribl-stream-leader
 spec:
   restic:
+    cacheCapacity: 2Gi
     copyMethod: Snapshot
     pruneIntervalDays: 10
     repository: cribl-stream-leader-restic-secret
