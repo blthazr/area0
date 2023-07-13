@@ -6,4 +6,4 @@ resources:
   - ./namespace.yaml
   # Flux-Kustomizations
   - ./kyverno/app.yaml
-  # - ./kyverno/policy.yaml
+  - ./kyverno/policy.yaml
