@@ -1,20 +1,21 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#   @file           :   tasks/Debian/main.yml
+#   @file           :   tasks/Debian/main.yaml
 #   @description    :   Debian tasks executed by ansible-role-os
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ---
 - name: "{{ ansible_os_family }} | main | include tasks"
   ansible.builtin.include_tasks: "{{ ansible_os_family }}/{{ os_tasks }}"
   loop:
-    - apt.yml
-    - packages.yml
-    - cloud-init.yml
-    - disks.yml
-    - host.yml
-    - motd.yml
-    - time.yml
-    - unattended-upgrades.yml
-    - user.yml
+    - apt.yaml
+    - packages.yaml
+    - cloud-init.yaml
+    - disks.yaml
+    - host.yaml
+    - motd.yaml
+    - time.yaml
+    - unattended-upgrades.yaml
+    - user.yaml
+    - sudoers.yaml
   loop_control:
     loop_var: os_tasks
 

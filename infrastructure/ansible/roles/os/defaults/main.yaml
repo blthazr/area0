@@ -1,5 +1,5 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#   @file           :   defaults/main.yml
+#   @file           :   defaults/main.yaml
 #   @description    :   defaults for ansible-role-os
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ---
@@ -18,10 +18,8 @@ os_fstrim_enabled: true
 # --------------------------------------------------------------------------------------------------
 # -- (dict) operating system packages
 os_packages:
-
   # -- (dict) operating system family
   debian:
-
     # -- (list) flat list of packages to be installed with apt
     apt_install:
       - apt-transport-https
@@ -55,10 +53,8 @@ os_packages:
 
 # -- (dict) operating system package repositories
 os_package_repository:
-
   # -- (dict) operating system family
   debian:
-
     # -- (list) flat list of repositories to be added
     repo_add: []
 

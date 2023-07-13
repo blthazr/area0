@@ -1,5 +1,8 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#   @file           :   vars/main.yml
-#   @description    :   variables for ansible-role-os
+#   @file           :   tasks/Debian/sudoers.yaml
+#   @description    :   Debian sudoers tasks
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ---
+- ansible.builtin.import_role:
+    name: bootstrap
+    tasks_from: sudoers

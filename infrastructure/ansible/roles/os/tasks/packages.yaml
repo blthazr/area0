@@ -1,5 +1,5 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#   @file           :   tasks/packages.yml
+#   @file           :   tasks/packages.yaml
 #   @description    :   [called externally] configure packages
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ---
@@ -14,7 +14,7 @@
 - name: "{{ ansible_os_family }} | main | include package tasks"
   ansible.builtin.include_tasks: "{{ ansible_os_family }}/{{ package_tasks }}"
   loop:
-    - packages.yml
+    - packages.yaml
   loop_control:
     loop_var: package_tasks
   when: ansible_os_family != 'NA'
