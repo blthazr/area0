@@ -1,5 +1,5 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#   @file           :   tasks/main.yml
+#   @file           :   tasks/main.yaml
 #   @description    :   tasks executed by ansible-role-bootstrap
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ---
@@ -20,7 +20,7 @@
   ansible.builtin.setup:
 
 - name: main | include os-specific tasks
-  ansible.builtin.include_tasks: "{{ ansible_os_family }}/main.yml"
+  ansible.builtin.include_tasks: "{{ ansible_os_family }}/main.yaml"
   when: ansible_os_family != 'NA'
 
 - name: main | include roles
