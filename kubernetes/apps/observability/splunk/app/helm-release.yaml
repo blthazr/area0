@@ -12,6 +12,11 @@ spec:
         kind: HelmRepository
         name: splunk-charts
         namespace: flux-system
+  dependsOn:
+    - name: local-path-provisioner
+      namespace: kube-system
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
   install:
     createNamespace: true
     remediation:
@@ -57,7 +62,7 @@ spec:
       varVolumeStorageConfig:
         ephemeralStorage: false
         storageCapacity: 50Gi
-        storageClassName: ceph-block
+        storageClassName: local-path
       serviceTemplate:
         spec:
           loadBalancerIP: "${SVC_SPLUNK_ADDRESS}"
