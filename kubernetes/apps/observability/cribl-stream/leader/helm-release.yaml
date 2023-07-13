@@ -32,7 +32,6 @@ spec:
   values:
     config:
       adminPassword: "${SECRET_CRIBL_STREAM_PASSWORD}"
-      scName: ceph-block
     ingress:
       annotations:
         hajimari.io/appName: "Cribl Stream"
@@ -47,6 +46,7 @@ spec:
     service:
       annotations:
         metallb.universe.tf/allow-shared-ip: cribl-stream
+        metallb.universe.tf/ip-allocated-from-pool: default-pool
       externalLoadBalancerIP: "${SVC_CRIBL_STREAM_ADDRESS}"
       externalType: LoadBalancer
       ports:
