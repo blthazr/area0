@@ -35,6 +35,7 @@ spec:
           volumeName: volume_smartstore
         indexes:
           - name: hass
+          - name: k8s
           - name: main
           - name: unifi
         volumes:
