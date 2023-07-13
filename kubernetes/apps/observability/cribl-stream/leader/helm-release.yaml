@@ -34,6 +34,8 @@ spec:
       adminPassword: "${SECRET_CRIBL_STREAM_PASSWORD}"
     resources: {}
     service:
+      annotations:
+        metallb.universe.tf/allow-shared-ip: cribl-stream
       externalLoadBalancerIP: "${SVC_CRIBL_STREAM_ADDRESS}"
       externalType: LoadBalancer
       ports:
