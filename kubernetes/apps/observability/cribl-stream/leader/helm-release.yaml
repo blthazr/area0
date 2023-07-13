@@ -32,33 +32,20 @@ spec:
   values:
     config:
       adminPassword: "${SECRET_CRIBL_STREAM_PASSWORD}"
-    ingress:
-      annotations:
-        hajimari.io/appName: "Cribl Stream"
-        hajimari.io/icon: mdi:chart-sankey-variant
-      enable: true
-      host: &host "stream.${SECRET_DOMAIN}"
-      ingressClassName: nginx
-      prefix: /
-      tls:
-        - hosts:
-            - *host
+    resources: {}
     service:
-      annotations:
-        metallb.universe.tf/allow-shared-ip: cribl-stream
-        metallb.universe.tf/ip-allocated-from-pool: default-pool
       externalLoadBalancerIP: "${SVC_CRIBL_STREAM_ADDRESS}"
       externalType: LoadBalancer
       ports:
         - name: api
-          external: true
           port: 9000
           protocol: TCP
+          external: true
         - name: leadercomm
-          external: false
           port: 4200
           protocol: TCP
+          external: false
         - name: syslog-udp
-          external: true
           port: 9514
           protocol: UDP
+          external: true
