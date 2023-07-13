@@ -1,0 +1,24 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   meta/main.yaml
+#   @description    :   metadata for ansible-role-os-identification
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+galaxy_info:
+  author: Chris Burnham
+  description: "Identify unknown operating systems"
+
+  license: "license Unlicense"
+
+  min_ansible_version: 2.1
+
+  # https://galaxy.ansible.com/api/v1/platforms/
+  platforms:
+    - name: Ubuntu
+      versions:
+        - all
+    - name: Debian
+      versions:
+        - all
+
+# List your role dependencies
+dependencies: []

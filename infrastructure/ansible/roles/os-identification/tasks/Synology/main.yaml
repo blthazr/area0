@@ -1,0 +1,23 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   tasks/Debian/main.yaml
+#   @description    :   Debian tasks executed by ansible-role-os-identification
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+- name: Synology | get version file stats
+  ansible.builtin.stat:
+    path: "/etc/VERSION"
+  register: syno_version_file
+
+- name: Synology | load version file
+  ansible.builtin.slurp:
+    src: "/etc/VERSION"
+  register: syno_version_file
+  when: syno_version_file.stat.exists
+
+- name: Synology | setting facts
+  ansible.builtin.set_fact:
+    ansible_distribution: "DSM"
+    ansible_distribution_major_version: "{{ syno_version_file.content | b64decode | regex_search('majorversion=\\\"(?P<majorversion>[0-9]+)', '\\g<majorversion>') | first }}"
+    ansible_distribution_release: "{{ syno_version_file.content | b64decode | regex_search('buildphase=\\\"(?P<buildphase>\\w+)', '\\g<buildphase>') | first }}"
+    ansible_distribution_version: "{{ syno_version_file.content | b64decode | regex_search('productversion=\\\"(?P<productversion>[\\d|\\.]+)', '\\g<productversion>') | first }}"
+    ansible_os_family: "Synology"
