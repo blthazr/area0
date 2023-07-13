@@ -6,3 +6,4 @@ resources:
   - ./secret.sops.yaml
   - ./helm-release.yaml
   - ./ingress.yaml
+  - ./volsync

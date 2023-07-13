@@ -1,0 +1,19 @@
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: splunk-etc
+spec:
+  restic:
+    cacheCapacity: 2Gi
+    copyMethod: Snapshot
+    pruneIntervalDays: 10
+    repository: splunk-restic-secret
+    retain:
+      daily: 10
+      within: 3d
+    storageClassName: ceph-block
+    volumeSnapshotClassName: csi-ceph-blockpool
+  sourcePVC: pvc-etc-splunk-splunk-standalone-0
+  trigger:
+    schedule: 0 8 * * *
