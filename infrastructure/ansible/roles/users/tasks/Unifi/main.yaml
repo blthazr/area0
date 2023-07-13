@@ -1,14 +1,14 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#   @file           :   tasks/Debian/main.yml
-#   @description    :   Debian tasks executed by ansible-role-users
+#   @file           :   tasks/Unifi/main.yaml
+#   @description    :   Unifi tasks executed by ansible-role-users
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ---
 - name: "{{ ansible_os_family }} | main | include tasks"
   ansible.builtin.include_tasks: "{{ ansible_os_family }}/{{ os_tasks }}"
   loop:
-    - group.yml
-    - user.yml
-    - ssh.yml
-    - sudo.yml
+    - group.yaml
+    - user.yaml
+    - ssh.yaml
+    - sudo.yaml
   loop_control:
     loop_var: os_tasks
