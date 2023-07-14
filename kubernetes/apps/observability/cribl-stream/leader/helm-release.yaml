@@ -51,3 +51,7 @@ spec:
           port: 9514
           protocol: UDP
           external: true
+        - name: syslog-unifi
+          port: 9520
+          protocol: UDP
+          external: true
