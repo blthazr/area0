@@ -51,6 +51,10 @@ spec:
           port: 9514
           protocol: UDP
           external: true
+        - name: http-hec
+          port: 8088
+          protocol: UDP
+          external: true
         - name: syslog-unifi
           port: 9520
           protocol: UDP
