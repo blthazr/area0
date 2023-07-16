@@ -11,8 +11,8 @@ labels:
       app.kubernetes.io/instance: system-upgrade-controller
 resources:
   # renovate: datasource=github-releases depName=rancher/system-upgrade-controller
-  - https://github.com/rancher/system-upgrade-controller/releases/download/v0.11.0/crd.yaml
-  - https://github.com/rancher/system-upgrade-controller?ref=v0.11.0
+  - https://github.com/rancher/system-upgrade-controller/releases/download/v0.12.0/crd.yaml
+  - https://github.com/rancher/system-upgrade-controller?ref=v0.12.0
 patchesStrategicMerge:
   - |
     $patch: delete
