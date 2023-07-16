@@ -1,12 +1,10 @@
 ---
 name: Meta - Sync Labels
 
-on: # yamllint disable-line rule:truthy
+on:
   push:
-    branches:
-      - main
-    paths:
-      - ".github/labels.yaml"
+    branches: ["main"]
+    paths: [".github/labels.yaml"]
   workflow_dispatch:
 
 jobs:
@@ -14,7 +12,6 @@ jobs:
     name: Sync Labels
     runs-on: ubuntu-latest
     steps:
-
       - name: Generate token
         id: generate-token
         uses: tibdex/github-app-token@b62528385c34dbc9f38e5f4225ac829252d1ea92 # v1.8.0

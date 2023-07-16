@@ -1,10 +1,9 @@
 ---
 name: Renovate
 
-on: # yamllint disable-line rule:truthy
+on:
   push:
-    branches:
-      - main
+    branches: ["main"]
     paths:
       - .github/renovate-bot.json5
       - .github/renovate.json5
@@ -32,7 +31,6 @@ jobs:
     name: Renovate
     runs-on: ubuntu-latest
     steps:
-
       - name: Generate token
         id: generate-token
         uses: tibdex/github-app-token@b62528385c34dbc9f38e5f4225ac829252d1ea92 # v1.8.0
