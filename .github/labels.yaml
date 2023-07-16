@@ -12,18 +12,18 @@
   color: "72CCF3"
   description: >-
     Changes made in the kubernetes directory
-- name: area/hack
-  color: "72CCF3"
-  description: >-
-    Changes made in the hack directory
 - name: area/terraform
   color: "72CCF3"
   description: >-
     Changes made in the terraform directory
+- name: area/tools
+  color: "72CCF3"
+  description: >-
+    Changes made in the tools directory
 
 # Renovate
-- name: renovate/ansible
-  color: "FFC300"
+# - name: renovate/ansible
+#   color: "FFC300"
 - name: renovate/container
   color: "FFC300"
 - name: renovate/github-action
