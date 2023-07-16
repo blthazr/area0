@@ -1,7 +1,7 @@
 {
   "packageRules": [
     {
-      "description": "oose versioning for non-semver packages",
+      "description": "Loose versioning for non-semver packages",
       "matchDatasources": ["docker"],
       "matchPackagePatterns": [
         "plex",

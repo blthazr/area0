@@ -13,6 +13,7 @@
       "matchPackagePatterns": [
         "bazarr",
         "gaps",
+        "hajimari",
         "lidarr",
         "prowlarr",
         "radarr",
@@ -20,7 +21,8 @@
         "sabnzbd",
         "sonarr",
         "tautulli",
-        "theme-park"
+        "theme-park",
+        "unpoller"
       ],
       "matchUpdateTypes": [
         "digest",
