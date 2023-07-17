@@ -3,21 +3,18 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
-    hajimari.io/appName: "Cribl Stream"
+    hajimari.io/appName: "Cribl Leader"
     hajimari.io/icon: mdi:chart-sankey-variant
-  labels:
-    app.kubernetes.io/instance: cribl-stream
-    app.kubernetes.io/name: cribl-stream-leader
-  name: cribl-stream-leader
+  name: cribl-leader
 spec:
   ingressClassName: nginx
   rules:
-    - host: &host "stream.${SECRET_DOMAIN}"
+    - host: &host "cribl-leader.${SECRET_DOMAIN}"
       http:
         paths:
           - backend:
               service:
-                name: cribl-stream-leader
+                name: cribl-leader
                 port:
                   number: 9000
             path: /

@@ -2,13 +2,13 @@
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
-  name: cribl-stream-leader
+  name: cribl-leader
 spec:
   restic:
     cacheCapacity: 2Gi
     copyMethod: Snapshot
     pruneIntervalDays: 10
-    repository: cribl-stream-leader-restic-secret
+    repository: cribl-leader-restic-secret
     retain:
       daily: 10
       within: 3d
