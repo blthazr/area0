@@ -49,7 +49,7 @@ spec:
     ingress:
       main:
         annotations:
-          hajimari.io/group: Download
+          hajimari.io/group: Media Automation
           hajimari.io/icon: mdi:download
           nginx.ingress.kubernetes.io/configuration-snippet: |
             proxy_set_header Accept-Encoding "";

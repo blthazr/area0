@@ -90,6 +90,7 @@ spec:
       ingress:
         annotations:
           hajimari.io/appName: "Alert Manager"
+          hajimari.io/group: Observability
           hajimari.io/icon: mdi:alert-decagram-outline
         enabled: true
         hosts:
@@ -184,6 +185,7 @@ spec:
       ingress:
         annotations:
           hajimari.io/appName: Prometheus
+          hajimari.io/group: Observability
           hajimari.io/icon: simple-icons:prometheus
         enabled: true
         hosts:

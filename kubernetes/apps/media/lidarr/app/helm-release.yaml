@@ -44,7 +44,7 @@ spec:
     ingress:
       main:
         annotations:
-          hajimari.io/group: Media
+          hajimari.io/group: Media-Automation
           hajimari.io/icon: mdi:headphones
           nginx.ingress.kubernetes.io/configuration-snippet: |
             proxy_set_header Accept-Encoding "";

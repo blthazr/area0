@@ -39,7 +39,7 @@ spec:
     ingress:
       main:
         annotations:
-          hajimari.io/group: Media
+          hajimari.io/group: Media-Automation
           hajimari.io/icon: mdi:subtitles-outline
         enabled: true
         hosts:

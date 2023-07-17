@@ -37,7 +37,7 @@ spec:
     ingress:
       main:
         annotations:
-          hajimari.io/group: Media
+          hajimari.io/group: Media-Automation
           hajimari.io/icon: mdi:eye-circle
         enabled: true
         hosts:

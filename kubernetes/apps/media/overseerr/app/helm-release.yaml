@@ -41,7 +41,7 @@ spec:
       main:
         annotations:
           external-dns.home.arpa/enabled: "true"
-          hajimari.io/appName: Requests Portal
+          hajimari.io/appName: Plex Requests
           hajimari.io/group: Media
           hajimari.io/icon: mdi:link-box-variant
           nginx.ingress.kubernetes.io/configuration-snippet: |

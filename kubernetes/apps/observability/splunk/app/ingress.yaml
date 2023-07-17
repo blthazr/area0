@@ -2,6 +2,9 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  annotations:
+    hajimari.io/appName: "Splunk"
+    hajimari.io/group: Observability
   name: &app splunk
 spec:
   ingressClassName: nginx
