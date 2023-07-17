@@ -50,6 +50,7 @@ spec:
           - observability
           - rook-ceph
       showAppGroups: true
+      showAppInfo: true
       showAppStatus: false
       showAppUrls: false
       showGreeting: false
