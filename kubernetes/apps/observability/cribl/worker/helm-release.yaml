@@ -39,7 +39,7 @@ spec:
           protocol: TCP
         - name: splunk-otel
           port: 9090
-          protocol: tcp
+          protocol: TCP
         - name: syslog-tcp
           port: 9514
           protocol: TCP
