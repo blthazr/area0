@@ -39,7 +39,7 @@ spec:
     ingress:
       main:
         annotations:
-          hajimari.io/appName: Plex Inspect
+          hajimari.io/appName: Plex Activity
           hajimari.io/group: Media
           hajimari.io/icon: mdi:chart-bar
           nginx.ingress.kubernetes.io/configuration-snippet: |
