@@ -28,25 +28,31 @@ spec:
     env:
       TZ: "${CLUSTER_TIME_ZONE}"
     hajimari:
+      alwaysTargetBlank: true
+      darkTheme: lime
       defaultEnable: true
+      globalBookmarks:
+        - group: Github
+          bookmarks:
+            - name: Area0
+              url: "https://github.com/blthazr/area0"
+            - name: Search
+              url: https://nanne.dev/k8s-at-home-search
+      lightTheme: lime
       namespaceSelector:
         matchNames:
           - default
           - download
           - flux-system
+          - home-automation
           - media
           - network
           - observability
           - rook-ceph
-      title: Apps
-      lightTheme: lime
-      darkTheme: lime
-      showGreeting: false
-      showAppGroups: true
-      showAppUrls: false
       showAppStatus: false
-      showBookmarkGroups: false
-      alwaysTargetBlank: true
+      showAppUrls: false
+      showGreeting: false
+      title: Apps
     ingress:
       main:
         annotations:
@@ -61,12 +67,12 @@ spec:
         tls:
           - hosts:
               - *host
-    podAnnotations:
-      configmap.reloader.stakater.com/reload: hajimari-settings
     persistence:
       data:
         enabled: true
         type: emptyDir
+    podAnnotations:
+      configmap.reloader.stakater.com/reload: hajimari-settings
     resources:
       requests:
         cpu: 100m
