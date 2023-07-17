@@ -34,10 +34,10 @@ spec:
       globalBookmarks:
         - group: Github
           bookmarks:
-            - name: Area0
-              url: "https://github.com/blthazr/area0"
-            - name: Search
-              url: https://nanne.dev/k8s-at-home-search
+            - name: blthazr/area0
+              url: 'https://github.com/blthazr/area0'
+            - name: k8s-at-home search
+              url: 'https://nanne.dev/k8s-at-home-search'
       lightTheme: lime
       namespaceSelector:
         matchNames:
@@ -49,6 +49,7 @@ spec:
           - network
           - observability
           - rook-ceph
+      showAppGroups: true
       showAppStatus: false
       showAppUrls: false
       showGreeting: false
