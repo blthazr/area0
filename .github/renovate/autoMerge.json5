@@ -51,7 +51,7 @@
         "minor",
         "patch"
       ],
-      "schedule": ["after 3am, before 6am"],
+      "schedule": ["after 3am, before 6am"]
     },
     {
       "description": "Auto merge apps [maintenance window] [1 stability day]",
