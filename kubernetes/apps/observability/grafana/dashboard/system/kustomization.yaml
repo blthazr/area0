@@ -7,4 +7,13 @@ patches:
       kind: GrafanaDashboard
       group: grafana.integreatly.org
       version: v1beta1
-resources: []
+resources:
+  - ./flux-cluster.yaml
+  - ./k8s-system-api-server.yaml
+  - ./k8s-system-coredns.yaml
+  - ./k8s-views-global.yaml
+  - ./k8s-views-namespaces.yaml
+  - ./k8s-views-nodes.yaml
+  - ./k8s-views-pods.yaml
+  - ./kyverno-metrics.yaml
+  - ./node-exporter-full.yaml
