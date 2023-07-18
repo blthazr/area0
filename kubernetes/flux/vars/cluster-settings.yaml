@@ -6,6 +6,7 @@ metadata:
   namespace: flux-system
 data:
   # site
+  CLUSTER_NAME: area0
   CLUSTER_TIME_ZONE: America/Chicago
 
   # metallb
@@ -13,6 +14,7 @@ data:
 
   # service addresses
   SVC_NGINX_ADDRESS: 10.0.100.100
+  SVC_K8S_GATEWAY_ADDRESS: 10.0.100.101
   SVC_PLEX_ADDRESS: 10.0.100.103
   SVC_CRIBL_LEADER_ADDRESS: 10.0.100.107
   SVC_CRIBL_WORKER_ADDRESS: 10.0.100.108
@@ -34,12 +36,3 @@ data:
   # nfs
   MEDIA_SERVER_NFS_PATH: "/data/media"
   NAS_NFS_PATH: "/volume1/data"
-
-  # legacy | site
-  CLUSTER_NAME: area0
-
-  # legacy | service addresses
-  SVC_K8S_GATEWAY_ADDRESS: 10.0.100.101
-
-  # legacy | site addresses
-  MQTT_ADDRESS: 172.16.30.20
