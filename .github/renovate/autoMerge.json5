@@ -11,12 +11,14 @@
         "helm"
       ],
       "matchPackagePatterns": [
+        "audiobookshelf",
         "bazarr",
         "gaps",
         "hajimari",
         "lidarr",
         "prowlarr",
         "radarr",
+        "readarr",
         "recyclarr",
         "sabnzbd",
         "sonarr",
