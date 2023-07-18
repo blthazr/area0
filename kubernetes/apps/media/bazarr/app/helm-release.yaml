@@ -53,6 +53,7 @@ spec:
               - *host
     nodeSelector:
       node-role.kubernetes.io/media: "true"
+      node-role.kubernetes.io/worker: "true"
     persistence:
       add-ons:
         enabled: true

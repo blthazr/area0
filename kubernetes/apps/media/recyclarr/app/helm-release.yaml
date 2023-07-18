@@ -44,6 +44,8 @@ spec:
     image:
       repository: ghcr.io/recyclarr/recyclarr
       tag: 5.1.1
+    nodeSelector:
+      node-role.kubernetes.io/worker: "true"
     persistence:
       config:
         defaultMode: 0775

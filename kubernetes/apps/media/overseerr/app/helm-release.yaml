@@ -58,6 +58,8 @@ spec:
         tls:
           - hosts:
               - *host
+    nodeSelector:
+      node-role.kubernetes.io/worker: "true"
     persistence:
       config:
         enabled: true
