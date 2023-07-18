@@ -38,7 +38,7 @@ spec:
           name: unifi-poller-credentials
     image:
       repository: ghcr.io/unpoller/unpoller
-      tag: v2.7.17
+      tag: v2.7.18
     resources:
       limits:
         memory: 500Mi
