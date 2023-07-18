@@ -62,6 +62,12 @@ spec:
       node-role.kubernetes.io/media: "true"
       node-role.kubernetes.io/worker: "true"
     persistence:
+      backup:
+        enabled: true
+        mountPath: /config/Backups
+        path: "${NAS_NFS_PATH}/backup/app/readarr-audio"
+        server: "${NAS_ADDRESS}"
+        type: nfs
       config:
         enabled: true
         existingClaim: readarr-audio-config-v1
