@@ -11,6 +11,7 @@ resources:
   - ./plex/app.yaml
   - ./prowlarr/app.yaml
   - ./radarr/app.yaml
+  - ./readarr/audio.yaml
   - ./recyclarr/app.yaml
   - ./sonarr/app.yaml
   - ./tautulli/app.yaml
