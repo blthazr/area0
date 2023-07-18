@@ -1,0 +1,22 @@
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: audiobookshelf
+spec:
+  restic:
+    copyMethod: Snapshot
+    moverSecurityContext:
+      fsGroup: 568
+      runAsGroup: 568
+      runAsUser: 568
+    pruneIntervalDays: 10
+    repository: audiobookshelf-restic-secret
+    retain:
+      daily: 10
+      within: 3d
+    storageClassName: ceph-block
+    volumeSnapshotClassName: csi-ceph-blockpool
+  sourcePVC: audiobookshelf-config-v1
+  trigger:
+    schedule: 0 8 * * *
