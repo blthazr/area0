@@ -5,6 +5,8 @@ metadata:
   name: sabnzbd
 spec:
   restic:
+    cacheCapacity: 8Gi
+    cacheStorageClassName: local-path
     copyMethod: Snapshot
     moverSecurityContext:
       fsGroup: 568

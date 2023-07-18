@@ -5,7 +5,8 @@ metadata:
   name: splunk-etc
 spec:
   restic:
-    cacheCapacity: 2Gi
+    cacheCapacity: 8Gi
+    cacheStorageClassName: local-path
     copyMethod: Snapshot
     pruneIntervalDays: 10
     repository: splunk-restic-secret

@@ -5,11 +5,9 @@ metadata:
   name: audiobookshelf
 spec:
   restic:
+    cacheCapacity: 8Gi
+    cacheStorageClassName: local-path
     copyMethod: Snapshot
-    moverSecurityContext:
-      fsGroup: 568
-      runAsGroup: 568
-      runAsUser: 568
     pruneIntervalDays: 10
     repository: audiobookshelf-restic-secret
     retain:

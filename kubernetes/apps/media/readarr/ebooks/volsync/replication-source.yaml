@@ -5,6 +5,8 @@ metadata:
   name: readarr-ebooks
 spec:
   restic:
+    cacheCapacity: 8Gi
+    cacheStorageClassName: local-path
     copyMethod: Snapshot
     moverSecurityContext:
       fsGroup: 568
