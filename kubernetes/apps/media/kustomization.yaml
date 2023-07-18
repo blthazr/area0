@@ -15,3 +15,4 @@ resources:
   - ./recyclarr/app.yaml
   - ./sonarr/app.yaml
   - ./tautulli/app.yaml
+  - ./wizarr/app.yaml
