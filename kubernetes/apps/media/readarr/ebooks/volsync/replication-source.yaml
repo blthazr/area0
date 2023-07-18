@@ -1,0 +1,22 @@
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: readarr-ebooks
+spec:
+  restic:
+    copyMethod: Snapshot
+    moverSecurityContext:
+      fsGroup: 568
+      runAsGroup: 568
+      runAsUser: 568
+    pruneIntervalDays: 10
+    repository: readarr-ebooks-restic-secret
+    retain:
+      daily: 10
+      within: 3d
+    storageClassName: ceph-block
+    volumeSnapshotClassName: csi-ceph-blockpool
+  sourcePVC: readarr-ebooks-config-v1
+  trigger:
+    schedule: 0 8 * * *

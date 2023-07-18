@@ -11,6 +11,7 @@ resources:
   - ./prowlarr/app.yaml
   - ./radarr/app.yaml
   - ./readarr/audio.yaml
+  - ./readarr/ebooks.yaml
   - ./recyclarr/app.yaml
   - ./sonarr/app.yaml
   - ./tautulli/app.yaml

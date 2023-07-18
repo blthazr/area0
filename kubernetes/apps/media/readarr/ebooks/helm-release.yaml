@@ -1,0 +1,93 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: &app readarr-ebooks
+spec:
+  chart:
+    spec:
+      chart: app-template
+      version: 1.5.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  dependsOn:
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
+    - name: volsync
+      namespace: volsync
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  interval: 30m
+  maxHistory: 2
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    env:
+      READARR__APPLICATION_URL: "https://readarr-ebooks.${SECRET_DOMAIN}"
+      READARR__INSTANCE_NAME: Readarr Ebooks
+      READARR__PORT: &port 8787
+      TZ: "${CLUSTER_TIME_ZONE}"
+    envFrom:
+      - secretRef:
+          name: *app
+    image:
+      repository: ghcr.io/onedr0p/readarr-nightly
+      tag: 0.2.4.1995@sha256:55e3b73ac61d9c054b977e6507eac41dcaee5da8b9747cba6656b6968ae0d0cc
+    ingress:
+      main:
+        annotations:
+          hajimari.io/appName: Readarr eBooks
+          hajimari.io/group: Media-Automation
+          hajimari.io/icon: mdi:book-open-variant
+          hajimari.io/info: eBook collection manager
+        enabled: true
+        hosts:
+          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        ingressClassName: nginx
+        tls:
+          - hosts:
+              - *host
+    nodeSelector:
+      node-role.kubernetes.io/media: "true"
+      node-role.kubernetes.io/worker: "true"
+    persistence:
+      backup:
+        enabled: true
+        mountPath: /config/Backups
+        path: "${NAS_NFS_PATH}/backup/app/readarr-ebooks"
+        server: "${NAS_ADDRESS}"
+        type: nfs
+      config:
+        enabled: true
+        existingClaim: readarr-ebooks-config-v1
+      media:
+        enabled: true
+        mountPath: /media
+        path: "${MEDIA_SERVER_NFS_PATH}"
+        server: "${MEDIA_SERVER_ADDRESS}"
+        type: nfs
+    podAnnotations:
+      secret.reloader.stakater.com/reload: *app
+    podSecurityContext:
+      fsGroup: 568
+      fsGroupChangePolicy: OnRootMismatch
+      runAsGroup: 568
+      runAsUser: 568
+      supplementalGroups:
+        - 100
+    service:
+      main:
+        ports:
+          http:
+            port: *port
