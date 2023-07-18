@@ -6,6 +6,7 @@ metadata:
   annotations:
     hajimari.io/group: Management
     hajimari.io/icon: mdi:chart-pie
+    hajimari.io/info: Ad Blocker
     hajimari.io/url: "https://pi-hole.${SECRET_DOMAIN}/admin"
   labels:
     app.kubernetes.io/name: *app

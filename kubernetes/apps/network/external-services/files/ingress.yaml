@@ -6,6 +6,7 @@ metadata:
   annotations:
     hajimari.io/group: Home
     hajimari.io/icon: mdi:database
+    hajimari.io/info: File Manager
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
   labels:
     app.kubernetes.io/name: *app

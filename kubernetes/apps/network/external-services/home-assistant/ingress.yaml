@@ -6,6 +6,7 @@ metadata:
   annotations:
     hajimari.io/group: Home-Automation
     hajimari.io/icon: mdi:automation
+    hajimari.io/info: Home Automation Hub
   labels:
     app.kubernetes.io/name: *app
     app.kubernetes.io/instance: *app

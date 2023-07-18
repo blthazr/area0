@@ -44,6 +44,7 @@ spec:
           hajimari.io/appName: Plex Requests
           hajimari.io/group: Media
           hajimari.io/icon: mdi:link-box-variant
+          hajimari.io/info: Requests Portal
           nginx.ingress.kubernetes.io/configuration-snippet: |
             proxy_set_header Accept-Encoding "";
             sub_filter '</head>' '<link rel="stylesheet" type="text/css" href="https://theme-park.${SECRET_DOMAIN}/css/base/overseerr/dark.css"></head>';

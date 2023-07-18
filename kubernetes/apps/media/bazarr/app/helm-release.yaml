@@ -41,6 +41,7 @@ spec:
         annotations:
           hajimari.io/group: Media-Automation
           hajimari.io/icon: mdi:subtitles-outline
+          hajimari.io/info: Subtitle Manager
         enabled: true
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"

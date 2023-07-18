@@ -47,6 +47,7 @@ spec:
           hajimari.io/appName: Audio Books
           hajimari.io/group: Media
           hajimari.io/icon: mdi:podcast
+          hajimari.io/info: Audiobook and Podcasts
         enabled: true
         hosts:
           - host: &host "audiobooks.${SECRET_DOMAIN}"

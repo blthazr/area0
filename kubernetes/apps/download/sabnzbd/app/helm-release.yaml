@@ -51,6 +51,7 @@ spec:
         annotations:
           hajimari.io/group: Media-Automation
           hajimari.io/icon: mdi:download
+          hajimari.io/info: Usenet Downloader
           nginx.ingress.kubernetes.io/configuration-snippet: |
             proxy_set_header Accept-Encoding "";
             sub_filter '</head>' '<link rel="stylesheet" type="text/css" href="https://theme-park.${SECRET_DOMAIN}/css/base/sabnzbd/dark.css"></head>';

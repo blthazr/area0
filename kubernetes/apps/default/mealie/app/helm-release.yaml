@@ -42,6 +42,7 @@ spec:
           hajimari.io/appName: Recipes
           hajimari.io/group: Home
           hajimari.io/icon: mdi:food
+          hajimari.io/info: Recipe Manager
         enabled: true
         hosts:
           - host: &host "recipes.${SECRET_DOMAIN}"
