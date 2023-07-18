@@ -5,6 +5,8 @@ metadata:
   name: cluster-apps-cloudflared
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: cluster-apps-external-dns
   interval: 30m
   path: ./kubernetes/apps/network/cloudflared/app
   prune: true

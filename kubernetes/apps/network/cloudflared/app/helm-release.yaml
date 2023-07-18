@@ -37,7 +37,7 @@ spec:
     controller:
       annotations:
         reloader.stakater.com/auto: "true"
-      replicas: 2
+      replicas: 1 # 2
       strategy: RollingUpdate
     env:
       NO_AUTOUPDATE: "true"
