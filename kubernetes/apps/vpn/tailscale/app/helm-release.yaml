@@ -1,0 +1,63 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: &app tailscale
+spec:
+  chart:
+    spec:
+      chart: app-template
+      version: 1.5.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  interval: 30m
+  maxHistory: 2
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    serviceAccount:
+      name: tailscale
+    image:
+      repository: ghcr.io/tailscale/tailscale
+      tag: v1.44.0
+    service:
+      main:
+        ports:
+          http:
+            port: &port 45387
+    podSecurityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
+    ingress:
+      main:
+        enabled: false
+    probes:
+      liveness:
+        enabled: false
+      readiness:
+        enabled: false
+      startup:
+        enabled: false
+    env:
+      SA_NAME: tailscale
+      TS_ACCEPT_DNS: true
+      TS_EXTRA_ARGS: "--advertise-exit-node"
+      TS_KUBE_SECRET: "tailscale-auth"
+      TS_ROUTES: "${NET_K3S_CLUSTER_CIDR},${NET_K3S_SERVICE_CIDR},${NET_OLD_HOME_CIDR},${NET_OLD_SERVICES_CIDR},${NET_OLD_SMARTHOME_CIDR},${NET_SERVICES_CIDR},${NET_SMARTHOME_CIDR}"
+      TS_USERSPACE: "true"
+      TZ: "${CLUSTER_TIME_ZONE}"
+    envFrom:
+      - secretRef:
+          name: tailscale-auth
+    podAnnotations:
+      configmap.reloader.stakater.com/reload: tailscale-auth
