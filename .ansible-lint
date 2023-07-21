@@ -6,4 +6,3 @@ warn_list:
    - deprecated-command-syntax
    - experimental
    - no-changed-when
-   - unnamed-task
