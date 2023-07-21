@@ -36,6 +36,23 @@
       "matchPackagePatterns": ["flux"],
       "separateMinorPatch": true,
       "versioning": "semver"
+    },
+    {
+      "description": "Cribl Group",
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "groupName": "Cribl",
+      "matchDatasources": [
+        "docker",
+        "github-releases",
+        "helm"
+      ],
+      "matchPackagePatterns": [
+        "cribl",
+        "logstream"
+      ],
+      "separateMinorPatch": true
     }
   ]
 }
