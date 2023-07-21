@@ -7,8 +7,9 @@ Thumbs.db
 # VS Code
 *.code-workspace
 
-# shards
-*-shard*
+# Shards
+*-shard/*
+*-shard.*
 
 # Kubernetes
 kubeconfig
@@ -16,11 +17,5 @@ kubeconfig
 # age
 *.agekey
 
-# secrets
-secret.y*ml
-
 # sops
 .decrypted~*
-
-# temp files
-*.log
