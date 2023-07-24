@@ -1,0 +1,56 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   .taskfiles/ansible/tasks.yaml
+#   @description    :   ansible tasks
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+version: "3"
+
+vars:
+  ANSIBLE_PLAYBOOK_DIR: "./playbooks"
+
+tasks:
+  # task ansible:deps
+  deps:
+    desc: install/upgrade ansible dependencies
+    cmds:
+      - pip3 install --user --requirement requirements.txt
+      - ansible-galaxy role install --roles-path ./.ansible/roles --role-file ./requirements.yaml --force-with-deps
+      - ansible-galaxy collection install --collections-path ./.ansible/collections --requirements-file ./requirements.yaml --upgrade
+    preconditions:
+      - test -f "./requirements.txt"
+      - test -f "./requirements.yaml"
+
+  # task ansible:list
+  list:
+    desc: list all the hosts
+    cmd: ansible all --list-hosts
+
+  # task ansible:ping
+  ping:
+    desc: ping all the hosts
+    cmd: ansible all --one-line -m 'ping'
+
+  # task ansible:uptime
+  uptime:
+    desc: uptime of all the hosts
+    cmd: ansible all --one-line -a 'uptime'
+
+  # task ansible:k3s:reboot-rolling
+  k3s:reboot-rolling:
+    desc: perform a rolling reboot of the k3s nodes
+    cmd: ansible-playbook {{.ANSIBLE_PLAYBOOK_DIR}}/kubernetes/k3s-cluster-rolling-reboot.yaml
+
+  # task ansible:k3s:reboot-force
+  k3s:reboot-force:
+    desc: perform a forceful reboot of the k3s nodes
+    cmd: ansible-playbook {{.ANSIBLE_PLAYBOOK_DIR}}/kubernetes/k3s-cluster-reboot.yaml
+
+  # task ansible:k3s:os-update
+  k3s:os-update:
+    desc: perform rolling operating system updates and reboot of the k3s nodes
+    cmd: ansible-playbook {{.ANSIBLE_PLAYBOOK_DIR}}/kubernetes/k3s-cluster-os-update.yaml
+
+  # task ansible:k3s:poweroff-force
+  k3s:poweroff-force:
+    desc: shutdown all of the k3s nodes
+    cmd: ansible kubernetes -a '/usr/bin/systemctl poweroff' --become
