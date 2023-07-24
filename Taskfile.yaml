@@ -1,0 +1,16 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   Taskfile.yaml
+#   @description    :   go-task is a simple task runner
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+version: "3"
+
+includes:
+  volsync:
+    optional: true
+    taskfile: .taskfiles/volsync/tasks.yaml
+
+tasks:
+  default:
+    silent: true
+    cmds: ["task -l"]
