@@ -1,0 +1,111 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: &app sonarr
+spec:
+  chart:
+    spec:
+      chart: app-template
+      version: 1.5.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  dependsOn:
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
+    - name: volsync
+      namespace: volsync
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  interval: 30m
+  maxHistory: 2
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    env:
+      SONARR__INSTANCE_NAME: Sonarr
+      SONARR__LOG_LEVEL: info
+      SONARR__PORT: &port 8989
+      TZ: "${CLUSTER_TIME_ZONE}"
+    envFrom:
+      - secretRef:
+          name: sonarr-secrets
+    image:
+      repository: ghcr.io/onedr0p/sonarr-develop
+      tag: 4.0.0.577@sha256:753e931408dbfaa629f6c1983124feced727228f6efb1b2bd37d7c11caa68147
+    ingress:
+      main:
+        annotations:
+          hajimari.io/group: Media-Automation
+          hajimari.io/icon: mdi:television-classic
+          hajimari.io/info: TV Show Collection Manager
+          nginx.ingress.kubernetes.io/configuration-snippet: |
+            proxy_set_header Accept-Encoding "";
+            sub_filter '</head>' '<link rel="stylesheet" type="text/css" href="https://theme-park.${SECRET_DOMAIN}/css/base/sonarr/dark.css"></head>';
+            sub_filter_once on;
+        enabled: true
+        hosts:
+          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        ingressClassName: nginx
+        tls:
+          - hosts:
+              - *host
+    nodeSelector:
+      node-role.kubernetes.io/media: "true"
+      node-role.kubernetes.io/worker: "true"
+    persistence:
+      backup:
+        enabled: true
+        mountPath: /config/Backups
+        path: "${NAS_NFS_PATH}/backup/app/sonarr"
+        server: "${NAS_ADDRESS}"
+        type: nfs
+      config:
+        enabled: true
+        existingClaim: sonarr-config-v1
+      media:
+        enabled: true
+        mountPath: /media
+        path: "${MEDIA_SERVER_NFS_PATH}"
+        server: "${MEDIA_SERVER_ADDRESS}"
+        type: nfs
+    podAnnotations:
+      secret.reloader.stakater.com/reload: sonarr-secrets
+    podSecurityContext:
+      fsGroup: 568
+      fsGroupChangePolicy: OnRootMismatch
+      runAsGroup: 568
+      runAsUser: 568
+      supplementalGroups:
+        - 100
+    probes:
+      liveness: &probes
+        enabled: true
+        custom: true
+        spec:
+          httpGet:
+            path: /ping
+            port: *port
+          initialDelaySeconds: 0
+          periodSeconds: 10
+          timeoutSeconds: 1
+          failureThreshold: 3
+      readiness: *probes
+      startup:
+        enabled: false
+    service:
+      main:
+        ports:
+          http:
+            port: *port
