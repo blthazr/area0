@@ -3,8 +3,7 @@ name: Meta - Labeler
 
 on:
   pull_request:
-    branches:
-      - main
+    branches: ["main"]
 
 jobs:
   labeler:
