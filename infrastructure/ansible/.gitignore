@@ -11,7 +11,7 @@
 *-dev.*
 
 # Ansible Collections
-collections/*
+.ansible/collections/*
 
 # Ansible Roles
-roles-galaxy/*
+.ansible/roles/*
