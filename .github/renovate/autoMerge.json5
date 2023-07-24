@@ -2,92 +2,24 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
-      "description": "Auto merge apps [anytime]",
-      "addLabels": ["action/automerge"],
+      "description": "Auto merge container digests",
       "automerge": true,
-      "automergeType": "pr",
+      "automergeType": "branch",
       "ignoreTests": true,
-      "matchDatasources": [
-        "docker",
-        "helm"
-      ],
-      "matchPackagePatterns": [
-        "audiobookshelf",
-        "bazarr",
-        "gaps",
-        "hajimari",
-        "lidarr",
-        "prowlarr",
-        "radarr",
-        "readarr",
-        "recyclarr",
-        "sabnzbd",
-        "sonarr",
-        "tautulli",
-        "theme-park",
-        "unpoller"
-      ],
-      "matchUpdateTypes": [
-        "digest",
-        "minor",
-        "patch"
-      ]
-    },
-    {
-      "description": "Auto merge apps [maintenance window]",
-      "addLabels": ["action/automerge"],
-      "automerge": true,
-      "automergeType": "pr",
-      "ignoreTests": true,
-      "matchDatasources": [
-        "docker",
-        "helm"
-      ],
-      "matchPackagePatterns": [
-        "frigate",
-        "mealie"
-      ],
-      "matchUpdateTypes": [
-        "digest",
-        "minor",
-        "patch"
-      ],
+      "matchDatasources": ["docker"],
+      "matchPackagePatterns": ["ghcr.io/bjw-s", "ghcr.io/onedr0p"],
+      "matchUpdateTypes": ["digest"],
       "schedule": ["after 3am, before 6am"]
-    },
-    {
-      "description": "Auto merge apps [maintenance window] [1 stability day]",
-      "addLabels": ["action/automerge"],
-      "automerge": true,
-      "automergeType": "pr",
-      "ignoreTests": true,
-      "matchDatasources": [
-        "docker",
-        "helm"
-      ],
-      "matchPackagePatterns": [
-        "overseerr",
-        "plex"
-      ],
-      "matchUpdateTypes": [
-        "digest",
-        "minor",
-        "patch"
-      ],
-      "schedule": ["after 3am, before 6am"],
-      "stabilityDays": 1
     },
     {
       "description": "Auto merge GitHub Actions",
       "addLabels": ["action/automerge"],
       "automerge": true,
-      "automergeType": "pr",
+      "automergeType": "branch",
       "ignoreTests": true,
       "matchDatasources": ["github-tags"],
       "matchManagers": ["github-actions"],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ]
+      "matchUpdateTypes": ["minor", "patch", "digest"]
     }
   ]
 }
