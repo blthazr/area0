@@ -5,4 +5,5 @@ resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
   # Flux-Kustomizations
-  - ./cloudnative-pg/operator.yaml
+  # - ./cloudnative-pg/operator.yaml
+  # - ./cloudnative-pg/cluster.yaml
