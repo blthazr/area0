@@ -13,7 +13,6 @@ resources:
   - ./readarr/audio.yaml
   - ./readarr/ebooks.yaml
   - ./recyclarr/app.yaml
-  - ./sonarr/app.yaml
   - ./sonarr/sonarr.yaml
   - ./tautulli/app.yaml
   - ./wizarr/app.yaml
