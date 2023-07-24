@@ -2,7 +2,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cluster-apps-sonarr
+  name: cluster-apps-sonarr2
   namespace: flux-system
 spec:
   interval: 30m
