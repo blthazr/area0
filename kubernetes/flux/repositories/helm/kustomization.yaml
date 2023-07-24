@@ -5,6 +5,7 @@ resources:
   - ./backube.yaml
   - ./bitnami.yaml
   - ./bjw-s.yaml
+  - ./cloudnative-pg.yaml
   - ./cribl.yaml
   - ./descheduler.yaml
   - ./external-dns.yaml
