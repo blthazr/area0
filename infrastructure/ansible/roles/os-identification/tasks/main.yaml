@@ -4,7 +4,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ---
 - name: main | include synology dsm tasks
-  ansible.builtin.include_tasks: "Synology/main.yml"
+  ansible.builtin.include_tasks: "Synology/main.yaml"
   when:
     - ansible_cmdline.syno_hw_version is defined
     - ansible_cmdline.syno_hw_version
