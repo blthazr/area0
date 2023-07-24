@@ -29,6 +29,17 @@ spec:
       TZ: "${CLUSTER_TIME_ZONE}"
     hajimari:
       alwaysTargetBlank: true
+      customApps:
+        - group: Management
+          apps:
+            - name: Minio
+              url: "https://minio.${SECRET_DOMAIN}"
+            - name: Synology
+              url: "https://synology.${SECRET_DOMAIN}"
+        - group: Media
+          apps:
+            - name: YoutubeDL
+              url: "https://dl.${SECRET_DOMAIN}"
       darkTheme: lime
       defaultEnable: true
       globalBookmarks:
@@ -38,6 +49,12 @@ spec:
               url: 'https://github.com/blthazr/area0'
             - name: k8s-at-home search
               url: 'https://nanne.dev/k8s-at-home-search'
+        - group: Services
+          bookmarks:
+            - name: Tailscale
+              url: 'https://login.tailscale.com/admin/machines'
+            - name: Cloudflare
+              url: 'https://www.cloudflare.com/a/login'
       lightTheme: lime
       namespaceSelector:
         matchNames:
