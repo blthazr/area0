@@ -5,7 +5,7 @@
 ---
 galaxy_info:
   author: Chris Burnham
-  description: "Identify unknown operating systems"
+  description: Identify unknown operating systems
 
   license: "license Unlicense"
 
@@ -20,5 +20,4 @@ galaxy_info:
       versions:
         - all
 
-# List your role dependencies
 dependencies: []
