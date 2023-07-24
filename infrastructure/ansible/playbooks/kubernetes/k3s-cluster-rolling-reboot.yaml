@@ -1,0 +1,88 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   playbooks/kubernetes/k3s-cluster-rolling-reboot.yaml
+#   @description    :   rolling reboot of the k3s cluster
+#   @usage          :   ansible-playbook playbooks/kubernetes/k3s-cluster-rolling-reboot.yaml
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+- name: Perform a rolling reboot of the k3s nodes
+  hosts:
+    - kubernetes
+  become: true
+  gather_facts: true
+  any_errors_fatal: true
+  serial: 1
+
+  pre_tasks:
+    - name: Pausing for 5 seconds...
+      ansible.builtin.pause:
+        seconds: 5
+
+  tasks:
+    - name: Rolling reboot
+      block:
+        - name: "Cordoning node {{ inventory_hostname | lower }}"
+          kubernetes.core.k8s_drain:
+            state: cordon
+            name: "{{ inventory_hostname | lower }}"
+          delegate_to: localhost
+
+        - name: "Waiting on node {{ inventory_hostname | lower }}"
+          ansible.builtin.command: "kubectl get node {{ inventory_hostname }} -o json"
+          register: wait_for_cordon
+          retries: 10
+          delay: 10
+          delegate_to: localhost
+          changed_when: false
+          until: (wait_for_cordon['stdout'] | from_json).spec.unschedulable
+
+        - name: "Draining node {{ inventory_hostname | lower }}"
+          kubernetes.core.k8s_drain:
+            delete_options:
+              delete_emptydir_data: true
+              force: true
+              ignore_daemonsets: true
+              terminate_grace_period: 900
+            state: drain
+            name: "{{ inventory_hostname | lower }}"
+          delegate_to: localhost
+
+        - name: "Rebooting node {{ inventory_hostname | lower }}"
+          ansible.builtin.reboot:
+            msg: Rebooting node
+            post_reboot_delay: 60
+            reboot_timeout: 3600
+
+        - name: "Uncordoning node {{ inventory_hostname | lower }}"
+          kubernetes.core.k8s_drain:
+            state: uncordon
+            name: "{{ inventory_hostname | lower }}"
+          delegate_to: localhost
+
+        - name: "Waiting on node {{ inventory_hostname | lower }}"
+          ansible.builtin.command: "kubectl get node {{ inventory_hostname }} -o json"
+          retries: 10
+          delay: 10
+          delegate_to: localhost
+          changed_when: false
+          until: not (kubectl_get_node['stdout'] | from_json).spec.unschedulable is defined
+
+      rescue:
+        - name: "Rebooting undrained node {{ inventory_hostname | lower }}"
+          ansible.builtin.reboot:
+            msg: Rebooting node
+            post_reboot_delay: 60
+            reboot_timeout: 3600
+
+        - name: "Uncordoning node {{ inventory_hostname | lower }}"
+          kubernetes.core.k8s_drain:
+            state: uncordon
+            name: "{{ inventory_hostname | lower }}"
+          delegate_to: localhost
+
+        - name: "Waiting on node {{ inventory_hostname | lower }}"
+          ansible.builtin.command: "kubectl get node {{ inventory_hostname }} -o json"
+          retries: 10
+          delay: 10
+          delegate_to: localhost
+          changed_when: false
+          until: not (kubectl_get_node['stdout'] | from_json).spec.unschedulable is defined

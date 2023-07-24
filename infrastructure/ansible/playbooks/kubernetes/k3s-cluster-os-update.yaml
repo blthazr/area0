@@ -1,0 +1,111 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   playbooks/kubernetes/k3s-cluster-os-update.yaml
+#   @description    :   update all os packages on k3s cluster nodes
+#   @usage          :   ansible-playbook playbooks/kubernetes/k3s-cluster-os-update.yaml
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+- name: Perform rolling operating system updates and reboot of the k3s nodes
+  hosts:
+    - kubernetes
+  become: true
+  gather_facts: true
+  any_errors_fatal: true
+  serial: 1
+
+  pre_tasks:
+    - name: Pausing for 5 seconds...
+      ansible.builtin.pause:
+        seconds: 5
+
+  tasks:
+    - name: "Getting details on node {{ inventory_hostname | lower }}"
+      ansible.builtin.command: "kubectl get node {{ inventory_hostname }} -o json"
+      register: kubectl_get_node
+      delegate_to: localhost
+      failed_when: false
+      changed_when: false
+
+    - name: Rolling update
+      when:
+        # When status.conditions[x].type == Ready then check stats.conditions[x].status for True|False
+        - kubectl_get_node['stdout'] | from_json | json_query("status.conditions[?type == 'Ready'].status")
+        # If spec.unschedulable is defined then the node is cordoned
+        - not (kubectl_get_node['stdout'] | from_json).spec.unschedulable is defined
+      block:
+        - name: "Cordoning node {{ inventory_hostname | lower }}"
+          kubernetes.core.k8s_drain:
+            state: cordon
+            name: "{{ inventory_hostname | lower }}"
+          delegate_to: localhost
+
+        - name: "Waiting on node {{ inventory_hostname | lower }}"
+          ansible.builtin.command: "kubectl get node {{ inventory_hostname }} -o json"
+          register: wait_for_cordon
+          retries: 10
+          delay: 10
+          delegate_to: localhost
+          changed_when: false
+          until: (wait_for_cordon['stdout'] | from_json).spec.unschedulable
+
+        - name: "Draining node {{ inventory_hostname | lower }}"
+          kubernetes.core.k8s_drain:
+            delete_options:
+              delete_emptydir_data: true
+              force: true
+              ignore_daemonsets: true
+              terminate_grace_period: 900
+            state: drain
+            name: "{{ inventory_hostname | lower }}"
+          delegate_to: localhost
+
+        - name: "Updating all packages on node {{ inventory_hostname | lower }}"
+          ansible.builtin.apt:
+            upgrade: dist
+            update_cache: true
+
+        - name: Check if reboot is required
+          ansible.builtin.stat:
+            path: /var/run/reboot-required
+          register: reboot_required
+
+        - name: "Rebooting node {{ inventory_hostname | lower }}"
+          ansible.builtin.reboot:
+            msg: Rebooting node
+            post_reboot_delay: 60
+            reboot_timeout: 3600
+          when: reboot_required.stat.exists
+
+        - name: "Uncordoning node {{ inventory_hostname | lower }}"
+          kubernetes.core.k8s_drain:
+            state: uncordon
+            name: "{{ inventory_hostname | lower }}"
+          delegate_to: localhost
+
+        - name: "Waiting on node {{ inventory_hostname | lower }}"
+          ansible.builtin.command: "kubectl get node {{ inventory_hostname }} -o json"
+          retries: 10
+          delay: 10
+          delegate_to: localhost
+          changed_when: false
+          until: not (kubectl_get_node['stdout'] | from_json).spec.unschedulable is defined
+
+      rescue:
+        - name: "Rebooting undrained node {{ inventory_hostname | lower }}"
+          ansible.builtin.reboot:
+            msg: Rebooting node
+            post_reboot_delay: 60
+            reboot_timeout: 3600
+
+        - name: "Uncordoning node {{ inventory_hostname | lower }}"
+          kubernetes.core.k8s_drain:
+            state: uncordon
+            name: "{{ inventory_hostname | lower }}"
+          delegate_to: localhost
+
+        - name: "Waiting on node {{ inventory_hostname | lower }}"
+          ansible.builtin.command: "kubectl get node {{ inventory_hostname }} -o json"
+          retries: 10
+          delay: 10
+          delegate_to: localhost
+          changed_when: false
+          until: not (kubectl_get_node['stdout'] | from_json).spec.unschedulable is defined
