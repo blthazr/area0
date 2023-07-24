@@ -1,7 +1,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#   @file           :   playbooks/bootstrap-managed-node.yml
+#   @file           :   playbooks/bootstrap-managed-node.yaml
 #   @description    :   bootstrap a node to be managed by ansible
-#   @usage          :   ansible-playbook playbooks/bootstrap-managed-node.yml -K -e "host=<hostname>"
+#   @usage          :   ansible-playbook playbooks/bootstrap-managed-node.yaml -K -e "host=<hostname>"
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ---
 - hosts: "{{ host }}"

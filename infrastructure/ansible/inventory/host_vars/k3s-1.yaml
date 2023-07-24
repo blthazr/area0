@@ -1,30 +1,18 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#   @file           :   inventory/group_vars/all/global.yml
-#   @description    :   global variables for the site
+#   @file           :   ansible/inventory/host_vars/k3s-1.yaml
+#   @description    :   host variables
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ---
 # --------------------------------------------------------------------------------------------------
 # ansible settings
 # --------------------------------------------------------------------------------------------------
-# -- (bool) force privilege escalation
-ansible_become: true
-
-# -- (bool) determines whether or not to use SSH pipelining
-ansible_ssh_pipelining: false
-
-# -- (str) private key file used by ansible ssh
-ansible_ssh_private_key_file: ~/.ssh/id_rsa_kane
-
-# -- (str) public key file used by ansible ssh
-ansible_ssh_public_key_file: ~/.ssh/id_rsa_kane.pub
-
-# -- (str) the user name to use when connecting to the host
-ansible_user: kane
+ansible_host: 10.0.101.11
+ansible_python_interpreter: /usr/bin/python3
 # ==================================================================================================
 
 # --------------------------------------------------------------------------------------------------
-# time settings
+# kubernetes
 # --------------------------------------------------------------------------------------------------
-# -- (str) timezone for the site
-timezone: "America/Chicago"
+# rook_block_devices:
+#   - /dev/disk/by-id/ata-Samsung_Portable_SSD_T5_S4B0NR0R719439P
 # ==================================================================================================
