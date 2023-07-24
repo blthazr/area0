@@ -4,6 +4,8 @@
     "config:base",
     "docker:enableMajor",
     "helpers:pinGitHubActionDigests",
+    ":automergeBranch",
+    ":automergeDigest",
     ":dependencyDashboard",
     ":disableRateLimiting",
     ":semanticCommits",
@@ -52,6 +54,17 @@
       ],
       "datasourceTemplate": "{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}",
       "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
+    },
+    {
+      "description": "configure regex manager for CloudNativePG PostgreSQL",
+      "fileMatch": [
+        "(^|/)kubernetes/.+\\.ya?ml$"
+      ],
+      "matchStrings": [
+        "imageName: (?<depName>\\S+):(?<currentValue>.*\\-.*)"
+      ],
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "redhat"
     }
   ]
 }
