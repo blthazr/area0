@@ -1,0 +1,38 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres-v14
+  annotations:
+    kyverno.io/ignore: "true"
+spec:
+  backup:
+    barmanObjectStore:
+      destinationPath: s3://cloudnative-pg/
+      endpointURL: "http://${MINIO_ADDRESS}:9000"
+      serverName: &currentCluster postgres-v14
+      s3Credentials:
+        accessKeyId:
+          name: cloudnative-pg-secret
+          key: minio-access-key
+        secretAccessKey:
+          name: cloudnative-pg-secret
+          key: minio-secret-key
+      wal:
+        compression: bzip2
+        maxParallel: 8
+    retentionPolicy: 30d
+  imageName: ghcr.io/cloudnative-pg/postgresql:14.8-7
+  instances: 3
+  monitoring:
+    enablePodMonitor: true
+  postgresql:
+    parameters:
+      max_connections: "600"
+      shared_buffers: 512MB
+  primaryUpdateStrategy: unsupervised
+  storage:
+    size: 20Gi
+    storageClass: local-path
+  superuserSecret:
+    name: cloudnative-pg-secret
