@@ -9,7 +9,6 @@ resources:
   - ./overseerr/app.yaml
   - ./plex/app.yaml
   - ./prowlarr/app.yaml
-  - ./radarr/app.yaml
   - ./radarr/radarr.yaml
   - ./radarr/radarr-uhd.yaml
   - ./readarr/audio.yaml
