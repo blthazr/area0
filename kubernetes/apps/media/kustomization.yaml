@@ -10,7 +10,7 @@ resources:
   - ./plex/app.yaml
   - ./prowlarr/app.yaml
   # - ./radarr/radarr.yaml
-  - ./radarr/radarr-uhd.yaml
+  # - ./radarr/radarr-uhd.yaml
   - ./readarr/audio.yaml
   - ./readarr/ebooks.yaml
   - ./recyclarr/app.yaml
