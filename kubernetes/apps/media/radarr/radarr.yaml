@@ -1,0 +1,18 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: cluster-apps-radarr
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: cluster-apps-cloudnative-pg-cluster
+  interval: 30m
+  path: ./kubernetes/apps/media/radarr/radarr
+  prune: true
+  retryInterval: 1m
+  sourceRef:
+    kind: GitRepository
+    name: area0
+  timeout: 5m
+  wait: true
