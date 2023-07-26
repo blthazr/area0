@@ -8,7 +8,7 @@ resources:
   - ./lidarr/app.yaml
   - ./overseerr/app.yaml
   - ./plex/app.yaml
-  # - ./prowlarr/app.yaml
+  - ./prowlarr/app.yaml
   - ./radarr/app.yaml
   - ./readarr/audio.yaml
   - ./readarr/ebooks.yaml

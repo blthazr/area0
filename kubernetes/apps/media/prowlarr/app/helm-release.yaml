@@ -12,11 +12,6 @@ spec:
         kind: HelmRepository
         name: bjw-s-charts
         namespace: flux-system
-  dependsOn:
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
-    - name: volsync
-      namespace: volsync
   install:
     createNamespace: true
     remediation:
@@ -37,16 +32,24 @@ spec:
       TZ: "${CLUSTER_TIME_ZONE}"
     envFrom:
       - secretRef:
-          name: prowlarr-secrets
+          name: *app
     image:
-      repository: ghcr.io/onedr0p/prowlarr-nightly
-      tag: 1.8.0.3770@sha256:76f8effc0991f153475815a64159751952f97aacaa9c77b12f5e68b6b2ed670a
+      repository: ghcr.io/onedr0p/prowlarr-develop
+      tag: 1.7.4.3769@sha256:d94c2b25d30503ae2f62b342f3aab0f71ac45ebba669357c7ce5ca586f88470c
     ingress:
       main:
         annotations:
           hajimari.io/group: Media-Automation
           hajimari.io/icon: mdi:movie-search
           hajimari.io/info: Indexer Manager
+          nginx.ingress.kubernetes.io/configuration-snippet: |
+            proxy_set_header Accept-Encoding "";
+            sub_filter
+            '</head>'
+            '<link rel="stylesheet" type="text/css" href="https://theme-park.${SECRET_DOMAIN}/css/base/prowlarr/prowlarr-base.css">
+            <link rel="stylesheet" type="text/css" href="https://theme-park.${SECRET_DOMAIN}/css/addons/prowlarr/prowlarr-darker/prowlarr-darker.css">
+            </head>';
+            sub_filter_once on;
         enabled: true
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
@@ -57,20 +60,21 @@ spec:
         tls:
           - hosts:
               - *host
+    initContainers:
+      01-init-db:
+        envFrom:
+          - secretRef:
+              name: *app
+        image: ghcr.io/onedr0p/postgres-init:14.8
+        imagePullPolicy: IfNotPresent
     nodeSelector:
       node-role.kubernetes.io/worker: "true"
     persistence:
-      backup:
-        enabled: true
-        mountPath: /config/Backups
-        path: "${NAS_NFS_PATH}/backup/app/prowlarr"
-        server: "${NAS_ADDRESS}"
-        type: nfs
       config:
         enabled: true
-        existingClaim: prowlarr-config-v1
+        type: emptyDir
     podAnnotations:
-      secret.reloader.stakater.com/reload: prowlarr-secrets
+      secret.reloader.stakater.com/reload: *app
     podSecurityContext:
       fsGroup: 568
       fsGroupChangePolicy: OnRootMismatch
