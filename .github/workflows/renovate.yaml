@@ -23,6 +23,8 @@ on:
 
 env:
   LOG_LEVEL: debug
+  RENOVATE_AUTODISCOVER: true
+  RENOVATE_AUTODISCOVER_FILTER: "${{ github.repository }}"
   RENOVATE_CONFIG_FILE: .github/renovate-bot.json5
   RENOVATE_DRY_RUN: false
 
@@ -49,7 +51,7 @@ jobs:
           echo "LOG_LEVEL=${{ github.event.inputs.logLevel || env.LOG_LEVEL }}" >> "${GITHUB_ENV}"
         shell: bash
 
-      - name: Run renovate
+      - name: Run Renovate
         uses: renovatebot/github-action@23a02fe7be9e93f857a953cc8162e57d2c8401ef # v39.0.1
         with:
           configurationFile: "${{ env.RENOVATE_CONFIG_FILE }}"
