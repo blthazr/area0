@@ -1,6 +1,5 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "username": "maudie-bot[bot]",
-  "repositories": ["blthazr/area0"],
   "gitAuthor": "maudie-bot <16470300+maudie-bot[bot]@users.noreply.github.com>"
 }
