@@ -4,13 +4,11 @@ name: Flux Diff
 on:
   pull_request:
     branches: ["main"]
-    paths: ["kubernetes/**.yaml"]
+    paths: ["**.yaml"]
 
 jobs:
   flux-diff:
     name: Flux Diff
-    permissions:
-      pull-requests: write
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -30,16 +28,15 @@ jobs:
         with:
           path: "${{ matrix.path }}"
           resource: "${{ matrix.resource }}"
-          sources: area0
 
       - name: Add comment
         if: ${{ steps.diff.outputs.diff != '' }}
         uses: mshick/add-pr-comment@7c0890544fb33b0bdd2e59467fbacb62e028a096 # v2.8.1
         with:
           message-failure: Diff was not successful
-          message-id: "${{ github.event.pull_request.number }}/${{ matrix.path }}/${{ matrix.resource }}"
+          message-id: ${{ matrix.path }}/${{ matrix.resource }}
           message: |
             ```diff
             ${{ steps.diff.outputs.diff }}
             ```
-          repo-token: "${{ steps.generate-token.outputs.token }}"
+          repo-token: ${{ steps.generate-token.outputs.token }}
