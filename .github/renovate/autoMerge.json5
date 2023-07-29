@@ -5,6 +5,7 @@
       "description": "Auto merge container digests [maintenance window]",
       "addLabels": ["action/automerge"],
       "automerge": true,
+      "automergeSchedule": ["after 2am, before 6am"],
       "automergeType": "pr",
       "ignoreTests": true,
       "matchDatasources": ["docker"],
@@ -14,8 +15,7 @@
         "ghcr.io/onedr0p/plex",
         "ghcr.io/sct/overseerr"
       ],
-      "matchUpdateTypes": ["digest"],
-      "schedule": ["after 2am, before 6am"]
+      "matchUpdateTypes": ["digest"]
     },
     {
       "description": "Auto merge GitHub Actions",
