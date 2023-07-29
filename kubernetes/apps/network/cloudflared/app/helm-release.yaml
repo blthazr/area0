@@ -16,7 +16,6 @@ spec:
     - name: ingress-nginx
       namespace: network
   install:
-    createNamespace: true
     remediation:
       retries: 3
   interval: 30m

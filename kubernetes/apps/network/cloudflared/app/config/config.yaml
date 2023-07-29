@@ -2,7 +2,6 @@
 originRequest:
   http2Origin: true
 
-# https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/configuration/ingress
 ingress:
   - hostname: "${SECRET_DOMAIN}"
     service: https://ingress-nginx-controller.network.svc.cluster.local:443
