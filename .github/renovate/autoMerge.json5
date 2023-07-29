@@ -9,11 +9,13 @@
       "ignoreTests": true,
       "matchDatasources": ["docker"],
       "matchPackagePatterns": [
-        "ghcr.io/bjw-s",
-        "ghcr.io/onedr0p"
+        "docker.io/hkotel/mealie",
+        "ghcr.io/blakeblackshear/frigate",
+        "ghcr.io/onedr0p/plex",
+        "ghcr.io/sct/overseerr"
       ],
       "matchUpdateTypes": ["digest"],
-      // "schedule": ["after 2am, before 6am"]
+      "schedule": ["after 2am, before 6am"]
     },
     {
       "description": "Auto merge GitHub Actions",
