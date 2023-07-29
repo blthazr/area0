@@ -27,8 +27,10 @@ spec:
   values:
     prometheus:
       namespace: observability
+      podMonitor:
+        enabled: true
       prometheusRule:
         enabled: true
       serviceAccount: kube-prometheus-stack-prometheus
-      serviceMonitor:
-        enabled: true
+    #   serviceMonitor:
+    #     enabled: true
