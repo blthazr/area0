@@ -2,6 +2,21 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
+      "description": "Auto merge container digests [anytime]",
+      "addLabels": ["action/automerge"],
+      "automerge": true,
+      "automergeType": "pr",
+      "excludePackagePatterns": [
+        "ghcr.io/onedr0p/plex"
+      ],
+      "ignoreTests": true,
+      "matchDatasources": ["docker"],
+      "matchPackagePatterns": [
+        "ghcr.io/onedr0p"
+      ],
+      "matchUpdateTypes": ["digest"]
+    },
+    {
       "description": "Auto merge container digests [maintenance window]",
       "addLabels": ["action/automerge"],
       "automerge": true,
@@ -18,7 +33,7 @@
       "matchUpdateTypes": ["digest"]
     },
     {
-      "description": "Auto merge GitHub Actions",
+      "description": "Auto merge GitHub Actions [anytime]",
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeType": "pr",
