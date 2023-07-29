@@ -2,24 +2,31 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
-      "description": "Auto merge container digests",
+      "description": "Auto merge container digests [maintenance window]",
+      "addLabels": ["action/automerge"],
       "automerge": true,
-      "automergeType": "branch",
+      "automergeType": "pr",
       "ignoreTests": true,
       "matchDatasources": ["docker"],
-      "matchPackagePatterns": ["ghcr.io/bjw-s", "ghcr.io/onedr0p"],
+      "matchPackagePatterns": [
+        "ghcr.io/bjw-s",
+        "ghcr.io/onedr0p"
+      ],
       "matchUpdateTypes": ["digest"],
-      "schedule": ["after 3am, before 6am"]
+      // "schedule": ["after 2am, before 6am"]
     },
     {
       "description": "Auto merge GitHub Actions",
       "addLabels": ["action/automerge"],
       "automerge": true,
-      "automergeType": "branch",
+      "automergeType": "pr",
       "ignoreTests": true,
       "matchDatasources": ["github-tags"],
       "matchManagers": ["github-actions"],
-      "matchUpdateTypes": ["minor", "patch", "digest"]
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ]
     }
   ]
 }
