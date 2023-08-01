@@ -45,7 +45,7 @@ spec:
       persistence:
         enabled: true
         storageClass: local-path
-        size: 10Gi
+        size: 20Gi
     image:
       registry: quay.io
       repository: thanos/thanos
@@ -100,7 +100,7 @@ spec:
       enabled: true
       persistence:
         enabled: true
-        size: 10Gi
+        size: 20Gi
         storageClass: local-path
       replicaCount: 1 # 3
       replicaLabel: __replica__
@@ -108,6 +108,6 @@ spec:
       enabled: true
       persistence:
         enabled: true
-        size: 10Gi
+        size: 20Gi
         storageClass: local-path
       replicaCount: 1 # 3
