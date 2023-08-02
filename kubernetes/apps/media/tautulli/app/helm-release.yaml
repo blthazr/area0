@@ -18,7 +18,6 @@ spec:
     - name: volsync
       namespace: volsync
   install:
-    createNamespace: true
     remediation:
       retries: 3
   interval: 30m

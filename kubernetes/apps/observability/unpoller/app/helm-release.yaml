@@ -16,7 +16,6 @@ spec:
     - name: kube-prometheus-stack
       namespace: observability
   install:
-    createNamespace: true
     remediation:
       retries: 3
   interval: 30m
