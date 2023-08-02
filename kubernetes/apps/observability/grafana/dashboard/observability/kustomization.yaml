@@ -7,4 +7,13 @@ patches:
       kind: GrafanaDashboard
       group: grafana.integreatly.org
       version: v1beta1
-resources: []
+resources:
+  - ./thanos-bucket-replicate.yaml
+  - ./thanos-compact.yaml
+  - ./thanos-overview.yaml
+  - ./thanos-query-frontend.yaml
+  - ./thanos-query.yaml
+  - ./thanos-receive.yaml
+  - ./thanos-rule.yaml
+  - ./thanos-sidecar.yaml
+  - ./thanos-store.yaml
