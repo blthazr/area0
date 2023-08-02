@@ -8,6 +8,7 @@ patches:
       group: grafana.integreatly.org
       version: v1beta1
 resources:
+  - ./cert-manager.yaml
   - ./ingress-nginx.yaml
   - ./ingress-nginx-request-handling-performance.yaml
   - ./unifi-client-dpi.yaml
