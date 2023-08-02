@@ -8,6 +8,8 @@ patches:
       group: grafana.integreatly.org
       version: v1beta1
 resources:
+  - ./ingress-nginx.yaml
+  - ./ingress-nginx-request-handling-performance.yaml
   - ./unifi-client-dpi.yaml
   - ./unifi-client-insights.yaml
   - ./unifi-network-sites.yaml
