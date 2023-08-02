@@ -39,8 +39,8 @@ spec:
       - secretRef:
           name: *app
     image:
-      repository: ghcr.io/onedr0p/readarr-nightly
-      tag: 0.3.1.2096@sha256:dfa74515008074bb16bf64f35a059448080b76e89e0cf5d7b17562112a732b01
+      repository: ghcr.io/onedr0p/readarr-develop
+      tag: 0.1.4.1596@sha256:b24967c6b0077a9c98e89305a266067e6548a46dd97678f8a860f4e1ca63c448
     ingress:
       main:
         annotations:
