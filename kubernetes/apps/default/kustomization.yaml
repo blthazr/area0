@@ -7,4 +7,5 @@ resources:
   # Flux-Kustomizations
   - ./hajimari/app.yaml
   - ./mealie/app.yaml
+  - ./teslamate/app.yaml
   - ./theme-park/app.yaml

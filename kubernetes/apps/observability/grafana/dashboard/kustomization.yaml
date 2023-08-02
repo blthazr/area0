@@ -12,3 +12,4 @@ resources:
   - ./network
   - ./storage
   - ./system
+  - ./teslamate
