@@ -2,7 +2,29 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
-      "description": "Auto merge container digests [anytime]",
+      "description": "Auto merge container digests/patches [maintenance window]",
+      "addLabels": ["action/automerge"],
+      "automerge": true,
+      "automergeSchedule": ["after 2am, before 6am"],
+      "automergeType": "pr",
+      "excludePackagePatterns": [
+      ],
+      "ignoreTests": true,
+      "matchDatasources": ["docker"],
+      "matchPackagePatterns": [
+        "docker.io/hkotel/mealie",
+        "ghcr.io/advplyr/audiobookshelf",
+        "ghcr.io/blakeblackshear/frigate",
+        "ghcr.io/onedr0p",
+        "ghcr.io/sct/overseerr"
+      ],
+      "matchUpdateTypes": [
+        "digest",
+        "patch"
+      ]
+    },
+    {
+      "description": "Auto merge container digests/patches [anytime]",
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeType": "pr",
@@ -12,25 +34,14 @@
       "ignoreTests": true,
       "matchDatasources": ["docker"],
       "matchPackagePatterns": [
-        "ghcr.io/onedr0p"
+        "ghcr.io/onedr0p",
+        "ghcr.io/recyclarr/recyclarr",
+        "ghcr.io/unpoller/unpoller"
       ],
-      "matchUpdateTypes": ["digest"]
-    },
-    {
-      "description": "Auto merge container digests [maintenance window]",
-      "addLabels": ["action/automerge"],
-      "automerge": true,
-      "automergeSchedule": ["after 2am, before 6am"],
-      "automergeType": "pr",
-      "ignoreTests": true,
-      "matchDatasources": ["docker"],
-      "matchPackagePatterns": [
-        "docker.io/hkotel/mealie",
-        "ghcr.io/blakeblackshear/frigate",
-        "ghcr.io/onedr0p/plex",
-        "ghcr.io/sct/overseerr"
-      ],
-      "matchUpdateTypes": ["digest"]
+      "matchUpdateTypes": [
+        "digest",
+        "patch"
+      ]
     },
     {
       "description": "Auto merge GitHub Actions [anytime]",
@@ -41,8 +52,8 @@
       "matchDatasources": ["github-tags"],
       "matchManagers": ["github-actions"],
       "matchUpdateTypes": [
-        "minor",
-        "patch"
+        "patch",
+        "minor"
       ]
     }
   ]
