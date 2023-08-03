@@ -9,6 +9,7 @@ patches:
       version: v1beta1
 resources:
   - ./cert-manager.yaml
+  - ./cloudflared.yaml
   - ./ingress-nginx.yaml
   - ./ingress-nginx-request-handling-performance.yaml
   - ./unifi-client-dpi.yaml

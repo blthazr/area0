@@ -1,0 +1,13 @@
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: cloudflared
+spec:
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: Prometheus
+  # Ref: https://grafana.com/grafana/dashboards/17457/
+  grafanaCom:
+    id: 17457
+    revision: 6
