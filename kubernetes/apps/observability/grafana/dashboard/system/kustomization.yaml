@@ -9,6 +9,7 @@ patches:
       version: v1beta1
 resources:
   - ./flux-cluster.yaml
+  - ./flux-control-plane.yaml
   - ./k8s-system-api-server.yaml
   - ./k8s-system-coredns.yaml
   - ./k8s-views-global.yaml
