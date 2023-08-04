@@ -4,3 +4,4 @@ kind: Kustomization
 namespace: observability
 resources:
   - ./helm-release.yaml
+  - ./scrape-configs
