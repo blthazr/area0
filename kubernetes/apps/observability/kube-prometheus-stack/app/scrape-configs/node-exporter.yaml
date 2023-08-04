@@ -6,5 +6,6 @@ metadata:
 spec:
   staticConfigs:
     - targets:
+        - "${HOME_ASSISTANT_ADDRESS}:9100"
         - "${NAS_ADDRESS}:9100"
   metricsPath: /metrics
