@@ -17,4 +17,4 @@ spec:
     volumeSnapshotClassName: csi-ceph-blockpool
   sourcePVC: frigate-data-v1
   trigger:
-    schedule: 0 8 * * *
+    schedule: 0 7 * * *
