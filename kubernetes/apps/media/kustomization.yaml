@@ -13,7 +13,7 @@ resources:
   - ./radarr/radarr-uhd.yaml
   - ./readarr/audio.yaml
   - ./readarr/ebooks.yaml
-  # - ./recyclarr/app.yaml
+  - ./recyclarr/app.yaml
   - ./sonarr/sonarr.yaml
   - ./tautulli/app.yaml
   - ./wizarr/app.yaml
