@@ -1,0 +1,42 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   playbooks/synology/docker/node-exporter.yaml
+#   @description    :   deploy prometheus node-exporter for synology nas
+#   @usage          :   ansible-playbook playbooks/synology/docker/node-exporter.yaml
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+- name: Deploy Prometheus node-exporter for Synology NAS
+  hosts:
+    - synology
+  gather_facts: true
+
+  vars:
+    docker_definition:
+      version: "3.7"
+      services:
+        node-exporter:
+          command:
+            - "--path.procfs=/host/proc"
+            - "--path.sysfs=/host/sys"
+            - "--collector.filesystem.ignored-mount-points"
+            - "^/(rootfs/)?(dev|etc|host|proc|run|sys|volume1)($$|/)"
+          container_name: node-exporter
+          hostname: node-exporter
+          image: quay.io/prometheus/node-exporter:v1.6.1
+          ports:
+            - 9100:9100
+          privileged: true
+          restart: unless-stopped
+          security_opt:
+            - "no-new-privileges:true"
+          volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - /proc:/host/proc:ro
+            - /sys:/host/sys:ro
+            - /:/rootfs:ro
+
+  tasks:
+    - name: "Deploy node-exporter with docker-compose on node {{ inventory_hostname | lower }}"
+      community.general.docker_compose:
+        project_name: node-exporter
+        definition: "{{ docker_definition }}"
+        state: present
