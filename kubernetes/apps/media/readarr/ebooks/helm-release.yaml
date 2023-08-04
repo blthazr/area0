@@ -39,7 +39,7 @@ spec:
           name: *app
     image:
       repository: ghcr.io/onedr0p/readarr-develop
-      tag: 0.1.4.1596@sha256:b24967c6b0077a9c98e89305a266067e6548a46dd97678f8a860f4e1ca63c448
+      tag: 0.3.0.2091@sha256:d25e8a7eae9609529f206f5ae03512d79489cd76c85c75d28b7103609e786623
     ingress:
       main:
         annotations:
