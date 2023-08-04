@@ -5,6 +5,8 @@ metadata:
   name: cluster-apps-lidarr
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: cluster-apps-cloudnative-pg-cluster
   interval: 30m
   path: ./kubernetes/apps/media/lidarr/app
   prune: true
