@@ -15,10 +15,7 @@ spec:
   dependsOn:
     - name: rook-ceph-cluster
       namespace: rook-ceph
-    - name: volsync
-      namespace: volsync
   install:
-    createNamespace: true
     remediation:
       retries: 3
   interval: 30m
@@ -36,30 +33,50 @@ spec:
       type: statefulset
     env:
       TZ: "${CLUSTER_TIME_ZONE}"
-    envFrom:
-      - secretRef:
-          name: radarr-secrets
-      - secretRef:
-          name: sonarr-secrets
+      RADARR__API_KEY:
+        valueFrom:
+          secretKeyRef:
+            name: radarr
+            key: RADARR__API_KEY
+      RADARR_UHD__API_KEY:
+        valueFrom:
+          secretKeyRef:
+            name: radarr-uhd
+            key: RADARR__API_KEY
+      SONARR__API_KEY:
+        valueFrom:
+          secretKeyRef:
+            name: sonarr
+            key: SONARR__API_KEY
     image:
       repository: ghcr.io/recyclarr/recyclarr
       tag: 5.1.1
     nodeSelector:
       node-role.kubernetes.io/worker: "true"
     persistence:
-      config:
-        defaultMode: 0775
+      config-file:
         enabled: true
-        mountPath: /config/recyclarr.yml
-        name: recyclarr-configmap
-        readOnly: true
-        subPath: recyclarr.yml
         type: configMap
+        name: recyclarr-configmap
+        mountPath: /config/configs
+        readOnly: true
     podSecurityContext:
       fsGroup: 568
       fsGroupChangePolicy: OnRootMismatch
       runAsGroup: 568
       runAsUser: 568
+    resources:
+      limits:
+        memory: 200Mi
+      requests:
+        cpu: 10m
+        memory: 50Mi
     service:
       main:
         enabled: false
+    volumeClaimTemplates:
+      - name: config
+        mountPath: /config
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        storageClass: ceph-block

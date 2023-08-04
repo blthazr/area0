@@ -4,6 +4,4 @@ kind: Kustomization
 namespace: media
 resources:
   - ./config
-  - ./persistent-volume-claim.yaml
   - ./helm-release.yaml
-  - ./volsync
