@@ -1,0 +1,13 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   .taskfiles/flux/tasks.yaml
+#   @description    :   flux tasks
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+version: "3"
+
+tasks:
+  # task flux:verify
+  verify:
+    desc: verify flux meets the prerequisites
+    cmds:
+      - flux check --pre
