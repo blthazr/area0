@@ -29,6 +29,8 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    image:
+      repository: docker.io/splunk/splunk:9.0.5
     splunk-operator:
       enabled: false
     standalone:
@@ -75,3 +77,6 @@ spec:
               protocol: UDP
               targetPort: 1514
           type: LoadBalancer
+    sva:
+      s1:
+        enabled: true
