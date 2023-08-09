@@ -27,6 +27,9 @@ spec:
     config:
       host: cribl-leader-internal
       token: "${SECRET_CRIBL_LEADER_TOKEN}"
+    criblImage:
+      repository: cribl/cribl
+      tag: 4.2.1
     resources: {}
     service:
       annotations:

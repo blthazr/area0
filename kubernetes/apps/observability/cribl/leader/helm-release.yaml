@@ -32,6 +32,9 @@ spec:
     config:
       adminPassword: "${SECRET_CRIBL_LEADER_PASSWORD}"
       token: "${SECRET_CRIBL_LEADER_TOKEN}"
+    criblImage:
+      repository: cribl/cribl
+      tag: 4.2.1
     resources: {}
     service:
       annotations:
