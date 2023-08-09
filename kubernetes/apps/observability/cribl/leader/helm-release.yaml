@@ -37,4 +37,12 @@ spec:
       annotations:
         metallb.universe.tf/allow-shared-ip: cribl-leader
       externalLoadBalancerIP: "${SVC_CRIBL_LEADER_ADDRESS}"
-      externalType: LoadBalancer
+      ports:
+        - external: true
+          name: api
+          port: 9000
+          protocol: TCP
+        - external: true
+          name: leadercomm
+          port: 4200
+          protocol: TCP
