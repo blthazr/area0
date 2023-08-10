@@ -8,7 +8,7 @@ spec:
   dependsOn:
     - name: cluster-apps-splunk-operator
   interval: 30m
-  path: ./kubernetes/apps/observability/splunk/app
+  path: ./kubernetes/apps/observability/splunk/instance
   prune: true
   retryInterval: 1m
   sourceRef:
