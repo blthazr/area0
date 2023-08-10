@@ -22,12 +22,12 @@ spec:
       retries: 3
   interval: 30m
   maxHistory: 2
+  uninstall:
+    keepHistory: false
   upgrade:
     cleanupOnFail: true
     remediation:
       retries: 3
-  uninstall:
-    keepHistory: false
   values:
     image:
       repository: docker.io/splunk/splunk:9.0.5
@@ -35,7 +35,18 @@ spec:
       enabled: false
     standalone:
       enabled: true
-      name: "splunk"
+      name: *app
+      extraEnv:
+        - name: SPLUNK_HOSTNAME
+          value: *app
+        - name: SPLUNK_PASSWORD
+          value: "${SECRET_SPLUNK_ADMIN_PASSWORD}"
+        - name: SPLUNK_START_ARGS
+          value: '--accept-license'
+      etcVolumeStorageConfig:
+        ephemeralStorage: false
+        storageCapacity: 10Gi
+        storageClassName: ceph-block
       smartstore:
         defaults:
           volumeName: volume_smartstore
@@ -45,25 +56,10 @@ spec:
           - name: main
           - name: unifi
         volumes:
-          - name: volume_smartstore
-            endpoint: "http://${MINIO_ADDRESS}:9000"
+          - endpoint: "http://${MINIO_ADDRESS}:9000"
+            name: volume_smartstore
             path: splunk-s2/
             secretRef: splunk-minio-secret
-      extraEnv:
-        - name: SPLUNK_HOSTNAME
-          value: *app
-        - name: SPLUNK_PASSWORD
-          value: "${SECRET_SPLUNK_ADMIN_PASSWORD}"
-        - name: SPLUNK_START_ARGS
-          value: "--accept-license"
-      etcVolumeStorageConfig:
-        ephemeralStorage: false
-        storageCapacity: 10Gi
-        storageClassName: ceph-block
-      varVolumeStorageConfig:
-        ephemeralStorage: false
-        storageCapacity: 50Gi
-        storageClassName: local-path
       serviceTemplate:
         spec:
           loadBalancerIP: "${SVC_SPLUNK_ADDRESS}"
@@ -77,6 +73,10 @@ spec:
               protocol: UDP
               targetPort: 1514
           type: LoadBalancer
+      varVolumeStorageConfig:
+        ephemeralStorage: false
+        storageCapacity: 50Gi
+        storageClassName: local-path
     sva:
       s1:
         enabled: true
