@@ -24,19 +24,8 @@ spec:
     remediation:
       retries: 3
   values:
-    config:
-      devices:
-        - /dev/sda
-        - /dev/sdb
-        - /dev/sdc
-        - /dev/sdd
-        - /dev/sde
-        - /dev/sdf
-        - /dev/sdg
-        - /dev/sdh
-        - /dev/nvme0n1
     fullnameOverride: *app
     prometheusRules:
-      enabled: false
+      enabled: true
     serviceMonitor:
       enabled: true
