@@ -51,4 +51,7 @@ spec:
         - name: syslog-unifi
           port: 9520
           protocol: UDP
+        - name: syslog-synology-dsm
+          port: 9521
+          protocol: UDP
       type: LoadBalancer
