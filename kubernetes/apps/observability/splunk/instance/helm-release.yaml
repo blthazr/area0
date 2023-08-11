@@ -54,6 +54,7 @@ spec:
           - name: hass
           - name: k8s
           - name: main
+          - name: synology
           - name: unifi
         volumes:
           - endpoint: "http://${MINIO_ADDRESS}:9000"
