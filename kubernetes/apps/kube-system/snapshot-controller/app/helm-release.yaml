@@ -7,24 +7,24 @@ spec:
   chart:
     spec:
       chart: *app
-      version: 1.8.3
       sourceRef:
         kind: HelmRepository
         name: piraeus-charts
         namespace: flux-system
+      version: 1.8.3
   install:
     crds: CreateReplace
     remediation:
       retries: 3
   interval: 30m
   maxHistory: 2
+  uninstall:
+    keepHistory: false
   upgrade:
     cleanupOnFail: true
     crds: CreateReplace
     remediation:
       retries: 3
-  uninstall:
-    keepHistory: false
   values:
     serviceMonitor:
       create: true

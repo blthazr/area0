@@ -16,12 +16,12 @@ spec:
       retries: 3
   interval: 30m
   maxHistory: 2
+  uninstall:
+    keepHistory: false
   upgrade:
     cleanupOnFail: true
     remediation:
       retries: 3
-  uninstall:
-    keepHistory: false
   values:
     # Note: Do not enable Flux variable substitution on this HelmRelease
     configmap:

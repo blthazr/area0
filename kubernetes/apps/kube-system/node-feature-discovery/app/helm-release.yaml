@@ -7,24 +7,24 @@ spec:
   chart:
     spec:
       chart: *app
-      version: 0.13.3
       sourceRef:
         kind: HelmRepository
         name: node-feature-discovery-charts
         namespace: flux-system
+      version: 0.13.3
   install:
     crds: CreateReplace
     remediation:
       retries: 3
   interval: 30m
   maxHistory: 2
+  uninstall:
+    keepHistory: false
   upgrade:
     cleanupOnFail: true
     crds: CreateReplace
     remediation:
       retries: 3
-  uninstall:
-    keepHistory: false
   values:
     worker:
       config:

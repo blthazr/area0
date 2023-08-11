@@ -7,16 +7,18 @@ spec:
   chart:
     spec:
       chart: splunk-enterprise
-      version: 2.3.0
       sourceRef:
         kind: HelmRepository
         name: splunk-charts
         namespace: flux-system
+      version: 2.3.0
   dependsOn:
     - name: local-path-provisioner
       namespace: kube-system
     - name: rook-ceph-cluster
       namespace: rook-ceph
+    - name: volsync
+      namespace: volsync
   install:
     remediation:
       retries: 3

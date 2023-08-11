@@ -7,22 +7,22 @@ spec:
   chart:
     spec:
       chart: logstream-workergroup
-      version: 4.2.1
       sourceRef:
         kind: HelmRepository
         name: cribl-charts
         namespace: flux-system
+      version: 4.2.1
   install:
     remediation:
       retries: 3
   interval: 30m
   maxHistory: 2
+  uninstall:
+    keepHistory: false
   upgrade:
     cleanupOnFail: true
     remediation:
       retries: 3
-  uninstall:
-    keepHistory: false
   values:
     config:
       host: cribl-leader-internal
