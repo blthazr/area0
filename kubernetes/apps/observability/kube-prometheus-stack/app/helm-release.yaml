@@ -33,80 +33,10 @@ spec:
     keepHistory: false
   values:
     alertmanager:
-      alertmanagerSpec:
-        replicas: 1 # 2
-        storage:
-          volumeClaimTemplate:
-            spec:
-              resources:
-                requests:
-                  storage: 1Gi
-              storageClassName: local-path
-      config:
-        global:
-          resolve_timeout: 5m
-          slack_api_url: "${SECRET_ALERT_MANAGER_DISCORD_WEBHOOK}/slack"
-        inhibit_rules:
-          - equal: ["alertname", "namespace"]
-            source_matchers:
-              - severity = "critical"
-            target_matchers:
-              - severity = "warning"
-        receivers:
-          - name: heartbeat
-          - name: "null"
-          - name: "discord"
-            slack_configs:
-              - channel: "#prometheus-alerts"
-                icon_url: https://avatars3.githubusercontent.com/u/3380462
-                send_resolved: true
-                text: >-
-                  {{ range .Alerts -}}
-                    **Alert:** {{ .Annotations.title }}{{ if .Labels.severity }} - `{{ .Labels.severity }}`{{ end }}
-
-                  **Description:** {{ if ne .Annotations.description ""}}{{ .Annotations.description }}{{else}}N/A{{ end }}
-
-                  **Details:**
-                    {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
-                    {{ end }}
-                  {{ end }}
-                title: |-
-                  [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ if ne .CommonAnnotations.summary ""}}{{ .CommonAnnotations.summary }}{{ else }}{{ .CommonLabels.alertname }}{{ end }}
-                username: "Prometheus"
-        route:
-          group_by: ["alertname", "job"]
-          group_interval: 10m
-          group_wait: 1m
-          receiver: "discord"
-          repeat_interval: 12h
-          routes:
-            - receiver: heartbeat
-              group_interval: 5m
-              group_wait: 0s
-              matchers:
-                - alertname =~ "Watchdog"
-              repeat_interval: 5m
-            - receiver: "null"
-              matchers:
-                - alertname =~ "InfoInhibitor"
-            - receiver: "discord"
-              continue: true
-              matchers:
-                - severity = "critical"
-      ingress:
-        annotations:
-          hajimari.io/appName: "Alert Manager"
-          hajimari.io/group: Observability
-          hajimari.io/icon: mdi:alert-decagram-outline
-        enabled: true
-        hosts:
-          - &alertmanagerhost "alert-manager.${SECRET_DOMAIN}"
-        ingressClassName: nginx
-        pathType: Prefix
-        tls:
-          - hosts:
-              - *alertmanagerhost
+      enabled: false
     cleanPrometheusOperatorObjectNames: true
+    coreDns:
+      enabled: true
     crds:
       enabled: true
     grafana:
@@ -116,9 +46,7 @@ spec:
         dashboards:
           multicluster:
             etcd:
-              enabled: true
-    kubeStateMetrics:
-      enabled: false
+              enabled: false
     kubeApiServer:
       enabled: true
       serviceMonitor:
@@ -136,7 +64,7 @@ spec:
             sourceLabels: ["__name__"]
     kubeControllerManager:
       enabled: true
-      endpoints: &controlplane
+      endpoints:
         - "${K3S_NODE_1_ADDRESS}"
         - "${K3S_NODE_2_ADDRESS}"
         - "${K3S_NODE_3_ADDRESS}"
@@ -146,20 +74,30 @@ spec:
           - action: keep
             regex: "(apiserver_audit|apiserver_client|apiserver_delegated|apiserver_envelope|apiserver_storage|apiserver_webhooks|attachdetach_controller|authenticated_user|authentication|cronjob_controller|disabled_metric|endpoint_slice|ephemeral_volume|garbagecollector_controller|get_token|go|hidden_metric|job_controller|kubernetes_build|kubernetes_feature|leader_election|node_collector|node_ipam|process_cpu|process_max|process_open|process_resident|process_start|process_virtual|pv_collector|registered_metric|replicaset_controller|rest_client|retroactive_storageclass|root_ca|running_managed|scrape_duration|scrape_samples|scrape_series|service_controller|storage_count|storage_operation|ttl_after|volume_operation|workqueue)_(.+)"
             sourceLabels: ["__name__"]
+    kubeDns:
+      enabled: false
     kubeEtcd:
       enabled: true
-      endpoints: *controlplane
+      endpoints:
+        - "${K3S_NODE_1_ADDRESS}"
+        - "${K3S_NODE_2_ADDRESS}"
+        - "${K3S_NODE_3_ADDRESS}"
     kubeProxy:
       enabled: false
     kubeScheduler:
       enabled: true
-      endpoints: *controlplane
+      endpoints:
+        - "${K3S_NODE_1_ADDRESS}"
+        - "${K3S_NODE_2_ADDRESS}"
+        - "${K3S_NODE_3_ADDRESS}"
       serviceMonitor:
         metricRelabelings:
           # Remove duplicate labels provided by k3s
           - action: keep
             regex: "(apiserver_audit|apiserver_client|apiserver_delegated|apiserver_envelope|apiserver_storage|apiserver_webhooks|authenticated_user|authentication|disabled_metric|go|hidden_metric|kubernetes_build|kubernetes_feature|leader_election|process_cpu|process_max|process_open|process_resident|process_start|process_virtual|registered_metric|rest_client|scheduler|scrape_duration|scrape_samples|scrape_series|workqueue)_(.+)"
             sourceLabels: ["__name__"]
+    kubeStateMetrics:
+      enabled: false
     kubelet:
       enabled: true
       serviceMonitor:
@@ -179,9 +117,12 @@ spec:
           - action: drop
             regex: (rest_client_request_duration_seconds_bucket|rest_client_request_duration_seconds_sum|rest_client_request_duration_seconds_count)
             sourceLabels: ["__name__"]
+    kubernetesServiceMonitors:
+      enabled: true
     nodeExporter:
       enabled: false
     prometheus:
+      enabled: true
       ingress:
         annotations:
           hajimari.io/appName: Prometheus
@@ -189,21 +130,27 @@ spec:
           hajimari.io/icon: simple-icons:prometheus
         enabled: true
         hosts:
-          - &promhost "prometheus.${SECRET_DOMAIN}"
+          - &host "prometheus.${SECRET_DOMAIN}"
         ingressClassName: nginx
         pathType: Prefix
         tls:
           - hosts:
-              - *promhost
+              - *host
       prometheusSpec:
+        alertingEndpoints:
+          - apiVersion: v2
+            name: signoz-alertmanager
+            namespace: observability
+            port: 9093
         enableAdminAPI: true
         enableFeatures:
           - auto-gomaxprocs
           - memory-snapshot-on-shutdown
           - new-service-discovery-manager
+        nodeSelector: {}
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
-        replicas: 1 # 2
+        replicas: 1
         replicaExternalLabelName: __replica__
         retention: 2d
         retentionSize: 15GB
@@ -218,12 +165,33 @@ spec:
                   storage: 20Gi
               storageClassName: local-path
         thanos:
-          image: quay.io/thanos/thanos:v0.31.0
+          image: quay.io/thanos/thanos:v0.31.0@sha256:e7d337d6ac2aea3f0f9314ec9830291789e16e2b480b9d353be02d05ce7f2a7e
           objectStorageConfig:
-            name: thanos-objstore-secret
             key: objstore.yml
+            name: thanos-objstore-secret
+          # renovate: datasource=docker depName=quay.io/thanos/thanos
+          version: "v0.31.0"
         walCompression: true
       thanosService:
         enabled: true
       thanosServiceMonitor:
         enabled: true
+    prometheusOperator:
+      enabled: true
+    thanosRuler:
+      enabled: false
+  postRenderers:
+    - kustomize:
+        patches:
+          - patch: |-
+              apiVersion: v1
+              kind: ConfigMap
+              metadata:
+                name: not-used
+                namespace: not-used
+                annotations:
+                  grafana_folder: Kubernetes
+            target:
+              kind: ConfigMap
+              labelSelector: grafana_dashboard in (1)
+              version: v1
