@@ -39,7 +39,7 @@ spec:
           name: *app
     image:
       repository: ghcr.io/onedr0p/sonarr-develop
-      tag: 4.0.0.615@sha256:5df49971ca88eb838b899a86f97717828d446cf686d364fdbbe63a94bb2c2110
+      tag: 4.0.0.618@sha256:44d934369506659beb38feeaba807186c58713b0d91ee9815b00b717452d5f5f
     ingress:
       main:
         annotations:
