@@ -22,7 +22,7 @@ spec:
         compression: bzip2
         maxParallel: 8
     retentionPolicy: 30d
-  imageName: ghcr.io/cloudnative-pg/postgresql:14.8-10
+  imageName: ghcr.io/cloudnative-pg/postgresql:14.9-3
   instances: 3
   monitoring:
     enablePodMonitor: true
