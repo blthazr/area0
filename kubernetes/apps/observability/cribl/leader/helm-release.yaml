@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: cribl-charts
         namespace: flux-system
-      version: 4.2.1
+      version: 4.2.2
   dependsOn:
     - name: rook-ceph-cluster
       namespace: rook-ceph
@@ -34,7 +34,7 @@ spec:
       token: "${SECRET_CRIBL_LEADER_TOKEN}"
     criblImage:
       repository: cribl/cribl
-      tag: 4.2.1
+      tag: 4.2.2
     resources: {}
     service:
       annotations:
