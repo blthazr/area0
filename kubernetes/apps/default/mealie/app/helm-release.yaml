@@ -90,7 +90,7 @@ spec:
           - name: TZ
             value: "${CLUSTER_TIME_ZONE}"
         name: mealie-api
-        image: docker.io/hkotel/mealie:api-nightly@sha256:e80ea8dea109be0841cd27b8be4583f399be789f7cf993e317e0ad51f86c42dd
+        image: docker.io/hkotel/mealie:api-nightly@sha256:7c2ed685d91ae882c8dac21366a95e14f6d9fec7f5052fdefb472a3617873e6e
         imagePullPolicy: IfNotPresent
         ports:
           - name: api
