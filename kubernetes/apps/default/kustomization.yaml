@@ -6,4 +6,3 @@ resources:
   - ./namespace.yaml
   # Flux-Kustomizations
   - ./mealie/app.yaml
-  - ./teslamate/app.yaml

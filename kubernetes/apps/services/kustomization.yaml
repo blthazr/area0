@@ -6,4 +6,5 @@ resources:
   - ./namespace.yaml
   # Flux-Kustomizations
   - ./hajimari/app.yaml
+  - ./teslamate/app.yaml
   - ./theme-park/app.yaml
