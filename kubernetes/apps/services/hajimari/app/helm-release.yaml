@@ -65,6 +65,7 @@ spec:
           - network
           - observability
           - rook-ceph
+          - services
       showAppGroups: true
       showAppInfo: true
       showAppStatus: false
