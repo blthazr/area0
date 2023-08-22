@@ -7,16 +7,16 @@ metadata:
     app.kubernetes.io/part-of: flux
     app.kubernetes.io/component: monitoring
 spec:
+  namespaceSelector:
+    matchNames:
+      - flux-system
   podMetricsEndpoints:
     - port: http-prom
       relabelings:
         # https://github.com/prometheus-operator/prometheus-operator/issues/4816
         - action: keep
-          sourceLabels: [__meta_kubernetes_pod_phase]
           regex: Running
-  namespaceSelector:
-    matchNames:
-      - flux-system
+          sourceLabels: [__meta_kubernetes_pod_phase]
   selector:
     matchExpressions:
       - key: app
