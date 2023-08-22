@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 30m
-  path: ./kubernetes/apps/default/theme-park/app
+  path: ./kubernetes/apps/services/theme-park/app
   prune: true
   retryInterval: 1m
   sourceRef:
