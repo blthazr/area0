@@ -4,4 +4,3 @@ kind: Kustomization
 namespace: flux-system
 resources:
   - ./pod-monitor.yaml
-  - ./prometheus-rule.yaml

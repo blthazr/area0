@@ -4,4 +4,3 @@ kind: Kustomization
 namespace: volsync
 resources:
   - ./helm-release.yaml
-  - ./observability

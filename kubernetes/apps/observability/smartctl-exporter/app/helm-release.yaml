@@ -26,6 +26,6 @@ spec:
   values:
     fullnameOverride: *app
     prometheusRules:
-      enabled: true
+      enabled: false
     serviceMonitor:
       enabled: true
