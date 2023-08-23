@@ -40,4 +40,4 @@ spec:
             regex: /var/lib/kubelet/pods.+
     rbac:
       pspEnabled: false
-    releaseLabel: true # disable for victoria-metrics
+    releaseLabel: true
