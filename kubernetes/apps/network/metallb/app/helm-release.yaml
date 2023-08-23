@@ -31,5 +31,3 @@ spec:
       prometheusRule:
         enabled: true
       serviceAccount: kube-prometheus-stack-prometheus
-    #   serviceMonitor:
-    #     enabled: true
