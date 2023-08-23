@@ -6,9 +6,9 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
-  url: oci://ghcr.io/fluxcd/flux-manifests
   ref:
-    tag: v2.0.1
+    tag: v2.0.1@sha256:0940e22b35d960c2cfb1e1b7190de4f478c1dcc885f7b2db1dcfec209731d535
+  url: oci://ghcr.io/fluxcd/flux-manifests
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -34,6 +34,22 @@ spec:
       target:
         group: networking.k8s.io
         kind: NetworkPolicy
+        version: v1
+    # Allow the cluster autoscaler to evict the Flux controller pods
+    # https://fluxcd.io/flux/cheatsheets/bootstrap/#safe-to-evict
+    - patch: |
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: all
+        spec:
+          template:
+            metadata:
+              annotations:
+                cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+      target:
+        kind: Deployment
+        labelSelector: app.kubernetes.io/part-of=flux
     # Increase the number of reconciliations that can be performed in parallel and bump the resources limits
     # https://fluxcd.io/flux/cheatsheets/bootstrap/#increase-the-number-of-workers
     - patch: |
