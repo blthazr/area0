@@ -7,4 +7,4 @@ spec:
   # Ref: https://grafana.com/grafana/dashboards/1860/
   grafanaCom:
     id: 1860
-    revision: 30
+    revision: 31
