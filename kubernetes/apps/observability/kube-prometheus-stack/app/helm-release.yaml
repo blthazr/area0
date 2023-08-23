@@ -41,12 +41,6 @@ spec:
       enabled: true
     grafana:
       enabled: false
-      forceDeployDashboards: true
-      sidecar:
-        dashboards:
-          multicluster:
-            etcd:
-              enabled: false
     kubeApiServer:
       enabled: true
       serviceMonitor:
@@ -64,7 +58,7 @@ spec:
             sourceLabels: ["__name__"]
     kubeControllerManager:
       enabled: true
-      endpoints:
+      endpoints: &control-plane
         - "${K3S_NODE_1_ADDRESS}"
         - "${K3S_NODE_2_ADDRESS}"
         - "${K3S_NODE_3_ADDRESS}"
@@ -78,18 +72,12 @@ spec:
       enabled: false
     kubeEtcd:
       enabled: true
-      endpoints:
-        - "${K3S_NODE_1_ADDRESS}"
-        - "${K3S_NODE_2_ADDRESS}"
-        - "${K3S_NODE_3_ADDRESS}"
+      endpoints: *control-plane
     kubeProxy:
       enabled: false
     kubeScheduler:
       enabled: true
-      endpoints:
-        - "${K3S_NODE_1_ADDRESS}"
-        - "${K3S_NODE_2_ADDRESS}"
-        - "${K3S_NODE_3_ADDRESS}"
+      endpoints: *control-plane
       serviceMonitor:
         metricRelabelings:
           # Remove duplicate labels provided by k3s
@@ -147,7 +135,8 @@ spec:
           - auto-gomaxprocs
           - memory-snapshot-on-shutdown
           - new-service-discovery-manager
-        nodeSelector: {}
+        nodeSelector:
+          node-role.kubernetes.io/worker: "true"
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
         replicas: 1
@@ -187,10 +176,10 @@ spec:
               apiVersion: v1
               kind: ConfigMap
               metadata:
-                name: not-used
-                namespace: not-used
                 annotations:
                   grafana_folder: Kubernetes
+                name: not-used
+                namespace: not-used
             target:
               kind: ConfigMap
               labelSelector: grafana_dashboard in (1)
