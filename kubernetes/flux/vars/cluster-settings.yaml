@@ -52,3 +52,6 @@ data:
   # nfs
   MEDIA_SERVER_NFS_PATH: "/data/media"
   NAS_NFS_PATH: "/volume1/data"
+
+  # o11y
+  ALERTMANAGER_HOST: signoz-alertmanager.observability.svc.cluster.local:9093

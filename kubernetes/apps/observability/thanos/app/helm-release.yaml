@@ -83,7 +83,7 @@ spec:
       replicaCount: 1 # 3
     ruler:
       alertmanagers:
-        ["http://kube-prometheus-stack-alertmanager.observability.svc.cluster.local:9093"]
+        ["http://${ALERTMANAGER_HOST}"]
       config: |-
         groups:
           - name: PrometheusWatcher
