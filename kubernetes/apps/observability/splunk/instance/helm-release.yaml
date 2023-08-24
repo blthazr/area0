@@ -53,6 +53,7 @@ spec:
         defaults:
           volumeName: volume_smartstore
         indexes:
+          - name: docker
           - name: hass
           - name: k8s
           - name: main
