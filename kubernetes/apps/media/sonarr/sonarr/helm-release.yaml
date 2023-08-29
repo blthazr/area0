@@ -30,6 +30,8 @@ spec:
       retries: 3
   values:
     env:
+      SONARR__AUTHENTICATION_METHOD: External
+      SONARR__AUTHENTICATION_REQUIRED: DisabledForLocalAddresses
       SONARR__INSTANCE_NAME: Sonarr
       SONARR__LOG_LEVEL: info
       SONARR__PORT: &port 8989

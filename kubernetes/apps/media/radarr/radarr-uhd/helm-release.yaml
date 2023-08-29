@@ -29,6 +29,8 @@ spec:
   values:
     env:
       RADARR__APPLICATION_URL: "https://{{ .Release.Name }}.${SECRET_DOMAIN}"
+      RADARR__AUTHENTICATION_METHOD: External
+      RADARR__AUTHENTICATION_REQUIRED: DisabledForLocalAddresses
       RADARR__INSTANCE_NAME: Radarr (UHD)
       RADARR__LOG_LEVEL: info
       RADARR__PORT: &port 7878
