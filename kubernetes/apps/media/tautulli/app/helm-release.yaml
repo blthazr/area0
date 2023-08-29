@@ -88,7 +88,7 @@ spec:
         args:
           - --repo=https://github.com/blacktwin/JBOPS
           - --ref=master
-          - --period=1d
+          - --period=24h
           - --root=/add-ons
         image: registry.k8s.io/git-sync/git-sync:v4.0.0
         imagePullPolicy: IfNotPresent
