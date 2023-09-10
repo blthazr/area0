@@ -1,0 +1,74 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: tubesync
+spec:
+  chart:
+    spec:
+      chart: app-template
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+      version: 1.5.1
+  dependsOn:
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
+    - name: volsync
+      namespace: volsync
+  install:
+    remediation:
+      retries: 3
+  interval: 30m
+  maxHistory: 2
+  uninstall:
+    keepHistory: false
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    env:
+      TZ: "${CLUSTER_TIME_ZONE}"
+      TUBESYNC__PORT: &port 4848
+      PUID: 568
+      PGID: 568
+      TUBESYNC_RESET_DOWNLOAD_DIR: false
+    image:
+      repository: ghcr.io/meeb/tubesync
+      tag: latest@sha256:a6a27ec36d9b9ef77d2b4e68081760049b76946f896818ff09fc8e07fc5a1b9d
+    ingress:
+      main:
+        annotations:
+          hajimari.io/group: Media-Automation
+          hajimari.io/icon: mdi:message-video
+          hajimari.io/info: TubeSync
+        enabled: true
+        hosts:
+          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        ingressClassName: nginx
+        tls:
+          - hosts:
+              - *host
+    nodeSelector:
+      node-role.kubernetes.io/media: "true"
+      node-role.kubernetes.io/worker: "true"
+    persistence:
+      config:
+        enabled: true
+        existingClaim: tubesync-config-v1
+      downloads:
+        enabled: true
+        mountPath: /downloads
+        path: "${MEDIA_SERVER_NFS_PATH}"
+        server: "${MEDIA_SERVER_ADDRESS}"
+        type: nfs
+    service:
+      main:
+        ports:
+          http:
+            port: *port

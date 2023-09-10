@@ -16,4 +16,5 @@ resources:
   - ./recyclarr/app.yaml
   - ./sonarr/sonarr.yaml
   - ./tautulli/app.yaml
+  - ./tubesync/app.yaml
   - ./wizarr/app.yaml
