@@ -70,7 +70,7 @@ spec:
         envFrom:
           - secretRef:
               name: *app
-        image: ghcr.io/onedr0p/postgres-init:14.8
+        image: ghcr.io/onedr0p/postgres-init:14.9
         imagePullPolicy: IfNotPresent
     nodeSelector:
       node-role.kubernetes.io/media: "true"
