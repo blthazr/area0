@@ -6,7 +6,7 @@
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeSchedule": ["after 2am, before 6am"],
-      "automergeType": "pr",
+      "automergeType": "branch",
       "excludePackagePatterns": [
       ],
       "ignoreTests": true,
@@ -27,7 +27,7 @@
       "description": "Auto merge container digests/patches [anytime]",
       "addLabels": ["action/automerge"],
       "automerge": true,
-      "automergeType": "pr",
+      "automergeType": "branch",
       "excludePackagePatterns": [
         "ghcr.io/onedr0p/plex"
       ],
@@ -47,7 +47,7 @@
       "description": "Auto merge GitHub Actions [anytime]",
       "addLabels": ["action/automerge"],
       "automerge": true,
-      "automergeType": "pr",
+      "automergeType": "branch",
       "ignoreTests": true,
       "matchDatasources": ["github-tags"],
       "matchManagers": ["github-actions"],
