@@ -66,6 +66,7 @@ spec:
         mountPath: /downloads
         path: "${MEDIA_SERVER_NFS_PATH}"
         server: "${MEDIA_SERVER_ADDRESS}"
+        subpath: download/tubesync/
         type: nfs
     service:
       main:
