@@ -34,7 +34,7 @@ spec:
       token: "${SECRET_CRIBL_LEADER_TOKEN}"
     criblImage:
       repository: cribl/cribl
-      tag: 4.2.2
+      tag: 4.3.0
     resources: {}
     service:
       annotations:
