@@ -63,7 +63,7 @@ spec:
     persistence:
       backup:
         enabled: true
-        mountPath: /config/backup
+        mountPath: /backup
         path: "${NAS_NFS_PATH}/backup/app/plex"
         server: "${NAS_ADDRESS}"
         type: nfs
