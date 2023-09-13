@@ -5,7 +5,7 @@ metadata:
   name: plex
 spec:
   restic:
-    cacheCapacity: 8Gi
+    cacheCapacity: 12Gi
     cacheStorageClassName: local-path
     copyMethod: Snapshot
     moverSecurityContext:
