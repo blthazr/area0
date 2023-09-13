@@ -65,13 +65,6 @@ spec:
         tls:
           - hosts:
               - *host
-    initContainers:
-      01-init-db:
-        envFrom:
-          - secretRef:
-              name: *app
-        image: ghcr.io/onedr0p/postgres-init:14.9
-        imagePullPolicy: IfNotPresent
     nodeSelector:
       node-role.kubernetes.io/media: "true"
       node-role.kubernetes.io/worker: "true"

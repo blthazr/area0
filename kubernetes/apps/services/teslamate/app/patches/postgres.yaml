@@ -1,0 +1,14 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: &app teslamate
+spec:
+  values:
+    initContainers:
+      01-init-db:
+        envFrom:
+          - secretRef:
+              name: *app
+        image: ghcr.io/onedr0p/postgres-init:14.9
+        imagePullPolicy: IfNotPresent
