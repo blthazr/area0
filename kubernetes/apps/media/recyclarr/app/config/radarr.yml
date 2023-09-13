@@ -12,7 +12,7 @@ radarr:
       type: movie
 
     quality_profiles:
-      - name: Best Available (HD)
+      - name: Best Available
         min_format_score: 0
         qualities:
           - name: Remux-1080p
@@ -105,7 +105,7 @@ radarr:
           - cc5e51a9e85a6296ceefe097a77f12f4  # BCORE
 
         quality_profiles:
-          - name: Best Available (HD)
+          - name: Best Available
 
       # Custom Scoring
       - trash_ids:
@@ -125,5 +125,5 @@ radarr:
           - f6ff65b3f4b464a79dcc75950fe20382  # Crav
           - fbca986396c5e695ef7b2def3c755d01  # OViD
         quality_profiles:
-          - name: Best Available (HD)
+          - name: Best Available
             score: 0
