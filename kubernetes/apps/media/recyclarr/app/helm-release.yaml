@@ -52,7 +52,7 @@ spec:
             key: SONARR__API_KEY
     image:
       repository: ghcr.io/recyclarr/recyclarr
-      tag: 5.4.2
+      tag: 5.4.3
     nodeSelector:
       node-role.kubernetes.io/worker: "true"
     persistence:
