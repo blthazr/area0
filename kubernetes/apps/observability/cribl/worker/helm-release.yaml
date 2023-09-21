@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: cribl-charts
         namespace: flux-system
-      version: 4.2.2
+      version: 4.3.0
   install:
     remediation:
       retries: 3
