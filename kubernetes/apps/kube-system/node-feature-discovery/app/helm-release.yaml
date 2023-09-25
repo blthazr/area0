@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: node-feature-discovery-charts
         namespace: flux-system
-      version: 0.14.0
+      version: 0.14.1
   install:
     crds: CreateReplace
     remediation:
