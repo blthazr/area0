@@ -10,7 +10,7 @@
 # --------------------------------------------------------------------------------------------------
 roles:
   - name: geerlingguy.docker
-    version: 6.2.0
+    version: 7.0.1
   - name: robertdebock.bootstrap
     version: 6.2.1
   - name: xanmanning.k3s
