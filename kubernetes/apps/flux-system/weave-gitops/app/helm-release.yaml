@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: weave-gitops-charts
         namespace: flux-system
-      version: 4.0.30
+      version: 4.0.31
   install:
     remediation:
       retries: 3
