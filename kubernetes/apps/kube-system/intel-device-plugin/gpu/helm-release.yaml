@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: intel-charts
         namespace: flux-system
-      version: 0.27.1
+      version: 0.28.0
   install:
     remediation:
       retries: 3
