@@ -3,9 +3,11 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
+    external-dns.home.arpa/enabled: "true"
     hajimari.io/appName: "Splunk"
     hajimari.io/group: Observability
-  name: &app splunk
+    hajimari.io/icon: "mdi:splunk"
+  name: splunk
 spec:
   ingressClassName: nginx
   rules:
