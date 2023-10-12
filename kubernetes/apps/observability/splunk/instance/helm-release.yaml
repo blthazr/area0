@@ -49,6 +49,21 @@ spec:
         ephemeralStorage: false
         storageCapacity: 10Gi
         storageClassName: ceph-block
+      appRepo:
+        appsRepoPollIntervalSeconds: 600
+        defaults:
+          volumeName: volume_app_repo
+          scope: local
+        appSources:
+          - name: standaloneApps
+            location: standalone/
+        volumes:
+          - name: volume_app_repo
+            storageType: s3
+            provider: minio
+            path: splunk-apps/
+            endpoint: "http://${MINIO_ADDRESS}:9000"
+            secretRef: splunk-minio-secret
       smartstore:
         defaults:
           volumeName: volume_smartstore
@@ -67,15 +82,6 @@ spec:
       serviceTemplate:
         spec:
           loadBalancerIP: "${SVC_SPLUNK_ADDRESS}"
-          ports:
-            - name: syslog-tcp
-              port: 1514
-              protocol: TCP
-              targetPort: 1514
-            - name: syslog-udp
-              port: 1514
-              protocol: UDP
-              targetPort: 1514
           type: LoadBalancer
       varVolumeStorageConfig:
         ephemeralStorage: false
