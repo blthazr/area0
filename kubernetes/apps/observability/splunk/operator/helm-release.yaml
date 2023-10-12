@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: splunk-charts
         namespace: flux-system
-      version: 2.3.0
+      version: 2.4.0
   install:
     remediation:
       retries: 3
