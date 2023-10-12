@@ -32,7 +32,7 @@ spec:
       retries: 3
   values:
     image:
-      repository: docker.io/splunk/splunk:9.0.5
+      repository: docker.io/splunk/splunk:9.1.1@sha256:20b1376a1677ef6eff611b1d1e25e3a170a715c646c2c27711bbb65b03f78ede
     splunk-operator:
       enabled: false
     standalone:
@@ -49,21 +49,6 @@ spec:
         ephemeralStorage: false
         storageCapacity: 10Gi
         storageClassName: ceph-block
-      appRepo:
-        appsRepoPollIntervalSeconds: 600
-        defaults:
-          volumeName: volume_app_repo
-          scope: local
-        appSources:
-          - name: standaloneApps
-            location: standalone/
-        volumes:
-          - name: volume_app_repo
-            storageType: s3
-            provider: minio
-            path: splunk-apps/
-            endpoint: "http://${MINIO_ADDRESS}:9000"
-            secretRef: splunk-minio-secret
       smartstore:
         defaults:
           volumeName: volume_smartstore
