@@ -16,6 +16,6 @@ resources:
   - ./node-exporter/app.yaml
   - ./smartctl-exporter/app.yaml
   - ./splunk/instance.yaml
-  - ./splunk/operator.yaml
+  # - ./splunk/operator.yaml
   - ./thanos/app.yaml
   - ./unpoller/app.yaml
