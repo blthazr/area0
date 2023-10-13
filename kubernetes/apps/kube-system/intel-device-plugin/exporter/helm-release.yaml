@@ -12,6 +12,9 @@ spec:
         name: bjw-s-charts
         namespace: flux-system
       version: 1.5.1
+  dependsOn:
+    - name: intel-device-plugin-gpu
+      namespace: kube-system
   install:
     remediation:
       retries: 3

@@ -12,6 +12,9 @@ spec:
         name: intel-charts
         namespace: flux-system
       version: 0.28.0
+  dependsOn:
+    - name: node-feature-discovery
+      namespace: kube-system
   install:
     crds: CreateReplace
     remediation:

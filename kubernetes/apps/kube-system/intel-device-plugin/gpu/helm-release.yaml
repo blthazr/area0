@@ -11,7 +11,10 @@ spec:
         kind: HelmRepository
         name: intel-charts
         namespace: flux-system
-      version: 0.28.0
+      version: 0.28.1-helm.0
+  dependsOn:
+    - name: intel-device-plugin-operator
+      namespace: kube-system
   install:
     remediation:
       retries: 3
@@ -24,6 +27,6 @@ spec:
     remediation:
       retries: 3
   values:
-    name: intel-gpu-plugin
+    name: *app
     nodeFeatureRule: true
     sharedDevNum: 3
