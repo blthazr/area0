@@ -26,6 +26,8 @@ spec:
     remediation:
       retries: 3
   values:
+    prometheus:
+      enable: true
     worker:
       config:
         core:
