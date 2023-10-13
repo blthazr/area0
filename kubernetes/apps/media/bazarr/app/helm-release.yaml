@@ -30,7 +30,6 @@ spec:
       retries: 3
   values:
     env:
-      BAZARR__PORT: &port 6767
       TZ: "${CLUSTER_TIME_ZONE}"
     image:
       repository: ghcr.io/onedr0p/bazarr
@@ -97,7 +96,7 @@ spec:
       main:
         ports:
           http:
-            port: *port
+            port: 6767
     sidecars:
       subcleaner:
         args:

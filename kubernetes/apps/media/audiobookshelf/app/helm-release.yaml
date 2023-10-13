@@ -32,7 +32,6 @@ spec:
     env:
       AUDIOBOOKSHELF_GID: 568
       AUDIOBOOKSHELF_UID: 568
-      AUDIOBOOKSHELF__PORT: &port 80
       CONFIG_PATH: /config
       METADATA_PATH: /config/metadata
       TZ: "${CLUSTER_TIME_ZONE}"
@@ -91,4 +90,4 @@ spec:
       main:
         ports:
           http:
-            port: *port
+            port: 80

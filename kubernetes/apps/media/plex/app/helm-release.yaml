@@ -32,7 +32,6 @@ spec:
       retries: 3
   values:
     env:
-      PLEX__PORT: &port 32400
       TZ: "${CLUSTER_TIME_ZONE}"
     image:
       repository: ghcr.io/onedr0p/plex
@@ -104,5 +103,5 @@ spec:
         loadBalancerIP: "${SVC_PLEX_ADDRESS}"
         ports:
           http:
-            port: *port
+            port: 32400
         type: LoadBalancer

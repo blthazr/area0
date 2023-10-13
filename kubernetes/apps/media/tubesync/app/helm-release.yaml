@@ -31,7 +31,6 @@ spec:
   values:
     env:
       TZ: "${CLUSTER_TIME_ZONE}"
-      TUBESYNC__PORT: &port 4848
       PUID: 568
       PGID: 568
       TUBESYNC_RESET_DOWNLOAD_DIR: false
@@ -72,4 +71,4 @@ spec:
       main:
         ports:
           http:
-            port: *port
+            port: 4848

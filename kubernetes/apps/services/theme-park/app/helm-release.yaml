@@ -28,7 +28,6 @@ spec:
       replicas: 1
       strategy: RollingUpdate
     env:
-      THEME_PARK__PORT: &port 8080
       TZ: "${CLUSTER_TIME_ZONE}"
     image:
       repository: ghcr.io/onedr0p/theme-park
@@ -58,7 +57,7 @@ spec:
       main:
         ports:
           http:
-            port: *port
+            port: 8080
     topologySpreadConstraints:
       - labelSelector:
           matchLabels:

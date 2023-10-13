@@ -32,7 +32,6 @@ spec:
     env:
       READARR__APPLICATION_URL: "https://readarr-ebooks.${SECRET_DOMAIN}"
       READARR__INSTANCE_NAME: Readarr Ebooks
-      READARR__PORT: &port 8787
       TZ: "${CLUSTER_TIME_ZONE}"
     envFrom:
       - secretRef:
@@ -89,4 +88,4 @@ spec:
       main:
         ports:
           http:
-            port: *port
+            port: 8787
