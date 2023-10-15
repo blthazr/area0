@@ -85,7 +85,7 @@ spec:
           - --ref=master
           - --period=24h
           - --root=/add-ons
-        image: registry.k8s.io/git-sync/git-sync:v4.0.0
+        image: registry.k8s.io/git-sync/git-sync:v4.1.0
         imagePullPolicy: IfNotPresent
         volumeMounts:
           - { name: add-ons, mountPath: /add-ons }
