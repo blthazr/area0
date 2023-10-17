@@ -7,7 +7,10 @@
         "commitMessageTopic": "{{{groupName}}} group"
       },
       "groupName": "Rook-Ceph",
-      "matchDatasources": ["helm"],
+      "matchDatasources": [
+        "docker",
+        "helm"
+      ],
       "matchPackagePatterns": ["rook.ceph"],
       "separateMinorPatch": true
     },
@@ -34,7 +37,10 @@
         "docker",
         "github-tags"
       ],
-      "matchPackagePatterns": ["flux"],
+      "matchPackagePatterns": [
+        "^flux",
+        "^ghcr.io/fluxcd/"
+      ],
       "separateMinorPatch": true,
       "versioning": "semver"
     },
