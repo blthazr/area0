@@ -23,7 +23,10 @@ spec:
         maxParallel: 8
     retentionPolicy: 30d
   imageName: ghcr.io/cloudnative-pg/postgresql:14.9-3
-  instances: 3
+  inheritedMetadata:
+    labels:
+      kube-image-keeper.enix.io/image-caching-policy: ignore
+  instances: 1 # 3
   monitoring:
     enablePodMonitor: true
   postgresql:
