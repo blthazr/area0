@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: bjw-s-charts
         namespace: flux-system
-      version: 1.5.1
+      version: 2.0.3
   install:
     remediation:
       retries: 3
@@ -25,39 +25,48 @@ spec:
     remediation:
       retries: 3
   values:
-    serviceAccount:
-      name: tailscale
-    image:
-      repository: ghcr.io/tailscale/tailscale
-      tag: v1.50.1
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          main:
+            env:
+              PORT: &port 45387
+              SA_NAME: tailscale
+              TS_KUBE_SECRET: "tailscale-state"
+              TS_ROUTES: "${NET_K3S_CLUSTER_CIDR},${NET_K3S_SERVICE_CIDR},${NET_OLD_HOME_CIDR},${NET_OLD_SERVICES_CIDR},${NET_OLD_SMARTHOME_CIDR},${NET_SERVICES_CIDR},${NET_SMARTHOME_CIDR}"
+              TS_EXTRA_ARGS: "--advertise-exit-node"
+              TS_USERSPACE: "true"
+              TZ: "${CLUSTER_TIME_ZONE}"
+            envFrom:
+              - secretRef:
+                  name: tailscale-auth
+            image:
+              repository: ghcr.io/tailscale/tailscale
+              tag: v1.50.1
+            probes:
+              liveness:
+                enabled: false
+              readiness:
+                enabled: false
+              startup:
+                enabled: false
+        pod:
+          securityContext:
+            runAsGroup: 1000
+            runAsUser: 1000
     service:
       main:
         ports:
           http:
-            port: &port 45387
-    podSecurityContext:
-      runAsUser: 1000
-      runAsGroup: 1000
-    ingress:
-      main:
-        enabled: false
-    probes:
-      liveness:
-        enabled: false
-      readiness:
-        enabled: false
-      startup:
-        enabled: false
-    env:
-      SA_NAME: tailscale
-      TS_ACCEPT_DNS: true
-      TS_EXTRA_ARGS: "--advertise-exit-node"
-      TS_KUBE_SECRET: "tailscale-auth"
-      TS_ROUTES: "${NET_K3S_CLUSTER_CIDR},${NET_K3S_SERVICE_CIDR},${NET_OLD_HOME_CIDR},${NET_OLD_SERVICES_CIDR},${NET_OLD_SMARTHOME_CIDR},${NET_SERVICES_CIDR},${NET_SMARTHOME_CIDR}"
-      TS_USERSPACE: "true"
-      TZ: "${CLUSTER_TIME_ZONE}"
-    envFrom:
-      - secretRef:
-          name: tailscale-auth
-    podAnnotations:
-      configmap.reloader.stakater.com/reload: tailscale-auth
+            port: 2000
+      tailnet:
+        controller: main
+        ports:
+          tailnet-udp:
+            enabled: true
+            port: *port
+            protocol: UDP
+    serviceAccount:
+      name: tailscale

@@ -8,7 +8,7 @@ rules:
     resources: ["secrets"]
     verbs: ["create"]
   - apiGroups: [""]
-    resourceNames: ["tailscale-auth"]
+    resourceNames: ["tailscale-state"]
     resources: ["secrets"]
     verbs: ["get", "update", "patch"]
 ---
