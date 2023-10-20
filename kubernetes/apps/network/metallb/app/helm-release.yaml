@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: metallb-charts
         namespace: flux-system
-      version: 0.13.11
+      version: 0.13.12
   install:
     remediation:
       retries: 3
