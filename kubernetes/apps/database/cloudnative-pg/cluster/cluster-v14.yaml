@@ -23,7 +23,7 @@ spec:
         maxParallel: 8
     retentionPolicy: 30d
   enableSuperuserAccess: true
-  imageName: ghcr.io/cloudnative-pg/postgresql:14.9-3
+  imageName: ghcr.io/cloudnative-pg/postgresql:14.9-15
   inheritedMetadata:
     labels:
       kube-image-keeper.enix.io/image-caching-policy: ignore
