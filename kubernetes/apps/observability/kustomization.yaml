@@ -8,7 +8,6 @@ resources:
   # Flux-Kustomizations
   - ./cribl/leader.yaml
   - ./cribl/worker.yaml
-  - ./kube-prometheus-stack/app.yaml
   - ./splunk/instance.yaml
   - ./splunk/operator.yaml
   - ./thanos/app.yaml
