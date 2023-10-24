@@ -37,6 +37,9 @@ spec:
         metallb.universe.tf/allow-shared-ip: cribl-worker
       loadBalancerIP: "${SVC_CRIBL_WORKER_ADDRESS}"
       ports:
+        - name: splunk-hec
+          port: 8088
+          protocol: TCP
         - name: syslog-tcp
           port: 9514
           protocol: TCP
