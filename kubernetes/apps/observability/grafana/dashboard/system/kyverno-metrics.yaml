@@ -1,7 +1,0 @@
----
-apiVersion: grafana.integreatly.org/v1beta1
-kind: GrafanaDashboard
-metadata:
-  name: kyverno-metrics
-spec:
-  url: https://raw.githubusercontent.com/kyverno/kyverno/main/charts/kyverno/grafana/dashboard.json
