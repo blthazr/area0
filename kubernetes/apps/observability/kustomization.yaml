@@ -10,8 +10,6 @@ resources:
   - ./cribl/worker.yaml
   - ./kube-prometheus-stack/app.yaml
   - ./kube-state-metrics/app.yaml
-  - ./node-exporter/app.yaml
-  - ./smartctl-exporter/app.yaml
   - ./splunk/instance.yaml
   - ./splunk/operator.yaml
   - ./thanos/app.yaml
