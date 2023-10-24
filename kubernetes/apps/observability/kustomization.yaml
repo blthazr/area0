@@ -9,7 +9,6 @@ resources:
   - ./cribl/leader.yaml
   - ./cribl/worker.yaml
   - ./kube-prometheus-stack/app.yaml
-  - ./kube-state-metrics/app.yaml
   - ./splunk/instance.yaml
   - ./splunk/operator.yaml
   - ./thanos/app.yaml
