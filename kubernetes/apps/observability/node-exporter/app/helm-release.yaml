@@ -1,0 +1,44 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta1.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: node-exporter
+spec:
+  chart:
+    spec:
+      chart: prometheus-node-exporter
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-community-charts
+        namespace: flux-system
+      version: 4.23.2
+  install:
+    remediation:
+      retries: 3
+  interval: 30m
+  maxHistory: 2
+  uninstall:
+    keepHistory: false
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    extraArgs:
+      - '--collector.filesystem.mount-points-exclude=^/(dev|proc|sys|var/lib/docker/.+|var/lib/kubelet/.+)($|/)'
+      - '--collector.filesystem.fs-types-exclude=^(autofs|binfmt_misc|bpf|cgroup2?|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|iso9660|mqueue|nsfs|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|selinuxfs|squashfs|sysfs|tracefs)$'
+    fullnameOverride: node-exporter
+    podLabels:
+      jobLabel: node-exporter
+    prometheus:
+      monitor:
+        enabled: true
+        jobLabel: jobLabel
+        metricRelabelings:
+          - action: drop
+            regex: /var/lib/kubelet/pods.+
+            sourceLabels: ["mountpoint"]
+    rbac:
+      pspEnabled: false
+    releaseLabel: true
