@@ -1,0 +1,78 @@
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: Grafana
+metadata:
+  name: &app grafana
+  labels:
+    dashboards: *app
+spec:
+  config:
+    analytics:
+      check_for_updates: 'false'
+      reporting_enabled: 'false'
+    auth.generic_oauth:
+      allow_assign_grafana_admin: 'true'
+      api_url: "https://${SECRET_AUTH0_TENANT}.us.auth0.com/userinfo"
+      auth_url: "https://${SECRET_AUTH0_TENANT}.us.auth0.com/authorize"
+      auto_login: 'true'
+      client_id: "${SECRET_AUTH0_GRAFANA_CLIENT_ID}"
+      client_secret: "${SECRET_AUTH0_GRAFANA_CLIENT_SECRET}"
+      enabled: 'true'
+      name: Auth0
+      role_attribute_path: |
+        contains("https://${SECRET_DOMAIN}/groups"[*], 'Grafana Admins') && 'Admin' || contains("https://${SECRET_DOMAIN}/groups"[*], 'Grafana Editors') && 'Editor' || 'Viewer'
+      scopes: openid profile email
+      token_url: "https://${SECRET_AUTH0_TENANT}.us.auth0.com/oauth/token"
+      use_pkce: 'true'
+    date_formats:
+      use_browser_locale: 'true'
+    grafana_net:
+      url: https://grafana.net
+    log:
+      mode: console
+    panels:
+      disable_sanitize_html: 'true'
+    paths:
+      data: /var/lib/grafana/data
+      logs: /var/log/grafana
+      plugins: /var/lib/grafana/plugins
+      provisioning: /etc/grafana/provisioning
+    security:
+      admin_user: "${SECRET_GRAFANA_ADMIN_USERNAME}"
+      admin_password: "${SECRET_GRAFANA_ADMIN_PASSWORD}"
+    server:
+      root_url: "https://grafana.${SECRET_DOMAIN}"
+  deployment:
+    spec:
+      replicas: 1
+      strategy:
+        rollingUpdate:
+          maxSurge: 1
+          maxUnavailable: 1
+        type: RollingUpdate
+      template:
+        metadata:
+          annotations:
+            configmap.reloader.stakater.com/reload: *app
+  ingress:
+    metadata:
+      annotations:
+        hajimari.io/appName: Grafana
+        hajimari.io/group: Observability
+        hajimari.io/icon: simple-icons:grafana
+    spec:
+      ingressClassName: nginx
+      rules:
+        - host: &host "grafana.${SECRET_DOMAIN}"
+          http:
+            paths:
+              - backend:
+                  service:
+                    name: grafana-service
+                    port:
+                      number: 3000
+                path: /
+                pathType: Prefix
+      tls:
+        - hosts:
+            - *host
