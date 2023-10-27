@@ -55,6 +55,9 @@ spec:
         - name: syslog-docker
           port: 9522
           protocol: UDP
+        - name: s2s
+          port: 9997
+          protocol: TCP
         - name: cribl-http
           port: 10200
           protocol: TCP
