@@ -55,4 +55,10 @@ spec:
         - name: syslog-docker
           port: 9522
           protocol: UDP
+        - name: cribl-http
+          port: 10200
+          protocol: TCP
+        - name: cribl-tcp
+          port: 10300
+          protocol: TCP
       type: LoadBalancer
