@@ -14,6 +14,7 @@ resources:
   - ./grafana/instance.yaml
   - ./grafana/operator.yaml
   - ./kube-prometheus-stack/app.yaml
+  - ./kube-prometheus-stack/rules.yaml
   - ./kube-state-metrics/app.yaml
   - ./node-exporter/app.yaml
   - ./splunk/instance.yaml
