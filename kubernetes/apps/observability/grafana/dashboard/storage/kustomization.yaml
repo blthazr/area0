@@ -10,3 +10,6 @@ patches:
       version: v1beta1
 resources:
   - ./grafana-folder.yaml
+  - ./ceph-cluster.yaml
+  - ./ceph-osd.yaml
+  - ./ceph-pools.yaml
