@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: piraeus-charts
         namespace: flux-system
-      version: 1.8.3
+      version: 1.9.0
   install:
     crds: Skip
     remediation:
