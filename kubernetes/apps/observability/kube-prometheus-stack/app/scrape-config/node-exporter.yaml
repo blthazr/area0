@@ -1,0 +1,11 @@
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: node-exporter
+spec:
+  staticConfigs:
+    - targets:
+        - "${HOME_ASSISTANT_ADDRESS}:9100"
+        - "${NAS_ADDRESS}:9100"
+  metricsPath: /metrics

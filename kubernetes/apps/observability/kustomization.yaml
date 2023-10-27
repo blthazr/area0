@@ -13,6 +13,7 @@ resources:
   - ./grafana/datasource.yaml
   - ./grafana/instance.yaml
   - ./grafana/operator.yaml
+  - ./kube-prometheus-stack/app.yaml
   - ./kube-state-metrics/app.yaml
   - ./node-exporter/app.yaml
   - ./splunk/instance.yaml
