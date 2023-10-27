@@ -1,0 +1,83 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta1.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: alert-manager
+spec:
+  chart:
+    spec:
+      chart: app-template
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+      version: 2.0.3
+  dependsOn:
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
+    - name: volsync
+      namespace: volsync
+  install:
+    remediation:
+      retries: 3
+  interval: 30m
+  maxHistory: 2
+  uninstall:
+    keepHistory: false
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: 'true'
+        containers:
+          main:
+            image:
+              repository: quay.io/prometheus/alertmanager
+              tag: main@sha256:cdd2386e0c73e1741f92ee4dce66dd714732603d2a5a110bf50ed57c11605945
+            ports:
+              - containerPort: 9093
+                name: http
+        statefulset:
+          volumeClaimTemplates:
+            - accessMode: ReadWriteOnce
+              globalMounts:
+                - path: /alertmanager
+              name: storage
+              size: 50Mi
+              storageClass: ceph-block
+        type: statefulset
+    ingress:
+      main:
+        annotations:
+          hajimari.io/appName: "Alert Manager"
+          hajimari.io/group: Observability
+          hajimari.io/icon: mdi:alert-decagram-outline
+        className: nginx
+        enabled: true
+        hosts:
+          - host: &host "{{.Release.Name}}.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                service:
+                  name: main
+                  port: http
+        tls:
+          - hosts:
+              - *host
+    persistence:
+      config:
+        enabled: true
+        globalMounts:
+          - path: /etc/alertmanager
+        name: alert-manager-config
+        type: configMap
+    service:
+      main:
+        ports:
+          http:
+            port: 9093

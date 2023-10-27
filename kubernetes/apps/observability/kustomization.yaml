@@ -6,6 +6,7 @@ resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
   # Flux-Kustomizations
+  - ./alert-manager/app.yaml
   - ./cribl/leader.yaml
   - ./cribl/worker.yaml
   - ./kube-state-metrics/app.yaml
