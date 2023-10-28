@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: prometheus-community-charts
         namespace: flux-system
-      version: 51.10.0
+      version: 52.1.0
   dependsOn:
     - name: local-path-provisioner
       namespace: kube-system
