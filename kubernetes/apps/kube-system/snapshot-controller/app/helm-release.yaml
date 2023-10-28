@@ -12,7 +12,10 @@ spec:
         kind: HelmRepository
         name: piraeus-charts
         namespace: flux-system
-      version: 1.9.2
+      version: 2.0.0
+  dependsOn:
+    - name: rook-ceph-operator
+      namespace: rook-ceph
   install:
     crds: CreateReplace
     remediation:
@@ -27,15 +30,25 @@ spec:
     remediation:
       retries: 3
   values:
-    serviceMonitor:
-      create: true
-    volumeSnapshotClasses:
-      - name: csi-ceph-blockpool
-        annotations:
-          snapshot.storage.kubernetes.io/is-default-class: "true"
-        deletionPolicy: Delete
-        driver: rook-ceph.rbd.csi.ceph.com
-        parameters:
-          clusterID: rook-ceph
-          csi.storage.k8s.io/snapshotter-secret-name: rook-csi-rbd-provisioner
-          csi.storage.k8s.io/snapshotter-secret-namespace: rook-ceph
+    controller:
+      serviceMonitor:
+        create: true
+      volumeSnapshotClasses:
+        - annotations:
+            snapshot.storage.kubernetes.io/is-default-class: 'true'
+          deletionPolicy: Delete
+          driver: rook-ceph.rbd.csi.ceph.com
+          name: csi-ceph-blockpool
+          parameters:
+            clusterID: rook-ceph
+            csi.storage.k8s.io/snapshotter-secret-name: rook-csi-rbd-provisioner
+            csi.storage.k8s.io/snapshotter-secret-namespace: rook-ceph
+        - annotations:
+            snapshot.storage.kubernetes.io/is-default-class: 'false'
+          deletionPolicy: Delete
+          driver: rook-ceph.cephfs.csi.ceph.com
+          name: csi-ceph-filesystem
+          parameters:
+            clusterID: rook-ceph
+            csi.storage.k8s.io/snapshotter-secret-name: rook-csi-cephfs-provisioner
+            csi.storage.k8s.io/snapshotter-secret-namespace: rook-ceph

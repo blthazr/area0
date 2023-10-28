@@ -16,4 +16,3 @@ resources:
   - ./node-feature-discovery/rules.yaml
   - ./reloader/app.yaml
   - ./snapshot-controller/app.yaml
-  - ./snapshot-controller/validation.yaml
