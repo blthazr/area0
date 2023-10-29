@@ -71,9 +71,9 @@ spec:
     crds:
       install: true
     grafana:
-      enabled: true
-      labels:
+      annotations:
         grafana_folder: System
+      enabled: true
     reportsController:
       serviceMonitor:
         enabled: true
