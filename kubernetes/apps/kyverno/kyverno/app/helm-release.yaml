@@ -72,7 +72,7 @@ spec:
       install: true
     grafana:
       enabled: true
-      annotations:
+      labels:
         grafana_folder: System
     reportsController:
       serviceMonitor:
