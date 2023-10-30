@@ -43,6 +43,8 @@ spec:
       forceDeployDashboards: true
       sidecar:
         dashboards:
+          annotations:
+            grafana_folder: System
           multicluster:
             etcd:
               enabled: true
