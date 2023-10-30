@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: jetstack-charts
         namespace: flux-system
-      version: v1.13.1
+      version: v1.13.2
   install:
     remediation:
       retries: 3
