@@ -44,7 +44,7 @@ spec:
                   name: tailscale-auth
             image:
               repository: ghcr.io/tailscale/tailscale
-              tag: v1.50.1
+              tag: v1.52.0@sha256:b102f468a2f1b0b6e9717cf728c43886c136e808010547eebe9ebd80aedd34c3
             probes:
               liveness:
                 enabled: false
