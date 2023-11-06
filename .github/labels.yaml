@@ -34,6 +34,8 @@
   color: "FFC300"
 - name: renovate/helm
   color: "FFC300"
+- name: renovate/pre-commit
+  color: "FFC300"
 - name: renovate/terraform
   color: "FFC300"
 
