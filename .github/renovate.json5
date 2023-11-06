@@ -3,6 +3,7 @@
   "extends": [
     "github>blthazr/renovate-config",
     "github>blthazr/renovate-config:automerge-github-actions",
+    "github>blthazr/renovate-config:automerge-pre-commit",
     "github>blthazr/area0//.github/renovate/allowedVersions.json5",
     "github>blthazr/area0//.github/renovate/autoMerge.json5",
     "github>blthazr/area0//.github/renovate/commitMessage.json5",
