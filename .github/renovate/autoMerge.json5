@@ -2,72 +2,16 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
-      "description": "Auto merge container digests [maintenance window]",
+      "description": "Auto merge container digests",
       "addLabels": ["action/automerge"],
       "automerge": true,
-      "automergeSchedule": ["after 2am, before 6am"],
       "automergeType": "branch",
       "ignoreTests": true,
       "matchDatasources": ["docker"],
       "matchPackagePatterns": [
-        "docker.io/hkotel/mealie",
-        "ghcr.io/advplyr/audiobookshelf",
-        "ghcr.io/blakeblackshear/frigate",
-        "ghcr.io/onedr0p",
-        "ghcr.io/sct/overseerr"
+        "ghcr.io/onedr0p"
       ],
       "matchUpdateTypes": ["digest"]
-    },
-    {
-      "description": "Auto merge container digests [anytime]",
-      "addLabels": ["action/automerge"],
-      "automerge": true,
-      "automergeType": "branch",
-      "excludePackagePatterns": [
-        "ghcr.io/onedr0p/plex"
-      ],
-      "ignoreTests": true,
-      "matchDatasources": ["docker"],
-      "matchPackagePatterns": [
-        "ghcr.io/onedr0p",
-        "ghcr.io/recyclarr/recyclarr",
-        "ghcr.io/unpoller/unpoller"
-      ],
-      "matchUpdateTypes": ["digest"]
-    },
-    {
-      "description": "Auto merge container patches [maintenance window]",
-      "addLabels": ["action/automerge"],
-      "automerge": true,
-      "automergeSchedule": ["after 2am, before 6am"],
-      "automergeType": "branch",
-      "ignoreTests": true,
-      "matchDatasources": ["docker"],
-      "matchPackagePatterns": [
-        "docker.io/hkotel/mealie",
-        "ghcr.io/advplyr/audiobookshelf",
-        "ghcr.io/blakeblackshear/frigate",
-        "ghcr.io/onedr0p",
-        "ghcr.io/sct/overseerr"
-      ],
-      "matchUpdateTypes": ["patch"]
-    },
-    {
-      "description": "Auto merge container patches [anytime]",
-      "addLabels": ["action/automerge"],
-      "automerge": true,
-      "automergeType": "branch",
-      "excludePackagePatterns": [
-        "ghcr.io/onedr0p/plex"
-      ],
-      "ignoreTests": true,
-      "matchDatasources": ["docker"],
-      "matchPackagePatterns": [
-        "ghcr.io/onedr0p",
-        "ghcr.io/recyclarr/recyclarr",
-        "ghcr.io/unpoller/unpoller"
-      ],
-      "matchUpdateTypes": ["patch"]
     }
   ]
 }
