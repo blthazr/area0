@@ -7,24 +7,8 @@
         "commitMessageTopic": "{{{groupName}}} group"
       },
       "groupName": "Rook-Ceph",
-      "matchDatasources": [
-        "docker",
-        "helm"
-      ],
-      "matchPackagePatterns": ["rook.ceph"],
-      "separateMinorPatch": true
-    },
-    {
-      "description": "External Snapshotter Group",
-      "group": {
-        "commitMessageTopic": "{{{groupName}}} group"
-      },
-      "groupName": "External Snapshotter",
       "matchDatasources": ["helm"],
-      "matchPackageNames": [
-        "snapshot-controller",
-        "snapshot-validation-webhook"
-      ],
+      "matchPackagePatterns": ["rook.ceph"],
       "separateMinorPatch": true
     },
     {
@@ -37,10 +21,7 @@
         "docker",
         "github-tags"
       ],
-      "matchPackagePatterns": [
-        "^flux",
-        "^ghcr.io/fluxcd/"
-      ],
+      "matchPackagePatterns": ["flux"],
       "separateMinorPatch": true,
       "versioning": "semver"
     },
