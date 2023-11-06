@@ -5,8 +5,12 @@
     "github>blthazr/renovate-config:automerge-github-actions",
     "github>blthazr/area0//.github/renovate/allowedVersions.json5",
     "github>blthazr/area0//.github/renovate/autoMerge.json5",
+    "github>blthazr/area0//.github/renovate/commitMessage.json5",
+    "github>blthazr/area0//.github/renovate/customDatasources.json5",
     "github>blthazr/area0//.github/renovate/groups.json5",
+    "github>blthazr/area0//.github/renovate/labels.json5",
     "github>blthazr/area0//.github/renovate/managers.json5",
+    "github>blthazr/area0//.github/renovate/semanticCommit.json5",
     "github>blthazr/area0//.github/renovate/versioning.json5"
   ],
   "ignorePaths": ["**/archive/**"],

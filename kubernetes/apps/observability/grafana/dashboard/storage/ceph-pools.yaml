@@ -7,7 +7,7 @@ spec:
   datasources:
     - datasourceName: Prometheus
       inputName: DS_PROMETHEUS
-  # Ref: https://grafana.com/grafana/dashboards/5342/
+  # renovate: depName="Ceph - Pools"
   grafanaCom:
     id: 5342
     revision: 9

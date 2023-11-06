@@ -51,6 +51,18 @@
       ],
       "datasourceTemplate": "docker",
       "versioningTemplate": "redhat"
+    },
+    {
+      "customType": "regex",
+      "description": "Process Grafana dashboards",
+      "fileMatch": [
+        "(^|/)kubernetes/.+\\.ya?ml(\\.j2)?$"
+      ],
+      "matchStrings": [
+        "depName=\"(?<depName>.*)\"\\n\\s+grafanaCom:\\n\\s+id:\\s+(?<packageName>.*?)\\n\\s+revision:\\s+(?<currentValue>.*)"
+      ],
+      "datasourceTemplate": "custom.grafana-dashboards",
+      "versioningTemplate": "regex:^(?<major>\\d+)$"
     }
   ]
 }

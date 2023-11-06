@@ -30,6 +30,8 @@
   color: "FFC300"
 - name: renovate/github-release
   color: "FFC300"
+- name: renovate/grafana-dashboard
+  color: "FFC300"
 - name: renovate/helm
   color: "FFC300"
 - name: renovate/terraform
@@ -55,7 +57,7 @@
 - name: action/automerge
   color: "5319E7"
   description: >-
-    PR that has been AutoMerged by Renovate
+    PR that has been automerged by Renovate
 - name: bug
   color: "EE0701"
   description: >-
