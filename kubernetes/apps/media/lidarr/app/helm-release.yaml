@@ -45,7 +45,6 @@ spec:
             image:
               repository: ghcr.io/onedr0p/lidarr-develop
               tag: 2.0.1.3769@sha256:66cd16bf734e3ad372fe48ca13edbd43f7785323d5bc13ef2283a28341428b97
-            resources: {}
         pod:
           nodeSelector:
             node-role.kubernetes.io/media: "true"
@@ -57,16 +56,13 @@ spec:
             runAsUser: 568
             supplementalGroups:
               - 100
-        statefulset:
-          volumeClaimTemplates:
-            -
-        type: statefuleset
     ingress:
       main:
         annotations:
           hajimari.io/group: Media-Automation
           hajimari.io/icon: mdi:headphones
           hajimari.io/info: Music Collection Manager
+        className: nginx
         enabled: true
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
@@ -75,7 +71,6 @@ spec:
                 service:
                   name: main
                   port: http
-        className: nginx
         tls:
           - hosts:
               - *host
