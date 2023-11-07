@@ -10,3 +10,5 @@ patches:
       version: v1beta1
 resources:
   - ./grafana-folder.yaml
+  - ./ingress-nginx.yaml
+  - ./ingress-nginx-request-handling-performance.yaml
