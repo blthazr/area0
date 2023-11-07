@@ -10,3 +10,4 @@ patches:
       version: v1beta1
 resources:
   - ./grafana-folder.yaml
+  - ./cloudnative-pg.yaml
