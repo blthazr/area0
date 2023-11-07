@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: bjw-s-charts
         namespace: flux-system
-      version: 1.5.1
+      version: 2.0.3
   dependsOn:
     - name: rook-ceph-cluster
       namespace: rook-ceph
@@ -30,11 +30,38 @@ spec:
     remediation:
       retries: 3
   values:
-    env:
-      TZ: "${CLUSTER_TIME_ZONE}"
-    image:
-      repository: ghcr.io/onedr0p/tautulli
-      tag: 2.13.2@sha256:960fef79051c992dcbb077dcf196f81afad9c5753cb04462910b59dbac3f21f6
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          main:
+            env:
+              TZ: "${CLUSTER_TIME_ZONE}"
+            image:
+              repository: ghcr.io/onedr0p/tautulli
+              tag: 2.13.2@sha256:960fef79051c992dcbb077dcf196f81afad9c5753cb04462910b59dbac3f21f6
+            resources: {}
+          jbops:
+            env:
+              GITSYNC_REPO: https://github.com/blacktwin/JBOPS
+              GITSYNC_REF: master
+              GITSYNC_PERIOD: 24h
+              GITSYNC_ROOT: /add-ons
+            image:
+              repository: registry.k8s.io/git-sync/git-sync
+              tag: v4.1.0
+            resources: {}
+        pod:
+          nodeSelector:
+            node-role.kubernetes.io/worker: "true"
+          securityContext:
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
+            runAsGroup: 568
+            runAsUser: 568
+            supplementalGroups:
+              - 100
     ingress:
       main:
         annotations:
@@ -42,51 +69,36 @@ spec:
           hajimari.io/group: Media
           hajimari.io/icon: mdi:chart-bar
           hajimari.io/info: Plex Analytics
+        className: nginx
         enabled: true
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
               - path: /
-                pathType: Prefix
-        ingressClassName: nginx
+                service:
+                  name: main
+                  port: http
         tls:
           - hosts:
               - *host
-    nodeSelector:
-      node-role.kubernetes.io/worker: "true"
     persistence:
       add-ons:
         enabled: true
         type: emptyDir
       backup:
         enabled: true
-        mountPath: /config/backups
+        globalMounts:
+          - path: /config/backups
         path: "${NAS_NFS_PATH}/backup/app/tautulli"
         server: "${NAS_ADDRESS}"
         type: nfs
       config:
         enabled: true
         existingClaim: tautulli-config-v1
-    podSecurityContext:
-      fsGroup: 568
-      fsGroupChangePolicy: OnRootMismatch
-      runAsGroup: 568
-      runAsUser: 568
-      supplementalGroups:
-        - 100
+        globalMounts:
+          - path: /config
     service:
       main:
         ports:
           http:
             port: 8181
-    sidecars:
-      jbops:
-        args:
-          - --repo=https://github.com/blacktwin/JBOPS
-          - --ref=master
-          - --period=24h
-          - --root=/add-ons
-        image: registry.k8s.io/git-sync/git-sync:v4.1.0
-        imagePullPolicy: IfNotPresent
-        volumeMounts:
-          - { name: add-ons, mountPath: /add-ons }
