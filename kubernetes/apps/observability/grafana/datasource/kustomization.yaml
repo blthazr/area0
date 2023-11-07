@@ -5,3 +5,4 @@ kind: Kustomization
 namespace: observability
 resources:
   - ./prometheus.yaml
+  - ./teslamate.yaml
