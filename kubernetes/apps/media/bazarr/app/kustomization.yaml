@@ -9,7 +9,11 @@ configMapGenerator:
       - post-process.sh=./scripts/post-process.sh
 configurations:
   - ./kustomize-config.yaml
+generatorOptions:
+  disableNameSuffixHash: true
+patchesStrategicMerge:
+  - patches/postgres.yaml
 resources:
+  - ./secret.sops.yaml
   - ./persistent-volume-claim.yaml
   - ./helm-release.yaml
-  - ./volsync
