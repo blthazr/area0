@@ -10,3 +10,5 @@ patches:
       version: v1beta1
 resources:
   - ./grafana-folder.yaml
+  - ./flux-cluster.yaml
+  - ./flux-control-plane.yaml
