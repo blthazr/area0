@@ -35,6 +35,8 @@ spec:
         containers:
           main:
             env:
+              LIDARR__AUTHENTICATION_METHOD: External
+              LIDARR__AUTHENTICATION_REQUIRED: DisabledForLocalAddresses
               LIDARR__INSTANCE_NAME: Lidarr
               LIDARR__LOG_LEVEL: info
               LIDARR__PORT: &port 8686
@@ -78,6 +80,8 @@ spec:
       config:
         enabled: true
         existingClaim: lidarr-config-v2
+        globalMounts:
+          - path: /config
       media:
         enabled: true
         globalMounts:
