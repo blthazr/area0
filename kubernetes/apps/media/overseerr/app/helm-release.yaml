@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: bjw-s-charts
         namespace: flux-system
-      version: 1.5.1
+      version: 2.0.3
   dependsOn:
     - name: rook-ceph-cluster
       namespace: rook-ceph
@@ -30,13 +30,33 @@ spec:
     remediation:
       retries: 3
   values:
-    env:
-      LOG_LEVEL: "info"
-      PORT: &port 5055
-      TZ: "${CLUSTER_TIME_ZONE}"
-    image:
-      repository: ghcr.io/sct/overseerr
-      tag: 1.33.2
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          main:
+            env:
+              LOG_LEVEL: "info"
+              PORT: &port 5055
+              TZ: "${CLUSTER_TIME_ZONE}"
+            image:
+              repository: ghcr.io/sct/overseerr
+              tag: 1.33.2
+            resources:
+              limits:
+                memory: 2Gi
+              requests:
+                cpu: 100m
+                memory: 256Mi
+        pod:
+          nodeSelector:
+            node-role.kubernetes.io/worker: "true"
+          securityContext:
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
+            runAsGroup: 568
+            runAsUser: 568
     ingress:
       main:
         annotations:
@@ -45,28 +65,24 @@ spec:
           hajimari.io/group: Media
           hajimari.io/icon: mdi:link-box-variant
           hajimari.io/info: Requests Portal
+        className: nginx
         enabled: true
         hosts:
           - host: &host "requests.${SECRET_DOMAIN}"
             paths:
               - path: /
-                pathType: Prefix
-        ingressClassName: nginx
+                service:
+                  name: main
+                  port: http
         tls:
           - hosts:
               - *host
-    nodeSelector:
-      node-role.kubernetes.io/worker: "true"
     persistence:
       config:
         enabled: true
         existingClaim: overseerr-config-v1
-        mountPath: /app/config
-    podSecurityContext:
-      fsGroup: 568
-      fsGroupChangePolicy: OnRootMismatch
-      runAsGroup: 568
-      runAsUser: 568
+        globalMounts:
+          - path: /app/config
     service:
       main:
         ports:
