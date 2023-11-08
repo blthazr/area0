@@ -36,7 +36,7 @@ spec:
               SA_NAME: tailscale
               TS_KUBE_SECRET: "tailscale-state"
               TS_ROUTES: "${NET_K3S_CLUSTER_CIDR},${NET_K3S_SERVICE_CIDR},${NET_OLD_HOME_CIDR},${NET_OLD_SERVICES_CIDR},${NET_OLD_SMARTHOME_CIDR},${NET_SERVICES_CIDR},${NET_SMARTHOME_CIDR}"
-              TS_EXTRA_ARGS: "--advertise-exit-node"
+              TS_EXTRA_ARGS: "--advertise-exit-node --hostname=k3s-subnet-router"
               TS_TAILSCALED_EXTRA_ARGS: --debug=0.0.0.0:2000
               TS_USERSPACE: "true"
               TZ: "${CLUSTER_TIME_ZONE}"
