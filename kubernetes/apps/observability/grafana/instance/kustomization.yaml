@@ -5,3 +5,5 @@ kind: Kustomization
 namespace: observability
 resources:
   - ./grafana.yaml
+  - ./provisioning-config.yaml
+  - ./rbac.yaml

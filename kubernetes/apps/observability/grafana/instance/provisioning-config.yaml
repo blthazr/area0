@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-provisioning-config
+data:
+  provisioning.yaml: |-
+    apiVersion: 1
+    providers:
+      - allowUiUpdates: false
+        disableDeletion: false
+        folder: ''
+        folderUid: ''
+        name: configmap-dashboard-provider
+        options:
+          foldersFromFilesStructure: true
+          path: /var/lib/grafana/dashboards
+        orgId: 1
+        type: file
+        updateIntervalSeconds: 10
