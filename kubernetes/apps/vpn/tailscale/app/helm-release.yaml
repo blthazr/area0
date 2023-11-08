@@ -37,6 +37,7 @@ spec:
               TS_KUBE_SECRET: "tailscale-state"
               TS_ROUTES: "${NET_K3S_CLUSTER_CIDR},${NET_K3S_SERVICE_CIDR},${NET_OLD_HOME_CIDR},${NET_OLD_SERVICES_CIDR},${NET_OLD_SMARTHOME_CIDR},${NET_SERVICES_CIDR},${NET_SMARTHOME_CIDR}"
               TS_EXTRA_ARGS: "--advertise-exit-node"
+              TS_TAILSCALED_EXTRA_ARGS: --debug=0.0.0.0:2000
               TS_USERSPACE: "true"
               TZ: "${CLUSTER_TIME_ZONE}"
             envFrom:
@@ -44,18 +45,17 @@ spec:
                   name: tailscale-auth
             image:
               repository: ghcr.io/tailscale/tailscale
-              tag: v1.50.1
-            probes:
-              liveness:
-                enabled: false
-              readiness:
-                enabled: false
-              startup:
-                enabled: false
+              tag: v1.52.0@sha256:b102f468a2f1b0b6e9717cf728c43886c136e808010547eebe9ebd80aedd34c3
+            resources:
+              limits:
+                memory: 256M
+              requests:
+                cpu: 5m
+                memory: 128M
         pod:
           securityContext:
-            runAsGroup: 1000
-            runAsUser: 1000
+            runAsGroup: 568
+            runAsUser: 568
     service:
       main:
         ports:
@@ -70,3 +70,12 @@ spec:
             protocol: UDP
     serviceAccount:
       name: tailscale
+    serviceMonitor:
+      main:
+        enabled: true
+        endpoints:
+          - interval: 1m
+            path: /debug/metrics
+            port: http
+            scheme: http
+            scrapeTimeout: 30s
