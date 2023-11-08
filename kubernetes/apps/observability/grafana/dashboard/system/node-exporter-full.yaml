@@ -7,4 +7,4 @@ spec:
   # renovate: depName="Node Exporter Full"
   grafanaCom:
     id: 1860
-    revision: 31
+    revision: 33
