@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: bjw-s-charts
         namespace: flux-system
-      version: 1.5.1
+      version: 2.0.3
   dependsOn:
     - name: intel-device-plugin-gpu
       namespace: kube-system
@@ -32,11 +32,48 @@ spec:
     remediation:
       retries: 3
   values:
-    env:
-      TZ: "${CLUSTER_TIME_ZONE}"
-    image:
-      repository: ghcr.io/onedr0p/plex
-      tag: 1.32.7.7621-871adbd44@sha256:f9f77dc5e17cab9fae5ece663a64d026e3c75142b3b60bb4a52bf061957412be
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          main:
+            env:
+              TZ: "${CLUSTER_TIME_ZONE}"
+            image:
+              repository: ghcr.io/onedr0p/plex
+              tag: 1.32.7.7621-871adbd44@sha256:f9f77dc5e17cab9fae5ece663a64d026e3c75142b3b60bb4a52bf061957412be
+            resources:
+              limits:
+                gpu.intel.com/i915: 1
+                memory: 10000Mi
+              requests:
+                cpu: 100m
+                gpu.intel.com/i915: 1
+                memory: 2000Mi
+        pod:
+          affinity:
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchExpressions:
+                      - key: app.kubernetes.io/name
+                        operator: In
+                        values: ["frigate"]
+                  topologyKey: kubernetes.io/hostname
+          nodeSelector:
+            intel.feature.node.kubernetes.io/gpu: "true"
+            node-role.kubernetes.io/media: "true"
+            node-role.kubernetes.io/worker: "true"
+          securityContext:
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
+            runAsGroup: 568
+            runAsUser: 568
+            supplementalGroups:
+              - 44 # cat /etc/group | grep "video"
+              - 107 # cat /etc/group | grep "render"
+              - 100
     ingress:
       main:
         annotations:
@@ -46,56 +83,43 @@ spec:
           hajimari.io/info: Media Server
           hajimari.io/url: "https://plex.${SECRET_DOMAIN}/web/index.html"
           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+        className: nginx
         enabled: true
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
               - path: /
-                pathType: Prefix
-        ingressClassName: nginx
+                service:
+                  name: main
+                  port: http
         tls:
           - hosts:
               - *host
-    nodeSelector:
-      intel.feature.node.kubernetes.io/gpu: "true"
-      node-role.kubernetes.io/media: "true"
-      node-role.kubernetes.io/worker: "true"
     persistence:
       backup:
         enabled: true
-        mountPath: /backup
+        globalMounts:
+          - path: /backup
         path: "${NAS_NFS_PATH}/backup/app/plex"
         server: "${NAS_ADDRESS}"
         type: nfs
       config:
         enabled: true
         existingClaim: plex-config-v1
+        globalMounts:
+          - path: /config
       media:
         enabled: true
-        mountPath: /media
+        globalMounts:
+          - path: /media
         path: "${MEDIA_SERVER_NFS_PATH}"
         server: "${MEDIA_SERVER_ADDRESS}"
         type: nfs
       transcode:
         enabled: true
+        globalMounts:
+          - path: /transcode
         type: emptyDir
-    podSecurityContext:
-      fsGroup: 568
-      fsGroupChangePolicy: OnRootMismatch
-      runAsGroup: 568
-      runAsUser: 568
-      supplementalGroups:
-        - 44 # cat /etc/group | grep "video"
-        - 107 # cat /etc/group | grep "render"
-        - 100
-    resources:
-      limits:
-        gpu.intel.com/i915: 1
-        memory: 10000Mi
-      requests:
-        cpu: 100m
-        gpu.intel.com/i915: 1
-        memory: 2000Mi
     service:
       main:
         annotations:
