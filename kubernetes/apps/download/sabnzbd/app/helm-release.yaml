@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: bjw-s-charts
         namespace: flux-system
-      version: 1.5.1
+      version: 2.0.3
   dependsOn:
     - name: rook-ceph-cluster
       namespace: rook-ceph
@@ -30,90 +30,103 @@ spec:
     remediation:
       retries: 3
   values:
-    env:
-      SABNZBD__PORT: &port 8080
-      SABNZBD__HOST_WHITELIST_ENTRIES: >-
-        sabnzbd,
-        sabnzbd.download,
-        sabnzbd.download.svc,
-        sabnzbd.download.svc.cluster,
-        sabnzbd.download.svc.cluster.local,
-        sabnzbd.${SECRET_DOMAIN}
-      TZ: "${CLUSTER_TIME_ZONE}"
-    envFrom:
-      - secretRef:
-          name: sabnzbd-secret
-    image:
-      repository: ghcr.io/onedr0p/sabnzbd
-      tag: 4.1.0@sha256:91f3cd6b9f1c9988af5447f464b299630706eb7f691dee857eab1487d4bb626e
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          main:
+            env:
+              SABNZBD__PORT: &port 8080
+              SABNZBD__HOST_WHITELIST_ENTRIES: >-
+                sabnzbd,
+                sabnzbd.download,
+                sabnzbd.download.svc,
+                sabnzbd.download.svc.cluster,
+                sabnzbd.download.svc.cluster.local,
+                sabnzbd.${SECRET_DOMAIN}
+              TZ: "${CLUSTER_TIME_ZONE}"
+            envFrom:
+              - secretRef:
+                  name: sabnzbd-secret
+            image:
+              repository: ghcr.io/onedr0p/sabnzbd
+              tag: 4.1.0@sha256:91f3cd6b9f1c9988af5447f464b299630706eb7f691dee857eab1487d4bb626e
+            probes:
+              liveness: &probes
+                custom: true
+                enabled: true
+                spec:
+                  failureThreshold: 3
+                  httpGet:
+                    path: /api?mode=version
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+              readiness: *probes
+              startup:
+                enabled: false
+            resources:
+              limits:
+                memory: 8000Mi
+              requests:
+                cpu: 10m
+                memory: 250Mi
+        pod:
+          nodeSelector:
+            node-role.kubernetes.io/media: "true"
+            node-role.kubernetes.io/worker: "true"
+          securityContext:
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
+            runAsGroup: 568
+            runAsUser: 568
+            supplementalGroups:
+              - 100
     ingress:
       main:
         annotations:
           hajimari.io/group: Media-Automation
           hajimari.io/icon: mdi:download
           hajimari.io/info: Usenet Downloader
+        className: nginx
         enabled: true
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
               - path: /
-                pathType: Prefix
-        ingressClassName: nginx
+                service:
+                  name: main
+                  port: http
         tls:
           - hosts:
               - *host
-    nodeSelector:
-      node-role.kubernetes.io/media: "true"
-      node-role.kubernetes.io/worker: "true"
     persistence:
       backup:
         enabled: true
-        mountPath: /config/Backup
+        globalMounts:
+          - path: /config/Backup
         path: "${NAS_NFS_PATH}/backup/app/sabnzbd"
         server: "${NAS_ADDRESS}"
         type: nfs
       config:
         enabled: true
         existingClaim: sabnzbd-config-v1
+        globalMounts:
+          - path: /config
       incomplete:
         enabled: true
+        globalMounts:
+          - path: /incomplete
         type: emptyDir
       media:
         enabled: true
-        mountPath: /media
+        globalMounts:
+          - path: /media
         path: "${MEDIA_SERVER_NFS_PATH}"
         server: "${MEDIA_SERVER_ADDRESS}"
         type: nfs
-    podAnnotations:
-      secret.reloader.stakater.com/reload: sabnzbd-secret
-    podSecurityContext:
-      fsGroup: 568
-      fsGroupChangePolicy: OnRootMismatch
-      runAsGroup: 568
-      runAsUser: 568
-      supplementalGroups:
-        - 100
-    probes:
-      liveness: &probes
-        custom: true
-        enabled: true
-        spec:
-          failureThreshold: 3
-          httpGet:
-            path: /api?mode=version
-            port: *port
-          initialDelaySeconds: 0
-          periodSeconds: 10
-          timeoutSeconds: 1
-      readiness: *probes
-      startup:
-        enabled: false
-    resources:
-      limits:
-        memory: 8000Mi
-      requests:
-        cpu: 10m
-        memory: 250Mi
     service:
       main:
         ports:
