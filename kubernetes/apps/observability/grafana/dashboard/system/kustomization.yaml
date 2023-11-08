@@ -12,3 +12,4 @@ resources:
   - ./grafana-folder.yaml
   - ./flux-cluster.yaml
   - ./flux-control-plane.yaml
+  - ./node-exporter-full.yaml
