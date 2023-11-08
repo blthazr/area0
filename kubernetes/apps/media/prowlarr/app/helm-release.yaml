@@ -12,7 +12,10 @@ spec:
         kind: HelmRepository
         name: bjw-s-charts
         namespace: flux-system
-      version: 1.5.1
+      version: 2.0.3
+  dependsOn:
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
   install:
     remediation:
       retries: 3
@@ -25,61 +28,79 @@ spec:
     remediation:
       retries: 3
   values:
-    env:
-      PROWLARR__INSTANCE_NAME: Prowlarr
-      PROWLARR__LOG_LEVEL: info
-      PROWLARR__PORT: &port 9696
-      TZ: "${CLUSTER_TIME_ZONE}"
-    envFrom:
-      - secretRef:
-          name: *app
-    image:
-      repository: ghcr.io/onedr0p/prowlarr-develop
-      tag: 1.10.1.4059@sha256:efb4565b4b6aba410a0d23ed8007dafeeed8cd614fc6115dd5591c06ee068035
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          main:
+            env:
+              PROWLARR__AUTHENTICATION_METHOD: External
+              PROWLARR__AUTHENTICATION_REQUIRED: DisabledForLocalAddresses
+              PROWLARR__INSTANCE_NAME: Prowlarr
+              PROWLARR__LOG_LEVEL: info
+              PROWLARR__PORT: &port 9696
+              PROWLARR__THEME: dark
+              TZ: "${CLUSTER_TIME_ZONE}"
+            envFrom:
+              - secretRef:
+                  name: *app
+            image:
+              repository: ghcr.io/onedr0p/prowlarr-develop
+              tag: 1.10.1.4059@sha256:efb4565b4b6aba410a0d23ed8007dafeeed8cd614fc6115dd5591c06ee068035
+            probes:
+              liveness: &probes
+                custom: true
+                enabled: true
+                spec:
+                  failureThreshold: 3
+                  httpGet:
+                    path: /ping
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+              readiness: *probes
+              startup:
+                enabled: false
+            resources:
+              limits:
+                memory: 1Gi
+              requests:
+                cpu: 10m
+                memory: 128M
+        pod:
+          nodeSelector:
+            node-role.kubernetes.io/worker: "true"
+          securityContext:
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
+            runAsGroup: 568
+            runAsUser: 568
     ingress:
       main:
         annotations:
           hajimari.io/group: Media-Automation
           hajimari.io/icon: mdi:movie-search
           hajimari.io/info: Indexer Manager
+        className: nginx
         enabled: true
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
               - path: /
-                pathType: Prefix
-        ingressClassName: nginx
+                service:
+                  name: main
+                  port: http
         tls:
           - hosts:
               - *host
-    nodeSelector:
-      node-role.kubernetes.io/worker: "true"
     persistence:
       config:
         enabled: true
+        globalMounts:
+          - path: /config
         type: emptyDir
-    podAnnotations:
-      secret.reloader.stakater.com/reload: *app
-    podSecurityContext:
-      fsGroup: 568
-      fsGroupChangePolicy: OnRootMismatch
-      runAsGroup: 568
-      runAsUser: 568
-    probes:
-      liveness: &probes
-        enabled: true
-        custom: true
-        spec:
-          httpGet:
-            path: /ping
-            port: *port
-          initialDelaySeconds: 0
-          periodSeconds: 10
-          timeoutSeconds: 1
-          failureThreshold: 3
-      readiness: *probes
-      startup:
-        enabled: false
     service:
       main:
         ports:
