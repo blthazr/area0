@@ -70,6 +70,10 @@ spec:
               requests:
                 cpu: 5m
                 memory: 128M
+        pod:
+          securityContext:
+            runAsGroup: 568
+            runAsUser: 568
           topologySpreadConstraints:
             - labelSelector:
                 matchLabels:
@@ -77,35 +81,6 @@ spec:
               maxSkew: 1
               topologyKey: kubernetes.io/hostname
               whenUnsatisfiable: DoNotSchedule
-        pod:
-    #       nodeSelector:
-    #     #     node-role.kubernetes.io/media: "true"
-    #     #     node-role.kubernetes.io/worker: "true"
-          securityContext:
-            # fsGroup: 568
-            # fsGroupChangePolicy: OnRootMismatch
-            runAsGroup: 568
-            runAsUser: 568
-            # supplementalGroups:
-            #   - 100
-    # ingress:
-    #   main:
-    #     annotations:
-    #       # hajimari.io/group: __HAJIMARI_GROUP
-    #       # hajimari.io/icon: mdi:__ICON
-    #       # hajimari.io/info: __HAJIMARI_DESCRIPTION
-    #     className: nginx
-    #     enabled: true
-    #     hosts:
-    #       - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
-    #         paths:
-    #           - path: /
-    #             service:
-    #               name: main
-    #               port: http
-    #     tls:
-    #       - hosts:
-    #           - *host
         replicas: 1 # 2
         strategy: RollingUpdate
     persistence:
@@ -129,7 +104,7 @@ spec:
       main:
         ports:
           http:
-            port: port
+            port: *port
     serviceMonitor:
       main:
         enabled: true
