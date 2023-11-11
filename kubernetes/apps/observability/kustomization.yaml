@@ -9,6 +9,7 @@ resources:
   - ./alert-manager/app.yaml
   - ./cribl/leader.yaml
   - ./cribl/worker.yaml
+  - ./grafana/operator.yaml
   - ./kube-prometheus-stack/app.yaml
   - ./kube-prometheus-stack/rules.yaml
   - ./kube-state-metrics/app.yaml
