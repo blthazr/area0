@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: bjw-s-charts
         namespace: flux-system
-      version: 1.5.1
+      version: 2.0.3
   dependsOn:
     - name: rook-ceph-cluster
       namespace: rook-ceph
@@ -30,11 +30,29 @@ spec:
     remediation:
       retries: 3
   values:
-    env:
-      TZ: "${CLUSTER_TIME_ZONE}"
-    image:
-      repository: docker.io/hkotel/mealie
-      tag: frontend-nightly@sha256:618d0d089c8f78375e3299f4e63caff5a0b7ba684397eaeb4f8b8e638805c4ef
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          main:
+            env:
+              ALLOW_SIGNUP: "false"
+              BASE_URL: "https://recipes.${SECRET_DOMAIN}"
+              DB_ENGINE: sqlite
+              TZ: "${CLUSTER_TIME_ZONE}"
+            image:
+              repository: ghcr.io/mealie-recipes/mealie
+              tag: v1.0.0-RC1.1
+            resources:
+              limits:
+                memory: 512Mi
+              requests:
+                cpu: 5m
+                memory: 256Mi
+        pod:
+          nodeSelector:
+            node-role.kubernetes.io/worker: "true"
     ingress:
       main:
         annotations:
@@ -43,61 +61,25 @@ spec:
           hajimari.io/group: Home
           hajimari.io/icon: mdi:food
           hajimari.io/info: Recipe Manager
+        className: nginx
         enabled: true
         hosts:
           - host: &host "recipes.${SECRET_DOMAIN}"
             paths:
               - path: /
-                pathType: Prefix
-        ingressClassName: nginx
+                service:
+                  name: main
+                  port: http
         tls:
           - hosts:
               - *host
-    nodeSelector:
-      node-role.kubernetes.io/worker: "true"
     persistence:
-      api-data:
-        enabled: true
+      data:
         existingClaim: mealie-config-v2
-      backup:
-        enabled: true
-        mountPath: /api-data/backups
-        path: "${NAS_NFS_PATH}/backup/app/mealie"
-        server: "${NAS_ADDRESS}"
-        type: nfs
+        globalMounts:
+          - path: /app/data
     service:
       main:
         ports:
-          api:
-            enabled: true
-            port: 9000
           http:
-            port: 3000
-    sidecars:
-      api:
-        env:
-          - name: ALLOW_SIGNUP
-            value: "false"
-          - name: API_PORT
-            value: "9000"
-          - name: AUTO_BACKUP_ENABLED
-            value: "true"
-          - name: BASE_URL
-            value: "https://recipes.${SECRET_DOMAIN}"
-          - name: DEFAULT_EMAIL
-            value: "admin@${SECRET_DOMAIN}"
-          - name: TOKEN_TIME
-            value: 720
-          - name: TZ
-            value: "${CLUSTER_TIME_ZONE}"
-        name: mealie-api
-        image: docker.io/hkotel/mealie:api-nightly@sha256:0d80361802f1cde457d222a662c045ddf283d8e926558dbcd02d923d99d2cd92
-        imagePullPolicy: IfNotPresent
-        ports:
-          - name: api
-            containerPort: 9000
-        volumeMounts:
-          - name: api-data
-            mountPath: /app/data/
-          - name: backup
-            mountPath: /app/data/backups
+            port: 9000
