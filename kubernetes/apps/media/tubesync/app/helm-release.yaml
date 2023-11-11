@@ -49,13 +49,6 @@ spec:
           nodeSelector:
             node-role.kubernetes.io/media: "true"
             node-role.kubernetes.io/worker: "true"
-          securityContext:
-            fsGroup: 568
-            fsGroupChangePolicy: OnRootMismatch
-            runAsGroup: 568
-            runAsUser: 568
-            supplementalGroups:
-              - 100
     ingress:
       main:
         annotations:
