@@ -37,7 +37,7 @@ spec:
                 - create
                 - update
                 - delete
-      replicas: 3
+      replicas: 1
       serviceMonitor:
         enabled: true
       topologySpreadConstraints:
@@ -68,6 +68,12 @@ spec:
     cleanupController:
       serviceMonitor:
         enabled: true
+    config:
+      webhooks:
+        - objectSelector:
+            matchExpressions:
+              - key: webhooks.kyverno.io/exclude
+                operator: DoesNotExist
     crds:
       install: true
     grafana:
