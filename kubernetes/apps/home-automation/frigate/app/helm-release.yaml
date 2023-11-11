@@ -43,7 +43,7 @@ spec:
               TZ: "${CLUSTER_TIME_ZONE}"
             envFrom:
               - secretRef:
-                  name: frigate-secrets
+                  name: frigate-secret
             image:
               repository: ghcr.io/blakeblackshear/frigate
               tag: 0.13.0-beta4
@@ -86,13 +86,6 @@ spec:
             google.feature.node.kubernetes.io/coral: "true"
             intel.feature.node.kubernetes.io/gpu: "true"
             node-role.kubernetes.io/worker: "true"
-    #       securityContext:
-    #     #     fsGroup: 568
-    #     #     fsGroupChangePolicy: OnRootMismatch
-    #     #     runAsGroup: 568
-    #     #     runAsUser: 568
-    #     #     supplementalGroups:
-    #     #       - 100
     ingress:
       main:
         annotations:
