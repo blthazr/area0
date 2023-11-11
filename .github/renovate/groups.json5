@@ -2,13 +2,20 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
-      "description": "Rook-Ceph Group",
+      "description": "Cribl Group",
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
       },
-      "groupName": "Rook-Ceph",
-      "matchDatasources": ["helm"],
-      "matchPackagePatterns": ["rook.ceph"],
+      "groupName": "Cribl",
+      "matchDatasources": [
+        "docker",
+        "github-releases",
+        "helm"
+      ],
+      "matchPackagePatterns": [
+        "cribl",
+        "logstream"
+      ],
       "separateMinorPatch": true
     },
     {
@@ -26,20 +33,13 @@
       "versioning": "semver"
     },
     {
-      "description": "Cribl Group",
+      "description": "Rook-Ceph Group",
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
       },
-      "groupName": "Cribl",
-      "matchDatasources": [
-        "docker",
-        "github-releases",
-        "helm"
-      ],
-      "matchPackagePatterns": [
-        "cribl",
-        "logstream"
-      ],
+      "groupName": "Rook-Ceph",
+      "matchDatasources": ["helm"],
+      "matchPackagePatterns": ["rook.ceph"],
       "separateMinorPatch": true
     }
   ]
