@@ -52,11 +52,6 @@ spec:
         pod:
           nodeSelector:
             node-role.kubernetes.io/worker: "true"
-          securityContext:
-            fsGroup: 568
-            fsGroupChangePolicy: OnRootMismatch
-            runAsGroup: 568
-            runAsUser: 568
     ingress:
       main:
         annotations:
