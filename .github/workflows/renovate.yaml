@@ -8,6 +8,7 @@ on:
       - .github/renovate-bot.json5
       - .github/renovate.json5
       - .github/renovate/**.json5
+      - .github/workflows/renovate.yaml
   schedule:
     - cron: "7 * * * *"
   workflow_dispatch:
