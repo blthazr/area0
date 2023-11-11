@@ -10,6 +10,7 @@ resources:
   - ./cribl/leader.yaml
   - ./cribl/worker.yaml
   - ./grafana/operator.yaml
+  - ./grafana/instance.yaml
   - ./kube-prometheus-stack/app.yaml
   - ./kube-prometheus-stack/rules.yaml
   - ./kube-state-metrics/app.yaml
