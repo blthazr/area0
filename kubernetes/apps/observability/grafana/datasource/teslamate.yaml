@@ -1,0 +1,27 @@
+---
+# TODO: add yaml-language-server
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDatasource
+metadata:
+  name: teslamate
+spec:
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  datasource:
+    access: proxy
+    database: teslamate
+    editable: false
+    jsonData:
+      connMaxLifetime: 14400
+      maxIdleConns: 2
+      maxOpenConns: 0
+      postgresVersion: 1400
+      sslmode: disable
+      timescaledb: false
+    name: TeslaMate
+    secureJsonData:
+      password: "${SECRET_TESLAMATE_POSTGRES_PASSWORD}"
+    type: postgres
+    url: postgres-v14.database.svc.cluster.local:5432
+    user: "${SECRET_TESLAMATE_POSTGRES_USER}"

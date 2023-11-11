@@ -11,6 +11,7 @@ resources:
   - ./cribl/worker.yaml
   - ./grafana/operator.yaml
   - ./grafana/instance.yaml
+  - ./grafana/datasource.yaml
   - ./kube-prometheus-stack/app.yaml
   - ./kube-prometheus-stack/rules.yaml
   - ./kube-state-metrics/app.yaml
