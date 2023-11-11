@@ -1,4 +1,5 @@
 ---
+# TODO: add yaml-language-server
 apiVersion: objectbucket.io/v1alpha1
 kind: ObjectBucketClaim
 metadata:

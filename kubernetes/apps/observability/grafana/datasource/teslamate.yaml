@@ -5,9 +5,6 @@ kind: GrafanaDatasource
 metadata:
   name: teslamate
 spec:
-  instanceSelector:
-    matchLabels:
-      dashboards: "grafana"
   datasource:
     access: proxy
     database: teslamate
@@ -25,3 +22,6 @@ spec:
     type: postgres
     url: postgres-v14.database.svc.cluster.local:5432
     user: "${SECRET_TESLAMATE_POSTGRES_USER}"
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
