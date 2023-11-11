@@ -3,7 +3,7 @@
   "packageRules": [
     {
       "description": "Loose versioning for non-semver packages",
-      "matchPackageNames": ["docker"],
+      "matchDatasources": ["docker"],
       "matchPackagePatterns": [
         "plex",
         "qbittorrent"
