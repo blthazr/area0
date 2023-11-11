@@ -18,3 +18,4 @@ resources:
   - ./database
   - ./network
   - ./observability
+  - ./storage
