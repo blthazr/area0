@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: bjw-s-charts
         namespace: flux-system
-      version: 1.5.1
+      version: 2.0.3
   dependsOn:
     - name: rook-ceph-cluster
       namespace: rook-ceph
@@ -30,43 +30,63 @@ spec:
     remediation:
       retries: 3
   values:
-    env:
-      TZ: "${CLUSTER_TIME_ZONE}"
-      PUID: 568
-      PGID: 568
-      TUBESYNC_RESET_DOWNLOAD_DIR: false
-    image:
-      repository: ghcr.io/meeb/tubesync
-      tag: latest@sha256:aad2722e39ccb3181b5ace2d3f2caa87d0634576d68bbc86cd8a018733291411
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          main:
+            env:
+              TZ: "${CLUSTER_TIME_ZONE}"
+              PUID: 568
+              PGID: 568
+              TUBESYNC_RESET_DOWNLOAD_DIR: false
+            image:
+              repository: ghcr.io/meeb/tubesync
+              tag: latest@sha256:aad2722e39ccb3181b5ace2d3f2caa87d0634576d68bbc86cd8a018733291411
+            resources: {}
+        pod:
+          nodeSelector:
+            node-role.kubernetes.io/media: "true"
+            node-role.kubernetes.io/worker: "true"
+          securityContext:
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
+            runAsGroup: 568
+            runAsUser: 568
+            supplementalGroups:
+              - 100
     ingress:
       main:
         annotations:
           hajimari.io/group: Media-Automation
           hajimari.io/icon: mdi:message-video
           hajimari.io/info: TubeSync
+        className: nginx
         enabled: true
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
               - path: /
-                pathType: Prefix
-        ingressClassName: nginx
+                service:
+                  name: main
+                  port: http
         tls:
           - hosts:
               - *host
-    nodeSelector:
-      node-role.kubernetes.io/media: "true"
-      node-role.kubernetes.io/worker: "true"
     persistence:
       config:
         enabled: true
         existingClaim: tubesync-config-v1
+        globalMounts:
+          - path: /config
       downloads:
         enabled: true
-        mountPath: /downloads
+        globalMounts:
+          - path: /downloads
+            subPath: download/tubesync/
         path: "${MEDIA_SERVER_NFS_PATH}"
         server: "${MEDIA_SERVER_ADDRESS}"
-        subPath: download/tubesync/
         type: nfs
     service:
       main:
