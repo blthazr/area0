@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: bjw-s-charts
         namespace: flux-system
-      version: 1.5.1
+      version: 2.0.3
   dependsOn:
     - name: rook-ceph-cluster
       namespace: rook-ceph
@@ -30,15 +30,33 @@ spec:
     remediation:
       retries: 3
   values:
-    env:
-      AUDIOBOOKSHELF_GID: 568
-      AUDIOBOOKSHELF_UID: 568
-      CONFIG_PATH: /config
-      METADATA_PATH: /config/metadata
-      TZ: "${CLUSTER_TIME_ZONE}"
-    image:
-      repository: ghcr.io/advplyr/audiobookshelf
-      tag: 2.4.4
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          main:
+            env:
+              AUDIOBOOKSHELF_GID: 568
+              AUDIOBOOKSHELF_UID: 568
+              CONFIG_PATH: /config
+              METADATA_PATH: /config/metadata
+              TZ: "${CLUSTER_TIME_ZONE}"
+            image:
+              repository: ghcr.io/advplyr/audiobookshelf
+              tag: 2.4.4
+            resources: {}
+        pod:
+          nodeSelector:
+            node-role.kubernetes.io/media: "true"
+            node-role.kubernetes.io/worker: "true"
+          securityContext:
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
+            runAsGroup: 568
+            runAsUser: 568
+            supplementalGroups:
+              - 100
     ingress:
       main:
         annotations:
@@ -47,46 +65,43 @@ spec:
           hajimari.io/group: Media
           hajimari.io/icon: mdi:podcast
           hajimari.io/info: Audiobook and Podcasts
+        className: nginx
         enabled: true
         hosts:
-          - host: &host "audiobooks.${SECRET_DOMAIN}"
+          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
               - path: /
-                pathType: Prefix
-        ingressClassName: nginx
+                service:
+                  name: main
+                  port: http
         tls:
           - hosts:
               - *host
     persistence:
       backup:
         enabled: true
-        mountPath: /config/metadata/backups
+        globalMounts:
+          - path: /config/metadata/backups
         path: "${NAS_NFS_PATH}/backup/app/audiobookshelf"
         server: "${NAS_ADDRESS}"
         type: nfs
       cache:
         enabled: true
-        mountPath: /.npm
+        globalMounts:
+          - path: /.npm
         type: emptyDir
       config:
         enabled: true
         existingClaim: audiobookshelf-config-v1
+        globalMounts:
+          - path: /config
       media:
         enabled: true
-        mountPath: /media
+        globalMounts:
+          - path: /media
         path: "${MEDIA_SERVER_NFS_PATH}"
         server: "${MEDIA_SERVER_ADDRESS}"
         type: nfs
-    nodeSelector:
-      node-role.kubernetes.io/media: "true"
-      node-role.kubernetes.io/worker: "true"
-    podSecurityContext:
-      fsGroup: 568
-      fsGroupChangePolicy: OnRootMismatch
-      runAsGroup: 568
-      runAsUser: 568
-      supplementalGroups:
-        - 100
     service:
       main:
         ports:
