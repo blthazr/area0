@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: bjw-s-charts
         namespace: flux-system
-      version: 1.5.1
+      version: 2.0.3
   dependsOn:
     - name: rook-ceph-cluster
       namespace: rook-ceph
@@ -30,56 +30,98 @@ spec:
     remediation:
       retries: 3
   values:
-    controller:
-      annotations:
-        reloader.stakater.com/auto: "true"
-      type: statefulset
-    env:
-      TZ: "${CLUSTER_TIME_ZONE}"
-      RADARR__API_KEY:
-        valueFrom:
-          secretKeyRef:
-            name: radarr
-            key: RADARR__API_KEY
-      RADARR_UHD__API_KEY:
-        valueFrom:
-          secretKeyRef:
-            name: radarr-uhd
-            key: RADARR__API_KEY
-      SONARR__API_KEY:
-        valueFrom:
-          secretKeyRef:
-            name: sonarr
-            key: SONARR__API_KEY
-    image:
-      repository: ghcr.io/recyclarr/recyclarr
-      tag: 6.0.2
-    nodeSelector:
-      node-role.kubernetes.io/worker: "true"
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          main:
+            env:
+              SONARR__API_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: sonarr
+                    key: SONARR__API_KEY
+              RADARR__API_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: radarr
+                    key: RADARR__API_KEY
+              RADARR_UHD__API_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: radarr-uhd
+                    key: RADARR__API_KEY
+              TZ: "${CLUSTER_TIME_ZONE}"
+    #         # envFrom:
+    #         #   - secretRef:
+    #         #       name: *app
+            image:
+              repository: ghcr.io/recyclarr/recyclarr
+              tag: 6.0.2
+            resources:
+              limits:
+                memory: 128M
+              requests:
+                cpu: 10m
+                memory: 64M
+        pod:
+          nodeSelector:
+            node-role.kubernetes.io/worker: "true"
+          securityContext:
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
+            runAsGroup: 568
+            runAsUser: 568
+            supplementalGroups:
+
+    # ingress:
+    #   main:
+    #     # annotations:
+    #     #   hajimari.io/appName: __HAJIMARI_NAME
+    #     #   hajimari.io/group: __HAJIMARI_GROUP
+    #     #   hajimari.io/icon: mdi:__ICON
+    #     #   hajimari.io/info: __HAJIMARI_DESCRIPTION
+    #     className: nginx
+    #     enabled: true
+    #     hosts:
+    #       - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
+    #         paths:
+    #           - path: /
+    #             service:
+    #               name: main
+    #               port: http
+    #     tls:
+    #       - hosts:
+    #           - *host
+        statefulset:
+          volumeClaimTemplates:
+            - accessMode: ReadWriteOnce
+              globalMounts:
+                - path: /config
+              name: config
+              size: 1Gi
+              storageClass: ceph-block
+        type: statefulset
     persistence:
       config-file:
-        enabled: true
-        type: configMap
+        globalMounts:
+          - path: /config/configs
+            readOnly: true
         name: recyclarr-configmap
-        mountPath: /config/configs
-        readOnly: true
-    podSecurityContext:
-      fsGroup: 568
-      fsGroupChangePolicy: OnRootMismatch
-      runAsGroup: 568
-      runAsUser: 568
-    resources:
-      limits:
-        memory: 200Mi
-      requests:
-        cpu: 10m
-        memory: 50Mi
+        type: configMap
+    #   config:
+    #     enabled: true
+    #     existingClaim: __APP_NAME-config-v1
+    #     globalMounts:
+    #       - path: /config
+    #   # media:
+    #   #   enabled: true
+    #   #   globalMounts:
+    #   #     - path: /media
+    #   #   path: "${MEDIA_SERVER_NFS_PATH}"
+    #   #   server: "${MEDIA_SERVER_ADDRESS}"
+    #   #   type: nfs
     service:
       main:
         enabled: false
-    volumeClaimTemplates:
-      - name: config
-        mountPath: /config
-        accessMode: ReadWriteOnce
-        size: 1Gi
-        storageClass: ceph-block
