@@ -22,13 +22,13 @@ radarr:
             qualities:
               - WEBDL-1080p
               - WEBRip-1080p
-              - HDTV-1080p
+          - name: HDTV-1080p
           - name: Bluray-720p
           - name: Web 720p
             qualities:
               - WEBDL-720p
               - WEBRip-720p
-              - HDTV-720p
+          - name: HDTV-720p
         quality_sort: top
         reset_unmatched_scores:
           enabled: true
@@ -40,20 +40,20 @@ radarr:
     custom_formats:
       - trash_ids:
           # Audio Advanced
-          # - 496f355514737f7d83bf7aa4d24f8169  # TrueHD Atmos
-          # - 2f22d89048b01681dde8afe203bf2e95  # DTS X
-          # - 417804f7f2c4308c1f4c5d380d4c4475  # ATMOS (undefined)
-          # - 1af239278386be2919e1bcee0bde047e  # DD+ ATMOS
-          # - 3cafb66171b47f226146a0770576870f  # TrueHD
-          # - dcf3ec6938fa32445f590a4da84256cd  # DTS-HD MA
-          # - a570d4a0e56a2874b64e5bfa55202a1b  # FLAC
-          # - e7c2fcae07cbada050a0af3357491d7b  # PCM
-          # - 8e109e50e0a0b83a5098b056e13bf6db  # DTS-HD HRA
-          # - 185f1dd7264c4562b9022d963ac37424  # DD+
-          # - f9f847ac70a0af62ea4a08280b859636  # DTS-ES
-          # - 1c1a4c5e823891c75bc50380a6866f73  # DTS
-          # - 240770601cc226190c367ef59aba7463  # AAC
-          # - c2998bd0d90ed5621d8df281e839436e  # DD
+          - 496f355514737f7d83bf7aa4d24f8169  # TrueHD Atmos
+          - 2f22d89048b01681dde8afe203bf2e95  # DTS X
+          - 417804f7f2c4308c1f4c5d380d4c4475  # ATMOS (undefined)
+          - 1af239278386be2919e1bcee0bde047e  # DD+ ATMOS
+          - 3cafb66171b47f226146a0770576870f  # TrueHD
+          - dcf3ec6938fa32445f590a4da84256cd  # DTS-HD MA
+          - a570d4a0e56a2874b64e5bfa55202a1b  # FLAC
+          - e7c2fcae07cbada050a0af3357491d7b  # PCM
+          - 8e109e50e0a0b83a5098b056e13bf6db  # DTS-HD HRA
+          - 185f1dd7264c4562b9022d963ac37424  # DD+
+          - f9f847ac70a0af62ea4a08280b859636  # DTS-ES
+          - 1c1a4c5e823891c75bc50380a6866f73  # DTS
+          - 240770601cc226190c367ef59aba7463  # AAC
+          - c2998bd0d90ed5621d8df281e839436e  # DD
 
           # Movie Versions
           - 0f12c086e289cf966fa5948eac571f44  # Hybrid
@@ -72,9 +72,9 @@ radarr:
           - b8cd450cbfa689c0259a01d9e29ba3d6  # 3D
           - dc98083864ea246d05a42df0d05f81cc  # x265 (HD)
 
-          # Optional
-          - ae9b7c9ebde1f3bd336a8cbd1ec4c5e5  # No-RlsGroup
-          - 7357cf5161efbf8c4d5d0c30b4815ee2  # Obfuscated
+          # # Optional
+          # - ae9b7c9ebde1f3bd336a8cbd1ec4c5e5  # No-RlsGroup
+          # - 7357cf5161efbf8c4d5d0c30b4815ee2  # Obfuscated
 
           # Misc
           - e7718d7a3ce595f289bfee26adc178f5  # Repack/Proper
