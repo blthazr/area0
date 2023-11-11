@@ -66,7 +66,7 @@ spec:
       main:
         annotations:
           hajimari.io/appName: Tautulli
-          hajimari.io/group: Media
+          hajimari.io/group: Media-Automation
           hajimari.io/icon: mdi:chart-bar
           hajimari.io/info: Plex Analytics
         className: nginx
@@ -84,6 +84,8 @@ spec:
     persistence:
       add-ons:
         enabled: true
+        globalMounts:
+          - path: /add-ons
         type: emptyDir
       backup:
         enabled: true
