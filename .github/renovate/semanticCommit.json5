@@ -4,7 +4,7 @@
     {
       "matchDatasources": ["custom.grafana-dashboards"],
       "matchUpdateTypes": ["major"],
-      "semanticCommitType": "chore",
+      "semanticCommitType": ":arrow_up: chore",
       "semanticCommitScope": "grafana-dashboards"
     }
   ]
