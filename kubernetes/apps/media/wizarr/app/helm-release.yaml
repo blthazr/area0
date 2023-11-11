@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: bjw-s-charts
         namespace: flux-system
-      version: 1.5.1
+      version: 2.0.3
   dependsOn:
     - name: rook-ceph-cluster
       namespace: rook-ceph
@@ -30,48 +30,59 @@ spec:
     remediation:
       retries: 3
   values:
-    env:
-      TZ: "${CLUSTER_TIME_ZONE}"
-      APP_URL: "https://join.${SECRET_DOMAIN}"
-      DISABLE_BUILTIN_AUTH: false
-    image:
-      repository: ghcr.io/wizarrrr/wizarr
-      tag: 3.4.1@sha256:cd2b27241002592e94223b61d7ec26871667e59efe60a242a4ea25757b9ff2d3
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          main:
+            env:
+              APP_URL: "https://join.${SECRET_DOMAIN}"
+              DISABLE_BUILTIN_AUTH: false
+              TZ: "${CLUSTER_TIME_ZONE}"
+            image:
+              repository: ghcr.io/wizarrrr/wizarr
+              tag: 3.4.1@sha256:cd2b27241002592e94223b61d7ec26871667e59efe60a242a4ea25757b9ff2d3
+            resources:
+              limits:
+                memory: 500Mi
+              requests:
+                cpu: 10m
+                memory: 100Mi
+        pod:
+          nodeSelector:
+            node-role.kubernetes.io/worker: "true"
+          securityContext:
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
+            runAsGroup: 568
+            runAsUser: 568
     ingress:
       main:
         annotations:
           external-dns.home.arpa/enabled: "true"
           hajimari.io/appName: Plex Invite
-          hajimari.io/icon: mdi:invite
           hajimari.io/group: Media
+          hajimari.io/icon: mdi:invite
+          hajimari.io/info: New Plex Users
+        className: nginx
         enabled: true
         hosts:
           - host: &host "join.${SECRET_DOMAIN}"
             paths:
               - path: /
-                pathType: Prefix
-        ingressClassName: nginx
+                service:
+                  name: main
+                  port: http
         tls:
           - hosts:
               - *host
-    nodeSelector:
-      node-role.kubernetes.io/worker: "true"
     persistence:
       config:
         enabled: true
         existingClaim: wizarr-config-v1
-        mountPath: /data/database
-    podSecurityContext:
-      fsGroup: 568
-      fsGroupChangePolicy: OnRootMismatch
-      runAsGroup: 568
-      runAsUser: 568
-    resources:
-      limits:
-        memory: 500Mi
-      requests:
-        cpu: 10m
-        memory: 100Mi
+        globalMounts:
+          - path: /data/database
     service:
       main:
         ports:
