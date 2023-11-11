@@ -1,5 +1,5 @@
 ---
-name: Meta - Labeler
+name: Pull Request Labeler
 
 on:
   pull_request:
