@@ -1,5 +1,0 @@
-- op: add
-  path: /spec/instanceSelector
-  value:
-    matchLabels:
-      dashboards: "grafana"
