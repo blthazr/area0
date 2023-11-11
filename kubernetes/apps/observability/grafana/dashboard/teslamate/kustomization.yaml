@@ -10,3 +10,22 @@ patches:
       version: v1beta1
 resources:
   - ./grafana-folder.yaml
+  - ./battery-health.yaml
+  - ./charge-level.yaml
+  - ./charges.yaml
+  - ./charging-stats.yaml
+  - ./drives.yaml
+  - ./efficiency.yaml
+  - ./internal-charge-details.yaml
+  - ./internal-drive-details.yaml
+  - ./locations.yaml
+  - ./mileage.yaml
+  - ./overview.yaml
+  - ./projected-range.yaml
+  - ./states.yaml
+  - ./statistics.yaml
+  - ./timeline.yaml
+  - ./trip.yaml
+  - ./updates.yaml
+  - ./vampire-drain.yaml
+  - ./visited.yaml
