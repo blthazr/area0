@@ -107,7 +107,7 @@ spec:
           - path: /config
       media:
         enabled: true
-        existingClaim: media
+        existingClaim: nfs-media
         globalMounts:
           - path: /media
     service:
