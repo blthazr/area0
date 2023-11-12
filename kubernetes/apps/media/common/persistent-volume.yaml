@@ -9,13 +9,6 @@ spec:
     - ReadWriteMany
   capacity:
     storage: 1Mi
-  mountOptions:
-    - nfsvers=4.2
-    - nconnect=8
-    - hard
-    - noatime
-    - rsize=131072
-    - wsize=131072
   nfs:
     path: "${MEDIA_SERVER_NFS_PATH}"
     server: "${MEDIA_SERVER_ADDRESS}"
