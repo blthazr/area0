@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: stakater-charts
         namespace: flux-system
-      version: 1.0.51
+      version: 1.0.52
   install:
     remediation:
       retries: 3
