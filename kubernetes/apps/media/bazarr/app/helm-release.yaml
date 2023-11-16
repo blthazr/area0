@@ -107,11 +107,9 @@ spec:
           - path: /config
       media:
         enabled: true
+        existingClaim: nfs-media
         globalMounts:
           - path: /media
-        path: "${MEDIA_SERVER_NFS_PATH}"
-        server: "${MEDIA_SERVER_ADDRESS}"
-        type: nfs
       scripts:
         defaultMode: 0775
         enabled: true
