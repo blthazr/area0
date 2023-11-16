@@ -9,6 +9,10 @@ spec:
     - "ReadWriteMany"
   capacity:
     storage: 1Mi
+  mountOptions:
+    - nfsvers=4.2
+    - hard
+    - noatime
   nfs:
     path: "${MEDIA_SERVER_NFS_PATH}"
     server: "${MEDIA_SERVER_ADDRESS}"
