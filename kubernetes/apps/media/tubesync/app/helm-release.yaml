@@ -75,12 +75,10 @@ spec:
           - path: /config
       downloads:
         enabled: true
+        existingClaim: nfs-media
         globalMounts:
           - path: /downloads
             subPath: download/tubesync/
-        path: "${MEDIA_SERVER_NFS_PATH}"
-        server: "${MEDIA_SERVER_ADDRESS}"
-        type: nfs
     service:
       main:
         ports:
