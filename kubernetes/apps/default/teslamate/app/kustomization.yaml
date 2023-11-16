@@ -2,10 +2,9 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+namespace: default
 resources:
-  # Pre Flux-Kustomizations
-  - ./namespace.yaml
-  # Flux-Kustomizations
-  - ./hajimari/app.yaml
-  - ./mealie/app.yaml
-  - ./teslamate/app.yaml
+  - ./secret.sops.yaml
+  - ./helm-release.yaml
+patchesStrategicMerge:
+  - patches/postgres.yaml
