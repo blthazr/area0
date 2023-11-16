@@ -1,0 +1,78 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta1.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: &app hajimari
+spec:
+  chart:
+    spec:
+      chart: *app
+      sourceRef:
+        kind: HelmRepository
+        name: hajimari-charts
+        namespace: flux-system
+      version: 2.0.2
+  install:
+    remediation:
+      retries: 3
+  interval: 30m
+  maxHistory: 2
+  uninstall:
+    keepHistory: false
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    env:
+      TZ: "${CLUSTER_TIME_ZONE}"
+    hajimari:
+      alwaysTargetBlank: true
+      customApps: []
+      darkTheme: tron
+      defaultEnable: true
+      globalBookmarks: []
+      lightTheme: cloud
+      namespaceSelector:
+        matchNames:
+          - default
+          - download
+          - flux-system
+          - home-automation
+          - media
+          - network
+          - observability
+          - rook-ceph
+      showAppGroups: true
+      showAppInfo: true
+      showAppUrls: false
+      showAppStatus: false
+      showGreeting: false
+      title: Apps
+    ingress:
+      main:
+        annotations:
+          hajimari.io/enable: "false"
+        enabled: true
+        hosts:
+          - host: &host "apps.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        ingressClassName: nginx
+        tls:
+          - hosts:
+              - *host
+    persistence:
+      data:
+        enabled: true
+        type: emptyDir
+    podAnnotations:
+      configmap.reloader.stakater.com/reload: hajimari-settings
+    resources:
+      limits:
+        memory: 64M
+      requests:
+        cpu: 15m
+        memory: 64M
