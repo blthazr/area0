@@ -45,7 +45,27 @@ spec:
             image:
               repository: ghcr.io/advplyr/audiobookshelf
               tag: 2.4.4
-            resources: {}
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /healthcheck
+                    port: &port 80
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: false
+            resources:
+              limits:
+                memory: 500Mi
+              requests:
+                cpu: 100m
+                memory: 50Mi
         pod:
           nodeSelector:
             node-role.kubernetes.io/media: "true"
@@ -104,4 +124,4 @@ spec:
       main:
         ports:
           http:
-            port: 80
+            port: *port
