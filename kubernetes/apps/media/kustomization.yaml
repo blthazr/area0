@@ -7,6 +7,7 @@ resources:
   - ./common/nfs-media.yaml
   - ./audiobookshelf/app.yaml
   - ./bazarr/app.yaml
+  - ./calibre-web/app.yaml
   - ./lidarr/app.yaml
   - ./overseerr/app.yaml
   - ./plex/app.yaml

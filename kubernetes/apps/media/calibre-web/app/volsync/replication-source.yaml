@@ -1,0 +1,25 @@
+---
+# TODO: add yaml-language-server
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: calibre-web
+spec:
+  restic:
+    cacheCapacity: 8Gi
+    cacheStorageClassName: local-path
+    copyMethod: Snapshot
+    moverSecurityContext:
+      fsGroup: 568
+      runAsGroup: 568
+      runAsUser: 568
+    pruneIntervalDays: 10
+    repository: calibre-web-restic-secret
+    retain:
+      daily: 10
+      within: 3d
+    storageClassName: ceph-block
+    volumeSnapshotClassName: csi-ceph-blockpool
+  sourcePVC: calibre-web-config-v1
+  trigger:
+    schedule: 0 7 * * *
