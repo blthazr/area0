@@ -43,7 +43,7 @@ spec:
               TUBESYNC_RESET_DOWNLOAD_DIR: false
             image:
               repository: ghcr.io/meeb/tubesync
-              tag: latest@sha256:f152265a3406b89ba5f9fff92d0840c504fb2fa9f2ef64372b1a36efd7c078cd
+              tag: latest@sha256:262cdb31ab2cae699316b0863ee6c3e9852443012422ce8c2562617bf000ad28
             resources: {}
         pod:
           nodeSelector:
