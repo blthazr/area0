@@ -64,7 +64,7 @@ spec:
           hajimari.io/appName: Plex Requests
           hajimari.io/group: Media
           hajimari.io/icon: mdi:link-box-variant
-          hajimari.io/info: Requests Portal
+          hajimari.io/info: Media Requests Portal
         className: nginx
         enabled: true
         hosts:

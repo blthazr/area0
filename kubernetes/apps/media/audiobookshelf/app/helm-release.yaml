@@ -50,13 +50,13 @@ spec:
                 enabled: true
                 custom: true
                 spec:
+                  failureThreshold: 3
                   httpGet:
                     path: /healthcheck
                     port: &port 80
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
-                  failureThreshold: 3
               readiness: *probes
               startup:
                 enabled: false
@@ -84,7 +84,7 @@ spec:
           hajimari.io/appName: Audio Books
           hajimari.io/group: Media
           hajimari.io/icon: mdi:podcast
-          hajimari.io/info: Audiobook and Podcasts
+          hajimari.io/info: Audiobooks and Podcasts
         className: nginx
         enabled: true
         hosts:

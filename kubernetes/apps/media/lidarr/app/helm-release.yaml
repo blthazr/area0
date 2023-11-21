@@ -61,7 +61,7 @@ spec:
     ingress:
       main:
         annotations:
-          hajimari.io/group: Media-Automation
+          hajimari.io/group: Media Management
           hajimari.io/icon: mdi:headphones
           hajimari.io/info: Music Collection Manager
         className: nginx

@@ -59,8 +59,8 @@ spec:
     ingress:
       main:
         annotations:
-          hajimari.io/appName: Readarr Audio
-          hajimari.io/group: Media-Automation
+          hajimari.io/appName: Readarr (Audio)
+          hajimari.io/group: Media Management
           hajimari.io/icon: mdi:podcast
           hajimari.io/info: Audiobook collection manager
         className: nginx

@@ -95,7 +95,7 @@ spec:
           external-dns.home.arpa/enabled: "true"
           hajimari.io/group: Media
           hajimari.io/icon: mdi:plex
-          hajimari.io/info: Media Server
+          hajimari.io/info: Streaming Media Server
           hajimari.io/url: "https://plex.${SECRET_DOMAIN}/web/index.html"
           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
         className: nginx

@@ -8,6 +8,7 @@ metadata:
     hajimari.io/appName: Unifi Network
     hajimari.io/group: Management
     hajimari.io/icon: mdi:lan
+    hajimari.io/info: SDN Management
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
   labels:
     app.kubernetes.io/name: *app

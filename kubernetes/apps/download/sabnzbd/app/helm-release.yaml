@@ -87,9 +87,9 @@ spec:
     ingress:
       main:
         annotations:
-          hajimari.io/group: Media-Automation
+          hajimari.io/group: Media Management
           hajimari.io/icon: mdi:download
-          hajimari.io/info: Usenet Downloader
+          hajimari.io/info: Usenet Downloads
         className: nginx
         enabled: true
         hosts:

@@ -6,7 +6,7 @@ metadata:
   name: &app protect
   annotations:
     hajimari.io/appName: Unifi Protect
-    hajimari.io/group: Home-Automation
+    hajimari.io/group: Home Automation
     hajimari.io/icon: mdi:cctv
     hajimari.io/info: Security Cameras
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"

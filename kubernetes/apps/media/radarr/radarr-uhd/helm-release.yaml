@@ -54,13 +54,13 @@ spec:
                 enabled: true
                 custom: true
                 spec:
+                  failureThreshold: 3
                   httpGet:
                     path: /ping
                     port: *port
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
-                  failureThreshold: 3
               readiness: *probes
               startup:
                 enabled: false
@@ -84,7 +84,7 @@ spec:
     ingress:
       main:
         annotations:
-          hajimari.io/group: Media-Automation
+          hajimari.io/group: Media Management
           hajimari.io/icon: mdi:filmstrip
           hajimari.io/info: UHD Movie Collection Manager
         className: nginx

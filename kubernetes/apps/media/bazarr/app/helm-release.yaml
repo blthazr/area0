@@ -79,7 +79,7 @@ spec:
     ingress:
       main:
         annotations:
-          hajimari.io/group: Media-Automation
+          hajimari.io/group: Media Management
           hajimari.io/icon: mdi:subtitles-outline
           hajimari.io/info: Subtitle Manager
         className: nginx

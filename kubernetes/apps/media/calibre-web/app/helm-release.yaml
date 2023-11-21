@@ -57,7 +57,7 @@ spec:
     ingress:
       main:
         annotations:
-          hajimari.io/group: Media-Automation
+          hajimari.io/group: Media Management
           hajimari.io/icon: mdi:book-open-page-variant
           hajimari.io/info: OPDS Content Server
         className: nginx

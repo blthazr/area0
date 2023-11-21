@@ -5,7 +5,7 @@ kind: Ingress
 metadata:
   name: &app home-assistant
   annotations:
-    hajimari.io/group: Home-Automation
+    hajimari.io/group: Home Automation
     hajimari.io/icon: mdi:automation
     hajimari.io/info: Home Automation Hub
   labels:

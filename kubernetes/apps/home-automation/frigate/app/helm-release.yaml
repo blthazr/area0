@@ -89,8 +89,9 @@ spec:
     ingress:
       main:
         annotations:
-          hajimari.io/group: Home-Automation
+          hajimari.io/group: Home Automation
           hajimari.io/icon: mdi:camera-enhance
+          hajimari.io/info: Realtime Object Detection
         className: nginx
         enabled: true
         hosts:

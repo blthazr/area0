@@ -52,7 +52,7 @@ spec:
     ingress:
       main:
         annotations:
-          hajimari.io/group: Media-Automation
+          hajimari.io/group: Media Management
           hajimari.io/icon: mdi:message-video
           hajimari.io/info: TubeSync
         className: nginx

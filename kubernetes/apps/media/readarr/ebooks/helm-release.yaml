@@ -36,7 +36,7 @@ spec:
           main:
             env:
               READARR__APPLICATION_URL: "https://readarr-ebooks.${SECRET_DOMAIN}"
-              READARR__INSTANCE_NAME: Readarr Ebooks
+              READARR__INSTANCE_NAME: Readarr eBooks
               TZ: "${CLUSTER_TIME_ZONE}"
             envFrom:
               - secretRef:
@@ -59,8 +59,8 @@ spec:
     ingress:
       main:
         annotations:
-          hajimari.io/appName: Readarr eBooks
-          hajimari.io/group: Media-Automation
+          hajimari.io/appName: Readarr (eBooks)
+          hajimari.io/group: Media Management
           hajimari.io/icon: mdi:book-open-variant
           hajimari.io/info: eBook collection manager
         className: nginx
