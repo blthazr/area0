@@ -36,9 +36,11 @@ spec:
           main:
             env:
               READARR__APPLICATION_URL: "https://readarr-audio.${SECRET_DOMAIN}"
+              READARR__AUTHENTICATION_REQUIRED: DisabledForLocalAddresses
               READARR__INSTANCE_NAME: Readarr Audio
               READARR__LOG_LEVEL: info
               READARR__PORT: &port 8787
+              READARR__THEME: dark
               TZ: "${CLUSTER_TIME_ZONE}"
             envFrom:
               - secretRef:
