@@ -37,6 +37,7 @@ spec:
             env:
               READARR__APPLICATION_URL: "https://readarr-ebooks.${SECRET_DOMAIN}"
               READARR__INSTANCE_NAME: Readarr eBooks
+              READARR__LOG_LEVEL: info
               READARR__PORT: &port 8787
               TZ: "${CLUSTER_TIME_ZONE}"
             envFrom:
