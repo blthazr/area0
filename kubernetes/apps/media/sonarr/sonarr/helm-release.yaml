@@ -47,7 +47,7 @@ spec:
                   name: *app
             image:
               repository: ghcr.io/onedr0p/sonarr-develop
-              tag: 4.0.0.720@sha256:f97d7435ebf86a41d0ddc3e300779745e52c89444d2e4465a6d55fb2a1bccece
+              tag: 4.0.0.733@sha256:820dcce58696fa45049ad1c3afff1ae695644f67cbab87911670e6e4303da796
             probes:
               liveness: &probes
                 custom: true
