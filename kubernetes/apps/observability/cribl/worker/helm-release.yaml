@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: cribl-charts
         namespace: flux-system
-      version: 4.4.0
+      version: 4.4.3
   install:
     remediation:
       retries: 3
@@ -30,7 +30,7 @@ spec:
       token: "${SECRET_CRIBL_LEADER_TOKEN}"
     criblImage:
       repository: cribl/cribl
-      tag: 4.4.0@sha256:778b2dfa4d73e9b233fd88c20f8bf9c9cf56106232a56c65a2f81f02a4dacfa4
+      tag: 4.4.3@sha256:7dd0316ef1d1c7ddaa47206ab124ef09ef6e3d85804bc20780950e58a526fb77
     resources: {}
     service:
       annotations:
