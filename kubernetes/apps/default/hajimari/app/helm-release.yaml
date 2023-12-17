@@ -32,7 +32,11 @@ spec:
       customApps: []
       darkTheme: tron
       defaultEnable: true
-      globalBookmarks: []
+      globalBookmarks:
+        - group: Github
+          bookmarks:
+            - name: blthazr/area0
+              url: 'https://github.com/blthazr/area0'
       lightTheme: cloud
       namespaceSelector:
         matchNames:
