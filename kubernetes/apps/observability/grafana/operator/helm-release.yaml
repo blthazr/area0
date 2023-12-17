@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: grafana-operator-charts
         namespace: flux-system
-      version: v5.5.1
+      version: v5.5.2
   install:
     crds: CreateReplace
     remediation:
