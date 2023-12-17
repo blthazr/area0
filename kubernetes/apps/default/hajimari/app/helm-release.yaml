@@ -37,6 +37,12 @@ spec:
           bookmarks:
             - name: blthazr/area0
               url: 'https://github.com/blthazr/area0'
+        - group: Services
+          bookmarks:
+            - name: Cloudflare
+              url: 'https://www.cloudflare.com/a/login'
+            - name: Tailscale
+              url: 'https://login.tailscale.com/admin/machines'
       lightTheme: cloud
       namespaceSelector:
         matchNames:
