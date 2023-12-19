@@ -32,6 +32,29 @@
       "matchUpdateTypes": ["patch"]
     },
     {
+      "description": "Auto merge container patches [anytime]",
+      "addLabels": ["action/automerge"],
+      "automerge": true,
+      "automergeType": "branch",
+      "ignoreTests": true,
+      "matchDatasources": ["docker"],
+      "matchPackagePatterns": [
+        "ghcr.io/bjw-s/calibre-web",
+        "ghcr.io/meeb/tubesync",
+        "ghcr.io/onedr0p/bazarr",
+        "ghcr.io/onedr0p/lidarr",
+        "ghcr.io/onedr0p/prowlarr",
+        "ghcr.io/onedr0p/radarr",
+        "ghcr.io/onedr0p/readarr",
+        "ghcr.io/onedr0p/sabnzbd",
+        "ghcr.io/onedr0p/sonarr-develop",
+        "ghcr.io/onedr0p/tautulli",
+        "ghcr.io/recyclarr/recyclarr",
+        "ghcr.io/wizarrrr/wizarr"
+      ],
+      "matchUpdateTypes": ["patch"]
+    },
+    {
       "description": "Auto merge grafana dashboards",
       "addLabels": ["action/automerge"],
       "automerge": true,
