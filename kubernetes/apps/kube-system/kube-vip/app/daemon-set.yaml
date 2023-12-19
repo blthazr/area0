@@ -53,7 +53,7 @@ spec:
               value: "2"
             - name: address
               value: "${KUBE_VIP_ADDRESS}"
-          image: ghcr.io/kube-vip/kube-vip:v0.6.3
+          image: ghcr.io/kube-vip/kube-vip:v0.6.4@sha256:aa09234646e542dc2629c3dbd5698a77123aecb88d3b01a1d3ba5a78648c45b8
           imagePullPolicy: IfNotPresent
           securityContext:
             capabilities:
