@@ -18,17 +18,11 @@ radarr:
           - name: Remux-1080p
           - name: Bluray-1080p
             enabled: false
-          - name: Web 1080p
+          - name: Web-1080p
             qualities:
               - WEBDL-1080p
               - WEBRip-1080p
           - name: HDTV-1080p
-          - name: Bluray-720p
-          - name: Web 720p
-            qualities:
-              - WEBDL-720p
-              - WEBRip-720p
-          - name: HDTV-720p
         quality_sort: top
         reset_unmatched_scores:
           enabled: true
@@ -54,7 +48,6 @@ radarr:
           - 1c1a4c5e823891c75bc50380a6866f73  # DTS
           - 240770601cc226190c367ef59aba7463  # AAC
           - c2998bd0d90ed5621d8df281e839436e  # DD
-
           # Movie Versions
           - 0f12c086e289cf966fa5948eac571f44  # Hybrid
           - 570bc9ebecd92723d2d21500f4be314c  # Remaster
@@ -65,21 +58,17 @@ radarr:
           # - 957d0f44b592285f26449575e8b1167e  # Special Edition
           - eecf3a857724171f968a66cb5719e152  # IMAX
           - 9f6cbff8cfe4ebbc1bde14c7b7bec0de  # IMAX Enhanced
-
           # Unwanted
           - ed38b889b31be83fda192888e2286d83  # BR-DISK
           - 90a6f9a284dff5103f6346090e6280c8  # LQ
           - b8cd450cbfa689c0259a01d9e29ba3d6  # 3D
           - dc98083864ea246d05a42df0d05f81cc  # x265 (HD)
-
-          # # Optional
+          # Optional
           # - ae9b7c9ebde1f3bd336a8cbd1ec4c5e5  # No-RlsGroup
           # - 7357cf5161efbf8c4d5d0c30b4815ee2  # Obfuscated
-
           # Misc
           - e7718d7a3ce595f289bfee26adc178f5  # Repack/Proper
           - ae43b294509409a6a13919dedd4764c4  # Repack2
-
           # HQ Release Groups
           - 3a3ff47579026e76d6504ebea39390de  # Remux Tier 01
           - 9f98181fe5a3fbeb0cc29340da2a468a  # Remux Tier 02
@@ -87,16 +76,12 @@ radarr:
           - c20f169ef63c5f40c2def54abaf4438e  # WEB Tier 01
           - 403816d65392c79236dcb6dd591aeda4  # WEB Tier 02
           - af94e0fe497124d1f9ce732069ec8c3b  # WEB Tier 03
-
           # Streaming Services
           - 16622a6911d1ab5d5b8b713d5b0036d4  # CRiT
           - 2a6039655313bf5dab1e43523b62c374  # MA
           - cc5e51a9e85a6296ceefe097a77f12f4  # BCORE
-
         quality_profiles:
           - name: Best Available
-
-      # Custom Scoring
       - trash_ids:
           # Streaming Services
           - b3b3a6ac74ecbd56bcdbefa4799fb9df  # AMZN
