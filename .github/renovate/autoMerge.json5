@@ -18,6 +18,7 @@
       "description": "Auto merge container patches [maintenance window]",
       "addLabels": ["action/automerge"],
       "automerge": true,
+      "automergeSchedule": ["after 2am, before 6am"],
       "automergeType": "branch",
       "ignoreTests": true,
       "matchDatasources": ["docker"],
