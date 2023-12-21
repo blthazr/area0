@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: cloudnative-pg-charts
         namespace: flux-system
-      version: 0.19.1
+      version: 0.20.0
   dependsOn:
     - name: local-path-provisioner
       namespace: kube-system
