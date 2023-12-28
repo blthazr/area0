@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: kyverno-charts
         namespace: flux-system
-      version: 3.0.6
+      version: 3.1.2
   install:
     remediation:
       retries: 3
