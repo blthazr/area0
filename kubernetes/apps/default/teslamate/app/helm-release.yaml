@@ -41,7 +41,7 @@ spec:
                   name: *app
             image:
               repository: teslamate/teslamate
-              tag: 1.27.4@sha256:c74b6929fbbcba7291abb432c7e5ea8ad68d57834f5a2a5b65386bc2ad405640
+              tag: 1.28.2@sha256:347aa9d7bc5126cde0456979569d432dd38242579445054a5bde3f70540ba1ce
             resources:
               requests:
                 memory: 250Mi
