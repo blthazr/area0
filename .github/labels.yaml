@@ -4,6 +4,10 @@
   color: "72CCF3"
   description: >-
     Changes made in the ansible directory
+- name: area/docs
+  color: "72CCF3"
+  description: >-
+    Changes made in the docs directory
 - name: area/github
   color: "72CCF3"
   description: >-
@@ -12,14 +16,14 @@
   color: "72CCF3"
   description: >-
     Changes made in the kubernetes directory
+- name: area/taskfile
+  color: "72CCF3"
+  description: >-
+    Changes made in the taskfiles directory
 - name: area/terraform
   color: "72CCF3"
   description: >-
     Changes made in the terraform directory
-- name: area/tools
-  color: "72CCF3"
-  description: >-
-    Changes made in the tools directory
 
 # Renovate
 - name: renovate/ansible
