@@ -2,11 +2,10 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
-      "description": "Auto merge container digests",
+      "description": "Auto-merge trusted containers (digest)",
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeType": "branch",
-      "ignoreTests": true,
       "matchDatasources": ["docker"],
       "matchPackagePatterns": [
         "ghcr.io/bjw-s",
@@ -15,12 +14,11 @@
       "matchUpdateTypes": ["digest"]
     },
     {
-      "description": "Auto merge container patches [maintenance window]",
+      "description": "Auto-merge containers (patch) [maintenance window]",
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeSchedule": ["after 2am, before 6am"],
       "automergeType": "branch",
-      "ignoreTests": true,
       "matchDatasources": ["docker"],
       "matchPackagePatterns": [
         "docker.io/hkotel/mealie",
@@ -33,11 +31,10 @@
       "matchUpdateTypes": ["patch"]
     },
     {
-      "description": "Auto merge container patches [anytime]",
+      "description": "Auto-merge containers (patch) [anytime]",
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeType": "branch",
-      "ignoreTests": true,
       "matchDatasources": ["docker"],
       "matchPackagePatterns": [
         "ghcr.io/bjw-s/calibre-web",
@@ -56,26 +53,15 @@
       "matchUpdateTypes": ["patch"]
     },
     {
-      "description": "Auto merge grafana dashboards",
+      "description": "Auto-merge grafana dashboards",
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeType": "branch",
-      "ignoreTests": true,
-      "matchDatasources": ["custom.grafana-dashboards"],
+      "matchDatasources": [
+        "custom.grafana-dashboards",
+        "grafana-dashboards"
+      ],
       "matchUpdateTypes": ["major"]
-    },
-    {
-      "description": "Auto merge GitHub Actions",
-      "addLabels": ["action/automerge"],
-      "automerge": true,
-      "automergeType": "branch",
-      "ignoreTests": true,
-      "matchDatasources": ["github-tags"],
-      "matchManagers": ["github-actions"],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ]
     }
   ]
 }

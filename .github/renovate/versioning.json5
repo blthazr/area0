@@ -9,6 +9,18 @@
         "qbittorrent"
       ],
       "versioning": "loose"
+    },
+    {
+      "description": "Custom versioning for frigate",
+      "matchDatasources": ["docker"],
+      "matchPackagePatterns": ["frigate"],
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(-(?<compatibility>beta)(?<build>\\d+))?$"
+    },
+    {
+      "description": "Custom versioning for k3s",
+      "matchDatasources": ["github-releases"],
+      "matchPackagePatterns": ["k3s"],
+      "versioning": "regex:^v(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(?<compatibility>\\+k3s)(?<build>\\d+)$"
     }
   ]
 }

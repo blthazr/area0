@@ -2,12 +2,12 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
-      "allowedVersions": "<10",
+      "allowedVersions": "<999",
       "matchDatasources": ["docker"],
       "matchPackagePatterns": ["kopia"]
     },
     {
-      "allowedVersions": "<15",
+      "allowedVersions": "<=16",
       "matchDatasources": ["docker"],
       "matchPackagePatterns": ["postgresql"]
     }

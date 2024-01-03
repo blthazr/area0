@@ -28,7 +28,7 @@
         "docker",
         "github-tags"
       ],
-      "matchPackagePatterns": ["flux"],
+      "matchPackagePatterns": ["fluxcd"],
       "separateMinorPatch": true,
       "versioning": "semver"
     },
@@ -40,6 +40,16 @@
       "groupName": "Rook-Ceph",
       "matchDatasources": ["helm"],
       "matchPackagePatterns": ["rook.ceph"],
+      "separateMinorPatch": true
+    },
+    {
+      "description": "System Upgrade Controller Group",
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "groupName": "System Upgrade Controller",
+      "matchDatasources": ["docker", "github-releases"],
+      "matchPackagePatterns": ["system-upgrade-controller"],
       "separateMinorPatch": true
     }
   ]
