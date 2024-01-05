@@ -129,6 +129,11 @@ spec:
         globalMounts:
           - path: /media
             readOnly: true
+      plex-cache:
+        enabled: true
+        existingClaim: plex-cache
+        globalMounts:
+          - path: /config/Library/Application Support/Plex Media Server/Cache
       transcode:
         enabled: true
         globalMounts:
