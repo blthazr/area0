@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: bitnami-charts
         namespace: flux-system
-      version: 12.15.0
+      version: 12.20.1
   dependsOn:
     - name: local-path-provisioner
       namespace: kube-system
