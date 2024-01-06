@@ -1,18 +1,11 @@
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#   @file           :   Taskfile.yaml
-#   @description    :   go-task is a simple task runner
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
 version: "3"
 
 env:
   KUBECONFIG: "{{.ROOT_DIR}}/kubeconfig"
 
 includes:
-  ansible:
-    dir: ./infrastructure/ansible
-    optional: true
-    taskfile: .taskfiles/ansible/tasks.yaml
   flux:
     optional: true
     taskfile: .taskfiles/flux/tasks.yaml
