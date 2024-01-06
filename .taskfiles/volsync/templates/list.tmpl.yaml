@@ -2,8 +2,8 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: "list-${rsrc}-${ts}"
-  namespace: "${namespace}"
+  name: "list-${app}-${ts}"
+  namespace: "${ns}"
 spec:
   ttlSecondsAfterFinished: 3600
   template:
@@ -16,4 +16,4 @@ spec:
           args: ["snapshots"]
           envFrom:
             - secretRef:
-                name: "${rsrc}-restic-secret"
+                name: "${app}-volsync-secret"
