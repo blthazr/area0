@@ -1,8 +1,5 @@
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#   @file           :   .taskfiles/flux/tasks.yaml
-#   @description    :   flux tasks
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
 version: "3"
 
 tasks:
@@ -11,3 +8,53 @@ tasks:
     desc: verify flux meets the prerequisites
     cmds:
       - flux check --pre
+
+  # task flux:bootstrap
+  bootstrap:
+    desc: bootstrap flux into a kubernetes cluster
+    cmds:
+      - kubectl apply --server-side --kustomize {{.KUBERNETES_DIR}}/bootstrap/flux
+      - sops --decrypt {{.KUBERNETES_DIR}}/bootstrap/flux/age-key.sops.yaml | kubectl apply -f -
+      - sops --decrypt {{.KUBERNETES_DIR}}/bootstrap/flux/github-deploy-key.sops.yaml | kubectl apply -f -
+      - sops --decrypt --in-place {{.KUBERNETES_DIR}}/flux/vars/cluster-secrets.sops.env
+      - kubectl apply --server-side --kustomize {{.KUBERNETES_DIR}}/flux/vars
+      - kubectl apply --server-side --kustomize {{.KUBERNETES_DIR}}/flux/config
+      - defer: sops --encrypt --in-place {{.KUBERNETES_DIR}}/flux/vars/cluster-secrets.sops.env
+    preconditions:
+      - { msg: "Age secret not found", sh: "test -f {{.KUBERNETES_DIR}}/bootstrap/flux/age-key.sops.yaml" }
+      - { msg: "Github deploy secret not found", sh: "test -f {{.KUBERNETES_DIR}}/bootstrap/flux/github-deploy-key.sops.yaml" }
+      - { msg: "Cluster settings not found", sh: "test -f {{.KUBERNETES_DIR}}/flux/vars/cluster-settings.env" }
+      - { msg: "Cluster secrets not found", sh: "test -f {{.KUBERNETES_DIR}}/flux/vars/cluster-secrets.sops.env" }
+      - { msg: "Unable to decrypt sops secret", sh: "sops --decrypt {{.KUBERNETES_DIR}}/bootstrap/flux/age-key.sops.yaml" }
+      - { msg: "Unable to decrypt sops secret", sh: "sops --decrypt {{.KUBERNETES_DIR}}/bootstrap/flux/github-deploy-key.sops.yaml" }
+      - { msg: "Unable to decrypt sops secret", sh: "sops --decrypt {{.KUBERNETES_DIR}}/flux/vars/cluster-secrets.sops.env" }
+    prompt: Bootstrap Flux into the cluster... continue?
+
+  # task flux:apply
+  # task flux:apply path=<namespace/<app> ns=<namespace>
+  apply:
+    desc: apply a flux kustomization resource
+    summary: |
+      args:
+        path: Path to the Flux Kustomization resource (required)
+        ns: Namespace the Flux Kustomization exists in (default: flux-system)
+    cmd: |
+      flux build ks $(basename {{.path}}) \
+          --namespace {{.ns}} \
+          --kustomization-file {{.KUBERNETES_DIR}}/apps/{{.path}}/ks.yaml \
+          --path {{.KUBERNETES_DIR}}/apps/{{.path}} \
+          {{- if contains "not found" .ks }}--dry-run \{{ end }}
+      | \
+      kubectl apply --server-side \
+          --field-manager=kustomize-controller -f -
+    vars:
+      # path: '{{ or .path (fail "Argument (path) is required") }}'
+      path: '{{ .path }}'
+      ns: '{{.ns | default "flux-system"}}'
+      ks:
+        sh: flux --namespace {{.ns}} get kustomizations $(basename {{.path}}) 2>&1
+    preconditions:
+      - { msg: "Kustomization file not found", sh: "test -f {{.KUBERNETES_DIR}}/apps/{{.path}}/ks.yaml" }
+    requires:
+      vars:
+        - path
