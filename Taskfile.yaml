@@ -5,6 +5,9 @@ version: "3"
 env:
   KUBECONFIG: "{{.ROOT_DIR}}/kubeconfig"
 
+vars:
+  KUBERNETES_DIR: "{{.ROOT_DIR}}/kubernetes"
+
 includes:
   flux:
     optional: true
