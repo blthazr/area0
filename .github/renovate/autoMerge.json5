@@ -2,10 +2,10 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
-      "description": "Auto-merge trusted containers (digest)",
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeType": "branch",
+      "description": "Auto-merge trusted containers (digest)",
       "matchDatasources": ["docker"],
       "matchPackagePatterns": [
         "ghcr.io/bjw-s",
@@ -14,11 +14,11 @@
       "matchUpdateTypes": ["digest"]
     },
     {
-      "description": "Auto-merge containers (patch) [maintenance window]",
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeSchedule": ["after 2am, before 6am"],
       "automergeType": "branch",
+      "description": "Auto-merge containers (patch) [maintenance window]",
       "matchDatasources": ["docker"],
       "matchPackagePatterns": [
         "docker.io/hkotel/mealie",
@@ -31,10 +31,10 @@
       "matchUpdateTypes": ["patch"]
     },
     {
-      "description": "Auto-merge containers (patch) [anytime]",
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeType": "branch",
+      "description": "Auto-merge containers (patch) [anytime]",
       "matchDatasources": ["docker"],
       "matchPackagePatterns": [
         "ghcr.io/bjw-s/calibre-web",
@@ -53,10 +53,10 @@
       "matchUpdateTypes": ["patch"]
     },
     {
-      "description": "Auto-merge grafana dashboards",
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeType": "branch",
+      "description": "Auto-merge grafana dashboards",
       "matchDatasources": [
         "custom.grafana-dashboards",
         "grafana-dashboards"

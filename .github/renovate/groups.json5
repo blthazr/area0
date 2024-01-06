@@ -48,7 +48,10 @@
         "commitMessageTopic": "{{{groupName}}} group"
       },
       "groupName": "System Upgrade Controller",
-      "matchDatasources": ["docker", "github-releases"],
+      "matchDatasources": [
+        "docker",
+        "github-releases"
+      ],
       "matchPackagePatterns": ["system-upgrade-controller"],
       "separateMinorPatch": true
     }

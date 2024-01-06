@@ -4,37 +4,31 @@
     "grafana-dashboards": {
       "defaultRegistryUrlTemplate": "https://grafana.com/api/dashboards/{{packageName}}",
       "format": "json",
-      "transformTemplates": [
-        "{\"releases\":[{\"version\": $string(revision)}]}"
-      ]
+      "transformTemplates": ["{\"releases\":[{\"version\": $string(revision)}]}"]
     }
   },
   "customManagers": [
     {
       "customType": "regex",
-      "description": "Process Grafana dashboards",
-      "fileMatch": [
-        "(^|/)kubernetes/.+\\.ya?ml(\\.j2)?$"
-      ],
-      "matchStrings": [
-        "depName=\"(?<depName>.*)\"\\n.*?gnetId: (?<packageName>\\d+)\\n.*?revision: (?<currentValue>\\d+)"
-      ],
       "datasourceTemplate": "custom.grafana-dashboards",
+      "description": "Process Grafana dashboards",
+      "fileMatch": ["(^|/)kubernetes/.+\\.ya?ml(\\.j2)?$"],
+      "matchStrings": ["depName=\"(?<depName>.*)\"\\n.*?gnetId: (?<packageName>\\d+)\\n.*?revision: (?<currentValue>\\d+)"],
       "versioningTemplate": "regex:^(?<major>\\d+)$"
     }
   ],
   "packageRules": [
     {
       "addLabels": ["renovate/grafana-dashboard"],
+      "commitMessageExtra": "( {{currentVersion}} → {{newVersion}} )",
+      "commitMessageTopic": "dashboard {{depName}}",
       "matchDatasources": [
-        "custom.grafana-dashboards",
-        "grafana-dashboards"
+        "grafana-dashboards",
+        "custom.grafana-dashboards"
       ],
       "matchUpdateTypes": ["major"],
       "semanticCommitScope": "grafana-dashboards",
-      "semanticCommitType": "",
-      "commitMessageTopic": "dashboard {{depName}}",
-      "commitMessageExtra": "( {{currentVersion}} → {{newVersion}} )"
+      "semanticCommitType": ""
     }
   ]
 }
