@@ -1,6 +1,6 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta1.json
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: &app cert-manager
@@ -10,14 +10,13 @@ spec:
       chart: *app
       sourceRef:
         kind: HelmRepository
-        name: jetstack-charts
+        name: jetstack
         namespace: flux-system
       version: v1.13.3
   install:
     remediation:
       retries: 3
   interval: 30m
-  maxHistory: 2
   uninstall:
     keepHistory: false
   upgrade:
@@ -25,9 +24,10 @@ spec:
     remediation:
       retries: 3
   values:
-    extraArgs:
-      - --dns01-recursive-nameservers=1.1.1.1:53,9.9.9.9:53
-      - --dns01-recursive-nameservers-only
+    cainjector:
+      replicaCount: 1
+    dns01RecursiveNameservers: 1.1.1.1:53,9.9.9.9:53
+    dns01RecursiveNameserversOnly: true
     installCRDs: true
     podDnsConfig:
       nameservers:
@@ -39,3 +39,6 @@ spec:
       servicemonitor:
         enabled: true
         prometheusInstance: observability
+    replicaCount: 1
+    webhook:
+      replicaCount: 1
