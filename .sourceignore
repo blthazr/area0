@@ -2,9 +2,6 @@
 .github/
 .taskfiles/
 .vscode/
-ansible/
-terraform/
-tools/
 .envrc
 .gitattributes
 .gitignore
