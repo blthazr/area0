@@ -1,24 +1,25 @@
 {
-  "ansible.ansibleLint.arguments": "-c .ansible-lint",
-  "ansible.python.interpreterPath": "/usr/bin/python3",
-  "editor.bracketPairColorization.enabled": true,
-  "editor.guides.bracketPairs": true,
-  "editor.guides.bracketPairsHorizontal": true,
-  "editor.guides.highlightActiveBracketPair": true,
-  "editor.hover.delay": 1500,
-  "editor.rulers": [100],
-  "explorer.autoReveal": false,
+  /*+--- Text Editor ---+*/
   "files.associations": {
     "*.json5": "jsonc",
-    "**/ansible/**/*.yaml": "ansible",
-    "**/ansible/**/*.sops.yaml": "yaml",
-    "**/ansible/**/inventory/**/*.yaml": "yaml",
-    "**/terraform/**/*.tf": "terraform"
+    "infrastructure/ansible/**/*.sops.yaml": "yaml",
+    "infrastructure/ansible/**/*.yaml": "ansible",
+    "infrastructure/ansible/**/inventory/**/*.yaml": "yaml",
+    "infrastructure/terraform/**/*.tf": "terraform"
   },
-  "files.trimTrailingWhitespace": true,
+
+  /*+--- Extensions ---+*/
+  "ansible.validation.enabled": true,
+  "ansible.validation.lint.arguments": "-c infrastructure/ansible/.ansible-lint",
+  "ansible.validation.lint.enabled": true,
+  "vs-kubernetes": {
+    "vs-kubernetes.knownKubeconfigs": [
+      "./kubeconfig"
+    ],
+    "vs-kubernetes.kubeconfig": "./kubeconfig"
+  },
   "yaml.schemas": {
-    "ansible": "ansible/**/*.yaml",
-    "kubernetes": "kubernetes/**/*.yaml"
-  },
-  "yaml.schemaStore.enable": true
+    "ansible": "./infrastructure/ansible/**/*.yaml",
+    "kubernetes": "./kubernetes/**/*.yaml"
+  }
 }
