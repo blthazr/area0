@@ -3,17 +3,19 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cluster-apps-volsync
+  name: &app volsync
   namespace: flux-system
 spec:
-  dependsOn:
-    - name: cluster-apps-snapshot-controller
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
   interval: 30m
-  path: ./kubernetes/apps/volsync/volsync/app
+  path: ./kubernetes/apps/storage/volsync/app
   prune: true
   retryInterval: 1m
   sourceRef:
     kind: GitRepository
     name: area0
+  targetNamespace: storage
   timeout: 5m
   wait: false # no flux ks dependents
