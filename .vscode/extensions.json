@@ -1,15 +1,6 @@
 {
   "recommendations": [
-    "albert.TabOut",
-    "britesnow.vscode-toggle-quotes",
-    "editorconfig.editorconfig",
-    "fcrespo82.markdown-table-formatter",
-    "hashicorp.terraform",
-    "mitchdenny.ecdc",
-    "oderwat.indent-rainbow",
-    "pkief.material-icon-theme",
+    "ms-kubernetes-tools.vscode-kubernetes-tools",
     "redhat.ansible",
-    "redhat.vscode-yaml",
-    "signageos.signageos-vscode-sops"
   ]
 }
