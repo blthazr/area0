@@ -1,6 +1,6 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta1.json
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: &app intel-device-plugin-gpu
@@ -10,7 +10,7 @@ spec:
       chart: intel-device-plugins-gpu
       sourceRef:
         kind: HelmRepository
-        name: intel-charts
+        name: intel
         namespace: flux-system
       version: 0.29.0
   dependsOn:
@@ -20,7 +20,6 @@ spec:
     remediation:
       retries: 3
   interval: 30m
-  maxHistory: 2
   uninstall:
     keepHistory: false
   upgrade:
