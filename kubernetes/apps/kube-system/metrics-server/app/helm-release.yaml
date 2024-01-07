@@ -1,6 +1,6 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta1.json
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: &app metrics-server
@@ -10,14 +10,13 @@ spec:
       chart: *app
       sourceRef:
         kind: HelmRepository
-        name: metrics-server-charts
+        name: *app
         namespace: flux-system
       version: 3.11.0
   install:
     remediation:
       retries: 3
   interval: 30m
-  maxHistory: 2
   uninstall:
     keepHistory: false
   upgrade:
