@@ -3,11 +3,12 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cluster-apps-tailscale
+  name: &app tailscale
   namespace: flux-system
 spec:
-  dependsOn:
-    - name: cluster-apps-metallb-config
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
   interval: 30m
   path: ./kubernetes/apps/vpn/tailscale/app
   prune: true
@@ -15,5 +16,6 @@ spec:
   sourceRef:
     kind: GitRepository
     name: area0
+  targetNamespace: vpn
   timeout: 5m
   wait: false # no flux ks dependents
