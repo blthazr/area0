@@ -1,6 +1,6 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta1.json
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: &app reloader
@@ -10,14 +10,13 @@ spec:
       chart: *app
       sourceRef:
         kind: HelmRepository
-        name: stakater-charts
+        name: stakater
         namespace: flux-system
       version: 1.0.60
   install:
     remediation:
       retries: 3
   interval: 30m
-  maxHistory: 2
   uninstall:
     keepHistory: false
   upgrade:
@@ -29,4 +28,5 @@ spec:
     reloader:
       podMonitor:
         enabled: true
-        namespace: kube-system
+        namespace: "{{ .Release.Namespace }}"
+      readOnlyRootFileSystem: true
