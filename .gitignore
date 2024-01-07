@@ -4,9 +4,6 @@
 # Microsoft Windows
 Thumbs.db
 
-# VS Code
-*.code-workspace
-
 # Shards
 *-shard/*
 *-shard.*
