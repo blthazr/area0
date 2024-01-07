@@ -3,17 +3,19 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cluster-apps-local-path-provisioner
+  name: &app local-path-provisioner
   namespace: flux-system
-  labels:
-    substitution.flux.home.arpa/disabled: "true"
 spec:
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
   interval: 30m
-  path: ./kubernetes/apps/kube-system/local-path-provisioner/app
+  path: ./kubernetes/apps/storage/local-path-provisioner/app
   prune: true
   retryInterval: 1m
   sourceRef:
     kind: GitRepository
     name: area0
+  targetNamespace: storage
   timeout: 5m
   wait: false # no flux ks dependents
