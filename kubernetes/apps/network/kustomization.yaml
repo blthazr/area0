@@ -5,13 +5,3 @@ kind: Kustomization
 resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
-  # Flux-Kustomizations
-  - ./cloudflared/app.yaml
-  - ./external-dns/app.yaml
-  - ./ingress-nginx/app.yaml
-  - ./ingress-nginx/certificates.yaml
-  - ./k8s-gateway/app.yaml
-  - ./metallb/app.yaml
-  - ./metallb/config.yaml
-  # Standard Resources
-  - ./external-services

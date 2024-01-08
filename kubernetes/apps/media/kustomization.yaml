@@ -3,21 +3,5 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
+  # Pre Flux-Kustomizations
   - ./namespace.yaml
-  - ./common/nfs-media.yaml
-  - ./audiobookshelf/app.yaml
-  - ./bazarr/app.yaml
-  - ./calibre-web/app.yaml
-  - ./lidarr/app.yaml
-  - ./overseerr/app.yaml
-  - ./plex/app.yaml
-  - ./prowlarr/app.yaml
-  - ./radarr/radarr.yaml
-  - ./radarr/radarr-uhd.yaml
-  - ./readarr/audio.yaml
-  - ./readarr/ebooks.yaml
-  - ./recyclarr/app.yaml
-  - ./sonarr/sonarr.yaml
-  - ./tautulli/app.yaml
-  - ./tubesync/app.yaml
-  - ./wizarr/app.yaml

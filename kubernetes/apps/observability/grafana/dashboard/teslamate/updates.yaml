@@ -1,8 +1,0 @@
----
-# TODO: add yaml-language-server
-apiVersion: grafana.integreatly.org/v1beta1
-kind: GrafanaDashboard
-metadata:
-  name: teslamate-updates
-spec:
-  url: https://raw.githubusercontent.com/adriankumpf/teslamate/v1.27.3/grafana/dashboards/updates.json

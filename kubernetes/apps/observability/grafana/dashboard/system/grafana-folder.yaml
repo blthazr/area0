@@ -1,8 +1,0 @@
----
-# TODO: add yaml-language-server
-apiVersion: grafana.integreatly.org/v1beta1
-kind: GrafanaFolder
-metadata:
-  name: system
-spec:
-  title: System

@@ -5,18 +5,3 @@ kind: Kustomization
 resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
-  # Flux-Kustomizations
-  - ./alert-manager/app.yaml
-  - ./cribl/leader.yaml
-  - ./cribl/worker.yaml
-  - ./grafana/operator.yaml
-  - ./grafana/instance.yaml
-  - ./grafana/datasource.yaml
-  - ./grafana/dashboard.yaml
-  - ./kube-prometheus-stack/app.yaml
-  - ./kube-prometheus-stack/rules.yaml
-  - ./kube-state-metrics/app.yaml
-  - ./node-exporter/app.yaml
-  - ./splunk/instance.yaml
-  - ./splunk/operator.yaml
-  - ./thanos/app.yaml

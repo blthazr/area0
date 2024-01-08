@@ -5,6 +5,3 @@ kind: Kustomization
 resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
-  # Flux-Kustomizations
-  - ./kyverno/app.yaml
-  - ./kyverno/policy.yaml

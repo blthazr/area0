@@ -1,8 +1,0 @@
----
-# TODO: add yaml-language-server
-apiVersion: grafana.integreatly.org/v1beta1
-kind: GrafanaDashboard
-metadata:
-  name: teslamate-internal-drive-details
-spec:
-  url: https://raw.githubusercontent.com/adriankumpf/teslamate/v1.27.3/grafana/dashboards/internal/drive-details.json

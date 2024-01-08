@@ -5,8 +5,3 @@ kind: Kustomization
 resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
-  # Flux-Kustomizations
-  - ./addons/notifications.yaml
-  - ./addons/observability.yaml
-  - ./addons/webhooks.yaml
-  - ./weave-gitops/app.yaml

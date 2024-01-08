@@ -5,7 +5,3 @@ kind: Kustomization
 resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
-  # Flux-Kustomizations
-  - ./local-path-provisioner/ks.yaml
-  - ./snapshot-controller/ks.yaml
-  - ./volsync/ks.yaml
