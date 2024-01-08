@@ -1,0 +1,9 @@
+---
+# yaml-language-server: $schema=https://github.com/datreeio/CRDs-catalog/raw/main/metallb.io/l2advertisement_v1beta1.json
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: l2-ip
+spec:
+  ipAddressPools:
+    - default-pool

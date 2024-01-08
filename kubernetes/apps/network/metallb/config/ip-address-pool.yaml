@@ -1,0 +1,9 @@
+---
+# yaml-language-server: $schema=https://github.com/datreeio/CRDs-catalog/raw/main/metallb.io/ipaddresspool_v1beta1.json
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: default-pool
+spec:
+  addresses:
+    - "${METALLB_DEFAULT_ADDRESS_POOL}"
