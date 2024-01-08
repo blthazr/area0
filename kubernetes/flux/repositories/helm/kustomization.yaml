@@ -10,3 +10,4 @@ resources:
   - ./piraeus.yaml
   - ./metallb.yaml
   - ./rook-ceph.yaml
+  - ./weaveworks.yaml
