@@ -6,6 +6,7 @@ resources:
   - ./bjw-s.yaml
   - ./ingress-nginx.yaml
   - ./jetstack.yaml
+  - ./k8s-gateway.yaml
   - ./piraeus.yaml
   - ./metallb.yaml
   - ./rook-ceph.yaml
