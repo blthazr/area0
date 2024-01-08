@@ -1,6 +1,6 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta1.json
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: &app rook-ceph-cluster
@@ -10,14 +10,19 @@ spec:
       chart: *app
       sourceRef:
         kind: HelmRepository
-        name: rook-ceph-charts
+        name: rook-ceph
         namespace: flux-system
-      version: v1.12.10
+      version: v1.13.1
+  dependsOn:
+    - name: rook-ceph-operator
+      namespace: rook-ceph
+    - name: snapshot-controller
+      namespace: storage
   install:
     remediation:
       retries: 3
   interval: 30m
-  maxHistory: 2
+  timeout: 15m
   uninstall:
     keepHistory: false
   upgrade:
@@ -37,8 +42,6 @@ spec:
           isDefault: true
           name: ceph-block
           parameters:
-            imageFeatures: layering
-            imageFormat: "2"
             csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
             csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
             csi.storage.k8s.io/fstype: ext4
@@ -46,7 +49,14 @@ spec:
             csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
             csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
             csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
+            imageFeatures: layering
+            imageFormat: '2'
           reclaimPolicy: Delete
+    cephBlockPoolsVolumeSnapshotClass:
+      deletionPolicy: Delete
+      enabled: true
+      isDefault: false
+      name: csi-ceph-blockpool
     cephClusterSpec:
       crashCollector:
         disable: false
@@ -56,31 +66,51 @@ spec:
         urlPrefix: /
       network:
         connections:
-          compression:
-            # TODO: Test out enabling this on next cluster rebuild
-            enabled: false
+          requireMsgr2: true
         provider: host
+      resources:
+        mgr:
+          limits:
+            cpu: 2000m
+            memory: 2Gi
+          requests:
+            cpu: 500m
+            memory: 512Mi
+        mon:
+          limits:
+            cpu: 4000m
+            memory: 4Gi
+          requests:
+            cpu: 1000m
+            memory: 1Gi
+        osd:
+          limits:
+            cpu: 4000m
+            memory: 8Gi
+          requests:
+            cpu: 1000m
+            memory: 4Gi
       storage:
         config:
-          osdsPerDevice: "1"
+          osdsPerDevice: '1'
         nodes:
-          - name: k3s-1
-            devices:
+          - devices:
               - name: /dev/disk/by-id/ata-Samsung_Portable_SSD_T5_S4B0NR0R719439P
-          - name: k3s-2
-            devices:
+            name: k3s-1
+          - devices:
               - name: /dev/disk/by-id/ata-Samsung_Portable_SSD_T5_S4B0NR0R721882L
-          - name: k3s-3
-            devices:
+            name: k3s-2
+          - devices:
               - name: /dev/disk/by-id/ata-Samsung_Portable_SSD_T5_S4B0NR0R712678E
+            name: k3s-3
         useAllDevices: false
         useAllNodes: false
     cephFileSystems:
       - name: ceph-filesystem
         spec:
           dataPools:
-            - name: data0
-              failureDomain: host
+            - failureDomain: host
+              name: data0
               replicated:
                 size: 3
           metadataPool:
@@ -110,13 +140,14 @@ spec:
             csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
           pool: data0
           reclaimPolicy: Delete
+    cephFileSystemVolumeSnapshotClass:
+      deletionPolicy: Delete
+      enabled: true
+      isDefault: false
+      name: csi-ceph-filesystem
     cephObjectStores:
       - name: ceph-objectstore
         spec:
-          metadataPool:
-            failureDomain: host
-            replicated:
-              size: 3
           dataPool:
             erasureCoded:
               codingChunks: 1
@@ -124,16 +155,20 @@ spec:
             failureDomain: host
           gateway:
             instances: 2
+            port: 80
             resources:
               limits:
                 memory: 2Gi
               requests:
                 cpu: 1000m
                 memory: 1Gi
-            port: 80
           healthCheck:
             bucket:
               interval: 60s
+          metadataPool:
+            failureDomain: host
+            replicated:
+              size: 3
           preservePoolsOnDelete: true
         storageClass:
           enabled: true
@@ -160,7 +195,7 @@ spec:
           - hosts:
               - *host
     monitoring:
-      createPrometheusRules: true
       enabled: true
+      createPrometheusRules: true
     toolbox:
       enabled: true
