@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: *app
         namespace: flux-system
-      version: 2.0.4
+      version: 2.1.0
   install:
     remediation:
       retries: 3
@@ -32,4 +32,3 @@ spec:
       externalTrafficPolicy: Local
       port: 53
       type: LoadBalancer
-    ttl: 1
