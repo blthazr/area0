@@ -115,25 +115,6 @@ spec:
         tls:
           - hosts:
               - *host
-    persistence:
-      backup:
-        enabled: true
-        globalMounts:
-          - path: /backup
-        path: "${NAS_NFS_PATH}/backup/app/plex"
-        server: "${NAS_ADDRESS}"
-        type: nfs
-      media:
-        enabled: true
-        existingClaim: nfs-media
-        globalMounts:
-          - path: /media
-            readOnly: true
-      transcode:
-        enabled: true
-        globalMounts:
-          - path: /transcode
-        type: emptyDir
     service:
       main:
         annotations:
