@@ -7,12 +7,12 @@ metadata:
 spec:
   chart:
     spec:
-      chart: app-template
+      chart: external-dns
       sourceRef:
         kind: HelmRepository
-        name: bjw-s
+        name: external-dns
         namespace: flux-system
-      version: 2.4.0
+      version: 1.13.1
   install:
     remediation:
       retries: 3
@@ -24,79 +24,29 @@ spec:
     remediation:
       retries: 3
   values:
-    controllers:
-      main:
-        annotations:
-          reloader.stakater.com/auto: "true"
-        containers:
-          main:
-            args:
-              - --annotation-filter=external-dns.home.arpa/enabled in (true)
-              - --cloudflare-proxied
-              - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
-              - --crd-source-kind=DNSEndpoint
-              - --domain-filter="${SECRET_DOMAIN}"
-              - --ingress-class=external
-              - --interval=1m
-              - --log-format=text
-              - --log-level=info
-              - --metrics-address=:7979
-              - --policy=sync
-              - --provider=cloudflare
-              - --registry=txt
-              - --source=crd
-              - --source=ingress
-              - --txt-owner-id=default
-              - --txt-prefix=k8s.
-            env:
-              - name: CF_API_TOKEN
-                valueFrom:
-                  secretKeyRef:
-                    name: external-dns-cloudflare-secret
-                    key: api-token
-            image:
-              repository: registry.k8s.io/external-dns/external-dns
-              tag: v0.14.0@sha256:474077b3dfccb3021db0a6638274967d0f64ce60dd9730a6f464bee2f78b046f
-            probes:
-              liveness: &probes
-                custom: true
-                enabled: true
-                spec:
-                  failureThreshold: 3
-                  httpGet:
-                    path: /healthz
-                    port: &port 7979
-                  initialDelaySeconds: 0
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-              readiness: *probes
-              startup:
-                enabled: false
-            resources:
-              limits:
-                memory: 64Mi
-              requests:
-                cpu: 10m
-                memory: 32Mi
-            securityContext:
-              allowPrivilegeEscalation: false
-              capabilities:
-                drop: ["ALL"]
-              readOnlyRootFilesystem: true
-        pod:
-          securityContext:
-            runAsGroup: 568
-            runAsNonRoot: true
-            runAsUser: 568
-        strategy: Recreate
-    service:
-      main:
-        ports:
-          http:
-            port: *port
-    serviceAccount:
-      create: true
-      name: *app
+    domainFilters:
+      - "${SECRET_DOMAIN}"
+    env:
+      - name: CF_API_TOKEN
+        valueFrom:
+          secretKeyRef:
+            name: external-dns-cloudflare-secret
+            key: api-token
+    extraArgs:
+      - --annotation-filter=external-dns.home.arpa/enabled in (true)
+      - --cloudflare-proxied
+      - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
+      - --crd-source-kind=DNSEndpoint
+      - --ingress-class=external
+    fullnameOverride: *app
+    podAnnotations:
+      secret.reloader.stakater.com/reload: external-dns-cloudflare-secret
+    policy: sync
+    provider: cloudflare
     serviceMonitor:
-      main:
-        enabled: true
+      enabled: true
+    sources:
+      - crd
+      - ingress
+    txtOwnerId: default
+    txtPrefix: k8s.
