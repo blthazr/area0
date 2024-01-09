@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
   - ./backube.yaml
   - ./bjw-s.yaml
+  - ./external-dns.yaml
   - ./ingress-nginx.yaml
   - ./intel.yaml
   - ./jetstack.yaml
