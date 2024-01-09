@@ -7,7 +7,7 @@ metadata:
 spec:
   chart:
     spec:
-      chart: *app
+      chart: intel-device-plugins-operator
       sourceRef:
         kind: HelmRepository
         name: intel
