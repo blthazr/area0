@@ -190,7 +190,7 @@ spec:
         host:
           name: &host "rook.${SECRET_DOMAIN}"
           path: /
-        ingressClassName: nginx
+        ingressClassName: internal
         tls:
           - hosts:
               - *host
