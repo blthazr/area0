@@ -24,8 +24,6 @@ spec:
     remediation:
       retries: 3
   values:
-    cainjector:
-      replicaCount: 1
     dns01RecursiveNameservers: 1.1.1.1:53,9.9.9.9:53
     dns01RecursiveNameserversOnly: true
     installCRDs: true
@@ -39,6 +37,3 @@ spec:
       servicemonitor:
         enabled: true
         prometheusInstance: observability
-    replicaCount: 1
-    webhook:
-      replicaCount: 1
