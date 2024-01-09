@@ -32,3 +32,4 @@ spec:
       externalTrafficPolicy: Local
       port: 53
       type: LoadBalancer
+    ttl: 1
