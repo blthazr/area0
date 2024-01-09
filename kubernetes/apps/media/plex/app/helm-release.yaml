@@ -116,17 +116,19 @@ spec:
           - hosts:
               - *host
     persistence:
+      backup:
+        enabled: true
+        globalMounts:
+          - path: /backup
+        path: "${NAS_NFS_PATH}/backup/app/plex"
+        server: "${NAS_ADDRESS}"
+        type: nfs
       media:
         enabled: true
         existingClaim: nfs-media
         globalMounts:
           - path: /media
             readOnly: true
-      plex-cache:
-        enabled: true
-        existingClaim: plex-cache
-        globalMounts:
-          - path: /config/Library/Application Support/Plex Media Server/Cache
       transcode:
         enabled: true
         globalMounts:
