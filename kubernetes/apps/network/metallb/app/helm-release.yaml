@@ -10,7 +10,7 @@ spec:
       chart: *app
       sourceRef:
         kind: HelmRepository
-        name: *app
+        name: metallb
         namespace: flux-system
       version: 0.13.12
   install:
