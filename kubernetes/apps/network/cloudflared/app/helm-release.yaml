@@ -86,7 +86,7 @@ spec:
               maxSkew: 1
               topologyKey: kubernetes.io/hostname
               whenUnsatisfiable: DoNotSchedule
-        replicas: 1
+        replicas: 2
         strategy: RollingUpdate
     persistence:
       config:
