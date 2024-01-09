@@ -115,6 +115,14 @@ spec:
         tls:
           - hosts:
               - *host
+    persistence:
+      backup:
+        enabled: true
+        globalMounts:
+          - path: /backup
+        path: "${NAS_NFS_PATH}/backup/app/plex"
+        server: "${NAS_ADDRESS}"
+        type: nfs
     service:
       main:
         annotations:
