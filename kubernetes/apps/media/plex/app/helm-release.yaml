@@ -42,14 +42,6 @@ spec:
             image:
               repository: ghcr.io/onedr0p/plex
               tag: 1.32.8.7639-fb6452ebf@sha256:637fe10cef736f249d96cb004c12f81646c81ca17ddce22374ea8782aa6646c2
-            resources:
-              limits:
-                gpu.intel.com/i915: 1
-                memory: 10000Mi
-              requests:
-                cpu: 100m
-                gpu.intel.com/i915: 1
-                memory: 2000Mi
             probes:
               liveness: &probes
                 enabled: true
@@ -65,6 +57,12 @@ spec:
               readiness: *probes
               startup:
                 enabled: false
+            resources:
+              limits:
+                gpu.intel.com/i915: 1
+                memory: 10Gi
+              requests:
+                cpu: 100m
             securityContext:
               allowPrivilegeEscalation: false
               capabilities:
@@ -116,13 +114,21 @@ spec:
           - hosts:
               - *host
     persistence:
-      backup:
+      config:
+        enabled: true
+        existingClaim: plex-config-v1
+        globalMounts:
+          - path: /config
+      media:
+        enabled: true
+        existingClaim: nfs-media
+        globalMounts:
+          - path: /media
+      transcode:
         enabled: true
         globalMounts:
-          - path: /backup
-        path: "${NAS_NFS_PATH}/backup/app/plex"
-        server: "${NAS_ADDRESS}"
-        type: nfs
+          - path: /transcode
+        type: emptyDir
     service:
       main:
         annotations:
