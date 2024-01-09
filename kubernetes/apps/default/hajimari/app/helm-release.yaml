@@ -1,0 +1,86 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: &app hajimari
+spec:
+  chart:
+    spec:
+      chart: hajimari
+      sourceRef:
+        kind: HelmRepository
+        name: hajimari
+        namespace: flux-system
+      version: 2.0.2
+  install:
+    remediation:
+      retries: 3
+  interval: 30m
+  uninstall:
+    keepHistory: false
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    env:
+      TZ: "${CLUSTER_TIME_ZONE}"
+    hajimari:
+      alwaysTargetBlank: true
+      customApps: []
+      darkTheme: tron
+      defaultEnable: true
+      globalBookmarks:
+        - group: Github
+          bookmarks:
+            - name: blthazr/area0
+              url: 'https://github.com/blthazr/area0'
+        - group: Services
+          bookmarks:
+            - name: Cloudflare
+              url: 'https://www.cloudflare.com/a/login'
+            - name: Tailscale
+              url: 'https://login.tailscale.com/admin/machines'
+      namespaceSelector:
+        matchNames:
+          - default
+          - download
+          - flux-system
+          - home-automation
+          - media
+          - network
+          - observability
+          - rook-ceph
+      showAppGroups: true
+      showAppInfo: true
+      showAppStatus: false
+      showAppUrls: false
+      showGreeting: false
+      title: Apps
+    ingress:
+      main:
+        annotations:
+          hajimari.io/enable: "false"
+        enabled: true
+        hosts:
+          - host: &host "apps.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        ingressClassName: internal
+        tls:
+          - hosts:
+              - *host
+    persistence:
+      data:
+        enabled: true
+        type: emptyDir
+    podAnnotations:
+      configmap.reloader.stakater.com/reload: hajimari-settings
+    resources:
+      limits:
+        memory: 64M
+      requests:
+        cpu: 15m
+        memory: 64M
