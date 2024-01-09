@@ -10,7 +10,7 @@ spec:
       chart: *app
       sourceRef:
         kind: HelmRepository
-        name: *app
+        name: k8s-gateway
         namespace: flux-system
       version: 2.1.0
   install:
@@ -28,7 +28,7 @@ spec:
     fullnameOverride: *app
     service:
       annotations:
-        metallb.universe.tf/loadBalancerIPs: "${SVC_K8S_GATEWAY_ADDRESS}"
+        metallb.universe.tf/loadBalancerIPs: "${CLUSTER_LB_K8S_GATEWAY}"
       externalTrafficPolicy: Local
       port: 53
       type: LoadBalancer

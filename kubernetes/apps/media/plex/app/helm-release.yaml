@@ -128,7 +128,7 @@ spec:
         annotations:
           metallb.universe.tf/allow-shared-ip: *app
         externalTrafficPolicy: Local
-        loadBalancerIP: "${SVC_PLEX_ADDRESS}"
+        loadBalancerIP: "${CLUSTER_LB_PLEX}"
         ports:
           http:
             port: 32400

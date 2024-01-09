@@ -82,7 +82,7 @@ spec:
           memory: 250Mi
       service:
         externalTrafficPolicy: Local
-        loadBalancerIP: "${SVC_NGINX_EXTERNAL_ADDRESS}"
+        loadBalancerIP: "${CLUSTER_LB_NGINX_EXTERNAL}"
       topologySpreadConstraints:
         - labelSelector:
             matchLabels:
