@@ -10,5 +10,6 @@ resources:
   - ./k8s-gateway.yaml
   - ./piraeus.yaml
   - ./metallb.yaml
+  - ./node-feature-discovery.yaml
   - ./rook-ceph.yaml
   - ./weaveworks.yaml
