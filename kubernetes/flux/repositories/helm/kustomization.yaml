@@ -9,6 +9,7 @@ resources:
   - ./intel.yaml
   - ./jetstack.yaml
   - ./k8s-gateway.yaml
+  - ./kyverno.yaml
   - ./piraeus.yaml
   - ./metallb.yaml
   - ./node-feature-discovery.yaml
