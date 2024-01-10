@@ -12,12 +12,11 @@ spec:
         kind: HelmRepository
         name: weaveworks
         namespace: flux-system
-      version: 2.4.0
+      version: 4.0.36
   install:
     remediation:
       retries: 3
   interval: 30m
-  maxHistory: 2
   uninstall:
     keepHistory: false
   upgrade:
@@ -28,7 +27,7 @@ spec:
     adminUser:
       create: true
       username: &admin_user admin
-    fullnameOverride: wego
+    fullnameOverride: *app
     ingress:
       annotations:
         hajimari.io/appName: Weave GitOps
