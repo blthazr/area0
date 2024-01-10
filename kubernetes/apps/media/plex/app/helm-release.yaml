@@ -16,6 +16,8 @@ spec:
   dependsOn:
     - name: intel-device-plugin-gpu
       namespace: kube-system
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
   install:
     remediation:
       retries: 3
@@ -111,6 +113,12 @@ spec:
         tls:
           - hosts:
               - *host
+    persistence:
+      config:
+        enabled: true
+        existingClaim: plex-config
+        globalMounts:
+          - path: /config
     service:
       main:
         annotations:
