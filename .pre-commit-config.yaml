@@ -15,3 +15,16 @@ repos:
           - --config-file
           - .yamllint.yaml
         id: yamllint
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: check-added-large-files # prevent giant files from being committed
+      - id: check-executables-have-shebangs # check that non-binary executables have a proper shebang
+      - id: check-merge-conflict # check for files that contain merge conflict strings
+      - id: end-of-file-fixer # ensures that a file is either empty, or ends with one newline
+      - id: fix-byte-order-marker # removes UTF-8 byte order marker
+      - id: mixed-line-ending # replace or check mixed line ending
+      - id: trailing-whitespace # trim trailing whitespace
+        args:
+          - --markdown-linebreak-ext=md # preserve markdown hard linebreaks
