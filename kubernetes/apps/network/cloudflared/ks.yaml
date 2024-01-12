@@ -20,4 +20,4 @@ spec:
     name: area0
   targetNamespace: network
   timeout: 5m
-  wait: false # no flux ks dependents
+  wait: true

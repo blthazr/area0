@@ -13,9 +13,6 @@ spec:
         name: ingress-nginx
         namespace: flux-system
       version: 4.7.1
-  dependsOn:
-    - name: cloudflared
-      namespace: network
   install:
     remediation:
       retries: 3
