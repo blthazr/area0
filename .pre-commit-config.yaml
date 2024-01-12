@@ -34,3 +34,8 @@ repos:
     hooks:
       - id: remove-crlf
       - id: remove-tabs
+
+  - repo: https://github.com/sirosen/texthooks
+    rev: 0.6.3
+    hooks:
+      - id: fix-smartquotes
