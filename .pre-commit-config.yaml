@@ -1,0 +1,17 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   .pre-commit-config.yaml
+#   @description    :   pre-commit configuration
+#   @url            :   https://pre-commit.com
+#                   :   https://pre-commit.com/hooks.html
+#   @usage          :   pre-commit run --all-files
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+fail_fast: false
+repos:
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.33.0
+    hooks:
+      - args:
+          - --config-file
+          - .yamllint.yaml
+        id: yamllint
