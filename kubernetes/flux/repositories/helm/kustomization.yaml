@@ -7,6 +7,7 @@ resources:
   - ./bjw-s.yaml
   - ./cilium.yaml
   - ./coredns.yaml
+  - ./democratic-csi.yaml
   - ./external-dns.yaml
   - ./hajimari.yaml
   - ./ingress-nginx.yaml
