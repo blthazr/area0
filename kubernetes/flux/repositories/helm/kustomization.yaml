@@ -14,6 +14,7 @@ resources:
   - ./jetstack.yaml
   - ./k8s-gateway.yaml
   - ./metrics-server.yaml
+  - ./node-feature-discovery.yaml
   - ./piraeus.yaml
   - ./rook-ceph.yaml
   - ./weaveworks.yaml
