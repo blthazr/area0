@@ -58,7 +58,7 @@ spec:
           value: "${CLUSTER_TIME_ZONE}"
       ingressClassResource:
         controllerValue: k8s.io/internal
-        default: false
+        default: true
         name: internal
       metrics:
         enabled: true
