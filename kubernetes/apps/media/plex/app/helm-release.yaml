@@ -120,6 +120,7 @@ spec:
         existingClaim: nfs-media
         globalMounts:
           - path: /media
+            readOnly: true
       transcode:
         enabled: true
         globalMounts:
