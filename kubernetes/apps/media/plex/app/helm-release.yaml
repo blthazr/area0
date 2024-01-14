@@ -114,6 +114,12 @@ spec:
         tls:
           - hosts:
               - *host
+    persistence:
+      transcode:
+        enabled: true
+        globalMounts:
+          - path: /transcode
+        type: emptyDir
     service:
       main:
         annotations:
