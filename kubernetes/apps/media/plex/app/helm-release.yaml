@@ -115,6 +115,11 @@ spec:
           - hosts:
               - *host
     persistence:
+      media:
+        enabled: true
+        existingClaim: nfs-media
+        globalMounts:
+          - path: /media
       transcode:
         enabled: true
         globalMounts:
