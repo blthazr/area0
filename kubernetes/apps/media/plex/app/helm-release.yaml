@@ -96,6 +96,7 @@ spec:
       main:
         annotations:
           external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
+          external-dns.home.arpa/enabled: "true"
           hajimari.io/group: Media
           hajimari.io/icon: mdi:plex
           hajimari.io/info: Streaming Media Server
