@@ -115,6 +115,11 @@ spec:
           - hosts:
               - *host
     persistence:
+      config:
+        enabled: true
+        existingClaim: plex-config
+        globalMounts:
+          - path: /config
       media:
         enabled: true
         existingClaim: nfs-media
