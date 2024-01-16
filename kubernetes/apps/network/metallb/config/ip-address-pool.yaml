@@ -1,0 +1,9 @@
+---
+# TODO: add yaml-language-server
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: default-pool
+spec:
+  addresses:
+    - "${METALLB_DEFAULT_ADDRESS_POOL}"
