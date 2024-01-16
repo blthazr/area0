@@ -1,0 +1,16 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: "3"
+
+vars:
+  KUBERNETES_DIR: "{{.ROOT_DIR}}/kubernetes"
+
+includes:
+  flux:
+    optional: true
+    taskfile: .taskfiles/flux/tasks.yaml
+
+tasks:
+  default:
+    silent: true
+    cmds: ["task -l"]
