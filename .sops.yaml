@@ -1,5 +1,10 @@
 ---
 creation_rules:
+
+  - path_regex: infrastructure/.*\.sops\.ya?ml
+    key_groups:
+      - age:
+          - "age12m8l07w5pjcgz736hh7478k0g7atxgtzrwa42s4umaag6e8hfcgqghkjwe"
   - path_regex: kubernetes/.*\.sops\.env
     key_groups:
       - age:
