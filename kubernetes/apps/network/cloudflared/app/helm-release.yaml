@@ -14,7 +14,7 @@ spec:
         namespace: flux-system
       version: 2.4.0
   dependsOn:
-    - name: nginx-external
+    - name: nginx
       namespace: network
   install:
     remediation:
