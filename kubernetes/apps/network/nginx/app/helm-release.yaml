@@ -53,7 +53,7 @@ spec:
         ssl-protocols: TLSv1.3 TLSv1.2
       extraArgs:
         default-ssl-certificate: |-
-          network/${SECRET_DOMAIN/./-}-production-tls
+          network/${SECRET_DOMAIN/./-}-staging-tls
       extraEnvs:
         - name: TZ
           value: "${CLUSTER_TIME_ZONE}"
