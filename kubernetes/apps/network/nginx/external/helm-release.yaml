@@ -76,8 +76,8 @@ spec:
       service:
         annotations:
           external-dns.alpha.kubernetes.io/hostname: "external.${SECRET_DOMAIN}"
-          io.cilium/lb-ipam-ips: "${CLUSTER_LB_NGINX_EXTERNAL}"
-        externalTrafficPolicy: Cluster
+        externalTrafficPolicy: Local
+        loadBalancerIP: "${CLUSTER_LB_NGINX_EXTERNAL}"
       topologySpreadConstraints:
         - labelSelector:
             matchLabels:
