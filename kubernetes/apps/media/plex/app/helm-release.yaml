@@ -78,7 +78,7 @@ spec:
             node-role.kubernetes.io/media: "true"
           securityContext:
             fsGroup: 568
-            fsGroupChangePolicy: OnRootMismatch
+            fsGroupChangePolicy: "OnRootMismatch"
             runAsGroup: 568
             runAsUser: 568
             supplementalGroups:
@@ -133,6 +133,7 @@ spec:
       main:
         annotations:
           io.cilium/lb-ipam-ips: "${CLUSTER_LB_PLEX}"
+        externalTrafficPolicy: Cluster
         ports:
           http:
             port: 32400
