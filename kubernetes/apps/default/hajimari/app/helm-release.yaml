@@ -61,7 +61,7 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
-        ingressClassName: nginx
+        ingressClassName: internal
         tls:
           - hosts:
               - *host

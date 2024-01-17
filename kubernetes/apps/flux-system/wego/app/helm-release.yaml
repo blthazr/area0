@@ -34,7 +34,7 @@ spec:
         hajimari.io/appName: Weave GitOps
         hajimari.io/group: Management
         hajimari.io/icon: mdi:sawtooth-wave
-      className: nginx
+      className: internal
       enabled: true
       hosts:
         - host: &host "wego.${SECRET_DOMAIN}"
