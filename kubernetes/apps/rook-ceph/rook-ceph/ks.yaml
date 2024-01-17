@@ -31,7 +31,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   interval: 30m
-  path: ./kubernetes/apps/rook-ceph/rook-ceph/operator
+  path: ./kubernetes/apps/rook-ceph/rook-ceph/cluster
   prune: false # never should be deleted
   retryInterval: 1m
   sourceRef:
