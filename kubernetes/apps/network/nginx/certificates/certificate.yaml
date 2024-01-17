@@ -3,7 +3,7 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: "${SECRET_DOMAIN/./-}-production"
+  name: "${SECRET_DOMAIN/./-}"
 spec:
   commonName: "${SECRET_DOMAIN}"
   dnsNames:
@@ -12,18 +12,4 @@ spec:
   issuerRef:
     kind: ClusterIssuer
     name: letsencrypt-production
-  secretName: "${SECRET_DOMAIN/./-}-production-tls"
----
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: "${SECRET_DOMAIN/./-}-staging"
-spec:
-  commonName: "${SECRET_DOMAIN}"
-  dnsNames:
-    - "${SECRET_DOMAIN}"
-    - "*.${SECRET_DOMAIN}"
-  issuerRef:
-    kind: ClusterIssuer
-    name: letsencrypt-staging
-  secretName: "${SECRET_DOMAIN/./-}-staging-tls"
+  secretName: "${SECRET_DOMAIN/./-}-tls"

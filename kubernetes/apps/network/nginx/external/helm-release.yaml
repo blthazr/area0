@@ -56,7 +56,8 @@ spec:
         ssl-protocols: TLSv1.3 TLSv1.2
         use-forwarded-headers: "true"
       extraArgs:
-        default-ssl-certificate: "network/${SECRET_DOMAIN/./-}-production-tls"
+        default-ssl-certificate: |-
+          network/${SECRET_DOMAIN/./-}-tls
       ingressClassResource:
         controllerValue: k8s.io/external
         default: false
