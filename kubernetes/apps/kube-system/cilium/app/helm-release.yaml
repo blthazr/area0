@@ -72,7 +72,7 @@ spec:
         ingress:
           annotations:
             hajimari.io/icon: simple-icons:cilium
-          className: nginx
+          className: internal
           enabled: true
           hosts:
             - &host "hubble.${SECRET_DOMAIN}"

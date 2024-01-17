@@ -14,7 +14,7 @@ spec:
         namespace: flux-system
       version: 2.4.0
   dependsOn:
-    - name: nginx
+    - name: nginx-external
       namespace: network
   install:
     remediation:
@@ -52,7 +52,7 @@ spec:
               TUNNEL_TRANSPORT_PROTOCOL: quic
             image:
               repository: docker.io/cloudflare/cloudflared
-              tag: 2023.10.0@sha256:c18744ae1767c17c5562cc731c24e64a5a2f93f35c3dd6629b90dedaff6dff8f
+              tag: 2024.1.3@sha256:8124930145ba79535f2a9fb83bb9fb0abbeb8fdab94f4d72ae34deeeaee8774d
             probes:
               liveness: &probes
                 custom: true
@@ -70,10 +70,9 @@ spec:
                 enabled: false
             resources:
               limits:
-                memory: 256M
+                memory: 256Mi
               requests:
-                cpu: 5m
-                memory: 128M
+                cpu: 10m
             securityContext:
               allowPrivilegeEscalation: false
               capabilities:
