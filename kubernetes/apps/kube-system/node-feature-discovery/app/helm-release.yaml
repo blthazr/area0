@@ -48,5 +48,3 @@ spec:
               - class
               - vendor
               - device
-      nodeSelector:
-        node-role.kubernetes.io/worker: "true"
