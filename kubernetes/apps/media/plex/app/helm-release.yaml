@@ -85,7 +85,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: plex-config-v1
+        existingClaim: plex-config
         globalMounts:
           - path: /config
       media:
