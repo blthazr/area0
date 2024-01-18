@@ -7,4 +7,5 @@ resources:
   - ./namespace.yaml
   # Flux-Kustomizations
   - ./snapshot-controller/ks.yaml
+  - ./local-path-provisioner/ks.yaml
   - ./volsync/ks.yaml
