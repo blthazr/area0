@@ -29,5 +29,11 @@ spec:
     controller:
       serviceMonitor:
         create: true
+      volumeSnapshotClasses:
+        - name: local-hostpath
+          annotations:
+            snapshot.storage.kubernetes.io/is-default-class: "true"
+          deletionPolicy: Delete
+          driver: rancher.io/local-path
     webhook:
       enabled: false
