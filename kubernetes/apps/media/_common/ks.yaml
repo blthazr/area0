@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   interval: 30m
-  path: ./kubernetes/apps/media/common/nfs-media
+  path: ./kubernetes/apps/media/_common/nfs-media
   prune: true
   retryInterval: 1m
   sourceRef:
