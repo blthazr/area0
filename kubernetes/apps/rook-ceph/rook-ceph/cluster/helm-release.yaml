@@ -65,40 +65,50 @@ spec:
         ssl: false
         urlPrefix: /
       network:
-        connections:
-          requireMsgr2: true
         provider: host
-      placement:
-        mgr: &placement
-          nodeAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
-              nodeSelectorTerms:
-                - matchExpressions:
-                    - key: node-role.kubernetes.io/control-plane
-                      operator: Exists
-        mon: *placement
       resources:
+        cleanup:
+          limits:
+            memory: 1Gi
+          requests:
+            cpu: 250m
+            memory: 100Mi
+        crashcollector:
+          limits:
+            memory: 64Mi
+          requests:
+            cpu: 15m
+            memory: 64Mi
+        logcollector:
+          limits:
+            memory: 1Gi
+          requests:
+            cpu: 100m
+            memory: 100Mi
         mgr:
           limits:
-            cpu: 2000m
             memory: 2Gi
           requests:
-            cpu: 500m
+            cpu: 125m
             memory: 512Mi
+        mgr-sidecar:
+          limits:
+            memory: 256Mi
+          requests:
+            cpu: 49m
+            memory: 128Mi
         mon:
           limits:
-            cpu: 4000m
-            memory: 4Gi
-          requests:
-            cpu: 1000m
             memory: 1Gi
+          requests:
+            cpu: 50m
+            memory: 512Mi
         osd:
           limits:
-            cpu: 4000m
-            memory: 8Gi
+            memory: 6Gi
           requests:
-            cpu: 1000m
-            memory: 4Gi
+            cpu: 500m
+            memory: 2Gi
       storage:
         config:
           osdsPerDevice: "1"
@@ -135,14 +145,15 @@ spec:
             activeStandby: true
             resources:
               limits:
-                memory: 4Gi
+                memory: 3Gi
               requests:
-                cpu: 1000m
-                memory: 4Gi
+                cpu: 50m
+                memory: 1Gi
         storageClass:
           allowVolumeExpansion: true
           enabled: true
           isDefault: false
+          mountOptions: []
           name: ceph-filesystem
           parameters:
             csi.storage.k8s.io/controller-expand-secret-name: rook-csi-cephfs-provisioner
@@ -158,7 +169,6 @@ spec:
       [global]
       bdev_enable_discard = true
       bdev_async_discard = true
-      osd_class_update_on_start = false
     ingress:
       dashboard:
         annotations:
@@ -176,4 +186,4 @@ spec:
       createPrometheusRules: true
       enabled: true
     toolbox:
-      enabled: true
+      enabled: false
