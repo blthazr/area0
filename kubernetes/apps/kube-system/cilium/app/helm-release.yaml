@@ -80,7 +80,7 @@ spec:
     ipam:
       mode: kubernetes
     ipv4NativeRoutingCIDR: "${NET_K3S_CLUSTER_CIDR}"
-    k8sServiceHost: "${KUBE_VIP_ADDRESS}"
+    k8sServiceHost: "${KUBE_API_ADDRESS}"
     k8sServicePort: 6443
     kubeProxyReplacement: true
     kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
