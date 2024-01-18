@@ -72,16 +72,11 @@ spec:
               limits:
                 memory: 256Mi
               requests:
-                cpu: 10m
-            securityContext:
-              allowPrivilegeEscalation: false
-              capabilities:
-                drop: ["ALL"]
-              readOnlyRootFilesystem: true
+                cpu: 5m
+                memory: 128M
         pod:
           securityContext:
             runAsGroup: 568
-            runAsNonRoot: true
             runAsUser: 568
           topologySpreadConstraints:
             - labelSelector:

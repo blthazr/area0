@@ -9,6 +9,6 @@ configMapGenerator:
 generatorOptions:
   disableNameSuffixHash: true
 resources:
+  - ./dns-endpoint.yaml
   - ./secret.sops.yaml
   - ./helm-release.yaml
-  - ./dns-endpoint.yaml
