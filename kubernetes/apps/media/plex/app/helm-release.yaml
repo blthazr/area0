@@ -42,37 +42,14 @@ spec:
             image:
               repository: ghcr.io/onedr0p/plex
               tag: 1.32.8.7639-fb6452ebf@sha256:637fe10cef736f249d96cb004c12f81646c81ca17ddce22374ea8782aa6646c2
-            probes:
-              liveness: &probes
-                custom: true
-                enabled: true
-                spec:
-                  failureThreshold: 3
-                  httpGet:
-                    path: /identity
-                    port: 32400
-                  initialDelaySeconds: 0
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-              readiness: *probes
-              startup:
-                enabled: false
             resources:
               limits:
                 gpu.intel.com/i915: 1
                 memory: 12Gi
               requests:
                 cpu: 100m
+                gpu.intel.com/i915: 1
         pod:
-          affinity:
-            podAntiAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-                - labelSelector:
-                    matchExpressions:
-                      - key: app.kubernetes.io/name
-                        operator: In
-                        values: ["frigate"]
-                  topologyKey: kubernetes.io/hostname
           nodeSelector:
             intel.feature.node.kubernetes.io/gpu: "true"
             node-role.kubernetes.io/media: "true"
@@ -119,11 +96,6 @@ spec:
         globalMounts:
           - path: /media
             readOnly: true
-      plex-cache:
-        enabled: true
-        existingClaim: plex-cache
-        globalMounts:
-          - path: /config/Library/Application Support/Plex Media Server/Cache
       transcode:
         enabled: true
         globalMounts:
