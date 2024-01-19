@@ -3,23 +3,39 @@
   "packageRules": [
     {
       "description": "Flux Group",
-      "groupName": "Flux",
-      "matchPackagePatterns": ["fluxcd"],
-      "matchDatasources": ["docker", "github-tags"],
-      "versioning": "semver",
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
       },
-      "separateMinorPatch": true
+      "groupName": "Flux",
+      "matchDatasources": [
+        "docker",
+        "github-tags"
+      ],
+      "matchPackagePatterns": ["fluxcd"],
+      "separateMinorPatch": true,
+      "versioning": "semver"
     },
     {
       "description": "Rook-Ceph Group",
-      "groupName": "Rook-Ceph",
-      "matchPackagePatterns": ["rook.ceph"],
-      "matchDatasources": ["helm"],
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
       },
+      "groupName": "Rook-Ceph",
+      "matchDatasources": ["helm"],
+      "matchPackagePatterns": ["rook.ceph"],
+      "separateMinorPatch": true
+    },
+    {
+      "description": "System Upgrade Controller Group",
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "groupName": "System Upgrade Controller",
+      "matchDatasources": [
+        "docker",
+        "github-releases"
+      ],
+      "matchPackagePatterns": ["system-upgrade-controller"],
       "separateMinorPatch": true
     }
   ]
