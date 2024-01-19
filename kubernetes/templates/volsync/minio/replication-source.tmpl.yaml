@@ -1,5 +1,5 @@
 ---
-# TODO: add yaml-language-server
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/volsync.backube/replicationsource_v1alpha1.json
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
@@ -23,6 +23,6 @@ spec:
       weekly: 5
     storageClassName: "${VOLSYNC_STORAGECLASS:-local-hostpath}"
     volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-local-hostpath}"
-  sourcePVC: "${VOLSYNC_CLAIM:-${APP}}"
+  sourcePVC: "${VOLSYNC_CLAIM:-${APP}-config}"
   trigger:
     schedule: "${VOLSYNC_SCHEDULE:-'0 * * * *'}"
