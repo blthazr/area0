@@ -17,7 +17,7 @@ spec:
     - name: local-path-provisioner
       namespace: storage
     - name: volsync
-      namespace: volsync
+      namespace: storage
   install:
     remediation:
       retries: 3
