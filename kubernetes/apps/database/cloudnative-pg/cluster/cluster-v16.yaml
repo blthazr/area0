@@ -1,0 +1,58 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/postgresql.cnpg.io/cluster_v1.json
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres-v16
+spec:
+  backup:
+    barmanObjectStore: &barmanObjectStore
+      data:
+        compression: bzip2
+      destinationPath: s3://cloudnative-pg/
+      endpointURL: "http://${MINIO_ADDRESS}:9000"
+      serverName: &currentCluster postgres-v16
+      s3Credentials:
+        accessKeyId:
+          name: cloudnative-pg-secret
+          key: minio-access-key
+        secretAccessKey:
+          name: cloudnative-pg-secret
+          key: minio-secret-key
+    retentionPolicy: 30d
+  bootstrap:
+    recovery:
+      source: &previousCluster postgres-v14
+  enableSuperuserAccess: true
+  # Note: externalClusters is needed when recovering from an existing cnpg cluster
+  externalClusters:
+    - name: *previousCluster
+      barmanObjectStore:
+        <<: *barmanObjectStore
+        serverName: *previousCluster
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.1-13
+  instances: 3
+  monitoring:
+    enablePodMonitor: true
+    podMonitorMetricRelabelings:
+      - action: replace
+        sourceLabels: ["cluster"]
+        targetLabel: cnpg_cluster
+      - action: labeldrop
+        regex: cluster
+  postgresql:
+    parameters:
+      max_connections: "600"
+      max_slot_wal_keep_size: 10GB
+      shared_buffers: 512MB
+  primaryUpdateStrategy: unsupervised
+  resources:
+    limits:
+      memory: 4Gi
+    requests:
+      cpu: 500m
+  storage:
+    size: 20Gi
+    storageClass: local-hostpath
+  superuserSecret:
+    name: cloudnative-pg-secret
