@@ -19,3 +19,7 @@ spec:
   targetNamespace: media
   timeout: 5m
   wait: false # no flux ks dependents
+  postBuild:
+    substitute:
+      APP: *app
+      VOLSYNC_CAPACITY: 50Gi
