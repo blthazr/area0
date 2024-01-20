@@ -14,5 +14,5 @@ spec:
       targetPort: 5432
   type: LoadBalancer
   selector:
-    cnpg.io/cluster: postgres-v16
+    cnpg.io/cluster: postgres14
     role: primary

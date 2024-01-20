@@ -3,7 +3,7 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: postgres-v16
+  name: postgres14
 spec:
   backup:
     barmanObjectStore: &barmanObjectStore
@@ -11,26 +11,22 @@ spec:
         compression: bzip2
       destinationPath: s3://cloudnative-pg/
       endpointURL: "http://${MINIO_ADDRESS}:9000"
-      serverName: &currentCluster postgres-v16
       s3Credentials:
         accessKeyId:
-          name: cloudnative-pg-secret
           key: minio-access-key
-        secretAccessKey:
           name: cloudnative-pg-secret
+        secretAccessKey:
           key: minio-secret-key
+          name: cloudnative-pg-secret
+      # Note: serverName version needs to be incremented or changed
+      # when recovering from an existing cnpg cluster
+      serverName: &currentCluster postgres14
+      wal:
+        compression: bzip2
+        maxParallel: 8
     retentionPolicy: 30d
-  bootstrap:
-    recovery:
-      source: &previousCluster postgres-v14
   enableSuperuserAccess: true
-  # Note: externalClusters is needed when recovering from an existing cnpg cluster
-  externalClusters:
-    - name: *previousCluster
-      barmanObjectStore:
-        <<: *barmanObjectStore
-        serverName: *previousCluster
-  imageName: ghcr.io/cloudnative-pg/postgresql:16.1-13
+  imageName: ghcr.io/cloudnative-pg/postgresql:14.9-15
   instances: 3
   monitoring:
     enablePodMonitor: true
@@ -56,3 +52,13 @@ spec:
     storageClass: local-hostpath
   superuserSecret:
     name: cloudnative-pg-secret
+  # Note: previousCluster needs to be set to the name of the previous
+  # cluster when recovering from an existing cnpg cluster
+  bootstrap:
+    recovery:
+      source: &previousCluster postgres-v14
+  externalClusters:
+    - name: *previousCluster
+      barmanObjectStore:
+        <<: *barmanObjectStore
+        serverName: *previousCluster

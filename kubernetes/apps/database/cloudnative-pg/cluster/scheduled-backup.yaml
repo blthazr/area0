@@ -7,6 +7,6 @@ metadata:
 spec:
   backupOwnerReference: self
   cluster:
-    name: postgres-v16
+    name: postgres14
   immediate: true
   schedule: "@daily"
