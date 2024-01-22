@@ -32,7 +32,8 @@ tasks:
       - kubectl apply --server-side --kustomize {{.KUBERNETES_DIR}}/flux/config
       - defer: sops --encrypt --in-place {{.KUBERNETES_DIR}}/flux/vars/cluster-secrets.sops.env
     preconditions:
-      - { msg: "Age private key not found", sh: "test -f ${SOPS_AGE_KEY_FILE}" }
+      - { msg: "Flux already installed", sh: "kubectl get namespace flux-system &>/dev/null && exit 1 || exit 0" }
+      - { msg: "SOPS age private key not found", sh: "test -f ${SOPS_AGE_KEY_FILE}" }
       - { msg: "Github deploy secret not found", sh: "test -f {{.KUBERNETES_DIR}}/bootstrap/flux/github-deploy-key.sops.yaml" }
       - { msg: "Unable to decrypt sops secret", sh: "sops --decrypt {{.KUBERNETES_DIR}}/bootstrap/flux/github-deploy-key.sops.yaml" }
       - { msg: "Cluster secrets not found", sh: "test -f {{.KUBERNETES_DIR}}/flux/vars/cluster-secrets.sops.env" }
