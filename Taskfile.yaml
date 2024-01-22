@@ -9,6 +9,9 @@ includes:
   flux:
     optional: true
     taskfile: .taskfiles/flux/tasks.yaml
+  volsync:
+    optional: true
+    taskfile: .taskfiles/volsync/tasks.yaml
 
 tasks:
   default:
