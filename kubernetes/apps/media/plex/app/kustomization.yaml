@@ -5,4 +5,3 @@ kind: Kustomization
 resources:
   - ./persistent-volume-claim.yaml
   - ./helm-release.yaml
-  - ../../../../templates/volsync

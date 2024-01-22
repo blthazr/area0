@@ -18,6 +18,8 @@ spec:
       namespace: kube-system
     - name: local-path-provisioner
       namespace: storage
+    - name: volsync
+      namespace: storage
   install:
     remediation:
       retries: 3
