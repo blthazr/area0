@@ -68,14 +68,11 @@ spec:
                 enabled: false
             resources:
               limits:
-                memory: 8000Mi
+                memory: 8Gi
               requests:
                 cpu: 10m
                 memory: 250Mi
         pod:
-          nodeSelector:
-            node-role.kubernetes.io/media: "true"
-            node-role.kubernetes.io/worker: "true"
           securityContext:
             fsGroup: 568
             fsGroupChangePolicy: OnRootMismatch
@@ -89,7 +86,7 @@ spec:
           hajimari.io/group: Media Management
           hajimari.io/icon: mdi:download
           hajimari.io/info: Usenet Downloads
-        className: nginx
+        className: internal
         enabled: true
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
