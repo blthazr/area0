@@ -5,8 +5,7 @@ kind: PersistentVolume
 metadata:
   name: nfs-media
 spec:
-  accessModes:
-    - "ReadWriteMany"
+  accessModes: ["ReadWriteMany"]
   capacity:
     storage: 1Mi
   nfs:
