@@ -1,24 +1,58 @@
 ---
 # Areas
+- name: area/ansible
+  color: "72CCF3"
+  description: >-
+    Changes made in the ansible directory
+- name: area/docs
+  color: "72CCF3"
+  description: >-
+    Changes made in the docs directory
 - name: area/github
-  color: "0e8a16"
+  color: "72CCF3"
+  description: >-
+    Changes made in the github directory
 - name: area/kubernetes
-  color: "0e8a16"
+  color: "72CCF3"
+  description: >-
+    Changes made in the kubernetes directory
+- name: area/taskfile
+  color: "72CCF3"
+  description: >-
+    Changes made in the taskfiles directory
+- name: area/terraform
+  color: "72CCF3"
+  description: >-
+    Changes made in the terraform directory
 # Renovate Types
+- name: action/automerge
+  color: "5319E7"
+  description: >-
+    PR that has been automerged by Renovate
+- name: renovate/ansible
+  color: "FFC300"
 - name: renovate/container
-  color: "027fa0"
+  color: "FFC300"
 - name: renovate/github-action
-  color: "027fa0"
+  color: "FFC300"
 - name: renovate/github-release
-  color: "027fa0"
+  color: "FFC300"
+- name: renovate/grafana-dashboard
+  color: "FFC300"
 - name: renovate/helm
-  color: "027fa0"
+  color: "FFC300"
+- name: renovate/pre-commit
+  color: "FFC300"
+- name: renovate/terraform
+  color: "FFC300"
 # Semantic Types
-- name: type/digest
-  color: "ffeC19"
-- name: type/patch
-  color: "ffeC19"
-- name: type/minor
-  color: "ff9800"
 - name: type/major
-  color: "f6412d"
+  color: "F6412D"
+- name: type/minor
+  color: "FF9800"
+- name: type/patch
+  color: "FFEC19"
+- name: type/digest
+  color: "FFEC19"
+- name: type/break
+  color: "F6412D"
