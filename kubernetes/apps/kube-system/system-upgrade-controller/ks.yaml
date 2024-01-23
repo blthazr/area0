@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   interval: 30m
-  path: ./kkubernetes/apps/kube-system/system-upgrade-controller/app
+  path: ./kubernetes/apps/kube-system/system-upgrade-controller/app
   prune: true
   retryInterval: 1m
   sourceRef:
