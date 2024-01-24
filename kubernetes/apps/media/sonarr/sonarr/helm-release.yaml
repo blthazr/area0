@@ -104,13 +104,6 @@ spec:
           - hosts:
               - *host
     persistence:
-      backup:
-        enabled: true
-        globalMounts:
-          - path: /config/Backups
-        path: "${NAS_NFS_PATH}/backup/app/sonarr"
-        server: "${NAS_ADDRESS}"
-        type: nfs
       config:
         enabled: true
         existingClaim: sonarr-config
