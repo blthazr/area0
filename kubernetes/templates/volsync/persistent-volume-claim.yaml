@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: "${APP}"
+  name: "${VOLSYNC_CLAIM:-${APP}}"
 spec:
   accessModes: ["${VOLSYNC_ACCESSMODES:-ReadWriteOnce}"]
   dataSourceRef:
@@ -12,5 +12,5 @@ spec:
     name: "${APP}-dst"
   resources:
     requests:
-      storage: "${VOLSYNC_CAPACITY}"
+      storage: "${VOLSYNC_CAPACITY:-1Gi}"
   storageClassName: "${VOLSYNC_STORAGECLASS:-local-hostpath}"

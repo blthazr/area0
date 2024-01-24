@@ -23,6 +23,6 @@ spec:
       weekly: 5
     storageClassName: "${VOLSYNC_STORAGECLASS:-local-hostpath}"
     volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-local-hostpath}"
-  sourcePVC: "${APP}"
+  sourcePVC: "${VOLSYNC_CLAIM:-${APP}}"
   trigger:
     schedule: "${VOLSYNC_SCHEDULE:-'0 * * * *'}"
