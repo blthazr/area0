@@ -9,4 +9,5 @@ resources:
   - ./_common/ks.yaml
   - ./plex/ks.yaml
   - ./prowlarr/ks.yaml
+  - ./sonarr/ks.yaml
   - ./wizarr/ks.yaml
