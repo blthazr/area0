@@ -5,5 +5,5 @@ kind: Kustomization
 resources:
   # renovate: datasource=github-releases depName=rancher/system-upgrade-controller
   - https://github.com/rancher/system-upgrade-controller/releases/download/v0.13.2/crd.yaml
-  - helm-release.yaml
-  - rbac.yaml
+  - ./helm-release.yaml
+  - ./rbac.yaml
