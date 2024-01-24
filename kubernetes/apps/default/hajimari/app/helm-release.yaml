@@ -45,6 +45,9 @@ spec:
       namespaceSelector:
         matchNames:
           - default
+          - download
+          - flux-system
+          - media
           - network
       showAppGroups: false
       showAppStatus: false
