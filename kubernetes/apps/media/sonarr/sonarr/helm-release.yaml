@@ -39,7 +39,7 @@ spec:
               pullPolicy: IfNotPresent
             envFrom: &envFrom
               - secretRef:
-                  name: *app
+                  name: sonarr-secret
         containers:
           main:
             env:
