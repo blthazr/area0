@@ -26,7 +26,6 @@ kind: Kustomization
 resources:
   # ...
   - ../../../../templates/volsync
-  - ../../../../templates/volsync
 ```
 
 ## Required `postBuild` vars:
