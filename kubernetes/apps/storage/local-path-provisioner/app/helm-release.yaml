@@ -53,8 +53,9 @@ spec:
       strategy: node
     csiDriver:
       attachRequired: false
+      enabled: true
       fsGroupPolicy: File
-      name: "org.democratic-csi.local-hostpath"
+      name: org.democratic-csi.local-hostpath
       storageCapacity: true
     driver:
       config:
