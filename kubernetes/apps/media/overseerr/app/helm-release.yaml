@@ -80,7 +80,7 @@ spec:
         className: external
         enabled: true
         hosts:
-          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
+          - host: &host "requests.${SECRET_DOMAIN}"
             paths:
               - path: /
                 service:
