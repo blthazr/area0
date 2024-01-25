@@ -19,7 +19,7 @@ spec:
       daily: 7
       weekly: 5
     storageClassName: "${VOLSYNC_STORAGECLASS:-democratic-csi-local-hostpath}"
-    volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-local-hostpath}"
+    volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-democratic-csi-local-hostpath}"
   sourcePVC: "${VOLSYNC_CLAIM:-${APP}}"
   trigger:
     schedule: "0 0 * * *"
