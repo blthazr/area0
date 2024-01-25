@@ -25,6 +25,9 @@ spec:
       retries: 3
   values:
     controller:
+      driver:
+        enabled: true
+        image: docker.io/democraticcsi/democratic-csi:v1.8.4
       enabled: true
       externalAttacher:
         enabled: false
@@ -45,12 +48,13 @@ spec:
         enabled: true
         extraArgs:
           - --leader-election=false
-          - --node-deployment=true
+          # - --node-deployment=true
+        image: registry.k8s.io/sig-storage/csi-snapshotter:v6.3.3
       strategy: node
     csiDriver:
       attachRequired: false
       fsGroupPolicy: File
-      name: org.democratic-csi.local-hostpath
+      name: "org.democratic-csi.local-hostpath"
       storageCapacity: true
     driver:
       config:
@@ -76,10 +80,7 @@ spec:
           name: local-hostpath
     storageClasses:
       - allowVolumeExpansion: false
-        defaultClass: false
-        name: local-hostpath
+        defaultClass: true
+        name: democratic-csi-local-hostpath
         reclaimPolicy: Delete
         volumeBindingMode: WaitForFirstConsumer
-    volumeSnapshotClasses:
-      - deletionPolicy: Delete
-        name: local-hostpath
