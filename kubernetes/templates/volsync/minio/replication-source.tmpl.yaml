@@ -7,7 +7,7 @@ metadata:
 spec:
   restic:
     cacheCapacity: "${VOLSYNC_CACHE_CAPACITY:-8Gi}"
-    cacheStorageClassName: "${VOLSYNC_CACHE_SNAPSHOTCLASS:-local-hostpath}"
+    cacheStorageClassName: "${VOLSYNC_CACHE_SNAPSHOTCLASS:-democratic-csi-local-hostpath}"
     copyMethod: "${VOLSYNC_COPYMETHOD:-Snapshot}"
     moverSecurityContext:
       fsGroup: ${VOLSYNC_GID:-568}
@@ -18,7 +18,7 @@ spec:
     retain:
       daily: 7
       weekly: 5
-    storageClassName: "${VOLSYNC_STORAGECLASS:-local-hostpath}"
+    storageClassName: "${VOLSYNC_STORAGECLASS:-democratic-csi-local-hostpath}"
     volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-local-hostpath}"
   sourcePVC: "${VOLSYNC_CLAIM:-${APP}}"
   trigger:
