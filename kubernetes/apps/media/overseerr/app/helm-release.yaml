@@ -94,7 +94,7 @@ spec:
         enabled: true
         existingClaim: overseerr-config
         globalMounts:
-          - path: /config
+          - path: /app/config
     service:
       main:
         ports:
