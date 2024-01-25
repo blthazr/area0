@@ -56,7 +56,7 @@ spec:
             envFrom: *envFrom
             image:
               repository: ghcr.io/onedr0p/sonarr-develop
-              tag: 4.0.0.751@sha256:405053032fd6b4f7537c1b7fc8b8bde69dceba24546c68ed22f9bd63d9168f76
+              tag: 4.0.1.987@sha256:d7887f692d26f38c45c722dd129ace920f372c07c9aac6a4fa32cda76b153b64
             probes:
               liveness: &probes
                 custom: true
