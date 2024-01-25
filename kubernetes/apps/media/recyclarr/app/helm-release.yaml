@@ -1,0 +1,91 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: &app recyclarr
+spec:
+  chart:
+    spec:
+      chart: app-template
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      version: 2.4.0
+  dependsOn:
+    - name: local-path-provisioner
+      namespace: storage
+    - name: volsync
+      namespace: storage
+  install:
+    remediation:
+      retries: 3
+  interval: 30m
+  uninstall:
+    keepHistory: false
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        cronjob:
+          schedule: "@daily"
+        containers:
+          main:
+            args: ["sync"]
+            env:
+              # Ref: https://github.com/Radarr/Radarr/issues/7030#issuecomment-1039689518
+              # Ref: https://github.com/dotnet/runtime/issues/9336
+              COMPlus_EnableDiagnostics: "0"
+              RADARR__API_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: radarr-secret
+                    key: RADARR__API_KEY
+              RADARR_UHD__API_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: radarr-uhd-secret
+                    key: RADARR__API_KEY
+              SONARR__API_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: sonarr-secret
+                    key: SONARR__API_KEY
+              TZ: "${CLUSTER_TIME_ZONE}"
+            image:
+              repository: ghcr.io/recyclarr/recyclarr
+              tag: 6.0.2@sha256:02add40feae0569401b5020528e06419b47046723d0bb4bef1e82325e9eefdad
+            resources:
+              limits:
+                memory: 128M
+              requests:
+                cpu: 10m
+        pod:
+          securityContext:
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
+            runAsGroup: 568
+            runAsUser: 568
+        type: cronjob
+    persistence:
+      config:
+        enabled: true
+        existingClaim: recyclarr-config
+        globalMounts:
+          - path: /config
+      config-file:
+        enabled: true
+        globalMounts:
+          - path: /config/configs
+            readOnly: true
+        name: recyclarr-configmap
+        type: configMap
+    service:
+      main:
+        enabled: false
