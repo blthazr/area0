@@ -25,6 +25,7 @@ spec:
       retries: 3
   values:
     controller:
+      enabled: true
       externalAttacher:
         enabled: false
       externalProvisioner:
@@ -49,11 +50,12 @@ spec:
     csiDriver:
       attachRequired: false
       fsGroupPolicy: File
-      name: "org.democratic-csi.local-hostpath"
+      name: org.democratic-csi.local-hostpath
       storageCapacity: true
     driver:
       config:
         driver: local-hostpath
+        instance_id: null
         local-hostpath:
           controllerBasePath: &storagePath /data/local-hostpath
           dirPermissionsGroup: 0
@@ -67,17 +69,13 @@ spec:
           - mountPath: *storagePath
             mountPropagation: Bidirectional
             name: local-hostpath
-        image: ghcr.io/democratic-csi/democratic-csi:v1.8.4
-      driverRegistrar:
-        enabled: true
-        image: registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.10.0
       extraVolumes:
         - hostPath:
             path: *storagePath
             type: DirectoryOrCreate
           name: local-hostpath
     storageClasses:
-      - allowVolumeExpansion: true
+      - allowVolumeExpansion: false
         defaultClass: false
         name: local-hostpath
         reclaimPolicy: Delete
@@ -85,5 +83,3 @@ spec:
     volumeSnapshotClasses:
       - deletionPolicy: Delete
         name: local-hostpath
-        parameters:
-          dummy: {}
