@@ -1,0 +1,34 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: &app cloudnative-pg-operator
+spec:
+  chart:
+    spec:
+      chart: cloudnative-pg
+      sourceRef:
+        kind: HelmRepository
+        name: cloudnative-pg
+        namespace: flux-system
+      version: 0.20.0
+  dependsOn:
+    - name: local-path-provisioner
+      namespace: storage
+  install:
+    remediation:
+      retries: 3
+  interval: 30m
+  uninstall:
+    keepHistory: false
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    config:
+      data:
+        INHERITED_ANNOTATIONS: kyverno.io/ignore
+    crds:
+      create: true
