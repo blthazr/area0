@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: &app tubesync
+  name: "${APP}"
 spec:
   chart:
     spec:
@@ -36,8 +36,8 @@ spec:
         containers:
           main:
             env:
-              PGID: 568
-              PUID: 568
+              PGID: ${APP_GID}
+              PUID: ${APP_UID}
               TUBESYNC_RESET_DOWNLOAD_DIR: false
               TZ: "${CLUSTER_TIME_ZONE}"
             image:
@@ -65,7 +65,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: tubesync-config
+        existingClaim: "${VOLSYNC_CLAIM}"
         globalMounts:
           - path: /config
       downloads:
