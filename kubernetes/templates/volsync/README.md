@@ -29,10 +29,16 @@ resources:
 ```
 
 ## Required `postBuild` vars:
-
 - `APP`: The application name
-- `VOLSYNC_CAPACITY`: The PVC size
 
 ## Optional `postBuild` vars:
-
-- TBD
+- `APP_GID`: default-> 568
+- `APP_UID`: default-> 568
+- `VOLSYNC_ACCESSMODES`: default-> ReadWriteOnce
+- `VOLSYNC_CACHE_CAPACITY`: default-> 1Gi
+- `VOLSYNC_CACHE_SNAPSHOTCLASS`: default-> democratic-csi-local-hostpath
+- `VOLSYNC_CAPACITY`: default-> 1Gi
+- `VOLSYNC_CLAIM`: default -> ${APP}
+- `VOLSYNC_COPYMETHOD`: default-> Snapshot
+- `VOLSYNC_SNAPSHOTCLASS`:-democratic-csi-local-hostpath
+- `VOLSYNC_STORAGECLASS`: default-> democratic-csi-local-hostpath

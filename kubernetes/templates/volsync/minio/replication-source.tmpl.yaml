@@ -6,13 +6,13 @@ metadata:
   name: "${APP}"
 spec:
   restic:
-    cacheCapacity: "${VOLSYNC_CACHE_CAPACITY:-8Gi}"
+    cacheCapacity: "${VOLSYNC_CACHE_CAPACITY:-1Gi}"
     cacheStorageClassName: "${VOLSYNC_CACHE_SNAPSHOTCLASS:-democratic-csi-local-hostpath}"
     copyMethod: "${VOLSYNC_COPYMETHOD:-Snapshot}"
     moverSecurityContext:
-      fsGroup: ${VOLSYNC_GID:-568}
-      runAsGroup: ${VOLSYNC_GID:-568}
-      runAsUser: ${VOLSYNC_UID:-568}
+      fsGroup: ${APP_GID:-568}
+      runAsGroup: ${APP_GID:-568}
+      runAsUser: ${APP_UID:-568}
     pruneIntervalDays: 7
     repository: "${APP}-volsync-minio-secret"
     retain:
