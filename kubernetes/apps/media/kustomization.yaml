@@ -14,4 +14,5 @@ resources:
   - ./radarr/ks.yaml
   - ./recyclarr/ks.yaml
   - ./sonarr/ks.yaml
+  - ./tautulli/ks.yaml
   - ./tubesync/ks.yaml
