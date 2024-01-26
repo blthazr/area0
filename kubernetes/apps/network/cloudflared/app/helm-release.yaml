@@ -40,7 +40,7 @@ spec:
               - run
               - "$(TUNNEL_ID)"
             env:
-              NO_AUTOUPDATE: "true"
+              NO_AUTOUPDATE: true
               TUNNEL_CRED_FILE: /etc/cloudflared/creds/credentials.json
               TUNNEL_ID:
                 valueFrom:
