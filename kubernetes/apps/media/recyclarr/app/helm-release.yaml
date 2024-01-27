@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: &app recyclarr
+  name: "${APP}"
 spec:
   chart:
     spec:
@@ -68,15 +68,15 @@ spec:
                 cpu: 10m
         pod:
           securityContext:
-            fsGroup: 568
+            fsGroup: ${APP_GID}
             fsGroupChangePolicy: OnRootMismatch
-            runAsGroup: 568
-            runAsUser: 568
+            runAsGroup: ${APP_GID}
+            runAsUser: ${APP_UID}
         type: cronjob
     persistence:
       config:
         enabled: true
-        existingClaim: recyclarr-config
+        existingClaim: "${VOLSYNC_CLAIM}"
         globalMounts:
           - path: /config
       config-file:

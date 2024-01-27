@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: &app radarr-uhd
+  name: "${APP}"
 spec:
   chart:
     spec:
@@ -79,10 +79,10 @@ spec:
                 cpu: 10m
         pod:
           securityContext:
-            fsGroup: 568
+            fsGroup: ${APP_GID}
             fsGroupChangePolicy: OnRootMismatch
-            runAsGroup: 568
-            runAsUser: 568
+            runAsGroup: ${APP_GID}
+            runAsUser: ${APP_UID}
             supplementalGroups:
               - 100
     ingress:
@@ -94,7 +94,7 @@ spec:
         className: internal
         enabled: true
         hosts:
-          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
+          - host: &host "${HOSTNAME:-${APP}.${SECRET_DOMAIN}}"
             paths:
               - path: /
                 service:

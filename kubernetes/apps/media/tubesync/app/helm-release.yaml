@@ -53,7 +53,7 @@ spec:
         className: internal
         enabled: true
         hosts:
-          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
+          - host: &host "${HOSTNAME:-${APP}.${SECRET_DOMAIN}}"
             paths:
               - path: /
                 service:

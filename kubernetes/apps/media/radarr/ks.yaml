@@ -24,6 +24,8 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      APP_UID: "568"
+      APP_GID: "568"
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -50,3 +52,5 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      APP_UID: "568"
+      APP_GID: "568"

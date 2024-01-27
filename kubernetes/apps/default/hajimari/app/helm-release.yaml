@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: &app hajimari
+  name: "${APP}"
 spec:
   chart:
     spec:
@@ -35,13 +35,13 @@ spec:
         - group: Github
           bookmarks:
             - name: blthazr/area0
-              url: 'https://github.com/blthazr/area0'
+              url: https://github.com/blthazr/area0
         - group: Services
           bookmarks:
             - name: Cloudflare
-              url: 'https://www.cloudflare.com/a/login'
+              url: https://www.cloudflare.com/a/login
             - name: Tailscale
-              url: 'https://login.tailscale.com/admin/machines'
+              url: https://login.tailscale.com/admin/machines
       namespaceSelector:
         matchNames:
           - default
@@ -80,4 +80,3 @@ spec:
         memory: 64M
       requests:
         cpu: 15m
-        memory: 64M

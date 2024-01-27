@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: &app plex
+  name: "${APP}"
 spec:
   chart:
     spec:
@@ -77,10 +77,10 @@ spec:
           nodeSelector:
             intel.feature.node.kubernetes.io/gpu: "true"
           securityContext:
-            fsGroup: 568
-            fsGroupChangePolicy: "OnRootMismatch"
-            runAsGroup: 568
-            runAsUser: 568
+            fsGroup: ${APP_GID}
+            fsGroupChangePolicy: OnRootMismatch
+            runAsGroup: ${APP_GID}
+            runAsUser: ${APP_UID}
             supplementalGroups:
               - 44 # cat /etc/group | grep "video"
               - 105 # cat /etc/group | grep "render"
@@ -93,12 +93,12 @@ spec:
           hajimari.io/group: Media
           hajimari.io/icon: mdi:plex
           hajimari.io/info: Streaming Media Server
-          hajimari.io/url: "https://plex.${SECRET_DOMAIN}/web/index.html"
+          hajimari.io/url: "https://${HOSTNAME:-${APP}.${SECRET_DOMAIN}}/web/index.html"
           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
         className: external
         enabled: true
         hosts:
-          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
+          - host: &host "${HOSTNAME:-${APP}.${SECRET_DOMAIN}}"
             paths:
               - path: /
                 service:
@@ -110,7 +110,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: plex-config
+        existingClaim: "${VOLSYNC_CLAIM}"
         globalMounts:
           - path: /config
       media:
