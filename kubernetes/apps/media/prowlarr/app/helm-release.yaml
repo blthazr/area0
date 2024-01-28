@@ -104,6 +104,11 @@ spec:
         globalMounts:
           - path: /config
         type: emptyDir
+      tmp:
+        enabled: true
+        globalMounts:
+          - path: /tmp
+        type: emptyDir
     service:
       main:
         ports:

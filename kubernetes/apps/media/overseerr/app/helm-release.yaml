@@ -95,6 +95,11 @@ spec:
         existingClaim: "${VOLSYNC_CLAIM}"
         globalMounts:
           - path: /app/config
+      tmp:
+        enabled: true
+        globalMounts:
+          - path: /tmp
+        type: emptyDir
     service:
       main:
         ports:

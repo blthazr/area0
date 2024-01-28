@@ -99,15 +99,20 @@ spec:
           - hosts:
               - *host
     persistence:
+      add-ons:
+        enabled: true
+        globalMounts:
+          - path: /add-ons
+        type: emptyDir
       config:
         enabled: true
         existingClaim: "${VOLSYNC_CLAIM}"
         globalMounts:
           - path: /config
-      add-ons:
+      tmp:
         enabled: true
         globalMounts:
-          - path: /add-ons
+          - path: /tmp
         type: emptyDir
     service:
       main:

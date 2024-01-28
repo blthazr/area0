@@ -115,6 +115,11 @@ spec:
         path: "${MEDIA_SERVER_NFS_PATH}"
         server: "${MEDIA_SERVER_ADDRESS}"
         type: nfs
+      tmp:
+        enabled: true
+        globalMounts:
+          - path: /tmp
+        type: emptyDir
     service:
       main:
         ports:

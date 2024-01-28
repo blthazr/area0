@@ -139,6 +139,11 @@ spec:
             readOnly: true
         name: bazarr-scripts
         type: configMap
+      tmp:
+        enabled: true
+        globalMounts:
+          - path: /tmp
+        type: emptyDir
     service:
       main:
         ports:

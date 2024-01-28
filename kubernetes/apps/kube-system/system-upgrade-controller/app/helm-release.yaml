@@ -102,6 +102,7 @@ spec:
         hostPathType: DirectoryOrCreate
         type: hostPath
       tmp:
+        enabled: true
         globalMounts:
           - path: /tmp
         type: emptyDir

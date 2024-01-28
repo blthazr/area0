@@ -124,6 +124,11 @@ spec:
         existingClaim: plex-cache
         globalMounts:
           - path: /config/Library/Application Support/Plex Media Server/Cache
+      tmp:
+        enabled: true
+        globalMounts:
+          - path: /tmp
+        type: emptyDir
       transcode:
         enabled: true
         globalMounts:
