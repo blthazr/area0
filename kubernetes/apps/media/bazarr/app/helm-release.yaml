@@ -1,0 +1,146 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: "${APP}"
+spec:
+  chart:
+    spec:
+      chart: app-template
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      version: 2.4.0
+  dependsOn:
+    - name: local-path-provisioner
+      namespace: storage
+    - name: volsync
+      namespace: storage
+  install:
+    remediation:
+      retries: 3
+  interval: 30m
+  uninstall:
+    keepHistory: false
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 14.10@sha256:71ddc70edccf201d6a521fe6216bc58d8c7c856a1ef96c4d4fbe9f548818ea4d
+            envFrom: &envFrom
+              - secretRef:
+                  name: "${APP}-secret"
+        containers:
+          main:
+            env:
+              TZ: "${CLUSTER_TIME_ZONE}"
+            envFrom: *envFrom
+            image:
+              repository: ghcr.io/onedr0p/bazarr
+              tag: 1.4.0@sha256:c81c4d9cbec093d5a999cfa3cd1af01d3f00d6292d6f5c33608510cef0ed83c7
+            probes:
+              liveness: &probes
+                custom: true
+                enabled: true
+                spec:
+                  failureThreshold: 3
+                  httpGet:
+                    path: /healthg
+                    port: &port 6767
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+              readiness: *probes
+              startup:
+                enabled: false
+            resources:
+              limits:
+                memory: 1Gi
+              requests:
+                cpu: 10m
+          subcleaner:
+            env:
+              GITSYNC_REPO: https://github.com/KBlixt/subcleaner
+              GITSYNC_REF: master
+              GITSYNC_PERIOD: 86400s # 1 day
+              GITSYNC_ROOT: /add-ons
+            image:
+              repository: registry.k8s.io/git-sync/git-sync
+              tag: v4.1.0
+            resources:
+              limits:
+                memory: 128M
+              requests:
+                cpu: 10m
+        pod:
+          securityContext:
+            fsGroup: ${APP_GID}
+            fsGroupChangePolicy: OnRootMismatch
+            runAsGroup: ${APP_GID}
+            runAsUser: ${APP_UID}
+            supplementalGroups:
+              - 100
+    ingress:
+      main:
+        annotations:
+          hajimari.io/group: Media Management
+          hajimari.io/icon: mdi:subtitles-outline
+          hajimari.io/info: Subtitle Manager
+        className: internal
+        enabled: true
+        hosts:
+          - host: &host "${HOSTNAME:-${APP}.${SECRET_DOMAIN}}"
+            paths:
+              - path: /
+                service:
+                  name: main
+                  port: http
+        tls:
+          - hosts:
+              - *host
+    persistence:
+      add-ons:
+        enabled: true
+        globalMounts:
+          - path: /add-ons
+        type: emptyDir
+      config:
+        enabled: true
+        existingClaim: "${VOLSYNC_CLAIM}"
+        globalMounts:
+          - path: /config
+      config-cache:
+        enabled: true
+        globalMounts:
+          - path: /config/cache
+            subPath: cache
+        type: emptyDir
+      media:
+        enabled: true
+        existingClaim: nfs-media
+        globalMounts:
+          - path: /media
+      scripts:
+        defaultMode: 0775
+        enabled: true
+        globalMounts:
+          - path: /scripts
+            readOnly: true
+        name: bazarr-scripts
+        type: configMap
+    service:
+      main:
+        ports:
+          http:
+            port: *port
