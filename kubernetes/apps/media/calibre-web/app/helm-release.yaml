@@ -40,7 +40,7 @@ spec:
               TZ: "${CLUSTER_TIME_ZONE}"
             image:
               repository: ghcr.io/bjw-s/calibre-web
-              tag: 0.6.21@sha256:45c9e9287b36a3d5c7eee04690907811af51470351cd3a06878b078b5e378f13
+              tag: 0.6.21@sha256:772f009387c5d23cfcd5efeae067b4cb225b8c2a0674ee0733915ac5f2bdeedb
             resources:
               limits:
                 memory: 512Mi
