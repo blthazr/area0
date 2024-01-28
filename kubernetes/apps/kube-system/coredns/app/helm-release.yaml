@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: "${APP}"
+  name: &app coredns
 spec:
   chart:
     spec:
@@ -34,7 +34,7 @@ spec:
     deployment:
       annotations:
         reloader.stakater.com/auto: "true"
-    fullnameOverride: "${APP}"
+    fullnameOverride: *app
     k8sAppLabelOverride: kube-dns
     replicaCount: 1
     servers:
@@ -82,7 +82,7 @@ spec:
     topologySpreadConstraints:
       - labelSelector:
           matchLabels:
-            app.kubernetes.io/instance: "${APP}"
+            app.kubernetes.io/instance: *app
         maxSkew: 1
         topologyKey: kubernetes.io/hostname
         whenUnsatisfiable: DoNotSchedule

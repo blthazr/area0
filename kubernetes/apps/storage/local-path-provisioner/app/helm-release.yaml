@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: "${APP}"
+  name: &app
 spec:
   chart:
     spec:
@@ -67,7 +67,7 @@ spec:
           dirPermissionsMode: "0770"
           dirPermissionsUser: 0
           shareBasePath: *storagePath
-    fullnameOverride: "${APP}"
+    fullnameOverride: *app
     node:
       driver:
         extraVolumeMounts:

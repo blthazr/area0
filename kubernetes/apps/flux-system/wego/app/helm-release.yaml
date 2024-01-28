@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: "${APP}"
+  name: &app wego
 spec:
   chart:
     spec:
@@ -28,7 +28,7 @@ spec:
       create: true
       createSecret: false
       username: &admin_user admin
-    fullnameOverride: wego
+    fullnameOverride: *app
     ingress:
       annotations:
         hajimari.io/appName: Weave GitOps
