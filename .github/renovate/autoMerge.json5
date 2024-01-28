@@ -31,6 +31,26 @@
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeType": "branch",
+      "description": "Auto-merge containers (patch)",
+      "matchDatasources": ["docker"],
+      "matchPackagePatterns": [
+        "ghcr.io/jorenn92/maintainerr",
+        "ghcr.io/meeb/tubesync",
+        "ghcr.io/onedr0p/lidarr",
+        "ghcr.io/onedr0p/prowlarr",
+        "ghcr.io/onedr0p/radarr",
+        "ghcr.io/onedr0p/sabnzbd",
+        "ghcr.io/onedr0p/sonarr",
+        "ghcr.io/onedr0p/tautulli",
+        "ghcr.io/recyclarr/recyclarr",
+        "ghcr.io/toboshii/hajimari"
+      ],
+      "matchUpdateTypes": ["patch"]
+    },
+    {
+      "addLabels": ["action/automerge"],
+      "automerge": true,
+      "automergeType": "branch",
       "description": "Auto-merge Github Actions (patch, minor)",
       "matchDatasources": ["github-tags"],
       "matchManagers": ["github-actions"],
