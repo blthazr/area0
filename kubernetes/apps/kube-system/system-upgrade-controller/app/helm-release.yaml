@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: &app system-upgrade-controller
+  name: "${APP}"
 spec:
   chart:
     spec:
@@ -30,7 +30,7 @@ spec:
           main:
             env:
               SYSTEM_UPGRADE_CONTROLLER_DEBUG: false
-              SYSTEM_UPGRADE_CONTROLLER_NAME: *app
+              SYSTEM_UPGRADE_CONTROLLER_NAME: "${APP}"
               SYSTEM_UPGRADE_CONTROLLER_NAMESPACE:
                 valueFrom:
                   fieldRef:

@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: &app local-path-provisioner
+  name: "${APP}"
 spec:
   chart:
     spec:
@@ -48,7 +48,7 @@ spec:
         enabled: true
         extraArgs:
           - --leader-election=false
-          # - --node-deployment=true
+          - --node-deployment=true
         image: registry.k8s.io/sig-storage/csi-snapshotter:v6.3.3
       strategy: node
     csiDriver:
@@ -67,7 +67,7 @@ spec:
           dirPermissionsMode: "0770"
           dirPermissionsUser: 0
           shareBasePath: *storagePath
-    fullnameOverride: local-path-provisioner
+    fullnameOverride: "${APP}"
     node:
       driver:
         extraVolumeMounts:

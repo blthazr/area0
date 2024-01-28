@@ -21,3 +21,6 @@ spec:
   targetNamespace: network
   timeout: 5m
   wait: true
+  postBuild:
+    substitute:
+      APP: *app

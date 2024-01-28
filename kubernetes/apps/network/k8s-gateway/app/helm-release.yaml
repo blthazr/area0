@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: &app k8s-gateway
+  name: "${APP}"
 spec:
   chart:
     spec:
@@ -25,7 +25,7 @@ spec:
       retries: 3
   values:
     domain: "${SECRET_DOMAIN}"
-    fullnameOverride: *app
+    fullnameOverride: "${APP}"
     service:
       annotations:
         io.cilium/lb-ipam-ips: "${CLUSTER_LB_K8S_GATEWAY}"

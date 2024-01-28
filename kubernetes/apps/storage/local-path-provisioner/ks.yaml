@@ -19,3 +19,6 @@ spec:
   targetNamespace: storage
   timeout: 5m
   wait: true
+  postBuild:
+    substitute:
+      APP: *app

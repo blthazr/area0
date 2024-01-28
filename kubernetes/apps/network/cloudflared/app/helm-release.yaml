@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: &app cloudflared
+  name: "${APP}"
 spec:
   chart:
     spec:
@@ -81,7 +81,7 @@ spec:
           topologySpreadConstraints:
             - labelSelector:
                 matchLabels:
-                  app.kubernetes.io/name: *app
+                  app.kubernetes.io/name: "${APP}"
               maxSkew: 1
               topologyKey: kubernetes.io/hostname
               whenUnsatisfiable: DoNotSchedule
