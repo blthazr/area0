@@ -18,3 +18,4 @@ resources:
   - ./sonarr/ks.yaml
   - ./tautulli/ks.yaml
   - ./tubesync/ks.yaml
+  - ./wizarr/ks.yaml
