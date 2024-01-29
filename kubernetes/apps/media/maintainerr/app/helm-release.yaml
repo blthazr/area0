@@ -51,6 +51,10 @@ spec:
             runAsUser: ${APP_UID}
     ingress:
       main:
+        annotations:
+          hajimari.io/group: Media Management
+          hajimari.io/icon: tdesign:subtitle
+          hajimari.io/info: Plex Maintenance
         className: internal
         enabled: true
         hosts:
