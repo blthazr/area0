@@ -48,6 +48,7 @@ spec:
                     name: cloudflared-tunnel-secret
                     key: TUNNEL_ID
               TUNNEL_METRICS: 0.0.0.0:8080
+              TUNNEL_ORIGIN_ENABLE_HTTP2: true
               TUNNEL_POST_QUANTUM: true
               TUNNEL_TRANSPORT_PROTOCOL: quic
             image:
@@ -72,11 +73,16 @@ spec:
               limits:
                 memory: 256Mi
               requests:
-                cpu: 5m
-                memory: 128M
+                cpu: 10m
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop: ["ALL"]
+              readOnlyRootFilesystem: true
         pod:
           securityContext:
             runAsGroup: 568
+            runAsNonRoot: true
             runAsUser: 568
           topologySpreadConstraints:
             - labelSelector:

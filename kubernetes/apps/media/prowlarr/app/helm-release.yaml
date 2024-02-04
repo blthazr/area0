@@ -68,6 +68,11 @@ spec:
               readiness: *probes
               startup:
                 enabled: false
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop: ["ALL"]
+              readOnlyRootFilesystem: true
             resources:
               limits:
                 memory: 1Gi
@@ -79,6 +84,7 @@ spec:
             fsGroup: ${APP_GID}
             fsGroupChangePolicy: OnRootMismatch
             runAsGroup: ${APP_GID}
+            runAsNonRoot: true
             runAsUser: ${APP_UID}
     ingress:
       main:

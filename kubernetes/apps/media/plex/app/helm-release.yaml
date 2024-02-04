@@ -63,7 +63,11 @@ spec:
                 memory: 12Gi
               requests:
                 cpu: 100m
-                gpu.intel.com/i915: 1
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop: ["ALL"]
+              readOnlyRootFilesystem: true
         pod:
           affinity:
             podAntiAffinity:
@@ -80,6 +84,7 @@ spec:
             fsGroup: ${APP_GID}
             fsGroupChangePolicy: OnRootMismatch
             runAsGroup: ${APP_GID}
+            runAsNonRoot: true
             runAsUser: ${APP_UID}
             supplementalGroups:
               - 44 # cat /etc/group | grep "video"

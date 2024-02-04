@@ -89,8 +89,7 @@ spec:
             fsGroupChangePolicy: OnRootMismatch
             runAsGroup: ${APP_GID}
             runAsUser: ${APP_UID}
-            supplementalGroups:
-              - 100
+            supplementalGroups: [100]
     ingress:
       main:
         annotations:

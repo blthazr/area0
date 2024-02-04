@@ -62,11 +62,17 @@ spec:
                 memory: 2Gi
               requests:
                 cpu: 10m
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop: ["ALL"]
+              readOnlyRootFilesystem: true
         pod:
           securityContext:
             fsGroup: ${APP_GID}
             fsGroupChangePolicy: OnRootMismatch
             runAsGroup: ${APP_GID}
+            runAsNonRoot: true
             runAsUser: ${APP_UID}
     ingress:
       main:

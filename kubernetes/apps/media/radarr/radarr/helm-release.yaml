@@ -45,7 +45,6 @@ spec:
               # Ref: https://github.com/Radarr/Radarr/issues/7030#issuecomment-1039689518
               # Ref: https://github.com/dotnet/runtime/issues/9336
               COMPlus_EnableDiagnostics: "0"
-              RADARR__APPLICATION_URL: "https://{{ .Release.Name }}.${SECRET_DOMAIN}"
               RADARR__AUTHENTICATION_METHOD: External
               RADARR__AUTHENTICATION_REQUIRED: DisabledForLocalAddresses
               RADARR__INSTANCE_NAME: Radarr
@@ -77,14 +76,19 @@ spec:
                 memory: 1Gi
               requests:
                 cpu: 10m
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop: ["ALL"]
+              readOnlyRootFilesystem: true
         pod:
           securityContext:
             fsGroup: ${APP_GID}
             fsGroupChangePolicy: OnRootMismatch
             runAsGroup: ${APP_GID}
+            runAsNonRoot: true
             runAsUser: ${APP_UID}
-            supplementalGroups:
-              - 100
+            supplementalGroups: [100]
     ingress:
       main:
         annotations:

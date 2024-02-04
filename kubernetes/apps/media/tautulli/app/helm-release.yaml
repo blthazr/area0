@@ -60,6 +60,11 @@ spec:
                 memory: 1Gi
               requests:
                 cpu: 10m
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop: ["ALL"]
+              readOnlyRootFilesystem: true
           jbops:
             env:
               GITSYNC_PERIOD: 24h
@@ -74,6 +79,11 @@ spec:
                 memory: 128Mi
               requests:
                 cpu: 10m
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop: ["ALL"]
+              readOnlyRootFilesystem: true
         pod:
           securityContext:
             fsGroup: ${APP_GID}

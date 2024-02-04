@@ -33,8 +33,6 @@ spec:
       main:
         annotations:
           reloader.stakater.com/auto: "true"
-        cronjob:
-          schedule: "@daily"
         containers:
           main:
             args: ["sync"]
@@ -63,14 +61,22 @@ spec:
               tag: 6.0.2@sha256:02add40feae0569401b5020528e06419b47046723d0bb4bef1e82325e9eefdad
             resources:
               limits:
-                memory: 128M
+                memory: 128Mi
               requests:
                 cpu: 10m
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop: ["ALL"]
+              readOnlyRootFilesystem: true
+        cronjob:
+          schedule: "@daily"
         pod:
           securityContext:
             fsGroup: ${APP_GID}
             fsGroupChangePolicy: OnRootMismatch
             runAsGroup: ${APP_GID}
+            runAsNonRoot: true
             runAsUser: ${APP_UID}
         type: cronjob
     persistence:
