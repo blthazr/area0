@@ -20,4 +20,5 @@ resources:
   - ./node-feature-discovery.yaml
   - ./openebs.yaml
   - ./piraeus.yaml
+  - ./stakater.yaml
   - ./weaveworks.yaml
