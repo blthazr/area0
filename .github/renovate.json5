@@ -14,7 +14,6 @@
   "reviewersFromCodeOwners": true,
   "ignorePaths": [
     "**/*.sops.*",
-    "**/.archive/**",
-    "**/resources/**"
+    "**/.archive/**"
   ]
 }
