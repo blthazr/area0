@@ -9,6 +9,7 @@ resources:
   - ./cloudnative-pg.yaml
   - ./coredns.yaml
   - ./democratic-csi.yaml
+  - ./descheduler.yaml
   - ./external-dns.yaml
   - ./hajimari.yaml
   - ./ingress-nginx.yaml
