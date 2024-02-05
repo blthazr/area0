@@ -36,6 +36,7 @@
       "matchPackagePatterns": [
         "ghcr.io/jorenn92/maintainerr",
         "ghcr.io/meeb/tubesync",
+        "ghcr.io/onedr0p/bazarr",
         "ghcr.io/onedr0p/lidarr",
         "ghcr.io/onedr0p/prowlarr",
         "ghcr.io/onedr0p/radarr",
