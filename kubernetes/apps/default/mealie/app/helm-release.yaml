@@ -1,0 +1,84 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: &app mealie
+spec:
+  chart:
+    spec:
+      chart: app-template
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      version: 2.5.0
+  dependsOn:
+    - name: local-path-provisioner
+      namespace: storage
+    - name: volsync
+      namespace: storage
+  install:
+    remediation:
+      retries: 3
+  interval: 30m
+  uninstall:
+    keepHistory: false
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          main:
+            env:
+              ALLOW_SIGNUP: "false"
+              BASE_URL: "https://${HOSTNAME:-${APP}.${SECRET_DOMAIN}}"
+              DB_ENGINE: sqlite
+              TZ: "${CLUSTER_TIME_ZONE}"
+            image:
+              repository: ghcr.io/mealie-recipes/mealie
+              tag: v1.0.0-RC1.1
+    ingress:
+      main:
+        annotations:
+          external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
+          external-dns.home.arpa/enabled: "true"
+          hajimari.io/appName: Recipes
+          hajimari.io/group: Home
+          hajimari.io/icon: mdi:food
+          hajimari.io/info: Recipe Manager
+        className: internal
+        enabled: true
+        hosts:
+          - host: &host "${HOSTNAME:-${APP}.${SECRET_DOMAIN}}"
+            paths:
+              - path: /
+                service:
+                  name: main
+                  port: http
+        tls:
+          - hosts:
+              - *host
+    persistence:
+      backup:
+        enabled: true
+        globalMounts:
+          - path: /app/data/backups
+        path: "${NAS_NFS_PATH}/backup/app/mealie"
+        server: "${NAS_ADDRESS}"
+        type: nfs
+      data:
+        enabled: true
+        existingClaim: "${VOLSYNC_CLAIM}"
+        globalMounts:
+          - path: /app/data
+    service:
+      main:
+        ports:
+          http:
+            port: 9000
