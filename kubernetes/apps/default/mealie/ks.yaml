@@ -22,5 +22,5 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_CLAIM: mealie-config
-      VOLSYNC_CAPACITY: 10Gi
+      VOLSYNC_CLAIM: mealie-data
+      VOLSYNC_CAPACITY: 5Gi
