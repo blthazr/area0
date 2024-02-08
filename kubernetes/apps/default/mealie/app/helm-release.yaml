@@ -33,25 +33,25 @@ spec:
       main:
         annotations:
           reloader.stakater.com/auto: "true"
-        initContainers:
-          init-db:
-            image:
-              repository: ghcr.io/onedr0p/postgres-init
-              tag: 14.10@sha256:71ddc70edccf201d6a521fe6216bc58d8c7c856a1ef96c4d4fbe9f548818ea4d
-            envFrom: &envFrom
-              - secretRef:
-                  name: mealie-secret
+        # initContainers:
+        #   init-db:
+        #     image:
+        #       repository: ghcr.io/onedr0p/postgres-init
+        #       tag: 14.10@sha256:71ddc70edccf201d6a521fe6216bc58d8c7c856a1ef96c4d4fbe9f548818ea4d
+        #     envFrom: &envFrom
+        #       - secretRef:
+        #           name: mealie-secret
         containers:
           main:
             env:
               ALLOW_SIGNUP: "false"
               BASE_URL: "https://recipes.${SECRET_DOMAIN}"
-              DB_ENGINE: postgres
+              DB_ENGINE: sqlite # postgres
               TZ: "${CLUSTER_TIME_ZONE}"
             image:
               repository: ghcr.io/mealie-recipes/mealie
               tag: v1.0.0-RC1.1
-            envFrom: *envFrom
+            # envFrom: *envFrom
             resources:
               limits:
                 memory: 512Mi
