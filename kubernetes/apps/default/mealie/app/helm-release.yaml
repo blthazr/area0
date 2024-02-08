@@ -44,14 +44,19 @@ spec:
         containers:
           main:
             env:
-              # ALLOW_SIGNUP: "false"
-              BASE_URL: "https://${HOSTNAME:-${APP}.${SECRET_DOMAIN}}"
+              ALLOW_SIGNUP: "false"
+              BASE_URL: "https://recipes.${SECRET_DOMAIN}" # "https://${HOSTNAME:-${APP}.${SECRET_DOMAIN}}"
               DB_ENGINE: sqlite # postgres
               TZ: "${CLUSTER_TIME_ZONE}"
             image:
               repository: ghcr.io/mealie-recipes/mealie
               tag: v1.0.0-RC1.1
             # envFrom: *envFrom
+            resources:
+              limits:
+                memory: 512Mi
+              requests:
+                cpu: 5m
     ingress:
       main:
         annotations:
@@ -64,7 +69,7 @@ spec:
         className: internal
         enabled: true
         hosts:
-          - host: &host "${HOSTNAME:-${APP}.${SECRET_DOMAIN}}"
+          - host: &host "recipes.${SECRET_DOMAIN}" # "${HOSTNAME:-${APP}.${SECRET_DOMAIN}}"
             paths:
               - path: /
                 service:
@@ -74,13 +79,6 @@ spec:
           - hosts:
               - *host
     persistence:
-      backup:
-        enabled: true
-        globalMounts:
-          - path: /app/data/backups
-        path: "${NAS_NFS_PATH}/backup/app/mealie"
-        server: "${NAS_ADDRESS}"
-        type: nfs
       data:
         enabled: true
         existingClaim: "${VOLSYNC_CLAIM}"
