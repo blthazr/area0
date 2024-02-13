@@ -7,3 +7,4 @@ metadata:
 spec:
   cidrs:
     - cidr: "${NET_K3S_CLUSTER_NODE_CIDR}"
+  disabled: false
