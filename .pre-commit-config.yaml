@@ -30,7 +30,7 @@ repos:
           - --markdown-linebreak-ext=md # preserve markdown hard linebreaks
 
   - repo: https://github.com/Lucas-C/pre-commit-hooks
-    rev: v1.5.4
+    rev: v1.5.5
     hooks:
       - id: remove-crlf
       - id: remove-tabs
