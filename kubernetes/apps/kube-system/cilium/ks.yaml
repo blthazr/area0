@@ -19,6 +19,3 @@ spec:
   targetNamespace: kube-system
   timeout: 5m
   wait: false # no flux ks dependents
-  postBuild:
-    substitute:
-      APP: *app

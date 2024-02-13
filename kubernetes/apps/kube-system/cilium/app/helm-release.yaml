@@ -25,10 +25,15 @@ spec:
       retries: 3
   values:
     autoDirectNodeRoutes: true
-    bgp:
-      enabled: false
+    bandwidthManager:
+      bbr: true
+      enabled: true
     bpf:
       masquerade: true
+    cgroup:
+      automount:
+        enabled: false
+      hostRoot: /sys/fs/cgroup
     cluster:
       id: 1
       name: kubernetes
@@ -39,6 +44,8 @@ spec:
       annotations:
         grafana_folder: Cilium
       enabled: true
+    devices: eno+
+    enableRuntimeDeviceDetection: true
     endpointRoutes:
       enabled: true
     hubble:
@@ -80,15 +87,12 @@ spec:
     ipam:
       mode: kubernetes
     ipv4NativeRoutingCIDR: "${NET_K3S_CLUSTER_CIDR}"
-    k8sServiceHost: "${KUBE_API_ADDRESS}"
-    k8sServicePort: 6443
+    k8sServiceHost: 127.0.0.1
+    k8sServicePort: 6444
     kubeProxyReplacement: true
     kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
     l2announcements:
       enabled: true
-      leaseDuration: 120s
-      leaseRenewDeadline: 60s
-      leaseRetryPeriod: 1s
     loadBalancer:
       algorithm: maglev
       mode: dsr
@@ -112,4 +116,20 @@ spec:
     rollOutCiliumPods: true
     routingMode: native
     securityContext:
-      privileged: true
+      capabilities:
+        ciliumAgent:
+          - CHOWN
+          - KILL
+          - NET_ADMIN
+          - NET_RAW
+          - IPC_LOCK
+          - SYS_ADMIN
+          - SYS_RESOURCE
+          - DAC_OVERRIDE
+          - FOWNER
+          - SETGID
+          - SETUID
+        cleanCiliumState:
+          - NET_ADMIN
+          - SYS_ADMIN
+          - SYS_RESOURCE
