@@ -1,0 +1,9 @@
+---
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   tasks/main.yaml
+#   @description    :   ansible-role-users | main tasks
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- name: "main | include os-specific tasks"
+  ansible.builtin.include_tasks: "{{ ansible_os_family }}/main.yaml"
+  when: ansible_os_family != 'NA'

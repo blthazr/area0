@@ -1,0 +1,22 @@
+---
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   meta/main.yaml
+#   @description    :   ansible-role-users | metadata
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+galaxy_info:
+  author: Chris Burnham
+  description: Configure users on Ansible managed nodes
+
+  license: Unlicense
+
+  min_ansible_version: 2.1
+
+  # https://galaxy.ansible.com/api/v1/platforms/
+  platforms:
+    - name: Debian
+      versions:
+        - bookworm
+
+# List your role dependencies
+dependencies: []

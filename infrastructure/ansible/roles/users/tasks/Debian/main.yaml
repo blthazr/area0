@@ -1,0 +1,15 @@
+---
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   tasks/Debian/main.yaml
+#   @description    :   ansible-role-users | Debian | main tasks
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- name: "{{ ansible_os_family }} | main | include tasks"
+  ansible.builtin.include_tasks: "{{ ansible_os_family }}/{{ debian_task }}"
+  loop:
+    - group.yaml
+    - user.yaml
+    - ssh.yaml
+    - sudo.yaml
+  loop_control:
+    loop_var: debian_task

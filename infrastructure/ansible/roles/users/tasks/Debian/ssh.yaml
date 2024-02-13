@@ -1,0 +1,17 @@
+---
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   tasks/Debian/ssh.yaml
+#   @description    :   ansible-role-users | Debian | ssh tasks
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- name: "{{ ansible_os_family }} | ssh | set authorized key(s) for users"
+  ansible.posix.authorized_key:
+    user: "{{ user_ssh_auth_keys.username }}"
+    key: '{{ user_ssh_auth_keys.authorized_keys | default([]) | join("\n") }}'
+    state: present
+  loop: "{{ users }}"
+  loop_control:
+    loop_var: user_ssh_auth_keys
+  when:
+    - "users is defined"
+    - '"authorized_keys" in user_ssh_auth_keys'

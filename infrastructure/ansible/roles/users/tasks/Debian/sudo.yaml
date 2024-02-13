@@ -1,0 +1,76 @@
+---
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   tasks/Debian/sudo.yaml
+#   @description    :   ansible-role-users | Debian | sudo tasks
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- name: "{{ ansible_os_family }} | sudo | enable sudo for user(s)"
+  ansible.builtin.lineinfile:
+    path: "/etc/sudoers.d/{{ user_sudo.username }}"
+    line: "{{ user_sudo.username }} ALL=(ALL:ALL) ALL"
+    state: present
+    owner: root
+    group: root
+    mode: 0440
+    create: true
+    validate: "/usr/sbin/visudo -cf %s"
+  loop: "{{ users }}"
+  loop_control:
+    loop_var: user_sudo
+  when:
+    - "users is defined"
+    - "user_sudo.sudo is defined and user_sudo.sudo"
+
+- name: "{{ ansible_os_family }} | sudo | enable passwordless sudo for user(s)"
+  ansible.builtin.lineinfile:
+    path: "/etc/sudoers.d/{{ nopasswd_user_sudo.username }}"
+    line: "{{ nopasswd_user_sudo.username }} ALL=(ALL:ALL) NOPASSWD:ALL"
+    state: present
+    owner: root
+    group: root
+    mode: 0440
+    create: true
+    validate: "/usr/sbin/visudo -cf %s"
+  loop: "{{ users }}"
+  loop_control:
+    loop_var: nopasswd_user_sudo
+  when:
+    - "users is defined"
+    - "nopasswd_user_sudo.sudo_nopasswd is defined"
+    - "nopasswd_user_sudo.sudo_nopasswd"
+
+- name: "{{ ansible_os_family }} | sudo | enable sudo for group(s)"
+  ansible.builtin.lineinfile:
+    path: "/etc/sudoers.d/{{ group_sudo.name }}"
+    line: "%{{ group_sudo.name }} ALL=(ALL:ALL) ALL"
+    state: present
+    owner: root
+    group: root
+    mode: 0440
+    create: true
+    validate: "/usr/sbin/visudo -cf %s"
+  loop: "{{ user_groups }}"
+  loop_control:
+    loop_var: group_sudo
+  when:
+    - "user_groups is defined"
+    - "group_sudo.sudo is defined"
+    - "group_sudo.sudo"
+
+- name: "{{ ansible_os_family }} | sudo | enable passwordless sudo for group(s)"
+  ansible.builtin.lineinfile:
+    path: "/etc/sudoers.d/{{ nopasswd_group_sudo.name }}"
+    line: "%{{ nopasswd_group_sudo.name }} ALL=(ALL) NOPASSWD:ALL"
+    state: present
+    owner: root
+    group: root
+    mode: 0440
+    create: true
+    validate: "/usr/sbin/visudo -cf %s"
+  loop: "{{ user_groups }}"
+  loop_control:
+    loop_var: nopasswd_group_sudo
+  when:
+    - "user_groups is defined"
+    - "nopasswd_group_sudo.sudo_nopasswd is defined"
+    - "nopasswd_group_sudo.sudo_nopasswd"
