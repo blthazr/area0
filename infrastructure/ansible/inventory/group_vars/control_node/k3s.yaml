@@ -1,0 +1,98 @@
+---
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   inventory/group_vars/control_node/k3s.yml
+#   @description    :   variables for k3s control_node group
+#   @url            :   https://rancher.com/docs/k3s/latest/en/installation/install-options/server-config/
+#                   :   https://github.com/PyratLabs/ansible-role-k3s#server-control-plane-configuration
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# --------------------------------------------------------------------------------------------------
+# xanmanning.k3s | group/host
+# https://github.com/PyratLabs/ansible-role-k3s#grouphost-variables
+# --------------------------------------------------------------------------------------------------
+# -- (bool) enable host as a member of the control-plane
+k3s_control_node: true
+
+# -- (dict) k3s flags for all control-plane nodes
+k3s_server:
+  # -- (bool) database | expose etcd metrics to client interface
+  #                    | required to monitor etcd with kube-prometheus-stack
+  etcd-expose-metrics: true
+
+  # -- (str) admin kubeconfig | write kubeconfig with this mode.
+  write-kubeconfig-mode: "0644"
+
+  # -- (str) listeners | ip address to advertise for node
+  node-ip: "{{ ansible_host }}"
+
+  # -- (list) listeners | additional hostnames or IP as a Subject Alternative Name in the TLS cert
+  tls-san:
+    # -- (str) kube-vip
+    - "{{ k3s_registration_address }}"
+
+  # -- (bool) secrets encryption | enable secret encryption at rest
+  secrets-encryption: true
+
+  # -- (str) networking | network cidr to use for pod IPs
+  cluster-cidr: "{{ k3s_cluster_cidr | default('10.42.0.0/16') }}"
+
+  # -- (str) networking | network cidr to use for service IPs
+  service-cidr: "{{ k3s_service_cidr | default('10.43.0.0/16') }}"
+
+  # -- (str) networking | options: 'none', 'vxlan', 'host-gw', 'wireguard-native'
+  #                     | this needs to be in quotes
+  flannel-backend: "none"
+
+  # -- (list) kubernetes components | disable k3s components
+  disable:
+    # -- (str) replaced with CoreDNS Helm Chart
+    - coredns
+    # -- (str) replaced with Cilium Helm Chart
+    - flannel
+    # -- (str) replaced with democratic-csi
+    - local-storage
+    # -- (str) installed with Flux
+    - metrics-server
+    # -- (str) replaced with Cilium Helm Chart
+    - servicelb
+    # -- (str) replaced with ingress-nginx
+    - traefik
+
+  # -- (bool) kubernetes components | disable k3s default cloud controller manager
+  disable-cloud-controller: true
+
+  # -- (bool) kubernetes components | disable running kube-proxy
+  #                                 | Cilium uses eBPF
+  disable-kube-proxy: true
+
+  # -- (bool) kubernetes components | disable k3s default network policy controller
+  disable-network-policy: true
+
+  # -- (list) customized flag for kube-apiserver process
+  kube-apiserver-arg:
+    # -- (str) required for HAProxy health-checks
+    - "anonymous-auth=true"
+
+  # -- (list) customized flag | kube-scheduler process
+  kube-scheduler-arg:
+    # -- (str) required to monitor kube-scheduler with kube-prometheus-stack
+    - "bind-address=0.0.0.0"
+
+  # -- (list) customized flag | kube-controller-manager process
+  kube-controller-manager-arg:
+    # -- (str) required when monitoring kube-controller-manager with kube-prometheus-stack
+    - "bind-address=0.0.0.0"
+
+  # -- (list) customized flag | kubelet process
+  kubelet-arg:
+    # -- (str)
+    - "image-gc-low-threshold=50"
+    # -- (str)
+    - "image-gc-high-threshold=55"
+
+  # -- (bool) experimental options | use default containerd CRI
+  docker: false
+
+  # -- (str) other | customized pause image for containerd or docker sandbox
+  pause-image: registry.k8s.io/pause:3.9
+# ==================================================================================================
