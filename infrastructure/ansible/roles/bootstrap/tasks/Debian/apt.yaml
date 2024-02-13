@@ -1,0 +1,29 @@
+---
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   tasks/Debian/apt.yaml
+#   @description    :   ansible-role-bootstrap | Debian | apt tasks
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- name: "{{ ansible_os_family }} | apt | disable cdrom sources"
+  ansible.builtin.replace:
+    path: "/etc/apt/sources.list"
+    regexp: '^(deb\scdrom.*$)'
+    replace: ""
+  become_method: su
+
+- name: "{{ ansible_os_family }} | apt | add repositories"
+  ansible.builtin.apt_repository:
+    repo: "{{ repo_add }}"
+    state: present
+    update_cache: false
+  loop: "{{ bootstrap_os_packages_repositories.debian.bookworm.repo_add | default([]) }}"
+  loop_control:
+    loop_var: repo_add
+
+- name: "{{ ansible_os_family }} | apt | remove repositories"
+  ansible.builtin.apt_repository:
+    repo: "{{ repo_remove }}"
+    state: absent
+  loop: "{{ bootstrap_os_packages_repositories.debian.bookworm.repo_remove | default([]) }}"
+  loop_control:
+    loop_var: repo_remove

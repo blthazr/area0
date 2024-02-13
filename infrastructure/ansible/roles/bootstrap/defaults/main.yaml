@@ -1,0 +1,43 @@
+---
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   defaults/main.yaml
+#   @description    :   ansible-role-bootstrap | default variables
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# --------------------------------------------------------------------------------------------------
+# bootstrap user
+# --------------------------------------------------------------------------------------------------
+# -- (str) user for bootstrapping ansible managed node
+bootstrap_user: root
+
+# -- (str) SSH public key file used for bootstrapping ansible managed node
+bootstrap_user_ssh_public_key_file: null
+# ==================================================================================================
+
+# --------------------------------------------------------------------------------------------------
+# os
+# --------------------------------------------------------------------------------------------------
+# -- (dict) operating system packages
+bootstrap_os_packages:
+  # -- (dict) operating system family
+  debian:
+    # -- (list) flat list of packages to be installed with apt
+    apt_install:
+      # -- (str) packages
+      - python3-apt
+      - sudo
+
+# -- (dict) os package repositories
+bootstrap_os_packages_repositories:
+  # -- (dict) operating system family
+  debian:
+    # -- (dict) operating system distribution
+    bookworm:
+      # -- (list) flat list of package repositories to be added
+      repo_add:
+        # -- (str) repos
+        - deb http://deb.debian.org/debian bookworm main non-free-firmware
+        - deb-src http://deb.debian.org/debian bookworm main non-free-firmware
+      # -- (list) flat list of package repositories to be added
+      repo_remove: []
+# ==================================================================================================

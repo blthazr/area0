@@ -1,0 +1,42 @@
+---
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   tasks/main.yaml
+#   @description    :   ansible-role-bootstrap | main tasks
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- name: main | configure ssh authorized_keys
+  ansible.builtin.shell:
+    cmd: "ssh-copy-id -i {{ bootstrap_user_ssh_public_key_file }} {{ bootstrap_user }}@{{ ansible_host }}"
+  become: false
+  delegate_to: localhost
+  when:
+    - bootstrap_user_ssh_public_key_file is defined
+    - bootstrap_user is defined
+
+- name: main | test ssh connection
+  ansible.builtin.ping:
+  register: host_ssh_connection
+
+- name: main | gather ansible facts
+  ansible.builtin.setup:
+
+# - name: main | operating system identification
+#   ansible.builtin.include_role:
+#     name: os-identification
+
+- name: "main | include os-specific tasks"
+  ansible.builtin.include_tasks: "{{ ansible_os_family }}/main.yaml"
+  when: ansible_os_family != 'NA'
+
+- name: main | include roles
+  ansible.builtin.include_role:
+    name: "{{ bootstrap_include_role }}"
+  loop:
+    - robertdebock.bootstrap
+#     - users
+#     - os
+  loop_control:
+    loop_var: bootstrap_include_role
+  when:
+    - ansible_os_family != 'NA'
+    - ansible_os_family != 'Unifi'
