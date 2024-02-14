@@ -10,15 +10,12 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   interval: 30m
-  path: ./kubernetes/apps/storage/snapshot-controller/app
+  path: ./kubernetes/apps/volsync-system/snapshot-controller/app
   prune: true
   retryInterval: 1m
   sourceRef:
     kind: GitRepository
     name: area0
-  targetNamespace: storage
+  targetNamespace: volsync-system
   timeout: 5m
   wait: false # no flux ks dependents
-  postBuild:
-    substitute:
-      APP: *app
