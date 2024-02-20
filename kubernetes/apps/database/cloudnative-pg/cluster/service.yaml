@@ -12,7 +12,7 @@ spec:
       port: 5432
       protocol: TCP
       targetPort: 5432
-  type: LoadBalancer
   selector:
     cnpg.io/cluster: postgres16
     role: primary
+  type: LoadBalancer
