@@ -3,7 +3,7 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: postgres14
+  name: postgres16
 spec:
   backup:
     barmanObjectStore: &barmanObjectStore
@@ -20,27 +20,30 @@ spec:
           name: cloudnative-pg-secret
       # Note: serverName version needs to be incremented or changed
       # when recovering from an existing cnpg cluster
-      serverName: &currentCluster postgres14
+      serverName: &currentCluster postgres16-v1
       wal:
         compression: bzip2
         maxParallel: 8
     retentionPolicy: 30d
   enableSuperuserAccess: true
-  imageName: ghcr.io/cloudnative-pg/postgresql:14.10-18
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.2-3
   instances: 3
   monitoring:
     enablePodMonitor: true
+    # Ref: https://github.com/cloudnative-pg/cloudnative-pg/issues/2501
     podMonitorMetricRelabelings:
       - action: replace
         sourceLabels: ["cluster"]
         targetLabel: cnpg_cluster
       - action: labeldrop
         regex: cluster
+  nodeMaintenanceWindow:
+    inProgress: false
+    reusePVC: true
   postgresql:
     parameters:
-      max_connections: "600"
-      max_slot_wal_keep_size: 10GB
-      shared_buffers: 512MB
+      max_connections: "400"
+      shared_buffers: 256MB
   primaryUpdateStrategy: unsupervised
   resources:
     limits:
@@ -56,7 +59,8 @@ spec:
   # cluster when recovering from an existing cnpg cluster
   bootstrap:
     recovery:
-      source: &previousCluster postgres-v14
+      source: &previousCluster postgresv14
+  # Note: externalClusters is needed when recovering from an existing cnpg cluster
   externalClusters:
     - name: *previousCluster
       barmanObjectStore:
