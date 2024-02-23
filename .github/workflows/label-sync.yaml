@@ -7,7 +7,7 @@ on:
     branches: ["main"]
     paths: [".github/labels.yaml"]
   schedule:
-    - cron: "0 0 * * *" # daily at midnight
+    - cron: "7 1 * * *" # daily
   workflow_dispatch:
 
 jobs:
