@@ -24,7 +24,7 @@ on:
         default: latest
         required: false
   schedule:
-    - cron: "13 * * * *"
+    - cron: "13 * * * *" # hourly
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
@@ -50,7 +50,7 @@ jobs:
           app-id: "${{ secrets.BOT_APP_ID }}"
           private-key: "${{ secrets.BOT_PRIVATE_KEY }}"
 
-      - name: Checkout
+      - name: Check out repository
         uses: actions/checkout@v4
         with:
           token: "${{ steps.app-token.outputs.token }}"
