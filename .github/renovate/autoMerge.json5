@@ -51,6 +51,19 @@
     {
       "addLabels": ["action/automerge"],
       "automerge": true,
+      "automergeSchedule": ["after 2am, before 6am"],
+      "automergeType": "branch",
+      "description": "Auto-merge containers (minor) [maintenance window]",
+      "matchDatasources": ["docker"],
+      "matchPackagePatterns": [
+        "ghcr.io/onedr0p/plex",
+        "ghcr.io/sct/overseerr"
+      ],
+      "matchUpdateTypes": ["minor"]
+    },
+    {
+      "addLabels": ["action/automerge"],
+      "automerge": true,
       "automergeType": "branch",
       "description": "Auto-merge Github Actions (patch, minor)",
       "matchDatasources": ["github-tags"],
