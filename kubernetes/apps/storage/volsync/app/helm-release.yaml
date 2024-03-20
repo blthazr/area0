@@ -29,7 +29,7 @@ spec:
   values:
     image: &image
       repository: ghcr.io/onedr0p/volsync
-      tag: 0.8.0
+      tag: 0.9.0@sha256:2488f9b6daa825458e288e20e0a6889ad5a1a252fcf47c6c712c21a1d2eaf45c
     manageCRDs: true
     metrics:
       disableAuth: true
