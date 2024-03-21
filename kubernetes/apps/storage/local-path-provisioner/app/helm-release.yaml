@@ -49,7 +49,7 @@ spec:
         extraArgs:
           - --leader-election=false
           - --node-deployment=true
-        image: registry.k8s.io/sig-storage/csi-snapshotter:v6.3.3
+        image: registry.k8s.io/sig-storage/csi-snapshotter:v6.3.4@sha256:bb66be8355958e600e32026e6a1742c86d0cc54401ca53b98a0234bf32636e36
       strategy: node
     csiDriver:
       attachRequired: false
