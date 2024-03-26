@@ -27,7 +27,7 @@ spec:
     controller:
       driver:
         enabled: true
-        image: docker.io/democraticcsi/democratic-csi:v1.8.4
+        image: docker.io/democraticcsi/democratic-csi:v1.9.0@sha256:a4e6f276c4df4759f1916c58cd7d92acb7044603c3b39f3c7dda065e2d577720
       enabled: true
       externalAttacher:
         enabled: false
