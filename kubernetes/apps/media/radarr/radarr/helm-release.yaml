@@ -55,7 +55,7 @@ spec:
             envFrom: *envFrom
             image:
               repository: ghcr.io/onedr0p/radarr-develop
-              tag: 5.3.6.8612@sha256:ef3154aaecf3ffa52e68f5109bca912df5f53c36079fa430e29bad791d091cd8
+              tag: 5.4.4.8688@sha256:1f6df3f2ab278644811f8984d0108f27005f4bc63665efebec5169184b9db527
             probes:
               liveness: &probes
                 enabled: true
