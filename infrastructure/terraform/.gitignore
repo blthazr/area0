@@ -1,7 +1,0 @@
-# Terraform Runtime
-**/.terraform/*
-*.tfstate
-*.tfstate.*
-
-# Terraform Vars
-*.tfvars
