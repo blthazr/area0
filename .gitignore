@@ -1,0 +1,28 @@
+# Apple MacOS
+.DS_Store
+
+# Microsoft Windows
+Thumbs.db
+
+# Shards
+*-shard
+*-shard/*
+*-shard.*
+
+# Kubernetes
+kubeconfig
+
+# SOPS
+.decrypted~*
+*.agekey
+*.key
+
+# Secrets
+*.secret.env
+*.secret.yaml
+
+# Taskfile
+.task/
+
+# Ansible
+.venv*
