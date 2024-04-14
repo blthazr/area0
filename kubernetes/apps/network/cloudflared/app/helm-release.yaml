@@ -1,0 +1,123 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: &app cloudflared
+spec:
+  chart:
+    spec:
+      chart: app-template
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      version: 3.1.0
+  dependsOn:
+    - name: nginx-external
+      namespace: network
+  install:
+    remediation:
+      retries: 3
+  interval: 30m
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    controllers:
+      cloudflared:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            args:
+              - tunnel
+              - --config
+              - /etc/cloudflared/config/config.yaml
+              - run
+              - "$(TUNNEL_ID)"
+            env:
+              NO_AUTOUPDATE: true
+              TUNNEL_CRED_FILE: /etc/cloudflared/creds/credentials.json
+              TUNNEL_ID:
+                valueFrom:
+                  secretKeyRef:
+                    name: cloudflared-tunnel-secret
+                    key: TUNNEL_ID
+              TUNNEL_METRICS: 0.0.0.0:8080
+              TUNNEL_ORIGIN_ENABLE_HTTP2: true
+              TUNNEL_POST_QUANTUM: true
+              TUNNEL_TRANSPORT_PROTOCOL: quic
+            image:
+              repository: docker.io/cloudflare/cloudflared
+              tag: 2024.4.0@sha256:f2a8f348ad721b1a5f2836ca63c08d9a7629081e086a530c8b8bf05bc7fe0f01
+            probes:
+              liveness: &probes
+                custom: true
+                enabled: true
+                spec:
+                  failureThreshold: 3
+                  httpGet:
+                    path: /ready
+                    port: &port 8080
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+              readiness: *probes
+            resources:
+              limits:
+                memory: 256Mi
+              requests:
+                cpu: 10m
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop: ["ALL"]
+        pod:
+          securityContext:
+            runAsGroup: 568
+            runAsNonRoot: true
+            runAsUser: 568
+          topologySpreadConstraints:
+            - labelSelector:
+                matchLabels:
+                  app.kubernetes.io/name: *app
+              maxSkew: 1
+              topologyKey: kubernetes.io/hostname
+              whenUnsatisfiable: DoNotSchedule
+        replicas: 2
+        strategy: RollingUpdate
+    persistence:
+      config:
+        enabled: true
+        globalMounts:
+          - path: /etc/cloudflared/config/config.yaml
+            readOnly: true
+            subPath: config.yaml
+        name: cloudflared-configmap
+        type: configMap
+      creds:
+        enabled: true
+        globalMounts:
+          - path: /etc/cloudflared/creds/credentials.json
+            readOnly: true
+            subPath: credentials.json
+        name: cloudflared-tunnel-secret
+        type: secret
+    service:
+      app:
+        controller: cloudflared
+        ports:
+          http:
+            port: *port
+    serviceMonitor:
+      app:
+        serviceName: cloudflared
+        endpoints:
+          - interval: 1m
+            path: /metrics
+            port: http
+            scheme: http
+            scrapeTimeout: 10s
