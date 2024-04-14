@@ -1,0 +1,9 @@
+---
+# TODO: yaml-language-server
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cluster-settings
+  namespace: flux-system
+data:
+  TIMEZONE: "America/Chicago"
