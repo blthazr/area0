@@ -1,0 +1,42 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: disk-wipe-k8s-1
+spec:
+  containers:
+    - name: disk-wipe
+      command: ["/bin/sh", "-c", "dd if=/dev/zero bs=1M count=100 oflag=direct of=/dev/sdb"]
+      image: busybox
+      securityContext:
+        privileged: true
+  nodeName: k8s-1
+  restartPolicy: Never
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: disk-wipe-k8s-2
+spec:
+  containers:
+    - name: disk-wipe
+      command: ["/bin/sh", "-c", "dd if=/dev/zero bs=1M count=100 oflag=direct of=/dev/sdb"]
+      image: busybox
+      securityContext:
+        privileged: true
+  nodeName: k8s-2
+  restartPolicy: Never
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: disk-wipe-k8s-3
+spec:
+  containers:
+    - name: disk-wipe
+      command: ["/bin/sh", "-c", "dd if=/dev/zero bs=1M count=100 oflag=direct of=/dev/sdb"]
+      image: busybox
+      securityContext:
+        privileged: true
+  nodeName: k8s-3
+  restartPolicy: Never
