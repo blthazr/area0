@@ -24,6 +24,7 @@ spec:
     cleanupOnFail: true
     remediation:
       retries: 3
+      strategy: rollback
   values:
     controllers:
       cloudflared:
@@ -72,9 +73,9 @@ spec:
                 cpu: 10m
             securityContext:
               allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
               capabilities:
                 drop: ["ALL"]
+              readOnlyRootFilesystem: true
         pod:
           securityContext:
             runAsGroup: 568
@@ -87,7 +88,7 @@ spec:
               maxSkew: 1
               topologyKey: kubernetes.io/hostname
               whenUnsatisfiable: DoNotSchedule
-        replicas: 2
+        replicas: 3
         strategy: RollingUpdate
     persistence:
       config:
@@ -114,10 +115,11 @@ spec:
             port: *port
     serviceMonitor:
       app:
-        serviceName: cloudflared
+        enabled: true
         endpoints:
           - interval: 1m
             path: /metrics
             port: http
             scheme: http
             scrapeTimeout: 10s
+        serviceName: cloudflared
