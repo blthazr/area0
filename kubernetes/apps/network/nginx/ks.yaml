@@ -43,7 +43,7 @@ spec:
     name: area0
   targetNamespace: network
   timeout: 5m
-  wait: true
+  wait: false # no flux ks dependents
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -66,4 +66,4 @@ spec:
     name: area0
   targetNamespace: network
   timeout: 5m
-  wait: true
+  wait: false # no flux ks dependents
