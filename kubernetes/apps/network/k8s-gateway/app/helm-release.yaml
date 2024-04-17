@@ -13,10 +13,10 @@ spec:
         name: k8s-gateway
         namespace: flux-system
       version: 2.4.0
-  interval: 30m
   install:
     remediation:
       retries: 3
+  interval: 30m
   upgrade:
     cleanupOnFail: true
     remediation:

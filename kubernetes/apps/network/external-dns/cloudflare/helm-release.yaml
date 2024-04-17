@@ -13,17 +13,17 @@ spec:
         name: external-dns
         namespace: flux-system
       version: 1.14.4
-  interval: 30m
   install:
     crds: CreateReplace
     remediation:
       retries: 3
+  interval: 30m
   upgrade:
     cleanupOnFail: true
     crds: CreateReplace
     remediation:
-      strategy: rollback
       retries: 3
+      strategy: rollback
   values:
     domainFilters:
       - "${SECRET_DOMAIN}"

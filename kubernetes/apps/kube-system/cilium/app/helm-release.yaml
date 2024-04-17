@@ -41,8 +41,6 @@ spec:
       annotations:
         grafana_folder: Cilium
       enabled: true
-    # NOTE: devices might need to be set if you have more than one active NIC on your hosts
-    # devices: eno+ eth+
     endpointRoutes:
       enabled: true
     hubble:

@@ -12,8 +12,7 @@ spec:
     - host: &host "flux-webhook.${SECRET_DOMAIN}"
       http:
         paths:
-          -
-            backend:
+          - backend:
               service:
                 name: webhook-receiver
                 port:
