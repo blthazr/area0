@@ -5,8 +5,8 @@ talosVersion: v1.6.7
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
 kubernetesVersion: v1.29.3
 
-clusterName: &cluster area0
-endpoint: https://172.16.21.10:6443
+clusterName: &cluster ${clusterName}
+endpoint: https://${clusterEndpointIP}:6443
 clusterPodNets:
   - "10.32.0.0/16"
 clusterSvcNets:
@@ -19,57 +19,72 @@ cniConfig:
   name: none
 
 nodes:
-  - hostname: "k8s-1"
-    ipAddress: "172.16.21.11"
-    installDisk: "/dev/sda"
-    talosImageURL: factory.talos.dev/installer/376567988ad370138ad8b2698212367b8edcb69b5fd68c80be1f2ec7d603b4ba
+  - hostname: k8s-1
     controlPlane: true
+    installDisk: /dev/sda
+    ipAddress: 172.16.21.11
     networkInterfaces:
-      - deviceSelector:
-          hardwareAddr: "78:7b:8a:cc:06:17"
+      - addresses:
+          - 172.16.21.11/23
+        deviceSelector:
+          hardwareAddr: 78:7b:8a:cc:06:17
         dhcp: false
-        addresses:
-          - "172.16.21.11/23"
         mtu: 1500
         routes:
           - network: 0.0.0.0/0
-            gateway: "172.16.20.1"
+            gateway: 172.16.20.1
         vip:
-          ip: "172.16.21.10"
-  - hostname: "k8s-2"
-    ipAddress: "172.16.21.12"
-    installDisk: "/dev/sda"
+          ip: 172.16.21.10
     talosImageURL: factory.talos.dev/installer/376567988ad370138ad8b2698212367b8edcb69b5fd68c80be1f2ec7d603b4ba
+  - hostname: k8s-2
     controlPlane: true
+    installDisk: /dev/sda
+    ipAddress: 172.16.21.12
     networkInterfaces:
-      - deviceSelector:
-          hardwareAddr: "78:7b:8a:cc:07:ca"
+      - addresses:
+          - 172.16.21.12/23
+        deviceSelector:
+          hardwareAddr: 78:7b:8a:cc:07:ca
         dhcp: false
-        addresses:
-          - "172.16.21.12/23"
         mtu: 1500
         routes:
           - network: 0.0.0.0/0
-            gateway: "172.16.20.1"
+            gateway: 172.16.20.1
         vip:
-          ip: "172.16.21.10"
-  - hostname: "k8s-3"
-    ipAddress: "172.16.21.13"
-    installDisk: "/dev/sda"
+          ip: 172.16.21.10
     talosImageURL: factory.talos.dev/installer/376567988ad370138ad8b2698212367b8edcb69b5fd68c80be1f2ec7d603b4ba
+  - hostname: k8s-3
     controlPlane: true
+    installDisk: /dev/sda
+    ipAddress: 172.16.21.13
     networkInterfaces:
-      - deviceSelector:
-          hardwareAddr: "a8:60:b6:24:dd:6e"
+      - addresses:
+          - 172.16.21.13/23
+        deviceSelector:
+          hardwareAddr: a8:60:b6:24:dd:6e
         dhcp: false
-        addresses:
-          - "172.16.21.13/23"
         mtu: 1500
         routes:
           - network: 0.0.0.0/0
-            gateway: "172.16.20.1"
+            gateway: 172.16.20.1
         vip:
-          ip: "172.16.21.10"
+          ip: 172.16.21.10
+    talosImageURL: factory.talos.dev/installer/376567988ad370138ad8b2698212367b8edcb69b5fd68c80be1f2ec7d603b4ba
+  - hostname: k8s-4
+    controlPlane: false
+    installDisk: /dev/sda
+    ipAddress: 172.16.21.14
+    networkInterfaces:
+      - addresses:
+          - 172.16.21.14/23
+        deviceSelector:
+          hardwareAddr: a8:60:b6:24:dd:6e
+        dhcp: false
+        mtu: 1500
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 172.16.20.1
+    talosImageURL: factory.talos.dev/installer/376567988ad370138ad8b2698212367b8edcb69b5fd68c80be1f2ec7d603b4ba
 
 patches:
   # Configure containerd
@@ -146,8 +161,6 @@ patches:
             type: bind
             source: /var/openebs/local
             options: ["bind", "rshared", "rw"]
-
-
 
 controlPlane:
   patches:

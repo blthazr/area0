@@ -1,0 +1,15 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: "3"
+
+vars:
+  # Directories
+  INFRASTRUCTURE_DIR: "{{.ROOT_DIR}}/infrastructure"
+
+includes:
+  talos: .taskfiles/talos/Taskfile.yaml
+
+tasks:
+  default:
+    silent: true
+    cmds: ["task -l"]
