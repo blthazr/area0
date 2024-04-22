@@ -7,7 +7,7 @@ metadata:
   namespace: flux-system
 data:
   # site
-  TIMEZONE: "America/Chicago"
+  CLUSTER_TIME_ZONE: "America/Chicago"
 
   # networks
   NET_CLUSTER_CIDR: "10.32.0.0/16"
