@@ -7,3 +7,4 @@ resources:
   - ./namespace.yaml
   # Flux-Kustomizations
   - ./hajimari/ks.yaml
+  - ./mealie/ks.yaml
