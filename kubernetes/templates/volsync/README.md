@@ -32,14 +32,16 @@ resources:
 - `APP`: The application name
 
 ## Optional `postBuild` vars:
-- `APP_GID`: [ default | 568 ]
 - `APP_UID`: [ default | 568 ]
-- `VOLSYNC_ACCESSMODES`: [ default | ReadWriteOnce ]
+- `APP_GID`: [ default | 568 ]
+- `APP_PVC`: [ default | ${APP} ]
+- `APP_PVC_ACCESSMODES`: [ default | ReadWriteOnce ]
+- `APP_PVC_CAPACITY`: The PVC size. [ default | 1Gi ]
+- `APP_PVC_STORAGECLASS`: [ default | ceph-block ]
 - `VOLSYNC_CACHE_ACCESSMODES`: [ default | ReadWriteOnce ]
 - `VOLSYNC_CACHE_CAPACITY`: [default | (ReplicationSource - 4Gi) (ReplicationDestination - 8Gi) ]
 - `VOLSYNC_CACHE_SNAPSHOTCLASS`: [ default | openebs-hostpath ]
-- `VOLSYNC_CAPACITY`: The PVC size. [ default | 1Gi ]
-- `VOLSYNC_CLAIM`: [ default | ${APP} ]
 - `VOLSYNC_COPYMETHOD`: [ default | Snapshot ]
+- `VOLSYNC_S3_ADDRESS`:
+- `VOLSYNC_S3_BUCKET_NAME`: [ default | volsync ]
 - `VOLSYNC_SNAPSHOTCLASS`: [ default | csi-ceph-blockpool ]
-- `VOLSYNC_STORAGECLASS`: [ default | ceph-block ]
