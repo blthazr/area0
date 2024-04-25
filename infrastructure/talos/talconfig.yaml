@@ -12,7 +12,7 @@ clusterPodNets:
 clusterSvcNets:
   - "10.33.0.0/16"
 additionalApiServerCertSans: &sans
-  - "172.16.21.10"
+  - ${clusterEndpointIP}
   - 127.0.0.1 # KubePrism
 additionalMachineCertSans: *sans
 cniConfig:
@@ -34,7 +34,7 @@ nodes:
           - network: 0.0.0.0/0
             gateway: 172.16.20.1
         vip:
-          ip: 172.16.21.10
+          ip: ${clusterEndpointIP}
     talosImageURL: factory.talos.dev/installer/376567988ad370138ad8b2698212367b8edcb69b5fd68c80be1f2ec7d603b4ba
   - hostname: k8s-2
     controlPlane: true
@@ -51,7 +51,7 @@ nodes:
           - network: 0.0.0.0/0
             gateway: 172.16.20.1
         vip:
-          ip: 172.16.21.10
+          ip: ${clusterEndpointIP}
     talosImageURL: factory.talos.dev/installer/376567988ad370138ad8b2698212367b8edcb69b5fd68c80be1f2ec7d603b4ba
   - hostname: k8s-3
     controlPlane: true
@@ -68,7 +68,7 @@ nodes:
           - network: 0.0.0.0/0
             gateway: 172.16.20.1
         vip:
-          ip: 172.16.21.10
+          ip: ${clusterEndpointIP}
     talosImageURL: factory.talos.dev/installer/376567988ad370138ad8b2698212367b8edcb69b5fd68c80be1f2ec7d603b4ba
   - hostname: k8s-4
     controlPlane: false
@@ -78,7 +78,22 @@ nodes:
       - addresses:
           - 172.16.21.14/23
         deviceSelector:
-          hardwareAddr: a8:60:b6:24:dd:6e
+          hardwareAddr: 38:c9:86:0d:dd:db
+        dhcp: false
+        mtu: 1500
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 172.16.20.1
+    talosImageURL: factory.talos.dev/installer/376567988ad370138ad8b2698212367b8edcb69b5fd68c80be1f2ec7d603b4ba
+  - hostname: k8s-5
+    controlPlane: false
+    installDisk: /dev/nvme0n1
+    ipAddress: 172.16.21.15
+    networkInterfaces:
+      - addresses:
+          - 172.16.21.15/23
+        deviceSelector:
+          hardwareAddr: 2c:f0:5d:5d:e2:95
         dhcp: false
         mtu: 1500
         routes:
