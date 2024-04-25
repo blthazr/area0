@@ -10,7 +10,6 @@ data:
   CLUSTER_TIME_ZONE: "America/Chicago"
 
   # networks
-  NET_CLUSTER_CIDR: "10.32.0.0/16"
   NET_CLUSTER_NODE_CIDR: "172.16.20.0/23"
 
   # service addresses
