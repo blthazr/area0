@@ -1,0 +1,18 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "packageRules": [
+    {
+      "addLabels": ["action/automerge"],
+      "automerge": true,
+      "automergeSchedule": ["after 2am, before 6am"],
+      "automergeType": "branch",
+      "description": "Auto-merge trusted containers (digest) [maintenance window]",
+      "matchDatasources": ["docker"],
+      "matchPackagePatterns": [
+        "ghcr.io/bjw-s",
+        "ghcr.io/onedr0p"
+      ],
+      "matchUpdateTypes": ["digest"]
+    }
+  ]
+}

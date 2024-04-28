@@ -1,0 +1,72 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "packageRules": [
+    {
+      "description": "Flux Group",
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "groupName": "Flux",
+      "matchDatasources": [
+        "docker",
+        "github-tags"
+      ],
+      "matchPackagePatterns": ["fluxcd"],
+      "separateMinorPatch": true,
+      "versioning": "semver"
+    },
+    {
+      "description": "Rook-Ceph Group",
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "groupName": "Rook-Ceph",
+      "matchDatasources": ["helm"],
+      "matchPackagePatterns": ["rook.ceph"],
+      "separateMinorPatch": true
+    },
+    {
+      "description": "System Upgrade Controller Group",
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "groupName": "System Upgrade Controller",
+      "matchDatasources": [
+        "docker",
+        "github-releases"
+      ],
+      "matchPackagePatterns": ["system-upgrade-controller"],
+      "separateMinorPatch": true
+    },
+    {
+      "description": "Talos Group",
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "groupName": "Talos",
+      "matchDatasources": ["docker"],
+      "matchPackagePatterns": [
+        "siderolabs/installer",
+        "siderolabs/talosctl"
+      ],
+      "separateMinorPatch": true
+    },
+    {
+      "description": "Volsync Group",
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "groupName": "Volsync",
+      "matchDatasources": [
+        "docker",
+        "helm"
+      ],
+      "matchPackagePatterns": ["volsync"],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "separateMinorPatch": true
+    }
+  ]
+}
