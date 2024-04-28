@@ -15,7 +15,6 @@ jobs:
       pull-requests: write
     runs-on: ubuntu-latest
     steps:
-
       - name: Generate token
         id: app-token
         uses: actions/create-github-app-token@v1
