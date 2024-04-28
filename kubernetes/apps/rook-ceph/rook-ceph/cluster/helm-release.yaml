@@ -129,6 +129,10 @@ spec:
       osd_class_update_on_start = false
     ingress:
       dashboard:
+        annotations:
+          hajimari.io/appName: Rook
+          hajimari.io/group: Management
+          hajimari.io/icon: mdi:chess-rook
         host:
           name: &host "rook.${SECRET_DOMAIN}"
           path: /
