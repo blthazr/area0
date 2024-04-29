@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: spegel
         namespace: flux-system
-      version: v0.0.21
+      version: v0.0.22
   install:
     remediation:
       retries: 3
