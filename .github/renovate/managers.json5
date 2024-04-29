@@ -45,7 +45,7 @@
         "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\n.+/(?<currentValue>(v|\\d)[^/]+)"
       ],
       "datasourceTemplate": "{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}"
-    }
+    },
     {
       "customType": "regex",
       "description": "Process CloudnativePG Postgresql version",
@@ -58,6 +58,5 @@
       "datasourceTemplate": "docker",
       "versioningTemplate": "redhat"
     }
-
   ]
 }
