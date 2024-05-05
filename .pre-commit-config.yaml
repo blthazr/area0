@@ -1,0 +1,41 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   .pre-commit-config.yaml
+#   @description    :   pre-commit configuration
+#   @url            :   https://pre-commit.com
+#                   :   https://pre-commit.com/hooks.html
+#   @usage          :   pre-commit run --all-files
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+fail_fast: false
+repos:
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.35.1
+    hooks:
+      - args:
+          - --config-file
+          - .yamllint.yaml
+        id: yamllint
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: check-added-large-files # prevent giant files from being committed
+      - id: check-executables-have-shebangs # check that non-binary executables have a proper shebang
+      - id: check-merge-conflict # check for files that contain merge conflict strings
+      - id: end-of-file-fixer # ensures that a file is either empty, or ends with one newline
+      - id: fix-byte-order-marker # removes UTF-8 byte order marker
+      - id: mixed-line-ending # replace or check mixed line ending
+      - id: trailing-whitespace # trim trailing whitespace
+        args:
+          - --markdown-linebreak-ext=md # preserve markdown hard linebreaks
+
+  - repo: https://github.com/Lucas-C/pre-commit-hooks
+    rev: v1.5.5
+    hooks:
+      - id: remove-crlf
+      - id: remove-tabs
+
+  - repo: https://github.com/sirosen/texthooks
+    rev: 0.6.6
+    hooks:
+      - id: fix-smartquotes
