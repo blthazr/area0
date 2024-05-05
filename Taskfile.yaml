@@ -5,11 +5,14 @@ version: "3"
 vars:
   # Directories
   INFRASTRUCTURE_DIR: "{{.ROOT_DIR}}/infrastructure"
+  # Files
+  AGE_FILE: "{{.ROOT_DIR}}/age.key"
 
 includes:
   pre-commit:
     optional: true
     taskfile: .taskfiles/pre-commit
+  sops: .taskfiles/sops
   talos: .taskfiles/talos
 
 tasks:
