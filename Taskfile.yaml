@@ -5,13 +5,19 @@ version: "3"
 vars:
   # Directories
   INFRASTRUCTURE_DIR: "{{.ROOT_DIR}}/infrastructure"
+  KUBERNETES_DIR: "{{.ROOT_DIR}}/kubernetes"
   # Files
   AGE_FILE: "{{.ROOT_DIR}}/age.key"
+  KUBECONFIG: "{{.ROOT_DIR}}/kubeconfig"
 
 includes:
   pre-commit:
     optional: true
     taskfile: .taskfiles/pre-commit
+  kubernetes:
+    aliases: ["k8s"]
+    optional: true
+    taskfile: .taskfiles/kubernetes
   sops: .taskfiles/sops
   talos: .taskfiles/talos
 

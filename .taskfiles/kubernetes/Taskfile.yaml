@@ -1,0 +1,23 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: "3"
+
+tasks:
+
+  # task k8s:delete-failed-pods
+  delete-failed-pods:
+    desc: Deletes pods with Failed phase
+    cmds:
+      - kubectl delete pods --field-selector status.phase=Failed -A --ignore-not-found=true
+
+  # task k8s:delete-succeeded-pods
+  delete-succeeded-pods:
+    desc: Deletes pods with Succeeded phase
+    cmds:
+      - kubectl delete pods --field-selector status.phase=Succeeded -A --ignore-not-found=true
+
+  # task k8s:delete-pending-pods
+  delete-pending-pods:
+    desc: Deletes pods with Pending phase
+    cmds:
+      - kubectl delete pods --field-selector status.phase=Pending -A --ignore-not-found=true
