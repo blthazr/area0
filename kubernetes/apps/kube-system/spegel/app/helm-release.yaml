@@ -23,11 +23,5 @@ spec:
       retries: 3
       strategy: rollback
   values:
-    service:
-      registry:
-        hostPort: 29999
     serviceMonitor:
       enabled: true
-    spegel:
-      containerdRegistryConfigPath: /etc/cri/conf.d/hosts
-      containerdSock: /run/containerd/containerd.sock
