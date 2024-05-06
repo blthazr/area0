@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: openebs
         namespace: flux-system
-      version: 3.10.0
+      version: 4.0.1
   install:
     remediation:
       retries: 3
@@ -23,17 +23,30 @@ spec:
       retries: 3
       strategy: rollback
   values:
-    localprovisioner:
-      deviceClass:
-        enabled: false
-      enabled: true
+    engines:
+      local:
+        lvm:
+          enabled: false
+        zfs:
+          enabled: false
+      replicated:
+        mayastor:
+          enabled: false
+    localpv-provisioner:
       hostpathClass:
-        basePath: /var/openebs/local
-        enabled: true
-        isDefaultClass: false
         name: openebs-hostpath
-      image: quay.io/openebs/provisioner-localpv
-    ndm:
+      localpv:
+        image:
+          registry: quay.io/
+          repository: openebs/provisioner-localpv
+    lvm-localpv:
       enabled: false
-    ndmOperator:
+    mayastor:
+      enabled: false
+    openebs-crds:
+      csi:
+        volumeSnapshots:
+          enabled: false
+          keep: false
+    zfs-localpv:
       enabled: false
