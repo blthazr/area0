@@ -9,9 +9,16 @@ vars:
   TASK_SCRIPTS_DIR: "{{.ROOT_DIR}}/.taskfiles/__scripts"
   # Files
   AGE_FILE: "{{.ROOT_DIR}}/age.key"
-  KUBECONFIG: "{{.ROOT_DIR}}/kubeconfig"
+  KUBECONFIG_FILE: "{{.ROOT_DIR}}/kubeconfig"
+
+env:
+  KUBECONFIG: "{{.KUBECONFIG_FILE}}"
+  SOPS_AGE_KEY_FILE: "{{.AGE_FILE}}"
 
 includes:
+  flux:
+    optional: true
+    taskfile: .taskfiles/flux
   pre-commit:
     optional: true
     taskfile: .taskfiles/pre-commit
