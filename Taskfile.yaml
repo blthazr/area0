@@ -22,6 +22,7 @@ includes:
   rook: .taskfiles/rook
   sops: .taskfiles/sops
   talos: .taskfiles/talos
+  volsync: .taskfiles/volsync
 
 tasks:
   default:
