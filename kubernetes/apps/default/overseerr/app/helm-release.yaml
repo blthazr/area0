@@ -84,7 +84,7 @@ spec:
         className: external
         enabled: true
         hosts:
-          - host: &host "${HOSTNAME:-${APP}.${SECRET_DOMAIN}}"
+          - host: &host "requests.${SECRET_DOMAIN}"
             paths: &paths
               - path: /
                 pathType: Prefix

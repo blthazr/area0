@@ -21,9 +21,8 @@ spec:
   wait: false # no flux ks dependents
   postBuild:
     substitute:
-      APP: *app # required
+      APP: *app
       APP_UID: "568"
       APP_GID: "568"
       APP_PVC: overseerr-config
       APP_PVC_CAPACITY: 5Gi
-      HOSTNAME: requests
