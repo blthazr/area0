@@ -13,6 +13,7 @@ resources:
   - ./k8s-gateway.yaml
   - ./jetstack.yaml
   - ./metrics-server.yaml
+  - ./node-feature-discovery.yaml
   - ./openebs.yaml
   - ./piraeus.yaml
   - ./postfinance.yaml
