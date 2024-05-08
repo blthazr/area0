@@ -96,13 +96,13 @@ spec:
     ingress:
       app:
         annotations:
-          # external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
+          external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
           hajimari.io/group: Media
           hajimari.io/icon: mdi:plex
           hajimari.io/info: Streaming Media Server
           hajimari.io/url: "https://${HOSTNAME:-${APP}.${SECRET_DOMAIN}}/web/index.html"
           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-        className: internal # external
+        className: external
         enabled: true
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
@@ -120,8 +120,7 @@ spec:
         enabled: true
         existingClaim: "${APP_PVC:-${APP}}"
         globalMounts:
-          # - path: /config
-          - path: /config/Library/Application Support/Plex Media Server
+          - path: /config
       logs:
         enabled: true
         globalMounts:
