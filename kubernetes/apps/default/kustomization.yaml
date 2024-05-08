@@ -9,4 +9,5 @@ resources:
   - ./common/ks.yaml
   - ./hajimari/ks.yaml
   - ./mealie/ks.yaml
+  - ./overseerr/ks.yaml
   - ./prowlarr/ks.yaml
