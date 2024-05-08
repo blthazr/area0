@@ -1,0 +1,30 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: &app __APP_NAME
+spec:
+  chart:
+    spec:
+      chart: __HELM_CHART
+      sourceRef:
+        kind: HelmRepository
+        name: __HELM_REPO
+        namespace: flux-system
+      version: __HELM_VERSION
+  # dependsOn:
+  #   - name: rook-ceph-cluster
+  #     namespace: rook-ceph
+  #   - name: __DEPENDENCY_NAME
+  #     namespace: __DEPENDENCY_NAMESPACE
+  install:
+    remediation:
+      retries: 3
+  interval: 30m
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+      strategy: rollback
+  values: {}

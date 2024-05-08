@@ -1,0 +1,12 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.28.3-standalone-strict/persistentvolumeclaim-v1.json
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: "${APP_PVC:-${APP}}"
+spec:
+  accessModes: ["${APP_PVC_ACCESSMODES:-ReadWriteOnce}"]
+  resources:
+    requests:
+      storage: "${APP_PVC_CAPACITY:-1Gi}"
+  storageClassName: "${APP_PVC_STORAGECLASS:-ceph-block}"

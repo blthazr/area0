@@ -1,0 +1,41 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app __APP_NAME
+  namespace: flux-system
+spec:
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  # dependsOn:
+  #   - name: __DEPENDENCY_APP_NAME
+  interval: 30m
+  path: ./kubernetes/apps/__NAMESPACE/__APP_NAME/app
+  prune: true
+  # prune: false # never should be deleted
+  retryInterval: 1m
+  sourceRef:
+    kind: GitRepository
+    name: area0
+  targetNamespace: __NAMESPACE
+  timeout: 5m
+  wait: false # no flux ks dependents
+  postBuild:
+    substitute:
+      APP: *app # required
+      # APP_UID: 568 # optional | default
+      # APP_GID: 568 # optional | default
+      # APP_PVC: ${APP} # optional | default
+      # APP_PVC_ACCESSMODES: ReadWriteOnce # optional | default
+      # APP_PVC_CAPACITY: 1Gi # optional | default
+      # APP_PVC_STORAGECLASS: ceph-block # optional | default
+      # HOSTNAME: # optional
+      # VOLSYNC_CACHE_ACCESSMODES: ReadWriteOnce # optional | default
+      # VOLSYNC_CACHE_CAPACITY: 10Gi # example
+      # VOLSYNC_CACHE_SNAPSHOTCLASS: openebs-hostpath # optional | default
+      # VOLSYNC_COPYMETHOD: Snapshot # optional | default
+      # VOLSYNC_S3_ADDRESS: # optional
+      # VOLSYNC_S3_BUCKET_NAME: volsync # optional | default
+      # VOLSYNC_SNAPSHOTCLASS: csi-ceph-blockpool # optional | default
