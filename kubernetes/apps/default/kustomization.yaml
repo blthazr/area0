@@ -10,4 +10,5 @@ resources:
   - ./hajimari/ks.yaml
   - ./mealie/ks.yaml
   - ./overseerr/ks.yaml
+  - ./plex/ks.yaml
   - ./prowlarr/ks.yaml
