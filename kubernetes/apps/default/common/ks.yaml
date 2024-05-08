@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   interval: 30m
-  path: .kubernetes/apps/default/common/local-media
+  path: ./kubernetes/apps/default/common/local-media
   prune: true
   retryInterval: 1m
   sourceRef:
