@@ -10,6 +10,7 @@ resources:
   - ./external-dns.yaml
   - ./hajimari.yaml
   - ./ingress-nginx.yaml
+  - ./intel.yaml
   - ./k8s-gateway.yaml
   - ./jetstack.yaml
   - ./metrics-server.yaml
