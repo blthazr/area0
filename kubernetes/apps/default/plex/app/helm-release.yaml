@@ -120,7 +120,7 @@ spec:
         enabled: true
         existingClaim: "${APP_PVC:-${APP}}"
         globalMounts:
-          - path: /config
+          - path: /config/Library/Application Support/Plex Media Server
       logs:
         enabled: true
         globalMounts:
