@@ -27,14 +27,6 @@ spec:
       prowlarr:
         annotations:
           reloader.stakater.com/auto: "true"
-        initContainers:
-          init-db:
-            image:
-              repository: ghcr.io/onedr0p/postgres-init
-              tag: 16
-            envFrom: &envFrom
-              - secretRef:
-                  name: prowlarr-secret
         containers:
           app:
             env:
@@ -45,7 +37,9 @@ spec:
               PROWLARR__PORT: &port 9696
               PROWLARR__THEME: dark
               TZ: "${CLUSTER_TIME_ZONE}"
-            envFrom: *envFrom
+            envFrom: &envFrom
+              - secretRef:
+                  name: prowlarr-secret
             image:
               repository: ghcr.io/onedr0p/prowlarr-develop
               tag: 1.17.0.4448@sha256:66e786d023cf94a7005b9a9effde9e7e4557e799b3f00cfb7b084f81ba15082c
@@ -73,6 +67,12 @@ spec:
               capabilities:
                 drop: ["ALL"]
               readOnlyRootFilesystem: true
+        initContainers:
+          init-db:
+            envFrom: *envFrom
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 16
     defaultPodOptions:
       securityContext:
         fsGroup: ${APP_GID}
