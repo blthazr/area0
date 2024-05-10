@@ -11,8 +11,8 @@ resources:
   - ./hajimari.yaml
   - ./ingress-nginx.yaml
   - ./intel.yaml
-  - ./k8s-gateway.yaml
   - ./jetstack.yaml
+  - ./k8s-gateway.yaml
   - ./metrics-server.yaml
   - ./node-feature-discovery.yaml
   - ./openebs.yaml
