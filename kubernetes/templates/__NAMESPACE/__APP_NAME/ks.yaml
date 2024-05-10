@@ -14,7 +14,6 @@ spec:
   interval: 30m
   path: ./kubernetes/apps/__NAMESPACE/__APP_NAME/app
   prune: true
-  # prune: false # never should be deleted
   retryInterval: 1m
   sourceRef:
     kind: GitRepository
@@ -24,9 +23,9 @@ spec:
   wait: false # no flux ks dependents
   postBuild:
     substitute:
-      APP: *app # required
-      # APP_UID: 568 # optional | default
-      # APP_GID: 568 # optional | default
+      APP: *app
+      # APP_UID: "568" # optional | default
+      # APP_GID: "568" # optional | default
       # APP_PVC: ${APP} # optional | default
       # APP_PVC_ACCESSMODES: ReadWriteOnce # optional | default
       # APP_PVC_CAPACITY: 1Gi # optional | default
