@@ -59,9 +59,6 @@ spec:
               - path: /
                 pathType: Prefix
         ingressClassName: internal
-        tls:
-          - hosts:
-              - *host
     persistence:
       data:
         enabled: true
