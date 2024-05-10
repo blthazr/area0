@@ -31,3 +31,6 @@ spec:
       port: 53
       type: LoadBalancer
     ttl: 1
+    watchedResources:
+      - Ingress
+      - Service
