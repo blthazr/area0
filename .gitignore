@@ -23,6 +23,3 @@ kubeconfig
 
 # Taskfile
 .task/
-
-# Ansible
-.venv*
