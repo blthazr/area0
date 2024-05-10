@@ -13,7 +13,6 @@ tasks:
     requires:
       vars: ["file"]
     preconditions:
-      - msg: "Missing Sops config file"
-        sh: "test -f {{.SOPS_CONFIG_FILE}}"
-      - msg: "Missing Sops Age key file"
-        sh: "test -f {{.AGE_FILE}}"
+      - { msg: "sops not in $PATH", sh: "which sops" }
+      - { msg: "Missing Sops Age key file", sh: "test -f {{.AGE_FILE}}" }
+      - { msg: "Missing Sops config file", sh: "test -f {{.SOPS_CONFIG_FILE}}" }
