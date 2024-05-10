@@ -57,9 +57,6 @@ spec:
           enabled: true
           hosts:
             - &host "hubble.${SECRET_DOMAIN}"
-          tls:
-            - hosts:
-                - *host
         rollOutPods: true
     operator:
       dashboards:

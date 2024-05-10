@@ -14,8 +14,8 @@ spec:
       - dns01:
           cloudflare:
             apiTokenSecretRef:
-              name: cert-manager-secret
               key: api-token
+              name: cert-manager-secret
         selector:
           dnsZones:
             - "${SECRET_DOMAIN}"
@@ -35,8 +35,8 @@ spec:
       - dns01:
           cloudflare:
             apiTokenSecretRef:
-              name: cert-manager-secret
               key: api-token
+              name: cert-manager-secret
         selector:
           dnsZones:
             - "${SECRET_DOMAIN}"

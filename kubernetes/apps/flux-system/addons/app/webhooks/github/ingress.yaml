@@ -20,6 +20,3 @@ spec:
                   number: 80
             path: /hook/
             pathType: Prefix
-  tls:
-    - hosts:
-        - *host
