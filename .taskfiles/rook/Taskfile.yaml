@@ -12,7 +12,7 @@ vars:
 
 tasks:
 
-  # task rook:reset cephnode=k8s-1 cephdisk=/dev/sdb
+  # task rook:reset cephnode=<node_name> cephdisk=/dev/sdb
   reset:
     desc: Reset Rook
     summary: |
