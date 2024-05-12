@@ -9,3 +9,4 @@ resources:
   - ./common/ks.yaml
   - ./hajimari/ks.yaml
   - ./mealie/ks.yaml
+  - ./plex/ks.yaml
