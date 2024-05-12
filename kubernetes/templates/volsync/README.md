@@ -40,7 +40,7 @@ resources:
 - `APP_PVC_STORAGECLASS`: [ default | ceph-block ]
 - `VOLSYNC_CACHE_ACCESSMODES`: [ default | ReadWriteOnce ]
 - `VOLSYNC_CACHE_CAPACITY`: [default | (ReplicationSource - 4Gi) (ReplicationDestination - 8Gi) ]
-- `VOLSYNC_CACHE_SNAPSHOTCLASS`: [ default | openebs-hostpath ]
+- `VOLSYNC_CACHE_SNAPSHOTCLASS`: [ default | democratic-csi-local-hostpath ]
 - `VOLSYNC_COPYMETHOD`: [ default | Snapshot ]
 - `VOLSYNC_S3_ADDRESS`:
 - `VOLSYNC_S3_BUCKET_NAME`: [ default | volsync ]
