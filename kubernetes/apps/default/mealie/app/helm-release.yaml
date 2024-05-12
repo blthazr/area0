@@ -36,7 +36,7 @@ spec:
           app:
             env:
               ALLOW_SIGNUP: "false"
-              BASE_URL: "${HOSTNAME}.${SECRET_DOMAIN}"
+              BASE_URL: "${HOSTNAME:-${APP}}.${SECRET_DOMAIN}"
               DB_ENGINE: sqlite
               PGID: ${APP_GID}
               PUID: ${APP_UID}
@@ -70,7 +70,7 @@ spec:
         className: external
         enabled: true
         hosts:
-          - host: "${HOSTNAME}.${SECRET_DOMAIN}"
+          - host: "${HOSTNAME:-${APP}}.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
