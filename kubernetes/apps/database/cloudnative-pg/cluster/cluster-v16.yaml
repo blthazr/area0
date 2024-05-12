@@ -45,7 +45,7 @@ spec:
       cpu: 500m
   storage:
     size: 20Gi
-    storageClass: openebs-hostpath
+    storageClass: democratic-csi-local-hostpath
   superuserSecret:
     name: cloudnative-pg-secret
   # Note: previousCluster needs to be set to the name of the previous
