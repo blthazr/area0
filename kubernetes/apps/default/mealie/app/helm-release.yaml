@@ -40,6 +40,7 @@ spec:
               DB_ENGINE: sqlite
               PGID: ${APP_GID}
               PUID: ${APP_UID}
+              TOKEN_TIME: 720
               TZ: "${CLUSTER_TIME_ZONE}"
             image:
               repository: ghcr.io/mealie-recipes/mealie
