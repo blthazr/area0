@@ -59,6 +59,8 @@ spec:
                   periodSeconds: 10
                   timeoutSeconds: 1
               readiness: *probes
+              startup:
+                enabled: false
             resources:
               limits:
                 memory: 1Gi
