@@ -45,7 +45,7 @@ spec:
                   name: "${APP}-secret"
             image:
               repository: ghcr.io/onedr0p/radarr-develop
-              tag: 5.5.0.8730@sha256:9ca40af1db9d5ed91cd69f7f2ab602ae937c15ee8c792c5226244019fec4862c
+              tag: 5.5.3.8819@sha256:c9637c4bdf6e929b823dc8497ff34fdcb2e0868703cd686a20a1d55b8b6381de
             probes:
               liveness: &probes
                 custom: true
