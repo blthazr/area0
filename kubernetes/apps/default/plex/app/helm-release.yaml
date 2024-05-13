@@ -67,9 +67,9 @@ spec:
                 cpu: 100m
             securityContext:
               allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
               capabilities:
                 drop: ["ALL"]
+              readOnlyRootFilesystem: true
     defaultPodOptions:
       affinity:
         podAntiAffinity:
@@ -147,10 +147,10 @@ spec:
         type: emptyDir
     service:
       app:
-        controller: plex
-        type: LoadBalancer
         annotations:
           io.cilium/lb-ipam-ips: "${CLUSTER_LB_PLEX}"
+        controller: plex
         ports:
           http:
             port: *port
+        type: LoadBalancer

@@ -71,10 +71,10 @@ spec:
               readOnlyRootFilesystem: true
         initContainers:
           init-db:
+            envFrom: *envFrom
             image:
               repository: ghcr.io/onedr0p/postgres-init
               tag: 16
-            envFrom: *envFrom
     defaultPodOptions:
       securityContext:
         fsGroup: ${APP_GID}

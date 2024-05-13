@@ -68,15 +68,15 @@ spec:
                 cpu: 10m
             securityContext:
               allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
               capabilities:
                 drop: ["ALL"]
+              readOnlyRootFilesystem: true
         initContainers:
           init-db:
+            envFrom: *envFrom
             image:
               repository: ghcr.io/onedr0p/postgres-init
               tag: 16
-            envFrom: *envFrom
     defaultPodOptions:
       nodeSelector:
         role/media: "true"

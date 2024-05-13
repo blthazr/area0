@@ -35,7 +35,7 @@ spec:
         containers:
           app:
             env:
-              LOG_LEVEL: "info"
+              LOG_LEVEL: info
               PORT: &port 5055
               TZ: "${CLUSTER_TIME_ZONE}"
             image:
@@ -63,9 +63,9 @@ spec:
                 cpu: 10m
             securityContext:
               allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
               capabilities:
                 drop: ["ALL"]
+              readOnlyRootFilesystem: true
     defaultPodOptions:
       securityContext:
         fsGroup: ${APP_GID}
