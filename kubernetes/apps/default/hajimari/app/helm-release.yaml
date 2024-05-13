@@ -54,8 +54,8 @@ spec:
           hajimari.io/enable: "false"
         enabled: true
         hosts:
-          - host: &host "apps.${SECRET_DOMAIN}"
-            paths: &paths
+          - host: "${HOSTNAME:-${APP}}.${SECRET_DOMAIN}"
+            paths:
               - path: /
                 pathType: Prefix
         ingressClassName: internal
