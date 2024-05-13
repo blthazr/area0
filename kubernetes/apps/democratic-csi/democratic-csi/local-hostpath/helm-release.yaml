@@ -63,7 +63,7 @@ spec:
           - name: local-hostpath
             mountPath: *storagePath
             mountPropagation: Bidirectional
-        image: ghcr.io/democratic-csi/democratic-csi:v1.9.0
+        image: ghcr.io/democratic-csi/democratic-csi:v1.9.1
       extraVolumes:
         - name: local-hostpath
           hostPath:
