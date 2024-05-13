@@ -1,0 +1,130 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: &app radarr-uhd
+spec:
+  chart:
+    spec:
+      chart: app-template
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      version: 3.1.0
+  dependsOn:
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
+  install:
+    remediation:
+      retries: 3
+  interval: 30m
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+      strategy: rollback
+  values:
+    controllers:
+      radarr:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            env:
+              RADARR__AUTHENTICATION_METHOD: External
+              RADARR__AUTHENTICATION_REQUIRED: DisabledForLocalAddresses
+              RADARR__INSTANCE_NAME: Radarr (UHD)
+              RADARR__LOG_LEVEL: info
+              RADARR__PORT: &port 7878
+              RADARR__THEME: dark
+              TZ: "${CLUSTER_TIME_ZONE}"
+            envFrom: &envFrom
+              - secretRef:
+                  name: "${APP}-secret"
+            image:
+              repository: ghcr.io/onedr0p/radarr-develop
+              tag: 5.5.0.8730@sha256:9ca40af1db9d5ed91cd69f7f2ab602ae937c15ee8c792c5226244019fec4862c
+            probes:
+              liveness: &probes
+                custom: true
+                enabled: true
+                spec:
+                  failureThreshold: 3
+                  httpGet:
+                    path: /ping
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+              readiness: *probes
+              startup:
+                enabled: false
+            resources:
+              limits:
+                memory: 1Gi
+              requests:
+                cpu: 10m
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop: ["ALL"]
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 16
+            envFrom: *envFrom
+    defaultPodOptions:
+      nodeSelector:
+        role/media: "true"
+      securityContext:
+        fsGroup: ${APP_GID}
+        fsGroupChangePolicy: OnRootMismatch
+        runAsGroup: ${APP_GID}
+        runAsNonRoot: true
+        runAsUser: ${APP_UID}
+        seccompProfile:
+          type: RuntimeDefault
+        supplementalGroups:
+          - 100
+    ingress:
+      app:
+        annotations:
+          hajimari.io/group: Media Management
+          hajimari.io/icon: mdi:filmstrip
+          hajimari.io/info: UHD Movie Collection Manager
+        className: internal
+        enabled: true
+        hosts:
+          - host: "${HOSTNAME:-${APP}}.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: app
+                  port: http
+    persistence:
+      config:
+        enabled: true
+        existingClaim: radarr-uhd-config
+        globalMounts:
+          - path: /config
+      media:
+        enabled: true
+        existingClaim: local-media
+        globalMounts:
+          - path: /media
+      tmp:
+        enabled: true
+        globalMounts:
+          - path: /tmp
+        type: emptyDir
+    service:
+      app:
+        controller: radarr
+        ports:
+          http:
+            port: *port
