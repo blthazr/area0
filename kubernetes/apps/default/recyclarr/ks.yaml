@@ -22,5 +22,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      APP_UID: "568"
+      APP_GID: "568"
       APP_PVC: recyclarr-config
       APP_PVC_CAPACITY: 1Gi
