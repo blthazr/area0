@@ -42,7 +42,7 @@ spec:
                   name: "${APP}-secret"
             image:
               repository: ghcr.io/onedr0p/prowlarr-develop
-              tag: 1.17.0.4448@sha256:66e786d023cf94a7005b9a9effde9e7e4557e799b3f00cfb7b084f81ba15082c
+              tag: 1.17.2.4511@sha256:57e59d86abd90182f70a43e0f660fc80ef035275508a1ca946c6a17ec0ff1630
             probes:
               liveness: &probes
                 custom: true
