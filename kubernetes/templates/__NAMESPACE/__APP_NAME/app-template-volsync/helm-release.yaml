@@ -29,4 +29,113 @@ spec:
     remediation:
       retries: 3
       strategy: rollback
-  values: {}
+  values:
+    controllers:
+      __APP_NAME:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            # env:
+            #   TZ: "${CLUSTER_TIME_ZONE}"
+            # envFrom: &envFrom
+            #   - secretRef:
+            #       name: "${APP}-secret"
+            image:
+              repository: __IMAGE_REPOSITORY
+              tag: __IMAGE_TAG
+            # probes:
+            #   liveness: &probes
+            #     custom: true
+            #     enabled: true
+            #     spec:
+            #       failureThreshold: 3
+            #       httpGet:
+            #         path: __HTTP_GET_PATH
+            #         port: &port __SERVICE_PORT_NUMBER
+            #       initialDelaySeconds: 0
+            #       periodSeconds: 10
+            #       timeoutSeconds: 1
+            #   readiness: *probes
+            #   startup:
+            #     enabled: false
+            #   startup:
+            #     enabled: true
+            #     spec:
+            #       initialDelaySeconds: 0
+            #       timeoutSeconds: 1
+            #       ## This means it has a maximum of 5*30=150 seconds to start up before it fails
+            #       periodSeconds: 5
+            #       failureThreshold: 30
+            # resources:
+            #   limits:
+            #     cpu: 100m
+            #     memory: 128Mi
+            #   requests:
+            #     cpu: 100m
+            #     memory: 128Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop: ["ALL"]
+              readOnlyRootFilesystem: true
+        # initContainers:
+        #   init-db:
+        #     envFrom: *envFrom
+        #     image:
+        #       repository: ghcr.io/onedr0p/postgres-init
+        #       tag: 16
+    defaultPodOptions:
+      nodeSelector: {}
+        # intel.feature.node.kubernetes.io/gpu: "true"
+        # role/media: "true"
+      securityContext:
+        fsGroup: ${APP_GID}
+        fsGroupChangePolicy: OnRootMismatch
+        runAsGroup: ${APP_GID}
+        runAsNonRoot: true
+        runAsUser: ${APP_UID}
+        seccompProfile:
+          type: RuntimeDefault
+        supplementalGroups:
+          # - 44
+          - 100
+    ingress:
+      app:
+        annotations:
+          # external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
+          hajimari.io/appName: __HAJIMARI_NAME
+          hajimari.io/group: __HAJIMARI_GROUP
+          hajimari.io/icon: mdi:__ICON
+          hajimari.io/info: __HAJIMARI_DESCRIPTION
+        className: internal # external
+        enabled: true
+        hosts:
+          - host: "${HOSTNAME:-${APP}}.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: app
+                  port: __SERVICE_PORT_NAME
+    persistence:
+      __VOLUME_NAME: # config:
+        enabled: true
+        existingClaim: "${APP_PVC:-${APP}}"
+        globalMounts:
+          - path: __VOLUME_MOUNT_PATH
+            # readOnly: true
+      tmp:
+        enabled: true
+        globalMounts:
+          - path: /tmp
+        type: emptyDir
+    service:
+      app:
+        # annotations:
+        #   io.cilium/lb-ipam-ips: __LB_IP_ADDRESS
+        controller: __APP_NAME
+        ports:
+          __SERVICE_PORT_NAME:
+            port: __SERVICE_PORT_NUMBER # *port
+        # type: LoadBalancer
