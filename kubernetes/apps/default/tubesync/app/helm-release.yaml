@@ -42,25 +42,9 @@ spec:
             image:
               repository: ghcr.io/meeb/tubesync
               tag: latest@sha256:381f526be6e3e64d2c0ab2e0acb008c82777bc5aa0c2ddd88e59c5687d2e5541
-            resources: {}
-            securityContext:
-              allowPrivilegeEscalation: false
-              capabilities:
-                drop: ["ALL"]
-              readOnlyRootFilesystem: true
     defaultPodOptions:
       nodeSelector:
         role/media: "true"
-      securityContext:
-        fsGroup: ${APP_GID}
-        fsGroupChangePolicy: OnRootMismatch
-        runAsGroup: ${APP_GID}
-        runAsNonRoot: true
-        runAsUser: ${APP_UID}
-        seccompProfile:
-          type: RuntimeDefault
-        supplementalGroups:
-          - 100
     ingress:
       app:
         annotations:
