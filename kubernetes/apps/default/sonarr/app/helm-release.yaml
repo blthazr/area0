@@ -33,7 +33,6 @@ spec:
         containers:
           app:
             env:
-
               SONARR__APP__INSTANCENAME: Sonarr
               SONARR__APP__THEME: dark
               SONARR__AUTH__METHOD: External
