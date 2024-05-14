@@ -33,14 +33,13 @@ spec:
         containers:
           app:
             env:
-              LIDARR__INSTANCE__NAME: Lidarr
-              LIDARR__APP__THEME: dark
-              LIDARR__AUTH__METHOD: External
-              LIDARR__AUTH__REQUIRED: DisabledForLocalAddresses
-              LIDARR__LOG__DBENABLED: "False"
-              LIDARR__LOG__LEVEL: info
-              LIDARR__SERVER__PORT: &port 8686
-              LIDARR__UPDATE__BRANCH: develop
+              LIDARR__AUTHENTICATION_METHOD: External
+              LIDARR__AUTHENTICATION_REQUIRED: DisabledForLocalAddresses
+              LIDARR__BRANCH: develop
+              LIDARR__INSTANCE_NAME: Lidarr
+              LIDARR__LOG_LEVEL: info
+              LIDARR__PORT: &port 8686
+              LIDARR__THEME: dark
               TZ: "${CLUSTER_TIME_ZONE}"
             envFrom: &envFrom
               - secretRef:
