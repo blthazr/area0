@@ -47,7 +47,7 @@ spec:
                   name: "${APP}-secret"
             image:
               repository: ghcr.io/onedr0p/lidarr-develop
-              tag: 2.1.7.4030@sha256:01d40bb9a759a3be757a9af235a14dafcef131b5014a6a2f4a32075b5fa940c5
+              tag: 2.3.3.4204@sha256:0dcc2c8bd14736f7672746d29e8fdbda8be298a331a8a58fcfb96087486f174e
             probes:
               liveness: &probes
                 custom: true
