@@ -33,12 +33,14 @@ spec:
         containers:
           app:
             env:
-              RADARR__AUTHENTICATION_METHOD: External
-              RADARR__AUTHENTICATION_REQUIRED: DisabledForLocalAddresses
-              RADARR__INSTANCE_NAME: Radarr
-              RADARR__LOG_LEVEL: info
-              RADARR__PORT: &port 7878
-              RADARR__THEME: dark
+              RADARR__APP__INSTANCENAME: Radarr
+              RADARR__APP__THEME: dark
+              RADARR__AUTH__METHOD: External
+              RADARR__AUTH__REQUIRED: DisabledForLocalAddresses
+              RADARR__LOG__DBENABLED: "False"
+              RADARR__LOG__LEVEL: info
+              RADARR__SERVER__PORT: &port 7878
+              RADARR__UPDATE__BRANCH: develop
               TZ: "${CLUSTER_TIME_ZONE}"
             envFrom: &envFrom
               - secretRef:
