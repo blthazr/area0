@@ -46,7 +46,7 @@ spec:
                   name: "${APP}-secret"
             image:
               repository: ghcr.io/onedr0p/bazarr
-              tag: 1.4.2@sha256:113035f37f289f190781d9d728f2ebf56c895b972921820f5d30408427c837d9
+              tag: 1.4.2@sha256:7f152a7b8f46707f5feb68a315d8989cb85ed9e8b6868608f80e6f5eb6cc2e8e
             probes:
               liveness: &probes
                 custom: true
