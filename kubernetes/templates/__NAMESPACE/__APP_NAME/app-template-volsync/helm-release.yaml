@@ -111,13 +111,16 @@ spec:
         className: internal # external
         enabled: true
         hosts:
-          - host: "${HOSTNAME:-${APP}}.${SECRET_DOMAIN}"
+          - host: &host "${HOSTNAME:-${APP}}.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
                 service:
                   identifier: app
                   port: __SERVICE_PORT_NAME
+        tls:
+          - hosts:
+              - *host
     persistence:
       __VOLUME_NAME: # config:
         enabled: true

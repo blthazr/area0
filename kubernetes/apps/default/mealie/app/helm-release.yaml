@@ -71,13 +71,16 @@ spec:
         className: external
         enabled: true
         hosts:
-          - host: "${HOSTNAME:-${APP}}.${SECRET_DOMAIN}"
+          - host: &host "${HOSTNAME:-${APP}}.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
                 service:
                   identifier: app
                   port: http
+        tls:
+          - hosts:
+              - *host
     persistence:
       api-data:
         enabled: true

@@ -35,7 +35,6 @@ spec:
         containers:
           app:
             env:
-              BAZARR__APP__THEME: dark
               BAZARR__AUTHENTICATION_METHOD: External
               BAZARR__AUTHENTICATION_REQUIRED: "DisabledForLocalAddresses"
               BAZARR__INSTANCE_NAME: Bazarr
@@ -73,8 +72,6 @@ spec:
               capabilities:
                 drop: ["ALL"]
               readOnlyRootFilesystem: true
-
-
           subcleaner:
             env:
               GITSYNC_REPO: https://github.com/KBlixt/subcleaner
@@ -114,13 +111,16 @@ spec:
         className: internal
         enabled: true
         hosts:
-          - host: "${HOSTNAME:-${APP}}.${SECRET_DOMAIN}"
+          - host: &host "${HOSTNAME:-${APP}}.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
                 service:
                   identifier: app
                   port: http
+        tls:
+          - hosts:
+              - *host
     persistence:
       add-ons:
         enabled: true

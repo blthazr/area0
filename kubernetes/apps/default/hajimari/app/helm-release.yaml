@@ -54,10 +54,13 @@ spec:
           hajimari.io/enable: "false"
         enabled: true
         hosts:
-          - host: "${HOSTNAME:-${APP}}.${SECRET_DOMAIN}"
+          - host: &host "${HOSTNAME:-${APP}}.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
+        tls:
+          - hosts:
+              - *host
         ingressClassName: internal
     persistence:
       data:
