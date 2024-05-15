@@ -32,30 +32,21 @@ tasks:
       # Install Flux Kustomization resources
       - kubectl apply --kubeconfig {{.KUBECONFIG_FILE}} --server-side --kustomize {{.KUBERNETES_DIR}}/flux/config
     preconditions:
-      - msg: "Kubeconfig not found"
-        sh: "test -f {{.KUBECONFIG_FILE}}"
-      - msg: "Flux appears to already be installed"
-        sh: "kubectl --kubeconfig {{.KUBECONFIG_FILE}} get namespace flux-system &>/dev/null && exit 1 || exit 0"
-      - msg: "Age private key not found"
-        sh: "test -f {{.AGE_FILE}}"
-      - msg: "Age secret not found"
-        sh: "test -f {{.CLUSTER_AGE_KEY_SECRET_SOPS_FILE}}"
-      - msg: "Github deploy secret not found"
-        sh: "test -f {{.GITHUB_DEPLOY_KEY_FILE}}"
-      - msg: "Cluster settings not found"
-        sh: "test -f {{.CLUSTER_SETTINGS_FILE}}"
-      - msg: "Cluster secrets not found"
-        sh: "test -f {{.CLUSTER_SECRET_FILE}}"
-      - msg: "Unable to decrypt age secret"
-        sh: "sops --decrypt {{.CLUSTER_AGE_KEY_SECRET_SOPS_FILE}}"
-      - msg: "Unable to decrypt github deploy secret"
-        sh: "sops --decrypt {{.GITHUB_DEPLOY_KEY_FILE}}"
-      - msg: "Unable to decrypt cluster secrets "
-        sh: "sops --decrypt {{.CLUSTER_SECRET_FILE}}"
-      - msg: "Flux bootstrap misconfigured"
-        sh: "kustomize build {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/flux"
-      - msg: "Flux config misconfigured"
-        sh: "kustomize build {{.KUBERNETES_DIR}}/{{.cluster}}/flux/config"
+      - { msg: "Missing kubectl", sh: "which kubectl" }
+      - { msg: "Missing kubeconfig file", sh: "test -f {{.KUBECONFIG_FILE}}" }
+      - { msg: "Flux is already installed", sh: "kubectl --kubeconfig {{.KUBECONFIG_FILE}} get namespace flux-system &>/dev/null && exit 1 || exit 0" }
+      - { msg: "sops not in $PATH", sh: "which sops" }
+      - { msg: "Missing Sops age key file", sh: "test -f {{.AGE_FILE}}" }
+      - { msg: "Missing Sops config file", sh: "test -f {{.SOPS_CONFIG_FILE}}" }
+      - { msg: "Missing age secret file", sh: "test -f {{.CLUSTER_AGE_KEY_SECRET_SOPS_FILE}}" }
+      - { msg: "Missing github deploy secret file", sh: "test -f {{.GITHUB_DEPLOY_KEY_FILE}}" }
+      - { msg: "Missing cluster settings file", sh: "test -f {{.CLUSTER_SETTINGS_FILE}}" }
+      - { msg: "Missing cluster secrets file", sh: "test -f {{.CLUSTER_SECRET_FILE}}" }
+      - { msg: "Unable to decrypt age secret", sh: "sops --decrypt {{.CLUSTER_AGE_KEY_SECRET_SOPS_FILE}}" }
+      - { msg: "Unable to decrypt github deploy secret", sh: "sops --decrypt {{.GITHUB_DEPLOY_KEY_FILE}}" }
+      - { msg: "Unable to decrypt cluster secrets", sh: "sops --decrypt {{.CLUSTER_SECRET_FILE}}" }
+      - { msg: "Flux bootstrap misconfigured", sh: "kustomize build {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/flux" }
+      - { msg: "Flux config misconfigured", sh: "kustomize build {{.KUBERNETES_DIR}}/{{.cluster}}/flux/config" }
 
   # task flux:apply path=<namespace>/<app> ns=<namespace>
   apply:
@@ -87,7 +78,5 @@ tasks:
       kustomization_found:
         sh: flux --kubeconfig {{.KUBECONFIG_FILE}} --namespace {{.ns}} get kustomization {{.ks_name}} 2>&1
     preconditions:
-      - msg: "Kubeconfig not found"
-        sh: "test -f {{.KUBECONFIG_FILE}}"
-      - msg: "Flux Kustomization for app {{.path}} not found"
-        sh: "test -f {{.kustomization_file}}"
+      - { msg: "Kubeconfig not found", sh: "test -f {{.KUBECONFIG_FILE}}" }
+      - { msg: "Flux Kustomization for app {{.path}} not found", sh: "test -f {{.kustomization_file}}" }
