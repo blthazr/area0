@@ -41,7 +41,7 @@ spec:
                 valueFrom:
                   secretKeyRef:
                     name: radarr-secret
-                    key: SONARR__AUTH__APIKEY
+                    key: RADARR__AUTH__APIKEY
               RADARR_UHD__API_KEY:
                 valueFrom:
                   secretKeyRef:
@@ -51,7 +51,7 @@ spec:
                 valueFrom:
                   secretKeyRef:
                     name: sonarr-secret
-                    key: RADARR__AUTH__APIKEY
+                    key: SONARR__AUTH__APIKEY
               TZ: "${CLUSTER_TIME_ZONE}"
             image:
               repository: ghcr.io/recyclarr/recyclarr
