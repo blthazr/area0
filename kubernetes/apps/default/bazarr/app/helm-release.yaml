@@ -35,6 +35,7 @@ spec:
         containers:
           app:
             env:
+              BAZARR__APP__THEME: dark
               BAZARR__AUTHENTICATION_METHOD: External
               BAZARR__AUTHENTICATION_REQUIRED: "DisabledForLocalAddresses"
               BAZARR__INSTANCE_NAME: Bazarr
