@@ -82,7 +82,7 @@ spec:
               GITSYNC_ROOT: /add-ons
             image:
               repository: registry.k8s.io/git-sync/git-sync
-              tag: v4.2.1@sha256:004c213800fac0b71fa2f51979513f5fb383df713c4eaf514ddab65c9efa78b8
+              tag: v4.2.3@sha256:19cc7c317d125c5737ecb9a9159d00b5d97f39c45225c6483de365d62fc09fa8
             resources:
               requests:
                 cpu: 10m
