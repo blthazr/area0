@@ -16,6 +16,16 @@
       "versioning": "semver"
     },
     {
+      "description": "Intel Device Plugins Group",
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "groupName": "Intel Device Plugins",
+      "matchDatasources": ["helm"],
+      "matchPackagePatterns": ["intel-device-plugins"],
+      "separateMinorPatch": true
+    },
+    {
       "description": "Rook-Ceph Group",
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
@@ -23,19 +33,6 @@
       "groupName": "Rook-Ceph",
       "matchDatasources": ["helm"],
       "matchPackagePatterns": ["rook.ceph"],
-      "separateMinorPatch": true
-    },
-    {
-      "description": "System Upgrade Controller Group",
-      "group": {
-        "commitMessageTopic": "{{{groupName}}} group"
-      },
-      "groupName": "System Upgrade Controller",
-      "matchDatasources": [
-        "docker",
-        "github-releases"
-      ],
-      "matchPackagePatterns": ["system-upgrade-controller"],
       "separateMinorPatch": true
     },
     {
@@ -48,23 +45,6 @@
       "matchPackagePatterns": [
         "siderolabs/installer",
         "siderolabs/talosctl"
-      ],
-      "separateMinorPatch": true
-    },
-    {
-      "description": "Volsync Group",
-      "group": {
-        "commitMessageTopic": "{{{groupName}}} group"
-      },
-      "groupName": "Volsync",
-      "matchDatasources": [
-        "docker",
-        "helm"
-      ],
-      "matchPackagePatterns": ["volsync"],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
       ],
       "separateMinorPatch": true
     }
