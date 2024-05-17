@@ -13,18 +13,6 @@
         "ghcr.io/onedr0p"
       ],
       "matchUpdateTypes": ["digest"]
-    },
-    {
-      "addLabels": ["action/automerge"],
-      "automerge": true,
-      "automergeType": "branch",
-      "description": "Auto-merge GitHub Actions (patch, minor)",
-      "matchDatasources": ["github-tags"],
-      "matchManagers": ["github-actions"],
-      "matchUpdateTypes": [
-        "patch",
-        "minor"
-      ]
     }
   ]
 }
