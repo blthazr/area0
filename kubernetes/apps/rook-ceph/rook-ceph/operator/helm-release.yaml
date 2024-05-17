@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: rook-ceph
         namespace: flux-system
-      version: v1.14.3
+      version: v1.14.4
   dependsOn:
     - name: snapshot-controller
       namespace: volsync-system
