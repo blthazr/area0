@@ -32,3 +32,75 @@ tasks:
       - { msg: "Missing talhelper config file", sh: "test -f {{.TALHELPER_CONFIG_FILE}}" }
       - { msg: "Missing talhelper env file", sh: "test -f {{.TALHELPER_ENV_FILE}}" }
       - { msg: "Missing talhelper secret file", sh: "test -f {{.TALHELPER_SECRET_FILE}}" }
+
+  # task talos:apply-machineconfig node=<node name>
+  apply-machineconfig:
+    desc: Apply the Talos machineConfig to a single node
+    summary: |
+      Args:
+        node: (required)
+    deps:
+      - generate-clusterconfig
+    dir: "{{.TALOS_DIR}}"
+    cmds:
+      - task: _apply-machineconfig
+        vars:
+          extra_flags: "--mode reboot"
+          node: "{{.node}}"
+    requires:
+      vars:
+        - node
+    preconditions:
+      - { msg: "talhelper not in $PATH", sh: "which talhelper" }
+      - { msg: "talosctl not in $PATH", sh: "which talosctl" }
+      - { msg: "Missing talhelper config file", sh: "test -f {{.TALHELPER_CONFIG_FILE}}" }
+      - { msg: "Missing talhelper env file", sh: "test -f {{.TALHELPER_ENV_FILE}}" }
+
+  # task talos:diff-node node=<node name>
+  diff-node:
+    desc: Diff the Talos machineConfig on a single node
+    summary: |
+      Args:
+        node: (required)
+    deps:
+      - generate-clusterconfig
+    dir: "{{.TALOS_DIR}}"
+    cmds:
+      - task: _apply-machineconfig
+        vars:
+          extra_flags: --dry-run
+          node: "{{.node}}"
+    requires:
+      vars:
+        - node
+    preconditions:
+      - { msg: "talhelper not in $PATH", sh: "which talhelper" }
+      - { msg: "talosctl not in $PATH", sh: "which talosctl" }
+      - { msg: "Missing talhelper config file", sh: "test -f {{.TALHELPER_CONFIG_FILE}}" }
+      - { msg: "Missing talhelper env file", sh: "test -f {{.TALHELPER_ENV_FILE}}" }
+
+  _apply-machineconfig:
+    internal: true
+    desc: "Apply the Talos machineConfig to a node"
+    dir: "{{.TALOS_DIR}}"
+    cmds:
+      - |
+        talhelper gencommand apply \
+        --config-file {{.TALHELPER_CONFIG_FILE}} \
+        --env-file {{.TALHELPER_ENV_FILE}} \
+        {{ if .extra_flags }} --extra-flags="{{.extra_flags}}" {{ end }} \
+        {{ if .node_ip_address }} --node {{.node_ip_address}} {{ end }} \
+        --out-dir {{.TALOSCONFIG_DIR}} \
+        | bash
+    vars:
+      node_ip_address:
+        sh: |
+          yq '.nodes[] | select(.hostname == "{{.node}}") | .ipAddress' {{.TALHELPER_CONFIG_FILE}}
+    requires:
+      vars:
+        - node
+    preconditions:
+      - { msg: "talhelper not in $PATH", sh: "which talhelper" }
+      - { msg: "talosctl not in $PATH", sh: "which talosctl" }
+      - { msg: "Missing talhelper config file", sh: "test -f {{.TALHELPER_CONFIG_FILE}}" }
+      - { msg: "Missing talhelper env file", sh: "test -f {{.TALHELPER_ENV_FILE}}" }
