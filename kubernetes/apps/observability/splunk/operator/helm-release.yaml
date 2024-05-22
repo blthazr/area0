@@ -24,7 +24,5 @@ spec:
       strategy: rollback
   values:
     splunkOperator:
-      nodeSelector:
-        kubernetes.io/hostname: k8s-5
       persistentVolumeClaim:
         storageClassName: democratic-csi-local-hostpath
