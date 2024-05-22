@@ -7,22 +7,28 @@ vars:
   TALHELPER_CONFIG_FILE: "{{.TALOS_DIR}}/talconfig.yaml"
   TALHELPER_ENV_FILE: "{{.TALOS_DIR}}/talenv.sops.yaml"
   TALHELPER_SECRET_FILE: "{{.TALOS_DIR}}/talsecret.sops.yaml"
+  TALOSCONFIG_DIR: "{{.TALOS_DIR}}/clusterconfig"
+  TALOSCONFIG_FILE: "{{.TALOSCONFIG_DIR}}/talosconfig"
 
 env:
-  TALOSCONFIG: "{{.TALOS_DIR}}/clusterconfig/talosconfig"
+  TALOSCONFIG: "{{.TALOSCONFIG_FILE}}"
 
 tasks:
 
-  # task talos:genconfig
-  genconfig:
+  # task talos:generate-clusterconfig
+  generate-clusterconfig:
     desc: Generate the Talos configs
     dir: "{{.TALOS_DIR}}"
     cmds:
-      - talhelper genconfig
-        --env-file {{.TALHELPER_ENV_FILE}}
+      - |
+        talhelper genconfig \
+        --config-file {{.TALHELPER_CONFIG_FILE}} \
+        --env-file {{.TALHELPER_ENV_FILE}} \
+        --out-dir {{.TALOSCONFIG_DIR}} \
         --secret-file {{.TALHELPER_SECRET_FILE}}
-        --config-file {{.TALHELPER_CONFIG_FILE}}
     preconditions:
+      - { msg: "talhelper not in $PATH", sh: "which talhelper" }
+      - { msg: "talosctl not in $PATH", sh: "which talosctl" }
       - { msg: "Missing talhelper config file", sh: "test -f {{.TALHELPER_CONFIG_FILE}}" }
       - { msg: "Missing talhelper env file", sh: "test -f {{.TALHELPER_ENV_FILE}}" }
       - { msg: "Missing talhelper secret file", sh: "test -f {{.TALHELPER_SECRET_FILE}}" }
