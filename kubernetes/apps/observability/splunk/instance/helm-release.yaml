@@ -47,6 +47,11 @@ spec:
         ephemeralStorage: false
         storageCapacity: 10Gi
         storageClassName: ceph-block
+      extraEnv:
+        - name: SPLUNK_HOSTNAME
+          value: *app
+        - name: SPLUNK_PASSWORD
+          value: "${SECRET_SPLUNK_ADMIN_PASSWORD}"
       name: *app
       serviceTemplate:
         spec:
