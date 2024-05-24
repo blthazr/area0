@@ -1,0 +1,71 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app splunk
+spec:
+  chart:
+    spec:
+      chart: splunk-enterprise
+      sourceRef:
+        kind: HelmRepository
+        name: splunk
+        namespace: flux-system
+      version: 2.5.2
+  dependsOn:
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
+  install:
+    remediation:
+      retries: 3
+  interval: 30m
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+      strategy: rollback
+  values:
+    image:
+      repository: docker.io/splunk/splunk:9.1.1@sha256:20b1376a1677ef6eff611b1d1e25e3a170a715c646c2c27711bbb65b03f78ede
+    splunk-operator:
+      enabled: false
+    standalone:
+      additionalAnnotations:
+        secret.reloader.stakater.com/reload: splunk-minio-secret
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - k8s-5
+      enabled: true
+      etcVolumeStorageConfig:
+        ephemeralStorage: false
+        storageCapacity: 10Gi
+        storageClassName: ceph-block
+      name: *app
+      serviceTemplate:
+        spec:
+          loadBalancerIP: "${CLUSTER_LB_SPLUNK}"
+          type: LoadBalancer
+      smartstore:
+        defaults:
+          volumeName: volume_smartstore
+        indexes:
+          - name: main
+        volumes:
+          - endpoint: "http://${MINIO_ADDRESS}:9000"
+            name: volume_smartstore
+            path: splunk-s2/
+            secretRef: splunk-minio-secret
+      varVolumeStorageConfig:
+        ephemeralStorage: false
+        storageCapacity: 20Gi
+        storageClassName: democratic-csi-local-hostpath
+    sva:
+      s1:
+        enabled: true
