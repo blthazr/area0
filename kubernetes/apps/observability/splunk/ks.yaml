@@ -24,7 +24,7 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app splunk-standalone
+  name: &app splunk
   namespace: flux-system
 spec:
   commonMetadata:
@@ -33,7 +33,7 @@ spec:
   dependsOn:
     - name: splunk-operator
   interval: 30m
-  path: ./kubernetes/apps/observability/splunk/standalone
+  path: ./kubernetes/apps/observability/splunk/instance
   prune: true
   retryInterval: 1m
   sourceRef:
