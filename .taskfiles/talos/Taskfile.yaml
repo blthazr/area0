@@ -35,7 +35,7 @@ tasks:
 
   # task talos:apply-machineconfig node=<node name>
   apply-machineconfig:
-    desc: Apply the Talos machineConfig to a single node
+    desc: Apply the Talos machineConfig to a node
     summary: |
       Args:
         node: (required)
@@ -50,15 +50,10 @@ tasks:
     requires:
       vars:
         - node
-    preconditions:
-      - { msg: "talhelper not in $PATH", sh: "which talhelper" }
-      - { msg: "talosctl not in $PATH", sh: "which talosctl" }
-      - { msg: "Missing talhelper config file", sh: "test -f {{.TALHELPER_CONFIG_FILE}}" }
-      - { msg: "Missing talhelper env file", sh: "test -f {{.TALHELPER_ENV_FILE}}" }
 
   # task talos:diff-node node=<node name>
   diff-node:
-    desc: Diff the Talos machineConfig on a single node
+    desc: Diff the Talos machineConfig on a node
     summary: |
       Args:
         node: (required)
@@ -73,15 +68,9 @@ tasks:
     requires:
       vars:
         - node
-    preconditions:
-      - { msg: "talhelper not in $PATH", sh: "which talhelper" }
-      - { msg: "talosctl not in $PATH", sh: "which talosctl" }
-      - { msg: "Missing talhelper config file", sh: "test -f {{.TALHELPER_CONFIG_FILE}}" }
-      - { msg: "Missing talhelper env file", sh: "test -f {{.TALHELPER_ENV_FILE}}" }
 
   _apply-machineconfig:
     internal: true
-    desc: "Apply the Talos machineConfig to a node"
     dir: "{{.TALOS_DIR}}"
     cmds:
       - |
@@ -91,7 +80,7 @@ tasks:
         {{ if .extra_flags }} --extra-flags="{{.extra_flags}}" {{ end }} \
         {{ if .node_ip_address }} --node {{.node_ip_address}} {{ end }} \
         --out-dir {{.TALOSCONFIG_DIR}} \
-        | bash
+        # | bash
     vars:
       node_ip_address:
         sh: |
@@ -102,5 +91,7 @@ tasks:
     preconditions:
       - { msg: "talhelper not in $PATH", sh: "which talhelper" }
       - { msg: "talosctl not in $PATH", sh: "which talosctl" }
+      - { msg: "yq not in $PATH", sh: "which yq" }
       - { msg: "Missing talhelper config file", sh: "test -f {{.TALHELPER_CONFIG_FILE}}" }
       - { msg: "Missing talhelper env file", sh: "test -f {{.TALHELPER_ENV_FILE}}" }
+      - { msg: "IP Address for node {{.node}} not found in {{.TALHELPER_CONFIG_FILE}}", sh: "[ '{{.node_ip_address}}' != '<no value>' ] || [ -z '{{.node}}' ]" }
