@@ -9,12 +9,12 @@ resources:
   - ./bazarr/ks.yaml
   - ./common/ks.yaml
   - ./hajimari/ks.yaml
-  - ./lidarr/ks.yaml
+  # - ./lidarr/ks.yaml
   - ./mealie/ks.yaml
   - ./overseerr/ks.yaml
   - ./plex/ks.yaml
   - ./prowlarr/ks.yaml
-  - ./radarr/ks.yaml
+  # - ./radarr/ks.yaml
   - ./recyclarr/ks.yaml
   - ./sabnzbd/ks.yaml
   # - ./sonarr/ks.yaml
