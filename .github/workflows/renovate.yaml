@@ -6,11 +6,10 @@ on:
   push:
     branches: ["main"]
     paths:
-      - .github/renovate-config.json5
       - .github/renovate.json5
       - .github/renovate/**.json5
   schedule:
-    - cron: "13 * * * *" # hourly
+    - cron: "0 * * * *" # hourly
   workflow_dispatch:
     inputs:
       dryRun:
@@ -59,6 +58,6 @@ jobs:
       - name: Run Renovate
         uses: renovatebot/github-action@v40.1.11
         with:
-          configurationFile: .github/renovate-config.json5
+          configurationFile: .github/renovate.json5
           renovate-version: "${{ env.WORKFLOW_RENOVATE_VERSION }}"
           token: "${{ steps.app-token.outputs.token }}"

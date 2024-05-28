@@ -2,7 +2,7 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
-      "description": "Flux Group",
+      "description": ["Flux Group"],
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
       },
@@ -16,7 +16,7 @@
       "versioning": "semver"
     },
     {
-      "description": "Intel Device Plugins Group",
+      "description": ["Intel Device Plugins Group"],
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
       },
@@ -26,17 +26,20 @@
       "separateMinorPatch": true
     },
     {
-      "description": "Rook-Ceph Group",
+      "description": ["Rook-Ceph Group"],
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
       },
       "groupName": "Rook-Ceph",
-      "matchDatasources": ["helm"],
+      "matchDatasources": [
+        "docker",
+        "helm"
+      ],
       "matchPackagePatterns": ["rook.ceph"],
       "separateMinorPatch": true
     },
     {
-      "description": "Talos Group",
+      "description": ["Talos Group"],
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
       },

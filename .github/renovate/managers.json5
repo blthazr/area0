@@ -9,7 +9,7 @@
   // configure helmfile manager
   "helmfile": {
     "fileMatch": [
-      "(^|/)infrastructure/talos/apps/helmfile\\.ya?ml$"
+      "(^|/)helmfile\\.ya?ml$"
     ]
   },
   // configure helm-values manager
@@ -29,9 +29,10 @@
   "customManagers": [
     {
       "customType": "regex",
-      "description": "Process custom dependencies",
+      "description": ["Process custom dependencies"],
       "fileMatch": [
         "(^|/).taskfiles/.+\\.ya?ml$",
+        "(^|/)ansible/.+\\.ya?ml$",
         "(^|/)kubernetes/.+\\.ya?ml$"
       ],
       "matchStrings": [
@@ -48,7 +49,7 @@
     },
     {
       "customType": "regex",
-      "description": "Process CloudnativePG Postgresql version",
+      "description": ["Process CloudnativePG Postgresql version"],
       "fileMatch": [
         "(^|/)kubernetes/.+\\.ya?ml$"
       ],

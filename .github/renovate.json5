@@ -1,3 +1,17 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json"
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>blthazr/renovate-config",
+    "github>blthazr/renovate-config:automerge-github-actions",
+    "github>blthazr/area0//.github/renovate/allowedVersions.json5",
+    "github>blthazr/area0//.github/renovate/autoMerge.json5",
+    "github>blthazr/area0//.github/renovate/groups.json5",
+    "github>blthazr/area0//.github/renovate/managers.json5",
+    "github>blthazr/area0//.github/renovate/packageRules.json5"
+  ],
+  "ignorePaths": [
+    "**/*.sops.*",
+    "**/.archive/**",
+    "**/resources/**"
+  ]
 }
