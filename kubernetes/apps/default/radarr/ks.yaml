@@ -26,6 +26,8 @@ spec:
       APP: *app
       APP_UID: "568"
       APP_GID: "568"
+      APP_PVC: radarr-config
+      APP_PVC_CAPACITY: 15Gi
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -54,3 +56,5 @@ spec:
       APP: *app
       APP_UID: "568"
       APP_GID: "568"
+      APP_PVC: radarr-uhd-config
+      APP_PVC_CAPACITY: 15Gi

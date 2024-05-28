@@ -114,7 +114,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: radarr-uhd-config
+        existingClaim: "${APP_PVC:-${APP}}"
         globalMounts:
           - path: /config
       media:
