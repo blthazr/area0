@@ -15,15 +15,7 @@ jobs:
       pull-requests: write
     runs-on: ubuntu-latest
     steps:
-      - name: Generate token
-        id: app-token
-        uses: actions/create-github-app-token@v1
-        with:
-          app-id: "${{ secrets.BOT_APP_ID }}"
-          private-key: "${{ secrets.BOT_PRIVATE_KEY }}"
-
       - name: Run labeler
         uses: actions/labeler@v5
         with:
           configuration-path: .github/labeler.yaml
-          repo-token: "${{ steps.app-token.outputs.token }}"

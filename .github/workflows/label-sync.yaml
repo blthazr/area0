@@ -7,29 +7,24 @@ on:
     branches: ["main"]
     paths: [".github/labels.yaml"]
   schedule:
-    - cron: "7 1 * * *" # daily
+    - cron: "0 0 * * *" # daily at midnight
   workflow_dispatch:
+
+permissions:
+  issues: write
 
 jobs:
   label-sync:
     name: Label Sync
     runs-on: ubuntu-latest
     steps:
-      - name: Generate token
-        id: app-token
-        uses: actions/create-github-app-token@v1
-        with:
-          app-id: "${{ secrets.BOT_APP_ID }}"
-          private-key: "${{ secrets.BOT_PRIVATE_KEY }}"
-
       - name: Check out repository
         uses: actions/checkout@v4
         with:
-          token: "${{ steps.app-token.outputs.token }}"
+          sparse-checkout: .github/labels.yaml
 
       - name: Sync labels
         uses: EndBug/label-sync@v2
         with:
           config-file: .github/labels.yaml
           delete-other-labels: true
-          token: "${{ steps.app-token.outputs.token }}"
