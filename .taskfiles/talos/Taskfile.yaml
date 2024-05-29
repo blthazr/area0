@@ -69,33 +69,6 @@ tasks:
       vars:
         - node
 
-  _apply-machineconfig:
-    internal: true
-    dir: "{{.TALOS_DIR}}"
-    cmds:
-      - |
-        talhelper gencommand apply \
-        --config-file {{.TALHELPER_CONFIG_FILE}} \
-        --env-file {{.TALHELPER_ENV_FILE}} \
-        {{ if .extra_flags }} --extra-flags="{{.extra_flags}}" {{ end }} \
-        {{ if .node_ip_address }} --node {{.node_ip_address}} {{ end }} \
-        --out-dir {{.TALOSCONFIG_DIR}} \
-        # | bash
-    vars:
-      node_ip_address:
-        sh: |
-          yq '.nodes[] | select(.hostname == "{{.node}}") | .ipAddress' {{.TALHELPER_CONFIG_FILE}}
-    requires:
-      vars:
-        - node
-    preconditions:
-      - { msg: "talhelper not in $PATH", sh: "which talhelper" }
-      - { msg: "talosctl not in $PATH", sh: "which talosctl" }
-      - { msg: "yq not in $PATH", sh: "which yq" }
-      - { msg: "Missing talhelper config file", sh: "test -f {{.TALHELPER_CONFIG_FILE}}" }
-      - { msg: "Missing talhelper env file", sh: "test -f {{.TALHELPER_ENV_FILE}}" }
-      - { msg: "IP Address for node {{.node}} not found in {{.TALHELPER_CONFIG_FILE}}", sh: "[ '{{.node_ip_address}}' != '<no value>' ] || [ -z '{{.node}}' ]" }
-
   # task talos:upgrade node=<node name>
   upgrade:
     desc: Upgrade Talos on a node
@@ -138,6 +111,33 @@ tasks:
     preconditions:
       - { msg: "yq not in $PATH", sh: "which yq" }
       - { msg: "Missing talhelper config file", sh: "test -f {{.TALHELPER_CONFIG_FILE}}" }
+
+  _apply-machineconfig:
+    internal: true
+    dir: "{{.TALOS_DIR}}"
+    cmds:
+      - |
+        talhelper gencommand apply \
+        --config-file {{.TALHELPER_CONFIG_FILE}} \
+        --env-file {{.TALHELPER_ENV_FILE}} \
+        {{ if .extra_flags }} --extra-flags="{{.extra_flags}}" {{ end }} \
+        {{ if .node_ip_address }} --node {{.node_ip_address}} {{ end }} \
+        --out-dir {{.TALOSCONFIG_DIR}} \
+        | bash
+    vars:
+      node_ip_address:
+        sh: |
+          yq '.nodes[] | select(.hostname == "{{.node}}") | .ipAddress' {{.TALHELPER_CONFIG_FILE}}
+    requires:
+      vars:
+        - node
+    preconditions:
+      - { msg: "talhelper not in $PATH", sh: "which talhelper" }
+      - { msg: "talosctl not in $PATH", sh: "which talosctl" }
+      - { msg: "yq not in $PATH", sh: "which yq" }
+      - { msg: "Missing talhelper config file", sh: "test -f {{.TALHELPER_CONFIG_FILE}}" }
+      - { msg: "Missing talhelper env file", sh: "test -f {{.TALHELPER_ENV_FILE}}" }
+      - { msg: "IP Address for node {{.node}} not found in {{.TALHELPER_CONFIG_FILE}}", sh: "[ '{{.node_ip_address}}' != '<no value>' ] || [ -z '{{.node}}' ]" }
 
   _upgrade-talos:
     internal: true
