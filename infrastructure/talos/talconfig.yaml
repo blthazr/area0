@@ -36,7 +36,6 @@ nodes:
             gateway: 172.16.20.1
         vip:
           ip: ${clusterEndpointIP}
-    talosImageURL: factory.talos.dev/installer/376567988ad370138ad8b2698212367b8edcb69b5fd68c80be1f2ec7d603b4ba
   - hostname: k8s-2
     controlPlane: true
     installDisk: /dev/sda
@@ -53,7 +52,6 @@ nodes:
             gateway: 172.16.20.1
         vip:
           ip: ${clusterEndpointIP}
-    talosImageURL: factory.talos.dev/installer/376567988ad370138ad8b2698212367b8edcb69b5fd68c80be1f2ec7d603b4ba
   - hostname: k8s-3
     controlPlane: true
     installDisk: /dev/sda
@@ -70,7 +68,6 @@ nodes:
             gateway: 172.16.20.1
         vip:
           ip: ${clusterEndpointIP}
-    talosImageURL: factory.talos.dev/installer/376567988ad370138ad8b2698212367b8edcb69b5fd68c80be1f2ec7d603b4ba
   - hostname: k8s-4
     controlPlane: false
     installDisk: /dev/sda
@@ -85,7 +82,6 @@ nodes:
         routes:
           - network: 0.0.0.0/0
             gateway: 172.16.20.1
-    talosImageURL: factory.talos.dev/installer/376567988ad370138ad8b2698212367b8edcb69b5fd68c80be1f2ec7d603b4ba
   - hostname: k8s-5
     controlPlane: false
     installDisk: /dev/nvme0n1
@@ -100,7 +96,6 @@ nodes:
         routes:
           - network: 0.0.0.0/0
             gateway: 172.16.20.1
-    talosImageURL: factory.talos.dev/installer/376567988ad370138ad8b2698212367b8edcb69b5fd68c80be1f2ec7d603b4ba
 
 patches:
   # Configure containerd
