@@ -14,8 +14,8 @@ spec:
         namespace: flux-system
       version: 0.21.2
   dependsOn:
-    - name: openebs
-      namespace: openebs-system
+    - name: democratic-csi-local-hostpath
+      namespace: democratic-csi
   install:
     remediation:
       retries: 3
