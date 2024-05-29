@@ -110,6 +110,21 @@ nodes:
           officialExtensions:
             - siderolabs/intel-ucode
             - siderolabs/i915-ucode
+            - siderolabs/zfs
+    patches:
+      # Mount zfs-hostpath in kubelet
+      - |-
+        machine:
+          kubelet:
+            extraMounts:
+              -
+                destination: /var/mnt/media
+                options:
+                  - bind
+                  - rshared
+                  - rw
+                source: /var/mnt/media
+                type: bind
 
 patches:
   # Configure containerd
