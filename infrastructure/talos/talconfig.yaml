@@ -1,16 +1,17 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/master/pkg/config/schemas/talconfig.json
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/master/pkg/config/schemas/talconfig.json
+
 # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
 talosVersion: v1.6.7
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
 kubernetesVersion: v1.29.3
 
-clusterName: &cluster ${clusterName}
+clusterName: ${clusterName}
 endpoint: https://${clusterEndpointIP}:6443
 clusterPodNets:
-  - "10.32.0.0/16"
+  - 10.32.0.0/16
 clusterSvcNets:
-  - "10.33.0.0/16"
+  - 10.33.0.0/16
 additionalApiServerCertSans: &sans
   - ${clusterEndpointIP}
   - 127.0.0.1 # KubePrism
@@ -140,7 +141,8 @@ patches:
         extraArgs:
           rotate-server-certificates: true
         nodeIP:
-          validSubnets: ["172.16.20.0/23"]
+          validSubnets:
+            - 172.16.20.0/23
 
   # Force nameserver
   - |-
@@ -155,15 +157,16 @@ patches:
     machine:
       time:
         disabled: false
-        servers: ["time.cloudflare.com"]
+        servers:
+          - time.cloudflare.com
 
   # Custom sysctl settings
   - |-
     machine:
       sysctls:
         fs.inotify.max_queued_events: "65536"
-        fs.inotify.max_user_watches: "524288"
         fs.inotify.max_user_instances: "8192"
+        fs.inotify.max_user_watches: "1048576"
         net.core.rmem_max: "2500000"
         net.core.wmem_max: "2500000"
 
@@ -199,7 +202,7 @@ controlPlane:
           extraArgs:
             listen-metrics-urls: http://0.0.0.0:2381
           advertisedSubnets:
-            - "172.16.20.0/23"
+            - 172.16.20.0/23
 
     # Disable default API server admission plugins.
     - |-
@@ -211,6 +214,8 @@ controlPlane:
       machine:
         features:
           kubernetesTalosAPIAccess:
+            allowedKubernetesNamespaces:
+              - system-upgrade
+            allowedRoles:
+              - os:admin
             enabled: true
-            allowedRoles: ["os:admin"]
-            allowedKubernetesNamespaces: ["system-upgrade"]
