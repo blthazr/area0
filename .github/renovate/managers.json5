@@ -33,7 +33,8 @@
       "fileMatch": [
         "(^|/).taskfiles/.+\\.ya?ml$",
         "(^|/)ansible/.+\\.ya?ml$",
-        "(^|/)kubernetes/.+\\.ya?ml$"
+        "(^|/)kubernetes/.+\\.ya?ml$",
+        "(^|/)talos/.+\\.ya?ml$"
       ],
       "matchStrings": [
         // # renovate: datasource=github-releases depName=k3s-io/k3s
