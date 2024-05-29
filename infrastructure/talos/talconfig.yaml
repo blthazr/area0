@@ -82,6 +82,12 @@ nodes:
         routes:
           - network: 0.0.0.0/0
             gateway: 172.16.20.1
+    schematic:
+      customization:
+        systemExtensions:
+          officialExtensions:
+            - siderolabs/intel-ucode
+            - siderolabs/i915-ucode
   - hostname: k8s-5
     controlPlane: false
     installDisk: /dev/nvme0n1
@@ -96,6 +102,12 @@ nodes:
         routes:
           - network: 0.0.0.0/0
             gateway: 172.16.20.1
+    schematic:
+      customization:
+        systemExtensions:
+          officialExtensions:
+            - siderolabs/intel-ucode
+            - siderolabs/i915-ucode
 
 patches:
   # Configure containerd
@@ -194,10 +206,10 @@ controlPlane:
     - |-
       cluster:
         etcd:
-          extraArgs:
-            listen-metrics-urls: http://0.0.0.0:2381
           advertisedSubnets:
             - 172.16.20.0/23
+          extraArgs:
+            listen-metrics-urls: http://0.0.0.0:2381
 
     # Disable default API server admission plugins.
     - |-
