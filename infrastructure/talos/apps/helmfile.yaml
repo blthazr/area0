@@ -14,11 +14,15 @@ repositories:
     url: https://helm.cilium.io
   - name: postfinance
     url: https://postfinance.github.io/kubelet-csr-approver
+  - name: prometheus-community
+    url: https://prometheus-community.github.io/helm-charts
 
 releases:
   - name: cilium
     chart: cilium/cilium
     namespace: kube-system
+    needs:
+      - observability/prometheus-operator-crds
     values:
       - ../../../kubernetes/apps/kube-system/cilium/app/helm-values.yaml
     version: 1.15.5
@@ -26,16 +30,22 @@ releases:
     chart: postfinance/kubelet-csr-approver
     namespace: kube-system
     needs:
-      - cilium
+      - kube-system/cilium
+      - observability/prometheus-operator-crds
     values:
       - ../../../kubernetes/apps/kube-system/kubelet-csr-approver/app/helm-values.yaml
     version: 1.2.1
+  - name: prometheus-operator-crds
+    chart: prometheus-community/prometheus-operator-crds
+    namespace: observability
+    version: 12.0.0
   - name: spegel
     chart: oci://ghcr.io/spegel-org/helm-charts/spegel
     namespace: kube-system
     needs:
-      - cilium
-      - kubelet-csr-approver
+      - kube-system/cilium
+      - kube-system/kubelet-csr-approver
+      - observability/prometheus-operator-crds
     values:
       - ../../../kubernetes/apps/kube-system/spegel/app/helm-values.yaml
     version: v0.0.22
