@@ -6,7 +6,6 @@ vars:
   # Directories
   INFRASTRUCTURE_DIR: "{{.ROOT_DIR}}/infrastructure"
   KUBERNETES_DIR: "{{.ROOT_DIR}}/kubernetes"
-  TASK_SCRIPTS_DIR: "{{.ROOT_DIR}}/.taskfiles/__scripts"
   # Files
   AGE_FILE: "{{.ROOT_DIR}}/age.key"
   KUBECONFIG_FILE: "{{.ROOT_DIR}}/kubeconfig"
@@ -16,20 +15,20 @@ env:
   SOPS_AGE_KEY_FILE: "{{.AGE_FILE}}"
 
 includes:
+
   flux:
-    optional: true
+    dir: .taskfiles/flux
     taskfile: .taskfiles/flux
-  pre-commit:
-    optional: true
-    taskfile: .taskfiles/pre-commit
   kubernetes:
     aliases: ["k8s"]
-    optional: true
+    dir: .taskfiles/kubernetes
     taskfile: .taskfiles/kubernetes
-  rook: .taskfiles/rook
-  sops: .taskfiles/sops
-  talos: .taskfiles/talos
-  volsync: .taskfiles/volsync
+  sops:
+    dir: .taskfiles/sops
+    taskfile: .taskfiles/sops
+  talos:
+    dir: .taskfiles/talos
+    taskfile: .taskfiles/talos
 
 tasks:
   default:

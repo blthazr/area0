@@ -7,12 +7,14 @@ vars:
 
 tasks:
 
-  .encrypt-file:
+  _encrypt-file:
     internal: true
-    cmd: sops --encrypt --in-place {{.file}}
+    cmds:
+      - sops --encrypt --in-place {{.file}}
     requires:
-      vars: ["file"]
+      vars:
+        - file
     preconditions:
       - { msg: "sops not in $PATH", sh: "which sops" }
-      - { msg: "Missing Sops Age key file", sh: "test -f {{.AGE_FILE}}" }
+      - { msg: "Missing Sops age key file", sh: "test -f {{.AGE_FILE}}" }
       - { msg: "Missing Sops config file", sh: "test -f {{.SOPS_CONFIG_FILE}}" }

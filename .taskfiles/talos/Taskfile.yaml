@@ -15,33 +15,41 @@ env:
 
 tasks:
 
-  # task talos:generate-clusterconfig
-  generate-clusterconfig:
-    desc: Generate the Talos configs
-    dir: "{{.TALOS_DIR}}"
+  # task talos:bootstrap
+  bootstrap:
+    desc: Bootstrap a new Talos cluster
+    prompt: Bootstrap a new Talos cluster ... continue?
     cmds:
-      - |
-        talhelper genconfig \
-        --config-file {{.TALHELPER_CONFIG_FILE}} \
-        --env-file {{.TALHELPER_ENV_FILE}} \
-        --out-dir {{.TALOSCONFIG_DIR}} \
-        --secret-file {{.TALHELPER_SECRET_FILE}}
+      - task: bootstrap-generate-secret
+      - task: generate-clusterconfig
+      - task: bootstrap-apply-machineconfig
+      - task: bootstrap-etcd
+      - task: fetch-kubeconfig
+      - task: bootstrap-apps
+      - talosctl health --server=false
     preconditions:
+      - { msg: "Missing helmfile", sh: "which helmfile" }
+      - { msg: "kubectl not in $PATH", sh: "which kubectl" }
       - { msg: "talhelper not in $PATH", sh: "which talhelper" }
       - { msg: "talosctl not in $PATH", sh: "which talosctl" }
+      - { msg: "jq not in $PATH", sh: "which jq" }
+      - { msg: "yq not in $PATH", sh: "which yq" }
+      - { msg: "Missing helmfile file", sh: "test -f {{.TALOS_DIR}}/apps/helmfile.yaml" }
+      - { msg: "Missing kubeconfig file", sh: "test -f {{.KUBECONFIG_FILE}}" }
       - { msg: "Missing talhelper config file", sh: "test -f {{.TALHELPER_CONFIG_FILE}}" }
       - { msg: "Missing talhelper env file", sh: "test -f {{.TALHELPER_ENV_FILE}}" }
       - { msg: "Missing talhelper secret file", sh: "test -f {{.TALHELPER_SECRET_FILE}}" }
+      - { msg: "Missing talosconfig file", sh: "test -f {{.TALOSCONFIG_FILE}}" }
+      - { msg: "Talos cluster appears to already be active", sh: "talosctl health --server=false >/dev/null 2>&1 && return 1 || return 01" }
 
   # task talos:diff-node node=<node name>
   diff-node:
-    desc: Diff the Talos machineConfig on a node
+    desc: Diff the Talos machineConfig against a node
     summary: |
       Args:
         node: (required)
     deps:
       - generate-clusterconfig
-    dir: "{{.TALOS_DIR}}"
     cmds:
       - task: _apply-machineconfig
         vars:
@@ -59,7 +67,6 @@ tasks:
         node: (required)
     deps:
       - generate-clusterconfig
-    dir: "{{.TALOS_DIR}}"
     cmds:
       - task: _apply-machineconfig
         vars:
@@ -69,55 +76,119 @@ tasks:
       vars:
         - node
 
-  # task talos:upgrade node=<node name>
-  upgrade:
-    desc: Upgrade Talos on a node
-    summary: |
-      Args:
-        node: (required)
+  # task talos:apply-clusterconfig
+  apply-clusterconfig:
+    desc: Apply the Talos machineConfigs to a cluster
     deps:
       - generate-clusterconfig
-    dir: "{{.TALOS_DIR}}"
     cmds:
-      - task: _upgrade-talos
+      - task: _apply-machineconfig
         vars:
           node: "{{.node}}"
-    requires:
-      vars:
-        - node
 
-  # task talos:rolling-upgrade
-  rolling-upgrade:
-    desc: Rolling Talos upgrade on all nodes in the cluster
+  # task talos:fetch-kubeconfig
+  fetch-kubeconfig:
+    desc: Fetch kubeconfig from Talos controllers
+    vars:
+      cluster:
+        sh: yq '.context' {{.TALOSCONFIG_FILE}}
+      controller:
+        sh: talosctl config info --output json | jq --raw-output '.endpoints[0]'
+    cmds:
+      - |
+        talosctl kubeconfig \
+        --nodes {{.controller}} \
+        --force \
+        --force-context-name {{.cluster}} \
+        {{.ROOT_DIR}}
+    preconditions:
+      - { msg: "talosctl not in $PATH", sh: "which talosctl" }
+      - { msg: "yq not in $PATH", sh: "which yq" }
+      - { msg: "Missing talosconfig file", sh: "test -f {{.TALOSCONFIG_FILE}}" }
+      - { msg: "Missing Talos cluster configuration", sh: "talosctl config info >/dev/null 2>&1" }
+
+  # task talos:generate-clusterconfig
+  generate-clusterconfig:
+    desc: Generate the Talos configs
+    cmds:
+      - |
+        talhelper genconfig \
+        --config-file {{.TALHELPER_CONFIG_FILE}} \
+        --env-file {{.TALHELPER_ENV_FILE}} \
+        --out-dir {{.TALOSCONFIG_DIR}} \
+        --secret-file {{.TALHELPER_SECRET_FILE}}
+    preconditions:
+      - { msg: "talhelper not in $PATH", sh: "which talhelper" }
+      - { msg: "talosctl not in $PATH", sh: "which talosctl" }
+      - { msg: "Missing talhelper config file", sh: "test -f {{.TALHELPER_CONFIG_FILE}}" }
+      - { msg: "Missing talhelper env file", sh: "test -f {{.TALHELPER_ENV_FILE}}" }
+      - { msg: "Missing talhelper secret file", sh: "test -f {{.TALHELPER_SECRET_FILE}}" }
+
+  # task talos:bootstrap-apply-machineconfig
+  bootstrap-apply-machineconfig:
+    desc: Apply initial Talos machineConfigs using the insecure maintenance service
     deps:
       - generate-clusterconfig
-    dir: "{{.TALOS_DIR}}"
-    cmds:
-      - flux suspend kustomization --all
-      - kubectl cnpg maintenance set --reusePVC --all-namespaces
-      - for:
-          var: nodes
-        task: _upgrade-talos
-        vars:
-          node: "{{.ITEM}}"
-          rollout: "true"
-      - kubectl cnpg maintenance unset --reusePVC --all-namespaces
-      - flux resume kustomization --all
-      - task: :kubernetes:delete-failed-pods
     vars:
       nodes:
         sh: |
           yq '.nodes[] | .hostname' {{.TALHELPER_CONFIG_FILE}}
+    cmds:
+      - for:
+          var: nodes
+        task: _apply-machineconfig
+        vars:
+          node: "{{.ITEM}}"
+          extra_flags: --insecure
     preconditions:
-      - { msg: "flux not in $PATH", sh: "which flux" }
-      - { msg: "kubectl not in $PATH", sh: "which kubectl" }
       - { msg: "yq not in $PATH", sh: "which yq" }
-      - { msg: "Missing kubectl cnpg plugin", sh: "kubectl cnpg" }
       - { msg: "Missing talhelper config file", sh: "test -f {{.TALHELPER_CONFIG_FILE}}" }
+
+  # task talos:bootstrap-apps
+  bootstrap-apps:
+    desc: Bootstrap core apps needed for Talos
+    cmds:
+      - until kubectl --kubeconfig {{.KUBECONFIG_FILE}} wait --all --for=condition=Ready=False --timeout=10m nodes ; do sleep 10; done
+      - helmfile --file {{.TALOS_DIR}}/apps/helmfile.yaml --kubeconfig {{.KUBECONFIG_FILE}} --quiet apply --skip-diff-on-install --suppress-diff
+      - until kubectl --kubeconfig {{.KUBECONFIG_FILE}} wait --all --for=condition=Ready --timeout=10m nodes ; do sleep 10; done
+    preconditions:
+      - { msg: "Missing helmfile", sh: "which helmfile" }
+      - { msg: "kubectl not in $PATH", sh: "which kubectl" }
+      - { msg: "Missing helmfile file", sh: "test -f {{.TALOS_DIR}}/apps/helmfile.yaml" }
+      - { msg: "Missing kubeconfig file", sh: "test -f {{.KUBECONFIG_FILE}}" }
+
+  # task talos:bootstrap-etcd
+  bootstrap-etcd:
+    vars:
+      controller:
+        sh: talosctl config info --output json | jq --raw-output '.endpoints[0]'
+    cmds:
+      - until talosctl --nodes {{.controller}} bootstrap; do sleep 10; done
+    preconditions:
+      - { msg: "jq not in $PATH", sh: "which jq" }
+      - { msg: "talosctl not in $PATH", sh: "which talosctl" }
+      - { msg: "Missing talosconfig file", sh: "test -f {{.TALOSCONFIG_FILE}}" }
+      - { msg: "Missing Talos cluster configuration", sh: "talosctl config info >/dev/null 2>&1" }
+
+  # task talos:bootstrap-generate-secret
+  bootstrap-generate-secret:
+    desc: Generate encrypted Talos secrets
+    cmds:
+      - talhelper gensecret > {{.TALHELPER_SECRET_FILE}}
+      - task: :sops:_encrypt-file
+        vars:
+          file: "{{.TALHELPER_SECRET_FILE}}"
+    preconditions:
+      - { msg: "talhelper not in $PATH", sh: "which talhelper" }
+    status:
+      - test -f "{{.TALHELPER_SECRET_FILE}}"
 
   _apply-machineconfig:
     internal: true
-    dir: "{{.TALOS_DIR}}"
+    vars:
+      node_ip_address:
+        sh: |
+          yq '.nodes[] | select(.hostname == "{{.node}}") | .ipAddress' {{.TALHELPER_CONFIG_FILE}}
     cmds:
       - |
         talhelper gencommand apply \
@@ -127,10 +198,6 @@ tasks:
         {{ if .node_ip_address }} --node {{.node_ip_address}} {{ end }} \
         --out-dir {{.TALOSCONFIG_DIR}} \
         | bash
-    vars:
-      node_ip_address:
-        sh: |
-          yq '.nodes[] | select(.hostname == "{{.node}}") | .ipAddress' {{.TALHELPER_CONFIG_FILE}}
     requires:
       vars:
         - node
@@ -140,39 +207,5 @@ tasks:
       - { msg: "yq not in $PATH", sh: "which yq" }
       - { msg: "Missing talhelper config file", sh: "test -f {{.TALHELPER_CONFIG_FILE}}" }
       - { msg: "Missing talhelper env file", sh: "test -f {{.TALHELPER_ENV_FILE}}" }
+      - { msg: "Missing talosconfig file", sh: "test -f {{.TALOSCONFIG_FILE}}" }
       - { msg: "IP Address for node {{.node}} not found in {{.TALHELPER_CONFIG_FILE}}", sh: "[ '{{.node_ip_address}}' != '<no value>' ] || [ -z '{{.node}}' ]" }
-
-  _upgrade-talos:
-    internal: true
-    dir: "{{.TALOS_DIR}}"
-    cmds:
-      - bash {{.TASK_SCRIPTS_DIR}}/talos-upgrade.sh "{{.node}}" "{{.talos_image}}" "{{.rollout}}"
-    vars:
-      node_ip_address:
-        sh: |
-          yq '.nodes[] | select(.hostname == "{{.node}}") | .ipAddress' {{.TALHELPER_CONFIG_FILE}}
-      rollout: '{{.rollout | default "false"}}'
-      talos_image:
-        sh: |
-            talhelper genurl installer \
-            --config-file {{.TALHELPER_CONFIG_FILE}} \
-            --env-file {{.TALHELPER_ENV_FILE}} \
-            | grep {{.node}} \
-            | awk '{split($0,u," "); print u[2]}'
-    requires:
-      vars:
-        - node
-    preconditions:
-      - { msg: "awk not in $PATH", sh: "which awk" }
-      - { msg: "flux not in $PATH", sh: "which flux" }
-      - { msg: "grep not in $PATH", sh: "which grep" }
-      - { msg: "kubectl not in $PATH", sh: "which kubectl" }
-      - { msg: "talhelper not in $PATH", sh: "which talhelper" }
-      - { msg: "talosctl not in $PATH", sh: "which talosctl" }
-      - { msg: "yq not in $PATH", sh: "which yq" }
-      - { msg: "Missing talhelper config file", sh: "test -f {{.TALHELPER_CONFIG_FILE}}" }
-      - { msg: "Missing talhelper env file", sh: "test -f {{.TALHELPER_ENV_FILE}}" }
-      - { msg: "Missing talosctl config file", sh: "test -f {{.TALOSCONFIG_FILE}}" }
-      - { msg: "Missing talos upgrade script file", sh: "test -f {{.TASK_SCRIPTS_DIR}}/talos-upgrade.sh" }
-      - { msg: "IP Address for node {{.node}} not found in {{.TALHELPER_CONFIG_FILE}}", sh: "[ '{{.node_ip_address}}' != '<no value>' ] || [ -z '{{.node}}' ]" }
-      - { msg: "Unable to find Talos image for node {{.node}}.", sh: "[[ ! -z {{.talos_image}} ]]" }
