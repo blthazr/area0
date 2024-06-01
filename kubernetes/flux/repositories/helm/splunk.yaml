@@ -6,5 +6,5 @@ metadata:
   name: splunk
   namespace: flux-system
 spec:
-  interval: 1h
+  interval: 2h
   url: https://splunk.github.io/splunk-operator/

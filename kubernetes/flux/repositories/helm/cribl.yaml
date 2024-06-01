@@ -6,5 +6,5 @@ metadata:
   name: cribl
   namespace: flux-system
 spec:
-  interval: 1h
+  interval: 2h
   url: https://criblio.github.io/helm-charts
