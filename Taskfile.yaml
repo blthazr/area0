@@ -6,6 +6,7 @@ vars:
   # Directories
   INFRASTRUCTURE_DIR: "{{.ROOT_DIR}}/infrastructure"
   KUBERNETES_DIR: "{{.ROOT_DIR}}/kubernetes"
+  TASK_SCRIPTS_DIR: "{{.ROOT_DIR}}/.taskfiles/__scripts"
   # Files
   AGE_FILE: "{{.ROOT_DIR}}/age.key"
   KUBECONFIG_FILE: "{{.ROOT_DIR}}/kubeconfig"
@@ -23,6 +24,9 @@ includes:
     aliases: ["k8s"]
     dir: .taskfiles/kubernetes
     taskfile: .taskfiles/kubernetes
+  rook:
+    dir: .taskfiles/rook
+    taskfile: .taskfiles/rook
   sops:
     dir: .taskfiles/sops
     taskfile: .taskfiles/sops

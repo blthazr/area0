@@ -1,0 +1,29 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: ${job}
+  namespace: default
+spec:
+  template:
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - name: main
+          args:
+            - rm -rf /mnt/host_var/lib/rook
+          command: ["/bin/sh", "-c"]
+          image: docker.io/library/alpine:latest
+          resources: {}
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - name: host-var
+              mountPath: /mnt/host_var
+      nodeName: ${node}
+      restartPolicy: Never
+      volumes:
+        - name: host-var
+          hostPath:
+            path: /var
+  ttlSecondsAfterFinished: 3600

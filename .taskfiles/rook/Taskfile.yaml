@@ -1,0 +1,170 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: "3"
+
+x-env: &env
+  disk: "{{.disk}}"
+  job: "{{.job}}"
+  node: "{{.node}}"
+
+vars:
+  ROOK_TEMPLATES_DIR: "{{.ROOT_DIR}}/.taskfiles/rook/templates"
+  TALHELPER_CONFIG_FILE: "{{.TALOS_DIR}}/talconfig.yaml"
+  WAIT_FOR_JOB_SCRIPT: "{{.TASK_SCRIPTS_DIR}}/wait-for-job.sh"
+
+includes:
+  talos:
+    taskfile: ../talos
+    internal: true
+
+tasks:
+
+  # task rook:password
+  password:
+    desc: Retrieve the rook-ceph password
+    cmds:
+      - kubectl --kubeconfig {{.KUBECONFIG_FILE}} -n rook-ceph get secret rook-ceph-dashboard-password -o jsonpath="{['data']['password']}" | base64 --decode | pbcopy && echo "Copied to clipboard"
+    preconditions:
+      - { msg: "base64 not in $PATH", sh: "which base64" }
+      - { msg: "pbcopy not in $PATH", sh: "which pbcopy" }
+      - { msg: "kubectl not in $PATH", sh: "which kubectl" }
+      - { msg: "Missing kubeconfig file", sh: "test -f {{.KUBECONFIG_FILE}}" }
+
+  # task rook:toolbox
+  toolbox:
+    desc: Exec into the rook-ceph toolbox
+    interactive: true
+    cmds:
+      - |
+        kubectl --kubeconfig {{.KUBECONFIG_FILE}} -n rook-ceph exec -it $(kubectl --kubeconfig {{.KUBECONFIG_FILE}} -n rook-ceph get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].metadata.name}') -- bash
+    preconditions:
+      - { msg: "kubectl not in $PATH", sh: "which kubectl" }
+      - { msg: "Missing kubeconfig file", sh: "test -f {{.KUBECONFIG_FILE}}" }
+
+  # task rook:reset
+  reset:
+    desc: Wipe /var/lib/rook on all nodes and configured disks
+    prompt: Remove and reset rook-ceph on all nodes ... continue?
+    vars:
+      nodes:
+        sh: |
+          yq '.nodes[].hostname' {{.TALHELPER_CONFIG_FILE}}
+      ceph_nodes:
+        sh: |
+          yq '.nodes[] | select(.nodeLabels.rook-ceph/disk=="*") | .hostname' {{.TALHELPER_CONFIG_FILE}}
+    cmds:
+      - for:
+          var: nodes
+        task: _wipe-data
+        vars:
+          node: "{{.ITEM}}"
+      - for:
+          var: ceph_nodes
+        task: _reset-disk
+        vars:
+          disk:
+            sh: |
+              yq '.nodes[] | select(.hostname=="{{.ITEM}}") | .nodeLabels.rook-ceph/disk' {{.TALHELPER_CONFIG_FILE}}
+          node: "{{.ITEM}}"
+
+  # task rook:reset-node node=<node_name> disk=<disk_path>
+  reset-node:
+    desc: Remove rook-ceph from a node
+    summary: |
+      Args:
+        disk: Disk to wipe (required)
+        node: Node the data is on (required)
+    prompt: Remove rook-ceph from node '{{.node}}' ... continue?
+    cmds:
+      - task: _wipe-data
+        vars:
+          node: "{{.node}}"
+      - task: _reset-disk
+        vars:
+          disk: "{{.disk}}"
+          node: "{{.node}}"
+    requires:
+      vars:
+        - disk
+        - node
+
+  # task rook:wipe-data node=<node_name>
+  wipe-data:
+    desc: Wipe /var/lib/rook on a node
+    summary: |
+      Args:
+        node: Node the data is on (required)
+    prompt: Wipe /var/lib/rook on node '{{.node}}' ... continue?
+    cmds:
+      - task: _wipe-data
+        vars:
+          node: "{{.node}}"
+    requires:
+      vars:
+        - node
+
+  # task rook:reset-disk node=<node_name> disk=<disk_path>
+  reset-disk:
+    desc: Reset a disk on a node
+    summary: |
+      Args:
+        disk: Disk to wipe (required)
+        node: Node the disk is on (required)
+    prompt: Reset disk '{{.disk}}' on node '{{.node}}' ... continue?
+    cmds:
+      - task: _reset-disk
+        vars:
+          disk: "{{.disk}}"
+          node: "{{.node}}"
+    requires:
+      vars:
+        - disk
+        - node
+
+  _reset-disk:
+    internal: true
+    silent: true
+    env: *env
+    vars:
+      job: wipe-ceph-disk-{{.node}}-{{.disk | replace "/" "-"}}
+      job_template: "{{.ROOK_TEMPLATES_DIR}}/WipeDiskJob.tmpl.yaml"
+      disk: '{{.disk}}'
+    cmds:
+      - envsubst < <(cat {{.job_template}}) | kubectl apply -f -
+      - bash {{.WAIT_FOR_JOB_SCRIPT}} {{.job}} default
+      - kubectl -n default wait job/{{.job}} --for condition=complete --timeout=1m
+      - kubectl -n default logs job/{{.job}}
+      - kubectl -n default delete job {{.job}}
+    requires:
+      vars:
+        - disk
+        - node
+    preconditions:
+      - { msg: "envsubst not in $PATH", sh: "which envsubst" }
+      - { msg: "kubectl not in $PATH", sh: "which kubectl" }
+      - { msg: "Missing kubeconfig file", sh: "test -f {{.KUBECONFIG_FILE}}" }
+      - { msg: "Missing wait-for-job script", sh: "test -f {{.WAIT_FOR_JOB_SCRIPT}}" }
+      - { msg: "Missing WipeDiskJob template", sh: "test -f {{.job_template}}" }
+
+  _wipe-data:
+    internal: true
+    silent: true
+    env: *env
+    vars:
+      job: "wipe-rook-data-{{.node}}"
+      job_template: "{{.ROOK_TEMPLATES_DIR}}/WipeDataJob.tmpl.yaml"
+    cmds:
+      - envsubst < <(cat {{.job_template}}) | kubectl apply -f -
+      - bash {{.WAIT_FOR_JOB_SCRIPT}} {{.job}} default
+      - kubectl -n default wait job/{{.job}} --for condition=complete --timeout=1m
+      - kubectl -n default logs job/{{.job}}
+      - kubectl -n default delete job {{.job}}
+    requires:
+      vars:
+        - node
+    preconditions:
+      - { msg: "envsubst not in $PATH", sh: "which envsubst" }
+      - { msg: "kubectl not in $PATH", sh: "which kubectl" }
+      - { msg: "Missing kubeconfig file", sh: "test -f {{.KUBECONFIG_FILE}}" }
+      - { msg: "Missing wait-for-job script", sh: "test -f {{.WAIT_FOR_JOB_SCRIPT}}" }
+      - { msg: "Missing WipeDataJob template", sh: "test -f {{.job_template}}" }
