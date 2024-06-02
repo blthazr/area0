@@ -26,6 +26,7 @@ tasks:
       - task: bootstrap-etcd
       - task: fetch-kubeconfig
       - task: bootstrap-apps
+      - task: bootstrap-extras
       - talosctl health --server=false
     preconditions:
       - { msg: "Missing helmfile", sh: "which helmfile" }
@@ -159,6 +160,7 @@ tasks:
 
   # task talos:bootstrap-etcd
   bootstrap-etcd:
+    desc: Bootstrap etc
     vars:
       controller:
         sh: talosctl config info --output json | jq --raw-output '.endpoints[0]'
@@ -169,6 +171,21 @@ tasks:
       - { msg: "talosctl not in $PATH", sh: "which talosctl" }
       - { msg: "Missing talosconfig file", sh: "test -f {{.TALOSCONFIG_FILE}}" }
       - { msg: "Missing Talos cluster configuration", sh: "talosctl config info >/dev/null 2>&1" }
+
+  # task talos:bootstrap-extras
+  bootstrap-extras:
+    desc: Apply extras
+    vars:
+      workers:
+        sh: |
+          yq '.nodes[] | select(.controlPlane!="true").hostname' {{.TALHELPER_CONFIG_FILE}}
+    cmds:
+      - for:
+          var: workers
+        cmd: kubectl --kubeconfig {{.KUBECONFIG_FILE}} label node {{.ITEM}} node-role.kubernetes.io/worker=
+    preconditions:
+      - { msg: "kubectl not in $PATH", sh: "which kubectl" }
+      - { msg: "Missing kubeconfig file", sh: "test -f {{.KUBECONFIG_FILE}}" }
 
   # task talos:bootstrap-generate-secret
   bootstrap-generate-secret:

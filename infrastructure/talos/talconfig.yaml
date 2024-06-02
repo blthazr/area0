@@ -6,7 +6,7 @@ talosVersion: v1.6.7
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
 kubernetesVersion: v1.29.3
 
-clusterName: ${clusterName}
+clusterName: &cluster ${clusterName}
 endpoint: https://${clusterEndpointIP}:6443
 clusterPodNets:
   - 10.32.0.0/16
@@ -36,6 +36,9 @@ nodes:
             gateway: 172.16.20.1
         vip:
           ip: ${clusterEndpointIP}
+    nodeLabels:
+      rook-ceph/disk: /dev/disk/by-id/ata-Samsung_Portable_SSD_T5_S4B0NR0R712678E
+      topology.kubernetes.io/region: *cluster
   - hostname: k8s-2
     controlPlane: true
     installDisk: /dev/sda
@@ -52,6 +55,9 @@ nodes:
             gateway: 172.16.20.1
         vip:
           ip: ${clusterEndpointIP}
+    nodeLabels:
+      rook-ceph/disk: /dev/disk/by-id/ata-Samsung_Portable_SSD_T5_S4B0NR0R719439P
+      topology.kubernetes.io/region: *cluster
   - hostname: k8s-3
     controlPlane: true
     installDisk: /dev/sda
@@ -68,6 +74,9 @@ nodes:
             gateway: 172.16.20.1
         vip:
           ip: ${clusterEndpointIP}
+    nodeLabels:
+      rook-ceph/disk: /dev/disk/by-id/ata-Samsung_Portable_SSD_T5_S4B0NR0R721882L
+      topology.kubernetes.io/region: *cluster
   - hostname: k8s-4
     controlPlane: false
     installDisk: /dev/sda
@@ -82,6 +91,8 @@ nodes:
         routes:
           - network: 0.0.0.0/0
             gateway: 172.16.20.1
+    nodeLabels:
+      topology.kubernetes.io/region: *cluster
     schematic:
       customization:
         systemExtensions:
@@ -104,6 +115,7 @@ nodes:
             gateway: 172.16.20.1
     nodeLabels:
       role/media: "true"
+      topology.kubernetes.io/region: *cluster
     schematic:
       customization:
         systemExtensions:
