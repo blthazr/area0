@@ -33,7 +33,7 @@ spec:
       # HOSTNAME: # optional
       # VOLSYNC_CACHE_ACCESSMODES: ReadWriteOnce # optional | default
       # VOLSYNC_CACHE_CAPACITY: 10Gi # example
-      # VOLSYNC_CACHE_SNAPSHOTCLASS: openebs-hostpath # optional | default
+      # VOLSYNC_CACHE_SNAPSHOTCLASS: democratic-csi-local-hostpath # optional | default
       # VOLSYNC_COPYMETHOD: Snapshot # optional | default
       # VOLSYNC_S3_ADDRESS: # optional
       # VOLSYNC_S3_BUCKET_NAME: volsync # optional | default

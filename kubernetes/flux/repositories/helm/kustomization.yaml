@@ -18,7 +18,7 @@ resources:
   - ./k8s-gateway.yaml
   - ./metrics-server.yaml
   - ./node-feature-discovery.yaml
-  - ./openebs.yaml
+  # - ./openebs.yaml
   - ./piraeus.yaml
   - ./postfinance.yaml
   - ./prometheus-community.yaml
