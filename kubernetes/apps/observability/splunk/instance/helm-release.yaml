@@ -61,6 +61,7 @@ spec:
         defaults:
           volumeName: volume_smartstore
         indexes:
+          - name: k8s
           - name: main
         volumes:
           - endpoint: "http://${MINIO_ADDRESS}:9000"
