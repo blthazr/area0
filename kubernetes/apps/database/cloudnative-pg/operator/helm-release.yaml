@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: cloudnative-pg
         namespace: flux-system
-      version: 0.21.2
+      version: 0.21.4
   dependsOn:
     - name: democratic-csi-local-hostpath
       namespace: democratic-csi
