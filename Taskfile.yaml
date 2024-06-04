@@ -16,7 +16,6 @@ env:
   SOPS_AGE_KEY_FILE: "{{.AGE_FILE}}"
 
 includes:
-
   flux:
     dir: .taskfiles/flux
     taskfile: .taskfiles/flux
@@ -33,6 +32,9 @@ includes:
   talos:
     dir: .taskfiles/talos
     taskfile: .taskfiles/talos
+  volsync:
+    dir: .taskfiles/volsync
+    taskfile: .taskfiles/volsync
 
 tasks:
   default:

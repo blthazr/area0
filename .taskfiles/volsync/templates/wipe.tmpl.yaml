@@ -1,0 +1,26 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: ${job}
+  namespace: ${ns}
+spec:
+  template:
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - name: main
+          command: ["/bin/sh", "-c", "cd /config; find . -delete"]
+          image: docker.io/library/alpine:latest
+          resources: {}
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - name: config
+              mountPath: /config
+      restartPolicy: OnFailure
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: ${claim}
+  ttlSecondsAfterFinished: 3600
