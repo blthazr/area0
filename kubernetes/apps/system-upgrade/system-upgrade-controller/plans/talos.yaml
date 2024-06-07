@@ -29,16 +29,16 @@ spec:
             fieldPath: status.hostIP
     image: ghcr.io/siderolabs/talosctl:${TALOS_VERSION}
   secrets:
-    - ignoreUpdates: true
-      name: talos
+    - name: talos
+      ignoreUpdates: true
       path: /var/run/secrets/talos.dev
   serviceAccountName: system-upgrade
   tolerations:
     - key: CriticalAddonsOnly
       operator: Exists
-    - effect: NoSchedule
-      key: node-role.kubernetes.io/control-plane
+    - key: node-role.kubernetes.io/control-plane
       operator: Exists
+      effect: NoSchedule
   upgrade:
     <<: *prepare
     args:

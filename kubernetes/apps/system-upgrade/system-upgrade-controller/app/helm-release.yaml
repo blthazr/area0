@@ -49,7 +49,7 @@ spec:
               allowPrivilegeEscalation: false
               capabilities:
                 drop:
-                  - "ALL"
+                  - ALL
               readOnlyRootFilesystem: true
               seccompProfile:
                 type: RuntimeDefault
