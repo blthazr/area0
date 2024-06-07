@@ -26,6 +26,21 @@
       "separateMinorPatch": true
     },
     {
+      "description": ["Kubernetes Group"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "groupName": "Kubernetes",
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "ghcr.io/siderolabs/kubelet",
+        "registry.k8s.io/kubectl"
+      ],
+      "separateMinorPatch": true
+    },
+    {
       "description": ["Rook-Ceph Group"],
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
