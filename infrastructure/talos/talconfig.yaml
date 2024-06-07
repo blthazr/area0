@@ -37,7 +37,7 @@ nodes:
         vip:
           ip: ${clusterEndpointIP}
     nodeLabels:
-      rook-ceph/disk: /dev/disk/by-id/ata-Samsung_Portable_SSD_T5_S4B0NR0R712678E
+      rook-ceph/disk-id: ata-Samsung_Portable_SSD_T5_S4B0NR0R712678E
       topology.kubernetes.io/region: *cluster
   - hostname: k8s-2
     controlPlane: true
@@ -56,7 +56,7 @@ nodes:
         vip:
           ip: ${clusterEndpointIP}
     nodeLabels:
-      rook-ceph/disk: /dev/disk/by-id/ata-Samsung_Portable_SSD_T5_S4B0NR0R719439P
+      rook-ceph/disk-id: ata-Samsung_Portable_SSD_T5_S4B0NR0R719439P
       topology.kubernetes.io/region: *cluster
   - hostname: k8s-3
     controlPlane: true
@@ -75,7 +75,7 @@ nodes:
         vip:
           ip: ${clusterEndpointIP}
     nodeLabels:
-      rook-ceph/disk: /dev/disk/by-id/ata-Samsung_Portable_SSD_T5_S4B0NR0R721882L
+      rook-ceph/disk-id: ata-Samsung_Portable_SSD_T5_S4B0NR0R721882L
       topology.kubernetes.io/region: *cluster
   - hostname: k8s-4
     controlPlane: false
@@ -206,6 +206,13 @@ patches:
         net.core.rmem_max: 2500000
         net.core.wmem_max: 2500000
 
+  # Custom Talos installer patch
+  - |-
+    machine:
+      install:
+        extraKernelArgs:
+          - mitigations=off
+
 controlPlane:
   patches:
     # Cluster configuration
@@ -215,6 +222,8 @@ controlPlane:
         controllerManager:
           extraArgs:
             bind-address: 0.0.0.0
+        coreDNS:
+          disabled: true
         proxy:
           disabled: true
         scheduler:
