@@ -7,7 +7,6 @@
       "matchPackagePatterns": ["frigate"],
       "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(-(?<compatibility>beta)(?<build>\\d+))?$"
     },
-
     {
       "description": ["Loose versioning for non-semver packages"],
       "matchDatasources": ["docker"],
