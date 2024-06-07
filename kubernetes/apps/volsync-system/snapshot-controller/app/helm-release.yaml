@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: piraeus
         namespace: flux-system
-      version: 2.2.2
+      version: 3.0.3
   install:
     crds: CreateReplace
     remediation:
