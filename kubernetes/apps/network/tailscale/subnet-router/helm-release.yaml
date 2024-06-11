@@ -32,11 +32,13 @@ spec:
             env:
               NO_AUTOUPDATE: true
               PORT: &port 45387
+              SA_NAME: tailscale
               TS_EXTRA_ARGS: --advertise-exit-node --advertise-tags=tag:subnet-router
               TS_HOSTNAME:
                 valueFrom:
                   fieldRef:
                     fieldPath: metadata.name
+              TS_KUBE_SECRET: ""
               TS_ROUTES: "${NET_HOME_CIDR},${NET_SMARTHOME_CIRD}"
               TS_STATE_DIR: &path /tmp
               TS_TAILSCALED_EXTRA_ARGS: --debug=0.0.0.0:9001
@@ -84,7 +86,6 @@ spec:
     service:
       app:
         controller: *app
-        nameOverride: *app
         ports:
           http:
             port: 9001
@@ -95,6 +96,9 @@ spec:
             port: *port
             protocol: UDP
         type: LoadBalancer
+    serviceAccount:
+      create: true
+      name: tailscale
     serviceMonitor:
       app:
         serviceName: *app
