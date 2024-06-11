@@ -33,7 +33,7 @@ spec:
               NO_AUTOUPDATE: true
               PORT: &port 45387
               SA_NAME: tailscale
-              TS_EXTRA_ARGS: --advertise-exit-node --advertise-tags=tag:subnet-router
+              TS_EXTRA_ARGS: --advertise-exit-node --advertise-tags=tag:subnet-router --accept-routes
               TS_HOSTNAME:
                 valueFrom:
                   fieldRef:
