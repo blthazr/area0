@@ -4,11 +4,14 @@ printf "Cleaning subtitles for '%s' ...\n" "$1"
 python3 /add-ons/subcleaner/subcleaner.py "$1" -s
 
 case $1 in
+    */anime/*) section="1";;
+    */documentaries/*) section="1";;
     */films/*) section="1";;
     */films_uhd/*) section="5";;
+    */specials/*) section="1";;
     */television/*) section="2";;
     */television_anime/*) section="2";;
-    # */television_uhd/*) section="0";;
+    */television_uhd/*) section="9";;
 esac
 
 if [[ -n "$section" ]]; then
