@@ -2,6 +2,24 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
+      "description": ["Cribl Group"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "groupName": "Cribl",
+      "matchDatasources": [
+        "docker",
+        "helm"
+      ],
+      "matchPackagePatterns": [
+        "cribl/cribl",
+        "edge",
+        "logstream"
+      ],
+      "separateMinorPatch": true,
+      "versioning": "semver"
+    },
+    {
       "description": ["Flux Group"],
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
