@@ -1,0 +1,34 @@
+---
+# TODO: yaml-language-server:
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: tailscale-router
+rules:
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["create"]
+  - apiGroups: [""]
+    resourceNames: ["tailscale-state"]
+    resources: ["secrets"]
+    verbs: ["get", "update", "patch"]
+---
+# TODO: yaml-language-server:
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: tailscale-router
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: tailscale-router
+subjects:
+  - kind: ServiceAccount
+    name: tailscale-router
+    namespace: network
+---
+# TODO: yaml-language-server:
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: tailscale
