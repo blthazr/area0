@@ -101,19 +101,19 @@ spec:
         medium: Memory
         sizeLimit: 4Gi
         type: emptyDir
-      data:
-        enabled: true
-        existingClaim: "${APP_PVC:-${APP}}"
-        globalMounts:
-          - path: /data
       config:
         enabled: true
         globalMounts:
           - path: /config/config.yml
             readOnly: true
-            subPath: config.yml
+            subPath: config.yaml
         name: frigate-config
         type: configMap
+      data:
+        enabled: true
+        existingClaim: "${APP_PVC:-${APP}}"
+        globalMounts:
+          - path: /data
       media:
         enabled: true
         globalMounts:
