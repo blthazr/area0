@@ -41,7 +41,7 @@ spec:
               TZ: "${CLUSTER_TIME_ZONE}"
             envFrom: &envFrom
               - secretRef:
-                  name: "${APP}-secret"
+                  name: frigate-secret
             image:
               repository: ghcr.io/blakeblackshear/frigate
               tag: 0.13.2@sha256:2906991ccad85035b176941f9dedfd35088ff710c39d45ef1baa9a49f2b16734
@@ -100,17 +100,18 @@ spec:
         medium: Memory
         sizeLimit: 4Gi
         type: emptyDir
-      data:
+      config:
         enabled: true
         existingClaim: "${APP_PVC:-${APP}}"
         globalMounts:
-          - path: /data
+          - path: /config
       config-file:
-        name: frigate-config
+        enabled: true
         globalMounts:
           - path: /config/config.yml
             readOnly: true
             subPath: config.yml
+        name: frigate-config
         type: configMap
       media:
         enabled: true
@@ -119,11 +120,6 @@ spec:
         path: "${NAS_NFS_PATH}/apps/frigate"
         server: "${NAS_ADDRESS}"
         type: nfs
-      tmp:
-        enabled: true
-        globalMounts:
-          - path: /tmp
-        type: emptyDir
       usb:
         enabled: true
         hostPath: /dev/bus/usb
