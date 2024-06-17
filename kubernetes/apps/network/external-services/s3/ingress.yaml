@@ -1,0 +1,27 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/ingress-networking-v1.json
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: &app s3
+  annotations:
+    hajimari.io/enable: "false"
+  labels:
+    app.kubernetes.io/instance: *app
+    app.kubernetes.io/name: *app
+spec:
+  ingressClassName: internal
+  rules:
+    - host: &host "s3.${SECRET_DOMAIN}"
+      http:
+        paths:
+          - backend:
+              service:
+                name: *app
+                port:
+                  name: http
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - *host
