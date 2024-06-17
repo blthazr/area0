@@ -1,0 +1,16 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/endpoints-v1.json
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: &app __APP_NAME
+  labels:
+    app.kubernetes.io/instance: *app
+    app.kubernetes.io/name: *app
+subsets:
+  - addresses:
+      - ip: "${__IP_VARIABLE}"
+    ports:
+      - name: http
+        port: __SERVICE_PORT_NUMBER
+        protocol: TCP

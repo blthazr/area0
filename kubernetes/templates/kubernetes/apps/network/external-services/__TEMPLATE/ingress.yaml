@@ -1,0 +1,31 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/ingress-networking-v1.json
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: &app __APP_NAME
+  # annotations:
+  #   hajimari.io/appName: __HAJIMARI_APP_NAME
+  #   hajimari.io/group: __HAMIMARI_APP_GROUP
+  #   hajimari.io/icon: mdi:automation
+  #   hajimari.io/info: __HAJIMARI_APP_DESCRIPTION
+  #   nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+  labels:
+    app.kubernetes.io/instance: *app
+    app.kubernetes.io/name: *app
+spec:
+  ingressClassName: internal
+  rules:
+    - host: &host "__APP_NAME.${SECRET_DOMAIN}"
+      http:
+        paths:
+          - backend:
+              service:
+                name: *app
+                port:
+                  name: http
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - *host
