@@ -1,5 +1,5 @@
 ---
-# Area
+# Areas
 area/ansible:
   - changed-files:
       - any-glob-to-any-file:
@@ -21,7 +21,7 @@ area/taskfile:
   - changed-files:
       - any-glob-to-any-file:
           - ".taskfiles/**/*"
-          - "Taskfile*"
+          - "Taskfile.yaml"
 area/terraform:
   - changed-files:
       - any-glob-to-any-file:
