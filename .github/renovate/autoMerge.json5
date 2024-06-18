@@ -13,6 +13,18 @@
         "ghcr.io/onedr0p"
       ],
       "matchUpdateTypes": ["digest"]
+    },
+    {
+      "addLabels": ["action/automerge"],
+      "automerge": true,
+      "automergeSchedule": ["after 2am, before 6am"],
+      "automergeType": "branch",
+      "description": ["Auto-merge containers (patch) [maintenance window]"],
+      "matchDatasources": ["docker"],
+      "matchPackagePatterns": [
+        "ghcr.io/mealie-recipes/mealie"
+      ],
+      "matchUpdateTypes": ["patch"]
     }
   ]
 }
