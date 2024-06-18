@@ -25,10 +25,10 @@
   description: >-
     Changes made in the terraform directory
 # Renovate Types
-# - name: action/automerge
-#   color: "5319E7"
-#   description: >-
-#     PR that has been automerged by Renovate
+- name: action/automerge
+  color: "5319E7"
+  description: >-
+    PR that has been automerged by Renovate
 - name: renovate/ansible
   color: "FFC300"
 - name: renovate/container
