@@ -22,7 +22,19 @@
       "description": ["Auto-merge containers (patch) [maintenance window]"],
       "matchDatasources": ["docker"],
       "matchPackagePatterns": [
-        "ghcr.io/mealie-recipes/mealie"
+        "ghcr.io/mealie-recipes/mealie",
+        "ghcr.io/meeb/tubesync",
+        "ghcr.io/onedr0p/bazarr",
+        "ghcr.io/onedr0p/lidarr",
+        "ghcr.io/onedr0p/plex",
+        "ghcr.io/onedr0p/prowlarr",
+        "ghcr.io/onedr0p/radarr",
+        "ghcr.io/onedr0p/sabnzbd",
+        "ghcr.io/onedr0p/sonarr",
+        "ghcr.io/recyclarr/recyclarr",
+        "ghcr.io/sct/overseerr",
+        "ghcr.io/tautulli/tautulli",
+        "ghcr.io/toboshii/hajimari"
       ],
       "matchUpdateTypes": ["patch"]
     }
