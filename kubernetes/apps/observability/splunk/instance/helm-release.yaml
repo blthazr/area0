@@ -53,6 +53,12 @@ spec:
         - name: SPLUNK_PASSWORD
           value: "${SECRET_SPLUNK_ADMIN_PASSWORD}"
       name: *app
+      resources:
+        limits:
+          memory: 8Gi
+        requests:
+          cpu: 1
+          memory: 1Gi
       serviceTemplate:
         spec:
           loadBalancerIP: "${CLUSTER_LB_SPLUNK}"
