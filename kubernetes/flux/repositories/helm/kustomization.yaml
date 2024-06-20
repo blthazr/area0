@@ -12,6 +12,7 @@ resources:
   - ./cribl.yaml
   - ./democratic-csi.yaml
   - ./external-dns.yaml
+  - ./external-secrets.yaml
   - ./hajimari.yaml
   - ./ingress-nginx.yaml
   - ./intel.yaml
