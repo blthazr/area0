@@ -32,7 +32,7 @@ spec:
             env:
               OP_BUS_PEERS: localhost:11221
               OP_BUS_PORT: 11220
-              OP_HTTP_PORT: &apiPort 8080
+              OP_HTTP_PORT: &apiPort 80
               OP_SESSION:
                 valueFrom:
                   secretKeyRef:
@@ -40,8 +40,8 @@ spec:
                     key: 1password-credentials.json
               XDG_DATA_HOME: &configDir /config
             image:
-              repository: ghcr.io/onedr0p/onepassword-connect-api
-              tag: 1.7.2
+              repository: docker.io/1password/connect-api
+              tag: 1.7.2@sha256:0c5ae74396e3c18c3b65acb89cb76d31088968cf0c25deca3818c72b01586606
             probes:
               liveness:
                 custom: true
@@ -85,8 +85,8 @@ spec:
                     key: 1password-credentials.json
               XDG_DATA_HOME: *configDir
             image:
-              repository: ghcr.io/onedr0p/onepassword-sync
-              tag: 1.7.2
+              repository: docker.io/1password/connect-sync
+              tag: 1.7.2@sha256:ff5bf86187ac4da88224e63a5896b393b5a53f81434e8dbc5314e406a0f1db89
             probes:
               liveness:
                 custom: true
