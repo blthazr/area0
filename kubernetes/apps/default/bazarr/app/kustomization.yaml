@@ -9,6 +9,6 @@ generatorOptions:
   disableNameSuffixHash: true
 kind: Kustomization
 resources:
-  - ./secret.sops.yaml
+  - ./external-secret.yaml
   - ./helm-release.yaml
   - ../../../../templates/volsync

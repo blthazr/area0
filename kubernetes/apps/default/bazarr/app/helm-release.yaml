@@ -54,7 +54,7 @@ spec:
                 spec:
                   failureThreshold: 3
                   httpGet:
-                    path: /health
+                    path: /api
                     port: *port
                   initialDelaySeconds: 0
                   periodSeconds: 10
