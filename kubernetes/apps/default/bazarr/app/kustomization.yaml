@@ -1,14 +1,9 @@
 ---
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
-configMapGenerator:
-  - name: bazarr-scripts
-    files:
-      - post-process.sh=./resources/post-process.sh
-generatorOptions:
-  disableNameSuffixHash: true
 kind: Kustomization
 resources:
   - ./external-secret.yaml
+  - ./resources
   - ./helm-release.yaml
   - ../../../../templates/volsync

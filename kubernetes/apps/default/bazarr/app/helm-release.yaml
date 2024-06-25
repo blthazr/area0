@@ -35,11 +35,6 @@ spec:
         containers:
           app:
             env:
-              BAZARR__AUTHENTICATION_METHOD: External
-              BAZARR__AUTHENTICATION_REQUIRED: "DisabledForLocalAddresses"
-              BAZARR__INSTANCE_NAME: Bazarr
-              BAZARR__LOG_LEVEL: info
-              BAZARR__PORT: &port 6767
               TZ: "${CLUSTER_TIME_ZONE}"
             envFrom: &envFrom
               - secretRef:
@@ -55,7 +50,7 @@ spec:
                   failureThreshold: 3
                   httpGet:
                     path: /api
-                    port: *port
+                    port: &port 6767
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
@@ -132,17 +127,6 @@ spec:
         existingClaim: "${APP_PVC:-${APP}}"
         globalMounts:
           - path: /config
-      cache:
-        enabled: true
-        globalMounts:
-          - path: /config/cache
-            subPath: cache
-        type: emptyDir
-      log:
-        enabled: true
-        globalMounts:
-          - path: /config/log
-        type: emptyDir
       media:
         enabled: true
         existingClaim: local-media
@@ -156,11 +140,6 @@ spec:
             readOnly: true
         name: bazarr-scripts
         type: configMap
-      tmp:
-        enabled: true
-        globalMounts:
-          - path: /tmp
-        type: emptyDir
     service:
       app:
         controller: *app
