@@ -122,11 +122,22 @@ spec:
         globalMounts:
           - path: /add-ons
         type: emptyDir
+      cache:
+        enabled: true
+        globalMounts:
+          - path: /config/cache
+            subPath: cache
+        type: emptyDir
       config:
         enabled: true
         existingClaim: "${APP_PVC:-${APP}}"
         globalMounts:
           - path: /config
+      log:
+        enabled: true
+        globalMounts:
+          - path: /config/log
+        type: emptyDir
       media:
         enabled: true
         existingClaim: local-media
@@ -140,6 +151,11 @@ spec:
             readOnly: true
         name: bazarr-scripts
         type: configMap
+      tmp:
+        enabled: true
+        globalMounts:
+          - path: /tmp
+        type: emptyDir
     service:
       app:
         controller: *app
