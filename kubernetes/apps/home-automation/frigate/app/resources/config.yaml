@@ -104,8 +104,8 @@ logger:
 mqtt:
   host: "${MQTT_BROKER_ADDRESS}"
   port: 1883
-  user: "${SECRET_FRIGATE_MQTT_USERNAME}"
-  password: "${SECRET_FRIGATE_MQTT_PASSWORD}"
+  user: "${FRIGATE_MQTT_USERNAME}"
+  password: "${FRIGATE_MQTT_PASSWORD}"
   client_id: frigate
   topic_prefix: frigate
 # ==================================================================================================

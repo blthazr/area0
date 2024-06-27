@@ -33,7 +33,6 @@ spec:
     controllers:
       frigate:
         annotations:
-          configmap.reloader.stakater.com/reload: "frigate-config"
           reloader.stakater.com/auto: "true"
         containers:
           app:

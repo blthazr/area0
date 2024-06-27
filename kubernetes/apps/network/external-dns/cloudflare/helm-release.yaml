@@ -34,15 +34,19 @@ spec:
             key: api-token
             name: &secret external-dns-cloudflare-secret
     extraArgs:
-      - --ingress-class=external
+      - --cloudflare-dns-records-per-page=1000
       - --cloudflare-proxied
       - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
       - --crd-source-kind=DNSEndpoint
+      - --events
+      - --ignore-ingress-tls-spec
+      - --ingress-class=external
     fullnameOverride: *app
     podAnnotations:
       secret.reloader.stakater.com/reload: *secret
     policy: sync
-    provider: cloudflare
+    provider:
+      name: cloudflare
     serviceMonitor:
       enabled: true
     sources:

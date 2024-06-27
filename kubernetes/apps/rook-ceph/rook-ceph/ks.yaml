@@ -9,6 +9,8 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  dependsOn:
+    - name: external-secrets-stores
   interval: 30m
   path: ./kubernetes/apps/rook-ceph/rook-ceph/operator
   prune: false # never should be deleted

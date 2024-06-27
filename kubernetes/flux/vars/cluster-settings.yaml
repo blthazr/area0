@@ -1,5 +1,5 @@
 ---
-# TODO: yaml-language-server
+# TODO: add yaml-language-server
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -36,6 +36,3 @@ data:
 
   # nfs
   NAS_NFS_PATH: /volume1/data
-
-  # volsync
-  VOLSYNC_S3_ADDRESS: 172.16.70.100:9000

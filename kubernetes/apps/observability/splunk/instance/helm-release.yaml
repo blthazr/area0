@@ -32,7 +32,7 @@ spec:
       enabled: false
     standalone:
       additionalAnnotations:
-        secret.reloader.stakater.com/reload: splunk-minio-secret
+        reloader.stakater.com/auto: "true"
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -50,8 +50,6 @@ spec:
       extraEnv:
         - name: SPLUNK_HOSTNAME
           value: *app
-        - name: SPLUNK_PASSWORD
-          value: "${SECRET_SPLUNK_ADMIN_PASSWORD}"
       name: *app
       resources:
         limits:
@@ -73,7 +71,7 @@ spec:
           - endpoint: "http://${MINIO_ADDRESS}:9000"
             name: volume_smartstore
             path: splunk-s2/
-            secretRef: splunk-minio-secret
+            secretRef: splunk-secret
       varVolumeStorageConfig:
         ephemeralStorage: false
         storageCapacity: 20Gi

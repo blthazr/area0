@@ -7,3 +7,4 @@ resources:
   - ./namespace.yaml
   # Flux-Kustomizations
   - ./__APP_NAME/ks.yaml
+  # Standard Resources

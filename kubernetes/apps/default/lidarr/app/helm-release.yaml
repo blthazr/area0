@@ -33,13 +33,13 @@ spec:
         containers:
           app:
             env:
-              LIDARR__AUTHENTICATION_METHOD: External
-              LIDARR__AUTHENTICATION_REQUIRED: DisabledForLocalAddresses
-              LIDARR__BRANCH: develop
-              LIDARR__INSTANCE_NAME: Lidarr
-              LIDARR__LOG_LEVEL: info
-              LIDARR__PORT: &port 8686
-              LIDARR__THEME: dark
+              LIDARR__APP__INSTANCENAME: "${APP}"
+              LIDARR__APP__THEME: dark
+              LIDARR__AUTH_METHOD: External
+              LIDARR__AUTH_REQUIRED: DisabledForLocalAddresses
+              LIDARR__LOG__ANALYTICSENABLED: "False"
+              LIDARR__LOG__LEVEL: info
+              LIDARR__PORT: &port 80
               TZ: "${CLUSTER_TIME_ZONE}"
             envFrom: &envFrom
               - secretRef:
@@ -116,6 +116,11 @@ spec:
         existingClaim: "${APP_PVC:-${APP}}"
         globalMounts:
           - path: /config
+      log:
+        enabled: true
+        globalMounts:
+          - path: /config/logs
+        type: emptyDir
       media:
         enabled: true
         existingClaim: local-media

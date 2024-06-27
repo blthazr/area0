@@ -11,6 +11,7 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: external-dns-cloudflare
+    - name: external-secrets-stores
   interval: 30m
   path: ./kubernetes/apps/network/cloudflared/app
   prune: true

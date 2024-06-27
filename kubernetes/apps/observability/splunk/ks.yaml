@@ -31,6 +31,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
+    - name: external-secrets-stores
     - name: splunk-operator
   interval: 30m
   path: ./kubernetes/apps/observability/splunk/instance
