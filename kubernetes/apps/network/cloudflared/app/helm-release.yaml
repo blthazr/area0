@@ -37,10 +37,15 @@ spec:
               - --config
               - /etc/cloudflared/config/config.yaml
               - run
-              - "${CLUSTER_CLOUDFLARE_TUNNEL_ID}"
+              - "$(TUNNEL_ID)"
             env:
               NO_AUTOUPDATE: true
               TUNNEL_CRED_FILE: /etc/cloudflared/creds/credentials.json
+              TUNNEL_ID:
+                valueFrom:
+                  secretKeyRef:
+                    name: cloudflared-tunnel-secret
+                    key: TunnelID
               TUNNEL_METRICS: 0.0.0.0:8080
               TUNNEL_ORIGIN_ENABLE_HTTP2: true
               TUNNEL_POST_QUANTUM: true

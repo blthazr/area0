@@ -5,5 +5,5 @@ kind: Kustomization
 resources:
   - ./resources
   - ./external-secret.yaml
-  - ./helm-release.yaml
   - ./dns-endpoint.yaml
+  - ./helm-release.yaml
