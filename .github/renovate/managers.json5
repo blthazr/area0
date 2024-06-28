@@ -59,6 +59,17 @@
       ],
       "datasourceTemplate": "docker",
       "versioningTemplate": "redhat"
+    },
+    {
+      "customType": "regex",
+      "description": ["Process Splunk version"],
+      "fileMatch": [
+        "(^|/)kubernetes/.+\\.ya?ml$"
+      ],
+      "matchStrings": [
+        "repository: (?<depName>[^:]+):(?<currentValue>\\S+)"
+      ],
+      "datasourceTemplate": "docker"
     }
   ]
 }
