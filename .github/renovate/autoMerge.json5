@@ -19,7 +19,7 @@
       "automerge": true,
       "automergeSchedule": ["after 2am, before 6am"],
       "automergeType": "branch",
-      "description": ["Auto-merge containers (patch) [maintenance window]"],
+      "description": ["Auto-merge containers (patch/minor) [maintenance window]"],
       "matchDatasources": ["docker"],
       "matchPackagePatterns": [
         "ghcr.io/mealie-recipes/mealie",
@@ -36,7 +36,10 @@
         "ghcr.io/tautulli/tautulli",
         "ghcr.io/toboshii/hajimari"
       ],
-      "matchUpdateTypes": ["patch"]
+      "matchUpdateTypes": [
+        "patch",
+        "minor"
+      ]
     }
   ]
 }
