@@ -67,7 +67,7 @@
         "(^|/)kubernetes/.+\\.ya?ml$"
       ],
       "matchStrings": [
-        "repository: (?<depName>[^:]+):(?<currentValue>\\S+)"
+        "repository: (?<depName>[^:]+):(?<currentValue>[^@]+)@?(?<currentDigest>\\S+)"
       ],
       "datasourceTemplate": "docker"
     }
