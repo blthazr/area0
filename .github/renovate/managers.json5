@@ -62,12 +62,12 @@
     },
     {
       "customType": "regex",
-      "description": ["Process Splunk version"],
+      "description": ["Process Splunk Instance version"],
       "fileMatch": [
-        "(^|/)kubernetes/.+\\.ya?ml$"
+        "(^|/)kubernetes/.+/splunk/instance/.+\\.ya?ml$"
       ],
       "matchStrings": [
-        "repository: (?<depName>[^:]+):(?<currentValue>[^@]+)@?(?<currentDigest>\\S+)"
+        "datasource=(?<datasource>\\S+)\n\\s+repository: (?<depName>[^:]+):(?<currentValue>[^@]+)@?(?<currentDigest>\\S+)"
       ],
       "datasourceTemplate": "docker"
     }
