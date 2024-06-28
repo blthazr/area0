@@ -50,6 +50,7 @@ spec:
       extraEnv:
         - name: SPLUNK_HOSTNAME
           value: *app
+      licenseUrl: /mnt/licenses/splunk.lic
       name: *app
       resources:
         limits:
@@ -71,11 +72,15 @@ spec:
           - endpoint: "http://${MINIO_ADDRESS}:9000"
             name: volume_smartstore
             path: splunk-s2/
-            secretRef: splunk-secret
+            secretRef: splunk-s2-secret
       varVolumeStorageConfig:
         ephemeralStorage: false
         storageCapacity: 20Gi
         storageClassName: democratic-csi-local-hostpath
+      volumes:
+        - name: licenses
+          secret:
+            secretName: splunk-license-secret
     sva:
       s1:
         enabled: true
