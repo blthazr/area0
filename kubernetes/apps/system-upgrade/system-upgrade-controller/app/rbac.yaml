@@ -13,7 +13,7 @@ subjects:
     name: system-upgrade
     namespace: system-upgrade
 ---
-# TODO: yaml-language-server
+# TODO: add yaml-language-server
 apiVersion: talos.dev/v1alpha1
 kind: ServiceAccount
 metadata:
