@@ -2,6 +2,18 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
+      "description": ["1Password Connect Group"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "groupName": "1Password Connnect",
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackagePatterns": ["1password/connect"],
+      "separateMinorPatch": true
+    },
+    {
       "description": ["Cribl Group"],
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
