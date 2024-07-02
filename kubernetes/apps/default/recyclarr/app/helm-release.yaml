@@ -40,7 +40,6 @@ spec:
           app:
             args: ["sync"]
             env:
-              COMPlus_EnableDiagnostics: "0"
               TZ: "${CLUSTER_TIME_ZONE}"
             envFrom:
               - secretRef:
