@@ -48,3 +48,4 @@ spec:
       APP: *app
       APP_PVC: pvc-etc-splunk-splunk-standalone-0
       APP_PVC_CAPACITY: 10Gi
+      VOLSYNC_SCHEDULE: "0 0 * * *"

@@ -44,4 +44,5 @@ resources:
 - `VOLSYNC_COPYMETHOD`: [ default | Snapshot ]
 - `VOLSYNC_S3_ADDRESS`:
 - `VOLSYNC_S3_BUCKET_NAME`: [ default | volsync ]
+- `VOLSYNC_SCHEDULE`: [ default | 0 * * * * ]
 - `VOLSYNC_SNAPSHOTCLASS`: [ default | csi-ceph-blockpool ]

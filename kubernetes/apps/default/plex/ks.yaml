@@ -26,3 +26,4 @@ spec:
       APP_GID: "568"
       APP_PVC: plex-config
       APP_PVC_CAPACITY: 30Gi
+      VOLSYNC_SCHEDULE: "0 0 * * *"

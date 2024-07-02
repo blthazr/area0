@@ -18,10 +18,11 @@ spec:
     pruneIntervalDays: 7
     repository: "${APP}-volsync-minio-secret"
     retain:
+      hourly: 24
       daily: 7
       weekly: 5
     storageClassName: "${APP_PVC_STORAGECLASS:-ceph-block}"
     volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-csi-ceph-blockpool}"
   sourcePVC: "${APP_PVC:-${APP}}"
   trigger:
-    schedule: "0 0 * * *"
+    schedule: "${VOLSYNC_SCHEDULE:-0 * * * *}"
