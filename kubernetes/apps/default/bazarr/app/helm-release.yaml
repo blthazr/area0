@@ -41,7 +41,7 @@ spec:
                   name: "${APP}-secret"
             image:
               repository: ghcr.io/onedr0p/bazarr
-              tag: 1.4.3@sha256:d2b70813f7d636fb1ab3448e13ca4074630b63216c6c6d02d034cd5d9e938ea3
+              tag: 1.4.2@sha256:8d4a560d7307d6554bac85c566a49a23f6b47239a031772823cd294acecca72d
             probes:
               liveness: &probes
                 custom: true
@@ -59,7 +59,7 @@ spec:
                 enabled: false
             resources:
               limits:
-                memory: 1Gi
+                memory: 512Mi
               requests:
                 cpu: 10m
             securityContext: &securityContext
@@ -100,9 +100,9 @@ spec:
     ingress:
       app:
         annotations:
-          hajimari.io/group: Media Management
-          hajimari.io/icon: mdi:subtitles-outline
-          hajimari.io/info: Subtitle Manager
+#           hajimari.io/group: Media Management
+#           hajimari.io/icon: mdi:subtitles-outline
+#           hajimari.io/info: Subtitle Manager
         className: internal
         enabled: true
         hosts:
