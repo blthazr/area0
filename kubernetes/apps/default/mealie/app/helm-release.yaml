@@ -44,7 +44,7 @@ spec:
               TZ: "${CLUSTER_TIME_ZONE}"
             image:
               repository: ghcr.io/mealie-recipes/mealie
-              tag: v1.9.0@sha256:c43d5db470109478c3299c6229d6cde5403cbf9ada8b4fc735f91a259360fc32
+              tag: v1.10.0@sha256:49265129d0a34902030b505bbcdaaf833bef71d7e95f9c944ed9ec67013038d1
             resources:
               limits:
                 memory: 512Mi
