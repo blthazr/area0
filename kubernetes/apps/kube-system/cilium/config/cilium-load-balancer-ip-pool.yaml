@@ -7,4 +7,4 @@ metadata:
 spec:
   allowFirstLastIPs: "Yes"
   blocks:
-    - cidr: "${NET_CLUSTER_NODE_CIDR}"
+    - cidr: "${NET_HOME_CIDR}"
