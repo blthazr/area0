@@ -1,9 +1,7 @@
 ---
 autoDirectNodeRoutes: true
-bgpControlPlane:
-  enabled: true
 bpf:
-  masquerade: false
+  masquerade: false # Required for Talos `.machine.features.hostDNS.forwardKubeDNSToHost`
 cgroup:
   automount:
     enabled: false
@@ -13,8 +11,6 @@ cluster:
   name: area0
 cni:
   exclusive: false
-containerRuntime:
-  integration: containerd
 endpointRoutes:
   enabled: true
 hubble:
