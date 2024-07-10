@@ -35,6 +35,12 @@ spec:
         - name: splunk-hec
           port: 8088
           protocol: TCP
+        - name: talos-kernel-udp
+          port: 7601
+          protocol: UDP
+        - name: talos-service-udp
+          port: 7602
+          protocol: UDP
         - name: syslog-tcp
           port: 9514
           protocol: TCP
