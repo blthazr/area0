@@ -1,0 +1,4 @@
+# Disable search domain
+machine:
+  network:
+    disableSearchDomain: true

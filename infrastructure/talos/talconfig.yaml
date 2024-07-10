@@ -16,6 +16,8 @@ additionalApiServerCertSans: &sans
   - ${clusterEndpointIP}
   - 127.0.0.1 # KubePrism
 additionalMachineCertSans: *sans
+
+# Disable built-in Flannel to use Cilium
 cniConfig:
   name: none
 
@@ -93,12 +95,6 @@ nodes:
             gateway: 172.16.20.1
     nodeLabels:
       topology.kubernetes.io/region: *cluster
-    schematic:
-      customization:
-        systemExtensions:
-          officialExtensions:
-            - siderolabs/intel-ucode
-            - siderolabs/i915-ucode
   - hostname: k8s-5
     controlPlane: false
     installDisk: /dev/nvme0n1
@@ -129,8 +125,7 @@ nodes:
         machine:
           kubelet:
             extraMounts:
-              -
-                destination: /var/mnt/media
+              - destination: /var/mnt/media
                 options:
                   - bind
                   - rshared
@@ -138,132 +133,40 @@ nodes:
                 source: /var/mnt/media
                 type: bind
 
+# Global patches
 patches:
-  # Configure containerd
-  - |-
-    machine:
-      files:
-        - op: create
-          path: /etc/cri/conf.d/20-customization.part
-          content: |-
-            [plugins."io.containerd.grpc.v1.cri"]
-              enable_unprivileged_ports = true
-              enable_unprivileged_icmp = true
-            [plugins."io.containerd.grpc.v1.cri".containerd]
-              discard_unpacked_layers = false
-            [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
-              discard_unpacked_layers = false
+  - "@./patches/global/cluster-discovery.yaml"
+  - "@./patches/global/containerd.yaml"
+  - "@./patches/global/disable-search-domain.yaml"
+  - "@./patches/global/hostdns.yaml"
+  - "@./patches/global/installer.yaml"
+  - "@./patches/global/kubelet.yaml"
+  - "@./patches/global/nameserver.yaml"
+  - "@./patches/global/ntp.yaml"
+  - "@./patches/global/sysctl.yaml"
 
-  # Disable search domain everywhere
-  - |-
-    machine:
-      network:
-        disableSearchDomain: true
-
-  # Enable cluster discovery
-  - |-
-    cluster:
-      discovery:
-        registries:
-          kubernetes:
-            disabled: false
-          service:
-            disabled: true
-
-  # Configure kubelet
-  - |-
-    machine:
-      kubelet:
-        extraArgs:
-          rotate-server-certificates: true
-        nodeIP:
-          validSubnets:
-            - 172.16.20.0/23
-
-  # Force nameserver
-  - |-
-    machine:
-      network:
-        nameservers:
-          - 1.1.1.1
-          - 1.0.0.1
-
-  # Configure NTP
-  - |-
-    machine:
-      time:
-        disabled: false
-        servers:
-          - time.cloudflare.com
-
-  # Custom sysctl settings
-  - |-
-    machine:
-      sysctls:
-        fs.inotify.max_queued_events: 65536
-        fs.inotify.max_user_instances: 8192
-        fs.inotify.max_user_watches: 1048576
-        net.core.rmem_max: 2500000
-        net.core.wmem_max: 2500000
-
-  # Custom Talos installer patch
-  - |-
-    machine:
-      install:
-        extraKernelArgs:
-          - mitigations=off
-
+# Controller patches
 controlPlane:
   patches:
-    # Cluster configuration
-    - |-
-      cluster:
-        allowSchedulingOnControlPlanes: true
-        controllerManager:
-          extraArgs:
-            bind-address: 0.0.0.0
-        coreDNS:
-          disabled: true
-        proxy:
-          disabled: true
-        scheduler:
-          extraArgs:
-            bind-address: 0.0.0.0
+    - "@./patches/controller/api-access.yaml"
+    - "@./patches/controller/cluster.yaml"
+    - "@./patches/controller/disable-admission-controller.yaml"
+    - "@./patches/controller/etcd.yaml"
+    - "@./patches/controller/udev.yaml"
+  schematic:
+    customization:
+      systemExtensions:
+        officialExtensions:
+          - siderolabs/intel-ucode
+          - siderolabs/i915-ucode
 
-    # ETCD configuration
-    - |-
-      cluster:
-        etcd:
-          advertisedSubnets:
-            - 172.16.20.0/23
-          extraArgs:
-            listen-metrics-urls: http://0.0.0.0:2381
-
-    # Disable default API server admission plugins.
-    - |-
-      - op: remove
-        path: /cluster/apiServer/admissionControl
-
-    # Enable K8s Talos API Access
-    - |-
-      machine:
-        features:
-          kubernetesTalosAPIAccess:
-            allowedKubernetesNamespaces:
-              - system-upgrade
-            allowedRoles:
-              - os:admin
-            enabled: true
-
+# Worker patches
 worker:
   patches:
-    # udev rules
-    - |-
-      machine:
-        udev:
-          rules:
-            # Intel GPU
-            - SUBSYSTEM=="drm", KERNEL=="renderD*", GROUP="44", MODE="0660"
-            # Google Coral USB Accelerator
-            - SUBSYSTEMS=="usb", ATTRS{idVendor}=="1a6e", ATTRS{idProduct}=="089a", GROUP="20", MODE="0660"
-            - SUBSYSTEMS=="usb", ATTRS{idVendor}=="18d1", ATTRS{idProduct}=="9302", GROUP="20", MODE="0660"
+    - "@./patches/worker/udev.yaml"
+  schematic:
+    customization:
+      systemExtensions:
+        officialExtensions:
+          - siderolabs/intel-ucode
+          - siderolabs/i915-ucode

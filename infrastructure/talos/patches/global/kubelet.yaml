@@ -1,0 +1,8 @@
+# Configure kubelet
+machine:
+  kubelet:
+    extraArgs:
+      rotate-server-certificates: true
+    nodeIP:
+      validSubnets:
+        - 172.16.20.0/23
