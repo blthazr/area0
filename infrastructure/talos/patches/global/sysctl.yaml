@@ -3,6 +3,7 @@ machine:
   sysctls:
     fs.inotify.max_queued_events: 65536
     fs.inotify.max_user_instances: 8192
-    fs.inotify.max_user_watches: 1048576
+    fs.inotify.max_user_watches: 524288
+    kernel.kexec_load_disabled: 1
     net.core.rmem_max: 2500000
     net.core.wmem_max: 2500000

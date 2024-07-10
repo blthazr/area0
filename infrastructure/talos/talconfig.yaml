@@ -6,14 +6,16 @@ talosVersion: v1.7.0
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
 kubernetesVersion: v1.29.6
 
-clusterName: &cluster ${clusterName}
-endpoint: https://${clusterEndpointIP}:6443
+clusterName: &cluster ${CLUSTER_NAME}
+endpoint: https://${CLUSTER_ENDPOINT_IP}:6443
 clusterPodNets:
   - 10.32.0.0/16
 clusterSvcNets:
   - 10.33.0.0/16
 additionalApiServerCertSans: &sans
-  - ${clusterEndpointIP}
+  - ${CLUSTER_ENDPOINT_IP}
+  - ${CLUSTER_NAME}.${CLUSTER_DOMAIN}
+  - k8s.${CLUSTER_DOMAIN}
   - 127.0.0.1 # KubePrism
 additionalMachineCertSans: *sans
 
@@ -24,7 +26,8 @@ cniConfig:
 nodes:
   - hostname: k8s-1
     controlPlane: true
-    installDisk: /dev/sda
+    installDiskSelector:
+      wwid: naa.5002538900000000
     ipAddress: 172.16.21.11
     networkInterfaces:
       - addresses:
@@ -37,13 +40,14 @@ nodes:
           - network: 0.0.0.0/0
             gateway: 172.16.20.1
         vip:
-          ip: ${clusterEndpointIP}
+          ip: ${CLUSTER_ENDPOINT_IP}
     nodeLabels:
-      rook-ceph/disk-id: ata-Samsung_Portable_SSD_T5_S4B0NR0R712678E
+    #   rook-ceph/disk-id: ata-Samsung_Portable_SSD_T5_S4B0NR0R712678E
       topology.kubernetes.io/region: *cluster
   - hostname: k8s-2
     controlPlane: true
-    installDisk: /dev/sda
+    installDiskSelector:
+      wwid: naa.5002538900000000
     ipAddress: 172.16.21.12
     networkInterfaces:
       - addresses:
@@ -56,13 +60,14 @@ nodes:
           - network: 0.0.0.0/0
             gateway: 172.16.20.1
         vip:
-          ip: ${clusterEndpointIP}
+          ip: ${CLUSTER_ENDPOINT_IP}
     nodeLabels:
-      rook-ceph/disk-id: ata-Samsung_Portable_SSD_T5_S4B0NR0R719439P
+#       rook-ceph/disk-id: ata-Samsung_Portable_SSD_T5_S4B0NR0R719439P
       topology.kubernetes.io/region: *cluster
   - hostname: k8s-3
     controlPlane: true
-    installDisk: /dev/sda
+    installDiskSelector:
+      wwid: naa.5002538900000000
     ipAddress: 172.16.21.13
     networkInterfaces:
       - addresses:
@@ -75,13 +80,14 @@ nodes:
           - network: 0.0.0.0/0
             gateway: 172.16.20.1
         vip:
-          ip: ${clusterEndpointIP}
+          ip: ${CLUSTER_ENDPOINT_IP}
     nodeLabels:
-      rook-ceph/disk-id: ata-Samsung_Portable_SSD_T5_S4B0NR0R721882L
+#       rook-ceph/disk-id: ata-Samsung_Portable_SSD_T5_S4B0NR0R721882L
       topology.kubernetes.io/region: *cluster
   - hostname: k8s-4
     controlPlane: false
-    installDisk: /dev/sda
+    installDiskSelector:
+      wwid: naa.5000cca82ac496b7
     ipAddress: 172.16.21.14
     networkInterfaces:
       - addresses:
@@ -97,7 +103,8 @@ nodes:
       topology.kubernetes.io/region: *cluster
   - hostname: k8s-5
     controlPlane: false
-    installDisk: /dev/nvme0n1
+    installDiskSelector:
+      serial: S59ANM0R414052Y
     ipAddress: 172.16.21.15
     networkInterfaces:
       - addresses:
@@ -138,12 +145,15 @@ patches:
   - "@./patches/global/cluster-discovery.yaml"
   - "@./patches/global/containerd.yaml"
   - "@./patches/global/disable-search-domain.yaml"
+  - "@./patches/global/host-entries.yaml"
   - "@./patches/global/hostdns.yaml"
   - "@./patches/global/installer.yaml"
   - "@./patches/global/kubelet.yaml"
+  - "@./patches/global/logging.yaml"
   - "@./patches/global/nameserver.yaml"
   - "@./patches/global/ntp.yaml"
   - "@./patches/global/sysctl.yaml"
+  - "@./patches/global/udev.yaml"
 
 # Controller patches
 controlPlane:
@@ -152,7 +162,6 @@ controlPlane:
     - "@./patches/controller/cluster.yaml"
     - "@./patches/controller/disable-admission-controller.yaml"
     - "@./patches/controller/etcd.yaml"
-    - "@./patches/controller/udev.yaml"
   schematic:
     customization:
       systemExtensions:
@@ -162,8 +171,6 @@ controlPlane:
 
 # Worker patches
 worker:
-  patches:
-    - "@./patches/worker/udev.yaml"
   schematic:
     customization:
       systemExtensions:

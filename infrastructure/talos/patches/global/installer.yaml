@@ -3,3 +3,4 @@ machine:
   install:
     extraKernelArgs:
       - mitigations=off
+      - net.ifnames=0

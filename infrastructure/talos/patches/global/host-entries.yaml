@@ -1,0 +1,7 @@
+# Static host entries
+machine:
+  network:
+    extraHostEntries:
+      - aliases:
+          - k8s.${CLUSTER_DOMAIN}
+        ip: ${CLUSTER_ENDPOINT_IP}
