@@ -25,7 +25,7 @@ cniConfig:
 
 nodes:
   - hostname: k8s-1
-    controlPlane: true
+    controlPlane: false
     installDiskSelector:
       wwid: naa.5002538900000000
     ipAddress: 172.16.21.11
@@ -39,10 +39,7 @@ nodes:
         routes:
           - network: 0.0.0.0/0
             gateway: 172.16.20.1
-        vip:
-          ip: ${CLUSTER_ENDPOINT_IP}
     nodeLabels:
-    #   rook-ceph/disk-id: ata-Samsung_Portable_SSD_T5_S4B0NR0R712678E
       topology.kubernetes.io/region: *cluster
   - hostname: k8s-2
     controlPlane: true
@@ -62,7 +59,6 @@ nodes:
         vip:
           ip: ${CLUSTER_ENDPOINT_IP}
     nodeLabels:
-#       rook-ceph/disk-id: ata-Samsung_Portable_SSD_T5_S4B0NR0R719439P
       topology.kubernetes.io/region: *cluster
   - hostname: k8s-3
     controlPlane: true
@@ -82,10 +78,9 @@ nodes:
         vip:
           ip: ${CLUSTER_ENDPOINT_IP}
     nodeLabels:
-#       rook-ceph/disk-id: ata-Samsung_Portable_SSD_T5_S4B0NR0R721882L
       topology.kubernetes.io/region: *cluster
   - hostname: k8s-4
-    controlPlane: false
+    controlPlane: true
     installDiskSelector:
       wwid: naa.5000cca82ac496b7
     ipAddress: 172.16.21.14
@@ -99,6 +94,8 @@ nodes:
         routes:
           - network: 0.0.0.0/0
             gateway: 172.16.20.1
+        vip:
+          ip: ${CLUSTER_ENDPOINT_IP}
     nodeLabels:
       topology.kubernetes.io/region: *cluster
   - hostname: k8s-5
@@ -119,13 +116,7 @@ nodes:
     nodeLabels:
       role/media: "true"
       topology.kubernetes.io/region: *cluster
-    schematic:
-      customization:
-        systemExtensions:
-          officialExtensions:
-            - siderolabs/intel-ucode
-            - siderolabs/i915-ucode
-            - siderolabs/zfs
+    talosImageURL: factory.talos.dev/installer/da6e5e640e48d2c9f1ba22aa3f205e17a687512b7201cff5c5c47ef0fab32cb1
     patches:
       # Mount zfs-hostpath in kubelet
       - |-

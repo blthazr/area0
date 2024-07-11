@@ -111,15 +111,15 @@ spec:
           osdsPerDevice: "1"
         # Use the following command to get the device name by-id "talosctl ls /dev/disk/by-id -n <node-ip>"
         nodes:
-          - name: k8s-1
-            devices:
-              - name: /dev/disk/by-id/ata-Samsung_Portable_SSD_T5_S4B0NR0R712678E
           - name: k8s-2
             devices:
               - name: /dev/disk/by-id/ata-Samsung_Portable_SSD_T5_S4B0NR0R719439P
           - name: k8s-3
             devices:
               - name: /dev/disk/by-id/ata-Samsung_Portable_SSD_T5_S4B0NR0R721882L
+          - name: k8s-4
+            devices:
+              - name: /dev/disk/by-id/ata-Samsung_Portable_SSD_T5_S4B0NR0R712678E
         useAllDevices: false
         useAllNodes: false
     configOverride: |
