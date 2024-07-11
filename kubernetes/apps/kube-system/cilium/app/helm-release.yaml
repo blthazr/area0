@@ -55,8 +55,7 @@ spec:
         ingress:
           className: internal
           enabled: true
-          hosts:
-            - &host "hubble.${SECRET_DOMAIN}"
+          hosts: ["hubble.${SECRET_DOMAIN}"]
         rollOutPods: true
     operator:
       dashboards:
