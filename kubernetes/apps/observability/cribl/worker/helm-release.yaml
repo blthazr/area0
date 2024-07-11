@@ -32,10 +32,10 @@ spec:
     service:
       loadBalancerIP: "${CLUSTER_LB_CRIBL_WORKER}"
       ports:
-        - name: talos-kernel-udp
+        - name: talos-kernel
           port: 7601
           protocol: UDP
-        - name: talos-service-udp
+        - name: talos-service
           port: 7602
           protocol: UDP
         - name: syslog-tcp
@@ -44,7 +44,7 @@ spec:
         - name: syslog-udp
           port: 9514
           protocol: UDP
-        - name: syslog-unifi-udp
+        - name: syslog-unifi
           port: 9520
           protocol: UDP
         - name: splunk-hec
