@@ -70,6 +70,8 @@ spec:
           - name: k8s
           - name: main
           - name: ubnt
+          - name: unifi
+          - name: talos
         volumes:
           - endpoint: "http://${MINIO_ADDRESS}:9000"
             name: volume_smartstore
