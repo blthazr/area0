@@ -32,10 +32,10 @@ spec:
     service:
       loadBalancerIP: "${CLUSTER_LB_CRIBL_WORKER}"
       ports:
-        - name: syslog-talos-kernel-udp
+        - name: talos-kernel-udp
           port: 7601
           protocol: UDP
-        - name: syslog-talos-service-udp
+        - name: talos-service-udp
           port: 7602
           protocol: UDP
         - name: syslog-tcp
