@@ -32,13 +32,10 @@ spec:
     service:
       loadBalancerIP: "${CLUSTER_LB_CRIBL_WORKER}"
       ports:
-        - name: splunk-hec
-          port: 8088
-          protocol: TCP
-        - name: talos-kernel-udp
+        - name: syslog-talos-kernel-udp
           port: 7601
           protocol: UDP
-        - name: talos-service-udp
+        - name: syslog-talos-service-udp
           port: 7602
           protocol: UDP
         - name: syslog-tcp
@@ -47,6 +44,12 @@ spec:
         - name: syslog-udp
           port: 9514
           protocol: UDP
+        - name: syslog-unifi-udp
+          port: 9520
+          protocol: UDP
+        - name: splunk-hec
+          port: 8088
+          protocol: TCP
         - name: s2s
           port: 9997
           protocol: TCP
