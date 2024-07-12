@@ -24,23 +24,6 @@ cniConfig:
   name: none
 
 nodes:
-  - hostname: k8s-1
-    controlPlane: false
-    installDiskSelector:
-      wwid: naa.5002538900000000
-    ipAddress: 172.16.21.11
-    networkInterfaces:
-      - addresses:
-          - 172.16.21.11/23
-        deviceSelector:
-          hardwareAddr: 78:7b:8a:cc:06:17
-        dhcp: false
-        mtu: 1500
-        routes:
-          - network: 0.0.0.0/0
-            gateway: 172.16.20.1
-    nodeLabels:
-      topology.kubernetes.io/region: *cluster
   - hostname: k8s-2
     controlPlane: true
     installDiskSelector:
@@ -137,7 +120,6 @@ patches:
   - "@./patches/global/containerd.yaml"
   - "@./patches/global/disable-search-domain.yaml"
   - "@./patches/global/host-entries.yaml"
-  - "@./patches/global/hostdns.yaml"
   - "@./patches/global/installer.yaml"
   - "@./patches/global/kubelet.yaml"
   - "@./patches/global/logging.yaml"
