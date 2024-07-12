@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: ingress-nginx
         namespace: flux-system
-      version: 4.11.0
+      version: 4.10.1
   install:
     remediation:
       retries: 3
@@ -39,6 +39,7 @@ spec:
         enable-brotli: "true"
         enable-ocsp: "true"
         enable-real-ip: "true"
+        force-ssl-redirect: "true"
         hide-headers: Server,X-Powered-By
         hsts-max-age: 31449600
         keep-alive: 120
