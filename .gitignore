@@ -9,6 +9,9 @@ Thumbs.db
 *-shard/*
 *-shard.*
 
+# Brew
+Brewfile.lock.json
+
 # Kubernetes
 kubeconfig
 
