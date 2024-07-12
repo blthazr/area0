@@ -2,21 +2,11 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   // configure flux manager
   "flux": {
-    "fileMatch": [
-      "(^|/)kubernetes/.+\\.ya?ml$"
-    ]
-  },
-  // configure helmfile manager
-  "helmfile": {
-    "fileMatch": [
-      "(^|/)helmfile\\.ya?ml$"
-    ]
+    "fileMatch": ["(^|/)kubernetes/.+\\.ya?ml$"]
   },
   // configure helm-values manager
   "helm-values": {
-    "fileMatch": [
-      "(^|/)kubernetes/.+\\.ya?ml$"
-    ]
+    "fileMatch": ["(^|/)kubernetes/.+\\.ya?ml$"]
   },
   // configure kubernetes manager
   "kubernetes": {
@@ -31,8 +21,6 @@
       "customType": "regex",
       "description": ["Process custom dependencies"],
       "fileMatch": [
-        "(^|/).taskfiles/.+\\.ya?ml$",
-        "(^|/)ansible/.+\\.ya?ml$",
         "(^|/)kubernetes/.+\\.ya?ml$",
         "(^|/)talos/.+\\.ya?ml$"
       ],
@@ -51,9 +39,7 @@
     {
       "customType": "regex",
       "description": ["Process CloudnativePG Postgresql version"],
-      "fileMatch": [
-        "(^|/)kubernetes/.+\\.ya?ml$"
-      ],
+      "fileMatch": ["(^|/)kubernetes/.+\\.ya?ml$"],
       "matchStrings": [
         "imageName: (?<depName>\\S+):(?<currentValue>.*\\-.*)"
       ],

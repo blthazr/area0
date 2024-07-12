@@ -8,12 +8,21 @@
       "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(-(?<compatibility>beta)(?<build>\\d+))?$"
     },
     {
+      "description": ["Custom schedule for frequently updated packages"],
+      "matchDataSources": [
+        "docker",
+        "helm"
+      ],
+      "matchPackagePatterns": [
+        "minio",
+        "reloader"
+      ],
+      "schedule": ["on the first day of the month"]
+    },
+    {
       "description": ["Loose versioning for non-semver packages"],
       "matchDatasources": ["docker"],
-      "matchPackagePatterns": [
-        "plex",
-        "qbittorrent"
-      ],
+      "matchPackagePatterns": ["plex"],
       "versioning": "loose"
     }
   ]

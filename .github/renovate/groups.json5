@@ -7,9 +7,7 @@
         "commitMessageTopic": "{{{groupName}}} group"
       },
       "groupName": "1Password Connnect",
-      "matchDatasources": [
-        "docker"
-      ],
+      "matchDatasources": ["docker"],
       "matchPackagePatterns": ["1password/connect"],
       "separateMinorPatch": true
     },
@@ -61,9 +59,7 @@
         "commitMessageTopic": "{{{groupName}}} group"
       },
       "groupName": "Kubernetes",
-      "matchDatasources": [
-        "docker"
-      ],
+      "matchDatasources": ["docker"],
       "matchPackageNames": [
         "ghcr.io/siderolabs/kubelet",
         "registry.k8s.io/kubectl"
@@ -76,10 +72,7 @@
         "commitMessageTopic": "{{{groupName}}} group"
       },
       "groupName": "Rook-Ceph",
-      "matchDatasources": [
-        "docker",
-        "helm"
-      ],
+      "matchDatasources": ["helm"],
       "matchPackagePatterns": ["rook.ceph"],
       "separateMinorPatch": true
     },
