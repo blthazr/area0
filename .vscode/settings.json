@@ -9,11 +9,9 @@
   "sops.defaults.ageKeyFile": "age.key",
   "vs-kubernetes": {
     "vs-kubernetes.kubeconfig": "./kubeconfig",
-    "vs-kubernetes.knownKubeconfigs": [
-      "./kubeconfig"
-    ],
-    "yaml.schemas": {
-      "kubernetes": "./kubernetes/*.yaml"
-    }
+    "vs-kubernetes.knownKubeconfigs": ["./kubeconfig"]
+  },
+  "yaml.schemas": {
+    "kubernetes": "./kubernetes/*.yaml"
   }
 }

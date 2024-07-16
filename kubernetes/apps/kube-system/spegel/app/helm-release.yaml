@@ -23,6 +23,8 @@ spec:
       retries: 3
       strategy: rollback
   values:
+    grafanaDashboard:
+      enabled: true
     serviceMonitor:
       enabled: true
   valuesFrom:

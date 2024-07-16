@@ -25,8 +25,7 @@ spec:
       retries: 3
       strategy: rollback
   values:
-    domainFilters:
-      - "${SECRET_DOMAIN}"
+    domainFilters: ["${SECRET_DOMAIN}"]
     env:
       - name: CF_API_TOKEN
         valueFrom:

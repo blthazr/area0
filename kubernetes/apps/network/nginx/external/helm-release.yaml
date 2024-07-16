@@ -13,6 +13,9 @@ spec:
         name: ingress-nginx
         namespace: flux-system
       version: 4.10.1
+  dependsOn:
+    - name: cloudflared
+      namespace: network
   install:
     remediation:
       retries: 3
@@ -72,7 +75,7 @@ spec:
         limits:
           memory: 500Mi
         requests:
-          cpu: 10m
+          cpu: 100m
       service:
         annotations:
           external-dns.alpha.kubernetes.io/hostname: "external.${SECRET_DOMAIN}"

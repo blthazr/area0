@@ -1,0 +1,11 @@
+# Mount openebs-hostpath in kubelet
+machine:
+  kubelet:
+    extraMounts:
+      - destination: /var/openebs/local
+        options:
+          - bind
+          - rshared
+          - rw
+        source: /var/openebs/local
+        type: bind

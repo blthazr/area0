@@ -8,9 +8,12 @@ affinity:
               operator: Exists
 fullnameOverride: coredns
 k8sAppLabelOverride: kube-dns
-replicaCount: 2
 servers:
-  - plugins:
+  - zones:
+      - zone: .
+        scheme: dns://
+        use_tcp: true
+    plugins:
       - name: errors
       - name: health
         configBlock: |-
@@ -34,20 +37,16 @@ servers:
       - name: reload
       - name: loadbalance
     port: 53
-    zones:
-      - scheme: dns://
-        use_tcp: true
-        zone: .
 service:
-  clusterIP: 10.33.0.10
+  clusterIP: 10.96.0.10
   name: kube-dns
 serviceAccount:
   create: true
 tolerations:
   - key: CriticalAddonsOnly
     operator: Exists
-  - effect: NoSchedule
-    key: node-role.kubernetes.io/control-plane
+  - key: node-role.kubernetes.io/control-plane
+    effect: NoSchedule
     operator: Exists
 topologySpreadConstraints:
   - labelSelector:

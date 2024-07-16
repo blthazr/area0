@@ -9,7 +9,6 @@
     "mrmlnc.vscode-json5",
     "redhat.ansible",
     "redhat.vscode-yaml",
-    "signageos.signageos-vscode-sops",
-    "tamasfe.even-better-toml"
+    "signageos.signageos-vscode-sops"
   ]
 }

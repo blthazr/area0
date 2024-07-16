@@ -4,14 +4,14 @@
 # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
 talosVersion: v1.7.5
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
-kubernetesVersion: v1.29.6
+kubernetesVersion: v1.30.2
 
 clusterName: &cluster ${CLUSTER_NAME}
 endpoint: https://${CLUSTER_ENDPOINT_IP}:6443
 clusterPodNets:
-  - 10.32.0.0/16
+  - 10.69.0.0/16
 clusterSvcNets:
-  - 10.33.0.0/16
+  - 10.96.0.0/16
 additionalApiServerCertSans: &sans
   - ${CLUSTER_ENDPOINT_IP}
   - ${CLUSTER_NAME}.${CLUSTER_DOMAIN}
@@ -24,6 +24,24 @@ cniConfig:
   name: none
 
 nodes:
+  - hostname: k8s-1
+    controlPlane: true
+    installDiskSelector:
+      wwid: naa.5002538900000000
+    ipAddress: 172.16.21.11
+    networkInterfaces:
+      - addresses:
+          - 172.16.21.11/23
+        deviceSelector:
+          hardwareAddr: 78:7b:8a:cc:06:17
+        dhcp: false
+        mtu: 1500
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 172.16.20.1
+        vip:
+          ip: ${CLUSTER_ENDPOINT_IP}
+    talosImageURL: factory.talos.dev/installer/97bf8e92fc6bba0f03928b859c08295d7615737b29db06a97be51dc63004e403
   - hostname: k8s-2
     controlPlane: true
     installDiskSelector:
@@ -41,8 +59,7 @@ nodes:
             gateway: 172.16.20.1
         vip:
           ip: ${CLUSTER_ENDPOINT_IP}
-    nodeLabels:
-      topology.kubernetes.io/region: *cluster
+    talosImageURL: factory.talos.dev/installer/97bf8e92fc6bba0f03928b859c08295d7615737b29db06a97be51dc63004e403
   - hostname: k8s-3
     controlPlane: true
     installDiskSelector:
@@ -60,10 +77,9 @@ nodes:
             gateway: 172.16.20.1
         vip:
           ip: ${CLUSTER_ENDPOINT_IP}
-    nodeLabels:
-      topology.kubernetes.io/region: *cluster
+    talosImageURL: factory.talos.dev/installer/97bf8e92fc6bba0f03928b859c08295d7615737b29db06a97be51dc63004e403
   - hostname: k8s-4
-    controlPlane: true
+    controlPlane: false
     installDiskSelector:
       wwid: naa.5000cca82ac496b7
     ipAddress: 172.16.21.14
@@ -77,10 +93,7 @@ nodes:
         routes:
           - network: 0.0.0.0/0
             gateway: 172.16.20.1
-        vip:
-          ip: ${CLUSTER_ENDPOINT_IP}
-    nodeLabels:
-      topology.kubernetes.io/region: *cluster
+    talosImageURL: factory.talos.dev/installer/97bf8e92fc6bba0f03928b859c08295d7615737b29db06a97be51dc63004e403
   - hostname: k8s-5
     controlPlane: false
     installDiskSelector:
@@ -96,9 +109,6 @@ nodes:
         routes:
           - network: 0.0.0.0/0
             gateway: 172.16.20.1
-    nodeLabels:
-      role/media: "true"
-      topology.kubernetes.io/region: *cluster
     talosImageURL: factory.talos.dev/installer/da6e5e640e48d2c9f1ba22aa3f205e17a687512b7201cff5c5c47ef0fab32cb1
     patches:
       # Mount zfs-hostpath in kubelet
@@ -120,11 +130,14 @@ patches:
   - "@./patches/global/containerd.yaml"
   - "@./patches/global/disable-search-domain.yaml"
   - "@./patches/global/host-entries.yaml"
+  - "@./patches/global/hostdns.yaml"
   - "@./patches/global/installer.yaml"
   - "@./patches/global/kubelet.yaml"
   - "@./patches/global/logging.yaml"
   - "@./patches/global/nameserver.yaml"
   - "@./patches/global/ntp.yaml"
+  - "@./patches/global/openebs-local.yaml"
+  - "@./patches/global/sysfs.yaml"
   - "@./patches/global/sysctl.yaml"
   - "@./patches/global/udev.yaml"
 
@@ -135,18 +148,3 @@ controlPlane:
     - "@./patches/controller/cluster.yaml"
     - "@./patches/controller/disable-admission-controller.yaml"
     - "@./patches/controller/etcd.yaml"
-  schematic:
-    customization:
-      systemExtensions:
-        officialExtensions:
-          - siderolabs/intel-ucode
-          - siderolabs/i915-ucode
-
-# Worker patches
-worker:
-  schematic:
-    customization:
-      systemExtensions:
-        officialExtensions:
-          - siderolabs/intel-ucode
-          - siderolabs/i915-ucode

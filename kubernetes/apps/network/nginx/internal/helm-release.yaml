@@ -72,7 +72,7 @@ spec:
         limits:
           memory: 500Mi
         requests:
-          cpu: 10m
+          cpu: 100m
       service:
         annotations:
           io.cilium/lb-ipam-ips: "${CLUSTER_LB_NGINX_INTERNAL}"

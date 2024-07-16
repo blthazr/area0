@@ -24,28 +24,22 @@
   color: "72CCF3"
   description: >-
     Changes made in the terraform directory
-# Renovate Types
+# Renovate
 - name: action/automerge
   color: "5319E7"
   description: >-
     PR that has been automerged by Renovate
-- name: renovate/ansible
-  color: "FFC300"
 - name: renovate/container
   color: "FFC300"
 - name: renovate/github-action
   color: "FFC300"
 - name: renovate/github-release
   color: "FFC300"
-- name: renovate/grafana-dashboard
-  color: "FFC300"
 - name: renovate/helm
   color: "FFC300"
 - name: renovate/pre-commit
   color: "FFC300"
-- name: renovate/terraform
-  color: "FFC300"
-# Semantic Types
+# Semantic Type
 - name: type/major
   color: "F6412D"
 - name: type/minor

@@ -21,6 +21,7 @@ spec:
     cleanupOnFail: true
     remediation:
       retries: 3
+      strategy: rollback
   values:
     domain: "${SECRET_DOMAIN}"
     fullnameOverride: *app

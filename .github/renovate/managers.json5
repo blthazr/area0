@@ -4,6 +4,10 @@
   "flux": {
     "fileMatch": ["(^|/)kubernetes/.+\\.ya?ml$"]
   },
+  // configure helmfile manager
+  "helmfile": {
+    "fileMatch": ["(^|/)helmfile\\.ya?ml$"]
+  },
   // configure helm-values manager
   "helm-values": {
     "fileMatch": ["(^|/)kubernetes/.+\\.ya?ml$"]
@@ -14,6 +18,10 @@
       "(^|/)\\.taskfiles/.+\\.ya?ml$",
       "(^|/)kubernetes/.+\\.ya?ml$"
     ]
+  },
+  // configure kustomize manager
+  "kustomize": {
+    "fileMatch": ["(^|/)kustomization/.+\\.ya?ml$"]
   },
   // configure custom managers
   "customManagers": [

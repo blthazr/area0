@@ -22,6 +22,8 @@ spec:
     remediation:
       retries: 3
       strategy: rollback
+  values:
+    replicaCount: 2
   valuesFrom:
     - kind: ConfigMap
       name: coredns-helm-values

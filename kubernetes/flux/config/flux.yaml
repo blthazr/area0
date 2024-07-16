@@ -26,7 +26,7 @@ spec:
     name: flux-manifests
   wait: true
   patches:
-    # Remove the network policies that does not work with k3s
+    # Remove the network policies
     - patch: |
         $patch: delete
         apiVersion: networking.k8s.io/v1
