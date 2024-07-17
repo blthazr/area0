@@ -1,0 +1,86 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app recyclarr
+spec:
+  chart:
+    spec:
+      chart: app-template
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      version: 3.2.1
+  dependsOn:
+    - name: sonarr
+      namespace: default
+    - name: radarr
+      namespace: default
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
+    - name: volsync
+      namespace: volsync-system
+  install:
+    remediation:
+      retries: 3
+  interval: 30m
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+      strategy: rollback
+  values:
+    controllers:
+      recyclarr:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            args: ["sync"]
+            env:
+              TZ: "${CLUSTER_TIME_ZONE}"
+            envFrom:
+              - secretRef:
+                  name: recyclarr-secret
+            image:
+              repository: ghcr.io/recyclarr/recyclarr
+              tag: 7.1.0@sha256:2638a9333ebd8e1cba99cdbb49f035344455e62e5f1539b315a5889a0bc748a8
+            resources:
+              limits:
+                memory: 128Mi
+              requests:
+                cpu: 10m
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop: ["ALL"]
+              readOnlyRootFilesystem: true
+        cronjob:
+          failedJobsHistory: 1
+          schedule: "@daily"
+          successfulJobsHistory: 1
+        type: cronjob
+    defaultPodOptions:
+      securityContext:
+        fsGroup: ${APP_GID}
+        fsGroupChangePolicy: OnRootMismatch
+        runAsGroup: ${APP_GID}
+        runAsNonRoot: true
+        runAsUser: ${APP_UID}
+        seccompProfile:
+          type: RuntimeDefault
+    persistence:
+      config:
+        enabled: true
+        existingClaim: "${APP_PVC:-${APP}}"
+        globalMounts:
+          - path: /config
+      config-file:
+        enabled: true
+        globalMounts:
+          - path: /config/configs
+            readOnly: true
+        name: recyclarr-configmap
+        type: configMap
