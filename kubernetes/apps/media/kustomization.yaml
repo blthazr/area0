@@ -8,6 +8,7 @@ resources:
   # Flux-Kustomizations
   - ./common/ks.yaml
   - ./lidarr/ks.yaml
+  - ./overseerr/ks.yaml
   - ./plex/ks.yaml
   - ./prowlarr/ks.yaml
   - ./radarr/ks.yaml
