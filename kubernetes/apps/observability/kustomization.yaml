@@ -7,4 +7,4 @@ resources:
   - ./namespace.yaml
   # Flux-Kustomizations
   - ./prometheus-operator/ks.yaml
-  - ./splunk./ks.yaml
+  - ./splunk/ks.yaml
