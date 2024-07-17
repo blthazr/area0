@@ -1,0 +1,28 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app splunk-operator
+spec:
+  chart:
+    spec:
+      chart: splunk-operator
+      sourceRef:
+        kind: HelmRepository
+        name: splunk
+        namespace: flux-system
+      version: 2.5.2
+  install:
+    remediation:
+      retries: 3
+  interval: 30m
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+      strategy: rollback
+  values:
+    splunkOperator:
+      persistentVolumeClaim:
+        storageClassName: openebs-hostpath
