@@ -6,6 +6,7 @@ resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
   # Flux-Kustomizations
+  - ./bazarr/ks.yaml
   - ./common/ks.yaml
   - ./lidarr/ks.yaml
   - ./overseerr/ks.yaml
