@@ -1,0 +1,12 @@
+---
+# yaml-language-server: https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/provider-notification-v1beta3.json
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Provider
+metadata:
+  name: discord
+spec:
+  channel: flux
+  secretRef:
+    name: discord-webhook-url
+  type: discord
+  username: Flux
