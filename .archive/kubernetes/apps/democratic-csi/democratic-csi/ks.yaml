@@ -3,19 +3,19 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app openebs
+  name: &app democratic-csi-local-hostpath
   namespace: flux-system
 spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   interval: 30m
-  path: ./kubernetes/apps/openebs-system/openebs/app
+  path: ./kubernetes/apps/democratic-csi/democratic-csi/local-hostpath
   prune: true
   retryInterval: 1m
   sourceRef:
     kind: GitRepository
     name: area0
-  targetNamespace: openebs-system
+  targetNamespace: democratic-csi
   timeout: 5m
   wait: false # no flux ks dependents
