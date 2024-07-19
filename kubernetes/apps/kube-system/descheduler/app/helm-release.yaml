@@ -23,9 +23,18 @@ spec:
       retries: 3
       strategy: rollback
   values:
+    affinity:
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values: [*app]
+            topologyKey: "kubernetes.io/hostname"
     deschedulerPolicy:
       profiles:
-        - name: Default
+        - name: default
           pluginConfig:
             - name: DefaultEvictor
               args:
