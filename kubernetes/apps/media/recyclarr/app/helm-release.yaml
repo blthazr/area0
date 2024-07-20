@@ -15,9 +15,9 @@ spec:
       version: 3.2.1
   dependsOn:
     - name: sonarr
-      namespace: default
+      namespace: media
     - name: radarr
-      namespace: default
+      namespace: media
     - name: rook-ceph-cluster
       namespace: rook-ceph
     - name: volsync
