@@ -20,4 +20,4 @@ spec:
     name: area0
   targetNamespace: observability
   timeout: 5m
-  wait: true
+  wait: false # no flux ks dependents
