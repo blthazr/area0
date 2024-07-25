@@ -1,0 +1,167 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app kube-prometheus-stack
+spec:
+  chart:
+    spec:
+      chart: kube-prometheus-stack
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-community
+        namespace: flux-system
+      version: 61.3.2
+  dependsOn:
+    - name: openebs
+      namespace: openebs-system
+    - name: prometheus-operator-crds
+      namespace: observability
+    - name: thanos
+      namespace: observability
+  install:
+    crds: Skip
+    remediation:
+      retries: 3
+  interval: 30m
+  timeout: 15m
+  upgrade:
+    cleanupOnFail: true
+    crds: Skip
+    remediation:
+      retries: 3
+      strategy: rollback
+  values:
+    alertmanager:
+      enabled: false
+    cleanPrometheusOperatorObjectNames: true
+    crds:
+      enabled: false
+    grafana:
+      enabled: false
+      forceDeployDashboards: true
+      sidecar:
+        dashboards:
+          multicluster:
+            etcd:
+              enabled: true
+    kubelet:
+      enabled: true
+      serviceMonitor:
+        metricRelabelings:
+          # Drop high cardinality labels
+          - action: labeldrop
+            regex: (uid)
+          - action: labeldrop
+            regex: (id|name)
+          - action: drop
+            regex: (rest_client_request_duration_seconds_bucket|rest_client_request_duration_seconds_sum|rest_client_request_duration_seconds_count)
+            sourceLabels: ["__name__"]
+    kubeApiServer:
+      enabled: true
+      serviceMonitor:
+        metricRelabelings:
+          # Drop high cardinality labels
+          - action: drop
+            regex: (apiserver|etcd|rest_client)_request(|_sli|_slo)_duration_seconds_bucket
+            sourceLabels: ["__name__"]
+          - action: drop
+            regex: (apiserver_response_sizes_bucket|apiserver_watch_events_sizes_bucket)
+            sourceLabels: ["__name__"]
+    kubeControllerManager:
+      enabled: true
+      endpoints: &control-plane
+        - 172.16.21.11
+        - 172.16.21.12
+        - 172.16.21.13
+    kubeEtcd:
+      enabled: true
+      endpoints: *control-plane
+    kubeProxy:
+      enabled: false
+    kubeScheduler:
+      enabled: true
+      endpoints: *control-plane
+    prometheus:
+      ingress:
+        annotations:
+          hajimari.io/enable: "false"
+        enabled: true
+        hosts:
+          - &host "prometheus.${SECRET_DOMAIN}"
+        ingressClassName: internal
+        pathType: Prefix
+      prometheusSpec:
+        enableAdminAPI: true
+        enableFeatures:
+          - auto-gomemlimit
+          - memory-snapshot-on-shutdown
+          - new-service-discovery-manager
+        podMetadata:
+          annotations:
+            secret.reloader.stakater.com/reload: &secret thanos-objstore-secret
+        podMonitorSelectorNilUsesHelmValues: false
+        probeSelectorNilUsesHelmValues: false
+        replicaExternalLabelName: __replica__
+        replicas: 1
+        resources:
+          limits:
+            memory: 1500Mi
+          requests:
+            cpu: 100m
+        retention: 7d
+        retentionSize: 35GB
+        ruleSelectorNilUsesHelmValues: false
+        scrapeConfigSelectorNilUsesHelmValues: false
+        scrapeInterval: 1m # Must match interval in Grafana Helm chart
+        serviceMonitorSelectorNilUsesHelmValues: false
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: openebs-hostpath
+              resources:
+                requests:
+                  storage: 40Gi
+        thanos:
+          image: quay.io/thanos/thanos:${THANOS_VERSION}
+          version: ${THANOS_VERSION#v}
+          objectStorageConfig:
+            existingSecret:
+              name: *secret
+              key: config
+        walCompression: true
+      thanosService:
+        enabled: true
+      thanosServiceMonitor:
+        enabled: true
+    nodeExporter:
+      enabled: true
+    prometheus-node-exporter:
+      fullnameOverride: node-exporter
+      prometheus:
+        monitor:
+          enabled: true
+          relabelings:
+            - action: replace
+              regex: (.*)
+              replacement: $1
+              sourceLabels: ["__meta_kubernetes_pod_node_name"]
+              targetLabel: kubernetes_node
+    kubeStateMetrics:
+      enabled: true
+    kube-state-metrics:
+      fullnameOverride: kube-state-metrics
+      metricLabelsAllowlist:
+        - pods=[*]
+        - deployments=[*]
+        - persistentvolumeclaims=[*]
+      prometheus:
+        monitor:
+          enabled: true
+          relabelings:
+            - action: replace
+              regex: (.*)
+              replacement: $1
+              sourceLabels: ["__meta_kubernetes_pod_node_name"]
+              targetLabel: kubernetes_node
