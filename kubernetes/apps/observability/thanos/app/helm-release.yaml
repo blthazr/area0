@@ -1,0 +1,104 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app thanos
+spec:
+  chart:
+    spec:
+      chart: thanos
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami
+        namespace: flux-system
+      version: 15.7.13
+  dependsOn:
+    - name: openebs
+      namespace: openebs-system
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
+  install:
+    remediation:
+      retries: 3
+  interval: 30m
+  timeout: 15m
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+      strategy: rollback
+  values:
+    bucketweb:
+      enabled: true
+      replicaCount: 1
+      resources:
+        requests:
+          cpu: 10m
+          memory: 64Mi
+    compactor:
+      enabled: true
+      extraFlags:
+        - --compact.concurrency=4
+        - --delete-delay=30m
+      persistence:
+        enabled: true
+        size: 15Gi
+        storageClass: rook-ceph
+      resources:
+        requests:
+          cpu: 10m
+          memory: 64Mi
+      retentionResolution1h: 90d
+      retentionResolution5m: 60d
+      retentionResolutionRaw: 30d
+    existingObjstoreSecret: thanos-objstore-secret
+    image:
+      registry: quay.io
+      repository: thanos/thanos
+      tag: v0.33.0
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+    query:
+      dnsDiscovery:
+        sidecarsNamespace: observability
+        sidecarsService: kube-prometheus-stack-thanos-discovery
+      enabled: true
+      replicaCount: 1
+      replicaLabel: ["__replica__"]
+      resources:
+        requests:
+          cpu: 10m
+          memory: 64Mi
+    queryFrontend:
+      enabled: true
+      ingress:
+        annotations:
+          hajimari.io/enable: "false"
+        enabled: true
+        hostname: &host "thanos.${SECRET_DOMAIN}"
+        ingressClassName: internal
+        tls: true
+        extraTls:
+          - hosts:
+              - *host
+      replicaCount: 1
+      resources:
+        requests:
+          cpu: 10m
+          memory: 64Mi
+    ruler:
+      enabled: false
+    storegateway:
+      enabled: true
+      persistence:
+        enabled: true
+        size: 20Gi
+        storageClass: openebs-hostpath
+      replicaCount: 1
+      resources:
+        requests:
+          cpu: 10m
+          memory: 64Mi

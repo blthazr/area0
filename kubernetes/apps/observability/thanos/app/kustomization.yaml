@@ -3,9 +3,5 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  # Pre Flux-Kustomizations
-  - ./namespace.yaml
-  # Flux-Kustomizations
-  - ./prometheus-operator/ks.yaml
-  - ./splunk/ks.yaml
-  - ./thanos/ks.yaml
+  - ./external-secret.yaml
+  - ./helm-release.yaml
