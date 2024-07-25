@@ -44,7 +44,7 @@ spec:
       persistence:
         enabled: true
         size: 15Gi
-        storageClass: rook-ceph
+        storageClass: ceph-block
       resources:
         requests:
           cpu: 10m
