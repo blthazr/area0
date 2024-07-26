@@ -12,7 +12,7 @@ spec:
   dependsOn:
     - name: external-secrets-stores
   interval: 30m
-  path: ./kubernetes/apps/observability/alert-manager/app
+  path: ./kubernetes/apps/observability/alertmanager/app
   prune: true
   retryInterval: 1m
   sourceRef:
