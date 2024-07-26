@@ -7,4 +7,6 @@ configMapGenerator:
     files:
       - alertmanager.yml
 generatorOptions:
+  annotations:
+    kustomize.toolkit.fluxcd.io/substitute: disabled
   disableNameSuffixHash: true
