@@ -23,5 +23,5 @@ spec:
   wait: false # no flux ks dependents
   postBuild:
     substitute:
-      # renovate: depName=quay.io/thanos/thanos datasource=docker
+      # renovate: datasource=docker depName=quay.io/thanos/thanos
       THANOS_VERSION: v0.33.0
