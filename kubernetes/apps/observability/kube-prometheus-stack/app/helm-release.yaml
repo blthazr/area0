@@ -14,10 +14,10 @@ spec:
         namespace: flux-system
       version: 61.3.2
   dependsOn:
-    - name: openebs
-      namespace: openebs-system
     - name: prometheus-operator-crds
       namespace: observability
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
     - name: thanos
       namespace: observability
   install:
@@ -108,7 +108,7 @@ spec:
           hajimari.io/enable: "false"
         enabled: true
         hosts:
-          - &host "prometheus.${SECRET_DOMAIN}"
+          - "prometheus.${SECRET_DOMAIN}"
         ingressClassName: internal
         pathType: Prefix
       prometheusSpec:
@@ -129,8 +129,8 @@ spec:
             memory: 1500Mi
           requests:
             cpu: 100m
-        retention: 7d
-        retentionSize: 35GB
+        retention: 2d
+        retentionSize: 15GB
         ruleSelectorNilUsesHelmValues: false
         scrapeConfigSelectorNilUsesHelmValues: false
         scrapeInterval: 1m # Must match interval in Grafana Helm chart
@@ -140,8 +140,8 @@ spec:
             spec:
               resources:
                 requests:
-                  storage: 40Gi
-              storageClassName: openebs-hostpath
+                  storage: 20Gi
+              storageClassName: ceph-block
         thanos:
           image: quay.io/thanos/thanos:${THANOS_VERSION}
           objectStorageConfig:
