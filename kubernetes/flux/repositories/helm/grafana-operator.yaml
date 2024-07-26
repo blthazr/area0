@@ -8,4 +8,4 @@ metadata:
 spec:
   interval: 5m
   type: oci
-  url: oci://ghcr.io/grafana/helm-charts/grafana-operator
+  url: oci://ghcr.io/grafana-operator/helm-charts
