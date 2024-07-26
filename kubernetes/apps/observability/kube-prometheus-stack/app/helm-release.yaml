@@ -34,7 +34,75 @@ spec:
       strategy: rollback
   values:
     alertmanager:
-      enabled: false
+      alertmanagerSpec:
+        replicas: 1
+        storage:
+          volumeClaimTemplate:
+            spec:
+              resources:
+                requests:
+                  storage: 1Gi
+              storageClassName: ceph-block
+      config:
+        global:
+          resolve_timeout: 5m
+        inhibit_rules:
+          - equal:
+              - alertname
+              - namespace
+            source_matchers:
+              - severity = "critical"
+            target_matchers:
+              - severity = "warning"
+        receivers:
+          - name: "null"
+          - name: discord
+            slack_configs:
+              - channel: "#prometheus-alerts"
+                icon_url: https://avatars3.githubusercontent.com/u/3380462
+                send_resolved: true
+                text: >-
+                  {{ range .Alerts -}}
+                    **Alert:** {{ .Annotations.title }}{{ if .Labels.severity }} - `{{ .Labels.severity }}`{{ end }}
+
+                  {{ if ne .Annotations.summary ""}}**Summary:** {{ .Annotations.summary }} {{ else if ne .Annotations.message ""}}**Message:** {{ .Annotations.message }} {{ else if ne .Annotations.description ""}}**Description:** {{ .Annotations.description }}{{ end }}
+
+                  **Details:**
+                    {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
+                    {{ end }}
+                  {{ end }}
+                title: |-
+                  [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ if ne .CommonAnnotations.summary ""}}{{ .CommonAnnotations.summary }} {{ else if ne .CommonAnnotations.message ""}}{{ .CommonAnnotations.message }} {{ else if ne .CommonAnnotations.description ""}}{{ .CommonAnnotations.description }} {{ else }}{{ .CommonLabels.alertname }}{{ end }}
+                username: "Prometheus"
+        route:
+          group_by:
+            - alertname
+            - job
+          group_interval: 10m
+          group_wait: 1m
+          receiver: discord
+          repeat_interval: 12h
+          routes:
+            - receiver: "null"
+              matchers:
+                - alertname =~ "Watchdog"
+            - receiver: "null"
+              matchers:
+                - alertname =~ "InfoInhibitor"
+            - receiver: discord
+              continue: true
+              matchers:
+                - severity = "critical"
+      ingress:
+        annotations:
+          hajimari.io/appName: Alertmanager
+          hajimari.io/group: Observability
+          hajimari.io/icon: mdi:alert-decagram-outline
+        enabled: true
+        hosts:
+          - "alertmanager.${SECRET_DOMAIN}"
+        ingressClassName: internal
+        pathType: Prefix
     cleanPrometheusOperatorObjectNames: true
     crds:
       enabled: false
@@ -165,3 +233,7 @@ spec:
               replacement: $1
               sourceLabels: ["__meta_kubernetes_pod_node_name"]
               targetLabel: kubernetes_node
+  valuesFrom:
+    - name: kube-prometheus-stack-helm-values
+      kind: Secret
+      optional: false
