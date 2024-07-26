@@ -31,7 +31,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          app:
+          lidarr:
             env:
               LIDARR__APP__INSTANCENAME: "${APP}"
               LIDARR__APP__THEME: dark

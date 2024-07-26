@@ -33,7 +33,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          app:
+          mealie:
             env:
               ALLOW_SIGNUP: "false"
               BASE_URL: "${HOSTNAME:-${APP}}.${SECRET_DOMAIN}"

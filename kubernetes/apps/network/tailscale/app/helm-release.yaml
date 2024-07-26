@@ -28,7 +28,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          app:
+          tailscale:
             env:
               NO_AUTOUPDATE: true
               PORT: &port 45387

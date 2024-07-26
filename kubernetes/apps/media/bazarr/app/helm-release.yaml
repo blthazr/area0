@@ -33,7 +33,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          app:
+          bazarr:
             env:
               TZ: "${CLUSTER_TIME_ZONE}"
             envFrom: &envFrom

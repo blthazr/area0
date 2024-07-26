@@ -33,7 +33,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          app:
+          tautulli:
             args:
               - --config
               - /config/config.ini

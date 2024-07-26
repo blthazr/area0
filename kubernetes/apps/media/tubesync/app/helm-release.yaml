@@ -33,7 +33,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          app:
+          tubesync:
             env:
               PGID: ${APP_GID}
               PUID: ${APP_UID}

@@ -28,7 +28,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          app:
+          prowlarr:
             env:
               PROWLARR__APP__INSTANCENAME: "${APP}"
               PROWLARR__APP__THEME: dark

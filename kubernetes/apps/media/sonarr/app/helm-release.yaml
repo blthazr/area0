@@ -31,7 +31,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          app:
+          sonarr:
             env:
               SONARR__APP__INSTANCENAME: "${APP}"
               SONARR__APP__THEME: dark

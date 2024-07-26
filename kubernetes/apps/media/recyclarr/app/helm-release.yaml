@@ -37,7 +37,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          app:
+          recyclarr:
             args: ["sync"]
             env:
               TZ: "${CLUSTER_TIME_ZONE}"

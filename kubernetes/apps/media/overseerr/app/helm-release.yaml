@@ -33,7 +33,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          app:
+          overseerr:
             env:
               LOG_LEVEL: info
               PORT: &port 5055

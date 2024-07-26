@@ -31,7 +31,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          app:
+          radarr:
             env:
               RADARR__APP__INSTANCENAME: "${APP}"
               RADARR__APP__THEME: dark
