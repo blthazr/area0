@@ -1,0 +1,92 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app alertmanager
+spec:
+  chart:
+    spec:
+      chart: app-template
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      version: 3.2.1
+  dependsOn:
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
+  install:
+    remediation:
+      retries: 3
+  interval: 30m
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+      strategy: rollback
+  values:
+    controllers:
+      alertmanager:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          alertmanager:
+            image:
+              repository: quay.io/prometheus/alertmanager
+              tag: v0.27.0
+            ports:
+              - name: http
+                containerPort: &port 9093
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
+            resources:
+              limits:
+                memory: 100Mi
+              requests:
+                cpu: 10m
+        statefulset:
+          volumeClaimTemplates:
+            - name: storage
+              accessMode: ReadWriteOnce
+              globalMounts:
+                - path: /alertmanager
+              size: 50Mi
+              storageClass: ceph-block
+        type: statefulset
+    ingress:
+      app:
+        annotations:
+          hajimari.io/appName: "Alertmanager"
+          hajimari.io/group: Observability
+          hajimari.io/icon: mdi:alert-decagram-outline
+        className: internal
+        enabled: true
+        hosts:
+          - host: "${HOSTNAME:-${APP}}.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
+    persistence:
+      config:
+        enabled: true
+        globalMounts:
+          - path: /etc/alertmanager
+        name: alertmanager-configmap
+        type: configMap
+    service:
+      app:
+        controller: alertmanager
+        ports:
+          http:
+            port: *port
