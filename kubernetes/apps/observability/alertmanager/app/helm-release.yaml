@@ -59,7 +59,7 @@ spec:
               accessMode: ReadWriteOnce
               globalMounts:
                 - path: /alertmanager
-              size: 50Mi
+              size: 1Gi
               storageClass: ceph-block
         type: statefulset
     ingress:
