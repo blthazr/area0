@@ -6,6 +6,7 @@ resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
   # Flux-Kustomizations
+  - ./grafana/ks.yaml
   - ./kube-prometheus-stack/ks.yaml
   - ./prometheus-operator/ks.yaml
   - ./splunk/ks.yaml
