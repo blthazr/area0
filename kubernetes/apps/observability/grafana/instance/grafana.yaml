@@ -1,0 +1,107 @@
+---
+# TODO: add yaml-language-server
+apiVersion: grafana.integreatly.org/v1beta1
+kind: Grafana
+metadata:
+  name: &app grafana
+  labels:
+    dashboards: grafana
+spec:
+  config:
+    analytics:
+      check_for_updates: "false"
+      reporting_enabled: "false"
+    auth:
+      disable_login_form: "false"
+    date_formats:
+      use_browser_locale: "true"
+    grafana_net:
+      url: https://grafana.net
+    log:
+      mode: console
+    news:
+      news_feed_enabled: "false"
+    panels:
+      disable_sanitize_html: "true"
+    paths:
+      data: /var/lib/grafana/data
+      logs: /var/log/grafana
+      plugins: /var/lib/grafana/plugins
+      provisioning: /etc/grafana/provisioning
+    security:
+      admin_user: "${GRAFANA_ADMIN_USERNAME}"
+      admin_password: "${GRAFANA_ADMIN_PASSWORD}"
+    server:
+      root_url: "https://grafana.${SECRET_DOMAIN}"
+  deployment:
+    spec:
+      replicas: 1
+      strategy:
+        rollingUpdate:
+          maxSurge: 1
+          maxUnavailable: 1
+        type: RollingUpdate
+      template:
+        metadata:
+          annotations:
+            configmap.reloader.stakater.com/reload: grafana-ini
+        spec:
+          containers:
+            - name: grafana
+              volumeMounts:
+                - name: provisioning
+                  mountPath: /etc/grafana/provisioning/dashboards
+                - name: dashboards
+                  mountPath: /var/lib/grafana/dashboards
+            # This container watches the namespace for configmaps with the `dashboards` label
+            # and creates files for all their keys under `FOLDER`
+            - name: k8s-sidecar
+              env:
+                - name: FOLDER
+                  value: /var/lib/grafana/dashboards
+                - name: FOLDER_ANNOTATION
+                  value: grafana_folder
+                - name: LABEL
+                  value: grafana_dashboard
+                - name: LABEL_VALUE
+                  value: "1"
+                - name: NAMESPACE
+                  value: ALL
+                - name: RESOURCE
+                  value: configmap
+              image: ghcr.io/kiwigrid/k8s-sidecar:1.25.3@sha256:8dc0aca015bf7173378ee5987dd78d49f94ff9a5c3495b3664141750cc55f444
+              volumeMounts:
+                - name: dashboards
+                  mountPath: /var/lib/grafana/dashboards
+          topologySpreadConstraints:
+            - labelSelector:
+                matchLabels:
+                  app.kubernetes.io/name: *app
+              maxSkew: 1
+              topologyKey: kubernetes.io/hostname
+              whenUnsatisfiable: DoNotSchedule
+          volumes:
+            - name: dashboards
+              emptyDir: {}
+            - name: provisioning
+              configMap:
+                name: grafana-provisioning-config
+  ingress:
+    metadata:
+      annotations:
+        hajimari.io/appName: Grafana
+        hajimari.io/group: Observability
+        hajimari.io/icon: simple-icons:grafana
+    spec:
+      ingressClassName: internal
+      rules:
+        - host: "grafana.${SECRET_DOMAIN}"
+          http:
+            paths:
+              - backend:
+                  service:
+                    name: grafana-service
+                    port:
+                      number: 3000
+                path: /
+                pathType: Prefix
