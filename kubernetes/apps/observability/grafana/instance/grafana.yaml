@@ -28,9 +28,6 @@ spec:
       logs: /var/log/grafana
       plugins: /var/lib/grafana/plugins
       provisioning: /etc/grafana/provisioning
-    security:
-      admin_user: "${GRAFANA_ADMIN_USERNAME}"
-      admin_password: "${GRAFANA_ADMIN_PASSWORD}"
     server:
       root_url: "https://grafana.${SECRET_DOMAIN}"
   deployment:
