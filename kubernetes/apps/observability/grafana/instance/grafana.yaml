@@ -11,8 +11,20 @@ spec:
     analytics:
       check_for_updates: "false"
       reporting_enabled: "false"
-    auth:
-      disable_login_form: "false"
+    auth.generic_oauth:
+      allow_assign_grafana_admin: "true"
+      api_url: "https://${AUTH0_TENANT}.us.auth0.com/userinfo"
+      auth_url: "https://${AUTH0_TENANT}.us.auth0.com/authorize"
+      auto_login: "true"
+      client_id: "${AUTH0_GRAFANA_CLIENT_ID}"
+      client_secret: "${AUTH0_GRAFANA_CLIENT_SECRET}"
+      enabled: "true"
+      name: Auth0
+      role_attribute_path: |
+        contains("https://${SECRET_DOMAIN}/groups"[*], 'Grafana Admins') && 'Admin' || contains("https://${SECRET_DOMAIN}/groups"[*], 'Grafana Editors') && 'Editor' || 'Viewer'
+      scopes: openid profile email
+      token_url: "https://${AUTH0_TENANT}.us.auth0.com/oauth/token"
+      use_pkce: "true"
     date_formats:
       use_browser_locale: "true"
     grafana_net:
@@ -41,20 +53,35 @@ spec:
       template:
         metadata:
           annotations:
-            configmap.reloader.stakater.com/reload: grafana-ini
+            secret.reloader.stakater.com/reload: grafana-secret
         spec:
           containers:
             - name: grafana
               env:
+                - name: AUTH0_TENANT
+                  valueFrom:
+                    secretKeyRef:
+                      name: grafana-secret
+                      key: AUTH0_TENANT
+                - name: AUTH0_GRAFANA_CLIENT_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: grafana-secret
+                      key: AUTH0_GRAFANA_CLIENT_ID
+                - name: AUTH0_GRAFANA_CLIENT_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      name: grafana-secret
+                      key: AUTH0_GRAFANA_CLIENT_SECRET
                 - name: GF_SECURITY_ADMIN_USER
                   valueFrom:
                     secretKeyRef:
-                      name: grafana-credentials-secret
+                      name: grafana-secret
                       key: GRAFANA_ADMIN_USERNAME
                 - name: GF_SECURITY_ADMIN_PASSWORD
                   valueFrom:
                     secretKeyRef:
-                      name: grafana-credentials-secret
+                      name: grafana-secret
                       key: GRAFANA_ADMIN_PASSWORD
               volumeMounts:
                 - name: provisioning
