@@ -112,7 +112,7 @@ spec:
       sidecar:
         dashboards:
           annotations:
-            grafana_folder: System
+            grafana_folder: Kubernetes
     kube-state-metrics:
       fullnameOverride: kube-state-metrics
       metricLabelsAllowlist:
