@@ -111,9 +111,8 @@ spec:
       forceDeployDashboards: true
       sidecar:
         dashboards:
-          multicluster:
-            etcd:
-              enabled: true
+          annotations:
+            grafana_folder: System
     kube-state-metrics:
       fullnameOverride: kube-state-metrics
       metricLabelsAllowlist:
