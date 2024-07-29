@@ -1,0 +1,18 @@
+---
+# TODO: add yaml-language-server
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDatasource
+metadata:
+  name: alertmanager
+spec:
+  datasource:
+    access: proxy
+    editable: true
+    jsonData:
+      implementation: prometheus
+    name: Alertmanager
+    type: alertmanager
+    url: http://kube-prometheus-stack-alertmanager.observability.svc.cluster.local:9093
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
