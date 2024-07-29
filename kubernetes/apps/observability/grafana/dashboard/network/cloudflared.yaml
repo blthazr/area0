@@ -1,0 +1,14 @@
+---
+# TODO: add yaml-language-server
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: cloudflared
+spec:
+  datasources:
+    - datasourceName: Prometheus
+      inputName: DS_PROMETHEUS
+  # renovate: depName="Cloudflare Tunnels (cloudflared)"
+  grafanaCom:
+    id: 17457
+    revision: 6

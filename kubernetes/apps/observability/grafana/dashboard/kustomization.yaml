@@ -1,0 +1,23 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+patches:
+  - path: ./instance-selector.yaml
+    target:
+      kind: GrafanaDashboard
+      group: grafana.integreatly.org
+      version: v1beta1
+  - path: ./instance-selector.yaml
+    target:
+      kind: GrafanaFolder
+      group: grafana.integreatly.org
+      version: v1beta1
+resources:
+  - ./ceph
+  - ./database
+  - ./flux
+  - ./network
+  - ./system
+  - ./thanos
+  - ./volsync

@@ -1,0 +1,11 @@
+---
+# TODO: add yaml-language-server
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: prometheus
+spec:
+  # renovate: depName="Prometheus"
+  grafanaCom:
+    id: 19105
+    revision: 3

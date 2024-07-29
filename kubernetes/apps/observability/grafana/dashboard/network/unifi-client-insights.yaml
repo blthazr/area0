@@ -1,0 +1,14 @@
+---
+# TODO: add yaml-language-server
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: unifi-client-insights
+spec:
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: Prometheus
+  # renovate: depName="UniFi-Poller: Client Insights - Prometheus"
+  grafanaCom:
+    id: 11315
+    revision: 9

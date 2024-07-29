@@ -1,0 +1,14 @@
+---
+# TODO: add yaml-language-server
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: volsync
+spec:
+  datasources:
+    - datasourceName: Prometheus
+      inputName: DS_PROMETHEUS
+  # removate: dashboardName="VolSync Dashboard"
+  grafanaCom:
+    id: 21356
+    revision: 2

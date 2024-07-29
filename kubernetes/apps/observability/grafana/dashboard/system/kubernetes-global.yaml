@@ -1,0 +1,11 @@
+---
+# TODO: add yaml-language-server
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: kubernetes-global
+spec:
+  # renovate: depName="Kubernetes / Views / Global"
+  grafanaCom:
+    id: 15757
+    revision: 37

@@ -1,0 +1,23 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+patches:
+  - path: ./resources/folder.yaml
+    target:
+      kind: GrafanaDashboard
+      group: grafana.integreatly.org
+      version: v1beta1
+resources:
+  - ./grafana-folder.yaml
+  - ./cert-manager.yaml
+  - ./cloudflared.yaml
+  - ./external-dns.yaml
+  - ./ingress-nginx.yaml
+  - ./ingress-nginx-request-handling-performance.yaml
+  - ./unifi-client-dpi.yaml
+  - ./unifi-client-insights.yaml
+  - ./unifi-network-sites.yaml
+  - ./unifi-uap-insights.yaml
+  - ./unifi-usg-insights.yaml
+  - ./unifi-usw-insights.yaml
