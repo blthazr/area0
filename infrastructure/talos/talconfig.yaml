@@ -2,9 +2,9 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/master/pkg/config/schemas/talconfig.json
 
 # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
-talosVersion: v1.7.5
+talosVersion: v1.6.7
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
-kubernetesVersion: v1.30.2
+kubernetesVersion: v1.29.3
 
 clusterName: &cluster ${CLUSTER_NAME}
 endpoint: https://${CLUSTER_ENDPOINT_IP}:6443
@@ -41,6 +41,9 @@ nodes:
             gateway: 172.16.20.1
         vip:
           ip: ${CLUSTER_ENDPOINT_IP}
+    nodeLabels:
+      node-role.kubernetes.io/control-plane: ""
+      rook-ceph/disk-id: ata-Samsung_Portable_SSD_T5_S4B0NR0R712678E
     talosImageURL: factory.talos.dev/installer/97bf8e92fc6bba0f03928b859c08295d7615737b29db06a97be51dc63004e403
   - hostname: k8s-2
     controlPlane: true
@@ -59,6 +62,9 @@ nodes:
             gateway: 172.16.20.1
         vip:
           ip: ${CLUSTER_ENDPOINT_IP}
+    nodeLabels:
+      node-role.kubernetes.io/control-plane: ""
+      rook-ceph/disk-id: ata-Samsung_Portable_SSD_T5_S4B0NR0R719439P
     talosImageURL: factory.talos.dev/installer/97bf8e92fc6bba0f03928b859c08295d7615737b29db06a97be51dc63004e403
   - hostname: k8s-3
     controlPlane: true
@@ -77,6 +83,9 @@ nodes:
             gateway: 172.16.20.1
         vip:
           ip: ${CLUSTER_ENDPOINT_IP}
+    nodeLabels:
+      node-role.kubernetes.io/control-plane: ""
+      rook-ceph/disk-id: ata-Samsung_Portable_SSD_T5_S4B0NR0R721882L
     talosImageURL: factory.talos.dev/installer/97bf8e92fc6bba0f03928b859c08295d7615737b29db06a97be51dc63004e403
   - hostname: k8s-4
     controlPlane: false
@@ -109,6 +118,8 @@ nodes:
         routes:
           - network: 0.0.0.0/0
             gateway: 172.16.20.1
+    nodeLabels:
+      role/media: "true"
     talosImageURL: factory.talos.dev/installer/da6e5e640e48d2c9f1ba22aa3f205e17a687512b7201cff5c5c47ef0fab32cb1
     patches:
       # Mount zfs-hostpath in kubelet
@@ -130,14 +141,12 @@ patches:
   - "@./patches/global/containerd.yaml"
   - "@./patches/global/disable-search-domain.yaml"
   - "@./patches/global/host-entries.yaml"
-  - "@./patches/global/hostdns.yaml"
   - "@./patches/global/installer.yaml"
   - "@./patches/global/kubelet.yaml"
   - "@./patches/global/logging.yaml"
   - "@./patches/global/nameserver.yaml"
   - "@./patches/global/ntp.yaml"
   - "@./patches/global/openebs-local.yaml"
-  - "@./patches/global/sysfs.yaml"
   - "@./patches/global/sysctl.yaml"
   - "@./patches/global/udev.yaml"
 

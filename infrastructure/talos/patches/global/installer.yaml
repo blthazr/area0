@@ -2,10 +2,5 @@
 machine:
   install:
     extraKernelArgs:
-      - cpufreq.default_governor=performance
-      - intel_iommu=on
-      - intel_pstate=disable
-      - iommu=pt
       - mitigations=off
       - net.ifnames=0
-      - pcie_ports=native
