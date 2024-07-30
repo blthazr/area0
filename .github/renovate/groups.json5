@@ -77,6 +77,19 @@
       "separateMinorPatch": true
     },
     {
+      "description": ["Splunk Group"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "groupName": "Splunk",
+      "matchDatasources": ["helm"],
+      "matchPackagePatterns": [
+        "splunk-enterprise",
+        "splunk-operator"
+      ],
+      "separateMinorPatch": true
+    },
+    {
       "description": ["Talos Group"],
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
