@@ -5,7 +5,7 @@ kind: GrafanaDashboard
 metadata:
   name: prometheus
 spec:
-  # renovate: depName="Prometheus"
+  # renovate: dashboardName="Prometheus"
   grafanaCom:
     id: 19105
     revision: 3

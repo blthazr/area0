@@ -5,7 +5,7 @@ kind: GrafanaDashboard
 metadata:
   name: kubernetes-pods
 spec:
-  # renovate: depName="Kubernetes / Views / Pods"
+  # renovate: dashboardName="Kubernetes / Views / Pods"
   grafanaCom:
     id: 15760
     revision: 28

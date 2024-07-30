@@ -8,7 +8,7 @@ spec:
   datasources:
     - datasourceName: Prometheus
       inputName: DS_PROMETHEUS
-  # renovate: depName="Ceph Cluster"
+  # renovate: dashboardName="Ceph Cluster"
   grafanaCom:
     id: 2842
     revision: 17

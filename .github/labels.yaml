@@ -35,6 +35,8 @@
   color: "FFC300"
 - name: renovate/github-release
   color: "FFC300"
+- name: renovate/grafana-dashboard
+  color: "FFC300"
 - name: renovate/helm
   color: "FFC300"
 - name: renovate/pre-commit
