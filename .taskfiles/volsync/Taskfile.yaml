@@ -19,7 +19,7 @@ x-env: &env
   puid: "{{.puid}}"
 
 vars:
-  VOLSYNC_TEMPLATES_DIR: "{{.ROOT_DIR}}/.taskfiles/volsync/templates"
+  VOLSYNC_RESOURCES_DIR: "{{.ROOT_DIR}}/.taskfiles/volsync/resources"
 
 tasks:
 
@@ -28,8 +28,7 @@ tasks:
   state-*:
     desc: Suspend or Resume Volsync
     summary: |
-      Args:
-        state: resume or suspend (required)
+      state: resume or suspend (required)
     env: *env
     vars:
       ns: '{{.ns | default "volsync-system"}}'
@@ -43,20 +42,19 @@ tasks:
       - { msg: "kubectl not in $PATH", sh: "which kubectl" }
       - { msg: "Missing kubeconfig file", sh: "test -f {{.KUBECONFIG_FILE}}" }
 
-  # task volsync:list app=plex ns=default
+  # task volsync:list app=plex ns=media
   list:
     desc: List snapshots for an application
     summary: |
-      Args:
-        ns: Namespace the PVC is in (default: default)
-        app: Application to list snapshots for (required)
+      ns: Namespace the PVC is in (default: default)
+      app: Application to list snapshots for (required)
     silent: true
     env: *env
     vars:
       ns: '{{.ns | default "default"}}'
       job: volsync-list-{{.app}}
     cmds:
-      - envsubst < <(cat {{.VOLSYNC_TEMPLATES_DIR}}/list.tmpl.yaml) | kubectl apply -f -
+      - envsubst < <(cat {{.VOLSYNC_RESOURCES_DIR}}/list.tmpl.yaml) | kubectl apply -f -
       - bash {{.TASK_SCRIPTS_DIR}}/wait-for-job.sh {{.job}} {{.ns}}
       - kubectl -n {{.ns}} wait job/{{.job}} --for condition=complete --timeout=1m
       - kubectl -n {{.ns}} logs job/{{.job}} --container main
@@ -69,22 +67,21 @@ tasks:
       - { msg: "kubectl not in $PATH", sh: "which kubectl" }
       - { msg: "Missing kubeconfig file", sh: "test -f {{.KUBECONFIG_FILE}}" }
       - { msg: "Missing wait-for-job script", sh: "test -f {{.TASK_SCRIPTS_DIR}}/wait-for-job.sh" }
-      - { msg: "Missing list template", sh: "test -f {{.VOLSYNC_TEMPLATES_DIR}}/list.tmpl.yaml" }
+      - { msg: "Missing list template", sh: "test -f {{.VOLSYNC_RESOURCES_DIR}}/list.tmpl.yaml" }
 
   # task volsync:unlock app=plex ns=default
   unlock:
     desc: Unlock a Restic repository for an application
     summary: |
-      Args:
-        ns: Namespace the PVC is in (default: default)
-        app: Application to unlock (required)
+      ns: Namespace the PVC is in (default: default)
+      app: Application to unlock (required)
     silent: true
     env: *env
     vars:
       ns: '{{.ns | default "default"}}'
       job: volsync-unlock-{{.app}}
     cmds:
-      - envsubst < <(cat {{.VOLSYNC_TEMPLATES_DIR}}/unlock.tmpl.yaml) | kubectl apply -f -
+      - envsubst < <(cat {{.VOLSYNC_RESOURCES_DIR}}/unlock.tmpl.yaml) | kubectl apply -f -
       - bash {{.TASK_SCRIPTS_DIR}}/wait-for-job.sh {{.job}} {{.ns}}
       - kubectl -n {{.ns}} wait job/{{.job}} --for condition=complete --timeout=1m
       - kubectl -n {{.ns}} logs job/{{.job}} --container minio
@@ -97,7 +94,7 @@ tasks:
       - { msg: "kubectl not in $PATH", sh: "which kubectl" }
       - { msg: "Missing kubeconfig file", sh: "test -f {{.KUBECONFIG_FILE}}" }
       - { msg: "Missing wait-for-job script", sh: "test -f {{.TASK_SCRIPTS_DIR}}/wait-for-job.sh" }
-      - { msg: "Missing unlock template", sh: "test -f {{.VOLSYNC_TEMPLATES_DIR}}/unlock.tmpl.yaml" }
+      - { msg: "Missing unlock template", sh: "test -f {{.VOLSYNC_RESOURCES_DIR}}/unlock.tmpl.yaml" }
 
   # To run backup jobs in parallel for all replicationsources:
   #   - kubectl get replicationsources --all-namespaces --no-headers | awk '{print $2, $1}' | xargs --max-procs=4 -l bash -c 'task volsync:snapshot app=$0 ns=$1'
@@ -106,9 +103,8 @@ tasks:
   snapshot:
     desc: Snapshot a PVC for an application
     summary: |
-      Args:
-        ns: Namespace the PVC is in (default: default)
-        app: Application to snapshot (required)
+      ns: Namespace the PVC is in (default: default)
+      app: Application to snapshot (required)
     env: *env
     vars:
       now: '{{now | date "150405"}}'
@@ -128,18 +124,18 @@ tasks:
       - { msg: "Missing kubeconfig file", sh: "test -f {{.KUBECONFIG_FILE}}" }
       - { msg: "Missing wait-for-job script", sh: "test -f {{.TASK_SCRIPTS_DIR}}/wait-for-job.sh" }
       - { msg: "Missing which-controller.sh", sh: "test -f {{.TASK_SCRIPTS_DIR}}/which-controller.sh" }
+      - { msg: "Missing replicationsource: {{.app}}", sh: "kubectl -n {{.ns}} get replicationsources {{.app}}" }
 
   # To run restore jobs in parallel for all replicationdestinations:
   #    - kubectl get replicationsources --all-namespaces --no-headers | awk '{print $2, $1}' | xargs --max-procs=4 -l bash -c 'task volsync:restore app=$0 ns=$1'
   #
-  # task volsync:restore app=plex ns=media previous=3
+  # task volsync:restore app=plex ns=media [previous=3]
   restore:
     desc: Restore a PVC for an application
     summary: |
-      Args:
-        ns: Namespace the PVC is in (default: default)
-        app: Application to restore (required)
-        previous: Previous number of snapshots to restore (default: 2)
+      app: Application to restore (required)
+      ns: Namespace the PVC is in (default: default)
+      previous: Previous number of snapshots to restore (default: 2)
     env: *env
     vars:
       ns: '{{.ns | default "default"}}'
@@ -153,10 +149,10 @@ tasks:
       pgid:
         sh: kubectl -n {{.ns}} get replicationsources/{{.app}} -o jsonpath="{.spec.restic.moverSecurityContext.runAsGroup}"
     cmds:
-      - { task: _suspend, vars: *env }
-      - { task: _wipe, vars: *env }
-      - { task: _restore, vars: *env }
-      - { task: _resume, vars: *env }
+      - { task: .suspend, vars: *env }
+      - { task: .wipe, vars: *env }
+      - { task: .restore, vars: *env }
+      - { task: .resume, vars: *env }
     requires:
       vars:
         - app
@@ -167,8 +163,8 @@ tasks:
       - { msg: "Missing kubeconfig file", sh: "test -f {{.KUBECONFIG_FILE}}" }
       - { msg: "Missing wait-for-job script", sh: "test -f {{.TASK_SCRIPTS_DIR}}/wait-for-job.sh" }
       - { msg: "Missing which-controller.sh", sh: "test -f {{.TASK_SCRIPTS_DIR}}/which-controller.sh" }
-      - { msg: "Missing replicationdestination template", sh: "test -f {{.VOLSYNC_TEMPLATES_DIR}}/replicationdestination.tmpl.yaml" }
-      - { msg: "Missing wipe template", sh: "test -f {{.VOLSYNC_TEMPLATES_DIR}}/wipe.tmpl.yaml" }
+      - { msg: "Missing replicationdestination template", sh: "test -f {{.VOLSYNC_RESOURCES_DIR}}/replicationdestination.tmpl.yaml" }
+      - { msg: "Missing wipe template", sh: "test -f {{.VOLSYNC_RESOURCES_DIR}}/wipe.tmpl.yaml" }
 
   # task volsync:cleanup
   cleanup:
@@ -200,7 +196,7 @@ tasks:
       - { msg: "kubectl not in $PATH", sh: "which kubectl" }
       - { msg: "Missing kubeconfig file", sh: "test -f {{.KUBECONFIG_FILE}}" }
 
-  _suspend:
+  .suspend:
     desc: Suspend the Flux ks and hr
     internal: true
     env: *env
@@ -214,43 +210,14 @@ tasks:
       - { msg: "kubectl not in $PATH", sh: "which kubectl" }
       - { msg: "Missing kubeconfig file", sh: "test -f {{.KUBECONFIG_FILE}}" }
 
-  _restore:
-    desc: Create VolSync replicationdestination CR to restore data
-    internal: true
-    env: *env
-    vars:
-      job: volsync-dst-{{.app}}
-    cmds:
-      - envsubst < <(cat {{.VOLSYNC_TEMPLATES_DIR}}/replicationdestination.tmpl.yaml) | kubectl apply -f -
-      - bash {{.TASK_SCRIPTS_DIR}}/wait-for-job.sh {{.job}} {{.ns}}
-      - kubectl -n {{.ns}} wait job/{{.job}} --for condition=complete --timeout=120m
-      - kubectl -n {{.ns}} delete replicationdestination {{.job}}
-    preconditions:
-      - { msg: "envsubst not in $PATH", sh: "which envsubst" }
-      - { msg: "kubectl not in $PATH", sh: "which kubectl" }
-      - { msg: "Missing kubeconfig file", sh: "test -f {{.KUBECONFIG_FILE}}" }
-      - { msg: "Missing wait-for-job script", sh: "test -f {{.TASK_SCRIPTS_DIR}}/wait-for-job.sh" }
-      - { msg: "Missing replicationdestination template", sh: "test -f {{.VOLSYNC_TEMPLATES_DIR}}/replicationdestination.tmpl.yaml" }
-
-  _resume:
-    desc: Resume Flux ks and hr
-    internal: true
-    env: *env
-    cmds:
-      - flux -n {{.ns}} resume helmrelease {{.app}}
-      - flux -n flux-system resume kustomization {{.app}}
-    preconditions:
-      - { msg: "flux not in $PATH", sh: "which flux" }
-      - { msg: "Missing kubeconfig file", sh: "test -f {{.KUBECONFIG_FILE}}" }
-
-  _wipe:
+  .wipe:
     desc: Wipe the PVC of all data
     internal: true
     env: *env
     vars:
       job: volsync-wipe-{{.app}}
     cmds:
-      - envsubst < <(cat {{.VOLSYNC_TEMPLATES_DIR}}/wipe.tmpl.yaml) | kubectl apply -f -
+      - envsubst < <(cat {{.VOLSYNC_RESOURCES_DIR}}/wipe.tmpl.yaml) | kubectl apply -f -
       - bash {{.TASK_SCRIPTS_DIR}}/wait-for-job.sh {{.job}} {{.ns}}
       - kubectl -n {{.ns}} wait job/{{.job}} --for condition=complete --timeout=120m
       - kubectl -n {{.ns}} logs job/{{.job}} --container main
@@ -260,4 +227,33 @@ tasks:
       - { msg: "kubectl not in $PATH", sh: "which kubectl" }
       - { msg: "Missing kubeconfig file", sh: "test -f {{.KUBECONFIG_FILE}}" }
       - { msg: "Missing wait-for-job script", sh: "test -f {{.TASK_SCRIPTS_DIR}}/wait-for-job.sh" }
-      - { msg: "Missing wipe template", sh: "test -f {{.VOLSYNC_TEMPLATES_DIR}}/wipe.tmpl.yaml" }
+      - { msg: "Missing wipe template", sh: "test -f {{.VOLSYNC_RESOURCES_DIR}}/wipe.tmpl.yaml" }
+
+  .restore:
+    desc: Create VolSync replicationdestination CR to restore data
+    internal: true
+    env: *env
+    vars:
+      job: volsync-dst-{{.app}}
+    cmds:
+      - envsubst < <(cat {{.VOLSYNC_RESOURCES_DIR}}/replicationdestination.tmpl.yaml) | kubectl apply -f -
+      - bash {{.TASK_SCRIPTS_DIR}}/wait-for-replication-job.sh {{.job}} {{.ns}}
+      # - kubectl -n {{.ns}} wait job/{{.job}} --for condition=complete --timeout=120m
+      - kubectl -n {{.ns}} delete replicationdestination {{.job}}
+    preconditions:
+      - { msg: "envsubst not in $PATH", sh: "which envsubst" }
+      - { msg: "kubectl not in $PATH", sh: "which kubectl" }
+      - { msg: "Missing kubeconfig file", sh: "test -f {{.KUBECONFIG_FILE}}" }
+      - { msg: "Missing wait-for-job script", sh: "test -f {{.TASK_SCRIPTS_DIR}}/wait-for-replication-job.sh" }
+      - { msg: "Missing replicationdestination template", sh: "test -f {{.VOLSYNC_RESOURCES_DIR}}/replicationdestination.tmpl.yaml" }
+
+  .resume:
+    desc: Resume Flux ks and hr
+    internal: true
+    env: *env
+    cmds:
+      - flux -n {{.ns}} resume helmrelease {{.app}}
+      - flux -n flux-system resume kustomization {{.app}}
+    preconditions:
+      - { msg: "flux not in $PATH", sh: "which flux" }
+      - { msg: "Missing kubeconfig file", sh: "test -f {{.KUBECONFIG_FILE}}" }
