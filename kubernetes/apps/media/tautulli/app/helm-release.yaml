@@ -48,7 +48,7 @@ spec:
               TZ: "${CLUSTER_TIME_ZONE}"
             image:
               repository: ghcr.io/tautulli/tautulli
-              tag: v2.14.3@sha256:36d6a81d7d06c5aba752ce025d956a47f6008d6529f39b05ed2cf51cf22fe26b
+              tag: v2.14.3
             probes:
               liveness: &probes
                 custom: true
@@ -82,7 +82,7 @@ spec:
               GITSYNC_ROOT: /add-ons
             image:
               repository: registry.k8s.io/git-sync/git-sync
-              tag: v4.2.4@sha256:8bfbf28623690fba06c65ec392e42023d28ecfc7e0fbfd4443388d020dc112ea
+              tag: v4.2.4
             resources:
               limits:
                 memory: 128Mi

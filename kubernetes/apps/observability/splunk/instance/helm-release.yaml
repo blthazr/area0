@@ -32,7 +32,7 @@ spec:
   values:
     image:
       # renovate: datasource=docker
-      repository: docker.io/splunk/splunk:9.1.1@sha256:20b1376a1677ef6eff611b1d1e25e3a170a715c646c2c27711bbb65b03f78ede
+      repository: docker.io/splunk/splunk:9.1.1
     splunk-operator:
       enabled: false
     standalone:

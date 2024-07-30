@@ -47,7 +47,7 @@ spec:
                   name: "${APP}-secret"
             image:
               repository: ghcr.io/tailscale/tailscale
-              tag: v1.68.1@sha256:a0d1a9ed2abfacf905c0e3423aea00181064162e548f875f422a03924b9cc5c4
+              tag: v1.68.1
             resources:
               limits:
                 memory: 256Mi

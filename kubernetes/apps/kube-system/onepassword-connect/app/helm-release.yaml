@@ -41,7 +41,7 @@ spec:
               XDG_DATA_HOME: &configDir /config
             image:
               repository: docker.io/1password/connect-api
-              tag: 1.7.3@sha256:06f09441c062c2419876937463f8a8293f3e05f00f615ada47f86abef6abfa24
+              tag: 1.7.3
             probes:
               liveness:
                 custom: true
@@ -86,7 +86,7 @@ spec:
               XDG_DATA_HOME: *configDir
             image:
               repository: docker.io/1password/connect-sync
-              tag: 1.7.3@sha256:ead552b27920f813336d7d7efb12521ccf907fe2099127415dc5f1ecc6bb069c
+              tag: 1.7.3
             probes:
               liveness:
                 custom: true
