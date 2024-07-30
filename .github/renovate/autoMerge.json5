@@ -9,7 +9,6 @@
       "description": ["Auto-merge trusted containers (digest) [maintenance window]"],
       "matchDatasources": ["docker"],
       "matchPackagePatterns": [
-        "ghcr.io/bjw-s",
         "ghcr.io/onedr0p"
       ],
       "matchUpdateTypes": ["digest"]
@@ -35,6 +34,21 @@
         "ghcr.io/sct/overseerr",
         "ghcr.io/tautulli/tautulli",
         "ghcr.io/toboshii/hajimari"
+      ],
+      "matchUpdateTypes": [
+        "patch",
+        "minor"
+      ]
+    },
+    {
+      "addLabels": ["action/automerge"],
+      "automerge": true,
+      "automergeSchedule": ["after 2am, before 6am"],
+      "automergeType": "branch",
+      "description": ["Auto-merge helm charts (patch/minor) [maintenance window]"],
+      "matchDatasources": ["helm"],
+      "matchPackagePatterns": [
+        "kube-prometheus-stack"
       ],
       "matchUpdateTypes": [
         "patch",
