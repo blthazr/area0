@@ -29,6 +29,7 @@
       "customType": "regex",
       "description": ["Process custom dependencies"],
       "fileMatch": [
+        "(^|/).taskfiles/.+\\.ya?ml$",
         "(^|/)kubernetes/.+\\.ya?ml$",
         "(^|/)talos/.+\\.ya?ml$"
       ],
