@@ -17,7 +17,7 @@ sonarr:
       - template: sonarr-v4-custom-formats-anime
 
     quality_profiles:
-      - name: Best Available
+      - name: WEB-1080p
         min_format_score: 0
         qualities:
           - name: WEB 1080p
