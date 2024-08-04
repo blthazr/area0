@@ -48,7 +48,8 @@
       "description": ["Auto-merge helm charts (patch/minor) [maintenance window]"],
       "matchDatasources": ["helm"],
       "matchPackagePatterns": [
-        "kube-prometheus-stack"
+        "kube-prometheus-stack",
+        "reloader"
       ],
       "matchUpdateTypes": [
         "patch",
