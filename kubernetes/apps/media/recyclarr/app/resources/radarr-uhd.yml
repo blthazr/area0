@@ -11,7 +11,8 @@ radarr:
     include:
       # https://github.com/recyclarr/config-templates/tree/master/radarr/includes
       - template: radarr-quality-definition-sqp-streaming
-      - template: radarr-quality-profile-sqp-1-2160p-default
+      # 2160p
+      - template: radarr-quality-profile-sqp-1-2160p-4k-only-default
       - template: radarr-custom-formats-sqp-1-2160p
 
     quality_profiles:

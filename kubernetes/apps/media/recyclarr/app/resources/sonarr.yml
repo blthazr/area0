@@ -11,8 +11,10 @@ sonarr:
     include:
       # https://github.com/recyclarr/config-templates/tree/master/sonarr/includes
       - template: sonarr-quality-definition-series
+      # 1080p
       - template: sonarr-v4-quality-profile-web-1080p
       - template: sonarr-v4-custom-formats-web-1080p
+      # Anime
       - template: sonarr-v4-quality-profile-anime
       - template: sonarr-v4-custom-formats-anime
 
@@ -43,39 +45,6 @@ sonarr:
           allowed: true
           until_quality: WEB 1080p
           until_score: 10000
-      - name: Remux-1080p - Anime
-        min_format_score: 100
-        qualities:
-          - name: Bluray-1080p
-            qualities:
-              - Bluray-1080p Remux
-              - Bluray-1080p
-          - name: WEB 1080p
-            qualities:
-              - WEBDL-1080p
-              - WEBRip-1080p
-              - HDTV-1080p
-          - name: Bluray-720p
-          - name: WEB 720p
-            qualities:
-              - WEBDL-720p
-              - WEBRip-720p
-              - HDTV-720p
-          - name: Bluray-480p
-          - name: WEB 480p
-            qualities:
-              - WEBDL-480p
-              - WEBRip-480p
-          - name: DVD
-          - name: SDTV
-        quality_sort: top
-        reset_unmatched_scores:
-          enabled: true
-        score_set: anime-sonarr
-        upgrade:
-          allowed: true
-          until_quality: Bluray-1080p
-          until_score: 10000
 
     custom_formats:
       - trash_ids:
@@ -86,5 +55,12 @@ sonarr:
           - 06d66ab109d4d2eddb2794d21526d140 # Retags
           - 1b3994c551cbb92a2c781af061f4ab44 # Scene
         assign_scores_to:
-          - name: Best Available
           - name: WEB-1080p
+      - trash_ids:
+          # Anime
+          - 026d5aadd1a6b4e550b134cb6c72b3ca # Uncensored
+          - b2550eb333d27b75833e25b8c2557b38 # 10bit
+          - 418f50b10f1907201b6cfdf881f467b7 # Anime Dual Audio
+        assign_scores_to:
+          - name: Remux-1080p - Anime
+            score: 0
