@@ -45,8 +45,11 @@
       "automerge": true,
       "automergeSchedule": ["after 2am, before 6am"],
       "automergeType": "branch",
-      "description": ["Auto-merge helm charts (patch/minor) [maintenance window]"],
-      "matchDatasources": ["helm"],
+      "description": ["Auto-merge containers/helm charts (patch/minor) [maintenance window]"],
+      "matchDatasources": [
+        "docker",
+        "helm"
+      ],
       "matchPackagePatterns": [
         "kube-prometheus-stack",
         "reloader"
