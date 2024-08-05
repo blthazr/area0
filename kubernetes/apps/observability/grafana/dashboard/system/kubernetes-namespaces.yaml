@@ -5,7 +5,7 @@ kind: GrafanaDashboard
 metadata:
   name: kubernetes-namespaces
 spec:
-  # renovate: dashboardName="Kubernetes / Views / Namespaces"
+  # renovate: depName="Kubernetes / Views / Namespaces"
   grafanaCom:
     id: 15758
     revision: 35

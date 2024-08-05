@@ -5,7 +5,7 @@ kind: GrafanaDashboard
 metadata:
   name: kubernetes-api-server
 spec:
-  # renovate: dashboardName="Kubernetes / System / API Server"
+  # renovate: depName="Kubernetes / System / API Server"
   grafanaCom:
     id: 15761
     revision: 17

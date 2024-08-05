@@ -5,7 +5,7 @@ kind: GrafanaDashboard
 metadata:
   name: kubernetes-coredns
 spec:
-  # renovate: dashboardName="Kubernetes / System / CoreDNS"
+  # renovate: depName="Kubernetes / System / CoreDNS"
   grafanaCom:
     id: 15762
     revision: 18

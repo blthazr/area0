@@ -8,7 +8,7 @@ spec:
   datasources:
     - datasourceName: Prometheus
       inputName: DS_PROMETHEUS
-  # renovate: dashboardName="Cloudflare Tunnels (cloudflared)"
+  # renovate: depName="Cloudflare Tunnels (cloudflared)"
   grafanaCom:
     id: 17457
     revision: 6

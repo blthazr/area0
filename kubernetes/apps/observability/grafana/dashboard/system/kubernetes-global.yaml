@@ -5,7 +5,7 @@ kind: GrafanaDashboard
 metadata:
   name: kubernetes-global
 spec:
-  # renovate: dashboardName="Kubernetes / Views / Global"
+  # renovate: depName="Kubernetes / Views / Global"
   grafanaCom:
     id: 15757
     revision: 37
