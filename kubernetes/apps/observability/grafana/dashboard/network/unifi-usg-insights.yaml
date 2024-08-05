@@ -8,7 +8,7 @@ spec:
   datasources:
     - inputName: "DS_PROMETHEUS"
       datasourceName: Prometheus
-  # renovate: depName="UniFi-Poller: USG Insights - Prometheus"
   grafanaCom:
+    # renovate: depName="UniFi-Poller: USG Insights - Prometheus"
     id: 11313
     revision: 9

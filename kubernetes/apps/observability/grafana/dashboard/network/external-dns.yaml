@@ -5,7 +5,7 @@ kind: GrafanaDashboard
 metadata:
   name: external-dns
 spec:
-  # renovate: depName="External-dns"
   grafanaCom:
+    # renovate: depName="External-dns"
     id: 15038
     revision: 1

@@ -8,7 +8,7 @@ spec:
   datasources:
     - inputName: "DS_PROMETHEUS"
       datasourceName: Prometheus
-  # renovate: depName="UniFi-Poller: Client DPI - Prometheus"
   grafanaCom:
+    # renovate: depName="UniFi-Poller: Client DPI - Prometheus"
     id: 11310
     revision: 5

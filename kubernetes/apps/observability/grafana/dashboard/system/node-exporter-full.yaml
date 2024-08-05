@@ -5,7 +5,7 @@ kind: GrafanaDashboard
 metadata:
   name: node-exporter-full
 spec:
-  # renovate: depName="Node Exporter Full"
   grafanaCom:
+    # renovate: depName="Node Exporter Full"
     id: 1860
     revision: 33

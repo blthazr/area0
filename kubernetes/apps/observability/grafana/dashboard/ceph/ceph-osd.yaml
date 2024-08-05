@@ -8,7 +8,7 @@ spec:
   datasources:
     - datasourceName: Prometheus
       inputName: DS_PROMETHEUS
-  # renovate: depName="Ceph - OSD (Single)"
   grafanaCom:
+    # renovate: depName="Ceph - OSD (Single)"
     id: 5336
     revision: 9

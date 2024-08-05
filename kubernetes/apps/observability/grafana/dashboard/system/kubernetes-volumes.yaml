@@ -5,7 +5,7 @@ kind: GrafanaDashboard
 metadata:
   name: kubernetes-volumes
 spec:
-  # renovate: depName="K8s / Storage / Volumes / Cluster"
   grafanaCom:
+    # renovate: depName="K8s / Storage / Volumes / Cluster"
     id: 11454
     revision: 14

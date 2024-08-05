@@ -5,7 +5,7 @@ kind: GrafanaDashboard
 metadata:
   name: kubernetes-nodes
 spec:
-  # renovate: depName="Kubernetes / Views / Nodes"
   grafanaCom:
+    # renovate: depName="Kubernetes / Views / Nodes"
     id: 15759
     revision: 29
