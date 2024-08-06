@@ -5,9 +5,6 @@ kind: GrafanaDashboard
 metadata:
   name: ceph-cluster
 spec:
-  datasources:
-    - datasourceName: Prometheus
-      inputName: DS_PROMETHEUS
   grafanaCom:
     # renovate: depName="Ceph Cluster"
     id: 2842

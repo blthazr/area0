@@ -3,6 +3,6 @@
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaFolder
 metadata:
-  name: ceph
+  name: storage
 spec:
-  title: Ceph
+  title: Storage

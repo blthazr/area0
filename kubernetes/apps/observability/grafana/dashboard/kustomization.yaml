@@ -14,10 +14,10 @@ patches:
       group: grafana.integreatly.org
       version: v1beta1
 resources:
-  - ./ceph
   - ./database
   - ./flux
   - ./network
+  - ./storage
   - ./system
   - ./thanos
   - ./volsync

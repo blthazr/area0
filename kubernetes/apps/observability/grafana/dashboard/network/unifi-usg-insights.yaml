@@ -5,9 +5,6 @@ kind: GrafanaDashboard
 metadata:
   name: unifi-usg-insights
 spec:
-  datasources:
-    - inputName: "DS_PROMETHEUS"
-      datasourceName: Prometheus
   grafanaCom:
     # renovate: depName="UniFi-Poller: USG Insights - Prometheus"
     id: 11313

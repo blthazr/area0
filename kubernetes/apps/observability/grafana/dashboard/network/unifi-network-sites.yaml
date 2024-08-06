@@ -5,9 +5,6 @@ kind: GrafanaDashboard
 metadata:
   name: unifi-network-sites
 spec:
-  datasources:
-    - inputName: "DS_PROMETHEUS"
-      datasourceName: Prometheus
   grafanaCom:
     # renovate: depName="UniFi-Poller: Network Sites - Prometheus"
     id: 11311

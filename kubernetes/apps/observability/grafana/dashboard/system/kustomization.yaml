@@ -21,3 +21,4 @@ resources:
   - ./node-exporter-full.yaml
   - ./node-feature-discovery.yaml
   - ./prometheus.yaml
+  - ./spegel.yaml

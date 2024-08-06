@@ -5,9 +5,6 @@ kind: GrafanaDashboard
 metadata:
   name: ceph-osd
 spec:
-  datasources:
-    - datasourceName: Prometheus
-      inputName: DS_PROMETHEUS
   grafanaCom:
     # renovate: depName="Ceph - OSD (Single)"
     id: 5336

@@ -8,6 +8,8 @@ spec:
   datasources:
     - datasourceName: Prometheus
       inputName: DS_PROMETHEUS
+    - datasourceName: .*-dst
+      inputName: VAR_REPLICATIONDESTNAME
   grafanaCom:
     # renovate: depName="VolSync Dashboard"
     id: 21356

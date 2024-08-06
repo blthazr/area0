@@ -5,9 +5,6 @@ kind: GrafanaDashboard
 metadata:
   name: ceph-pools
 spec:
-  datasources:
-    - datasourceName: Prometheus
-      inputName: DS_PROMETHEUS
   grafanaCom:
     # renovate: depName="Ceph - Pools"
     id: 5342

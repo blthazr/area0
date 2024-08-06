@@ -5,9 +5,6 @@ kind: GrafanaDashboard
 metadata:
   name: unifi-client-dpi
 spec:
-  datasources:
-    - inputName: "DS_PROMETHEUS"
-      datasourceName: Prometheus
   grafanaCom:
     # renovate: depName="UniFi-Poller: Client DPI - Prometheus"
     id: 11310
