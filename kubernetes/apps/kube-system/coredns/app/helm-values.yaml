@@ -14,27 +14,38 @@ servers:
         scheme: dns://
         use_tcp: true
     plugins:
+      # enables error logging
       - name: errors
+      # Serves a /health endpoint on :8080, required for livenessProbe
       - name: health
         configBlock: |-
           lameduck 5s
+      # serves a /ready endpoint on :8181, required for readinessProbe
       - name: ready
+      # enables query logging to standard output
       - name: log
         configBlock: |-
           class error
+      # Serves a /metrics endpoint on :9153, required for serviceMonitor
       - name: prometheus
         parameters: 0.0.0.0:9153
+      #
       - name: kubernetes
         configBlock: |-
           pods insecure
           fallthrough in-addr.arpa ip6.arpa
         parameters: cluster.local in-addr.arpa ip6.arpa
+      #
       - name: forward
         parameters: . /etc/resolv.conf
+      # enables a frontend cache
       - name: cache
         parameters: 30
+      # detects simple forwarding loops and halts the server
       - name: loop
+      # allows automatic reload of a changed Corefile
       - name: reload
+      # acts as a round-robin DNS load balancer by randomizing the order of A, AAAA, and MX records in the answer
       - name: loadbalance
     port: 53
 service:
