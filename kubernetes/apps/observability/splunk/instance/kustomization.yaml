@@ -5,4 +5,5 @@ kind: Kustomization
 resources:
   - ./external-secret.yaml
   - ./helm-release.yaml
+  - ./ingress.yaml
   - ../../../../templates/volsync/minio

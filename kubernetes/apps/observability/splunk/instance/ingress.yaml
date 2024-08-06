@@ -1,0 +1,26 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/ingress-networking-v1.json
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: splunk
+  annotations:
+    hajimari.io/appName: "Splunk"
+    hajimari.io/group: Observability
+    hajimari.io/icon: "mdi:splunk"
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+spec:
+  ingressClassName: internal
+  rules:
+    - host: "splunk.${SECRET_DOMAIN}"
+      http:
+        paths:
+          - backend:
+              service:
+                name: splunk-splunk-standalone-service
+                port:
+                  number: 8000
+            path: /
+            pathType: Prefix
