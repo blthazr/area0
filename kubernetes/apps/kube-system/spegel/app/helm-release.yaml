@@ -24,7 +24,7 @@ spec:
       strategy: rollback
   values:
     grafanaDashboard:
-      enabled: true
+      enabled: false
     serviceMonitor:
       enabled: true
   valuesFrom:
