@@ -47,6 +47,15 @@
     },
     {
       "customType": "regex",
+      "description": ["Process Splunk version"],
+      "fileMatch": ["(^|/)kubernetes/.+\\.ya?ml$"],
+      "matchStrings": [
+        "repository: (?<depName>\\S+):(?<currentValue>.*)"
+      ],
+      "datasourceTemplate": "docker"
+    },
+    {
+      "customType": "regex",
       "description": ["Process CloudnativePG Postgresql version"],
       "fileMatch": ["(^|/)kubernetes/.+\\.ya?ml$"],
       "matchStrings": [
