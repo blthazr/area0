@@ -46,7 +46,7 @@ jobs:
           token: "${{ steps.app-token.outputs.token }}"
 
       - name: Diff resources
-        uses: docker://ghcr.io/allenporter/flux-local:v5.4.0
+        uses: docker://ghcr.io/allenporter/flux-local:v5.5.1
         with:
           args: >-
             diff ${{ matrix.resources }}
