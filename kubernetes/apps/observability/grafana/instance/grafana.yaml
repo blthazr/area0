@@ -9,28 +9,28 @@ metadata:
 spec:
   config:
     analytics:
-      check_for_plugin_updates: false
-      check_for_updates: false
-      reporting_enabled: false
+      check_for_plugin_updates: "false"
+      check_for_updates: "false"
+      reporting_enabled: "false"
     auth.generic_oauth:
-      allow_assign_grafana_admin: true
-      auto_login: true
-      enabled: true
+      allow_assign_grafana_admin: "true"
+      auto_login: "true"
+      enabled: "true"
       name: Auth0
       role_attribute_path: |
         contains("https://${SECRET_DOMAIN}/groups"[*], 'Grafana Admins') && 'Admin' || contains("https://${SECRET_DOMAIN}/groups"[*], 'Grafana Editors') && 'Editor' || 'Viewer'
       scopes: openid profile email
-      use_pkce: true
+      use_pkce: "true"
     date_formats:
-      use_browser_locale: true
+      use_browser_locale: "true"
     grafana_net:
       url: https://grafana.net
     log:
       mode: console
     news:
-      news_feed_enabled: false
+      news_feed_enabled: "false"
     panels:
-      disable_sanitize_html: true
+      disable_sanitize_html: "true"
     paths:
       data: /var/lib/grafana/data
       logs: /var/log/grafana
