@@ -1,0 +1,30 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app cribl-edge
+spec:
+  chart:
+    spec:
+      chart: edge
+      sourceRef:
+        kind: HelmRepository
+        name: cribl
+        namespace: flux-system
+      version: 4.7.1
+  install:
+    remediation:
+      retries: 3
+  interval: 30m
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+      strategy: rollback
+  values:
+    cribl:
+      leader: "tcp://${SECRET_CRIBL_LEADER_TOKEN}@cribl-leader-internal:4200?group=default_fleet"
+    image:
+      repository: cribl/cribl
+      tag: 4.7.1

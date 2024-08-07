@@ -1,0 +1,26 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/ingress-networking-v1.json
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    hajimari.io/appName: Cribl
+    hajimari.io/group: Observability
+    hajimari.io/icon: mdi:chart-sankey-variant
+  name: cribl-leader
+spec:
+  ingressClassName: internal
+  rules:
+    - host: &host "cribl-leader.${SECRET_DOMAIN}"
+      http:
+        paths:
+          - backend:
+              service:
+                name: cribl-leader
+                port:
+                  number: 9000
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - *host
