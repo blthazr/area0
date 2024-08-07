@@ -31,7 +31,7 @@ spec:
       strategy: rollback
   values:
     image:
-      # renovate: datasource=docker
+      # renovate: datasource=docker depName=splunk/splunk
       repository: docker.io/splunk/splunk:9.1.1
     splunk-operator:
       enabled: false
