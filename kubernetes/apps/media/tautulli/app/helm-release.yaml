@@ -48,7 +48,7 @@ spec:
               TZ: "${CLUSTER_TIME_ZONE}"
             image:
               repository: ghcr.io/tautulli/tautulli
-              tag: v2.14.3
+              tag: v2.14.4
             probes:
               liveness: &probes
                 custom: true
