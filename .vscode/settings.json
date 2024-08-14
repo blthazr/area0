@@ -1,17 +1,25 @@
 {
   /*+--- Text Editor ---+*/
+  "editor.hover.delay": 1500,
+  "editor.rulers": [80,100],
   "files.associations": {
     "*.json5": "jsonc",
     "./kubernetes/**/*.sops.toml": "plaintext"
   },
 
   /*+--- Extensions ---+*/
+  "ansible.validation.enabled": true,
+  "ansible.validation.lint.arguments": "-c infrastructure/ansible/.ansible-lint",
+  "ansible.validation.lint.enabled": true,
   "sops.defaults.ageKeyFile": "age.key",
   "vs-kubernetes": {
     "vs-kubernetes.kubeconfig": "./kubeconfig",
-    "vs-kubernetes.knownKubeconfigs": ["./kubeconfig"]
+    "vs-kubernetes.knownKubeconfigs": [
+      "./kubeconfig"
+    ]
   },
   "yaml.schemas": {
-    "kubernetes": "./kubernetes/*.yaml"
-  }
+    "kubernetes": "./kubernetes/**/*.yaml"
+  },
+  "ansible.python.interpreterPath": "/usr/bin/python3"
 }

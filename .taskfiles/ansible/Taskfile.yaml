@@ -1,0 +1,31 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: "3"
+
+vars:
+  # Directories
+  ANSIBLE_ROLES_DIR: "{{.ANSIBLE_DIR}}/roles"
+  ANSIBLE_DEV_ROLES_DIR: "{{.ANSIBLE_DIR}}/roles-dev"
+
+tasks:
+
+  # task ansible:role-template name=<role_name> [path=<destination_path>] [skel_path=<source_path>] [force=true]
+  role-template:
+    desc: Create ansible-role from skeleton template
+    vars:
+      role_path: "{{ .path | default .ANSIBLE_DEV_ROLES_DIR }}"
+      default_skeleton_path: "{{.ANSIBLE_ROLES_DIR}}/ansible-role-skeleton"
+      skeleton_path: '{{ .skel_path | default .default_skeleton_path }}'
+    cmds:
+      - |
+        ansible-galaxy role init \
+          --init-path {{.role_path}} \
+          --offline \
+          --role-skeleton {{ .skeleton_path }} \
+          {{- if .force }}--force \{{ end }}
+          {{ .name }}
+    requires:
+      vars:
+        - name
+    preconditions:
+      - { msg: "ansible-galaxy not in $PATH", sh: "command -v ansible-galaxy" }

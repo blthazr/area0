@@ -1,0 +1,15 @@
+---
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   requirements.yaml
+#   @description    :   ansible requirements
+#   @usage          :   ansible-galaxy role install --roles-path ./.ansible/roles --role-file ./requirements.yaml --force
+#                   :   ansible-galaxy collection install --collections-path ./.ansible/collections --requirements-file ./requirements.yaml --upgrade
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# --------------------------------------------------------------------------------------------------
+# collections
+# --------------------------------------------------------------------------------------------------
+collections:
+  - name: community.docker
+    version: 3.11.0
+# ==================================================================================================
