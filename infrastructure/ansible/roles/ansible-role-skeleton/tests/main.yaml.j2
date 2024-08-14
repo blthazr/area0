@@ -1,0 +1,12 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   tests/main.yaml
+#   @description    :   ansible-role-{{ role_name }} | playbook for ansible-role testing
+#   @usage          :   ansible-playbook -i inventory tests/main.yaml
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+
+- name: Testing | Local testing
+  hosts: localhost
+  become: true
+  roles:
+    - {{ role_name }}

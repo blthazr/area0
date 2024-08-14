@@ -1,0 +1,10 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   tasks/Debian/main.yaml
+#   @description    :   ansible-role-{{ role_name }} | Debian | main tasks
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+{% raw %}
+- name: "{{ ansible_os_family }} | {{ ansible_distribution }} | <Task name>"
+  ansible.builtin.debug:
+    var: ansible_os_family
+{% endraw %}
