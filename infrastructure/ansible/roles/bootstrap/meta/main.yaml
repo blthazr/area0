@@ -1,0 +1,14 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   meta/main.yaml
+#   @description    :   ansible-role-bootstrap | metadata
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+galaxy_info:
+  author: Chris Burnham
+  description: 'bootstrap is used to bootstrap ansible managed nodes'
+
+  license: Unlicense
+
+  min_ansible_version: 2.1
+
+dependencies: []

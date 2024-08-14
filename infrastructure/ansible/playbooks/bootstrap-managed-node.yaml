@@ -1,0 +1,18 @@
+---
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   playbooks/bootstrap-managed-node.yaml
+#   @description    :   bootstrap a node to be managed by ansible
+#   @usage          :   ansible-playbook playbooks/bootstrap-managed-node.yaml -K -e "host=<hostname>"
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- name: Bootstrap Ansible Managed Node
+  hosts: "{{ host }}"
+  become: true
+  gather_facts: false
+
+  tasks:
+    - name: "bootstrap ansible managed node: {{ inventory_hostname | lower }}"
+      ansible.builtin.include_role:
+        name: bootstrap
+      vars:
+        ansible_become_method: su

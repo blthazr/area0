@@ -1,0 +1,51 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   tasks/main.yaml
+#   @description    :   ansible-role-bootstrap | main tasks
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+
+- name: Main | Configure SSH authorized_keys
+  ansible.builtin.shell:
+    cmd: "ssh-copy-id -i {{ bootstrap_user_ssh_public_key_file }} {{ bootstrap_user }}@{{ ansible_host }}"
+  become: false
+  delegate_to: localhost
+  when:
+    - bootstrap_user_ssh_public_key_file is defined
+    - bootstrap_user is defined
+
+- name: Main | Test SSH connection
+  ansible.builtin.ping:
+  register: host_ssh_connection
+
+- name: Main | Gather Ansible facts
+  ansible.builtin.setup:
+
+- name: Main | Load OS-specific vars
+  ansible.builtin.include_vars: "{{ item }}"
+  with_first_found:
+    - files:
+        - "{{ ansible_distribution }}{{ ansible_distribution_version }}.yaml"
+        - "{{ ansible_distribution }}.yaml"
+        - "{{ ansible_os_family }}{{ ansible_distribution_major_version }}.yaml"
+        - "{{ ansible_os_family }}.yaml"
+      skip: true
+
+- name: Main | Run OS-specific tasks
+  ansible.builtin.include_tasks: "{{ item }}"
+  with_first_found:
+    - files:
+        - "{{ ansible_distribution }}{{ ansible_distribution_version }}/main.yaml"
+        - "{{ ansible_distribution }}/main.yaml"
+        - "{{ ansible_os_family }}{{ ansible_distribution_major_version }}/main.yaml"
+        - "{{ ansible_os_family }}/main.yaml"
+      skip: true
+
+- name: Main | Include roles
+  ansible.builtin.include_role:
+    name: "{{ bootstrap_include_role }}"
+  loop:
+    - robertdebock.bootstrap
+  loop_control:
+    loop_var: bootstrap_include_role
+  when:
+    - ansible_os_family != 'NA'
