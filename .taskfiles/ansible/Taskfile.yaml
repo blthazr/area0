@@ -4,10 +4,24 @@ version: "3"
 
 vars:
   # Directories
+  ANSIBLE_GALAXY_COLLECTIONS_DIR: "{{.ANSIBLE_DIR}}/.ansible/collections"
+  ANSIBLE_GALAXY_ROLES_DIR: "{{.ANSIBLE_DIR}}/.ansible/roles"
   ANSIBLE_ROLES_DIR: "{{.ANSIBLE_DIR}}/roles"
   ANSIBLE_DEV_ROLES_DIR: "{{.ANSIBLE_DIR}}/roles-dev"
+  # Files
+  ANSIBLE_GALAXY_REQUIREMENTS_FILE: "{{.ANSIBLE_DIR}}/requirements.yml"
 
 tasks:
+
+  # task ansible:deps
+  deps:
+    desc: Install/Upgrade Ansible dependencies
+    cmds:
+      - ansible-galaxy collection install --requirements-file {{.ANSIBLE_GALAXY_REQUIREMENTS_FILE}} --collections-path {{.ANSIBLE_GALAXY_COLLECTIONS_DIR}} --force
+      - ansible-galaxy role install --role-file {{.ANSIBLE_GALAXY_REQUIREMENTS_FILE}} --roles-path {{.ANSIBLE_GALAXY_ROLES_DIR}} --force
+    preconditions:
+      - { msg: "ansible-galaxy not in $PATH", sh: "command -v ansible-galaxy" }
+      - { msg: "Missing ansible-galaxy requirements file", sh: "test -f {{.ANSIBLE_GALAXY_REQUIREMENTS_FILE}}" }
 
   # task ansible:role-template name=<role_name> [path=<destination_path>] [skel_path=<source_path>] [force=true]
   role-template:
