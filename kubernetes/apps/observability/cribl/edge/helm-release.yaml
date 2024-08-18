@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: cribl
         namespace: flux-system
-      version: 4.7.1
+      version: 4.8.1
   install:
     remediation:
       retries: 3
@@ -27,4 +27,4 @@ spec:
       leader: "tcp://${SECRET_CRIBL_LEADER_TOKEN}@cribl-leader-internal:4200?group=default_fleet"
     image:
       repository: cribl/cribl
-      tag: 4.7.1
+      tag: 4.8.1
