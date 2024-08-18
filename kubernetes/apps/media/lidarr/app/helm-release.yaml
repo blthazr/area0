@@ -47,7 +47,7 @@ spec:
                   name: "${APP}-secret"
             image:
               repository: ghcr.io/onedr0p/lidarr-develop
-              tag: 2.5.0.4277
+              tag: 2.5.1.4311
             probes:
               liveness: &probes
                 custom: true
