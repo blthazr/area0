@@ -1,0 +1,16 @@
+---
+# yaml-language-server: $schema=https://github.com/datreeio/CRDs-catalog/raw/main/monitoring.coreos.com/scrapeconfig_v1alpha1.json
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: &name node-exporter
+spec:
+  metricsPath: /metrics
+  relabelings:
+    - action: replace
+      replacement: *name
+      targetLabel: job
+  staticConfigs:
+    - targets:
+        - "${HOME_ASSISTANT_ADDRESS}:9100"
+        - "${NAS_ADDRESS}:9100"
