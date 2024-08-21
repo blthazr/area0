@@ -5,7 +5,7 @@ kind: ScrapeConfig
 metadata:
   name: &name minio
 spec:
-  metricsPath: /minio/metrics/v3/cluster
+  metricsPath: /minio/v2/metrics/cluster
   relabelings:
     - action: replace
       replacement: *name
