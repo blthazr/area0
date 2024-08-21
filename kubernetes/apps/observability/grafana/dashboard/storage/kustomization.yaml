@@ -13,3 +13,4 @@ resources:
   - ./ceph-cluster.yaml
   - ./ceph-osd.yaml
   - ./ceph-pools.yaml
+  - ./minio.yaml
