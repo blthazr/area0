@@ -11,4 +11,4 @@ spec:
   grafanaCom:
     # renovate: depName="MinIO Dashboard"
     id: 13502
-    revision: 23
+    revision: 26
