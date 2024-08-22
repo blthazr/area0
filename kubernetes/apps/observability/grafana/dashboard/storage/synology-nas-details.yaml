@@ -1,0 +1,14 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/grafana.integreatly.org/grafanadashboard_v1beta1.json
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: synology-nas-details
+spec:
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: Prometheus
+  grafanaCom:
+    # renovate: depName="Synology NAS Details"
+    id: 14284
+    revision: 9

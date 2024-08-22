@@ -14,3 +14,5 @@ resources:
   - ./ceph-osd.yaml
   - ./ceph-pools.yaml
   - ./minio.yaml
+  - ./synology-nas-details.yaml
+  - ./synology-nas-overview.yaml
