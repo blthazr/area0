@@ -7,6 +7,4 @@ configMapGenerator:
     files:
       - snmp.yaml
 generatorOptions:
-  annotations:
-    kustomize.toolkit.fluxcd.io/substitute: disabled
   disableNameSuffixHash: true
