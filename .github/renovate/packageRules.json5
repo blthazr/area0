@@ -14,7 +14,6 @@
         "helm"
       ],
       "matchPackagePatterns": [
-        "minio",
         "reloader"
       ],
       "schedule": ["on the first day of the month"]

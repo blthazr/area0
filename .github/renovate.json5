@@ -1,18 +1,38 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "github>blthazr/renovate-config",
-    "github>blthazr/renovate-config:automerge-github-actions",
+    "config:recommended",
+    "docker:enableMajor",
+    "replacements:k8s-registry-move",
+    ":automergeBranch",
+    ":disableRateLimiting",
+    ":dependencyDashboard",
+    ":enablePreCommit",
+    ":semanticCommits",
+    ":skipStatusChecks",
+    ":timezone(America/Chicago)",
     "github>blthazr/area0//.github/renovate/allowedVersions.json5",
     "github>blthazr/area0//.github/renovate/autoMerge.json5",
+    "github>blthazr/area0//.github/renovate/commitMessage.json5",
     "github>blthazr/area0//.github/renovate/grafanaDashboards.json5",
     "github>blthazr/area0//.github/renovate/groups.json5",
+    "github>blthazr/area0//.github/renovate/labels.json5",
     "github>blthazr/area0//.github/renovate/managers.json5",
-    "github>blthazr/area0//.github/renovate/packageRules.json5"
+    "github>blthazr/area0//.github/renovate/packageRules.json5",
+    "github>blthazr/area0//.github/renovate/semanticCommits.json5"
   ],
+  "commitBodyTable": true,
+  "dependencyDashboardTitle": "Renovate Dashboard 🤖",
   "ignorePaths": [
     "**/*.sops.*",
     "**/.archive/**",
     "**/resources/**"
+  ],
+  "onboarding": false,
+  "rebaseWhen": "conflicted",
+  "requireConfig": "ignored",
+  "suppressNotifications": [
+    "prEditedNotification",
+    "prIgnoreNotification"
   ]
 }

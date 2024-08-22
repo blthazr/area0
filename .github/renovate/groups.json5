@@ -9,7 +9,7 @@
       "groupName": "1Password Connnect",
       "matchDatasources": ["docker"],
       "matchPackagePatterns": ["1password/connect"],
-      "separateMinorPatch": true
+    "separateMinorPatch": true
     },
     {
       "description": ["Cribl Group"],
@@ -51,19 +51,6 @@
       "groupName": "Intel Device Plugins",
       "matchDatasources": ["helm"],
       "matchPackagePatterns": ["intel-device-plugins"],
-      "separateMinorPatch": true
-    },
-    {
-      "description": ["Kubernetes Group"],
-      "group": {
-        "commitMessageTopic": "{{{groupName}}} group"
-      },
-      "groupName": "Kubernetes",
-      "matchDatasources": ["docker"],
-      "matchPackageNames": [
-        "ghcr.io/siderolabs/kubelet",
-        "registry.k8s.io/kubectl"
-      ],
       "separateMinorPatch": true
     },
     {

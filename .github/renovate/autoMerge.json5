@@ -4,6 +4,19 @@
     {
       "addLabels": ["action/automerge"],
       "automerge": true,
+      "automergeType": "branch",
+      "description": ["Auto-merge GitHub Actions (digest, patch, minor)"],
+      "matchDatasources": ["github-tags"],
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": [
+        "digest",
+        "patch",
+        "minor"
+      ]
+    },
+    {
+      "addLabels": ["action/automerge"],
+      "automerge": true,
       "automergeSchedule": ["after 2am, before 6am"],
       "automergeType": "branch",
       "description": ["Auto-merge trusted containers (digest) [maintenance window]"],
