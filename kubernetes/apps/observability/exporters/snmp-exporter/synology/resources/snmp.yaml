@@ -1,6 +1,6 @@
 auths:
   synology:
-    community: ${SNMP_COMMUNITY}
+    community: $${SNMP_COMMUNITY}
     version: 2
 modules:
   synology:
