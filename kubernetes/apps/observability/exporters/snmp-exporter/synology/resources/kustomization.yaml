@@ -5,6 +5,6 @@ kind: Kustomization
 configMapGenerator:
   - name: snmp-exporter-synology
     files:
-      - snmp.yaml
+      - ./snmp.yaml
 generatorOptions:
   disableNameSuffixHash: true

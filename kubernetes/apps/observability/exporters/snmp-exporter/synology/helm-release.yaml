@@ -30,7 +30,7 @@ spec:
       - "--config.file=/config/snmp.yaml"
     extraConfigmapMounts:
       - name: *app
-        configMap: snmp-exporter-synology
+        configMap: *app
         defaultMode: 420
         mountPath: /config/snmp.yaml
         readOnly: true
