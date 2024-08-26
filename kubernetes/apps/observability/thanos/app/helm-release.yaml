@@ -30,6 +30,13 @@ spec:
       strategy: rollback
   values:
     bucketweb:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
       enabled: true
       replicaCount: 1
       resources:
@@ -37,6 +44,13 @@ spec:
           cpu: 10m
           memory: 64Mi
     compactor:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
       enabled: true
       extraFlags:
         - --compact.concurrency=4
@@ -62,6 +76,13 @@ spec:
       serviceMonitor:
         enabled: true
     query:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
       dnsDiscovery:
         sidecarsNamespace: observability
         sidecarsService: kube-prometheus-stack-thanos-discovery
@@ -73,6 +94,13 @@ spec:
           cpu: 10m
           memory: 64Mi
     queryFrontend:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
       enabled: true
       ingress:
         annotations:
@@ -92,6 +120,13 @@ spec:
     ruler:
       enabled: false
     storegateway:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
       enabled: true
       persistence:
         enabled: true
