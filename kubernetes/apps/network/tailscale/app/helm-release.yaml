@@ -61,6 +61,13 @@ spec:
         replicas: 2
         strategy: RollingUpdate
     defaultPodOptions:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
       securityContext:
         runAsGroup: ${APP_GID}
         runAsNonRoot: true
