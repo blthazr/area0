@@ -35,6 +35,13 @@ spec:
   values:
     alertmanager:
       alertmanagerSpec:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+                - matchExpressions:
+                    - key: node-role.kubernetes.io/control-plane
+                      operator: DoesNotExist
         replicas: 1
         storage:
           volumeClaimTemplate:
@@ -179,6 +186,13 @@ spec:
         ingressClassName: internal
         pathType: Prefix
       prometheusSpec:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+                - matchExpressions:
+                    - key: node-role.kubernetes.io/control-plane
+                      operator: DoesNotExist
         enableAdminAPI: true
         enableFeatures:
           - auto-gomemlimit
@@ -232,6 +246,14 @@ spec:
               replacement: $1
               sourceLabels: ["__meta_kubernetes_pod_node_name"]
               targetLabel: kubernetes_node
+    prometheusOperator:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
   valuesFrom:
     - name: kube-prometheus-stack-helm-values
       kind: Secret

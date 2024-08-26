@@ -78,6 +78,13 @@ spec:
               repository: ghcr.io/onedr0p/postgres-init
               tag: 16
     defaultPodOptions:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
       securityContext:
         fsGroup: ${APP_GID}
         fsGroupChangePolicy: OnRootMismatch
