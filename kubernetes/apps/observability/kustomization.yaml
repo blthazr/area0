@@ -7,11 +7,11 @@ resources:
   - ./namespace.yaml
   # Flux-Kustomizations
   - ./cribl/ks.yaml
-  - ./grafana/ks.yaml
-  - ./kromgo/ks.yaml
-  - ./kube-prometheus-stack/ks.yaml
+  # - ./grafana/ks.yaml
+  # - ./kromgo/ks.yaml
+  # - ./kube-prometheus-stack/ks.yaml
   - ./prometheus-operator/ks.yaml
   - ./splunk/ks.yaml
   # - ./thanos/ks.yaml
-  - ./unpoller/ks.yaml
-  - ./exporters
+  # - ./unpoller/ks.yaml
+  # - ./exporters
