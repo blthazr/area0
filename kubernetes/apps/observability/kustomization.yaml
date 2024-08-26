@@ -13,5 +13,5 @@ resources:
   - ./prometheus-operator/ks.yaml
   - ./splunk/ks.yaml
   - ./thanos/ks.yaml
-  # - ./unpoller/ks.yaml
+  - ./unpoller/ks.yaml
   # - ./exporters
