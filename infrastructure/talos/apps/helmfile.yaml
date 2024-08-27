@@ -21,7 +21,7 @@ releases:
   - name: prometheus-operator-crds
     chart: oci://ghcr.io/prometheus-community/charts/prometheus-operator-crds
     namespace: observability
-    version: 13.0.2
+    version: 14.0.0
   - name: cilium
     chart: cilium/cilium
     namespace: kube-system
