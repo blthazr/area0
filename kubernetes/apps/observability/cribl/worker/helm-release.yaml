@@ -28,7 +28,7 @@ spec:
       token: "${SECRET_CRIBL_LEADER_TOKEN}"
     criblImage:
       repository: cribl/cribl
-      tag: 4.8.1
+      tag: 4.8.1@sha256:f2c6e3e370ecd9e64730c403dd2f69be77d5580659dbae73bfa59f0675fce339
     service:
       loadBalancerIP: "${CLUSTER_LB_CRIBL_WORKER}"
       ports:

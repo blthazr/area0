@@ -27,4 +27,4 @@ spec:
       leader: "tcp://${SECRET_CRIBL_LEADER_TOKEN}@cribl-leader-internal:4200?group=default_fleet"
     image:
       repository: cribl/cribl
-      tag: 4.8.1
+      tag: 4.8.1@sha256:f2c6e3e370ecd9e64730c403dd2f69be77d5580659dbae73bfa59f0675fce339
