@@ -42,6 +42,8 @@ spec:
                 - matchExpressions:
                     - key: node-role.kubernetes.io/control-plane
                       operator: DoesNotExist
+        configSecret: alertmanager-secret
+        useExistingSecret: true
         replicas: 1
         storage:
           volumeClaimTemplate:
@@ -49,57 +51,7 @@ spec:
               resources:
                 requests:
                   storage: 1Gi
-              storageClassName: ceph-block
-      config:
-        global:
-          resolve_timeout: 5m
-        inhibit_rules:
-          - equal:
-              - alertname
-              - namespace
-            source_matchers:
-              - severity = "critical"
-            target_matchers:
-              - severity = "warning"
-        receivers:
-          - name: "null"
-          - name: discord
-            slack_configs:
-              - channel: "#prometheus-alerts"
-                icon_url: https://avatars3.githubusercontent.com/u/3380462
-                send_resolved: true
-                text: >-
-                  {{ range .Alerts -}}
-                    **Alert:** {{ .Annotations.title }}{{ if .Labels.severity }} - `{{ .Labels.severity }}`{{ end }}
-
-                  {{ if ne .Annotations.summary ""}}**Summary:** {{ .Annotations.summary }} {{ else if ne .Annotations.message ""}}**Message:** {{ .Annotations.message }} {{ else if ne .Annotations.description ""}}**Description:** {{ .Annotations.description }}{{ end }}
-
-                  **Details:**
-                    {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
-                    {{ end }}
-                  {{ end }}
-                title: |-
-                  [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ if ne .CommonAnnotations.summary ""}}{{ .CommonAnnotations.summary }} {{ else if ne .CommonAnnotations.message ""}}{{ .CommonAnnotations.message }} {{ else if ne .CommonAnnotations.description ""}}{{ .CommonAnnotations.description }} {{ else }}{{ .CommonLabels.alertname }}{{ end }}
-                username: "Prometheus"
-        route:
-          group_by:
-            - alertname
-            - job
-          group_interval: 10m
-          group_wait: 1m
-          receiver: discord
-          repeat_interval: 12h
-          routes:
-            - receiver: "null"
-              matchers:
-                - alertname =~ "Watchdog"
-            - receiver: "null"
-              matchers:
-                - alertname =~ "InfoInhibitor"
-            - receiver: discord
-              continue: true
-              matchers:
-                - severity = "critical"
+              storageClassName: openebs-hostpath
       ingress:
         annotations:
           hajimari.io/appName: Alertmanager
@@ -138,42 +90,26 @@ spec:
     kubeApiServer:
       enabled: true
       serviceMonitor:
-        metricRelabelings:
-          # Drop high cardinality labels
-          - action: drop
-            regex: (apiserver|etcd|rest_client)_request(|_sli|_slo)_duration_seconds_bucket
-            sourceLabels: ["__name__"]
-          - action: drop
-            regex: (apiserver_response_sizes_bucket|apiserver_watch_events_sizes_bucket)
-            sourceLabels: ["__name__"]
-    kubeControllerManager:
+        selector:
+          k8s-app: kube-apiserver
+    kubeControllerManager: &kubeControllerManager
       enabled: true
-      endpoints: &control-plane
-        - 172.16.21.11
-        - 172.16.21.12
-        - 172.16.21.13
+      service:
+        selector:
+          k8s-app: kube-controller-manager
     kubeEtcd:
-      enabled: true
-      endpoints: *control-plane
+      <<: *kubeControllerManager # etcd runs on control plane nodes
     kubeProxy:
       enabled: false
     kubeScheduler:
       enabled: true
-      endpoints: *control-plane
+      service:
+        selector:
+          k8s-app: kube-scheduler
     kubeStateMetrics:
       enabled: true
     kubelet:
       enabled: true
-      serviceMonitor:
-        metricRelabelings:
-          # Drop high cardinality labels
-          - action: labeldrop
-            regex: (uid)
-          - action: labeldrop
-            regex: (id|name)
-          - action: drop
-            regex: (rest_client_request_duration_seconds_bucket|rest_client_request_duration_seconds_sum|rest_client_request_duration_seconds_count)
-            sourceLabels: ["__name__"]
     nodeExporter:
       enabled: true
     prometheus:
@@ -254,7 +190,3 @@ spec:
               - matchExpressions:
                   - key: node-role.kubernetes.io/control-plane
                     operator: DoesNotExist
-  valuesFrom:
-    - name: kube-prometheus-stack-helm-values
-      kind: Secret
-      optional: false
