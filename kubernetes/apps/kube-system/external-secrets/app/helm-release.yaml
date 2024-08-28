@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: external-secrets
         namespace: flux-system
-      version: 0.10.0
+      version: 0.10.2
   dependsOn:
     - name: onepassword-connect
       namespace: kube-system
