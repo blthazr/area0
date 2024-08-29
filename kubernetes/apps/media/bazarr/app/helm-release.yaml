@@ -41,7 +41,7 @@ spec:
                   name: "${APP}-secret"
             image:
               repository: ghcr.io/onedr0p/bazarr
-              tag: 1.4.3
+              tag: 1.4.3@sha256:24a93e1727f46d48f983213b76b2e99d9a0899abe405ada3a5797b0dd2d281d3
             probes:
               liveness: &probes
                 custom: true
@@ -75,7 +75,7 @@ spec:
               GITSYNC_ROOT: /add-ons
             image:
               repository: registry.k8s.io/git-sync/git-sync
-              tag: v4.2.4
+              tag: v4.2.4@sha256:8bfbf28623690fba06c65ec392e42023d28ecfc7e0fbfd4443388d020dc112ea
             resources:
               requests:
                 cpu: 10m

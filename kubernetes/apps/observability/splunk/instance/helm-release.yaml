@@ -31,7 +31,7 @@ spec:
       strategy: rollback
   values:
     image:
-      repository: docker.io/splunk/splunk:9.2.2
+      repository: docker.io/splunk/splunk:9.3.0@sha256:ec4479b588a6c6edf62bdc812fac92a563a1f0384dc63f9dbad55c35340fa763
     splunk-operator:
       enabled: false
     standalone:

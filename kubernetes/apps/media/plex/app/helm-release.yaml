@@ -40,7 +40,7 @@ spec:
               TZ: "${CLUSTER_TIME_ZONE}"
             image:
               repository: ghcr.io/onedr0p/plex
-              tag: 1.40.5.8897-e5987a19d
+              tag: 1.40.5.8921-836b34c27@sha256:154636521a4ea14b3b0720443e7714f53318aeacb569fc00f4221969e2978b7b
             probes:
               liveness: &probes
                 custom: true
