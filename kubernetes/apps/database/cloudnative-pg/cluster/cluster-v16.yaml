@@ -5,6 +5,13 @@ kind: Cluster
 metadata:
   name: postgres16
 spec:
+  affinity:
+    nodeSelector:
+      node-role.kubernetes.io/control-plane: ""
+    tolerations:
+      - key: node-role.kubernetes.io/control-plane
+        operator: Exists
+        effect: NoSchedule
   backup:
     barmanObjectStore: &barmanObjectStore
       data:
@@ -27,7 +34,7 @@ spec:
     retentionPolicy: 30d
   enableSuperuserAccess: true
   imageName: ghcr.io/cloudnative-pg/postgresql:16.4-4
-  instances: 3
+  instances: 2
   monitoring:
     enablePodMonitor: true
   nodeMaintenanceWindow:
