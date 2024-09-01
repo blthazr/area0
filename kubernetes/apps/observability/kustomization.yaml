@@ -14,4 +14,3 @@ resources:
   - ./splunk/ks.yaml
   - ./thanos/ks.yaml
   - ./unpoller/ks.yaml
-  # - ./exporters
