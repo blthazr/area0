@@ -22,6 +22,7 @@ repos:
       - id: check-added-large-files # prevent giant files from being committed
       - id: check-executables-have-shebangs # check that non-binary executables have a proper shebang
       - id: check-merge-conflict # check for files that contain merge conflict strings
+      - id: check-shebang-scripts-are-executable # check that scripts with shebangs are executable
       - id: end-of-file-fixer # ensures that a file is either empty, or ends with one newline
       - id: fix-byte-order-marker # removes UTF-8 byte order marker
       - id: mixed-line-ending # replace or check mixed line ending
