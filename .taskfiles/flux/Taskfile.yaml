@@ -3,86 +3,109 @@
 version: "3"
 
 vars:
-  CLUSTER_AGE_KEY_SECRET_SOPS_FILE: "{{.KUBERNETES_DIR}}/bootstrap/flux/age-key.sops.yaml"
-  CLUSTER_SECRET_SOPS_FILE: "{{.KUBERNETES_DIR}}/flux/vars/cluster-secrets.sops.yaml"
-  CLUSTER_SETTINGS_FILE: "{{.KUBERNETES_DIR}}/flux/vars/cluster-settings.yaml"
-  GITHUB_DEPLOY_KEY_FILE: "{{.KUBERNETES_DIR}}/bootstrap/flux/github-deploy-key.sops.yaml"
+  FLUX_CLUSTER_SECRET_SOPS_FILE: "{{.KUBERNETES_DIR}}/flux/vars/cluster-secrets.sops.yaml"
+  FLUX_CLUSTER_SETTINGS_FILE: "{{.KUBERNETES_DIR}}/flux/vars/cluster-settings.yaml"
 
 tasks:
 
-  # task flux:bootstrap
-  bootstrap:
-    desc: Bootstrap Flux into a Kubernetes cluster
-    prompt: Bootstrap Flux into the cluster ... continue?
+  # task flux:verify
+  verify:
+    desc: Verify flux meets the prerequisites
     cmds:
-      # Install Flux
-      - kubectl apply --kubeconfig {{.KUBECONFIG_FILE}} --server-side --kustomize {{.KUBERNETES_DIR}}/bootstrap/flux
-      # Install secrets and configmaps
-      - sops --decrypt {{.CLUSTER_AGE_KEY_SECRET_SOPS_FILE}} | kubectl apply --kubeconfig {{.KUBECONFIG_FILE}} --server-side --filename -
-      - sops --decrypt {{.GITHUB_DEPLOY_KEY_FILE}} | kubectl apply --kubeconfig {{.KUBECONFIG_FILE}} --server-side --filename -
-      - sops --decrypt {{.CLUSTER_SECRET_SOPS_FILE}} | kubectl apply --kubeconfig {{.KUBECONFIG_FILE}} --server-side --filename -
-      - kubectl apply --kubeconfig {{.KUBECONFIG_FILE}} --server-side --filename {{.CLUSTER_SETTINGS_FILE}}
-      # Install Flux Kustomization resources
-      - kubectl apply --kubeconfig {{.KUBECONFIG_FILE}} --server-side --kustomize {{.KUBERNETES_DIR}}/flux/config
+      - flux check --pre
     preconditions:
-      - { msg: "kubectl not in $PATH", sh: "which kubectl" }
-      - { msg: "sops not in $PATH", sh: "which sops" }
-      - { msg: "Missing Sops age key file", sh: "test -f {{.AGE_FILE}}" }
-      - { msg: "Missing age secret file", sh: "test -f {{.CLUSTER_AGE_KEY_SECRET_SOPS_FILE}}" }
-      - { msg: "Missing cluster secrets file", sh: "test -f {{.CLUSTER_SECRET_SOPS_FILE}}" }
-      - { msg: "Missing cluster settings file", sh: "test -f {{.CLUSTER_SETTINGS_FILE}}" }
-      - { msg: "Missing github deploy secret file", sh: "test -f {{.GITHUB_DEPLOY_KEY_FILE}}" }
-      - { msg: "Missing kubeconfig file", sh: "test -f {{.KUBECONFIG_FILE}}" }
-      - { msg: "Missing Sops config file", sh: "test -f {{.SOPS_CONFIG_FILE}}" }
-      - { msg: "Unable to decrypt age secret", sh: "sops --decrypt {{.CLUSTER_AGE_KEY_SECRET_SOPS_FILE}}" }
-      - { msg: "Unable to decrypt cluster secrets", sh: "sops --decrypt {{.CLUSTER_SECRET_SOPS_FILE}}" }
-      - { msg: "Unable to decrypt github deploy secret", sh: "sops --decrypt {{.GITHUB_DEPLOY_KEY_FILE}}" }
-      - { msg: "Flux bootstrap misconfigured", sh: "kustomize build {{.KUBERNETES_DIR}}/bootstrap/flux" }
-      - { msg: "Flux config misconfigured", sh: "kustomize build {{.KUBERNETES_DIR}}/flux/config" }
-    status:
-      - kubectl --kubeconfig "{{.KUBECONFIG_FILE}}" get namespace flux-system
-
-  # task flux:apply path=<namespace>/<app> ns=<namespace>
-  apply:
-    desc: Apply a Flux Kustomization resource
-    summary: |
-      Args:
-        path: Path to the Flux Kustomization resource (required)
-        name: Name of the Flux Kustomization to apply (default: last segment of <path> variable)
-        ns: Namespace the Flux Kustomization exists in (default: flux-system)
-    vars:
-      app_name:
-        sh: basename {{.path}}
-      ks_name: '{{.name | default .app_name}}'
-      kustomization_path: "{{.KUBERNETES_DIR}}/apps/{{.path}}"
-      kustomization_file: "{{.kustomization_path}}/ks.yaml"
-      ns: '{{.ns | default "flux-system"}}'
-      kustomization_found:
-        sh: flux --kubeconfig {{.KUBECONFIG_FILE}} --namespace {{.ns}} get kustomization {{.ks_name}} 2>&1
-    cmds:
-      - flux --kubeconfig {{.KUBECONFIG_FILE}} build ks {{.ks_name}}
-        --namespace {{.ns}}
-        --kustomization-file {{.kustomization_file}}
-        --path {{.kustomization_path}}
-        {{ if contains "not found" .kustomization_found }}--dry-run{{ end }}
-        |
-        kubectl --kubeconfig {{.KUBECONFIG_FILE}} apply --server-side
-        --field-manager=kustomize-controller -f -
-    preconditions:
-      - { msg: "flux not in $PATH", sh: "which flux" }
-      - { msg: "kubectl not in $PATH", sh: "which kubectl" }
-      - { msg: "Missing kubeconfig file", sh: "test -f {{.KUBECONFIG_FILE}}" }
-      - { msg: "Flux Kustomization for app {{.path}} not found", sh: "test -f {{.kustomization_file}}" }
-    requires:
-      vars:
-        - path
+      - { msg: "flux not in $PATH", sh: "command -v flux" }
 
   # task flux:reconcile
   reconcile:
-    desc: Force update Flux to pull in changes from your Git repository
+    desc: Force update Flux to pull in changes from the repository
     cmds:
-      - flux --kubeconfig {{.KUBECONFIG_FILE}} reconcile --namespace flux-system kustomization cluster --with-source
+      - flux reconcile -n flux-system source git area0
+      - flux reconcile -n flux-system kustomization flux
     preconditions:
-      - { msg: "flux not in $PATH", sh: "which flux" }
-      - { msg: "kubectl not in $PATH", sh: "which kubectl" }
-      - { msg: "Missing kubeconfig file", sh: "test -f {{.KUBECONFIG_FILE}}" }
+      - { msg: "flux not in $PATH", sh: "command -v flux" }
+
+  # task flux:sync:all
+  sync:all:
+    desc: Synchronize all Flux resources
+    cmds:
+      - task: sync:sources
+      # - task: sync:ks
+      # - task: sync:hr
+      # - task: sync:alerts
+      # - task: sync:receivers
+
+  # task flux:sync:sources
+  sync:sources:
+    desc: Reconcile Flux sources
+    silent: true
+    cmds:
+      - flux reconcile -n flux-system source git area0
+      - flux reconcile -n flux-system source oci flux-manifests
+      - flux get sources helm --all-namespaces --no-header | awk '{ print $1, $2}' | xargs -r -n2 sh -c 'flux reconcile source helm $1 --namespace $0'
+    preconditions:
+      - { msg: "awk not in $PATH", sh: "command -v awk" }
+      - { msg: "flux not in $PATH", sh: "command -v flux" }
+      - { msg: "xargs not in $PATH", sh: "command -v xargs" }
+
+  # task flux:sync:ks
+  sync:ks:
+    desc: Reconcile Flux kustomizations
+    silent: true
+    cmds:
+      - flux reconcile kustomization flux --namespace flux-system --with-source
+      - sleep 1
+      - flux reconcile kustomization cluster --namespace flux-system --with-source
+      - sleep 1
+      - flux reconcile kustomization cluster-apps --namespace flux-system --with-source
+      - sleep 1
+      - flux get kustomizations --all-namespaces --no-header  | awk '{ print $1, $2}' | grep -v "flux-system cluster" | grep -v "flux-system flux" | xargs -r -n2 sh -c 'flux reconcile kustomization $1 --namespace $0 --with-source' | xargs
+    preconditions:
+      - { msg: "awk not in $PATH", sh: "command -v awk" }
+      - { msg: "flux not in $PATH", sh: "command -v flux" }
+      - { msg: "grep not in $PATH", sh: "command -v grep" }
+      - { msg: "xargs not in $PATH", sh: "command -v xargs" }
+
+  # task flux:sync:hr
+  sync:hr:
+    desc: Reconcile Helm releases
+    silent: true
+    cmds:
+      - flux get helmreleases --all-namespaces --no-header | awk '{ print $1, $2}' | xargs -r -n2 sh -c 'flux reconcile helmrelease $1 --namespace $0 --with-source' | xargs
+    preconditions:
+      - { msg: "awk not in $PATH", sh: "command -v awk" }
+      - { msg: "flux not in $PATH", sh: "command -v flux" }
+      - { msg: "xargs not in $PATH", sh: "command -v xargs" }
+
+  # task flux:sync:receivers
+  sync:receivers:
+    desc: Reconcile Flux receivers
+    silent: true
+    cmds:
+      - flux get receivers --all-namespaces --no-header | awk '{ print $1, $2}' | xargs -r -n2 sh -c 'flux reconcile receiver $1 --namespace $0' | xargs
+    preconditions:
+      - { msg: "awk not in $PATH", sh: "command -v awk" }
+      - { msg: "flux not in $PATH", sh: "command -v flux" }
+      - { msg: "xargs not in $PATH", sh: "command -v xargs" }
+
+  # task flux:logs
+  logs:
+    desc: Get Flux logs
+    silent: true
+    cmds:
+      - flux logs -A --level=error
+
+  # task flux:logs:follow
+  logs:follow:
+    desc: Follow Flux logs
+    silent: true
+    cmds:
+      - flux logs -A -f --level=error
+
+  # task flux:hr:restart
+  hr:restart:
+    desc: Restart all failed Helm Releases
+    silent: true
+    cmds:
+      - flux get helmreleases --all-namespaces --no-header --status-selector ready=false | awk '{ print $1, $2}' | xargs -r -n2 sh -c 'flux suspend helmrelease $1 --namespace $0' | xargs
+      - flux get helmreleases --all-namespaces --no-header --status-selector ready=false | awk '{ print $1, $2}' | xargs -r -n2 sh -c 'flux resume helmrelease $1 --namespace $0' | xargs

@@ -4,29 +4,38 @@ version: "3"
 
 tasks:
 
+  # task k8s:cleanup
+  cleanup:
+    desc: Cleanup kubernetes
+    cmds:
+      - task: delete-succeeded-pods
+      - task: delete-failed-pods
+      - task: delete-pending-pods
+
   # task k8s:delete-failed-pods
   delete-failed-pods:
-    desc: Deletes pods with Failed phase
+    desc: Delete all pods with an Evicted/Failed status
     cmds:
-      - kubectl --kubeconfig {{.KUBECONFIG_FILE}} delete pods --field-selector status.phase=Failed -A --ignore-not-found=true
+      - for: ["Evicted", "Failed"]
+        cmd: kubectl delete pods --field-selector status.phase={{.ITEM}} -A --ignore-not-found=true
     preconditions:
-      - { msg: "kubectl not in $PATH", sh: "which kubectl" }
+      - { msg: "kubectl not in $PATH", sh: "command -v kubectl" }
       - { msg: "Missing kubeconfig file", sh: "test -f {{.KUBECONFIG_FILE}}" }
 
   # task k8s:delete-succeeded-pods
   delete-succeeded-pods:
-    desc: Deletes pods with Succeeded phase
+    desc: Delete all pods with a Succeeded status
     cmds:
-      - kubectl --kubeconfig {{.KUBECONFIG_FILE}} delete pods --field-selector status.phase=Succeeded -A --ignore-not-found=true
+      - kubectl delete pods --field-selector status.phase=Succeeded -A --ignore-not-found=true
     preconditions:
-      - { msg: "kubectl not in $PATH", sh: "which kubectl" }
+      - { msg: "kubectl not in $PATH", sh: "command -v kubectl" }
       - { msg: "Missing kubeconfig file", sh: "test -f {{.KUBECONFIG_FILE}}" }
 
   # task k8s:delete-pending-pods
   delete-pending-pods:
-    desc: Deletes pods with Pending phase
+    desc: Delete all pods with a Pending status
     cmds:
-      - kubectl --kubeconfig {{.KUBECONFIG_FILE}} delete pods --field-selector status.phase=Pending -A --ignore-not-found=true
+      - kubectl delete pods --field-selector status.phase=Pending -A --ignore-not-found=true
     preconditions:
-      - { msg: "kubectl not in $PATH", sh: "which kubectl" }
+      - { msg: "kubectl not in $PATH", sh: "command -v kubectl" }
       - { msg: "Missing kubeconfig file", sh: "test -f {{.KUBECONFIG_FILE}}" }
