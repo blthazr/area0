@@ -11,11 +11,16 @@ vars:
   # Files
   AGE_FILE: "{{.ROOT_DIR}}/age.key"
   KUBECONFIG_FILE: "{{.ROOT_DIR}}/kubeconfig"
+  PIP_REQUIREMENTS_FILE: "{{.ROOT_DIR}}/requirements.txt"
   SOPS_CONFIG_FILE: "{{.ROOT_DIR}}/.sops.yaml"
+  # Binaries
+  PYTHON_BIN: python3
 
 env:
   KUBECONFIG: "{{.KUBECONFIG_FILE}}"
+  PYTHONDONTWRITEBYTECODE: "1"
   SOPS_AGE_KEY_FILE: "{{.AGE_FILE}}"
+  VIRTUAL_ENV: "{{.ROOT_DIR}}/.venv"
 
 includes:
   ansible:
@@ -23,12 +28,11 @@ includes:
     optional: true
     taskfile: .taskfiles/ansible
   bootstrap: .taskfiles/bootstrap
-  debug: .taskfiles/debug
   flux: .taskfiles/flux
   kubernetes:
     aliases: ["k8s"]
     taskfile: .taskfiles/kubernetes
-  rook: .taskfiles/rook
+  pre-commit: .taskfiles/pre-commit
   sops: .taskfiles/sops
   talos: .taskfiles/talos
   volsync: .taskfiles/volsync

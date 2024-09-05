@@ -9,6 +9,9 @@ Thumbs.db
 *-shard/*
 *-shard.*
 
+# Ansible
+.venv*
+
 # Brew
 Brewfile.lock.json
 

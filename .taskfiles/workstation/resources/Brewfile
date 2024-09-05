@@ -1,0 +1,70 @@
+# --------------------------------------------------------------------------------------------------
+# Simple, modern, secure file encryption
+brew "age"
+# --------------------------------------------------------------------------------------------------
+# Automate deployment, configuration, and upgrading
+brew "ansible"
+# --------------------------------------------------------------------------------------------------
+# Checks ansible playbooks for practices and behaviour
+brew "ansible-lint"
+# --------------------------------------------------------------------------------------------------
+# Cloudflare Tunnel client (formerly Argo Tunnel)
+brew "cloudflared"
+# --------------------------------------------------------------------------------------------------
+# Load/unload environment variables based on $PWD
+brew "direnv"
+# --------------------------------------------------------------------------------------------------
+# Flux CLI
+tap "fluxcd/tap"
+brew "fluxcd/tap/flux"
+# --------------------------------------------------------------------------------------------------
+# Task runner / simpler Make alternative written in Go
+tap "go-task/tap"
+brew "go-task/tap/go-task"
+# --------------------------------------------------------------------------------------------------
+# Kubernetes package manager
+brew "helm"
+# --------------------------------------------------------------------------------------------------
+# Deploy Kubernetes Helm Charts
+brew "helmfile"
+# --------------------------------------------------------------------------------------------------
+# Lightweight and flexible command-line JSON processor
+brew "jq"
+# --------------------------------------------------------------------------------------------------
+# Kubernetes CLI To Manage Your Clusters In Style!
+brew "k9s"
+# --------------------------------------------------------------------------------------------------
+# FAST Kubernetes manifests validator, with support for Custom Resources!
+brew "kubeconform"
+# --------------------------------------------------------------------------------------------------
+# Kubernetes command-line interface
+brew "kubernetes-cli"
+# --------------------------------------------------------------------------------------------------
+# Template-free customization of Kubernetes YAML manifests
+brew "kustomize"
+# --------------------------------------------------------------------------------------------------
+# Collection of tools that nobody wrote when UNIX was young
+brew "moreutils"
+# --------------------------------------------------------------------------------------------------
+# Framework for managing multi-language pre-commit hooks
+brew "pre-commit"
+# --------------------------------------------------------------------------------------------------
+# Editor of encrypted files
+brew "sops"
+# --------------------------------------------------------------------------------------------------
+# Tail multiple Kubernetes pods & their containers
+brew "stern"
+# --------------------------------------------------------------------------------------------------
+# Configuration helper for talos clusters
+brew "talhelper"
+# --------------------------------------------------------------------------------------------------
+# CLI for out-of-band management of Kubernetes nodes created by Talos
+tap "siderolabs/tap"
+brew "talosctl"
+# --------------------------------------------------------------------------------------------------
+# Tool to build, change, and version infrastructure
+brew "terraform"
+# --------------------------------------------------------------------------------------------------
+# Process YAML, JSON, XML, CSV and properties documents from the CLI
+brew "yq"
+# --------------------------------------------------------------------------------------------------

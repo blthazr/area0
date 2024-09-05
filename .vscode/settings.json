@@ -4,13 +4,20 @@
   "editor.rulers": [80,100],
   "files.associations": {
     "*.json5": "jsonc",
+    "./infrastructure/ansible/**/*.yaml": "ansible",
+    "./infrastructure/ansible/**/*.sops.yaml": "yaml",
+    "./infrastructure/ansible/**/inventory/**/*.yaml": "yaml",
     "./kubernetes/**/*.sops.toml": "plaintext"
   },
 
   /*+--- Extensions ---+*/
+  "ansible.ansible.path": ".venv/bin/ansible",
+  "ansible.python.activationScript": ".venv/bin/activate",
+  "ansible.python.interpreterPath": ".venv/bin/python3",
   "ansible.validation.enabled": true,
   "ansible.validation.lint.arguments": "-c infrastructure/ansible/.ansible-lint",
   "ansible.validation.lint.enabled": true,
+  "ansible.validation.lint.path": ".venv/bin/ansible-lint",
   "sops.defaults.ageKeyFile": "age.key",
   "vs-kubernetes": {
     "vs-kubernetes.kubeconfig": "./kubeconfig",
@@ -19,7 +26,7 @@
     ]
   },
   "yaml.schemas": {
+    "ansible": "./infrastructure/ansible/*.yaml",
     "kubernetes": "./kubernetes/**/*.yaml"
-  },
-  "ansible.python.interpreterPath": "/usr/bin/python3"
+  }
 }
