@@ -20,11 +20,35 @@ radarr:
 
     quality_profiles:
       - name: SQP-1 (1080p)
-        min_format_score: 10
+      - name: Best Available
+        min_format_score: 0
+        qualities:
+          - name: Remux-1080p
+          - name: Bluray-1080p
+          - name: Web 1080p
+            qualities:
+              - WEBRip-1080p
+              - WEBDL-1080p
+              - HDTV-1080p
+          - name: Bluray-720p
+          - name: Web 720p
+            qualities:
+              - WEBRip-720p
+              - WEBDL-720p
+              - HDTV-720p
+        quality_sort: top
+        score_set: sqp-1-1080p
+        reset_unmatched_scores:
+          enabled: true
+        upgrade:
+          allowed: true
+          until_quality: Remux-1080p
+          until_score: 10000
 
     custom_formats:
       - trash_ids:
           # Optional
+          - 7a0d1ad358fee9f5b074af3ef3f9d9ef # HALLOWED
           - b6832f586342ef70d9c128d40c07b872 # Bad Dual Groups
           - 90cedc1fea7ea5d11298bebd3d1d3223 # EVO (no WEBDL)
           - ae9b7c9ebde1f3bd336a8cbd1ec4c5e5 # No-RlsGroup
@@ -33,6 +57,7 @@ radarr:
           - f537cf427b64c38c8e36298f657e4828 # Scene
         assign_scores_to:
           - name: SQP-1 (1080p)
+          - name: Best Available
       - trash_ids:
           # Movie Versions
           - 957d0f44b592285f26449575e8b1167e  # Special Edition

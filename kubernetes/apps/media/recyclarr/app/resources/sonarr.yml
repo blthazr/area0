@@ -20,6 +20,7 @@ sonarr:
 
     quality_profiles:
       - name: WEB-1080p
+      - name: Best Available
         min_format_score: 0
         qualities:
           - name: WEB 1080p
@@ -56,6 +57,7 @@ sonarr:
           - 1b3994c551cbb92a2c781af061f4ab44 # Scene
         assign_scores_to:
           - name: WEB-1080p
+          - name: Best Available
       - trash_ids:
           # Anime
           - 026d5aadd1a6b4e550b134cb6c72b3ca # Uncensored
