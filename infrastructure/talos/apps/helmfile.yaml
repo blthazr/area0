@@ -8,7 +8,6 @@ helmDefaults:
   wait: true
   waitForJobs: true
 
-
 repositories:
   - name: cilium
     url: https://helm.cilium.io
