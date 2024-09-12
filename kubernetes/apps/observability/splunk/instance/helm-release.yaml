@@ -47,6 +47,11 @@ spec:
                     values:
                       - k8s-5
       appRepo:
+        appSources:
+          - name: custom-apps
+            location: custom-apps/
+          - name: splunkbase-apps
+            location: splunkbase-apps/
         appsRepoPollIntervalSeconds: 60
         defaults:
           scope: local
@@ -54,7 +59,7 @@ spec:
         volumes:
           - name: volume_app_repo
             endpoint: "http://${MINIO_ADDRESS}:9000"
-            path: splunk-apps/
+            path: splunk-apps/standalone/
             provider: minio
             secretRef: splunk-s2-secret
             storageType: s3
