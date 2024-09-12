@@ -19,7 +19,7 @@ roles:
 # --------------------------------------------------------------------------------------------------
 collections:
   - name: ansible.posix
-    version: 1.5.4
+    version: 1.6.0
   - name: community.docker
     version: 3.12.1
   - name: community.general
