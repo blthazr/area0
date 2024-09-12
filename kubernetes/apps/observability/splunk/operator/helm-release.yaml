@@ -24,5 +24,16 @@ spec:
       strategy: rollback
   values:
     splunkOperator:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - k8s-5
       persistentVolumeClaim:
         storageClassName: openebs-hostpath
+      resources:
+        requests: {}
