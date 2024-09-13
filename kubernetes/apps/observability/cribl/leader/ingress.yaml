@@ -5,7 +5,9 @@ kind: Ingress
 metadata:
   name: cribl-leader
   annotations:
+    hajimari.io/appName: Cribl
     hajimari.io/group: Observability
+    hajimari.io/icon: mdi:chart-sankey-variant
 spec:
   ingressClassName: internal
   rules:

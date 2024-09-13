@@ -130,7 +130,9 @@ spec:
   ingress:
     metadata:
       annotations:
+        hajimari.io/appName: Grafana
         hajimari.io/group: Observability
+        hajimari.io/icon: simple-icons:grafana
     spec:
       ingressClassName: internal
       rules:

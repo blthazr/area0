@@ -5,7 +5,9 @@ kind: Ingress
 metadata:
   name: &app files
   annotations:
+    hajimari.io/appName: Synology Files
     hajimari.io/group: Home
+    hajimari.io/icon: simple-icons:files
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
   labels:
     app.kubernetes.io/instance: *app

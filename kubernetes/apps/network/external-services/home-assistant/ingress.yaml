@@ -5,7 +5,9 @@ kind: Ingress
 metadata:
   name: &app home-assistant
   annotations:
+    hajimari.io/appName: Home-Assistant
     hajimari.io/group: Home Automation
+    hajimari.io/icon: simple-icons:homeassistant
   labels:
     app.kubernetes.io/instance: *app
     app.kubernetes.io/name: *app

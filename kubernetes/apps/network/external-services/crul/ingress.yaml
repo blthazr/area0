@@ -5,7 +5,9 @@ kind: Ingress
 metadata:
   name: &app crul
   annotations:
+    hajimari.io/appName: Crul
     hajimari.io/group: Observability
+    hajimari.io/icon: mdi:comment-search
   labels:
     app.kubernetes.io/instance: *app
     app.kubernetes.io/name: *app

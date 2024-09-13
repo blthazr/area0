@@ -5,7 +5,10 @@ kind: Ingress
 metadata:
   name: &app pi-hole
   annotations:
+    hajimari.io/appName: Pi-Hole
     hajimari.io/group: Management
+    hajimari.io/icon: simple-icons:pihole
+    hajimari.io/url: "https://pi-hole.${SECRET_DOMAIN}/admin"
   labels:
     app.kubernetes.io/instance: *app
     app.kubernetes.io/name: *app

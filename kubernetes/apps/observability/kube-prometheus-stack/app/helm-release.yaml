@@ -54,7 +54,9 @@ spec:
               storageClassName: openebs-hostpath
       ingress:
         annotations:
+          hajimari.io/appName: AlertManager
           hajimari.io/group: Observability
+          hajimari.io/icon: mdi:alert-decagram-outline
         enabled: true
         hosts:
           - "alertmanager.${SECRET_DOMAIN}"
@@ -113,7 +115,9 @@ spec:
     prometheus:
       ingress:
         annotations:
-          hajimari.io/enable: "false"
+          hajimari.io/appName: Prometheus
+          hajimari.io/group: Observability
+          hajimari.io/icon: simple-icons:prometheus
         enabled: true
         hosts:
           - "prometheus.${SECRET_DOMAIN}"

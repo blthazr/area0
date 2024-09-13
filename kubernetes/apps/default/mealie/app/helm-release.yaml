@@ -71,7 +71,9 @@ spec:
       app:
         annotations:
           external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
+          hajimari.io/appName: Recipes
           hajimari.io/group: Home
+          hajimari.io/icon: mdi:chef-hat
         className: external
         enabled: true
         hosts:

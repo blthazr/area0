@@ -131,9 +131,11 @@ spec:
     ingress:
       dashboard:
         annotations:
+          hajimari.io/appName: Rook
           hajimari.io/group: Management
+          hajimari.io/icon: simple-icons:ceph
         host:
-          name: "rook.${SECRET_DOMAIN}"
+          name: "ceph.${SECRET_DOMAIN}"
           path: /
         ingressClassName: internal
     monitoring:

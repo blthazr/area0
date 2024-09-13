@@ -95,7 +95,9 @@ spec:
     ingress:
       app:
         annotations:
+          hajimari.io/appName: Lidarr
           hajimari.io/group: Media Management
+          hajimari.io/icon: mdi:headphones
         className: internal
         enabled: true
         hosts:

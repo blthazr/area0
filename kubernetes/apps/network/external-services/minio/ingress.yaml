@@ -5,7 +5,9 @@ kind: Ingress
 metadata:
   name: &app minio
   annotations:
+    hajimari.io/appName: Minio
     hajimari.io/group: Management
+    hajimari.io/icon: simple-icons:minio
   labels:
     app.kubernetes.io/instance: *app
     app.kubernetes.io/name: *app

@@ -54,7 +54,9 @@ spec:
         enabled: true
         ingress:
           annotations:
+            hajimari.io/appName: Cilium
             hajimari.io/group: Management
+            hajimari.io/icon: simple-icons:cilium
           className: internal
           enabled: true
           hosts: ["hubble.${SECRET_DOMAIN}"]

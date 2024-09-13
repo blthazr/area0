@@ -95,7 +95,9 @@ spec:
     ingress:
       app:
         annotations:
+          hajimari.io/appName: Radarr (UHD)
           hajimari.io/group: Media Management
+          hajimari.io/icon: simple-icons:radarr
         className: internal
         enabled: true
         hosts:

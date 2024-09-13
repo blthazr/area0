@@ -48,7 +48,9 @@ spec:
     ingress:
       app:
         annotations:
+          hajimari.io/appName: TubeSync
           hajimari.io/group: Media Management
+          hajimari.io/icon: simple-icons:youtube
         className: internal
         enabled: true
         hosts:
