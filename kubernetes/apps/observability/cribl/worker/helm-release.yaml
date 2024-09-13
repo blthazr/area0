@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: cribl
         namespace: flux-system
-      version: 4.8.1
+      version: 4.8.2
   install:
     remediation:
       retries: 3
@@ -28,7 +28,7 @@ spec:
       token: "${SECRET_CRIBL_LEADER_TOKEN}"
     criblImage:
       repository: cribl/cribl
-      tag: 4.8.1@sha256:f2c6e3e370ecd9e64730c403dd2f69be77d5580659dbae73bfa59f0675fce339
+      tag: 4.8.2@sha256:54a40b2c4a5fb2491b3fad1ab3268d99211319b528eb4620528d81555519bdb5
     service:
       loadBalancerIP: "${CLUSTER_LB_CRIBL_WORKER}"
       ports:
