@@ -4,6 +4,8 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: &app home-assistant
+  annotations:
+    hajimari.io/group: Home Automation
   labels:
     app.kubernetes.io/instance: *app
     app.kubernetes.io/name: *app

@@ -53,6 +53,8 @@ spec:
                   storage: 1Gi
               storageClassName: openebs-hostpath
       ingress:
+        annotations:
+          hajimari.io/group: Observability
         enabled: true
         hosts:
           - "alertmanager.${SECRET_DOMAIN}"

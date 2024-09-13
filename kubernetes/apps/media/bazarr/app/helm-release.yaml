@@ -99,6 +99,8 @@ spec:
           - 100
     ingress:
       app:
+        annotations:
+          hajimari.io/group: Media Management
         className: internal
         enabled: true
         hosts:

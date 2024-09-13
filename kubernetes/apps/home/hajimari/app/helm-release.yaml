@@ -42,7 +42,7 @@ spec:
               url: https://login.tailscale.com/admin/machines
       namespaceSelector:
         any: true
-      showAppGroups: false
+      showAppGroups: true
       showAppStatus: false
       showAppUrls: false
       showGreeting: false

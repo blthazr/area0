@@ -53,6 +53,8 @@ spec:
       ui:
         enabled: true
         ingress:
+          annotations:
+            hajimari.io/group: Management
           className: internal
           enabled: true
           hosts: ["hubble.${SECRET_DOMAIN}"]
