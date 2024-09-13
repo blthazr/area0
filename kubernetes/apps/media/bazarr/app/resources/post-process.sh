@@ -8,7 +8,6 @@ case $1 in
     */documentaries/*) section="1";;
     */films/*) section="1";;
     */films_uhd/*) section="5";;
-    */specials/*) section="1";;
     */television/*) section="2";;
     */television_anime/*) section="2";;
     */television_uhd/*) section="9";;
@@ -20,5 +19,5 @@ if [[ -n "$section" ]]; then
         --data-urlencode "path=$(dirname "$1")" \
         --data-urlencode "X-Plex-Token=${PLEX_API_TOKEN}" \
         --no-progress-meter \
-            "http://plex.default.svc.cluster.local:32400/library/sections/$section/refresh"
+            "http://plex.default.svc.cluster.local:32400/library/sections/${section}/refresh"
 fi
