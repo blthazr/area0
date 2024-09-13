@@ -49,14 +49,12 @@ spec:
                 spec:
                   failureThreshold: 3
                   httpGet:
-                    path: /api
+                    path: /health
                     port: &port 6767
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
               readiness: *probes
-              startup:
-                enabled: false
             resources:
               limits:
                 memory: 512Mi
@@ -71,7 +69,7 @@ spec:
             env:
               GITSYNC_REPO: https://github.com/KBlixt/subcleaner
               GITSYNC_REF: master
-              GITSYNC_PERIOD: 86400s # 1 day
+              GITSYNC_PERIOD: 24h
               GITSYNC_ROOT: /add-ons
             image:
               repository: registry.k8s.io/git-sync/git-sync
@@ -95,14 +93,12 @@ spec:
         runAsGroup: ${APP_GID}
         runAsNonRoot: true
         runAsUser: ${APP_UID}
+        seccompProfile:
+          type: RuntimeDefault
         supplementalGroups:
           - 100
     ingress:
       app:
-        annotations:
-#           hajimari.io/group: Media Management
-#           hajimari.io/icon: mdi:subtitles-outline
-#           hajimari.io/info: Subtitle Manager
         className: internal
         enabled: true
         hosts:
@@ -113,9 +109,6 @@ spec:
                 service:
                   identifier: app
                   port: http
-        tls:
-          - hosts:
-              - *host
     persistence:
       add-ons:
         enabled: true

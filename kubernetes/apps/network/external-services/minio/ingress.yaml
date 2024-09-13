@@ -4,17 +4,13 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: &app minio
-  annotations:
-    hajimari.io/group: Management
-    hajimari.io/icon: mdi:pail
-    hajimari.io/info: Object Storage
   labels:
     app.kubernetes.io/instance: *app
     app.kubernetes.io/name: *app
 spec:
   ingressClassName: internal
   rules:
-    - host: &host "minio.${SECRET_DOMAIN}"
+    - host: "minio.${SECRET_DOMAIN}"
       http:
         paths:
           - backend:
@@ -24,6 +20,3 @@ spec:
                   name: http
             path: /
             pathType: Prefix
-  tls:
-    - hosts:
-        - *host

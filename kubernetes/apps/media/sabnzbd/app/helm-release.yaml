@@ -90,10 +90,6 @@ spec:
           - 100
     ingress:
       app:
-        annotations:
-          hajimari.io/group: Media Management
-          hajimari.io/icon: mdi:download
-          hajimari.io/info: Usenet Downloads
         className: internal
         enabled: true
         hosts:

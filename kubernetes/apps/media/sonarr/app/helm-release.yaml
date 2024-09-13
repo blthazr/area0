@@ -92,10 +92,6 @@ spec:
           - 100
     ingress:
       app:
-        annotations:
-          hajimari.io/group: Media Management
-          hajimari.io/icon: mdi:television-classic
-          hajimari.io/info: TV Show Collection Manager
         className: internal
         enabled: true
         hosts:

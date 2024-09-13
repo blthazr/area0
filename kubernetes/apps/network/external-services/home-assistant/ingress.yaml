@@ -4,17 +4,13 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: &app home-assistant
-  annotations:
-    hajimari.io/group: Home Automation
-    hajimari.io/icon: mdi:home-assistant
-    hajimari.io/info: Home Automation Hub
   labels:
     app.kubernetes.io/instance: *app
     app.kubernetes.io/name: *app
 spec:
   ingressClassName: internal
   rules:
-    - host: &host "home-assistant.${SECRET_DOMAIN}"
+    - host: "home-assistant.${SECRET_DOMAIN}"
       http:
         paths:
           - backend:
@@ -24,6 +20,3 @@ spec:
                   name: http
             path: /
             pathType: Prefix
-  tls:
-    - hosts:
-        - *host

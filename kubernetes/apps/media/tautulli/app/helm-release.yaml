@@ -107,10 +107,6 @@ spec:
           type: RuntimeDefault
     ingress:
       app:
-        annotations:
-          hajimari.io/group: Media Management
-          hajimari.io/icon: mdi:chart-bar
-          hajimari.io/info: Plex Analytics
         className: internal
         enabled: true
         hosts:

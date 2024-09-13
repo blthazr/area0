@@ -5,9 +5,6 @@ kind: Ingress
 metadata:
   name: &app files
   annotations:
-    hajimari.io/group: Home
-    hajimari.io/icon: mdi:database
-    hajimari.io/info: File Manager
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
   labels:
     app.kubernetes.io/instance: *app
@@ -15,7 +12,7 @@ metadata:
 spec:
   ingressClassName: internal
   rules:
-    - host: &host "files.${SECRET_DOMAIN}"
+    - host: "files.${SECRET_DOMAIN}"
       http:
         paths:
           - backend:
@@ -25,6 +22,3 @@ spec:
                   name: http
             path: /
             pathType: Prefix
-  tls:
-    - hosts:
-        - *host

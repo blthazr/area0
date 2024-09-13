@@ -86,10 +86,6 @@ spec:
       app:
         annotations:
           external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
-          hajimari.io/appName: Plex Requests
-          hajimari.io/group: Media
-          hajimari.io/icon: mdi:link-box-variant
-          hajimari.io/info: Media Requests Portal
         className: external
         enabled: true
         hosts:

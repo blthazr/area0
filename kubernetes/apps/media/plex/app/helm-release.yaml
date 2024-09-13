@@ -98,10 +98,6 @@ spec:
       app:
         annotations:
           external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
-          hajimari.io/group: Media
-          hajimari.io/icon: mdi:plex
-          hajimari.io/info: Streaming Media Server
-          hajimari.io/url: "https://${HOSTNAME:-${APP}}.${SECRET_DOMAIN}/web/index.html"
           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
         className: external
         enabled: true

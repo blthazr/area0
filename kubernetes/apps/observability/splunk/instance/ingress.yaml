@@ -6,9 +6,6 @@ metadata:
   name: splunk
   annotations:
     external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
-    hajimari.io/appName: "Splunk"
-    hajimari.io/group: Observability
-    hajimari.io/icon: "mdi:chart-areaspline"
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "600"

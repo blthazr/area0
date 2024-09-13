@@ -106,12 +106,9 @@ spec:
         annotations:
           hajimari.io/enable: "false"
         enabled: true
-        hostname: &host "thanos.${SECRET_DOMAIN}"
+        hostname: "thanos.${SECRET_DOMAIN}"
         ingressClassName: internal
         tls: true
-        extraTls:
-          - hosts:
-              - *host
       replicaCount: 1
       resources:
         requests:

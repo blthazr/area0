@@ -4,18 +4,13 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: &app crul
-  annotations:
-    hajimari.io/appName: Crul
-    hajimari.io/group: Observability
-    hajimari.io/icon: mdi:comment-search
-    hajimari.io/info: Data Transformation
   labels:
     app.kubernetes.io/instance: *app
     app.kubernetes.io/name: *app
 spec:
   ingressClassName: internal
   rules:
-    - host: &host "crul.${SECRET_DOMAIN}"
+    - host: "crul.${SECRET_DOMAIN}"
       http:
         paths:
           - backend:
@@ -25,6 +20,3 @@ spec:
                   name: http
             path: /
             pathType: Prefix
-  tls:
-    - hosts:
-        - *host

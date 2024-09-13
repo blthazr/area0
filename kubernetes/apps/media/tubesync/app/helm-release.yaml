@@ -47,10 +47,6 @@ spec:
         role/media: "true"
     ingress:
       app:
-        annotations:
-          hajimari.io/group: Media Management
-          hajimari.io/icon: mdi:message-video
-          hajimari.io/info: TubeSync
         className: internal
         enabled: true
         hosts:

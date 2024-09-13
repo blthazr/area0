@@ -4,18 +4,13 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: &app pi-hole
-  annotations:
-    hajimari.io/group: Management
-    hajimari.io/icon: mdi:chart-pie
-    hajimari.io/info: Ad Blocker
-    hajimari.io/url: "https://pi-hole.${SECRET_DOMAIN}/admin"
   labels:
     app.kubernetes.io/instance: *app
     app.kubernetes.io/name: *app
 spec:
   ingressClassName: internal
   rules:
-    - host: &host "pi-hole.${SECRET_DOMAIN}"
+    - host: "pi-hole.${SECRET_DOMAIN}"
       http:
         paths:
           - backend:
@@ -25,6 +20,3 @@ spec:
                   name: http
             path: /
             pathType: Prefix
-  tls:
-    - hosts:
-        - *host

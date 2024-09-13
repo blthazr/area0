@@ -94,10 +94,6 @@ spec:
           - 100
     ingress:
       app:
-        annotations:
-          hajimari.io/group: Media Management
-          hajimari.io/icon: mdi:headphones
-          hajimari.io/info: Music Collection Manager
         className: internal
         enabled: true
         hosts:

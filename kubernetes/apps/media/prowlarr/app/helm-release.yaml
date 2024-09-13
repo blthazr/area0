@@ -95,10 +95,6 @@ spec:
           type: RuntimeDefault
     ingress:
       app:
-        annotations:
-          hajimari.io/group: Media Management
-          hajimari.io/icon: mdi:movie-search
-          hajimari.io/info: Indexer Manager
         className: internal
         enabled: true
         hosts:

@@ -3,15 +3,11 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  annotations:
-    hajimari.io/appName: Cribl
-    hajimari.io/group: Observability
-    hajimari.io/icon: mdi:chart-sankey-variant
   name: cribl-leader
 spec:
   ingressClassName: internal
   rules:
-    - host: &host "cribl-leader.${SECRET_DOMAIN}"
+    - host: "cribl-leader.${SECRET_DOMAIN}"
       http:
         paths:
           - backend:
@@ -21,6 +17,3 @@ spec:
                   number: 9000
             path: /
             pathType: Prefix
-  tls:
-    - hosts:
-        - *host
