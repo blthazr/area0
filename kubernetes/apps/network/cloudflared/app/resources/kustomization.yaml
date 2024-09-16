@@ -5,6 +5,6 @@ kind: Kustomization
 configMapGenerator:
   - name: cloudflared-configmap
     files:
-      - config.yaml
+      - ./config.yaml
 generatorOptions:
   disableNameSuffixHash: true

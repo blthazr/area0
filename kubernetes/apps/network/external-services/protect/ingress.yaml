@@ -8,7 +8,7 @@ metadata:
     hajimari.io/appName: Unifi Protect
     hajimari.io/group: Management
     hajimari.io/icon: mdi:cctv
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/backend-protocol: HTTPS
   labels:
     app.kubernetes.io/instance: *app
     app.kubernetes.io/name: *app
