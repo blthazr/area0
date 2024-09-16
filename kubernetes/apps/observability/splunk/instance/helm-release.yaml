@@ -46,6 +46,7 @@ spec:
                     operator: In
                     values:
                       - k8s-5
+      defaultsUrl: /mnt/defaults/default.yml
       enabled: true
       etcVolumeStorageConfig:
         ephemeralStorage: false
@@ -84,6 +85,9 @@ spec:
         storageCapacity: 20Gi
         storageClassName: openebs-hostpath
       volumes:
+        - name: defaults
+          configMap:
+            name: splunk-defaults
         - name: licenses
           secret:
             secretName: splunk-license-secret
