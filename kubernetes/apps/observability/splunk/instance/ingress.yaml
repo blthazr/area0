@@ -3,7 +3,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: splunk
+  name: splunk-web
   annotations:
     external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
     hajimari.io/appName: "Splunk"
@@ -24,4 +24,30 @@ spec:
                 port:
                   number: 8000
             path: /
+            pathType: Prefix
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/ingress-networking-v1.json
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: splunk-hec
+  annotations:
+    external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
+    hajimari.io/enable: "false"
+    nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+spec:
+  ingressClassName: external
+  rules:
+    - host: "splunk-hec.${SECRET_DOMAIN}"
+      http:
+        paths:
+          - backend:
+              service:
+                name: splunk-splunk-standalone-service
+                port:
+                  number: 8088
+            path: /services/collector
             pathType: Prefix
