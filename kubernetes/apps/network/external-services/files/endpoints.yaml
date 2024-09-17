@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: Endpoints
 metadata:
-  name: &app files
+  name: &app synology-files
   labels:
     app.kubernetes.io/instance: *app
     app.kubernetes.io/name: *app
