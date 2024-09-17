@@ -1,0 +1,28 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/ingress-networking-v1.json
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: &app synology-photos
+  annotations:
+    external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
+    hajimari.io/appName: Synology Photos
+    hajimari.io/group: Home
+    hajimari.io/icon: mdi:camera
+    nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+  labels:
+    app.kubernetes.io/instance: *app
+    app.kubernetes.io/name: *app
+spec:
+  ingressClassName: external
+  rules:
+    - host: "photos.${SECRET_DOMAIN}"
+      http:
+        paths:
+          - backend:
+              service:
+                name: *app
+                port:
+                  name: http
+            path: /
+            pathType: Prefix

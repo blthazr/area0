@@ -5,11 +5,12 @@ kind: Kustomization
 namespace: network
 resources:
   - ./crul
-  - ./files
   - ./home-assistant
   - ./minio
   - ./pi-hole
   - ./protect
   - ./s3
-  - ./synology
+  - ./synology-dsm
+  - ./synology-files
+  - ./synology-photos
   - ./unifi
