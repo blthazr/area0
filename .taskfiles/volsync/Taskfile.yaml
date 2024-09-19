@@ -162,6 +162,7 @@ tasks:
       - { msg: "kubectl not in $PATH", sh: "which kubectl" }
       - { msg: "Missing kubeconfig file", sh: "test -f {{.KUBECONFIG_FILE}}" }
       - { msg: "Missing wait-for-job script", sh: "test -f {{.TASK_SCRIPTS_DIR}}/wait-for-job.sh" }
+      - { msg: "Missing wait-for-replication-job script", sh: "test -f {{.TASK_SCRIPTS_DIR}}/wait-for-replication-job.sh" }
       - { msg: "Missing which-controller.sh", sh: "test -f {{.TASK_SCRIPTS_DIR}}/which-controller.sh" }
       - { msg: "Missing replicationdestination template", sh: "test -f {{.VOLSYNC_RESOURCES_DIR}}/replicationdestination.tmpl.yaml" }
       - { msg: "Missing wipe template", sh: "test -f {{.VOLSYNC_RESOURCES_DIR}}/wipe.tmpl.yaml" }
@@ -244,7 +245,7 @@ tasks:
       - { msg: "envsubst not in $PATH", sh: "which envsubst" }
       - { msg: "kubectl not in $PATH", sh: "which kubectl" }
       - { msg: "Missing kubeconfig file", sh: "test -f {{.KUBECONFIG_FILE}}" }
-      - { msg: "Missing wait-for-job script", sh: "test -f {{.TASK_SCRIPTS_DIR}}/wait-for-replication-job.sh" }
+      - { msg: "Missing wait-for-replication-job script", sh: "test -f {{.TASK_SCRIPTS_DIR}}/wait-for-replication-job.sh" }
       - { msg: "Missing replicationdestination template", sh: "test -f {{.VOLSYNC_RESOURCES_DIR}}/replicationdestination.tmpl.yaml" }
 
   .resume:
