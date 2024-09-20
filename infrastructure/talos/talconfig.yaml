@@ -6,16 +6,16 @@ talosVersion: v1.6.7
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
 kubernetesVersion: v1.29.3
 
-clusterName: &cluster ${CLUSTER_NAME}
-endpoint: https://${CLUSTER_ENDPOINT_IP}:6443
+clusterName: &cluster ${clusterName}
+endpoint: https://${clusterEndpointIP}:6443
 clusterPodNets:
   - 10.69.0.0/16
 clusterSvcNets:
   - 10.96.0.0/16
 additionalApiServerCertSans: &sans
-  - ${CLUSTER_ENDPOINT_IP}
-  - ${CLUSTER_NAME}.${CLUSTER_DOMAIN}
-  - k8s.${CLUSTER_DOMAIN}
+  - ${clusterEndpointIP}
+  - ${clusterName}.${clusterDomain}
+  - k8s.${clusterDomain}
   - 127.0.0.1 # KubePrism
 additionalMachineCertSans: *sans
 
@@ -40,7 +40,7 @@ nodes:
           - network: 0.0.0.0/0
             gateway: 172.16.20.1
         vip:
-          ip: ${CLUSTER_ENDPOINT_IP}
+          ip: ${clusterEndpointIP}
     nodeLabels:
       node-role.kubernetes.io/control-plane: ""
       rook-ceph/disk-id: ata-Samsung_Portable_SSD_T5_S4B0NR0R712678E
@@ -61,7 +61,7 @@ nodes:
           - network: 0.0.0.0/0
             gateway: 172.16.20.1
         vip:
-          ip: ${CLUSTER_ENDPOINT_IP}
+          ip: ${clusterEndpointIP}
     nodeLabels:
       node-role.kubernetes.io/control-plane: ""
       rook-ceph/disk-id: ata-Samsung_Portable_SSD_T5_S4B0NR0R719439P
@@ -82,7 +82,7 @@ nodes:
           - network: 0.0.0.0/0
             gateway: 172.16.20.1
         vip:
-          ip: ${CLUSTER_ENDPOINT_IP}
+          ip: ${clusterEndpointIP}
     nodeLabels:
       node-role.kubernetes.io/control-plane: ""
       rook-ceph/disk-id: ata-Samsung_Portable_SSD_T5_S4B0NR0R721882L

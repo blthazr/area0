@@ -3,5 +3,5 @@ machine:
   network:
     extraHostEntries:
       - aliases:
-          - k8s.${CLUSTER_DOMAIN}
-        ip: ${CLUSTER_ENDPOINT_IP}
+          - k8s.${clusterDomain}
+        ip: ${clusterEndpointIP}

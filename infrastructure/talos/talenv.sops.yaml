@@ -1,7 +1,9 @@
-CLUSTER_NAME: ENC[AES256_GCM,data:fhQhDuc=,iv:O5uRiAdJlLf4DVj+LCM48EEoYeFv6Paz0pOrQ7LXnsE=,tag:H8u3oXyVZAN+KcCTi6X1Ow==,type:str]
-CLUSTER_ENDPOINT_IP: ENC[AES256_GCM,data:0otNe35dZU7o7fOV,iv:OdHRjCvh3y+nwWEjYPlUXBS56/LWCavRtpWCalHMEyk=,tag:WZl/5Rk6mkOcOQO2S5EKMw==,type:str]
-CLUSTER_DOMAIN: ENC[AES256_GCM,data:0xzPB3yP73AG/VM=,iv:cudwGHkI1MdOTTITUHxf84VBjHC9PDNcimx0XEgGsnw=,tag:831JrsTheS2MnDXo3Qdp/w==,type:str]
-CRIBL_STREAM_LB_IP: ENC[AES256_GCM,data:f0Bn2xI4ESp8vf2l1w==,iv:jl0RJpXm+Xkq8GJd+6cBJiGBiBVGKvc5Nyc14zAl99g=,tag:DSnycbYqmk72/8g1Jgqu+g==,type:str]
+clusterName: ENC[AES256_GCM,data:cKVWyTQ=,iv:9O87hCi+VR9KD3q7hjwWcADwwpsT6/25UtoEzcsaShc=,tag:MJ5YVRGNCVHpWthdQ8TYKw==,type:str]
+clusterEndpointIP: ENC[AES256_GCM,data:ZcVDRK2CaUmJfnlG,iv:I6hbwvf4NGbPk4JdGMcitToapGdz0imbcibzCV3tWzI=,tag:eb+7rrliqg3Hd99kuo97mw==,type:str]
+clusterDomain: ENC[AES256_GCM,data:3iMoiN4CUJu964c=,iv:FNRv9vYKq7B/PgI7izmBHzpXLBBCB7ljaQzn8xVkxsY=,tag:y34uBYXV2Pya831zTHsQ7g==,type:str]
+logIP: ENC[AES256_GCM,data:GKvDks20RAiRTCpcHA==,iv:MROpH+bar0yuiJL3NV5F39Unf/7iXB4Ful2p9A5kG2k=,tag:09XgMttAoAooKWGg5EEgGQ==,type:str]
+talosKernelLogPort: ENC[AES256_GCM,data:fO9Kmg==,iv:6nYMnijY/pmCmX5OSHV7Sx9i1fWQj+Q7NdXeUm7Gd/Y=,tag:jKa2ekTco0SbwlW2EEoDyg==,type:int]
+talosServiceLogPort: ENC[AES256_GCM,data:81GtlA==,iv:wTJ+JN13wA+Olysk87KY6dZM3QOOp/eNkpNUSwrOmZY=,tag:drE6LGsvNXsn6jUqKGMYmQ==,type:int]
 sops:
     kms: []
     gcp_kms: []
@@ -17,8 +19,8 @@ sops:
             SitLWHVzc3VEVG85NmZGMlJ0MDB5U1kKbeAd8iXjNuzMU/5WHUS/H1hTvl1RN070
             fzCG0FMIluveNBlxghtyIz2SQlReS2Jt9x5LumjvTrXXTuHNzAXoEw==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2024-07-10T21:13:09Z"
-    mac: ENC[AES256_GCM,data:dUkoNhPKuRNwkfz66/NIcLwA/yNEeZRk6+jjX+tuY1dPohXbHzovtxzkhZsdzUx/4w2JmZICr2iIonHpLbqomR/Fu1RxYS1nQaAYf/Y04YLLZnNPiRcx1a3yaiNL8rwU/DXYBzRyK/F0/jx+OvQvqhfQwxb3jjDnYIthsdRhoQc=,iv:k6wKtXAWhx77DnXw663zWt3Wz32pdXyNIZ9h6VePSEI=,tag:Iqb2gBnoMxeu6lWQLW51rg==,type:str]
+    lastmodified: "2024-09-09T16:18:39Z"
+    mac: ENC[AES256_GCM,data:PqnecGJvjZKa9S1xENGuUWYfm4nyjVnYf76Pk8M4+Mo/2OC6ImMNQO64i33SyR+1DhVwOV7+M+e9VuOkiBL9kd0mk+o6Y9APN0MufBQh56PzuiP3AiBXPKeaIrBod8SnyPKQwvTfXbTr3GR8we32HfUnoVtVb05B/irUrUR8OC0=,iv:ezbs3hsj2/MDUoJeJTuC6pySt8iFQjcdzT41nwvXPKo=,tag:lRh8OJRt8ThceCYQNx2wtQ==,type:str]
     pgp: []
     unencrypted_suffix: _unencrypted
     version: 3.9.0

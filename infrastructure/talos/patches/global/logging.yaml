@@ -2,8 +2,8 @@
 machine:
   install:
     extraKernelArgs:
-      - talos.logging.kernel=udp://${CRIBL_STREAM_LB_IP}:7601/
+      - talos.logging.kernel=udp://${logIP}:${talosKernelLogPort}/
   logging:
     destinations:
-      - endpoint: udp://${CRIBL_STREAM_LB_IP}:7602
+      - endpoint: udp://${logIP}:${talosServiceLogPort}
         format: json_lines
