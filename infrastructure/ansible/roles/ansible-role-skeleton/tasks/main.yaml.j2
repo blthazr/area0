@@ -4,7 +4,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ---
 {% raw %}
-- name: Main | Load OS-specific vars
+- name: main | load os-specific vars
   ansible.builtin.include_vars: "{{ item }}"
   with_first_found:
     - files:
@@ -14,7 +14,7 @@
         - "{{ ansible_os_family }}.yaml"
       skip: true
 
-- name: Main | Run OS-specific tasks
+- name: main | run os-specific tasks
   ansible.builtin.include_tasks: "{{ item }}"
   with_first_found:
     - files:
