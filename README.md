@@ -1,7 +1,6 @@
 <div align="center">
-
-<img src="https://avatars.githubusercontent.com/u/13804887?s=144&v=4" align="center" width="144px" height="144px"/>
-<img src="https://i.imgur.com/p1RzXjQ.png" align="center" width="144px" height="144px"/>
+  <img src="https://raw.githubusercontent.com/blthazr/area0/main/docs/src/assets/k8s_logo.png" width="144px" height="144px"/>
+  <img src="https://raw.githubusercontent.com/blthazr/area0/main/docs/src/assets/talos_logo.png" width="144px" height="144px"/>
 
 ### My Home Operations Repository :zap:
 
