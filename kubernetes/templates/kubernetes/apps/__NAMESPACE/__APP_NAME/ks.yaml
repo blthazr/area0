@@ -31,6 +31,8 @@ spec:
       # APP_PVC_ACCESSMODES: ReadWriteOnce # optional | default
       # APP_PVC_CAPACITY: 1Gi # optional | default
       # APP_PVC_STORAGECLASS: ceph-block # optional | default
+      # GATUS_PATH: "/" | default
+      # GATUS_STATUS: 200 | default
       # HOSTNAME: # optional
       # VOLSYNC_CACHE_ACCESSMODES: ReadWriteOnce # optional | default
       # VOLSYNC_CACHE_CAPACITY: 10Gi # example
