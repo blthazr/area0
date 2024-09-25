@@ -33,6 +33,7 @@ spec:
               CUSTOM_WEB_PORT: &port 8080
               GATUS_CONFIG_PATH: /config
               GATUS_DELAY_START_SECONDS: 5
+              SECRET_DOMAIN: "${SECRET_DOMAIN}"
               TZ: "${CLUSTER_TIME_ZONE}"
             envFrom: &envFrom
               - secretRef:
