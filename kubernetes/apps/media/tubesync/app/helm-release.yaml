@@ -33,7 +33,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          tubesync:
+          app:
             env:
               PGID: ${APP_GID}
               PUID: ${APP_UID}
@@ -42,9 +42,28 @@ spec:
             image:
               repository: ghcr.io/meeb/tubesync
               tag: latest@sha256:c723de8de28c4e68a06575b388623ce322cdf93e4d1a40a3ec2b3788e30c4815
+            nameOverride: *app
     defaultPodOptions:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
       nodeSelector:
+        # TODO: Remove role/media nodeSelector once new cluster is built
         role/media: "true"
+      securityContext:
+        fsGroup: ${APP_GID}
+        fsGroupChangePolicy: OnRootMismatch
+        runAsGroup: ${APP_GID}
+        runAsNonRoot: true
+        runAsUser: ${APP_UID}
+        seccompProfile:
+          type: RuntimeDefault
+        supplementalGroups:
+          - 100
     ingress:
       app:
         annotations:
@@ -75,7 +94,7 @@ spec:
             subPath: download/tubesync/
     service:
       app:
-        controller: tubesync
+        controller: *app
         ports:
           http:
             port: 4848
