@@ -55,11 +55,11 @@ spec:
         # TODO: Remove role/media nodeSelector once new cluster is built
         role/media: "true"
       securityContext:
-        fsGroup: ${APP_GID}
-        fsGroupChangePolicy: OnRootMismatch
-        runAsGroup: ${APP_GID}
-        runAsNonRoot: true
-        runAsUser: ${APP_UID}
+        # fsGroup: ${APP_GID}
+        # fsGroupChangePolicy: OnRootMismatch
+        # runAsGroup: ${APP_GID}
+        # runAsNonRoot: true
+        # runAsUser: ${APP_UID}
         seccompProfile:
           type: RuntimeDefault
         supplementalGroups:
