@@ -16,8 +16,10 @@ spec:
   dependsOn:
     - name: rook-ceph-cluster
       namespace: rook-ceph
-  #   - name: __DEPENDENCY_NAME
-  #     namespace: __DEPENDENCY_NAMESPACE
+    # - name: volsync
+    #   namespace: volsync-system
+    # - name: __DEPENDENCY_NAME
+    #   namespace: __DEPENDENCY_NAMESPACE
   install:
     remediation:
       retries: 3
@@ -109,16 +111,13 @@ spec:
         className: internal # external
         enabled: true
         hosts:
-          - host: &host "${HOSTNAME:-${APP}}.${SECRET_DOMAIN}"
+          - host: "${HOSTNAME:-${APP}}.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
                 service:
                   identifier: app
                   port: __SERVICE_PORT_NAME
-        tls:
-          - hosts:
-              - *host
     persistence:
       __VOLUME_NAME: # config:
         enabled: true

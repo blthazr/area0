@@ -13,11 +13,13 @@ spec:
         name: __HELM_REPO
         namespace: flux-system
       version: __HELM_VERSION
-  # dependsOn:
-  #   - name: rook-ceph-cluster
-  #     namespace: rook-ceph
-  #   - name: __DEPENDENCY_NAME
-  #     namespace: __DEPENDENCY_NAMESPACE
+  dependsOn:
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
+    # - name: volsync
+    #   namespace: volsync-system
+    # - name: __DEPENDENCY_NAME
+    #   namespace: __DEPENDENCY_NAMESPACE
   install:
     remediation:
       retries: 3

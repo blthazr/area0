@@ -8,3 +8,4 @@ resources:
   # Flux-Kustomizations
   - ./__APP_NAME/ks.yaml
   # Standard Resources
+  # - ./resources_path
