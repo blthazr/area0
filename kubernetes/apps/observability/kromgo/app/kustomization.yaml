@@ -5,3 +5,4 @@ kind: Kustomization
 resources:
   - ./resources
   - ./helm-release.yaml
+  - ../../../../templates/gatus/external

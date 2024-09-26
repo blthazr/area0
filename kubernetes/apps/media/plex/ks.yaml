@@ -26,4 +26,6 @@ spec:
       APP_GID: "568"
       APP_PVC: plex-config
       APP_PVC_CAPACITY: 40Gi
+      GATUS_PATH: /web/index.html
+      HOSTNAME: plex
       VOLSYNC_SCHEDULE: "0 0 * * *"

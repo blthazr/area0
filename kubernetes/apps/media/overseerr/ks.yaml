@@ -26,4 +26,5 @@ spec:
       APP_GID: "568"
       APP_PVC: overseerr-config
       APP_PVC_CAPACITY: 5Gi
+      GATUS_PATH: /api/v1/status
       HOSTNAME: requests

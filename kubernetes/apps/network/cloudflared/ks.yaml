@@ -22,3 +22,8 @@ spec:
   targetNamespace: network
   timeout: 5m
   wait: false # no flux ks dependents
+  postBuild:
+    substitute:
+      APP: *app
+      APP_UID: "65534"
+      APP_GID: "65534"
