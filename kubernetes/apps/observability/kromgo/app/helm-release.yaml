@@ -28,7 +28,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          kromgo:
+          app:
             env:
               HEALTH_HOST: 0.0.0.0
               HEALTH_PORT: &healthPort 8888
@@ -38,6 +38,7 @@ spec:
             image:
               repository: ghcr.io/kashalls/kromgo
               tag: v0.4.1@sha256:237e6ac3f3bc791343e1ee84122ce9b97abf7eed86cd522d8bf4cba10a041e9f
+            nameOverride: *app
             probes:
               liveness: &probes
                 custom: true
@@ -83,7 +84,7 @@ spec:
         className: external
         enabled: true
         hosts:
-          - host: &host "metrics.${SECRET_DOMAIN}"
+          - host: "${HOSTNAME:-${APP}}.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix

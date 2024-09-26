@@ -61,8 +61,6 @@ spec:
                     path: /health
                     port: *apiPort
                   initialDelaySeconds: 15
-              startup:
-                enabled: false
             resources: &resources
               limits:
                 memory: 256M
@@ -110,12 +108,19 @@ spec:
             securityContext: *securityContext
         strategy: RollingUpdate
     defaultPodOptions:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
       securityContext:
-        fsGroup: 999
+        fsGroup: ${APP_GID}
         fsGroupChangePolicy: OnRootMismatch
-        runAsGroup: 999
+        runAsGroup: ${APP_GID}
         runAsNonRoot: true
-        runAsUser: 999
+        runAsUser: ${APP_UID}
         seccompProfile:
           type: RuntimeDefault
     persistence:
@@ -126,7 +131,7 @@ spec:
         type: emptyDir
     service:
       app:
-        controller: onepassword-connect
+        controller: *app
         ports:
           http:
             port: *apiPort

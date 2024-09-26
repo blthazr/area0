@@ -31,7 +31,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          radarr:
+          app:
             env:
               RADARR__APP__INSTANCENAME: "${APP}"
               RADARR__APP__THEME: dark
@@ -48,6 +48,7 @@ spec:
             image:
               repository: ghcr.io/onedr0p/radarr-develop
               tag: 5.11.0.9244@sha256:db4b57f5e05304f6b2d47a6863da9e584f1f05af3b61584cb146dc358dd1430b
+            nameOverride: *app
             probes:
               liveness: &probes
                 custom: true
@@ -61,8 +62,6 @@ spec:
                   periodSeconds: 10
                   timeoutSeconds: 1
               readiness: *probes
-              startup:
-                enabled: false
             resources:
               limits:
                 memory: 1Gi
@@ -80,7 +79,15 @@ spec:
               repository: ghcr.io/onedr0p/postgres-init
               tag: 16
     defaultPodOptions:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
       nodeSelector:
+        # TODO: Remove role/media nodeSelector once new cluster is built
         role/media: "true"
       securityContext:
         fsGroup: ${APP_GID}
@@ -126,7 +133,7 @@ spec:
         type: emptyDir
     service:
       app:
-        controller: radarr
+        controller: *app
         ports:
           http:
             port: *port

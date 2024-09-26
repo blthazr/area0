@@ -33,7 +33,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          sabnzbd:
+          app:
             env:
               SABNZBD__PORT: &port 8080
               SABNZBD__HOST_WHITELIST_ENTRIES: >-
@@ -50,6 +50,7 @@ spec:
             image:
               repository: ghcr.io/onedr0p/sabnzbd
               tag: 4.3.3@sha256:4ad73733ae11eb03852ba99d6e49bff93f8087f9f77b9b193a1063c3f6f31482
+            nameOverride: *app
             probes:
               liveness: &probes
                 custom: true
@@ -63,8 +64,6 @@ spec:
                   periodSeconds: 10
                   timeoutSeconds: 1
               readiness: *probes
-              startup:
-                enabled: false
             resources:
               limits:
                 memory: 8Gi
@@ -76,7 +75,15 @@ spec:
                 drop: ["ALL"]
               readOnlyRootFilesystem: true
     defaultPodOptions:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
       nodeSelector:
+        # TODO: Remove role/media nodeSelector once new cluster is built
         role/media: "true"
       securityContext:
         fsGroup: ${APP_GID}
@@ -127,7 +134,7 @@ spec:
         type: emptyDir
     service:
       app:
-        controller: sabnzbd
+        controller: *app
         ports:
           http:
             port: *port

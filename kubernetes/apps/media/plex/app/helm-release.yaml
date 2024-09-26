@@ -35,12 +35,13 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          plex:
+          app:
             env:
               TZ: "${CLUSTER_TIME_ZONE}"
             image:
               repository: ghcr.io/onedr0p/plex
               tag: 1.41.0.8994-f2c27da23@sha256:8e1a094b0cd9c980e2b2e22daf2c2b212893bdb8e1e9e6452aefba9448466ff1
+            nameOverride: *app
             probes:
               liveness: &probes
                 custom: true
@@ -72,6 +73,12 @@ spec:
               readOnlyRootFilesystem: true
     defaultPodOptions:
       affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             - labelSelector:
@@ -82,6 +89,7 @@ spec:
               topologyKey: kubernetes.io/hostname
       nodeSelector:
         intel.feature.node.kubernetes.io/gpu: "true"
+        # TODO: Remove role/media nodeSelector once new cluster is built
         role/media: "true"
       securityContext:
         fsGroup: ${APP_GID}
@@ -114,6 +122,11 @@ spec:
                   identifier: app
                   port: http
     persistence:
+      cache:
+        enabled: true
+        existingClaim: plex-cache
+        globalMounts:
+          - path: /config/Library/Application Support/Plex Media Server/Cache
       config:
         enabled: true
         existingClaim: "${APP_PVC:-${APP}}"
@@ -130,11 +143,6 @@ spec:
         globalMounts:
           - path: /media
             readOnly: true
-      plex-cache:
-        enabled: true
-        existingClaim: plex-cache
-        globalMounts:
-          - path: /config/Library/Application Support/Plex Media Server/Cache
       tmp:
         enabled: true
         globalMounts:
@@ -149,7 +157,7 @@ spec:
       app:
         annotations:
           io.cilium/lb-ipam-ips: "${CLUSTER_LB_PLEX}"
-        controller: plex
+        controller: *app
         ports:
           http:
             port: *port

@@ -33,7 +33,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          mealie:
+          app:
             env:
               ALLOW_SIGNUP: "false"
               BASE_URL: "${HOSTNAME:-${APP}}.${SECRET_DOMAIN}"
@@ -45,12 +45,24 @@ spec:
             image:
               repository: ghcr.io/mealie-recipes/mealie
               tag: v1.12.0@sha256:88e8e12542e9a2733c07f175682dc69e7360becb6137d604bb087a71ab33c5fe
+            nameOverride: *app
             resources:
               limits:
                 memory: 512Mi
               requests:
                 cpu: 5m
                 memory: 256Mi
+            probes:
+              liveness: &probes
+                enabled: true
+                path: /api/app/about
+                type: HTTP
+              readiness: *probes
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop: ["ALL"]
+              readOnlyRootFilesystem: true
     defaultPodOptions:
       affinity:
         nodeAffinity:

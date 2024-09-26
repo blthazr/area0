@@ -31,7 +31,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          cloudflared:
+          app:
             args:
               - tunnel
               - --config
@@ -53,6 +53,7 @@ spec:
             image:
               repository: docker.io/cloudflare/cloudflared
               tag: 2024.9.1@sha256:0b88e00d8f93f9d18197f11506f0f6bf0d9266b5a0361c068930a3fe45b68b72
+            nameOverride: *app
             probes:
               liveness: &probes
                 custom: true
@@ -80,9 +81,9 @@ spec:
         strategy: RollingUpdate
     defaultPodOptions:
       securityContext:
-        runAsGroup: 65534
+        runAsGroup: ${APP_GID}
         runAsNonRoot: true
-        runAsUser: 65534
+        runAsUser: ${APP_UID}
         seccompProfile:
           type: RuntimeDefault
       topologySpreadConstraints:
@@ -111,7 +112,7 @@ spec:
         type: secret
     service:
       app:
-        controller: cloudflared
+        controller: *app
         ports:
           http:
             port: *port

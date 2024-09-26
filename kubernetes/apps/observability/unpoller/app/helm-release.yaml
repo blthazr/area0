@@ -31,7 +31,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          unpoller:
+          app:
             env:
               TZ: "${CLUSTER_TIME_ZONE}"
               UP_INFLUXDB_DISABLE: true
@@ -43,6 +43,7 @@ spec:
             image:
               repository: ghcr.io/unpoller/unpoller
               tag: v2.11.2@sha256:73b39c0b3b8fa92aa82a7613d3486253ffbd8c057833b4621402a268159bf2a2
+            nameOverride: *app
             probes:
               liveness: &probes
                 enabled: true
@@ -58,6 +59,13 @@ spec:
                 drop: ["ALL"]
               readOnlyRootFilesystem: true
     defaultPodOptions:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
       securityContext:
         runAsGroup: ${APP_GID}
         runAsNonRoot: true
@@ -66,16 +74,17 @@ spec:
           type: RuntimeDefault
     service:
       app:
-        controller: unpoller
+        controller: *app
         ports:
           http:
             port: 80
     serviceMonitor:
       app:
+        enabled: true
         endpoints:
           - interval: 2m # Unifi API only polls at 2m intervals
             path: /metrics
             port: http
             scheme: http
             scrapeTimeout: 10s
-        serviceName: unpoller
+        serviceName: *app

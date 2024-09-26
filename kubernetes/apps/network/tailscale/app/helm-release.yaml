@@ -28,7 +28,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          tailscale:
+          app:
             env:
               NO_AUTOUPDATE: true
               PORT: &port 45387
@@ -48,6 +48,7 @@ spec:
             image:
               repository: ghcr.io/tailscale/tailscale
               tag: v1.74.1@sha256:a013ce5266e5c796efe31c7cf9562deb21423f8586361d7faadaf675fa4296ac
+            nameOverride: *app
             resources:
               limits:
                 memory: 256Mi
@@ -72,6 +73,8 @@ spec:
         runAsGroup: ${APP_GID}
         runAsNonRoot: true
         runAsUser: ${APP_UID}
+        seccompProfile:
+          type: RuntimeDefault
       topologySpreadConstraints:
         - labelSelector:
             matchLabels:
@@ -108,10 +111,11 @@ spec:
         type: LoadBalancer
     serviceMonitor:
       app:
-        serviceName: *app
+        enabled: true
         endpoints:
           - interval: 1m
             path: /debug/metrics
             port: http
             scheme: http
             scrapeTimeout: 10s
+        serviceName: *app

@@ -33,7 +33,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          bazarr:
+          app:
             env:
               TZ: "${CLUSTER_TIME_ZONE}"
             envFrom: &envFrom
@@ -42,6 +42,7 @@ spec:
             image:
               repository: ghcr.io/onedr0p/bazarr
               tag: 1.4.4@sha256:738abd74a569b91b6fd2fb009b78d11028a0b7bbcb4ea98510afacee8d797c15
+            nameOverride: *app
             probes:
               liveness: &probes
                 custom: true
@@ -87,6 +88,13 @@ spec:
               repository: ghcr.io/onedr0p/postgres-init
               tag: 16
     defaultPodOptions:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
       securityContext:
         fsGroup: ${APP_GID}
         fsGroupChangePolicy: OnRootMismatch
@@ -106,7 +114,7 @@ spec:
         className: internal
         enabled: true
         hosts:
-          - host: &host "${HOSTNAME:-${APP}}.${SECRET_DOMAIN}"
+          - host: "${HOSTNAME:-${APP}}.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix

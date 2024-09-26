@@ -35,38 +35,37 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          __APP_NAME:
-            # env:
-            #   TZ: "${CLUSTER_TIME_ZONE}"
-            # envFrom: &envFrom
-            #   - secretRef:
-            #       name: "${APP}-secret"
+          app:
+            env:
+              TZ: "${CLUSTER_TIME_ZONE}"
+            envFrom: &envFrom
+              - secretRef:
+                  name: "${APP}-secret"
             image:
               repository: __IMAGE_REPOSITORY
               tag: __IMAGE_TAG
-            # probes:
-            #   liveness: &probes
-            #     custom: true
-            #     enabled: true
-            #     spec:
-            #       failureThreshold: 3
-            #       httpGet:
-            #         path: __HTTP_GET_PATH
-            #         port: &port __SERVICE_PORT_NUMBER
-            #       initialDelaySeconds: 0
-            #       periodSeconds: 10
-            #       timeoutSeconds: 1
-            #   readiness: *probes
-            #   startup:
-            #     enabled: false
-            #   startup:
-            #     enabled: true
-            #     spec:
-            #       initialDelaySeconds: 0
-            #       timeoutSeconds: 1
-            #       ## This means it has a maximum of 5*30=150 seconds to start up before it fails
-            #       periodSeconds: 5
-            #       failureThreshold: 30
+            nameOverride: *app
+            probes:
+              liveness: &probes
+                custom: true
+                enabled: true
+                spec:
+                  failureThreshold: 3
+                  httpGet:
+                    path: __HTTP_GET_PATH
+                    port: &port __SERVICE_PORT_NUMBER
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+              readiness: *probes
+              # startup:
+              #   enabled: true
+              #   spec:
+              #     initialDelaySeconds: 0
+              #     timeoutSeconds: 1
+              #     ## This means it has a maximum of 5*30=150 seconds to start up before it fails
+              #     periodSeconds: 5
+              #     failureThreshold: 30
             # resources:
             #   limits:
             #     cpu: 100m
@@ -86,6 +85,21 @@ spec:
         #       repository: ghcr.io/onedr0p/postgres-init
         #       tag: 16
     defaultPodOptions:
+      affinity: {}
+        # nodeAffinity:
+        #   requiredDuringSchedulingIgnoredDuringExecution:
+        #     nodeSelectorTerms:
+        #       - matchExpressions:
+        #           - key: node-role.kubernetes.io/control-plane
+        #             operator: DoesNotExist
+        # podAntiAffinity:
+        #   requiredDuringSchedulingIgnoredDuringExecution:
+        #     - labelSelector:
+        #         matchExpressions:
+        #           - key: app.kubernetes.io/name
+        #             operator: In
+        #             values: ["frigate"]
+        #       topologyKey: kubernetes.io/hostname
       nodeSelector: {}
         # intel.feature.node.kubernetes.io/gpu: "true"
         # role/media: "true"
@@ -98,8 +112,14 @@ spec:
         seccompProfile:
           type: RuntimeDefault
         supplementalGroups:
-          # - 44
           - 100
+      # topologySpreadConstraints:
+      #   - labelSelector:
+      #       matchLabels:
+      #         app.kubernetes.io/name: *app
+      #     maxSkew: 1
+      #     topologyKey: kubernetes.io/hostname
+      #     whenUnsatisfiable: DoNotSchedule
     ingress:
       app:
         annotations:
@@ -117,13 +137,13 @@ spec:
                 pathType: Prefix
                 service:
                   identifier: app
-                  port: __SERVICE_PORT_NAME
+                  port: http
     persistence:
       __VOLUME_NAME: # config:
         enabled: true
         existingClaim: "${APP_PVC:-${APP}}"
         globalMounts:
-          - path: __VOLUME_MOUNT_PATH
+          - path: __VOLUME_MOUNT_PATH # /__VOLUME_NAME
             # readOnly: true
       tmp:
         enabled: true
@@ -134,8 +154,18 @@ spec:
       app:
         # annotations:
         #   io.cilium/lb-ipam-ips: __LB_IP_ADDRESS
-        controller: __APP_NAME
+        controller: *app
         ports:
-          __SERVICE_PORT_NAME:
+          http:
             port: __SERVICE_PORT_NUMBER # *port
         # type: LoadBalancer
+    # serviceMonitor:
+    #   app:
+    #     enabled: true
+    #     endpoints:
+    #       - interval: 1m
+    #         path: __PATH # /metrics
+    #         port: http
+    #         scheme: http
+    #         scrapeTimeout: 10s
+    #     serviceName: *app

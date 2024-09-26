@@ -31,7 +31,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          lidarr:
+          app:
             env:
               LIDARR__APP__INSTANCENAME: "${APP}"
               LIDARR__APP__THEME: dark
@@ -48,6 +48,7 @@ spec:
             image:
               repository: ghcr.io/onedr0p/lidarr-develop
               tag: 2.5.2.4316@sha256:6b1b51ca85dad4f0376b6f86df4cb24d1d6c621ba9d47c1bde26cdb940f2aeb6
+            nameOverride: *app
             probes:
               liveness: &probes
                 custom: true
@@ -61,8 +62,6 @@ spec:
                   periodSeconds: 10
                   timeoutSeconds: 1
               readiness: *probes
-              startup:
-                enabled: false
             resources:
               limits:
                 memory: 1Gi
@@ -80,7 +79,15 @@ spec:
               repository: ghcr.io/onedr0p/postgres-init
               tag: 16
     defaultPodOptions:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
       nodeSelector:
+        # TODO: Remove role/media nodeSelector once new cluster is built
         role/media: "true"
       securityContext:
         fsGroup: ${APP_GID}
@@ -131,7 +138,7 @@ spec:
         type: emptyDir
     service:
       app:
-        controller: lidarr
+        controller: *app
         ports:
           http:
             port: *port

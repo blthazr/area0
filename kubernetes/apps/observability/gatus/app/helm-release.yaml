@@ -28,7 +28,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          gatus:
+          app:
             env:
               CUSTOM_WEB_PORT: &port 8080
               GATUS_CONFIG_PATH: /config
@@ -41,6 +41,7 @@ spec:
             image:
               repository: ghcr.io/twin/gatus
               tag: v5.12.1@sha256:3cc4e90534c05599f07fbdf15580401aa7771fac15f51d1dc8f7de265d70d12f
+            nameOverride: *app
             probes:
               liveness: &probes
                 custom: true
@@ -108,7 +109,7 @@ spec:
       app:
         annotations:
           external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
-          hajimari.io/appName: Gatus
+          hajimari.io/appName: Status
           hajimari.io/group: Observability
           hajimari.io/icon: simple-icons:statuspage
         className: external
@@ -137,19 +138,20 @@ spec:
         type: configMap
     service:
       app:
-        controller: gatus
+        controller: *app
         ports:
           http:
             port: *port
     serviceAccount:
       create: true
-      name: gatus
+      name: *app
     serviceMonitor:
       app:
+        enabled: true
         endpoints:
           - interval: 1m
             path: /metrics
             port: http
             scheme: http
             scrapeTimeout: 10s
-        serviceName: gatus
+        serviceName: *app

@@ -31,7 +31,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          sonarr:
+          app:
             env:
               SONARR__APP__INSTANCENAME: "${APP}"
               SONARR__APP__THEME: dark
@@ -48,6 +48,7 @@ spec:
             image:
               repository: ghcr.io/onedr0p/sonarr-develop
               tag: 4.0.9.2421@sha256:e171727fd08b9f35a0a54b79398f152da57338ef19fb088684e1a4641726dd54
+            nameOverride: *app
             probes:
               liveness: &probes
                 custom: true
@@ -61,8 +62,6 @@ spec:
                   periodSeconds: 10
                   timeoutSeconds: 1
               readiness: *probes
-              startup:
-                enabled: false
             resources:
               limits:
                 memory: 1Gi
@@ -80,7 +79,15 @@ spec:
               repository: ghcr.io/onedr0p/postgres-init
               tag: 16
     defaultPodOptions:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
       nodeSelector:
+        # TODO: Remove role/media nodeSelector once new cluster is built
         role/media: "true"
       securityContext:
         fsGroup: ${APP_GID}
@@ -88,6 +95,8 @@ spec:
         runAsGroup: ${APP_GID}
         runAsNonRoot: true
         runAsUser: ${APP_UID}
+        seccompProfile:
+          type: RuntimeDefault
         supplementalGroups:
           - 100
     ingress:
@@ -124,7 +133,7 @@ spec:
         type: emptyDir
     service:
       app:
-        controller: sonarr
+        controller: *app
         ports:
           http:
             port: *port

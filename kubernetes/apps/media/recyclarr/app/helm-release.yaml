@@ -37,7 +37,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          recyclarr:
+          app:
             args: ["sync"]
             env:
               TZ: "${CLUSTER_TIME_ZONE}"
@@ -47,6 +47,7 @@ spec:
             image:
               repository: ghcr.io/recyclarr/recyclarr
               tag: 7.2.4@sha256:1bf2436ed4749a4309765dd21643aac858dd436a536e37c25bb463513601e962
+            nameOverride: *app
             resources:
               limits:
                 memory: 128Mi
@@ -63,6 +64,13 @@ spec:
           successfulJobsHistory: 1
         type: cronjob
     defaultPodOptions:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
       securityContext:
         fsGroup: ${APP_GID}
         fsGroupChangePolicy: OnRootMismatch
@@ -84,3 +92,8 @@ spec:
             readOnly: true
         name: recyclarr-configmap
         type: configMap
+      logs:
+        enabled: true
+        globalMounts:
+          - path: /config/logs
+        type: emptyDir
