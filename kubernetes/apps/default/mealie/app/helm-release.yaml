@@ -35,7 +35,7 @@ spec:
         containers:
           app:
             env:
-              ALLOW_SIGNUP: "false"
+              ALLOW_SIGNUP: false
               BASE_URL: "${HOSTNAME:-${APP}}.${SECRET_DOMAIN}"
               DB_ENGINE: sqlite
               PGID: ${APP_GID}
