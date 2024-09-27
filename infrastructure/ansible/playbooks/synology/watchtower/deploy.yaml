@@ -1,0 +1,69 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   @file           :   playbooks/synology/watchtower/deploy.yaml
+#   @description    :   deploy watchtower for synology nas
+#   @usage          :   ansible-playbook playbooks/synology/watchtower/deploy.yaml
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+- name: Deploy Watchtower
+  hosts:
+    - synology
+  become: true
+  gather_facts: true
+
+  environment:
+    PATH: /sbin:/bin:/usr/sbin:/usr/bin:/usr/syno/sbin:/usr/syno/bin:/usr/local/sbin:/usr/local/bin
+
+  vars:
+    docker_compose_definition:
+      services:
+        watchtower:
+          container_name: watchtower
+          environment:
+            TZ: "{{ timezone }}"
+            WATCHTOWER_CLEANUP: "true"
+            WATCHTOWER_HTTP_API_METRICS: "true"
+            WATCHTOWER_HTTP_API_TOKEN: "{{ watchtower_http_api_token }}"
+            WATCHTOWER_INCLUDE_RESTARTING: "true"
+            WATCHTOWER_INCLUDE_STOPPED: "true"
+            WATCHTOWER_LABEL_ENABLE: "true"
+            WATCHTOWER_ROLLING_RESTART: "true"
+            WATCHTOWER_SCHEDULE: "0 0 5 * * *"
+            WATCHTOWER_HTTP_API_PERIODIC_POLLS: "true"
+          hostname: watchtower
+          image: containrrr/watchtower:latest
+          labels:
+            - "com.centurylinklabs.watchtower.enable=false"
+          ports:
+            - 9010:8080
+          restart: always
+          security_opt:
+            - "no-new-privileges:true"
+          volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - /var/run/docker.sock:/var/run/docker.sock
+    project_name: watchtower
+
+  tasks:
+    - name: Remove existing services
+      community.docker.docker_compose_v2:
+        project_name: "{{ project_name }}"
+        definition: "{{ docker_compose_definition }}"
+        state: absent
+
+    - name: Create and start services
+      community.docker.docker_compose_v2:
+        project_name: "{{ project_name }}"
+        definition: "{{ docker_compose_definition }}"
+        pull: always
+        state: present
+        recreate: always
+      register: output
+
+    - name: Assert servcies are running
+      ansible.builtin.assert:
+        that:
+          - container.State == 'running'
+        success_msg: "Running {{ container.Service }}"
+      loop: "{{ output.containers }}"
+      loop_control:
+        loop_var: container
