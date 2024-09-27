@@ -4,6 +4,7 @@ ignore: |
   .private/
   .vscode/
   *.sops.*
+  ./infrastructure/ansible
 rules:
   braces:
     max-spaces-inside: 1
