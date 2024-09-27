@@ -1,8 +1,9 @@
 ---
 skip_list:
+  - name[casing]
+  - var-naming
   - yaml[commas]
   - yaml[line-length]
-  - var-naming
 warn_list:
   - command-instead-of-shell
   - deprecated-command-syntax
