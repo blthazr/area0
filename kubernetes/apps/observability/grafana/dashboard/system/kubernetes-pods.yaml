@@ -8,4 +8,4 @@ spec:
   grafanaCom:
     # renovate: depName="Kubernetes / Views / Pods"
     id: 15760
-    revision: 29
+    revision: 31
