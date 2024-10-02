@@ -33,7 +33,7 @@ spec:
         maxParallel: 8
     retentionPolicy: 30d
   enableSuperuserAccess: true
-  imageName: ghcr.io/cloudnative-pg/postgresql:16.4-4
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.4-28
   instances: 2
   monitoring:
     enablePodMonitor: true
