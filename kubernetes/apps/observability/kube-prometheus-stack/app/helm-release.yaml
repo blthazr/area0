@@ -16,8 +16,8 @@ spec:
   dependsOn:
     - name: prometheus-operator-crds
       namespace: observability
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
+    - name: openebs
+      namespace: openebs-system
     - name: thanos
       namespace: observability
   install:
@@ -160,7 +160,7 @@ spec:
               resources:
                 requests:
                   storage: 20Gi
-              storageClassName: ceph-block
+              storageClassName: openebs-hostpath
         thanos:
           image: quay.io/thanos/thanos:${THANOS_VERSION}
           objectStorageConfig:
