@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: splunk
         namespace: flux-system
-      version: 2.6.0
+      version: 2.6.1
   dependsOn:
     - name: rook-ceph-cluster
       namespace: rook-ceph
