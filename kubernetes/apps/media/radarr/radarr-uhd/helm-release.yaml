@@ -27,7 +27,7 @@ spec:
       strategy: rollback
   values:
     controllers:
-      radarr:
+      radarr-uhd:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
