@@ -67,7 +67,6 @@
       ],
       "matchPackagePatterns": [
         "kube-prometheus-stack",
-        "reloader",
         "unpoller"
       ],
       "matchUpdateTypes": [

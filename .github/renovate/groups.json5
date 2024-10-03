@@ -39,7 +39,10 @@
         "docker",
         "github-tags"
       ],
-      "matchPackagePatterns": ["fluxcd"],
+      "matchPackagePatterns": [
+        "^flux",
+        "^ghcr.io/fluxcd/"
+      ],
       "separateMinorPatch": true,
       "versioning": "semver"
     },
@@ -84,9 +87,9 @@
       "groupName": "Talos",
       "matchDatasources": ["docker"],
       "matchPackagePatterns": [
-        "siderolabs/installer",
-        "siderolabs/talosctl"
-      ],
+          "siderolabs/installer",
+          "siderolabs/talosctl"
+        ],
       "separateMinorPatch": true
     }
   ]

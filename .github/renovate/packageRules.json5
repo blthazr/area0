@@ -14,6 +14,7 @@
         "helm"
       ],
       "matchPackagePatterns": [
+        "postgresql",
         "reloader"
       ],
       "schedule": ["on the first day of the month"]
@@ -21,7 +22,9 @@
     {
       "description": ["Loose versioning for non-semver packages"],
       "matchDatasources": ["docker"],
-      "matchPackagePatterns": ["plex"],
+      "matchPackagePatterns": [
+        "plex"
+      ],
       "versioning": "loose"
     }
   ]
