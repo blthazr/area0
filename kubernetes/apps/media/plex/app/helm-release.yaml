@@ -156,7 +156,7 @@ spec:
     service:
       app:
         annotations:
-          io.cilium/lb-ipam-ips: "${CLUSTER_LB_PLEX}"
+          lbipam.cilium.io/ips: "${CLUSTER_LB_PLEX}"
         controller: *app
         ports:
           http:

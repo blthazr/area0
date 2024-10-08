@@ -5,7 +5,7 @@ kind: Service
 metadata:
   name: postgres-lb
   annotations:
-    io.cilium/lb-ipam-ips: "${CLUSTER_LB_CNPG_CLUSTER}"
+    lbipam.cilium.io/ips: "${CLUSTER_LB_CNPG_CLUSTER}"
 spec:
   ports:
     - name: postgres

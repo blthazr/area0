@@ -153,7 +153,7 @@ spec:
     service:
       app:
         # annotations:
-        #   io.cilium/lb-ipam-ips: __LB_IP_ADDRESS
+        #   lbipam.cilium.io/ips: __LB_IP_ADDRESS
         controller: *app
         ports:
           http:

@@ -75,7 +75,7 @@ spec:
           cpu: 100m
       service:
         annotations:
-          io.cilium/lb-ipam-ips: "${CLUSTER_LB_NGINX_INTERNAL}"
+          lbipam.cilium.io/ips: "${CLUSTER_LB_NGINX_INTERNAL}"
         externalTrafficPolicy: Cluster
       terminationGracePeriodSeconds: 120
       topologySpreadConstraints:

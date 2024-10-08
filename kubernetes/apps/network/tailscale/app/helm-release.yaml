@@ -120,7 +120,7 @@ spec:
             port: *tailscalePort
       tailnet:
         annotations:
-          io.cilium/lb-ipam-ips: "${CLUSTER_LB_TAILSCALE}"
+          lbipam.cilium.io/ips: "${CLUSTER_LB_TAILSCALE}"
         controller: *app
         ports:
           tailnet:
