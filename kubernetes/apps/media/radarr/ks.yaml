@@ -15,7 +15,6 @@ spec:
   interval: 30m
   path: ./kubernetes/apps/media/radarr/radarr
   prune: true
-  retryInterval: 1m
   sourceRef:
     kind: GitRepository
     name: area0
@@ -46,7 +45,6 @@ spec:
   interval: 30m
   path: ./kubernetes/apps/media/radarr/radarr-uhd
   prune: true
-  retryInterval: 1m
   sourceRef:
     kind: GitRepository
     name: area0

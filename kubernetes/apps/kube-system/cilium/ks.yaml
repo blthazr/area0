@@ -12,7 +12,6 @@ spec:
   interval: 30m
   path: ./kubernetes/apps/kube-system/cilium/app
   prune: false # never should be deleted
-  retryInterval: 1m
   sourceRef:
     kind: GitRepository
     name: area0
@@ -35,7 +34,6 @@ spec:
   interval: 30m
   path: ./kubernetes/apps/kube-system/cilium/config
   prune: false # never should be deleted
-  retryInterval: 1m
   sourceRef:
     kind: GitRepository
     name: area0

@@ -12,7 +12,6 @@ spec:
   interval: 30m
   path: ./kubernetes/apps/observability/grafana/operator
   prune: true
-  retryInterval: 1m
   sourceRef:
     kind: GitRepository
     name: area0
@@ -36,7 +35,6 @@ spec:
   interval: 30m
   path: ./kubernetes/apps/observability/grafana/instance
   prune: true
-  retryInterval: 1m
   sourceRef:
     kind: GitRepository
     name: area0
@@ -59,7 +57,6 @@ spec:
   interval: 30m
   path: ./kubernetes/apps/observability/grafana/datasource
   prune: true
-  retryInterval: 1m
   sourceRef:
     kind: GitRepository
     name: area0
@@ -82,7 +79,6 @@ spec:
   interval: 30m
   path: ./kubernetes/apps/observability/grafana/dashboard
   prune: true
-  retryInterval: 1m
   sourceRef:
     kind: GitRepository
     name: area0

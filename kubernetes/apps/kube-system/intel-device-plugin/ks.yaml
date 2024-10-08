@@ -12,7 +12,6 @@ spec:
   interval: 30m
   path: ./kubernetes/apps/kube-system/intel-device-plugin/operator
   prune: true
-  retryInterval: 1m
   sourceRef:
     kind: GitRepository
     name: area0
@@ -33,7 +32,6 @@ spec:
   interval: 30m
   path: ./kubernetes/apps/kube-system/intel-device-plugin/gpu
   prune: true
-  retryInterval: 1m
   sourceRef:
     kind: GitRepository
     name: area0

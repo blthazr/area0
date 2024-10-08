@@ -14,7 +14,6 @@ spec:
   interval: 30m
   path: ./kubernetes/apps/flux-system/addons/notifications
   prune: true
-  retryInterval: 1m
   sourceRef:
     kind: GitRepository
     name: area0
@@ -37,7 +36,6 @@ spec:
   interval: 30m
   path: ./kubernetes/apps/flux-system/addons/webhooks
   prune: true
-  retryInterval: 1m
   sourceRef:
     kind: GitRepository
     name: area0
@@ -58,7 +56,6 @@ spec:
   interval: 30m
   path: ./kubernetes/apps/flux-system/addons/observability
   prune: true
-  retryInterval: 1m
   sourceRef:
     kind: GitRepository
     name: area0

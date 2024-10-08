@@ -14,7 +14,6 @@ spec:
   interval: 30m
   path: ./kubernetes/apps/rook-ceph/rook-ceph/operator
   prune: false # never should be deleted
-  retryInterval: 1m
   sourceRef:
     kind: GitRepository
     name: area0
@@ -35,7 +34,6 @@ spec:
   interval: 30m
   path: ./kubernetes/apps/rook-ceph/rook-ceph/cluster
   prune: false # never should be deleted
-  retryInterval: 1m
   sourceRef:
     kind: GitRepository
     name: area0
