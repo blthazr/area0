@@ -10,7 +10,7 @@ spec:
       rules:
         - alert: OOMKilled
           annotations:
-            summary: >-
+            description: >-
               Container {{ $labels.container }} in pod {{ $labels.namespace }}/
               {{ $labels.pod }} has been OOMKilled {{ $value }} times in the
               last 10 minutes.
