@@ -8,4 +8,4 @@ spec:
   grafanaCom:
     # renovate: depName="Kubernetes / System / API Server"
     id: 15761
-    revision: 17
+    revision: 18
