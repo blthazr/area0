@@ -47,7 +47,7 @@ releases:
       - kube-system/coredns
     values:
       - ../../../kubernetes/apps/kube-system/kubelet-csr-approver/app/helm-values.yaml
-    version: 1.2.2
+    version: 1.2.3
   - name: spegel
     chart: oci://ghcr.io/spegel-org/helm-charts/spegel
     namespace: kube-system
