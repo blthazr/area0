@@ -4,11 +4,6 @@
 # Microsoft Windows
 Thumbs.db
 
-# Shards
-*-shard
-*-shard/*
-*-shard.*
-
 # Ansible
 .venv*
 
