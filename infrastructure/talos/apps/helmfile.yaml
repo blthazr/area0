@@ -58,4 +58,4 @@ releases:
       - kube-system/kubelet-csr-approver
     values:
       - ../../../kubernetes/apps/kube-system/spegel/app/helm-values.yaml
-    version: v0.0.24
+    version: v0.0.27
