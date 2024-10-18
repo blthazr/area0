@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: intel
         namespace: flux-system
-      version: 0.31.0
+      version: 0.31.1
   dependsOn:
     - name: node-feature-discovery
       namespace: kube-system
