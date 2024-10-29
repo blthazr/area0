@@ -6,7 +6,7 @@ talosVersion: v1.6.7
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
 kubernetesVersion: v1.29.3
 
-clusterName: &cluster ${clusterName}
+clusterName: ${clusterName}
 endpoint: https://${clusterEndpointIP}:6443
 clusterPodNets:
   - 10.69.0.0/16
