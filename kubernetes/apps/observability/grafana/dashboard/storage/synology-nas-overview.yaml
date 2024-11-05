@@ -11,4 +11,4 @@ spec:
   grafanaCom:
     # renovate: depName="Synology NAS Overview"
     id: 14364
-    revision: 8
+    revision: 9
