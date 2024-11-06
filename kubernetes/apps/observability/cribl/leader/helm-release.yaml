@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: cribl
         namespace: flux-system
-      version: 4.8.2
+      version: 4.9.1
   dependsOn:
     - name: rook-ceph-cluster
       namespace: rook-ceph
@@ -33,7 +33,7 @@ spec:
       token: "${SECRET_CRIBL_LEADER_TOKEN}"
     criblImage:
       repository: cribl/cribl
-      tag: 4.8.2@sha256:54a40b2c4a5fb2491b3fad1ab3268d99211319b528eb4620528d81555519bdb5
+      tag: 4.9.1@sha256:91484a95bf40dd0613a2fe67f02d50e7ff11af7f041b6bd38f8930f855d18b6e
     service:
       externalLoadBalancerIP: "${CLUSTER_LB_CRIBL_LEADER}"
       ports:
