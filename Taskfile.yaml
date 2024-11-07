@@ -16,6 +16,7 @@ includes:
   kubernetes:
     aliases: ["k8s"]
     taskfile: .taskfiles/kubernetes
+  volsync: .taskfiles/volsync
   workstation: .taskfiles/workstation
 
 tasks:

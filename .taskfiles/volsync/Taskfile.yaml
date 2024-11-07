@@ -1,0 +1,119 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+# This taskfile is used to manage certain VolSync tasks for a given application, limitations are described below.
+#   1. Fluxtomization, HelmRelease, PVC, ReplicationSource all have the same name (e.g. plex)
+#   2. ReplicationSource and ReplicationDestination are a Restic repository
+#   3. Each application only has one PVC that is being replicated
+
+vars:
+  VOLSYNC_RESOURCES_DIR: '{{.ROOT_DIR}}/.taskfiles/volsync/resources'
+
+tasks:
+
+  # task volsync:state-suspend
+  # task volsync:state-resume
+  state-*:
+    desc: Suspend or resume Volsync
+    vars:
+      NS: '{{.NS | default "volsync-system"}}'
+      STATE: '{{index .MATCH 0}}'
+    cmds:
+      - flux --namespace flux-system {{.STATE}} kustomization volsync
+      - flux --namespace {{.NS}} {{.STATE}} helmrelease volsync
+      - '{{if eq .STATE "suspend"}}kubectl --namespace {{.NS}} scale deployment volsync --replicas 0{{end}}'
+      - '{{if eq .STATE "resume"}}flux --namespace {{.NS}} reconcile helmrelease volsync --force{{end}}'
+    preconditions:
+      - { msg: "flux not in $PATH", sh: "command -v flux" }
+      - { msg: "kubectl not in $PATH", sh: "command -v kubectl" }
+      - { msg: "Missing kubeconfig file", sh: "test -f {{.KUBECONFIG_FILE}}" }
+      - { msg: "STATE value must be suspend or resume", sh: '[[ "{{.STATE}}" == "suspend" || "{{.STATE}}" == "resume" ]]' }
+
+  # task volsync:unlock
+  unlock:
+    desc: Unlock all Restic repos
+    vars:
+      SOURCES:
+        sh: kubectl get replicationsources --all-namespaces --no-headers --output=jsonpath='{range .items[*]}{.metadata.namespace},{.metadata.name}{"\n"}{end}'
+    cmds:
+      - for: { var: SOURCES, split: "\n" }
+        cmd: kubectl --namespace {{splitList "," .ITEM | first}} patch --field-manager=flux-client-side-apply replicationsources {{splitList "," .ITEM | last}} --type merge --patch "{\"spec\":{\"restic\":{\"unlock\":\"{{now | unixEpoch}}\"}}}"
+    preconditions:
+      - { msg: "kubectl not in $PATH", sh: "command -v kubectl" }
+      - { msg: "Missing kubeconfig file", sh: "test -f {{.KUBECONFIG_FILE}}" }
+
+  # task volsync:snapshot APP=plex [NS=media]
+  snapshot:
+    desc: Snapshot an app
+    summary: |
+      APP: Application to snapshot (required)
+      NS: Namespace the PVC is in (default: default)
+    vars:
+      JOB: volsync-src-{{.APP}}
+      NS: '{{.NS | default "default"}}'
+    cmds:
+      - kubectl --namespace {{.NS}} patch replicationsources {{.APP}} --type merge -p '{"spec":{"trigger":{"manual":"{{now | unixEpoch}}"}}}'
+      - until kubectl --namespace {{.NS}} get job/{{.JOB}} &>/dev/null; do sleep 5; done
+      - kubectl --namespace {{.NS}} wait job/{{.JOB}} --for=condition=complete --timeout=120m
+    requires:
+      vars:
+        - APP
+    preconditions:
+      - { msg: "kubectl not in $PATH", sh: "command -v kubectl" }
+      - { msg: "Missing kubeconfig file", sh: "test -f {{.KUBECONFIG_FILE}}" }
+      - { msg: "Missing replicationsource: {{.APP}}", sh: "kubectl --namespace {{.NS}} get replicationsources {{.APP}}" }
+
+  # task volsync:restore APP=plex [NS=media] [PREVIOUS=3]
+  restore:
+    desc: Restore an app
+    summary: |
+      APP: Application to restore (required)
+      NS: Namespace the PVC is in (default: default)
+      PREVIOUS: Previous number of snapshots to restore (default: 2)
+    env:
+      ACCESS_MODES:
+        sh: kubectl --namespace {{.NS}} get replicationsources/{{.APP}} --output=jsonpath="{.spec.restic.accessModes}"
+      APP: '{{.APP}}'
+      CLAIM:
+        sh: kubectl --namespace {{.NS}} get replicationsources/{{.APP}} --output=jsonpath="{.spec.sourcePVC}"
+      NS: '{{.NS}}'
+      PGID:
+        sh: kubectl --namespace {{.NS}} get replicationsources/{{.APP}} --output=jsonpath="{.spec.restic.moverSecurityContext.runAsGroup}"
+      PREVIOUS: '{{.PREVIOUS}}'
+      PUID:
+        sh: kubectl --namespace {{.NS}} get replicationsources/{{.APP}} --output=jsonpath="{.spec.restic.moverSecurityContext.runAsUser}"
+      STORAGE_CLASS_NAME:
+        sh: kubectl --namespace {{.NS}} get replicationsources/{{.APP}} --output=jsonpath="{.spec.restic.storageClassName}"
+    vars:
+      APP: 'volsync-dst-{{.APP}}-manual'
+      JOB: volsync-dst-{{.APP}}
+      NS: '{{.NS | default "default"}}'
+      PREVIOUS: '{{.PREVIOUS | default 2}}'
+      CONTROLLER:
+        sh: kubectl --namespace {{.NS}} get deployment {{.APP}} &>/dev/null && echo deployment || echo statefulset
+    cmds:
+      # Suspend
+      - flux --namespace flux-system suspend kustomization {{.APP}}
+      - flux --namespace {{.NS}} suspend helmrelease {{.APP}}
+      - kubectl --namespace {{.NS}} scale {{.CONTROLLER}}/{{.APP}} --replicas 0
+      - kubectl --namespace {{.NS}} wait pod --for=delete --selector="app.kubernetes.io/name={{.APP}}" --timeout=5m
+      # Restore
+      - minijinja-cli {{.VOLSYNC_RESOURCES_DIR}}/replicationdestination.yaml.j2 | kubectl apply --server-side --filename -
+      - until kubectl --namespace {{.NS}} get job/{{.JOB}} &>/dev/null; do sleep 5; done
+      - kubectl --namespace {{.NS}} wait job/{{.JOB}} --for=condition=complete --timeout=120m
+      - kubectl --namespace {{.NS}} delete replicationdestination {{.APP}}-manual
+      # Resume
+      - flux --namespace flux-system resume kustomization {{.APP}}
+      - flux --namespace {{.NS}} resume helmrelease {{.APP}}
+      - flux --namespace {{.NS}} reconcile helmrelease {{.APP}} --force
+      - kubectl --namespace {{.NS}} wait pod --for=condition=ready --selector="app.kubernetes.io/name={{.APP}}" --timeout=5m
+    requires:
+      vars:
+        - APP
+    preconditions:
+      - { msg: "flux not in $PATH", sh: "command -v flux" }
+      - { msg: "kubectl not in $PATH", sh: "command -v kubectl" }
+      - { msg: "minijinja-cli not in $PATH", sh: "command -v minijinja-cli" }
+      - { msg: "Missing kubeconfig file", sh: "test -f {{.KUBECONFIG_FILE}}" }
+      - { msg: "Missing replicationdestination template", sh: "test -f {{.VOLSYNC_RESOURCES_DIR}}/replicationdestination.tmpl.yaml" }
