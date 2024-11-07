@@ -40,6 +40,11 @@ brew "kubernetes-cli"
 # Template-free customization of Kubernetes YAML manifests
 brew "kustomize"
 # --------------------------------------------------------------------------------------------------
+# Render Jinja2 templates directly from the command-line to stdout
+brew "minijinja-cli"
+# --------------------------------------------------------------------------------------------------
+
+
 # Collection of tools that nobody wrote when UNIX was young
 brew "moreutils"
 # --------------------------------------------------------------------------------------------------
