@@ -1,0 +1,66 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+vars:
+  # Directories
+  WORKSTATION_RESOURCES_DIR: '{{.ROOT_DIR}}/.taskfiles/workstation/resources'
+  # Files
+  BREWFILE_FILE: '{{.WORKSTATION_RESOURCES_DIR}}/Brewfile'
+  PIP_REQUIREMENTS_FILE: '{{.WORKSTATION_RESOURCES_DIR}}/requirements.txt'
+
+tasks:
+
+  # task workstation:brew
+  brew:
+    desc: Install workstation dependencies with Brew
+    cmds:
+      - brew bundle --file {{.BREWFILE_FILE}}
+    sources:
+      - '{{.BREWFILE_FILE}}'
+    generates:
+      - '{{.BREWFILE_FILE}}.lock.json'
+    preconditions:
+      - { msg: "brew not in $PATH", sh: "command -v brew" }
+      - { msg: "Missing Brewfile file", sh: "test -f {{.BREWFILE_FILE}}" }
+
+  # task workstation:direnv
+  direnv:
+    desc: Run direnv hooks
+    deps:
+      - :workstation:brew
+    cmds:
+      - direnv allow .
+    preconditions:
+      - { msg: "direnv not in $PATH", sh: "command -v direnv" }
+    status:
+      - "[[ $(direnv status --json | jq '.state.foundRC.allowed') == 0 ]]"
+      - "[[ $(direnv status --json | jq '.state.loadedRC.allowed') == 0 ]]"
+
+  # task workstation:krew
+  krew:
+    desc: Set up Krew
+    deps:
+      - :workstation:brew
+    cmds:
+      - kubectl krew install cert-manager cnpg browse-pvc rook-ceph view-secret
+    preconditions:
+      - { msg: "kubectl not in $PATH", sh: "command -v kubectl" }
+      - { msg: "krew not available", sh: "kubectl krew &>/dev/null" }
+
+  # task workstation:python
+  python:
+    desc: Set up Python
+    deps:
+      - :workstation:brew
+    cmds:
+      - '{{.PYTHON_BIN}} -m venv {{.VIRTUAL_ENV}}'
+      - '{{.VIRTUAL_ENV}}/bin/python3 -m pip install --upgrade pip'
+      - '{{.VIRTUAL_ENV}}/bin/python3 -m pip install --upgrade --requirement {{.PIP_REQUIREMENTS_FILE}}'
+    sources:
+      - '{{.PIP_REQUIREMENTS_FILE}}'
+    generates:
+      - '{{.VIRTUAL_ENV}}/pyvenv.cfg'
+    preconditions:
+      - { msg: "python3 not in $PATH", sh: "command -v {{.PYTHON_BIN}}" }
+      - { msg: "Missing pip requirements file", sh: "test -f {{.PIP_REQUIREMENTS_FILE}}" }
