@@ -30,7 +30,7 @@ tasks:
     deps:
       - :workstation:brew
     cmds:
-      - direnv allow .
+      - direnv allow "{{.ROOT_DIR}}"
     preconditions:
       - { msg: "direnv not in $PATH", sh: "command -v direnv" }
     status:
