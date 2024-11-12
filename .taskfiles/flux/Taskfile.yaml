@@ -15,3 +15,63 @@ tasks:
       - flux check --pre
     preconditions:
       - { msg: "flux not in $PATH", sh: "command -v flux" }
+
+  # task flux:build PATH=<namespace>/<app> [NAME=<ks_name>]
+  build:
+    desc: Build a Flux Kustomization resource
+    summary: |
+      PATH: Path to the Flux Kustomization resource (required)
+      NAME: Name of the Flux Kustomization resource [default: last segment of <PATH> variable]
+    vars:
+      APP_NAME: '{{base .PATH}}'
+      KS_NAME: '{{.NAME | default .APP_NAME}}'
+      KUSTOMIZATION_PATH: '{{.KUBERNETES_DIR}}/apps/{{.PATH}}'
+      KUSTOMIZATION_FILE: '{{.KUSTOMIZATION_PATH}}/ks.yaml'
+    cmds:
+      - |
+        flux build \
+            --namespace flux-system \
+            kustomization {{.KS_NAME}} \
+            --kustomization-file {{.KUSTOMIZATION_FILE}} \
+            --path {{.KUSTOMIZATION_PATH}} \
+            --dry-run \
+        | yq 'with(select(.apiVersion == "kustomize.toolkit.fluxcd.io/v1" and .kind == "Kustomization"); .metadata.namespace = "flux-system")' -
+    requires:
+      vars:
+        - PATH
+    preconditions:
+      - { msg: "flux not in $PATH", sh: "command -v flux" }
+      - { msg: "yq not in $PATH", sh: "command -v yq" }
+      - { msg: "Missing Flux Kustomization for app: {{.KS_NAME}}", sh: "test -f {{.KUSTOMIZATION_FILE}}" }
+
+  # task flux:apply PATH=<namespace>/<app> [NAME=<ks_name>]
+  apply:
+    desc: Apply a Flux Kustomization resource for a cluster
+    summary: |
+      PATH: Path to the Flux Kustomization resource (required)
+      NAME: Name of the Flux Kustomization resource [default: last segment of <PATH> variable]
+    vars:
+      APP_NAME: '{{base .PATH}}'
+      KS_NAME: '{{.NAME | default .APP_NAME}}'
+      KS_FOUND:
+        sh: flux --namespace flux-system get kustomizations {{.APP_NAME}} 2>&1
+      KUSTOMIZATION_PATH: '{{.KUBERNETES_DIR}}/apps/{{.PATH}}'
+      KUSTOMIZATION_FILE: '{{.KUSTOMIZATION_PATH}}/ks.yaml'
+    cmds:
+      - |
+        flux build \
+            --namespace flux-system \
+            kustomization {{.KS_NAME}} \
+            --kustomization-file {{.KUSTOMIZATION_FILE}} \
+            --path {{.KUSTOMIZATION_PATH}} \
+            {{- if contains .KS_FOUND "not found" }} --dry-run \{{end}}
+        | yq 'with(select(.apiVersion == "kustomize.toolkit.fluxcd.io/v1" and .kind == "Kustomization"); .metadata.namespace = "flux-system")' -
+        | kubectl apply --server-side --field-manager=kustomize-controller --filename -
+    requires:
+      vars:
+        - PATH
+    preconditions:
+      - { msg: "flux not in $PATH", sh: "command -v flux" }
+      - { msg: "yq not in $PATH", sh: "command -v yq" }
+      - { msg: "Missing kubeconfig file", sh: "test -f {{.KUBECONFIG_FILE}}" }
+      - { msg: "Missing Flux Kustomization for app: {{.KS_NAME}}", sh: "test -f {{.KUSTOMIZATION_FILE}}" }
