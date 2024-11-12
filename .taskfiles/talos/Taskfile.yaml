@@ -1,0 +1,196 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+vars:
+  # Directories
+  TALOS_DIR: "{{.INFRASTRUCTURE_DIR}}/talos"
+  TALOSCONFIG_DIR: "{{.TALOS_DIR}}/clusterconfig"
+  # Files
+  TALHELPER_CONFIG_FILE: "{{.TALOS_DIR}}/talconfig.yaml"
+  TALHELPER_ENV_FILE: "{{.TALOS_DIR}}/talenv.sops.yaml"
+  TALHELPER_SECRET_FILE: "{{.TALOS_DIR}}/talsecret.sops.yaml"
+  TALOSCONFIG_FILE: "{{.TALOSCONFIG_DIR}}/talosconfig"
+
+env:
+  TALOSCONFIG: "{{.TALOSCONFIG_FILE}}"
+
+tasks:
+
+  # task talos:generate-clusterconfig
+  generate-clusterconfig:
+    desc: Generate the Talos configs
+    dir: "{{.TALOS_DIR}}"
+    cmds:
+      - |
+        talhelper genconfig \
+          --config-file {{.TALHELPER_CONFIG_FILE}} \
+          --env-file {{.TALHELPER_ENV_FILE}} \
+          --out-dir {{.TALOSCONFIG_DIR}} \
+          --secret-file {{.TALHELPER_SECRET_FILE}}
+    preconditions:
+      - { msg: "talhelper not in $PATH", sh: "command -v talhelper" }
+      - { msg: "talosctl not in $PATH", sh: "command -v talosctl" }
+      - { msg: "Missing talhelper config file", sh: "test -f {{.TALHELPER_CONFIG_FILE}}" }
+      - { msg: "Missing talhelper env file", sh: "test -f {{.TALHELPER_ENV_FILE}}" }
+      - { msg: "Missing talhelper secret file", sh: "test -f {{.TALHELPER_SECRET_FILE}}" }
+
+  # task talos:apply-node NODE=<node_name> [MODE=reboot]
+  apply-node:
+    desc: Apply the Talos machineConfig on a node
+    summary: |
+      NODE: Hostname of the node (required)
+      MODE: Apply config mode: auto, interactive, no-reboot, reboot, staged, try (default auto)
+    deps:
+      - generate-clusterconfig
+    vars:
+      MODE: '{{.MODE | default "no-reboot"}}'
+      NODE_IP_ADDRESS:
+        sh: |
+          yq '.nodes[] | select(.hostname == "{{.NODE}}") | .ipAddress' {{.TALHELPER_CONFIG_FILE}}
+    cmds:
+      - task: .down
+      - task: .apply-machineconfig
+        vars:
+          EXTRA_FLAGS: "--mode {{.MODE}}"
+          NODE: "{{.NODE}}"
+      - talosctl --nodes {{.NODE_IP_ADDRESS}} health --server=false --wait-timeout=10m
+      - task: .up
+    requires:
+      vars:
+        - NODE
+    preconditions:
+      - { msg: "flux not in $PATH", sh: "command -v flux" }
+      - { msg: "talhelper not in $PATH", sh: "command -v talhelper" }
+      - { msg: "talosctl not in $PATH", sh: "command -v talosctl" }
+      - { msg: "yq not in $PATH", sh: "command -v yq" }
+      - { msg: "Missing talhelper config file", sh: "test -f {{.TALHELPER_CONFIG_FILE}}" }
+      - { msg: "Missing talhelper env file", sh: "test -f {{.TALHELPER_ENV_FILE}}" }
+      - { msg: "Missing talosconfig file", sh: "test -f {{.TALOSCONFIG_FILE}}" }
+      - { msg: "Missing Talos machineconfig", sh: "talosctl --nodes {{.NODE_IP_ADDRESS}} get machineconfig >/dev/null 2>&1" }
+      - { msg: "IP Address for node {{.NODE}} not found in {{.TALHELPER_CONFIG_FILE}}", sh: "[ '{{.NODE_IP_ADDRESS}}' != '<no value>' ] || [ -z '{{.NODE}}' ]" }
+      - { msg: "Missing Talos cluster configuration", sh: "talosctl config info >/dev/null 2>&1" }
+      - { msg: "Value `{{.MODE}}` in variable MODE is invalid", sh: "case {{.MODE}} in auto|interactive|no-reboot|reboot|staged|try) exit 0 ;; *) exit 1 ;; esac" }
+
+  # task talos:diff-node NODE=<node_name>
+  diff-node:
+    desc: Diff the Talos machineConfig on a node
+    summary: |
+      NODE: Hostname of the node (required)
+    deps:
+      - generate-clusterconfig
+    vars:
+      NODE_IP_ADDRESS:
+        sh: |
+          yq '.nodes[] | select(.hostname == "{{.NODE}}") | .ipAddress' {{.TALHELPER_CONFIG_FILE}}
+    cmds:
+      - task: .apply-machineconfig
+        vars:
+          EXTRA_FLAGS: --dry-run
+          NODE: "{{.NODE}}"
+    requires:
+      vars:
+        - NODE
+    preconditions:
+      - { msg: "talhelper not in $PATH", sh: "command -v talhelper" }
+      - { msg: "talosctl not in $PATH", sh: "command -v talosctl" }
+      - { msg: "yq not in $PATH", sh: "command -v yq" }
+      - { msg: "Missing talhelper config file", sh: "test -f {{.TALHELPER_CONFIG_FILE}}" }
+      - { msg: "Missing talhelper env file", sh: "test -f {{.TALHELPER_ENV_FILE}}" }
+      - { msg: "Missing talosconfig file", sh: "test -f {{.TALOSCONFIG_FILE}}" }
+      - { msg: "Missing Talos machineconfig", sh: "talosctl --nodes {{.NODE_IP_ADDRESS}} get machineconfig >/dev/null 2>&1" }
+      - { msg: "IP Address for node {{.NODE}} not found in {{.TALHELPER_CONFIG_FILE}}", sh: "[ '{{.NODE_IP_ADDRESS}}' != '<no value>' ] || [ -z '{{.NODE}}' ]" }
+      - { msg: "Missing Talos cluster configuration", sh: "talosctl config info >/dev/null 2>&1" }
+
+  # task talos:reboot-node NODE=<node_name> [MODE=powercycle]
+  reboot-node:
+    desc: Reboot Talos on a node
+    summary: |
+      NODE: Hostname of the node (required)
+      MODE: Apply config mode: default, powercycle (skips kexec) default=default
+    vars:
+      MODE: '{{.MODE | default "default"}}'
+      NODE_IP_ADDRESS:
+        sh: |
+          yq '.nodes[] | select(.hostname == "{{.NODE}}") | .ipAddress' {{.TALHELPER_CONFIG_FILE}}
+    cmds:
+      - task: .down
+      - talosctl --nodes {{.NODE_IP_ADDRESS}} reboot --mode {{.MODE}}
+      - talosctl --nodes {{.NODE_IP_ADDRESS}} health --server=false --wait-timeout=10m
+      - task: .up
+    requires:
+      vars:
+        - NODE
+    preconditions:
+      - { msg: "talosctl not in $PATH", sh: "command -v talosctl" }
+      - { msg: "yq not in $PATH", sh: "command -v yq" }
+      - { msg: "Missing talhelper config file", sh: "test -f {{.TALHELPER_CONFIG_FILE}}" }
+      - { msg: "Missing talosconfig file", sh: "test -f {{.TALOSCONFIG_FILE}}" }
+      - { msg: "Missing Talos machineconfig", sh: "talosctl --nodes {{.NODE_IP_ADDRESS}} get machineconfig >/dev/null 2>&1" }
+      - { msg: "IP Address for node {{.NODE}} not found in {{.TALHELPER_CONFIG_FILE}}", sh: "[ '{{.NODE_IP_ADDRESS}}' != '<no value>' ] || [ -z '{{.NODE}}' ]" }
+      - { msg: "Missing Talos cluster configuration", sh: "talosctl config info >/dev/null 2>&1" }
+
+  # task talos:shutdown-cluster
+  shutdown-cluster:
+    desc: Shutdown all Talos cluster nodes
+    prompt: Shutdown the Talos cluster ... continue?
+    vars:
+      NODES:
+        sh: |
+          talosctl config info --output json | jq --join-output '[.nodes[]] | join(",")'
+    cmds:
+      - talosctl --nodes {{.NODES}} shutdown --force
+    preconditions:
+      - { msg: "jq not in $PATH", sh: "command -v jq" }
+      - { msg: "talosctl not in $PATH", sh: "command -v talosctl" }
+      - { msg: "Missing talosconfig file", sh: "test -f {{.TALOSCONFIG_FILE}}" }
+      - { msg: "Missing Talos machineconfig", sh: "talosctl --nodes {{.NODES}} get machineconfig >/dev/null 2>&1" }
+      - { msg: "Missing Talos cluster configuration", sh: "talosctl config info >/dev/null 2>&1" }
+
+  .apply-machineconfig:
+    internal: true
+    vars:
+      NODE_IP_ADDRESS:
+        sh: |
+          yq '.nodes[] | select(.hostname == "{{.NODE}}") | .ipAddress' {{.TALHELPER_CONFIG_FILE}}
+    cmds:
+      - |
+        talhelper gencommand apply \
+            --config-file {{.TALHELPER_CONFIG_FILE}} \
+            --env-file {{.TALHELPER_ENV_FILE}} \
+            {{- if .EXTRA_FLAGS }}--extra-flags="{{.EXTRA_FLAGS}}" \{{ end }}
+            {{- if .NODE_IP_ADDRESS }}--node {{.NODE_IP_ADDRESS}} \{{ end }}
+            --out-dir {{.TALOSCONFIG_DIR}} \
+    requires:
+      vars:
+        - NODE
+    preconditions:
+      - { msg: "talhelper not in $PATH", sh: "command -v talhelper" }
+      - { msg: "talosctl not in $PATH", sh: "command -v talosctl" }
+      - { msg: "yq not in $PATH", sh: "command -v yq" }
+      - { msg: "Missing talhelper config file", sh: "test -f {{.TALHELPER_CONFIG_FILE}}" }
+      - { msg: "Missing talhelper env file", sh: "test -f {{.TALHELPER_ENV_FILE}}" }
+      - { msg: "Missing talosconfig file", sh: "test -f {{.TALOSCONFIG_FILE}}" }
+      - { msg: "Missing Talos machineconfig", sh: "talosctl --nodes {{.NODE_IP_ADDRESS}} get machineconfig >/dev/null 2>&1" }
+      - { msg: "IP Address for node {{.NODE}} not found in {{.TALHELPER_CONFIG_FILE}}", sh: "[ '{{.NODE_IP_ADDRESS}}' != '<no value>' ] || [ -z '{{.NODE}}' ]" }
+      - { msg: "Missing Talos cluster configuration", sh: "talosctl config info >/dev/null 2>&1" }
+
+  .down:
+    internal: true
+    cmds:
+      - flux --namespace flux-system suspend kustomization --all
+      - until kubectl wait cephcluster --for=jsonpath=.status.ceph.health=HEALTH_OK --timeout=10m --all --all-namespaces &>/dev/null; do sleep 5; done
+      - until kubectl wait jobs --all --all-namespaces --for=condition=complete --timeout=5m &>/dev/null; do sleep 5; done
+      - task: :volsync:state-suspend
+    preconditions:
+      - { msg: "flux not in $PATH", sh: "command -v flux" }
+
+  .up:
+    internal: true
+    cmds:
+      - flux --namespace flux-system resume kustomization --all
+      - until kubectl wait cephcluster --for=jsonpath=.status.ceph.health=HEALTH_OK --timeout=10m --all --all-namespaces &>/dev/null; do sleep 5; done
+      - until kubectl wait jobs --all --all-namespaces --for=condition=complete --timeout=5m &>/dev/null; do sleep 5; done
+      - task: :volsync:state-resume
+    preconditions:
+      - { msg: "flux not in $PATH", sh: "command -v flux" }

@@ -3,6 +3,8 @@
 version: '3'
 
 vars:
+  # Directories
+  INFRASTRUCTURE_DIR: '{{.ROOT_DIR}}/infrastructure'
   # Files
   KUBECONFIG_FILE: '{{.ROOT_DIR}}/kubeconfig'
   # Binaries
@@ -16,6 +18,7 @@ includes:
   kubernetes:
     aliases: ["k8s"]
     taskfile: .taskfiles/kubernetes
+  talos: .taskfiles/talos
   volsync: .taskfiles/volsync
   workstation: .taskfiles/workstation
 
