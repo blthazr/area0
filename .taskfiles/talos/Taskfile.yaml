@@ -4,23 +4,23 @@ version: '3'
 
 vars:
   # Directories
-  TALOS_DIR: "{{.INFRASTRUCTURE_DIR}}/talos"
-  TALOSCONFIG_DIR: "{{.TALOS_DIR}}/clusterconfig"
+  TALOS_DIR: '{{.INFRASTRUCTURE_DIR}}/talos'
+  TALOSCONFIG_DIR: '{{.TALOS_DIR}}/clusterconfig'
   # Files
-  TALHELPER_CONFIG_FILE: "{{.TALOS_DIR}}/talconfig.yaml"
-  TALHELPER_ENV_FILE: "{{.TALOS_DIR}}/talenv.sops.yaml"
-  TALHELPER_SECRET_FILE: "{{.TALOS_DIR}}/talsecret.sops.yaml"
-  TALOSCONFIG_FILE: "{{.TALOSCONFIG_DIR}}/talosconfig"
+  TALHELPER_CONFIG_FILE: '{{.TALOS_DIR}}/talconfig.yaml'
+  TALHELPER_ENV_FILE: '{{.TALOS_DIR}}/talenv.sops.yaml'
+  TALHELPER_SECRET_FILE: '{{.TALOS_DIR}}/talsecret.sops.yaml'
+  TALOSCONFIG_FILE: '{{.TALOSCONFIG_DIR}}/talosconfig'
 
 env:
-  TALOSCONFIG: "{{.TALOSCONFIG_FILE}}"
+  TALOSCONFIG: '{{.TALOSCONFIG_FILE}}'
 
 tasks:
 
   # task talos:generate-clusterconfig
   generate-clusterconfig:
     desc: Generate the Talos configs
-    dir: "{{.TALOS_DIR}}"
+    dir: '{{.TALOS_DIR}}'
     cmds:
       - |
         talhelper genconfig \
@@ -52,8 +52,8 @@ tasks:
       - task: .down
       - task: .apply-machineconfig
         vars:
-          EXTRA_FLAGS: "--mode {{.MODE}}"
-          NODE: "{{.NODE}}"
+          EXTRA_FLAGS: '--mode {{.MODE}}'
+          NODE: '{{.NODE}}'
       - talosctl --nodes {{.NODE_IP_ADDRESS}} health --server=false --wait-timeout=10m
       - task: .up
     requires:
@@ -87,7 +87,7 @@ tasks:
       - task: .apply-machineconfig
         vars:
           EXTRA_FLAGS: --dry-run
-          NODE: "{{.NODE}}"
+          NODE: '{{.NODE}}'
     requires:
       vars:
         - NODE
@@ -161,6 +161,7 @@ tasks:
             {{- if .EXTRA_FLAGS }}--extra-flags="{{.EXTRA_FLAGS}}" \{{ end }}
             {{- if .NODE_IP_ADDRESS }}--node {{.NODE_IP_ADDRESS}} \{{ end }}
             --out-dir {{.TALOSCONFIG_DIR}} \
+        | bash
     requires:
       vars:
         - NODE

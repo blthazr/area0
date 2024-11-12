@@ -4,7 +4,7 @@ version: '3'
 
 tasks:
 
-  # tasks sops:age-keygen
+  # task sops:age-keygen
   age-keygen:
     desc: Initialize Age Key for SOPS
     cmds:
@@ -12,7 +12,7 @@ tasks:
     preconditions:
       - { msg: "age-keygen not in $PATH", sh: "command -v age-keygen" }
     status:
-      - "test -f {{.AGE_FILE}}"
+      - test -f {{.AGE_FILE}}
 
   # task sops:encrypt-file FILE=<path>
   encrypt-file:
