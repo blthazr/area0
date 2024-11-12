@@ -1,0 +1,32 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+tasks:
+
+  # tasks sops:age-keygen
+  age-keygen:
+    desc: Initialize Age Key for SOPS
+    cmds:
+      - age-keygen --output {{.AGE_FILE}}
+    preconditions:
+      - { msg: "age-keygen not in $PATH", sh: "command -v age-keygen" }
+    status:
+      - "test -f {{.AGE_FILE}}"
+
+  # task sops:encrypt-file FILE=<path>
+  encrypt-file:
+    summary: |
+      file: Path of file to be encrypted (required)
+    cmds:
+      - sops --encrypt --in-place {{.FILE}}
+    requires:
+      vars:
+        - FILE
+    preconditions:
+      - { msg: "jq not in $PATH", sh: "command -v jq" }
+      - { msg: "sops not in $PATH", sh: "command -v sops" }
+      - { msg: "Missing SOPS age key file", sh: "test -f {{.AGE_FILE}}" }
+      - { msg: "Missing SOPS config file", sh: "test -f {{.SOPS_CONFIG_FILE}}" }
+    status:
+      - sops filestatus {{.FILE}} | jq --exit-status '.encrypted'

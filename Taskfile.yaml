@@ -6,18 +6,22 @@ vars:
   # Directories
   INFRASTRUCTURE_DIR: '{{.ROOT_DIR}}/infrastructure'
   # Files
+  AGE_FILE: '{{.ROOT_DIR}}/age.key'
   KUBECONFIG_FILE: '{{.ROOT_DIR}}/kubeconfig'
+  SOPS_CONFIG_FILE: '{{.ROOT_DIR}}/.sops.yaml'
   # Binaries
   PYTHON_BIN: python3
 
 env:
   KUBECONFIG: '{{.KUBECONFIG_FILE}}'
+  SOPS_AGE_KEY_FILE: '{{.AGE_FILE}}'
   VIRTUAL_ENV: '{{.ROOT_DIR}}/.venv'
 
 includes:
   kubernetes:
     aliases: ["k8s"]
     taskfile: .taskfiles/kubernetes
+  sops: .taskfiles/sops
   talos: .taskfiles/talos
   volsync: .taskfiles/volsync
   workstation: .taskfiles/workstation
