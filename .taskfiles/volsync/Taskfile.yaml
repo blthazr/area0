@@ -28,7 +28,7 @@ tasks:
       - { msg: "flux not in $PATH", sh: "command -v flux" }
       - { msg: "kubectl not in $PATH", sh: "command -v kubectl" }
       - { msg: "Missing kubeconfig file", sh: "test -f {{.KUBECONFIG_FILE}}" }
-      - { msg: "STATE value must be suspend or resume", sh: '[[ "{{.STATE}}" == "suspend" || "{{.STATE}}" == "resume" ]]' }
+      - { msg: "Value `{{.STATE}}` in variable STATE is invalid", sh: "case {{.STATE}} in suspend|resume) exit 0 ;; *) exit 1 ;; esac" }
 
   # task volsync:unlock
   unlock:
