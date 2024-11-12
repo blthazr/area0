@@ -1,0 +1,121 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: "3"
+
+vars:
+  FLUX_CLUSTER_AGE_KEY_SECRET_SOPS_FILE: "{{.KUBERNETES_DIR}}/bootstrap/flux/age-key.sops.yaml"
+  FLUX_GITHUB_DEPLOY_KEY_FILE: "{{.KUBERNETES_DIR}}/bootstrap/flux/github-deploy-key.sops.yaml"
+
+includes:
+  flux: ../flux
+  talos: ../talos
+
+tasks:
+
+  # task bootstrap:cluster
+  cluster:
+    desc: Bootstrap a Talos Kubernetes cluster
+    # prompt: Bootstrap a Talos Kubernetes cluster ... continue?
+    cmds:
+      - task: generate-talos-secret
+      - task: talos:generate-clusterconfig
+      - task: talos-machineconfig
+      - task: talos-etcd
+      - task: talos:kubeconfig
+      - task: talos-apps
+      # - task: rook
+      - task: flux
+      - talosctl health --server=false
+
+  # task bootstrap:generate-talos-secret
+  generate-talos-secret:
+    desc: Generate encrypted Talos secrets
+    cmds:
+      - talhelper gensecret > {{.TALHELPER_SECRET_FILE}}
+      - task: :sops:encrypt-file
+        vars:
+          file: "{{.TALHELPER_SECRET_FILE}}"
+    preconditions:
+      - { msg: "talhelper not in $PATH", sh: "command -v talhelper" }
+    status:
+      - test -f {{.TALHELPER_SECRET_FILE}}
+
+  # task bootstrap:talos-machineconfig
+  talos-machineconfig:
+    desc: Apply initial Talos machineConfigs using the insecure maintenance service
+    deps:
+      - generate-clusterconfig
+    cmds:
+      - |
+        talhelper gencommand apply \
+          --config-file {{.TALHELPER_CONFIG_FILE}} \
+          --env-file {{.TALHELPER_ENV_FILE}} \
+          --extra-flags="--insecure" \
+          --out-dir {{.TALOSCONFIG_DIR}} \
+        | bash
+    preconditions:
+      - { msg: "talhelper not in $PATH", sh: "command -v talhelper" }
+      - { msg: "talosctl not in $PATH", sh: "command -v talosctl" }
+      - { msg: "Missing talhelper config file", sh: "test -f {{.TALHELPER_CONFIG_FILE}}" }
+      - { msg: "Missing talhelper env file", sh: "test -f {{.TALHELPER_ENV_FILE}}" }
+
+  # task bootstrap:talos-etcd
+  talos-etcd:
+    desc: Bootstrap etcd
+    internal: true
+    vars:
+      TALOS_CONTROLLER:
+        sh: |
+          talosctl config info --output json | jq --raw-output '.endpoints[]' | shuf -n 1
+    cmds:
+      - until talosctl --nodes {{.TALOS_CONTROLLER}} bootstrap; do sleep 5; done
+    preconditions:
+      - { msg: "jq not in $PATH", sh: "command -v jq" }
+      - { msg: "talosctl not in $PATH", sh: "command -v talosctl" }
+      - { msg: "Missing talosconfig file", sh: "test -f {{.TALOSCONFIG_FILE}}" }
+      - { msg: "Missing Talos cluster configuration", sh: "talosctl config info >/dev/null 2>&1" }
+
+  # task bootstrap:talos-apps
+  talos-apps:
+    desc: Bootstrap Talos apps
+    cmds:
+      - until kubectl wait --all --for=condition=Ready=False --timeout=10m nodes; do sleep 5; done
+      - helmfile --file {{.HELMFILE_FILE}} --quiet apply --skip-diff-on-install --suppress-diff
+      - until kubectl wait --all --for=condition=Ready --timeout=10m nodes; do sleep 5; done
+    preconditions:
+      - { msg: "helmfile not in $PATH", sh: "command -v helmfile" }
+      - { msg: "kubectl not in $PATH", sh: "command -v kubectl" }
+      - { msg: "Missing helmfile file", sh: "test -f {{.HELMFILE_FILE}}" }
+      - { msg: "Missing kubeconfig file", sh: "test -f {{.KUBECONFIG_FILE}}" }
+      - { msg: "Missing Talos cluster configuration", sh: "talosctl config info >/dev/null 2>&1" }
+
+  # task bootstrap:flux
+  flux:
+    desc: Bootstrap Flux
+    cmds:
+      # Install Flux
+      - kubectl apply --server-side --kustomize {{.KUBERNETES_DIR}}/bootstrap/flux
+      # Install secrets and configmaps
+      - sops --decrypt {{.FLUX_CLUSTER_AGE_KEY_SECRET_SOPS_FILE}} | kubectl apply --server-side --filename -
+      - sops --decrypt {{.FLUX_GITHUB_DEPLOY_KEY_FILE}} | kubectl apply --server-side --filename -
+      - sops --decrypt {{.FLUX_CLUSTER_SECRET_SOPS_FILE}} | kubectl apply --server-side --filename -
+      - kubectl apply --server-side --filename {{.FLUX_CLUSTER_SETTINGS_FILE}}
+      # Install Flux Kustomization resources
+      - kubectl apply --server-side --kustomize {{.KUBERNETES_DIR}}/flux/config
+    preconditions:
+      - { msg: "kubectl not in $PATH", sh: "command -v kubectl" }
+      - { msg: "sops not in $PATH", sh: "command -v sops" }
+      - { msg: "Missing SOPS age key file", sh: "test -f {{.AGE_FILE}}" }
+      - { msg: "Missing age secret file", sh: "test -f {{.FLUX_CLUSTER_AGE_KEY_SECRET_SOPS_FILE}}" }
+      - { msg: "Missing cluster secrets file", sh: "test -f {{.FLUX_CLUSTER_SECRET_SOPS_FILE}}" }
+      - { msg: "Missing cluster settings file", sh: "test -f {{.FLUX_CLUSTER_SETTINGS_FILE}}" }
+      - { msg: "Missing github deploy secret file", sh: "test -f {{.FLUX_GITHUB_DEPLOY_KEY_FILE}}" }
+      - { msg: "Missing kubeconfig file", sh: "test -f {{.KUBECONFIG_FILE}}" }
+      - { msg: "Missing SOPS config file", sh: "test -f {{.SOPS_CONFIG_FILE}}" }
+      - { msg: "Unable to decrypt age secret", sh: "sops filestatus {{.FLUX_CLUSTER_AGE_KEY_SECRET_SOPS_FILE}} | jq --exit-status '.encrypted'" }
+      - { msg: "Unable to decrypt cluster secrets", sh: "sops filestatus {{.FLUX_CLUSTER_SECRET_SOPS_FILE}} | jq --exit-status '.encrypted'" }
+      - { msg: "Unable to decrypt github deploy secret", sh: "sops filestatus {{.FLUX_GITHUB_DEPLOY_KEY_FILE}} | jq --exit-status '.encrypted'" }
+      - { msg: "Flux bootstrap misconfigured", sh: "kustomize build {{.KUBERNETES_DIR}}/bootstrap/flux" }
+      - { msg: "Flux misconfigured", sh: "kustomize build {{.KUBERNETES_DIR}}/flux/config" }
+    status:
+      - kubectl get namespace flux-system

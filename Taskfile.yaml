@@ -19,6 +19,7 @@ env:
   VIRTUAL_ENV: '{{.ROOT_DIR}}/.venv'
 
 includes:
+  bootstrap: .taskfiles/bootstrap
   flux: .taskfiles/flux
   kubernetes:
     aliases: ["k8s"]

@@ -7,6 +7,7 @@ vars:
   TALOS_DIR: '{{.INFRASTRUCTURE_DIR}}/talos'
   TALOSCONFIG_DIR: '{{.TALOS_DIR}}/clusterconfig'
   # Files
+  HELMFILE_FILE: '{{.TALOS_DIR}}/apps/helmfile.yaml'
   TALHELPER_CONFIG_FILE: '{{.TALOS_DIR}}/talconfig.yaml'
   TALHELPER_ENV_FILE: '{{.TALOS_DIR}}/talenv.sops.yaml'
   TALHELPER_SECRET_FILE: '{{.TALOS_DIR}}/talsecret.sops.yaml'
@@ -34,6 +35,32 @@ tasks:
       - { msg: "Missing talhelper config file", sh: "test -f {{.TALHELPER_CONFIG_FILE}}" }
       - { msg: "Missing talhelper env file", sh: "test -f {{.TALHELPER_ENV_FILE}}" }
       - { msg: "Missing talhelper secret file", sh: "test -f {{.TALHELPER_SECRET_FILE}}" }
+
+  # task talos:kubeconfig [TALOS_CLUSTER=main]
+  kubeconfig:
+    desc: Generate kubeconfig for a Talos cluster
+    vars:
+      CLUSTER_NAME:
+        sh: yq '.context' {{.TALOSCONFIG_FILE}}
+      TALOS_CONTROLLER:
+        sh: |
+          talosctl config info --output json | jq --raw-output '.endpoints[]' | shuf -n 1
+      KUBECONFIG_DIR:
+        sh: dirname {{.KUBECONFIG_FILE}}
+      TALOS_CLUSTER: '{{.TALOS_CLUSTER | default .CLUSTER_NAME}}'
+    cmds:
+      - |
+        talosctl kubeconfig \
+            --nodes {{.TALOS_CONTROLLER}} \
+            --force \
+            --force-context-name {{.TALOS_CLUSTER}} \
+            {{.KUBECONFIG_DIR}}
+    preconditions:
+      - { msg: "jq not in $PATH", sh: "command -v jq" }
+      - { msg: "talosctl not in $PATH", sh: "command -v talosctl" }
+      - { msg: "yq not in $PATH", sh: "command -v yq" }
+      - { msg: "Missing talosconfig file", sh: "test -f {{.TALOSCONFIG_FILE}}" }
+      - { msg: "Missing Talos cluster configuration", sh: "talosctl config info >/dev/null 2>&1" }
 
   # task talos:apply-node NODE=<node_name> [MODE=reboot]
   apply-node:
