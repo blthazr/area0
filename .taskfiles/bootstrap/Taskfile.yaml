@@ -48,10 +48,10 @@ tasks:
     cmds:
       - |
         talhelper gencommand apply \
-          --config-file {{.TALHELPER_CONFIG_FILE}} \
-          --env-file {{.TALHELPER_ENV_FILE}} \
-          --extra-flags="--insecure" \
-          --out-dir {{.TALOSCONFIG_DIR}} \
+            --config-file {{.TALHELPER_CONFIG_FILE}} \
+            --env-file {{.TALHELPER_ENV_FILE}} \
+            --extra-flags="--insecure" \
+            --out-dir {{.TALOSCONFIG_DIR}} \
         | bash
     preconditions:
       - { msg: "talhelper not in $PATH", sh: "command -v talhelper" }
