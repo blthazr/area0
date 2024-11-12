@@ -32,6 +32,7 @@ spec:
   dependsOn:
     - name: external-secrets-stores
     - name: splunk-operator
+    - name: volsync
   interval: 30m
   path: ./kubernetes/apps/observability/splunk/instance
   prune: true

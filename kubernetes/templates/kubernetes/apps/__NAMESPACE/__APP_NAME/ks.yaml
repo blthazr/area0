@@ -11,6 +11,7 @@ spec:
       app.kubernetes.io/name: *app
   # dependsOn:
   #   - name: external-secrets-stores
+  #   - name: volsync
   #   - name: __DEPENDENCY_APP_NAME
   interval: 30m
   path: ./kubernetes/apps/__NAMESPACE/__APP_NAME/app

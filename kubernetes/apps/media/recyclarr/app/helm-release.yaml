@@ -20,8 +20,6 @@ spec:
       namespace: media
     - name: rook-ceph-cluster
       namespace: rook-ceph
-    - name: volsync
-      namespace: volsync-system
   install:
     remediation:
       retries: 3
