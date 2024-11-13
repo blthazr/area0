@@ -4,6 +4,7 @@ connectivity:
   checker:
     interval: 1m
     target: 1.1.1.1:53
+debug: false
 endpoints:
   - name: status
     alerts: []
@@ -32,4 +33,4 @@ ui:
   header: Status
   title: Status | Gatus
 web:
-  port: ${CUSTOM_WEB_PORT}
+  port: ${WEB_PORT}
