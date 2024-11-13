@@ -11,6 +11,7 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: cert-manager-issuers
+    - name: external-secrets-stores
   interval: 30m
   path: ./kubernetes/apps/network/nginx/certificates
   prune: false # never should be deleted
