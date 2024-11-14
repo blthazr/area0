@@ -25,7 +25,7 @@ spec:
         secretAccessKey:
           key: minio-secret-key
           name: cloudnative-pg-secret
-      # Note: serverName version needs to be incremented or changed
+      # Note: serverName version needs to be incremented
       # when recovering from an existing cnpg cluster
       serverName: &currentCluster postgres16-v3
       wal:
@@ -37,13 +37,10 @@ spec:
   instances: 2
   monitoring:
     enablePodMonitor: true
-  nodeMaintenanceWindow:
-    inProgress: false
-    reusePVC: true
   postgresql:
     parameters:
-      max_connections: "400"
-      shared_buffers: 256MB
+      max_connections: "250"
+      shared_buffers: 128MB
   primaryUpdateStrategy: unsupervised
   resources:
     limits:
