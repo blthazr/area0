@@ -6,3 +6,4 @@ resources:
   - ./external-secret.yaml
   - ./persistent-volume-claim.yaml
   - ./helm-release.yaml
+  - ../../../../templates/gatus/guarded

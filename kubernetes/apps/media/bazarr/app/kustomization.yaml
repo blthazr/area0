@@ -6,4 +6,5 @@ resources:
   - ./external-secret.yaml
   - ./resources
   - ./helm-release.yaml
+  - ../../../../templates/gatus/guarded
   - ../../../../templates/volsync
