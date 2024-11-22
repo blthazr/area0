@@ -10,7 +10,7 @@ resources:
   - ./gatus/ks.yaml
   - ./grafana/ks.yaml
   - ./kromgo/ks.yaml
-  - ./kube-prometheus-stack/ks.yaml
+  # - ./kube-prometheus-stack/ks.yaml
   - ./prometheus-operator/ks.yaml
   - ./splunk/ks.yaml
   - ./thanos/ks.yaml
