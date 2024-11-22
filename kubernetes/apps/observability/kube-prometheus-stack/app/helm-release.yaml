@@ -52,7 +52,6 @@ spec:
                 requests:
                   storage: 1Gi
               storageClassName: openebs-hostpath
-      enabled: false
       ingress:
         annotations:
           hajimari.io/appName: AlertManager
