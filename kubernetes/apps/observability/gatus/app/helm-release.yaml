@@ -30,7 +30,7 @@ spec:
         containers:
           app:
             env:
-              WEB_PORT: &port 8080
+              WEB_PORT: &port 80
               GATUS_CONFIG_PATH: /config
               GATUS_DELAY_START_SECONDS: 5
               TZ: "${CLUSTER_TIME_ZONE}"
