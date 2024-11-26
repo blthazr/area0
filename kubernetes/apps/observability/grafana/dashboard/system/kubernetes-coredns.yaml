@@ -8,4 +8,4 @@ spec:
   grafanaCom:
     # renovate: depName="Kubernetes / System / CoreDNS"
     id: 15762
-    revision: 18
+    revision: 19
