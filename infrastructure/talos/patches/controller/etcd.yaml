@@ -1,4 +1,4 @@
-# ETCD configuration
+# etcd configuration
 cluster:
   etcd:
     advertisedSubnets:
