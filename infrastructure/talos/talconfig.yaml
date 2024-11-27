@@ -7,13 +7,13 @@ talosVersion: v1.6.7
 kubernetesVersion: v1.31.3
 
 clusterName: ${clusterName}
-endpoint: https://${clusterEndpointIP}:6443
+endpoint: https://k8s.${clusterDomain}:6443
 clusterPodNets:
   - 10.69.0.0/16
 clusterSvcNets:
   - 10.96.0.0/16
 additionalApiServerCertSans: &sans
-  - ${clusterEndpointIP}
+  - &talosControlPlaneVIP ${clusterEndpointIP}
   - ${clusterName}.${clusterDomain}
   - k8s.${clusterDomain}
   - 127.0.0.1 # KubePrism
@@ -40,7 +40,7 @@ nodes:
           - network: 0.0.0.0/0
             gateway: 172.16.20.1
         vip:
-          ip: ${clusterEndpointIP}
+          ip: *talosControlPlaneVIP
     nodeLabels:
       node-role.kubernetes.io/control-plane: ""
       rook-ceph/disk-id: ata-Samsung_Portable_SSD_T5_S4B0NR0R712678E
@@ -61,7 +61,7 @@ nodes:
           - network: 0.0.0.0/0
             gateway: 172.16.20.1
         vip:
-          ip: ${clusterEndpointIP}
+          ip: *talosControlPlaneVIP
     nodeLabels:
       node-role.kubernetes.io/control-plane: ""
       rook-ceph/disk-id: ata-Samsung_Portable_SSD_T5_S4B0NR0R719439P
@@ -82,7 +82,7 @@ nodes:
           - network: 0.0.0.0/0
             gateway: 172.16.20.1
         vip:
-          ip: ${clusterEndpointIP}
+          ip: *talosControlPlaneVIP
     nodeLabels:
       node-role.kubernetes.io/control-plane: ""
       rook-ceph/disk-id: ata-Samsung_Portable_SSD_T5_S4B0NR0R721882L
