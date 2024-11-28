@@ -85,7 +85,7 @@ spec:
         existingClaim: local-media
         globalMounts:
           - path: /music-videos
-            subPath: video/music_videos
+            subPath: video/music_videos/
     service:
       app:
         controller: *app
