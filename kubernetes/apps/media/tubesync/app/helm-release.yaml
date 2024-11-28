@@ -80,6 +80,12 @@ spec:
         globalMounts:
           - path: /downloads
             subPath: download/tubesync/
+      music_videos:
+        enabled: true
+        existingClaim: local-media
+        globalMounts:
+          - path: /music_videos
+            subPath: video/music_videos
     service:
       app:
         controller: *app
