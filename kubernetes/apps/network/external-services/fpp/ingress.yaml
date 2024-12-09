@@ -21,6 +21,6 @@ spec:
               service:
                 name: *app
                 port:
-                  name: http
+                  number: 80
             path: /
             pathType: Prefix
