@@ -5,6 +5,7 @@ kind: Kustomization
 namespace: network
 resources:
   - ./crul
+  - ./fpp
   - ./home-assistant
   - ./minio
   - ./pi-hole
