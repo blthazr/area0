@@ -1,0 +1,24 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+set:
+  - pipefail
+shopt:
+  - globstar
+
+vars:
+  # Directories
+  KUBERNETES_DIR: '{{.ROOT_DIR}}/kubernetes'
+  # Files
+  AGE_FILE: '{{.ROOT_DIR}}/age.key'
+  KUBECONFIG_FILE: '{{.ROOT_DIR}}/kubeconfig'
+  SOPS_CONFIG_FILE: '{{.ROOT_DIR}}/.sops.yaml'
+
+env:
+  KUBECONFIG: '{{.KUBECONFIG_FILE}}'
+
+tasks:
+  default:
+    silent: true
+    cmds: ["task --list"]
