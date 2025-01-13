@@ -1,0 +1,13 @@
+{
+  "recommendations": [
+    "albert.tabout",
+    "editorconfig.editorconfig",
+    "fcrespo82.markdown-table-formatter",
+    "gruntfuggly.todo-tree",
+    "mikestead.dotenv",
+    "mrmlnc.vscode-json5",
+    "oderwat.indent-rainbow",
+    "redhat.vscode-yaml",
+    "signageos.signageos-vscode-sops"
+  ]
+}
