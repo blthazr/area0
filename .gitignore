@@ -1,0 +1,13 @@
+# Apple MacOS
+.DS_Store
+
+# Microsoft Windows
+Thumbs.db
+
+# Kubernetes
+kubeconfig
+
+# SOPS
+.decrypted~*
+*.agekey
+*.key
