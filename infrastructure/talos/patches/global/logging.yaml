@@ -1,9 +1,0 @@
-# Enable logging
-machine:
-  install:
-    extraKernelArgs:
-      - talos.logging.kernel=udp://${logIP}:${talosKernelLogPort}/
-  logging:
-    destinations:
-      - endpoint: udp://${logIP}:${talosServiceLogPort}
-        format: json_lines

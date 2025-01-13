@@ -1,7 +1,0 @@
-# Enable host dns
-machine:
-  features:
-    hostDNS:
-      enabled: true
-      forwardKubeDNSToHost: true # Requires Cilium `bpf.masquerade: false`
-      resolveMemberNames: true

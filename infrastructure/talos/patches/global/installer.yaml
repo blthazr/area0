@@ -1,6 +1,0 @@
-# Custom Talos installer patch
-machine:
-  install:
-    extraKernelArgs:
-      - mitigations=off
-      - net.ifnames=0
