@@ -8,6 +8,7 @@
     "mrmlnc.vscode-json5",
     "oderwat.indent-rainbow",
     "redhat.vscode-yaml",
-    "signageos.signageos-vscode-sops"
+    "signageos.signageos-vscode-sops",
+    "tamasfe.even-better-toml"
   ]
 }
