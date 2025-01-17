@@ -14,3 +14,10 @@ kubeconfig
 
 # Taskfile
 .task/
+
+# Brew
+Brewfile.lock.json
+
+# Shards
+*-shard
+*-shard.*
