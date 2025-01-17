@@ -33,6 +33,9 @@ brew "kustomize"
 # Collection of tools that nobody wrote when UNIX was young
 brew "moreutils"
 # --------------------------------------------------------------------------------------------------
+# Polyglot runtime manager (asdf rust clone)
+brew "mise"
+# --------------------------------------------------------------------------------------------------
 # Framework for managing multi-language pre-commit hooks
 brew "pre-commit"
 # --------------------------------------------------------------------------------------------------
