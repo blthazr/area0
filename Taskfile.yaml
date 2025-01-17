@@ -18,7 +18,14 @@ vars:
 env:
   KUBECONFIG: '{{.KUBECONFIG_FILE}}'
 
+includes:
+  workstation: .taskfiles/workstation
+
 tasks:
   default:
     silent: true
     cmds: ["task --list"]
+
+  # task deps
+  deps:
+    - task: workstation:deps:pre-commit

@@ -1,0 +1,37 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+vars:
+  # Directories
+  WORKSTATION_RESOURCES_DIR: '{{.ROOT_DIR}}/.taskfiles/workstation/resources'
+  # Files
+  BREWFILE_FILE: '{{.WORKSTATION_RESOURCES_DIR}}/Brewfile'
+  PRE_COMMIT_CONFIG_FILE: '{{.ROOT_DIR}}/.pre-commit-config.yaml'
+
+tasks:
+
+  # task workstation:deps:brew
+  deps:brew:
+    desc: Install workstation dependencies with Homebrew
+    cmds:
+      - brew bundle --file {{.BREWFILE_FILE}}
+    sources:
+      - '{{.BREWFILE_FILE}}'
+    generates:
+      - '{{.BREWFILE_FILE}}.lock.json'
+    preconditions:
+      - { msg: "brew not in $PATH", sh: "command -v brew" }
+      - { msg: "Missing Brewfile file", sh: "test -f {{.BREWFILE_FILE}}" }
+
+  # task workstation:deps:pre-commit
+  deps:pre-commit:
+    desc: Install/upgrade pre-commit dependencies and hooks
+    deps:
+      - :workstation:deps:brew
+    cmds:
+      - pre-commit install
+      - pre-commit install --install-hooks --overwrite
+    preconditions:
+      - { msg: "pre-commit not in $PATH", sh: "command -v pre-commit" }
+      - { msg: "pre-commit config file not valid", sh: "pre-commit validate-config {{.PRE_COMMIT_CONFIG_FILE}}" }

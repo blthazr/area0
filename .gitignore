@@ -11,3 +11,6 @@ kubeconfig
 .decrypted~*
 *.agekey
 *.key
+
+# Taskfile
+.task/
