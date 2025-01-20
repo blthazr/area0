@@ -52,7 +52,7 @@ spec:
               TUNNEL_TRANSPORT_PROTOCOL: quic
             image:
               repository: docker.io/cloudflare/cloudflared
-              tag: 2024.11.1@sha256:665dda65335e35a782ed9319aa63e8404f88b34d2644d30adf3e91253604ffa0
+              tag: 2025.1.0@sha256:3247f3ef49eda23244b8aa5583f82b7c3880b0d057e1172d0e818f5e678d9f27
             nameOverride: *app
             probes:
               liveness: &probes
