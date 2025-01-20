@@ -110,7 +110,7 @@ spec:
                   value: ALL
                 - name: RESOURCE
                   value: configmap
-              image: ghcr.io/kiwigrid/k8s-sidecar:1.28.0@sha256:4166a019eeafd1f0fef4d867dc5f224f18d84ec8681dbb31f3ca258ecf07bcf2
+              image: ghcr.io/kiwigrid/k8s-sidecar:1.29.0@sha256:38907bdecffcc545e838723049cbfe0bc4c10f905b4eedf946be369328249871
               volumeMounts:
                 - name: dashboards
                   mountPath: /var/lib/grafana/dashboards
