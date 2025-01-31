@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   interval: 30m
-  path: ./kubernetes/apps/flux-system/reloader/app
+  path: ./kubernetes/apps/kube-system/reloader/app
   prune: true
   sourceRef:
     kind: GitRepository
