@@ -1,7 +1,0 @@
-# Enable host dns
-machine:
-  features:
-    hostDNS:
-      enabled: true
-      forwardKubeDNSToHost: false
-      resolveMemberNames: true

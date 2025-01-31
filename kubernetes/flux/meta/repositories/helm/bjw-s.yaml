@@ -6,6 +6,6 @@ metadata:
   name: bjw-s
   namespace: flux-system
 spec:
-  interval: 30m
+  interval: 5m
   type: oci
   url: oci://ghcr.io/bjw-s/helm
