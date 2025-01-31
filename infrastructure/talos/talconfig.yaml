@@ -1,21 +1,20 @@
----
 # yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/master/pkg/config/schemas/talconfig.json
-
+---
 # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
-talosVersion: v1.6.7
+talosVersion: v1.9.2
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
-kubernetesVersion: v1.29.3
+kubernetesVersion: v1.32.1
 
 clusterName: ${clusterName}
-endpoint: https://k8s.${clusterDomain}:6443
+endpoint: https://${clusterEndpointIP}:6443
+
 clusterPodNets:
-  - 10.69.0.0/16
+  - 10.42.0.0/16
 clusterSvcNets:
-  - 10.96.0.0/16
+  - 10.43.0.0/16
+
 additionalApiServerCertSans: &sans
   - &talosControlPlaneVIP ${clusterEndpointIP}
-  - ${clusterName}.${clusterDomain}
-  - k8s.${clusterDomain}
   - 127.0.0.1 # KubePrism
 additionalMachineCertSans: *sans
 
@@ -30,130 +29,68 @@ nodes:
       wwid: naa.5002538900000000
     ipAddress: 172.16.21.11
     networkInterfaces:
-      - addresses:
-          - 172.16.21.11/23
-        deviceSelector:
+      - deviceSelector:
           hardwareAddr: 78:7b:8a:cc:06:17
-        dhcp: false
+        dhcp: true
         mtu: 1500
-        routes:
-          - network: 0.0.0.0/0
-            gateway: 172.16.20.1
         vip:
           ip: *talosControlPlaneVIP
-    nodeLabels:
-      node-role.kubernetes.io/control-plane: ""
-      rook-ceph/disk-id: ata-Samsung_Portable_SSD_T5_S4B0NR0R712678E
-    talosImageURL: factory.talos.dev/installer/97bf8e92fc6bba0f03928b859c08295d7615737b29db06a97be51dc63004e403
+    talosImageURL: factory.talos.dev/installer/376567988ad370138ad8b2698212367b8edcb69b5fd68c80be1f2ec7d603b4ba
   - hostname: k8s-2
     controlPlane: true
     installDiskSelector:
       wwid: naa.5002538900000000
     ipAddress: 172.16.21.12
     networkInterfaces:
-      - addresses:
-          - 172.16.21.12/23
-        deviceSelector:
+      - deviceSelector:
           hardwareAddr: 78:7b:8a:cc:07:ca
-        dhcp: false
+        dhcp: true
         mtu: 1500
-        routes:
-          - network: 0.0.0.0/0
-            gateway: 172.16.20.1
         vip:
           ip: *talosControlPlaneVIP
-    nodeLabels:
-      node-role.kubernetes.io/control-plane: ""
-      rook-ceph/disk-id: ata-Samsung_Portable_SSD_T5_S4B0NR0R719439P
-    talosImageURL: factory.talos.dev/installer/97bf8e92fc6bba0f03928b859c08295d7615737b29db06a97be51dc63004e403
+    talosImageURL: factory.talos.dev/installer/376567988ad370138ad8b2698212367b8edcb69b5fd68c80be1f2ec7d603b4ba
   - hostname: k8s-3
     controlPlane: true
     installDiskSelector:
       wwid: naa.5002538900000000
     ipAddress: 172.16.21.13
     networkInterfaces:
-      - addresses:
-          - 172.16.21.13/23
-        deviceSelector:
+      - deviceSelector:
           hardwareAddr: a8:60:b6:24:dd:6e
-        dhcp: false
+        dhcp: true
         mtu: 1500
-        routes:
-          - network: 0.0.0.0/0
-            gateway: 172.16.20.1
         vip:
           ip: *talosControlPlaneVIP
-    nodeLabels:
-      node-role.kubernetes.io/control-plane: ""
-      rook-ceph/disk-id: ata-Samsung_Portable_SSD_T5_S4B0NR0R721882L
-    talosImageURL: factory.talos.dev/installer/97bf8e92fc6bba0f03928b859c08295d7615737b29db06a97be51dc63004e403
+    talosImageURL: factory.talos.dev/installer/376567988ad370138ad8b2698212367b8edcb69b5fd68c80be1f2ec7d603b4ba
   - hostname: k8s-4
     controlPlane: false
     installDiskSelector:
       wwid: naa.5000cca82ac496b7
     ipAddress: 172.16.21.14
     networkInterfaces:
-      - addresses:
-          - 172.16.21.14/23
-        deviceSelector:
+      - deviceSelector:
           hardwareAddr: 38:c9:86:0d:dd:db
-        dhcp: false
+        dhcp: true
         mtu: 1500
-        routes:
-          - network: 0.0.0.0/0
-            gateway: 172.16.20.1
-    talosImageURL: factory.talos.dev/installer/97bf8e92fc6bba0f03928b859c08295d7615737b29db06a97be51dc63004e403
-  - hostname: k8s-5
-    controlPlane: false
-    installDiskSelector:
-      serial: S59ANM0R414052Y
-    ipAddress: 172.16.21.15
-    networkInterfaces:
-      - addresses:
-          - 172.16.21.15/23
-        deviceSelector:
-          hardwareAddr: 2c:f0:5d:5d:e2:95
-        dhcp: false
-        mtu: 1500
-        routes:
-          - network: 0.0.0.0/0
-            gateway: 172.16.20.1
-    nodeLabels:
-      role/media: "true"
-    talosImageURL: factory.talos.dev/installer/da6e5e640e48d2c9f1ba22aa3f205e17a687512b7201cff5c5c47ef0fab32cb1
-    patches:
-      # Mount zfs-hostpath in kubelet
-      - |-
-        machine:
-          kubelet:
-            extraMounts:
-              - destination: /var/mnt/media
-                options:
-                  - bind
-                  - rshared
-                  - rw
-                source: /var/mnt/media
-                type: bind
+    talosImageURL: factory.talos.dev/installer/376567988ad370138ad8b2698212367b8edcb69b5fd68c80be1f2ec7d603b4ba
 
 # Global patches
 patches:
-  - "@./patches/global/cluster-discovery.yaml"
   - "@./patches/global/containerd.yaml"
   - "@./patches/global/disable-search-domain.yaml"
   - "@./patches/global/host-entries.yaml"
+  - "@./patches/global/hostdns.yaml"
   - "@./patches/global/installer.yaml"
   - "@./patches/global/kubelet.yaml"
-  - "@./patches/global/logging.yaml"
   - "@./patches/global/nameserver.yaml"
   - "@./patches/global/ntp.yaml"
-  - "@./patches/global/openebs-local.yaml"
+  - "@./patches/global/openebs.yaml"
   - "@./patches/global/sysctl.yaml"
-  - "@./patches/global/udev.yaml"
 
 # Controller patches
 controlPlane:
   patches:
-    - "@./patches/controller/api-access.yaml"
+    - "@./patches/controller/admission-controller-patch.yaml"
+    - "@./patches/controller/api-access-shard.yaml"
     - "@./patches/controller/cluster.yaml"
-    - "@./patches/controller/disable-admission-controller.yaml"
     - "@./patches/controller/etcd.yaml"

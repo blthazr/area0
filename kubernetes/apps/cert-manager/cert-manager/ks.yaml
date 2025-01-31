@@ -4,7 +4,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app cert-manager
-  namespace: flux-system
+  namespace: &namespace cert-manager
 spec:
   commonMetadata:
     labels:
@@ -14,8 +14,33 @@ spec:
   prune: true
   sourceRef:
     kind: GitRepository
-    name: area0
-  targetNamespace: cert-manager
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: *namespace
+  timeout: 5m
+  wait: false # no flux ks dependents
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app cert-manager-issuers
+  namespace: &namespace cert-manager
+spec:
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  dependsOn:
+    - name: onepassword-store
+      namespace: external-secrets
+  interval: 30m
+  path: ./kubernetes/apps/cert-manager/cert-manager/issuers
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: *namespace
   timeout: 5m
   wait: true
 ---
@@ -23,21 +48,24 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app cert-manager-issuers
-  namespace: flux-system
+  name: &app cert-manager-tls
+  namespace: &namespace cert-manager
 spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: cert-manager
-    - name: external-secrets-stores
+    - name: cert-manager-issuers
+      namespace: cert-manager
+    - name: onepassword-store
+      namespace: external-secrets
   interval: 30m
-  path: ./kubernetes/apps/cert-manager/cert-manager/issuers
+  path: ./kubernetes/apps/cert-manager/cert-manager/tls
   prune: true
   sourceRef:
     kind: GitRepository
-    name: area0
-  targetNamespace: cert-manager
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: *namespace
   timeout: 5m
-  wait: true
+  wait: true # flux ks dependents

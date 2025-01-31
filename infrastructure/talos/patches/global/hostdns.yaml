@@ -3,5 +3,5 @@ machine:
   features:
     hostDNS:
       enabled: true
-      forwardKubeDNSToHost: true # Requires Cilium `bpf.masquerade: false`
+      forwardKubeDNSToHost: false
       resolveMemberNames: true

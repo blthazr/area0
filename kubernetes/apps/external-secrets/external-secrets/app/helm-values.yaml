@@ -1,0 +1,19 @@
+---
+certController:
+  image: &image
+    repository: ghcr.io/external-secrets/external-secrets
+  serviceMonitor:
+    enabled: true
+    interval: 1m
+image: *image
+installCRDs: true
+leaderElect: true
+replicaCount: 1
+serviceMonitor:
+  enabled: true
+  interval: 1m
+webhook:
+  image: *image
+  serviceMonitor:
+    enabled: true
+    interval: 1m

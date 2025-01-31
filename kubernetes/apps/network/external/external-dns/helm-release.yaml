@@ -1,0 +1,55 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app external-dns-cloudflare
+spec:
+  chart:
+    spec:
+      chart: external-dns
+      sourceRef:
+        kind: HelmRepository
+        name: external-dns
+        namespace: flux-system
+      version: 1.15.1
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  interval: 30m
+  upgrade:
+    cleanupOnFail: true
+    crds: CreateReplace
+    remediation:
+      retries: 3
+      strategy: rollback
+  values:
+    domainFilters: ["${SECRET_DOMAIN}"]
+    env:
+      - name: CF_API_TOKEN
+        valueFrom:
+          secretKeyRef:
+            key: CF_API_TOKEN
+            name: &secret external-dns-cloudflare-secret
+    extraArgs:
+      - --cloudflare-dns-records-per-page=1000
+      - --cloudflare-proxied
+      - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
+      - --crd-source-kind=DNSEndpoint
+      - --ignore-ingress-tls-spec
+      - --ingress-class=external
+    fullnameOverride: *app
+    podAnnotations:
+      secret.reloader.stakater.com/reload: *secret
+    policy: sync
+    provider:
+      name: cloudflare
+    serviceMonitor:
+      enabled: true
+    sources:
+      - crd
+      - ingress
+    triggerLoopOnEvent: true
+    txtOwnerId: default
+    txtPrefix: k8s.

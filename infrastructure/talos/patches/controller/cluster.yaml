@@ -22,5 +22,9 @@ cluster:
                     topologyKey: kubernetes.io/hostname
                     whenUnsatisfiable: ScheduleAnyway
                 defaultingType: List
+          plugins:
+            score:
+              disabled:
+                - name: ImageLocality
     extraArgs:
       bind-address: 0.0.0.0

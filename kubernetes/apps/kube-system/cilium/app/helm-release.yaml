@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: cilium
         namespace: flux-system
-      version: 1.16.3
+      version: 1.16.6
   install:
     remediation:
       retries: 3
@@ -27,40 +27,6 @@ spec:
       annotations:
         grafana_folder: Cilium
       enabled: true
-    hubble:
-      enabled: true
-      metrics:
-        dashboards:
-          annotations:
-            grafana_folder: Cilium
-          enabled: true
-        enabled:
-          - dns:query
-          - drop
-          - tcp
-          - flow
-          - port-distribution
-          - icmp
-          - http
-        serviceMonitor:
-          enabled: true
-      relay:
-        enabled: true
-        prometheus:
-          serviceMonitor:
-            enabled: true
-        rollOutPods: true
-      ui:
-        enabled: true
-        ingress:
-          annotations:
-            hajimari.io/appName: Cilium
-            hajimari.io/group: Management
-            hajimari.io/icon: simple-icons:cilium
-          className: internal
-          enabled: true
-          hosts: ["hubble.${SECRET_DOMAIN}"]
-        rollOutPods: true
     operator:
       dashboards:
         annotations:
@@ -70,6 +36,7 @@ spec:
         enabled: true
         serviceMonitor:
           enabled: true
+      replicas: 2
     prometheus:
       enabled: true
       serviceMonitor:

@@ -4,23 +4,21 @@
 # Microsoft Windows
 Thumbs.db
 
-# Ansible
-.venv*
-
-# Brew
-Brewfile.lock.json
-
 # Kubernetes
 kubeconfig
+talosconfig
 
 # SOPS
 .decrypted~*
 *.agekey
 *.key
 
-# Secrets
-*.secret.env
-*.secret.yaml
-
 # Taskfile
-.task/
+/.task/
+
+# Brew
+Brewfile.lock.json
+
+# Shards
+*-shard
+*-shard.*

@@ -1,14 +1,17 @@
 {
   "recommendations": [
     "albert.tabout",
+    "davidanson.vscode-markdownlint",
     "editorconfig.editorconfig",
+    "esbenp.prettier-vscode",
     "fcrespo82.markdown-table-formatter",
     "gruntfuggly.todo-tree",
-    "hashicorp.terraform",
-    "mikestead.dotenv",
     "mrmlnc.vscode-json5",
-    "redhat.ansible",
+    "oderwat.indent-rainbow",
+    "pascalreitermann93.vscode-yaml-sort",
     "redhat.vscode-yaml",
-    "signageos.signageos-vscode-sops"
+    "samuelcolvin.jinjahtml",
+    "signageos.signageos-vscode-sops",
+    "tamasfe.even-better-toml"
   ]
 }

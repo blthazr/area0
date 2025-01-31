@@ -11,15 +11,16 @@ repos:
   - repo: https://github.com/adrienverge/yamllint
     rev: v1.35.1
     hooks:
-      - args:
+      - id: yamllint
+        args:
           - --config-file
-          - .yamllint.yaml
-        id: yamllint
+          - ".yamllint.yaml"
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
       - id: check-added-large-files # prevent giant files from being committed
+        args: [--maxkb=2048]
       - id: check-executables-have-shebangs # check that non-binary executables have a proper shebang
       - id: check-merge-conflict # check for files that contain merge conflict strings
       - id: check-shebang-scripts-are-executable # check that scripts with shebangs are executable

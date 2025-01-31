@@ -1,4 +1,0 @@
-# Custom sysfs settings
-machine:
-  sysfs:
-    devices.system.cpu.cpufreq.boost: 0
