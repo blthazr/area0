@@ -2,13 +2,32 @@
 instance:
   cluster:
     networkPolicy: false
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: flux
   components:
     - source-controller
     - kustomize-controller
     - helm-controller
     - notification-controller
+  distribution:
+    # renovate: datasource=github-releases depName=fluxcd/flux2
+    version: 2.4.0
   sync:
     kind: GitRepository
     path: kubernetes/flux/cluster
     ref: refs/heads/main
     url: https://github.com/blthazr/area0
+  kustomize:
+    patches:
+      - # Add Sops decryption to 'flux-system' Kustomization
+        patch: |
+          - op: add
+            path: /spec/decryption
+            value:
+              provider: sops
+              secretRef:
+                name: sops-age
+        target:
+          group: kustomize.toolkit.fluxcd.io
+          kind: Kustomization
