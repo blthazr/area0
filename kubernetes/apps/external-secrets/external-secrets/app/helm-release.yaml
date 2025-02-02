@@ -13,9 +13,6 @@ spec:
         name: external-secrets
         namespace: flux-system
       version: 0.13.0
-  dependsOn:
-    - name: onepassword-connect
-      namespace: external-secrets
   install:
     remediation:
       retries: 3
