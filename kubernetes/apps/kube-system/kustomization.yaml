@@ -5,6 +5,7 @@ kind: Kustomization
 namespace: kube-system
 components:
   - ../../flux/components/namespace
+  - ../../flux/components/sops
 resources:
   - ./cilium/ks.yaml
   - ./coredns/ks.yaml
