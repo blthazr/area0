@@ -9,7 +9,6 @@ instance:
     - notification-controller
   sync:
     kind: GitRepository
-    url: "https://github.com/blthazr/area0"
-    ref: "refs/heads/main"
     path: kubernetes/flux/cluster
-    pullSecret: github-deploy-key
+    ref: refs/heads/main
+    url: https://github.com/blthazr/area0
