@@ -9,4 +9,5 @@ components:
 resources:
   - ./common/ks.yaml
   - ./plex/ks.yaml
+  - ./prowlarr/ks.yaml
   - ./tubesync/ks.yaml
