@@ -8,4 +8,5 @@ components:
   - ../../flux/components/sops
 resources:
   - ./common/ks.yaml
+  - ./plex/ks.yaml
   - ./tubesync/ks.yaml
