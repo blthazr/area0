@@ -48,7 +48,6 @@ spec:
             image:
               repository: ghcr.io/onedr0p/prowlarr-develop
               tag: 1.30.1.4928@sha256:6256bcffe1658d7f2de3eb82f9fab20e800a2c84c4cdec8a0009844e2f9891da
-            nameOverride: *app
             probes:
               liveness: &probes
                 custom: true
@@ -87,11 +86,11 @@ spec:
                   - key: node-role.kubernetes.io/control-plane
                     operator: DoesNotExist
       securityContext:
-        fsGroup: ${APP_GID}
+        fsGroup: ${APP_GID:=1000}
         fsGroupChangePolicy: OnRootMismatch
-        runAsGroup: ${APP_GID}
+        runAsGroup: ${APP_GID:=1000}
         runAsNonRoot: true
-        runAsUser: ${APP_UID}
+        runAsUser: ${APP_UID:=1000}
         seccompProfile:
           type: RuntimeDefault
     ingress:

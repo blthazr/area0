@@ -48,7 +48,6 @@ spec:
             image:
               repository: ghcr.io/onedr0p/sabnzbd
               tag: 4.4.1@sha256:4188d3c29c53de1018edcfd5dc2d0a0c7955b9a239b91ff6c859626abd3494dc
-            nameOverride: *app
             probes:
               liveness: &probes
                 custom: true
@@ -66,7 +65,7 @@ spec:
               limits:
                 memory: 8Gi
               requests:
-                cpu: 100m
+                cpu: 10m
             securityContext:
               allowPrivilegeEscalation: false
               capabilities:
@@ -84,11 +83,11 @@ spec:
         # TODO: Remove role/media nodeSelector once new cluster is built
         role/media: "true"
       securityContext:
-        fsGroup: ${APP_GID}
+        fsGroup: ${APP_GID:=1000}
         fsGroupChangePolicy: OnRootMismatch
-        runAsGroup: ${APP_GID}
+        runAsGroup: ${APP_GID:=1000}
         runAsNonRoot: true
-        runAsUser: ${APP_UID}
+        runAsUser: ${APP_UID:=1000}
         seccompProfile:
           type: RuntimeDefault
         supplementalGroups:
