@@ -1,0 +1,64 @@
+controllers:
+  main:
+    annotations:
+      helm.sh/hook: "post-install,post-upgrade"
+      helm.sh/hook-delete-policy: "before-hook-creation"
+    initContainers:
+      data:
+        args:
+          - rm -rf /mnt/host_var/lib/rook
+        command:
+          - /bin/sh
+          - -c
+        image:
+          repository: docker.io/library/alpine
+          tag: latest
+        securityContext:
+          privileged: true
+    containers:
+      disk:
+        args:
+          - |
+            apk add --no-cache sgdisk findutils util-linux util-linux-misc parted device-mapper;
+            DISK=$(find /dev/disk/by-id/ -iname "*{{ requiredEnv "ROOK_DISK" }}*" -not -name "*_[0-9]" -not -name "*-part[0-9]");
+            if [[ -z "$DISK" ]]; then echo "No disk to wipe"; exit; fi;
+            echo "=== Wiping $DISK ===";
+            sgdisk --zap-all $DISK;
+            dd if=/dev/zero bs=1M count=100 oflag=direct of=$DISK;
+            blkdiscard $DISK;
+            partprobe $DISK;
+        command:
+          - /bin/sh
+          - -c
+        image:
+          repository: docker.io/library/alpine
+          tag: latest
+        securityContext:
+          privileged: true
+    job:
+      backoffLimit: 0
+      parallelism: {{ requiredEnv "NODE_COUNT" }}
+    pod:
+      restartPolicy: Never
+    type: job
+defaultPodOptions:
+  topologySpreadConstraints:
+    - labelSelector:
+        matchLabels:
+          app.kubernetes.io/name: wipe-rook
+      maxSkew: 1
+      topologyKey: kubernetes.io/hostname
+      whenUnsatisfiable: DoNotSchedule
+persistence:
+  host-dev:
+    globalMounts:
+      - path: /dev/disk/by-id
+    hostPath: /dev/disk/by-id
+    hostPathType: Directory
+    type: hostPath
+  host-var:
+    globalMounts:
+      - path: /mnt/host_var
+    hostPath: /var
+    hostPathType: Directory
+    type: hostPath
