@@ -23,7 +23,7 @@ spec:
       retries: 3
       strategy: rollback
   values:
-    domain: "theburnh.am"
+    domain: theburnh.am
     fullnameOverride: *app
     service:
       annotations:
