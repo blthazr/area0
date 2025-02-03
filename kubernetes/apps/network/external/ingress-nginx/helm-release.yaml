@@ -13,9 +13,6 @@ spec:
         name: ingress-nginx
         namespace: flux-system
       version: 4.12.0
-  dependsOn:
-    - name: cloudflared
-      namespace: network
   install:
     remediation:
       retries: 3
@@ -63,6 +60,7 @@ spec:
         use-forwarded-headers: "true"
       extraArgs:
         default-ssl-certificate: cert-manager/theburnh-am-tls
+        publish-status-address: &hostname external.theburnh.am
       ingressClassResource:
         controllerValue: k8s.io/external
         default: false
@@ -73,6 +71,8 @@ spec:
           enabled: true
           namespaceSelector:
             any: true
+      publishService:
+        enabled: false
       resources:
         limits:
           memory: 500Mi
@@ -80,7 +80,9 @@ spec:
           cpu: 100m
       service:
         annotations:
-          external-dns.alpha.kubernetes.io/hostname: external.theburnh.am
+          external-dns.alpha.kubernetes.io/hostname: *hostname
           lbipam.cilium.io/ips: 172.16.21.120
-        externalTrafficPolicy: Cluster
+      terminationGracePeriodSeconds: 120
+    defaultBackend:
+      enabled: false
     fullnameOverride: *app

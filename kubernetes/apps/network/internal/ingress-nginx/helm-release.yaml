@@ -58,6 +58,7 @@ spec:
         use-forwarded-headers: "true"
       extraArgs:
         default-ssl-certificate: cert-manager/theburnh-am-tls
+        publish-status-address: &hostname internal.theburnh.am
       ingressClassResource:
         controllerValue: k8s.io/internal
         default: true
@@ -68,6 +69,8 @@ spec:
           enabled: true
           namespaceSelector:
             any: true
+      publishService:
+        enabled: false
       resources:
         limits:
           memory: 500Mi
@@ -75,6 +78,9 @@ spec:
           cpu: 100m
       service:
         annotations:
+          external-dns.alpha.kubernetes.io/hostname: *hostname
           lbipam.cilium.io/ips: 172.16.21.121
-        externalTrafficPolicy: Cluster
+      terminationGracePeriodSeconds: 120
+    defaultBackend:
+      enabled: false
     fullnameOverride: *app
