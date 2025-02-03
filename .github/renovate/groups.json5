@@ -1,0 +1,85 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "packageRules": [
+    {
+      "description": ["1Password Connect Group"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "groupName": "1Password Connnect",
+      "matchDatasources": ["docker"],
+      "matchPackagePatterns": ["1password/connect"]
+    },
+    {
+      "description": ["Cribl Group"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "groupName": "Cribl",
+      "matchDatasources": [
+        "docker",
+        "helm"
+      ],
+      "matchPackagePatterns": [
+        "cribl/cribl",
+        "edge",
+        "logstream"
+      ],
+      "versioning": "semver"
+    },
+    {
+      "description": ["Flux Operator Group"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "groupName": "Flux Operator",
+      "matchDatasources": ["docker"],
+      "matchPackagePatterns": [
+        "flux-operator",
+        "flux-instance"
+      ]
+    },
+    {
+      "description": ["Intel Device Plugins Group"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "groupName": "Intel-Device-Plugins",
+      "matchDatasources": ["helm"],
+      "matchPackagePatterns": ["intel-device-plugins"]
+    },
+    {
+      "description": ["Rook-Ceph Group"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "groupName": "Rook-Ceph",
+      "matchDatasources": ["helm"],
+      "matchPackagePatterns": ["rook.ceph"]
+    },
+    {
+      "description": ["Splunk Group"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "groupName": "Splunk",
+      "matchDatasources": ["helm"],
+      "matchPackagePatterns": [
+        "splunk-enterprise",
+        "splunk-operator"
+      ]
+    },
+    {
+      "description": ["Talos Group"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "groupName": "Talos",
+      "matchDatasources": ["docker"],
+      "matchPackagePatterns": [
+        "siderolabs/talosctl",
+        "siderolabs/installer"
+      ]
+    }
+  ]
+}
