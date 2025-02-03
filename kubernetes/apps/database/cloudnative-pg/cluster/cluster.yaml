@@ -26,13 +26,13 @@ spec:
           key: MINIO_SECRET_KEY
       # Note: serverName version needs to be incremented
       # when recovering from an existing cnpg cluster
-      serverName: &currentCluster postgres17-v1
+      serverName: &currentCluster postgres16-v4
       wal:
         compression: bzip2
         maxParallel: 8
     retentionPolicy: 30d
   enableSuperuserAccess: true
-  imageName: ghcr.io/cloudnative-pg/postgresql:17.2@sha256:9308dcd778be66f56bdce8503916ab820d12420e7d1bc74fff0d663c95e126c3
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.4-56
   instances: 3
   monitoring:
     enablePodMonitor: true
