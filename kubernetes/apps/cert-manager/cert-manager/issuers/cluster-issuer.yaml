@@ -16,5 +16,4 @@ spec:
               name: cloudflare-issuer-secret
               key: CLOUDFLARE_API_TOKEN
         selector:
-          dnsZones:
-            - "${SECRET_DOMAIN}"
+          dnsZones: ["theburnh.am"]

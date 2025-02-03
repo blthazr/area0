@@ -62,7 +62,7 @@ spec:
         ssl-protocols: TLSv1.3 TLSv1.2
         use-forwarded-headers: "true"
       extraArgs:
-        default-ssl-certificate: "cert-manager/${SECRET_DOMAIN/./-}-tls"
+        default-ssl-certificate: cert-manager/theburnh-am-tls
       ingressClassResource:
         controllerValue: k8s.io/external
         default: false
@@ -80,7 +80,7 @@ spec:
           cpu: 100m
       service:
         annotations:
-          external-dns.alpha.kubernetes.io/hostname: "external.${SECRET_DOMAIN}"
-          lbipam.cilium.io/ips: "${CLUSTER_LB_NGINX_EXTERNAL}"
+          external-dns.alpha.kubernetes.io/hostname: external.theburnh.am
+          lbipam.cilium.io/ips: 172.16.21.120
         externalTrafficPolicy: Cluster
     fullnameOverride: *app

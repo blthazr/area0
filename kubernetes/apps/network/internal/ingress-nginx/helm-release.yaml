@@ -57,7 +57,7 @@ spec:
         ssl-protocols: TLSv1.3 TLSv1.2
         use-forwarded-headers: "true"
       extraArgs:
-        default-ssl-certificate: "cert-manager/${SECRET_DOMAIN/./-}-tls"
+        default-ssl-certificate: cert-manager/theburnh-am-tls
       ingressClassResource:
         controllerValue: k8s.io/internal
         default: true
@@ -75,6 +75,6 @@ spec:
           cpu: 100m
       service:
         annotations:
-          lbipam.cilium.io/ips: "${CLUSTER_LB_NGINX_INTERNAL}"
+          lbipam.cilium.io/ips: 172.16.21.121
         externalTrafficPolicy: Cluster
     fullnameOverride: *app

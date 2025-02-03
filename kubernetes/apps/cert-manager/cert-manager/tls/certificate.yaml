@@ -1,15 +1,15 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/cert-manager.io/certificate_v1.json
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/cert-manager.io/certificate_v1.json
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: "${SECRET_DOMAIN/./-}"
+  name: theburnh-am
 spec:
-  commonName: "${SECRET_DOMAIN}"
+  commonName: theburnh.am
   dnsNames:
-    - "${SECRET_DOMAIN}"
-    - "*.${SECRET_DOMAIN}"
+    - "theburnh.am"
+    - "*.theburnh.am"
   issuerRef:
     name: letsencrypt-production
     kind: ClusterIssuer
-  secretName: "${SECRET_DOMAIN/./-}-tls"
+  secretName: theburnh-am-tls

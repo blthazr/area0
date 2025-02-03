@@ -23,11 +23,11 @@ spec:
       retries: 3
       strategy: rollback
   values:
-    domain: "${SECRET_DOMAIN}"
+    domain: "theburnh.am"
     fullnameOverride: *app
     service:
       annotations:
-        lbipam.cilium.io/ips: "${CLUSTER_LB_K8S_GATEWAY}"
+        lbipam.cilium.io/ips: 172.16.21.122
       externalTrafficPolicy: Cluster
       port: 53
       type: LoadBalancer
