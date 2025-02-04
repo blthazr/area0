@@ -19,6 +19,7 @@
     "github>blthazr/area0//.github/renovate/packageRules.json5",
     "github>blthazr/area0//.github/renovate/semanticCommits.json5"
   ],
+  "commitBodyTable": true,
   "dependencyDashboardTitle": "Renovate Dashboard 🤖",
   "ignorePaths": [
     "**/*.sops.*",
