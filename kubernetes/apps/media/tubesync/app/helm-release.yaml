@@ -40,17 +40,6 @@ spec:
             image:
               repository: ghcr.io/meeb/tubesync
               tag: latest@sha256:800a60e19dfca121f9727f72f1e04106ce75d9ce3faf083e4128ca53c95feaab
-            resources:
-              limits:
-                memory: 1Gi
-              requests:
-                cpu: 10m
-                memory: 128Mi
-            securityContext:
-              allowPrivilegeEscalation: false
-              capabilities:
-                drop: ["ALL"]
-              readOnlyRootFilesystem: true
     defaultPodOptions:
       affinity:
         nodeAffinity:
@@ -62,16 +51,6 @@ spec:
       nodeSelector:
         # TODO: Remove role/media nodeSelector once new cluster is built
         role/media: "true"
-      securityContext:
-        fsGroup: ${APP_GID:=1000}
-        fsGroupChangePolicy: OnRootMismatch
-        runAsGroup: ${APP_GID:=1000}
-        runAsNonRoot: true
-        runAsUser: ${APP_UID:=1000}
-        seccompProfile:
-          type: RuntimeDefault
-        supplementalGroups:
-          - 100
     ingress:
       app:
         annotations:
