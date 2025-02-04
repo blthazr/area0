@@ -55,8 +55,8 @@ spec:
                 spec:
                   failureThreshold: 3
                   httpGet:
-                    path: __HTTP_GET_PATH
-                    port: &port __SERVICE_PORT_NUMBER
+                    path: /ping
+                    port: *port
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
