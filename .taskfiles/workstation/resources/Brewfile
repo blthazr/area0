@@ -5,12 +5,12 @@ brew "age"
 # Cloudflare Tunnel client (formerly Argo Tunnel)
 brew "cloudflared"
 # --------------------------------------------------------------------------------------------------
-# Load/unload environment variables based on $PWD
-brew "direnv"
-# --------------------------------------------------------------------------------------------------
 # Flux CLI
 tap "fluxcd/tap"
 brew "fluxcd/tap/flux"
+# --------------------------------------------------------------------------------------------------
+# GitHub command-line tool
+brew "gh"
 # --------------------------------------------------------------------------------------------------
 # Task runner / simpler Make alternative written in Go
 tap "go-task/tap"
@@ -28,8 +28,8 @@ brew "jq"
 # Kubernetes CLI To Manage Your Clusters In Style!
 brew "k9s"
 # --------------------------------------------------------------------------------------------------
-# Package manager for kubectl plugins
-brew "krew"
+# Colorize your kubectl output
+brew "kubecolor"
 # --------------------------------------------------------------------------------------------------
 # FAST Kubernetes manifests validator, with support for Custom Resources!
 brew "kubeconform"
@@ -43,13 +43,21 @@ brew "kustomize"
 # Render Jinja2 templates directly from the command-line to stdout
 brew "minijinja-cli"
 # --------------------------------------------------------------------------------------------------
-
-
+# Polyglot runtime manager (asdf rust clone)
+brew "mise"
+# --------------------------------------------------------------------------------------------------
 # Collection of tools that nobody wrote when UNIX was young
 brew "moreutils"
 # --------------------------------------------------------------------------------------------------
 # Framework for managing multi-language pre-commit hooks
 brew "pre-commit"
+# --------------------------------------------------------------------------------------------------
+# Code formatter for JavaScript, CSS, JSON, GraphQL, Markdown, YAML
+brew "prettier"
+# --------------------------------------------------------------------------------------------------
+# CLI for out-of-band management of Kubernetes nodes created by Talos
+tap "siderolabs/tap"
+brew "siderolabs/tap/talosctl"
 # --------------------------------------------------------------------------------------------------
 # Editor of encrypted files
 brew "sops"
@@ -60,10 +68,15 @@ brew "stern"
 # Configuration helper for talos clusters
 brew "talhelper"
 # --------------------------------------------------------------------------------------------------
-# CLI for out-of-band management of Kubernetes nodes created by Talos
-tap "siderolabs/tap"
-brew "siderolabs/tap/talosctl"
+# Linter for YAML files
+brew "yamllint"
 # --------------------------------------------------------------------------------------------------
 # Process YAML, JSON, XML, CSV and properties documents from the CLI
 brew "yq"
+# --------------------------------------------------------------------------------------------------
+# Password manager that keeps all passwords secure behind one password
+cask "1password"
+# --------------------------------------------------------------------------------------------------
+# Command-line interface for 1Password
+cask "1password-cli"
 # --------------------------------------------------------------------------------------------------

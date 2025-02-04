@@ -4,9 +4,9 @@ version: '3'
 
 tasks:
 
-  # task sops:age-keygen
-  age-keygen:
-    desc: Initialize Age Key for SOPS
+  # task sops:generate-age-key
+  generate-age-key:
+    desc: Initialize the Sops Age Key
     cmds:
       - age-keygen --output {{.AGE_FILE}}
     preconditions:
@@ -17,7 +17,7 @@ tasks:
   # task sops:encrypt-file FILE=<path>
   encrypt-file:
     summary: |
-      file: Path of file to be encrypted (required)
+      FILE: Path of file to be encrypted (required)
     cmds:
       - sops --encrypt --in-place {{.FILE}}
     requires:
@@ -26,7 +26,7 @@ tasks:
     preconditions:
       - { msg: "jq not in $PATH", sh: "command -v jq" }
       - { msg: "sops not in $PATH", sh: "command -v sops" }
-      - { msg: "Missing SOPS age key file", sh: "test -f {{.AGE_FILE}}" }
-      - { msg: "Missing SOPS config file", sh: "test -f {{.SOPS_CONFIG_FILE}}" }
+      - { msg: "Missing sops age.key", sh: "test -f {{.AGE_FILE}}" }
+      - { msg: "Missing sops config file", sh: "test -f {{.SOPS_CONFIG_FILE}}" }
     status:
       - sops filestatus {{.FILE}} | jq --exit-status '.encrypted'

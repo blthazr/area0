@@ -2,6 +2,9 @@
 # yaml-language-server: $schema=https://taskfile.dev/schema.json
 version: '3'
 
+set: [pipefail]
+shopt: [globstar]
+
 vars:
   # Directories
   INFRASTRUCTURE_DIR: '{{.ROOT_DIR}}/infrastructure'
@@ -10,26 +13,27 @@ vars:
   AGE_FILE: '{{.ROOT_DIR}}/age.key'
   KUBECONFIG_FILE: '{{.ROOT_DIR}}/kubeconfig'
   SOPS_CONFIG_FILE: '{{.ROOT_DIR}}/.sops.yaml'
-  # Binaries
-  PYTHON_BIN: python3
 
 env:
   KUBECONFIG: '{{.KUBECONFIG_FILE}}'
   SOPS_AGE_KEY_FILE: '{{.AGE_FILE}}'
-  VIRTUAL_ENV: '{{.ROOT_DIR}}/.venv'
 
 includes:
   bootstrap: .taskfiles/bootstrap
-  flux: .taskfiles/flux
   kubernetes:
     aliases: ["k8s"]
     taskfile: .taskfiles/kubernetes
   sops: .taskfiles/sops
   talos: .taskfiles/talos
-  volsync: .taskfiles/volsync
   workstation: .taskfiles/workstation
 
 tasks:
+
   default:
     silent: true
     cmds: ["task --list"]
+
+  # task deps
+  deps:
+    - task: workstation:mise
+    - task: workstation:pre-commit

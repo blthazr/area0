@@ -7,13 +7,13 @@ vars:
   WORKSTATION_RESOURCES_DIR: '{{.ROOT_DIR}}/.taskfiles/workstation/resources'
   # Files
   BREWFILE_FILE: '{{.WORKSTATION_RESOURCES_DIR}}/Brewfile'
-  PIP_REQUIREMENTS_FILE: '{{.WORKSTATION_RESOURCES_DIR}}/requirements.txt'
+  PRE_COMMIT_CONFIG_FILE: '{{.ROOT_DIR}}/.pre-commit-config.yaml'
 
 tasks:
 
   # task workstation:brew
   brew:
-    desc: Install workstation dependencies with Brew
+    desc: Install workstation dependencies with Homebrew
     cmds:
       - brew bundle --file {{.BREWFILE_FILE}}
     sources:
@@ -24,43 +24,24 @@ tasks:
       - { msg: "brew not in $PATH", sh: "command -v brew" }
       - { msg: "Missing Brewfile file", sh: "test -f {{.BREWFILE_FILE}}" }
 
-  # task workstation:direnv
-  direnv:
-    desc: Run direnv hooks
+  # task workstation:mise
+  mise:
+    desc: Activate mise
     deps:
       - :workstation:brew
     cmds:
-      - direnv allow "{{.ROOT_DIR}}"
+      - mise trust
     preconditions:
-      - { msg: "direnv not in $PATH", sh: "command -v direnv" }
-    status:
-      - "[[ $(direnv status --json | jq '.state.foundRC.allowed') == 0 ]]"
-      - "[[ $(direnv status --json | jq '.state.loadedRC.allowed') == 0 ]]"
+      - { msg: "mise not in $PATH", sh: "command -v mise" }
 
-  # task workstation:krew
-  krew:
-    desc: Set up Krew
+  # task workstation:pre-commit
+  pre-commit:
+    desc: Install/upgrade pre-commit dependencies and hooks
     deps:
       - :workstation:brew
     cmds:
-      - kubectl krew install cert-manager cnpg browse-pvc rook-ceph view-secret
+      - pre-commit install
+      - pre-commit install --install-hooks --overwrite
     preconditions:
-      - { msg: "kubectl not in $PATH", sh: "command -v kubectl" }
-      - { msg: "krew not available", sh: "kubectl krew &>/dev/null" }
-
-  # task workstation:python
-  python:
-    desc: Set up Python
-    deps:
-      - :workstation:brew
-    cmds:
-      - '{{.PYTHON_BIN}} -m venv {{.VIRTUAL_ENV}}'
-      - '{{.VIRTUAL_ENV}}/bin/python3 -m pip install --upgrade pip'
-      - '{{.VIRTUAL_ENV}}/bin/python3 -m pip install --upgrade --requirement {{.PIP_REQUIREMENTS_FILE}}'
-    sources:
-      - '{{.PIP_REQUIREMENTS_FILE}}'
-    generates:
-      - '{{.VIRTUAL_ENV}}/pyvenv.cfg'
-    preconditions:
-      - { msg: "python3 not in $PATH", sh: "command -v {{.PYTHON_BIN}}" }
-      - { msg: "Missing pip requirements file", sh: "test -f {{.PIP_REQUIREMENTS_FILE}}" }
+      - { msg: "pre-commit not in $PATH", sh: "command -v pre-commit" }
+      - { msg: "pre-commit config file not valid", sh: "pre-commit validate-config {{.PRE_COMMIT_CONFIG_FILE}}" }
