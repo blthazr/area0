@@ -1,0 +1,120 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: "Flux Local"
+
+on:
+  pull_request:
+    branches: ["main"]
+    paths:
+      - kubernetes/apps/**
+      - kubernetes/flux/**
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Flux Local Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: "${{ secrets.BOT_APP_ID }}"
+          private-key: "${{ secrets.BOT_PRIVATE_KEY }}"
+
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          path: pull
+          token: "${{ steps.app-token.outputs.token }}"
+
+      - name: Run flux-local test
+        uses: docker://ghcr.io/allenporter/flux-local:v7.0.0
+        with:
+          args: test --enable-helm --all-namespaces --path /github/workspace/kubernetes/flux/cluster -v
+
+  diff:
+    name: Flux Local Diff
+    permissions:
+      pull-requests: write
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        resources: ["helmrelease", "kustomization"]
+      max-parallel: 4
+    steps:
+      - name: Generate token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: "${{ secrets.BOT_APP_ID }}"
+          private-key: "${{ secrets.BOT_PRIVATE_KEY }}"
+
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          path: pull
+          token: "${{ steps.app-token.outputs.token }}"
+
+      - name: Checkout default branch
+        uses: actions/checkout@v4
+        with:
+          path: default
+          ref: "${{ github.event.repository.default_branch }}"
+          token: "${{ steps.app-token.outputs.token }}"
+
+      - name: Run flux-local diff
+        uses: docker://ghcr.io/allenporter/flux-local:v7.0.0
+        with:
+          args: >-
+            diff ${{ matrix.resources }}
+            --unified 6
+            --path /github/workspace/pull/kubernetes/flux/cluster
+            --path-orig /github/workspace/default/kubernetes/flux/cluster
+            --strip-attrs "helm.sh/chart,checksum/config,app.kubernetes.io/version,chart"
+            --limit-bytes 10000
+            --all-namespaces
+            --sources "flux-system"
+            --output-file diff.patch
+
+      - name: Generate diff
+        id: diff
+        run: |
+          cat diff.patch;
+          {
+              echo 'diff<<EOF'
+              cat diff.patch
+              echo EOF
+          } >> "$GITHUB_OUTPUT";
+          {
+              echo "### Diff"
+              echo '```diff'
+              cat diff.patch
+              echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Add comment
+        if: ${{ steps.diff.outputs.diff != '' }}
+        uses: mshick/add-pr-comment@v2
+        with:
+          message: |
+            ```diff
+            ${{ steps.diff.outputs.diff }}
+            ```
+          message-id: "${{ github.event.pull_request.number }}/kubernetes/${{ matrix.resources }}"
+          message-failure: Diff was not successful
+          repo-token: "${{ steps.app-token.outputs.token }}"
+
+  flux-local-success:
+    name: Flux local successful
+    if: ${{ always() }}
+    needs: ["test", "diff"]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check flux-local status
+        if: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }}
+        run: exit 1
