@@ -37,7 +37,7 @@ spec:
               TZ: America/Chicago
             image:
               repository: ghcr.io/meeb/tubesync
-              tag: latest@sha256:800a60e19dfca121f9727f72f1e04106ce75d9ce3faf083e4128ca53c95feaab
+              tag: latest@sha256:ec2bf5a72c709d59d24e4f712aecee64e5814a7f2d233cc47f0fb8a66fc85b54
             nameOverride: *app
             resources:
               limits:
