@@ -15,7 +15,7 @@ spec:
     - name: onepassword-store
       namespace: external-secrets
   interval: 30m
-  path: ./kubernetes/apps/media/sonarr/app
+  path: ./kubernetes/apps/media/sonarr/sonarr
   postBuild:
     substitute:
       APP: *app
