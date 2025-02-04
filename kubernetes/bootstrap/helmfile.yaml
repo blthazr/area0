@@ -45,7 +45,7 @@ releases:
       - kube-system/coredns
     values:
       - ../apps/cert-manager/cert-manager/app/helm-values.yaml
-    version: v1.16.3
+    version: v1.17.0
 
   - name: external-secrets
     chart: oci://ghcr.io/external-secrets/charts/external-secrets
