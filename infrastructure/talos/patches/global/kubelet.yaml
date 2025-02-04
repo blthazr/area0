@@ -1,0 +1,8 @@
+# Configure kubelet
+machine:
+  kubelet:
+    extraConfig:
+      maxPods: 150
+    nodeIP:
+      validSubnets:
+        - 172.16.20.0/23
