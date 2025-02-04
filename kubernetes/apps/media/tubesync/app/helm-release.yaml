@@ -34,11 +34,10 @@ spec:
           app:
             env:
               TUBESYNC_RESET_DOWNLOAD_DIR: false
-              TZ: America/Chicago
+              TZ: "America/Chicago"
             image:
               repository: ghcr.io/meeb/tubesync
-              tag: latest@sha256:ec2bf5a72c709d59d24e4f712aecee64e5814a7f2d233cc47f0fb8a66fc85b54
-            nameOverride: *app
+              tag: latest@sha256:800a60e19dfca121f9727f72f1e04106ce75d9ce3faf083e4128ca53c95feaab
             resources:
               limits:
                 memory: 1Gi
@@ -62,13 +61,15 @@ spec:
         # TODO: Remove role/media nodeSelector once new cluster is built
         role/media: "true"
       securityContext:
-        fsGroup: ${APP_GID}
+        fsGroup: ${APP_GID:=1000}
         fsGroupChangePolicy: OnRootMismatch
-        runAsGroup: ${APP_GID}
+        runAsGroup: ${APP_GID:=1000}
         runAsNonRoot: true
-        runAsUser: ${APP_UID}
+        runAsUser: ${APP_UID:=1000}
         seccompProfile:
           type: RuntimeDefault
+        supplementalGroups:
+          - 100
     ingress:
       app:
         annotations:
