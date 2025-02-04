@@ -33,6 +33,8 @@ spec:
         containers:
           app:
             env:
+              PGID: ${APP_GID:=1000}
+              PUID: ${APP_UID:=1000}
               TUBESYNC_RESET_DOWNLOAD_DIR: false
               TZ: "America/Chicago"
             image:
