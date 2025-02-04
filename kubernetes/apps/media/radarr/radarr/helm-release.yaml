@@ -1,0 +1,147 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app radarr
+spec:
+  chart:
+    spec:
+      chart: app-template
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      version: 3.6.1
+  dependsOn:
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
+  install:
+    remediation:
+      retries: 3
+  interval: 30m
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+      strategy: rollback
+  values:
+    controllers:
+      radarr:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            env:
+              RADARR__APP__INSTANCENAME: "${APP}"
+              RADARR__APP__THEME: dark
+              RADARR__AUTH__METHOD: External
+              RADARR__AUTH__REQUIRED: DisabledForLocalAddresses
+              RADARR__LOG__DBENABLED: "False"
+              RADARR__LOG__LEVEL: info
+              RADARR__SERVER__PORT: &port 80
+              RADARR__UPDATE__BRANCH: develop
+              TZ: "America/Chicago"
+            envFrom: &envFrom
+              - secretRef:
+                  name: "${APP}-secret"
+            image:
+              repository: ghcr.io/onedr0p/radarr-develop
+              tag: 5.18.1.9612@sha256:64364aa80c8e7bb1350c77a0400dcf7da298cf06c44c84081937955bbbd01e4c
+            probes:
+              liveness: &probes
+                custom: true
+                enabled: true
+                spec:
+                  failureThreshold: 3
+                  httpGet:
+                    path: __HTTP_GET_PATH
+                    port: &port __SERVICE_PORT_NUMBER
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+              readiness: *probes
+            resources:
+              limits:
+                memory: 1Gi
+              requests:
+                cpu: 10m
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop: ["ALL"]
+              readOnlyRootFilesystem: true
+        initContainers:
+          init-db:
+            envFrom: *envFrom
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 16
+    defaultPodOptions:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
+      nodeSelector:
+        # TODO: Remove role/media nodeSelector once new cluster is built
+        role/media: "true"
+      securityContext:
+        fsGroup: ${APP_GID:=1000}
+        fsGroupChangePolicy: OnRootMismatch
+        runAsGroup: ${APP_GID:=1000}
+        runAsNonRoot: true
+        runAsUser: ${APP_UID:=1000}
+        seccompProfile:
+          type: RuntimeDefault
+        supplementalGroups:
+          - 100
+    ingress:
+      app:
+        annotations:
+          hajimari.io/appName: Radarr
+          hajimari.io/group: Media Management
+          hajimari.io/icon: simple-icons:radarr
+        className: internal
+        enabled: true
+        hosts:
+          - host: "${HOSTNAME:-${APP}}.theburnh.am"
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
+    persistence:
+      config:
+        enabled: true
+        globalMounts:
+          - path: /config
+        type: emptyDir
+      config-cache:
+        enabled: true
+        existingClaim: "${APP_PVC:-${APP}}"
+        globalMounts:
+          - path: /config/MediaCover
+      config-logs:
+        enabled: true
+        globalMounts:
+          - path: /config/logs
+        type: emptyDir
+      media:
+        enabled: true
+        existingClaim: local-media
+        globalMounts:
+          - path: /media
+      tmp:
+        enabled: true
+        globalMounts:
+          - path: /tmp
+        type: emptyDir
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: *port
