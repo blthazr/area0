@@ -9,10 +9,8 @@ radarr:
     replace_existing_custom_formats: true
 
     include:
-      # https://github.com/recyclarr/config-templates/tree/master/radarr/includes
       - template: radarr-quality-definition-sqp-streaming
-      # 2160p
-      - template: radarr-quality-profile-sqp-1-2160p-4k-only-imax-e
+      - template: radarr-quality-profile-sqp-1-2160p-default
       - template: radarr-custom-formats-sqp-1-2160p
 
     quality_profiles:
@@ -20,8 +18,6 @@ radarr:
 
     custom_formats:
       - trash_ids:
-          # Optional
-          # - 9f6cbff8cfe4ebbc1bde14c7b7bec0de # IMAX Enhanced
           - 7a0d1ad358fee9f5b074af3ef3f9d9ef # HALLOWED
           - b6832f586342ef70d9c128d40c07b872 # Bad Dual Groups
           - 90cedc1fea7ea5d11298bebd3d1d3223 # EVO (no WEBDL)
@@ -33,10 +29,16 @@ radarr:
           - name: SQP-1 (2160p)
       - trash_ids:
           # Movie Versions
+          - e9001909a4c88013a359d0b9920d7bea  # Theatrical Cut
+        assign_scores_to:
+          - name: SQP-1 (2160p)
+            score: 75
+      - trash_ids:
+          # Movie Versions
           - 957d0f44b592285f26449575e8b1167e  # Special Edition
         assign_scores_to:
           - name: SQP-1 (2160p)
-            score: 0
+            score: -10000
       - trash_ids:
           # Miscellaneous
           - 839bea857ed2c0a8e084f3cbdbd65ecb # x265 (no HDR/DV)
