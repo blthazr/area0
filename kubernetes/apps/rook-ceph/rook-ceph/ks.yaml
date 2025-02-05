@@ -38,6 +38,11 @@ spec:
       namespace: external-secrets
   interval: 30m
   path: ./kubernetes/apps/rook-ceph/rook-ceph/cluster
+  postBuild:
+    substitute:
+      APP: *app
+      DOMAIN: "theburnh.am"
+      HOSTNAME: rook
   prune: false # never delete
   sourceRef:
     kind: GitRepository
