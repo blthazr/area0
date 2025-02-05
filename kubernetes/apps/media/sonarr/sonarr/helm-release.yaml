@@ -100,14 +100,10 @@ spec:
           - 100
     ingress:
       app:
-        annotations:
-          hajimari.io/appName: Sonarr
-          hajimari.io/group: Media Management
-          hajimari.io/icon: simple-icons:sonarr
         className: internal
         enabled: true
         hosts:
-          - host: "${HOSTNAME:-${APP}}.theburnh.am"
+          - host: "${HOSTNAME:=${APP}}.${DOMAIN}"
             paths:
               - path: /
                 service:
@@ -121,7 +117,7 @@ spec:
         type: emptyDir
       config-cache:
         enabled: true
-        existingClaim: "${APP_PVC:-${APP}}"
+        existingClaim: "${APP_PVC:=${APP}}"
         globalMounts:
           - path: /config/MediaCover
       config-logs:

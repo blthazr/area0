@@ -19,7 +19,8 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      APP_PVC: tubesync-config
+      DOMAIN: theburnh.am
+      VOLSYNC_PVC: tubesync-config
   prune: true
   sourceRef:
     kind: GitRepository

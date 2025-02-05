@@ -21,8 +21,11 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      APP_PVC: plex-config
-      APP_PVC_CAPACITY: 50Gi
+      APP_PVC: plex-cache
+      APP_PVC_CAPACITY: 100Gi
+      DOMAIN: theburnh.am
+      VOLSYNC_PVC: plex-config
+      VOLSYNC_PVC_CAPACITY: 50Gi
       VOLSYNC_CACHE_CAPACITY: 25Gi
   prune: true
   sourceRef:

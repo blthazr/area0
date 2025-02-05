@@ -3,7 +3,7 @@
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
-  name: "${APP}"
+  name: "${APP}-r2"
 spec:
   restic:
     accessModes: ["${VOLSYNC_SNAP_ACCESSMODES:=ReadWriteOnce}"]
@@ -16,12 +16,11 @@ spec:
       runAsGroup: ${VOLSYNC_GID:=1000}
       runAsUser: ${VOLSYNC_UID:=1000}
     pruneIntervalDays: 14
-    repository: "${APP}-volsync-minio-secret"
+    repository: "${APP}-volsync-r2-secret"
     retain:
-      hourly: 24
       daily: 7
     storageClassName: "${VOLSYNC_STORAGECLASS:=ceph-block}"
     volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:=csi-ceph-blockpool}"
   sourcePVC: "${VOLSYNC_PVC:=${APP}}"
   trigger:
-    schedule: "${VOLSYNC_MINIO_SCHEDULE=0 * * * *}"
+    schedule: "${VOLSYNC_R2_SCHEDULE:=30 0 * * *}"

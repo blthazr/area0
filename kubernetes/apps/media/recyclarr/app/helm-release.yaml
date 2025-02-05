@@ -78,7 +78,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: "${APP_PVC:-${APP}}"
+        existingClaim: "${VOLSYNC_PVC:=${APP}}"
         globalMounts:
           - path: /config
       config-file:

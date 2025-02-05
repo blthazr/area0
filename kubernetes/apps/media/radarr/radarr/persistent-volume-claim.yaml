@@ -3,10 +3,10 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: "${APP_PVC:-${APP}}"
+  name: "${APP_PVC:=${APP}}"
 spec:
-  accessModes: ["${APP_PVC_ACCESSMODES:-ReadWriteOnce}"]
+  accessModes: ["${APP_PVC_ACCESSMODES:=ReadWriteOnce}"]
   resources:
     requests:
-      storage: "${APP_PVC_CAPACITY:-5Gi}"
-  storageClassName: "${APP_PVC_STORAGECLASS:-ceph-block}"
+      storage: "${APP_PVC_CAPACITY:=5Gi}"
+  storageClassName: "${APP_PVC_STORAGECLASS:=ceph-block}"

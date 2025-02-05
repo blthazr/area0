@@ -17,8 +17,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      APP_UID: "1000"
-      APP_GID: "1000"
+      DOMAIN: theburnh.am
   prune: true
   sourceRef:
     kind: GitRepository

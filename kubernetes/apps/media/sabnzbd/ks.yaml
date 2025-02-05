@@ -21,9 +21,8 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      APP_UID: "1000"
-      APP_GID: "1000"
-      APP_PVC: sabnzbd-config
+      DOMAIN: theburnh.am
+      VOLSYNC_PVC: sabnzbd-config
   prune: true
   sourceRef:
     kind: GitRepository

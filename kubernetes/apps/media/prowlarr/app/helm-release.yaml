@@ -95,14 +95,10 @@ spec:
           type: RuntimeDefault
     ingress:
       app:
-        annotations:
-          hajimari.io/appName: Prowlarr
-          hajimari.io/group: Media Management
-          hajimari.io/icon: mdi:movie-search
         className: internal
         enabled: true
         hosts:
-          - host: "${HOSTNAME:-${APP}}.theburnh.am"
+          - host: "${HOSTNAME:=${APP}}.${DOMAIN}"
             paths:
               - path: /
                 service:

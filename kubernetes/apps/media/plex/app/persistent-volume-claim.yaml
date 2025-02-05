@@ -3,10 +3,10 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: plex-cache
+  name: "${APP_PVC:=${APP}}"
 spec:
-  accessModes: ["ReadWriteOnce"]
+  accessModes: ["${APP_PVC_ACCESSMODES:=ReadWriteOnce}"]
   resources:
     requests:
-      storage: 100Gi
-  storageClassName: ceph-block
+      storage: "${APP_PVC_CAPACITY:=5Gi}"
+  storageClassName: "${APP_PVC_STORAGECLASS:=ceph-block}"
