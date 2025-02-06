@@ -7,8 +7,6 @@ components:
   - ../../flux/components/namespace
   - ../../flux/components/sops
 resources:
-  - ./common/ks.yaml
-  - ./beets/ks.yaml
   - ./overseerr/ks.yaml
   - ./plex/ks.yaml
   - ./prowlarr/ks.yaml
