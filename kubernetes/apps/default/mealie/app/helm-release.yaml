@@ -1,0 +1,108 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app mealie
+spec:
+  chart:
+    spec:
+      chart: app-template
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      version: 3.6.1
+  dependsOn:
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
+  install:
+    remediation:
+      retries: 3
+  interval: 30m
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+      strategy: rollback
+  values:
+    controllers:
+      mealie:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            env:
+              ALLOW_SIGNUP: false
+              BASE_URL: "${HOSTNAME:-${APP}}.${DOMAIN}"
+              DB_ENGINE: sqlite
+              PGID: ${APP_GID:=1000}
+              PUID: ${APP_UID:=1000}
+              TOKEN_TIME: 720
+              TZ: "America/Chicago"
+            image:
+              repository: ghcr.io/mealie-recipes/mealie
+              tag: v2.5.0@sha256:0a9839f19e74d5c4a818161a5850b16d9608b240381691c317d3c23cd62e0c0f
+            probes:
+              liveness: &probes
+                enabled: true
+                path: /api/app/about
+                type: HTTP
+              readiness: *probes
+            resources:
+              limits:
+                memory: 512Mi
+              requests:
+                cpu: 5m
+                memory: 256Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop: ["ALL"]
+              readOnlyRootFilesystem: true
+    defaultPodOptions:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
+      securityContext:
+        fsGroup: ${APP_GID:=1000}
+        fsGroupChangePolicy: OnRootMismatch
+        runAsGroup: ${APP_GID:=1000}
+        runAsNonRoot: true
+        runAsUser: ${APP_UID:=1000}
+        seccompProfile:
+          type: RuntimeDefault
+    ingress:
+      app:
+        annotations:
+          external-dns.alpha.kubernetes.io/target: "external.${DOMAIN}"
+        className: external
+        enabled: true
+        hosts:
+          - host: "${HOSTNAME:=${APP}}.${DOMAIN}"
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
+    persistence:
+      api-data:
+        enabled: true
+        existingClaim: "${VOLSYNC_PVC:=${APP}}"
+        globalMounts:
+          - path: /app/data
+      tmp:
+        enabled: true
+        globalMounts:
+          - path: /tmp
+        type: emptyDir
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: 9000
