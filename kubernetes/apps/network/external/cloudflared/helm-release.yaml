@@ -108,9 +108,5 @@ spec:
       app:
         enabled: true
         endpoints:
-          - interval: 1m
-            path: /metrics
-            port: http
-            scheme: http
-            scrapeTimeout: 10s
+          - port: http
         serviceName: *app
