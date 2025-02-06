@@ -103,14 +103,14 @@ spec:
             subPath: config.yaml
         name: beets-configmap
         type: configMap
-      secret-file:
-        enabled: true
-        globalMounts:
-          - path: /config/.config/betanin/config.toml
-            readOnly: true
-            subPath: config.toml
-        name: beets-secret
-        type: secret
+      # secret-file:
+      #   enabled: true
+      #   globalMounts:
+      #     - path: /config/.config/betanin/config.toml
+      #       readOnly: true
+      #       subPath: config.toml
+      #   name: beets-secret
+      #   type: secret
       media:
         enabled: true
         existingClaim: local-media
