@@ -9,21 +9,14 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  components:
-    - ../../../../flux/components/volsync
   dependsOn:
     - name: onepassword-store
-      namespace: external-secrets
-    - name: volsync
-      namespace: volsync-system
   interval: 30m
   path: ./kubernetes/apps/media/beets/app
   postBuild:
     substitute:
       APP: *app
       DOMAIN: "theburnh.am"
-      VOLSYNC_PVC: beets-config
-      VOLSYNC_CAPACITY: 1Gi
   prune: true
   sourceRef:
     kind: GitRepository

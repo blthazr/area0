@@ -13,9 +13,6 @@ spec:
         name: bjw-s
         namespace: flux-system
       version: 3.6.1
-  dependsOn:
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
   install:
     remediation:
       retries: 3
@@ -95,9 +92,25 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: "${VOLSYNC_PVC:=${APP}}"
         globalMounts:
           - path: /config
+        type: emptyDir
+      config-file:
+        enabled: true
+        globalMounts:
+          - path: /config/.config/beets/config.yaml
+            readOnly: true
+            subPath: config.yaml
+        name: beets-configmap
+        type: configMap
+      secret-file:
+        enabled: true
+        globalMounts:
+          - path: /config/.config/betanin/config.toml
+            readOnly: true
+            subPath: config.toml
+        name: beets-secret
+        type: secret
       media:
         enabled: true
         existingClaim: local-media
