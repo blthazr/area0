@@ -6,6 +6,7 @@ namespace: media
 components:
   - ../../flux/components/common
 resources:
+  - ./bazarr/ks.yaml
   - ./overseerr/ks.yaml
   - ./plex/ks.yaml
   - ./prowlarr/ks.yaml
