@@ -5,7 +5,7 @@ kind: Ingress
 metadata:
   name: &app unifi
   annotations:
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/backend-protocol: HTTPS
   labels:
     app.kubernetes.io/instance: *app
     app.kubernetes.io/name: *app
