@@ -1,6 +1,6 @@
 ---
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
-name: "Flux Local"
+name: Flux Local
 
 on:
   pull_request:
@@ -10,8 +10,8 @@ on:
       - kubernetes/flux/**
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
   cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
 
 jobs:
   test:
@@ -25,10 +25,9 @@ jobs:
           app-id: "${{ secrets.BOT_APP_ID }}"
           private-key: "${{ secrets.BOT_PRIVATE_KEY }}"
 
-      - name: Check out repository
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          path: pull
           token: "${{ steps.app-token.outputs.token }}"
 
       - name: Run flux-local test
@@ -54,7 +53,7 @@ jobs:
           app-id: "${{ secrets.BOT_APP_ID }}"
           private-key: "${{ secrets.BOT_PRIVATE_KEY }}"
 
-      - name: Check out repository
+      - name: Checkout pull request branch
         uses: actions/checkout@v4
         with:
           path: pull
@@ -97,22 +96,22 @@ jobs:
               echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Add comment
-        if: ${{ steps.diff.outputs.diff != '' }}
+      - if: ${{ steps.diff.outputs.diff != '' }}
+        name: Add comment
         uses: mshick/add-pr-comment@v2
         with:
           message: |
             ```diff
             ${{ steps.diff.outputs.diff }}
             ```
-          message-id: "${{ github.event.pull_request.number }}/kubernetes/${{ matrix.resources }}"
           message-failure: Diff was not successful
+          message-id: "${{ github.event.pull_request.number }}/kubernetes/${{ matrix.resources }}"
           repo-token: "${{ steps.app-token.outputs.token }}"
 
   flux-local-success:
-    name: Flux local successful
-    if: ${{ always() }}
     needs: ["test", "diff"]
+    if: ${{ always() }}
+    name: Flux Local successful
     runs-on: ubuntu-latest
     steps:
       - name: Check flux-local status
