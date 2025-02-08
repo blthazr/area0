@@ -39,7 +39,7 @@ spec:
               TZ: "America/Chicago"
             image:
               repository: ghcr.io/meeb/tubesync
-              tag: latest@sha256:800a60e19dfca121f9727f72f1e04106ce75d9ce3faf083e4128ca53c95feaab
+              tag: latest@sha256:9f273315335d01fe075183629c026ca247f86ca4067450c7e46e740fc1b763e4
     defaultPodOptions:
       affinity:
         nodeAffinity:
