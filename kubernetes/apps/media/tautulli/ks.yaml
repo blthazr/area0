@@ -12,6 +12,8 @@ spec:
   components:
     - ../../../../flux/components/volsync
   dependsOn:
+    - name: onepassword-store
+      namespace: external-secrets
     - name: volsync
       namespace: volsync-system
   interval: 30m
@@ -19,7 +21,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      DOMAIN: "theburnh.am"
+      DOMAIN: theburnh.am
       APP_PVC: tautulli-cache
       APP_PVC_CAPACITY: 15Gi
       VOLSYNC_CAPACITY: 10Gi
