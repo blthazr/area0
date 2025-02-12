@@ -94,8 +94,6 @@ spec:
         runAsGroup: ${APP_GID:=1000}
         runAsNonRoot: true
         runAsUser: ${APP_UID:=1000}
-        seccompProfile:
-          type: RuntimeDefault
         supplementalGroups:
           - 100
     ingress:

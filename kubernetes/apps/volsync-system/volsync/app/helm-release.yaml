@@ -30,9 +30,7 @@ spec:
     metrics:
       disableAuth: true
     podSecurityContext:
-      runAsGroup: 1000
+      runAsGroup: ${VOLSYNC_GID:=1000}
       runAsNonRoot: true
-      runAsUser: 1000
-      seccompProfile:
-        type: RuntimeDefault
+      runAsUser: ${VOLSYNC_UID:=1000}
     replicaCount: 1

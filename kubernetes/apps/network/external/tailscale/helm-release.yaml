@@ -85,8 +85,6 @@ spec:
         fsGroup: ${APP_GID:=1000}
         runAsNonRoot: true
         runAsUser: ${APP_UID:=1000}
-        seccompProfile:
-          type: RuntimeDefault
       topologySpreadConstraints:
         - labelSelector:
             matchLabels:
