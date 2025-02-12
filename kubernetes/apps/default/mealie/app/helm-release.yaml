@@ -34,7 +34,7 @@ spec:
           app:
             env:
               ALLOW_SIGNUP: false
-              BASE_URL: "${HOSTNAME:-${APP}}.${DOMAIN}"
+              BASE_URL: "https://${HOSTNAME:-${APP}}.${DOMAIN}"
               DB_ENGINE: sqlite
               PGID: ${APP_GID:=1000}
               PUID: ${APP_UID:=1000}
