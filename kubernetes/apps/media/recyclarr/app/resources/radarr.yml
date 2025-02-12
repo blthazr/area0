@@ -76,7 +76,7 @@ radarr:
           # Miscellaneous
           - 839bea857ed2c0a8e084f3cbdbd65ecb # x265 (no HDR/DV)
         assign_scores_to:
-          - name: SQP-1 (2160p)
+          - name: SQP-1 (1080p)
             score: 0
           - name: Best Available
             score: 0
