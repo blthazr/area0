@@ -8,5 +8,6 @@ machine:
       - intel_iommu=on           # PCI Passthrough
       - iommu=pt                 # PCI Passthrough
       - mitigations=off          # Less security, more speed
+      - net.ifnames=1            # Enable predictable NIC naming
       - security=none            # Less security, more speed
       - talos.auditd.disabled=1  # Less security, more speed
