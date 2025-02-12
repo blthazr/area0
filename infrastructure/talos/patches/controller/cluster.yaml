@@ -1,6 +1,9 @@
 # Cluster configuration
 cluster:
   allowSchedulingOnControlPlanes: true
+  apiServer:
+    extraArgs:
+      enable-aggregator-routing: true
   controllerManager:
     extraArgs:
       bind-address: 0.0.0.0
@@ -14,6 +17,10 @@ cluster:
       kind: KubeSchedulerConfiguration
       profiles:
         - schedulerName: default-scheduler
+          plugins:
+            score:
+              disabled:
+                - name: ImageLocality
           pluginConfig:
             - name: PodTopologySpread
               args:
@@ -22,9 +29,5 @@ cluster:
                     topologyKey: kubernetes.io/hostname
                     whenUnsatisfiable: ScheduleAnyway
                 defaultingType: List
-          plugins:
-            score:
-              disabled:
-                - name: ImageLocality
     extraArgs:
       bind-address: 0.0.0.0
