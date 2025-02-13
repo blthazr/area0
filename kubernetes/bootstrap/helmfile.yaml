@@ -27,7 +27,7 @@ releases:
       - observability/prometheus-operator-crds
     values:
       - ../apps/kube-system/cilium/app/helm-values.yaml
-    version: 1.17.0
+    version: 1.17.1
 
   - name: coredns
     chart: oci://ghcr.io/coredns/charts/coredns
