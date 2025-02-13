@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: jetstack
         namespace: flux-system
-      version: v1.17.0
+      version: v1.17.1
   install:
     remediation:
       retries: 3
