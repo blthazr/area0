@@ -54,7 +54,7 @@ releases:
       - cert-manager/cert-manager
     values:
       - ../apps/external-secrets/external-secrets/app/helm-values.yaml
-    version: 0.14.0
+    version: 0.14.2
 
   - name: wipe-rook
     chart: oci://ghcr.io/bjw-s/helm/app-template
