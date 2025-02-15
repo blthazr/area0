@@ -54,6 +54,9 @@ spec:
                 name: cluster-settings
               - kind: Secret
                 name: cluster-secrets
+      target:
+        group: kustomize.toolkit.fluxcd.io
+        kind: Kustomization
   path: ./kubernetes/apps
   postBuild:
     substituteFrom:
