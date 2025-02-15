@@ -7,3 +7,7 @@ metadata:
 data:
   # site
   CLUSTER_TIME_ZONE: "America/Chicago"
+
+  # service addresses
+  CLUSTER_LB_CRIBL_LEADER: 172.16.21.126
+  CLUSTER_LB_CRIBL_WORKER: 172.16.21.127
