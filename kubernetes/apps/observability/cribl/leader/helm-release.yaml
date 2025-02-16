@@ -39,7 +39,7 @@ spec:
           name: api
           port: 9000
           protocol: TCP
-        - external: false
+        - external: true
           name: leadercomm
           port: 4200
           protocol: TCP
