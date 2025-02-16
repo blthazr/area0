@@ -23,7 +23,8 @@ spec:
       APP: *app
       HOSTNAME: cribl
       VOLSYNC_PVC: leader-config-claim
-      VOLSYNC_CAPACITY: 10Gi
+      VOLSYNC_CAPACITY: 20Gi
+      VOLSYNC_CACHE_CAPACITY: 8Gi
       VOLSYNC_MINIO_SCHEDULE: "0 0 * * *"
   prune: true
   sourceRef:
