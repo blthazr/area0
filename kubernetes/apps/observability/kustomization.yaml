@@ -7,4 +7,4 @@ components:
   - ../../flux/components/common
 resources:
   - ./prometheus-operator-crds/ks.yaml
-  # - ./cribl/ks.yaml
+  - ./cribl/ks.yaml
