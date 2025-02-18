@@ -11,6 +11,9 @@ spec:
       app.kubernetes.io/name: *app
   interval: 30m
   path: ./kubernetes/apps/flux-system/flux-operator/app
+  postBuild:
+    substitute:
+      APP: *app
   prune: false # never delete
   sourceRef:
     kind: GitRepository
@@ -32,6 +35,9 @@ spec:
       app.kubernetes.io/name: *app
   interval: 30m
   path: ./kubernetes/apps/flux-system/flux-operator/instance
+  postBuild:
+    substitute:
+      APP: *app
   prune: false # never delete
   sourceRef:
     kind: GitRepository

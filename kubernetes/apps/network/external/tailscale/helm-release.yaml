@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app tailscale
+  name: "${APP}"
 spec:
   chart:
     spec:
@@ -88,7 +88,7 @@ spec:
       topologySpreadConstraints:
         - labelSelector:
             matchLabels:
-              app.kubernetes.io/name: *app
+              app.kubernetes.io/name: "${APP}"
           maxSkew: 1
           topologyKey: kubernetes.io/hostname
           whenUnsatisfiable: DoNotSchedule
@@ -110,15 +110,15 @@ spec:
         type: emptyDir
     service:
       app:
-        controller: *app
-        nameOverride: *app
+        controller: "${APP}"
+        nameOverride: "${APP}"
         ports:
           http:
             port: *tailscalePort
       tailnet:
         annotations:
           lbipam.cilium.io/ips: 172.16.21.129
-        controller: *app
+        controller: "${APP}"
         ports:
           tailnet:
             port: *tailnetPort
@@ -133,4 +133,4 @@ spec:
             port: http
             scheme: http
             scrapeTimeout: 10s
-        serviceName: *app
+        serviceName: "${APP}"

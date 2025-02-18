@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app prowlarr
+  name: "${APP}"
 spec:
   chart:
     spec:
@@ -115,7 +115,7 @@ spec:
         type: emptyDir
     service:
       app:
-        controller: *app
+        controller: "${APP}"
         ports:
           http:
             port: *port

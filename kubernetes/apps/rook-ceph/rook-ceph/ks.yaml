@@ -14,6 +14,9 @@ spec:
       namespace: external-secrets
   interval: 30m
   path: ./kubernetes/apps/rook-ceph/rook-ceph/operator
+  postBuild:
+    substitute:
+      APP: *app
   prune: false # never delete
   sourceRef:
     kind: GitRepository

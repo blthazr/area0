@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app internal-ingress-nginx
+  name: "${APP}"
 spec:
   chart:
     spec:
@@ -83,4 +83,4 @@ spec:
       terminationGracePeriodSeconds: 120
     defaultBackend:
       enabled: false
-    fullnameOverride: *app
+    fullnameOverride: "${APP}"

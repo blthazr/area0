@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app external-dns-cloudflare
+  name: "${APP}"
 spec:
   chart:
     spec:
@@ -39,7 +39,7 @@ spec:
       - --crd-source-kind=DNSEndpoint
       - --ignore-ingress-tls-spec
       - --ingress-class=external
-    fullnameOverride: *app
+    fullnameOverride: "${APP}"
     podAnnotations:
       secret.reloader.stakater.com/reload: *secret
     policy: sync

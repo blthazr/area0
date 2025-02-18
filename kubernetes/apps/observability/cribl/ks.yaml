@@ -50,6 +50,9 @@ spec:
       namespace: observability
   interval: 30m
   path: ./kubernetes/apps/observability/cribl/worker
+  postBuild:
+    substitute:
+      APP: *app
   prune: true
   sourceRef:
     kind: GitRepository
@@ -74,6 +77,9 @@ spec:
       namespace: observability
   interval: 30m
   path: ./kubernetes/apps/observability/cribl/edge
+  postBuild:
+    substitute:
+      APP: *app
   prune: true
   sourceRef:
     kind: GitRepository
