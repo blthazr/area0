@@ -3,13 +3,13 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: theburnh-am
+  name: "${SECRET_DOMAIN/./-}"
 spec:
-  commonName: theburnh.am
+  commonName: "${SECRET_DOMAIN}"
   dnsNames:
-    - "theburnh.am"
-    - "*.theburnh.am"
+    - "${SECRET_DOMAIN}"
+    - "*.${SECRET_DOMAIN}"
   issuerRef:
     name: letsencrypt-production
     kind: ClusterIssuer
-  secretName: theburnh-am-tls
+  secretName: "${SECRET_DOMAIN/./-}-tls"

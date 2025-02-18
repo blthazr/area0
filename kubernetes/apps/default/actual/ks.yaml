@@ -21,7 +21,6 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      DOMAIN: theburnh.am
       VOLSYNC_PVC: actual-data
       VOLSYNC_CAPACITY: 5Gi
   prune: true

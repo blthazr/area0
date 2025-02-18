@@ -10,7 +10,7 @@ metadata:
 spec:
   ingressClassName: internal
   rules:
-    - host: &host "fpp.${DOMAIN}"
+    - host: &host "fpp.${SECRET_DOMAIN}"
       http:
         paths:
           - backend:

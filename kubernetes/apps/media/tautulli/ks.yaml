@@ -21,7 +21,6 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      DOMAIN: theburnh.am
       APP_PVC: tautulli-cache
       APP_PVC_CAPACITY: 15Gi
       VOLSYNC_CAPACITY: 10Gi

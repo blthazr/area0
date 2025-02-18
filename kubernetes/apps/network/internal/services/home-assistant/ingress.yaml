@@ -10,7 +10,7 @@ metadata:
 spec:
   ingressClassName: internal
   rules:
-    - host: &host "home-assistant.${DOMAIN}"
+    - host: &host "home-assistant.${SECRET_DOMAIN}"
       http:
         paths:
           - backend:

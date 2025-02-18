@@ -21,7 +21,6 @@ spec:
       APP: *app
       APP_PVC: radarr-cache
       APP_PVC_CAPACITY: 15Gi
-      DOMAIN: theburnh.am
   prune: true
   sourceRef:
     kind: GitRepository
@@ -53,7 +52,6 @@ spec:
       APP: *app
       APP_PVC: radarr-uhd-cache
       APP_PVC_CAPACITY: 15Gi
-      DOMAIN: theburnh.am
   prune: true
   sourceRef:
     kind: GitRepository

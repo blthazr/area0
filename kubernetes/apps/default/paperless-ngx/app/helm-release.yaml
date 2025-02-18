@@ -51,7 +51,7 @@ spec:
                   secretKeyRef:
                     name: paperless-secret
                     key: PAPERLESS_SECRET_KEY
-              PAPERLESS_TIME_ZONE: "America/Chicago"
+              PAPERLESS_TIME_ZONE: "${CLUSTER_TIME_ZONE}"
               PAPERLESS_URL: "https://${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
               # Configure folder importer
               PAPERLESS_CONSUMER_POLLING: 60
@@ -145,7 +145,6 @@ spec:
         path: "${NAS_NFS_PATH}/apps/paperless/export"
         server: "${NAS_ADDRESS}"
         type: nfs
-
     service:
       app:
         controller: *app

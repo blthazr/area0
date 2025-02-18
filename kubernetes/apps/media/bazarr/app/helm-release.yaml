@@ -33,7 +33,7 @@ spec:
         containers:
           app:
             env:
-              TZ: "America/Chicago"
+              TZ: "${CLUSTER_TIME_ZONE}"
             envFrom: &envFrom
               - secretRef:
                   name: "${APP}-secret"
@@ -105,7 +105,7 @@ spec:
         className: internal
         enabled: true
         hosts:
-          - host: "${HOSTNAME:=${APP}}.${DOMAIN}"
+          - host: "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
             paths:
               - path: /
                 service:

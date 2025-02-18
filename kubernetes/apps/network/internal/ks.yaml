@@ -56,9 +56,6 @@ spec:
       app.kubernetes.io/name: *app
   interval: 30m
   path: ./kubernetes/apps/network/internal/services
-  postBuild:
-    substitute:
-      DOMAIN: theburnh.am
   prune: true
   sourceRef:
     kind: GitRepository

@@ -59,8 +59,8 @@ spec:
         ssl-protocols: TLSv1.3 TLSv1.2
         use-forwarded-headers: "true"
       extraArgs:
-        default-ssl-certificate: cert-manager/theburnh-am-tls
-        publish-status-address: &hostname external.theburnh.am
+        default-ssl-certificate: "cert-manager/${SECRET_DOMAIN/./-}-tls"
+        publish-status-address: &hostname "external.${SECRET_DOMAIN}"
       ingressClassResource:
         controllerValue: k8s.io/external
         default: false
@@ -81,7 +81,7 @@ spec:
       service:
         annotations:
           external-dns.alpha.kubernetes.io/hostname: *hostname
-          lbipam.cilium.io/ips: 172.16.21.120
+          lbipam.cilium.io/ips: "${CLUSTER_LB_NGINX_EXTERNAL}"
       terminationGracePeriodSeconds: 120
     defaultBackend:
       enabled: false

@@ -23,7 +23,6 @@ spec:
       APP: *app
       APP_PVC: overseerr-cache
       APP_PVC_CAPACITY: 15Gi
-      DOMAIN: theburnh.am
       HOSTNAME: requests
       VOLSYNC_PVC: overseerr-config
       VOLSYNC_CAPACITY: 5Gi

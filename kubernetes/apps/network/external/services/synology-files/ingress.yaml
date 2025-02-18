@@ -5,7 +5,7 @@ kind: Ingress
 metadata:
   name: &app synology-files
   annotations:
-    external-dns.alpha.kubernetes.io/target: "external.${DOMAIN}"
+    external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
     nginx.ingress.kubernetes.io/backend-protocol: HTTPS
   labels:
     app.kubernetes.io/instance: *app
@@ -13,7 +13,7 @@ metadata:
 spec:
   ingressClassName: external
   rules:
-    - host: &host "files.${DOMAIN}"
+    - host: &host "files.${SECRET_DOMAIN}"
       http:
         paths:
           - backend:

@@ -12,7 +12,7 @@ metadata:
 spec:
   ingressClassName: internal
   rules:
-    - host: &host "synology.${DOMAIN}"
+    - host: &host "synology.${SECRET_DOMAIN}"
       http:
         paths:
           - backend:

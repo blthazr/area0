@@ -10,7 +10,7 @@ metadata:
 spec:
   ingressClassName: internal
   rules:
-    - host: &host "pi-hole.${DOMAIN}"
+    - host: &host "pi-hole.${SECRET_DOMAIN}"
       http:
         paths:
           - backend:

@@ -25,7 +25,7 @@ spec:
       retries: 3
       strategy: rollback
   values:
-    domainFilters: ["theburnh.am"]
+    domainFilters: ["${SECRET_DOMAIN}"]
     env:
       - name: CF_API_TOKEN
         valueFrom:

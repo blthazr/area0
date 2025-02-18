@@ -34,7 +34,7 @@ spec:
           app:
             env:
               ACTUAL_PORT: &port 5006
-              TZ: "America/Chicago"
+              TZ: "${CLUSTER_TIME_ZONE}"
             image:
               repository: ghcr.io/actualbudget/actual-server
               tag: 25.2.1@sha256:3abc61d5f674a1043a93e448930142ce955b5e3938ee93e01f013c7d7d6f27d7
@@ -81,7 +81,7 @@ spec:
         className: internal
         enabled: true
         hosts:
-          - host: "${HOSTNAME:=${APP}}.${DOMAIN}"
+          - host: "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
             paths:
               - path: /
                 service:

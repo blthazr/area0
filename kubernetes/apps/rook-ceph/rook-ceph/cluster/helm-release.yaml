@@ -143,7 +143,7 @@ spec:
           hajimari.io/group: Management
           hajimari.io/icon: simple-icons:ceph
         host:
-          name: "${HOSTNAME}.${DOMAIN}"
+          name: "${HOSTNAME}.${SECRET_DOMAIN}"
           path: /
         ingressClassName: internal
     monitoring:

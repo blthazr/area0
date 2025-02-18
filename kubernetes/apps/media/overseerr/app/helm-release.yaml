@@ -35,7 +35,7 @@ spec:
             env:
               LOG_LEVEL: info
               PORT: &port 5055
-              TZ: "America/Chicago"
+              TZ: "${CLUSTER_TIME_ZONE}"
             image:
               repository: ghcr.io/sct/overseerr
               tag: 1.33.2@sha256:714ea6db2bc007a2262d112bef7eec74972eb33d9c72bddb9cbd98b8742de950
@@ -79,11 +79,11 @@ spec:
     ingress:
       app:
         annotations:
-          external-dns.alpha.kubernetes.io/target: "external.${DOMAIN}"
+          external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
         className: external
         enabled: true
         hosts:
-          - host: "${HOSTNAME:=${APP}}.${DOMAIN}"
+          - host: "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
             paths:
               - path: /
                 service:

@@ -41,7 +41,7 @@ spec:
               PROWLARR__LOG__LEVEL: info
               PROWLARR__SERVER__PORT: &port 80
               PROWLARR__UPDATE__BRANCH: develop
-              TZ: "America/Chicago"
+              TZ: "${CLUSTER_TIME_ZONE}"
             envFrom: &envFrom
               - secretRef:
                   name: "${APP}-secret"
@@ -96,7 +96,7 @@ spec:
         className: internal
         enabled: true
         hosts:
-          - host: "${HOSTNAME:=${APP}}.${DOMAIN}"
+          - host: "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
             paths:
               - path: /
                 service:

@@ -36,7 +36,7 @@ spec:
               PGID: ${APP_GID:=1000}
               PUID: ${APP_UID:=1000}
               TUBESYNC_RESET_DOWNLOAD_DIR: false
-              TZ: "America/Chicago"
+              TZ: "${CLUSTER_TIME_ZONE}"
             image:
               repository: ghcr.io/meeb/tubesync
               tag: latest@sha256:3ece15d29e9fa82506e58b8e2418a2d9b62caca2af4422158cd627e2db25baa7
@@ -56,7 +56,7 @@ spec:
         className: internal
         enabled: true
         hosts:
-          - host: "${HOSTNAME:=${APP}}.${DOMAIN}"
+          - host: "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
             paths:
               - path: /
                 service:

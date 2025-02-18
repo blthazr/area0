@@ -10,7 +10,7 @@ metadata:
 spec:
   ingressClassName: internal
   rules:
-    - host: &host "s3.${DOMAIN}"
+    - host: &host "s3.${SECRET_DOMAIN}"
       http:
         paths:
           - backend:

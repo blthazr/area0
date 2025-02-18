@@ -21,7 +21,6 @@ spec:
       APP: *app
       APP_PVC: sonarr-cache
       APP_PVC_CAPACITY: 15Gi
-      DOMAIN: theburnh.am
   prune: true
   sourceRef:
     kind: GitRepository

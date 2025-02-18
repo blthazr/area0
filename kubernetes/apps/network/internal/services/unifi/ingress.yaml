@@ -12,7 +12,7 @@ metadata:
 spec:
   ingressClassName: internal
   rules:
-    - host: &host "unifi.${DOMAIN}"
+    - host: &host "unifi.${SECRET_DOMAIN}"
       http:
         paths:
           - backend:

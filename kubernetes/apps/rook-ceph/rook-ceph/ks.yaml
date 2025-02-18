@@ -41,7 +41,6 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      DOMAIN: theburnh.am
       HOSTNAME: rook
   prune: false # never delete
   sourceRef:

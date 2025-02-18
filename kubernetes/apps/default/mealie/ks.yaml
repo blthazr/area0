@@ -21,7 +21,6 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      DOMAIN: theburnh.am
       HOSTNAME: recipes
       VOLSYNC_PVC: mealie-data
       VOLSYNC_CAPACITY: 5Gi

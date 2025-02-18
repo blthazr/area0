@@ -32,7 +32,7 @@ spec:
           app:
             args: ["sync"]
             env:
-              TZ: "America/Chicago"
+              TZ: "${CLUSTER_TIME_ZONE}"
             envFrom: &envFrom
               - secretRef:
                   name: "${APP}-secret"

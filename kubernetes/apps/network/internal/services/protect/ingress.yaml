@@ -12,7 +12,7 @@ metadata:
 spec:
   ingressClassName: internal
   rules:
-    - host: &host "protect.${DOMAIN}"
+    - host: &host "protect.${SECRET_DOMAIN}"
       http:
         paths:
           - backend:

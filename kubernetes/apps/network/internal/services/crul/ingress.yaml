@@ -10,7 +10,7 @@ metadata:
 spec:
   ingressClassName: internal
   rules:
-    - host: &host "crul.${DOMAIN}"
+    - host: &host "crul.${SECRET_DOMAIN}"
       http:
         paths:
           - backend:

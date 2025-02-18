@@ -10,7 +10,7 @@ metadata:
 spec:
   ingressClassName: internal
   rules:
-    - host: &host "minio.${DOMAIN}"
+    - host: &host "minio.${SECRET_DOMAIN}"
       http:
         paths:
           - backend:

@@ -21,7 +21,6 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      DOMAIN: theburnh.am
       VOLSYNC_PVC: tubesync-config
   prune: true
   sourceRef:

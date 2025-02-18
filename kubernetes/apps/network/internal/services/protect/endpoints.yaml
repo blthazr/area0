@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/name: *app
 subsets:
   - addresses:
-      - ip: 172.16.50.100
+      - ip: "${UNIFI_PROTECT_ADDRESS}"
     ports:
       - name: http
         port: 443

@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/name: *app
 subsets:
   - addresses:
-      - ip: 172.16.70.100
+      - ip: "${NAS_ADDRESS}"
     ports:
       - name: http
         port: 5011

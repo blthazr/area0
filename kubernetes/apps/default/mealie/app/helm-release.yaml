@@ -34,12 +34,12 @@ spec:
           app:
             env:
               ALLOW_SIGNUP: false
-              BASE_URL: "https://${HOSTNAME:-${APP}}.${DOMAIN}"
+              BASE_URL: "https://${HOSTNAME:-${APP}}.${SECRET_DOMAIN}"
               DB_ENGINE: sqlite
               PGID: ${APP_GID:=1000}
               PUID: ${APP_UID:=1000}
               TOKEN_TIME: 720
-              TZ: "America/Chicago"
+              TZ: "${CLUSTER_TIME_ZONE}"
             image:
               repository: ghcr.io/mealie-recipes/mealie
               tag: v2.6.0@sha256:500e42e59eb89c7837d3b17274c99f0126de607a9c545b616d13eeb7d7df0cd3
@@ -77,11 +77,11 @@ spec:
     ingress:
       app:
         annotations:
-          external-dns.alpha.kubernetes.io/target: "external.${DOMAIN}"
+          external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
         className: external
         enabled: true
         hosts:
-          - host: "${HOSTNAME:=${APP}}.${DOMAIN}"
+          - host: "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
             paths:
               - path: /
                 service:
