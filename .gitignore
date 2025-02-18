@@ -22,3 +22,6 @@ Brewfile.lock.json
 # Shards
 *-shard
 *-shard.*
+
+# Folders
+/.private/
