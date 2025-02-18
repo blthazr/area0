@@ -151,7 +151,7 @@ spec:
             app:
               - path: /usr/src/paperless/media
         enabled: true
-        path: /volume1/documents/paperless/media
+        path: "${NAS_NFS_PATH}/apps/paperless/media"
         server: "${NAS_ADDRESS}"
         type: nfs
     service:
