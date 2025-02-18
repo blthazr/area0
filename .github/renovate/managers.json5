@@ -21,10 +21,10 @@
   // configure custom managers
   "customManagers": [
     {
+      "description": ["Process annotated dependencies"],
       "customType": "regex",
-      "description": ["Process YAML custom dependencies"],
       "fileMatch": [
-        "(^|/)kubernetes/.+\\.ya?ml$"
+        "(^|/).+\\.ya?ml$"
       ],
       "matchStrings": [
         // # renovate: datasource=github-releases depName=k3s-io/k3s
@@ -34,24 +34,15 @@
         // # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
         // KUBERNETES_VERSION=v1.31.1
         "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( repository=(?<registryUrl>\\S+))?\\n.+(:\\s|=)(&\\S+\\s)?(?<currentValue>\\S+)",
-        // # renovate: datasource=github-releases depName=rancher/system-upgrade-controller
-        // https://github.com/rancher/system-upgrade-controller/releases/download/v0.13.2/crd.yaml
+        // # renovate: datasource=docker depName=ghcr.io/prometheus-operator/prometheus-operator
+        // https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.80.0/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagerconfigs.yaml
         "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\n.+/(?<currentValue>(v|\\d)[^/]+)"
       ],
       "datasourceTemplate": "{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}"
     },
     {
+      "description": ["Process any imageName keys"],
       "customType": "regex",
-      "description": ["Process Splunk version"],
-      "fileMatch": ["(^|/)kubernetes/.+\\.ya?ml$"],
-      "matchStrings": [
-        "repository: (?<depName>\\S+):(?<currentValue>.*)"
-      ],
-      "datasourceTemplate": "docker"
-    },
-    {
-      "customType": "regex",
-      "description": ["Process any imageName keys in YAML files (cloudnative-pg)"],
       "fileMatch": ["(^|/)kubernetes/.+\\.ya?ml$"],
       "matchStrings": [
         "imageName: (?<depName>[^\\s:]+):(?<currentValue>\\S+)(@(?<currentDigest>sha256:\\S+)?)"

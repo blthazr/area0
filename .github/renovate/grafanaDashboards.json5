@@ -9,8 +9,8 @@
   },
   "customManagers": [
     {
-      "customType": "regex",
       "description": ["Process Grafana dashboards"],
+      "customType": "regex",
       "fileMatch": ["(^|/)kubernetes/.+\\.ya?ml$"],
       "matchStrings": [
         "depName=\"(?<depName>.*)\"\\n(?<indentation>\\s+)id: (?<packageName>\\d+)\\n.+revision: (?<currentValue>\\d+)"
@@ -22,6 +22,7 @@
   ],
   "packageRules": [
     {
+      "description": ["Auto-merge Grafana dashboards"],
       "addLabels": [
         "action/automerge",
         "renovate/grafana-dashboard"
@@ -30,7 +31,6 @@
       "automergeType": "branch",
       "commitMessageExtra": "( {{currentVersion}} → {{newVersion}} )",
       "commitMessageTopic": "dashboard {{depName}}",
-      "description": ["Auto-merge Grafana dashboards"],
       "matchDatasources": ["custom.grafana-dashboards"],
       "matchUpdateTypes": ["major"],
       "semanticCommitScope": "grafana-dashboards",

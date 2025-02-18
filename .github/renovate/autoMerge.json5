@@ -2,10 +2,10 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
+      "description": ["Auto-merge GitHub Actions (digest, patch, minor)"],
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeType": "branch",
-      "description": ["Auto-merge GitHub Actions (digest, patch, minor)"],
       "matchDatasources": ["github-tags"],
       "matchManagers": ["github-actions"],
       "matchUpdateTypes": [
@@ -15,11 +15,11 @@
       ]
     },
     {
+      "description": ["Auto-merge trusted containers (digest) [maintenance window]"],
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeSchedule": ["after 2am, before 6am"],
       "automergeType": "branch",
-      "description": ["Auto-merge trusted containers (digest) [maintenance window]"],
       "matchDatasources": ["docker"],
       "matchPackagePatterns": [
         "ghcr.io/onedr0p"
@@ -34,7 +34,6 @@
       "description": ["Auto-merge containers (patch/minor) [maintenance window]"],
       "matchDatasources": ["docker"],
       "matchPackagePatterns": [
-        "docker.io/splunk/splunk",
         "ghcr.io/kashalls/kromgo",
         "ghcr.io/mealie-recipes/mealie",
         "ghcr.io/meeb/tubesync",
@@ -56,11 +55,12 @@
       ]
     },
     {
+      "description": ["Auto-merge Helm Releases (patch/minor) [maintenance window]"],
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeSchedule": ["after 2am, before 6am"],
-      "automergeType": "branch",
-      "description": ["Auto-merge containers/helm charts (patch/minor) [maintenance window]"],
+      "automergeType": "pr",
+      "ignoreTests": false,
       "matchDatasources": [
         "docker",
         "helm"

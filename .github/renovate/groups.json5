@@ -56,30 +56,6 @@
       "groupName": "Rook-Ceph",
       "matchDatasources": ["helm"],
       "matchPackagePatterns": ["rook.ceph"]
-    },
-    {
-      "description": ["Splunk Group"],
-      "group": {
-        "commitMessageTopic": "{{{groupName}}} group"
-      },
-      "groupName": "Splunk",
-      "matchDatasources": ["helm"],
-      "matchPackagePatterns": [
-        "splunk-enterprise",
-        "splunk-operator"
-      ]
-    },
-    {
-      "description": ["Talos Group"],
-      "group": {
-        "commitMessageTopic": "{{{groupName}}} group"
-      },
-      "groupName": "Talos",
-      "matchDatasources": ["docker"],
-      "matchPackagePatterns": [
-        "siderolabs/talosctl",
-        "siderolabs/installer"
-      ]
     }
   ]
 }
