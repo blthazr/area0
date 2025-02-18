@@ -53,11 +53,6 @@ spec:
                     key: PAPERLESS_SECRET_KEY
               PAPERLESS_TIME_ZONE: "America/Chicago"
               PAPERLESS_URL: "https://${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
-              # Configure folders
-              # PAPERLESS_CONSUMPTION_DIR: /data/nas/inbox
-              PAPERLESS_DATA_DIR: /data/local/data
-              # PAPERLESS_EXPORT_DIR: /data/nas/export
-              PAPERLESS_MEDIA_ROOT: /data/local/media
               # Configure folder importer
               PAPERLESS_CONSUMER_POLLING: 60
               # Configure user permissions
@@ -132,13 +127,31 @@ spec:
               - path: /data/local
         enabled: true
         existingClaim: "${VOLSYNC_PVC:=${APP}}"
-      nas:
+      consume:
         advancedMounts:
           paperless:
             app:
-              - path: /data/nas
+              - path: /usr/src/paperless/consume
         enabled: true
-        path: "${NAS_NFS_PATH}/apps/paperless"
+        path: "${NAS_NFS_PATH}/apps/paperless/inbox"
+        server: "${NAS_ADDRESS}"
+        type: nfs
+      export:
+        advancedMounts:
+          paperless:
+            app:
+              - path: /usr/src/paperless/export
+        enabled: true
+        path: "${NAS_NFS_PATH}/apps/paperless/export"
+        server: "${NAS_ADDRESS}"
+        type: nfs
+      media:
+        advancedMounts:
+          paperless:
+            app:
+              - path: /usr/src/paperless/media
+        enabled: true
+        path: /volume1/documents/paperless/media
         server: "${NAS_ADDRESS}"
         type: nfs
     service:
