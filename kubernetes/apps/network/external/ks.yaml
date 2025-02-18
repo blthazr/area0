@@ -45,7 +45,7 @@ spec:
   path: ./kubernetes/apps/network/external/cloudflared
   postBuild:
     substitute:
-      APP: *app
+      APP: cloudflared
   prune: true
   sourceRef:
     kind: GitRepository
