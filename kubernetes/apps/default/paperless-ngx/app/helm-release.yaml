@@ -33,14 +33,30 @@ spec:
         containers:
           app:
             env:
+              # Configure admin user
+              PAPERLESS_ADMIN_USER:
+                valueFrom:
+                  secretKeyRef:
+                    name: paperless-secret
+                    key: PAPERLESS_ADMIN_USER
+              PAPERLESS_ADMIN_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: paperless-secret
+                    key: PAPERLESS_ADMIN_PASSWORD
               # Configure application
+              PAPERLESS_PORT: &port 8000
+              PAPERLESS_SECRET_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: paperless-secret
+                    key: PAPERLESS_SECRET_KEY
               PAPERLESS_TIME_ZONE: "America/Chicago"
               PAPERLESS_URL: "https://${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
-              PAPERLESS_PORT: &port 8000
               # Configure folders
-              # PAPERLESS_CONSUMPTION_DIR: /data/nas/inbox
+              PAPERLESS_CONSUMPTION_DIR: /data/nas/inbox
               PAPERLESS_DATA_DIR: /data/local/data
-              # PAPERLESS_EXPORT_DIR: /data/nas/export
+              PAPERLESS_EXPORT_DIR: /data/nas/export
               PAPERLESS_MEDIA_ROOT: /data/local/media
               # Configure folder importer
               PAPERLESS_CONSUMER_POLLING: 60
