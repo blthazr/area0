@@ -1,0 +1,26 @@
+---
+# TODO: add yaml-language-server
+apiVersion: upgrade.cattle.io/v1
+kind: Plan
+metadata:
+  name: kubernetes
+spec:
+  concurrency: 1
+  exclusive: true
+  nodeSelector:
+    matchExpressions:
+      - key: node-role.kubernetes.io/control-plane
+        operator: Exists
+  postCompleteDelay: 30s
+  secrets:
+    - name: system-upgrade-controller
+      ignoreUpdates: true
+      path: /var/run/secrets/talos.dev
+  serviceAccountName: "${APP}"
+  upgrade:
+    args:
+      - --nodes=$(SYSTEM_UPGRADE_NODE_NAME)
+      - upgrade-k8s
+      - --to=$(SYSTEM_UPGRADE_PLAN_LATEST_VERSION)
+    image: ghcr.io/siderolabs/talosctl:${TALOS_VERSION}
+  version: ${KUBERNETES_VERSION}
