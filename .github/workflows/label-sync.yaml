@@ -1,0 +1,30 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: "Label Sync"
+
+on:
+  push:
+    branches: ["main"]
+    paths: [".github/labels.yaml"]
+  schedule:
+    - cron: "0 0 * * *" # daily at midnight
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  label-sync:
+    name: Label Sync
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github/labels.yaml
+
+      - name: Sync labels
+        uses: EndBug/label-sync@v2
+        with:
+          config-file: .github/labels.yaml
+          delete-other-labels: true
