@@ -8,4 +8,4 @@ components:
 resources:
   - ./actual/ks.yaml
   - ./mealie/ks.yaml
-  - ./paperless-ngx/ks.yaml
+  # - ./paperless-ngx/ks.yaml
