@@ -62,7 +62,7 @@ spec:
               PAPERLESS_REDIS: redis://paperless-redis.default.svc.cluster.local:6379
             image:
               repository: ghcr.io/paperless-ngx/paperless-ngx
-              tag: 2.14.7@sha256:2a6d9f6461ad7e8335f5b2123a173b9e6002fda209af8a66483b0c00629569ab
+              tag: 2.14.7@sha256:2a6d9f6461ad7e8335f5b2123a173b9e6002fda209af8a66483b0c00629569a
             probes:
               liveness:
                 enabled: true
@@ -145,15 +145,7 @@ spec:
         path: "${NAS_NFS_PATH}/apps/paperless/export"
         server: "${NAS_ADDRESS}"
         type: nfs
-      media:
-        advancedMounts:
-          paperless:
-            app:
-              - path: /usr/src/paperless/media
-        enabled: true
-        path: "${NAS_NFS_PATH}/apps/paperless/media"
-        server: "${NAS_ADDRESS}"
-        type: nfs
+
     service:
       app:
         controller: *app
