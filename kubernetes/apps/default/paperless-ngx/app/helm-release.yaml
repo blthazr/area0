@@ -1,0 +1,138 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app paperless
+spec:
+  chart:
+    spec:
+      chart: app-template
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      version: 3.7.1
+  dependsOn:
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
+  install:
+    remediation:
+      retries: 3
+  interval: 30m
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+      strategy: rollback
+  values:
+    controllers:
+      paperless:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            env:
+              # Configure application
+              PAPERLESS_TIME_ZONE: "America/Chicago"
+              PAPERLESS_URL: "https://${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
+              PAPERLESS_PORT: &port 8000
+              # Configure folders
+              PAPERLESS_CONSUMPTION_DIR: /data/nas/inbox
+              PAPERLESS_DATA_DIR: /data/local/data
+              PAPERLESS_EXPORT_DIR: /data/nas/export
+              PAPERLESS_MEDIA_ROOT: /data/local/media
+              # Configure folder importer
+              PAPERLESS_CONSUMER_POLLING: 60
+              # Configure user permissions
+              USERMAP_UID: ${APP_UID:=1000}
+              USERMAP_GID: ${APP_GID:=1000}
+              # Configure redis integration
+              PAPERLESS_REDIS: redis://paperless-redis.default.svc.cluster.local:6379
+            image:
+              repository: ghcr.io/paperless-ngx/paperless-ngx
+              tag: 2.14.7
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
+        initContainers:
+          init-db:
+            envFrom:
+              - secretRef:
+                  name: "${APP}-db-secret"
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 16
+      redis:
+        containers:
+          redis:
+            image:
+              repository: docker.io/valkey/valkey
+              tag: 8.0.2
+            resources:
+              limits:
+                memory: 128Mi
+              requests:
+                cpu: 5m
+                memory: 32Mi
+    defaultPodOptions:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
+      nodeSelector:
+        # TODO: Remove role/media nodeSelector once new cluster is built
+        role/media: "true"
+      securityContext:
+        fsGroupChangePolicy: OnRootMismatch
+        supplementalGroups:
+          - 1000
+    ingress:
+      app:
+        className: internal
+        enabled: true
+        hosts:
+          - host: "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
+    persistence:
+      data:
+        advancedMounts:
+          paperless:
+            app:
+              - path: /data/local
+        enabled: true
+        existingClaim: "${VOLSYNC_PVC:=${APP}}"
+      nas:
+        advancedMounts:
+          paperless:
+            app:
+              - path: /data/nas
+        enabled: true
+        path: "${NAS_NFS_PATH}/apps/paperless"
+        server: "${NAS_ADDRESS}"
+        type: nfs
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: *port
+      redis:
+        controller: redis
+        ports:
+          http:
+            port: 6379
