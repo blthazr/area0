@@ -41,7 +41,7 @@ spec:
           global:
             resolveTimeout: 5m
           name: alertmanager
-        externalUrl: "${ALERTMANAGER_HOSTNAME:=alertmanager}.${SECRET_DOMAIN}"
+        externalUrl: "https://${ALERTMANAGER_HOSTNAME:=alertmanager}.${SECRET_DOMAIN}"
         replicas: 1
         storage:
           volumeClaimTemplate:
