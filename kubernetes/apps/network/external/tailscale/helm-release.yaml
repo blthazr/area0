@@ -71,7 +71,8 @@ spec:
               capabilities:
                 drop: ["ALL"]
               readOnlyRootFilesystem: true
-        replicas: 2
+        # TODO: increase replicas after upgrading cluster
+        replicas: 1 # 2
         strategy: RollingUpdate
     defaultPodOptions:
       affinity:
