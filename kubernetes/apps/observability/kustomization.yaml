@@ -7,4 +7,4 @@ components:
   - ../../components/common
 resources:
   - ./cribl/ks.yaml
-  - ./prometheus-operator-crds/ks.yaml
+  - ./prometheus-operator/ks.yaml
