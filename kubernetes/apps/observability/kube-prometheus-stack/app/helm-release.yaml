@@ -17,11 +17,13 @@ spec:
     - name: rook-ceph-cluster
       namespace: rook-ceph
   install:
+    crds: Skip
     remediation:
       retries: 3
   interval: 30m
   upgrade:
     cleanupOnFail: true
+    crds: Skip
     remediation:
       retries: 3
       strategy: rollback
@@ -56,17 +58,14 @@ spec:
         pathType: Prefix
     cleanPrometheusOperatorObjectNames: true
     crds:
-      enabled: true
-      upgradeJob:
-        enabled: true
-        forceConflicts: true
+      enabled: false
     grafana:
       enabled: false
       forceDeployDashboards: true
       sidecar:
         dashboards:
           annotations:
-            grafana_folder: Prometheus
+            grafana_folder: Kubernetes
     kube-state-metrics:
       fullnameOverride: kube-state-metrics
       metricLabelsAllowlist:
