@@ -2,9 +2,9 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: observability
-components:
-  - ../../components/common
 resources:
-  - ./kube-prometheus-stack/ks.yaml
-  - ./cribl/ks.yaml
+  - ./alertmanager-config.yaml
+  - ./external-secret.yaml
+  - ./helm-release.yaml
+  - ./scrape-config
+  - ./prometheus-rules
