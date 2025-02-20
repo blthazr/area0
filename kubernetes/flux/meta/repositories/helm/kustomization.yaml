@@ -12,6 +12,8 @@ resources:
   - ./cribl.yaml
   - ./external-dns.yaml
   - ./external-secrets.yaml
+  - ./grafana-operator.yaml
+  - ./grafana.yaml
   - ./ingress-nginx.yaml
   - ./intel.yaml
   - ./jetstack.yaml
