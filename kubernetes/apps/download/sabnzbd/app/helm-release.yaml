@@ -114,7 +114,7 @@ spec:
         type: emptyDir
       media:
         enabled: true
-        existingClaim: local-media
+        existingClaim: download-media
         globalMounts:
           - path: /media
       tmp:
