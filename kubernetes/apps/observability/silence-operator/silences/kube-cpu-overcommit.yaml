@@ -3,7 +3,7 @@
 apiVersion: monitoring.giantswarm.io/v1alpha1
 kind: Silence
 metadata:
-  name: KubeCPUOvercommit
+  name: kube-cpu-overcommit
 spec:
   matchers:
     - name: alertname
