@@ -1,0 +1,11 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/grafana.integreatly.org/grafanadashboard_v1beta1.json
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: kubernetes-coredns
+spec:
+  grafanaCom:
+    # renovate: depName="Kubernetes / System / CoreDNS"
+    id: 15762
+    revision: 19

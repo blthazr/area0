@@ -1,0 +1,16 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/grafana.integreatly.org/grafanadashboard_v1beta1.json
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: volsync
+spec:
+  datasources:
+    - datasourceName: Prometheus
+      inputName: DS_PROMETHEUS
+    - datasourceName: .*-dst
+      inputName: VAR_REPLICATIONDESTNAME
+  grafanaCom:
+    # renovate: depName="VolSync Dashboard"
+    id: 21356
+    revision: 3
