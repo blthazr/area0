@@ -7,3 +7,6 @@ components:
   - ../../components/common
 resources:
   - ./sabnzbd/ks.yaml
+  - ./storage-class.yaml
+  - ./persistent-volume.yaml
+  - ./persistent-volume-claim.yaml
