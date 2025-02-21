@@ -1,0 +1,106 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/monitoring.coreos.com/prometheusrule_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: cloudnative-pg-rules
+spec:
+  groups:
+    - name: cloudnative-pg
+      rules:
+        - alert: LongRunningTransaction
+          annotations:
+            description: >-
+              Pod {{ $labels.pod }} is taking more than {{ $value }} seconds for a query.
+            # runbook_url:
+            summary: >-
+              A query is taking longer than 5 minutes.
+          expr: |-
+            cnpg_backends_max_tx_duration_seconds > 300
+          for: 15m
+          labels:
+            severity: critical
+        - alert: BackendsWaiting
+          annotations:
+            description: >-
+              Pod {{ $labels.pod }} has been waiting for longer than {{ $value }} seconds.
+            # runbook_url:
+            summary: >-
+              If a backend is waiting for longer than 5 minutes.
+          expr: |-
+            cnpg_backends_waiting_total > 300
+          for: 15m
+          labels:
+            severity: critical
+        - alert: PGDatabaseXidAge
+          annotations:
+            description: >-
+              Over {{ $value }} transactions from frozen xid on pod {{ $labels.pod }}.
+            # runbook_url:
+            summary: >-
+              Number of transactions from the frozen XID to the current one.
+          expr: |-
+            cnpg_pg_database_xid_age > 150000000
+          for: 15m
+          labels:
+            severity: critical
+        - alert: PGReplication
+          annotations:
+            description: >-
+              Standby {{ $labels.pod }} is lagging behind by over {{ $value }} seconds.
+            # runbook_url:
+            summary: >-
+              The standby is lagging behind the primary.
+          expr: |-
+            cnpg_pg_replication_lag > 300
+          for: 15m
+          labels:
+            severity: critical
+        - alert: LastFailedArchiveTime
+          annotations:
+            description: >-
+              Archiving failed for {{ $labels.pod }}.
+            # runbook_url:
+            summary: >-
+              Checks the last time archiving failed. Will be < 0 when it has not failed.
+          expr: |-
+            (cnpg_pg_stat_archiver_last_failed_time - cnpg_pg_stat_archiver_last_archived_time) > 1
+          for: 15m
+          labels:
+            severity: critical
+        - alert: DatabaseDeadlockConflicts
+          annotations:
+            description: >-
+              There are {{ $value }} (over 10) deadlock conflicts in {{ $labels.pod }}.
+            # runbook_url:
+            summary: >-
+              Checks the number of database conflicts.
+          expr: |-
+            cnpg_pg_stat_database_deadlocks > 10
+          for: 15m
+          labels:
+            severity: critical
+        - alert: ReplicaFailingReplication
+          annotations:
+            # description: >-
+            # runbook_url:
+            summary: >-
+              Replica {{ $labels.pod }} is failing to replicate.
+          expr: |-
+            cnpg_pg_replication_in_recovery > cnpg_pg_replication_is_wal_receiver_up
+          for: 15m
+          labels:
+            severity: critical
+        - alert: CNPGClusterOffline
+          annotations:
+            description: >-
+              CloudNativePG Cluster has no ready instances.
+              Having an offline cluster means your applications will not be able to access the database, leading to potential service disruption and/or data loss.
+            runbook_url: https://github.com/cloudnative-pg/charts/blob/main/charts/cluster/docs/runbooks/CNPGClusterOffline.md
+            summary: >-
+              CNPG Cluster has no running instances!
+          expr: |
+            sum by (namespace, pod) (cnpg_collector_up)) OR on() vector(0) == 0
+          for: 5m
+          labels:
+            severity: critical

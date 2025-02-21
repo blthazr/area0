@@ -9,5 +9,6 @@ configMapGenerator:
 configurations:
   - kustomize-config.yaml
 resources:
-  - ./webhook
   - ./helm-release.yaml
+  - ./observability
+  - ./webhook
