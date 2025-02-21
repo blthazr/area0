@@ -6,6 +6,11 @@ namespace: media
 components:
   - ../../components/common
 resources:
+  # Pre Flux-Kustomizations
+  - ./storage-class.yaml
+  - ./persistent-volume.yaml
+  - ./persistent-volume-claim.yaml
+  # Flux-Kustomizations
   - ./common/ks.yaml
   - ./bazarr/ks.yaml
   - ./overseerr/ks.yaml

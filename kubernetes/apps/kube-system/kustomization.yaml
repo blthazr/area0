@@ -6,6 +6,7 @@ namespace: kube-system
 components:
   - ../../components/common
 resources:
+  # Flux-Kustomizations
   - ./cilium/ks.yaml
   - ./coredns/ks.yaml
   - ./intel-device-plugin/ks.yaml

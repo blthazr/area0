@@ -6,4 +6,5 @@ namespace: system-upgrade
 components:
   - ../../components/common
 resources:
+  # Flux-Kustomizations
   - ./system-upgrade-controller/ks.yaml

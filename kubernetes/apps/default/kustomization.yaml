@@ -6,6 +6,6 @@ namespace: default
 components:
   - ../../components/common
 resources:
+  # Flux-Kustomizations
   - ./actual/ks.yaml
   - ./mealie/ks.yaml
-  # - ./paperless-ngx/ks.yaml

@@ -6,5 +6,6 @@ namespace: external-secrets
 components:
   - ../../components/common
 resources:
+  # Flux-Kustomizations
   - ./external-secrets/ks.yaml
   - ./onepassword/ks.yaml
