@@ -27,7 +27,7 @@ spec:
       strategy: rollback
   values:
     minecraftServer:
-      cheats: false
+      cheats: true
       difficulty: normal
       eula: "TRUE"
       gameMode: survival
