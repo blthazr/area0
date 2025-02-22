@@ -19,6 +19,7 @@ resources:
   - ./jetstack.yaml
   - ./k8s-gateway.yaml
   - ./metrics-server.yaml
+  - ./minecraft-server-charts.yaml
   - ./node-feature-discovery.yaml
   - ./openebs.yaml
   - ./piraeus.yaml
