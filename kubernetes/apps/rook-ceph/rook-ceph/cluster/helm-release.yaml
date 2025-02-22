@@ -132,6 +132,7 @@ spec:
         useAllDevices: false
         useAllNodes: false
     cephFileSystems: []
+    cephObjectStores: []
     configOverride: |
       [global]
       bdev_enable_discard = true
