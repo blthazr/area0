@@ -150,4 +150,4 @@ spec:
       createPrometheusRules: true
       enabled: true
     toolbox:
-      enabled: true
+      enabled: false
