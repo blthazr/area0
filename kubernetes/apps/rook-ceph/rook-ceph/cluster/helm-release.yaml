@@ -131,6 +131,7 @@ spec:
               - name: /dev/disk/by-id/ata-Samsung_Portable_SSD_T5_S4B0NR0R721882L
         useAllDevices: false
         useAllNodes: false
+    cephFileSystems: []
     configOverride: |
       [global]
       bdev_enable_discard = true
