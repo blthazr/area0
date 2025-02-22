@@ -6,4 +6,3 @@ resources:
   - ./cluster.yaml
   - ./scheduled-backup.yaml
   - ./service.yaml
-  - ./observability
