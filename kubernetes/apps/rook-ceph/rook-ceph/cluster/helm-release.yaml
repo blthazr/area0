@@ -93,13 +93,13 @@ spec:
       resources:
         mgr:
           limits:
-            memory: 2Gi
+            memory: 1Gi
           requests:
             cpu: 100m
             memory: 512Mi
         mgr-sidecar:
           limits:
-            memory: 256Mi
+            memory: 100Mi
           requests:
             cpu: 50m
             memory: 128Mi
@@ -111,7 +111,7 @@ spec:
             memory: 512Mi
         osd:
           limits:
-            memory: 6Gi
+            memory: 4Gi
           requests:
             cpu: 500m
             memory: 2Gi
