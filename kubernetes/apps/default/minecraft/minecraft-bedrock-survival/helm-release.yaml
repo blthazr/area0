@@ -33,6 +33,7 @@ spec:
       gameMode: survival
       levelName: world
       loadBalancerIP: "${CLUSTER_LB_MINECRAFT_BEDROCK_SURVIVAL}"
+      ops: "2535468804818552,2535462936518313"
       serverName: "\u00A75\u00A7lHungry \u00A72\u00A7lGames"
       serviceType: LoadBalancer
       version: "LATEST"
