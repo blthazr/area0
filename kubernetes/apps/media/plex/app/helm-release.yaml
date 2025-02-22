@@ -129,7 +129,7 @@ spec:
         type: emptyDir
       media:
         enabled: true
-        existingClaim: local-media
+        existingClaim: media-local-storage
         globalMounts:
           - path: /media
             readOnly: true

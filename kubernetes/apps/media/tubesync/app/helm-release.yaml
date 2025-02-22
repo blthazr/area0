@@ -70,7 +70,7 @@ spec:
           - path: /config
       downloads:
         enabled: true
-        existingClaim: local-media
+        existingClaim: media-local-storage
         globalMounts:
           - path: /downloads
             subPath: download/tubesync/
