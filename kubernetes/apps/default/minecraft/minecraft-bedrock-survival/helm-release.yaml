@@ -1,0 +1,56 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: "${APP}"
+spec:
+  chart:
+    spec:
+      chart: minecraft-bedrock
+      sourceRef:
+        kind: HelmRepository
+        name: minecraft-server-charts
+        namespace: flux-system
+      version: 2.8.2
+  dependsOn:
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
+  install:
+    remediation:
+      retries: 3
+  interval: 30m
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+      strategy: rollback
+  values:
+    minecraftServer:
+      cheats: false
+      difficulty: normal
+      eula: "TRUE"
+      gameMode: survival
+      levelName: world
+      loadBalancerIP: "${CLUSTER_LB_MINECRAFT_BEDROCK_SURVIVAL}"
+      serverName: "\u00A75\u00A7lHungry \u00A72\u00A7lGames"
+      serviceType: LoadBalancer
+      version: "LATEST"
+    image:
+      repository: itzg/minecraft-bedrock-server
+      tag: 2024.11.0@sha256:f488814fe5d9cfea27d1dda93598d3f5970845bddcdef86c183bbccbbae381be
+    persistence:
+      dataDir:
+        Size: "${VOLSYNC_CAPACITY:=5Gi}"
+        enabled: true
+        existingClaim: "${VOLSYNC_PVC:=${APP}}"
+      storageClass: "${VOLSYNC_STORAGECLASS:=ceph-block}"
+    podSecurityContext:
+      fsGroup: ${APP_GID:=1000}
+      runAsGroup: ${APP_GID:=1000}
+      runAsNonRoot: true
+      runAsUser: ${APP_UID:=1000}
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
