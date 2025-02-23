@@ -26,6 +26,6 @@ spec:
       retries: 3
       strategy: rollback
   values:
-    name: intel-gpu-plugin
+    name: "${APP}"
     nodeFeatureRule: false
     sharedDevNum: 3
