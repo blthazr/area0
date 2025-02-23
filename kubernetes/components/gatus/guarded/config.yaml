@@ -1,6 +1,5 @@
 endpoints:
   - name: "${APP}"
-    alerts: []
     conditions:
       - "len([BODY]) == 0"
     dns:

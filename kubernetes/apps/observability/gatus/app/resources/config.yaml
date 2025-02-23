@@ -4,10 +4,9 @@ connectivity:
   checker:
     interval: 1m
     target: 1.1.1.1:53
-debug: false
+
 endpoints:
   - name: flux-webhook
-    alerts: []
     client:
       dns-resolver: tcp://1.1.1.1:53
     conditions:
@@ -24,4 +23,4 @@ ui:
   header: Status
   title: Status | Gatus
 web:
-  port: $${WEB_PORT}
+  port: $${GATUS_WEB_PORT}
