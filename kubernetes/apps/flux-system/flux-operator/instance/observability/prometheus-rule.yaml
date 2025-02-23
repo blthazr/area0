@@ -8,18 +8,6 @@ spec:
   groups:
     - name: flux-instance
       rules:
-        - alert: FluxInstanceAbsent
-          annotations:
-            description: >-
-              The flux_instance_info metric for the Flux instance in namespace {{ $labels.exported_namespace }} is not available.
-            # runbook_url:
-            summary: >-
-              Flux instance metric is missing.
-          expr: |-
-            absent(flux_instance_info{exported_namespace="flux-system", name="flux"})
-          for: 15m
-          labels:
-            severity: critical
         - alert: FluxInstanceNotReady
           annotations:
             description: >-
