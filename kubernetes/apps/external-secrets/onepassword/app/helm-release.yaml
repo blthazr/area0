@@ -109,6 +109,13 @@ spec:
         replicas: 1
         strategy: RollingUpdate
     defaultPodOptions:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
       securityContext:
         fsGroup: 999
         fsGroupChangePolicy: OnRootMismatch
