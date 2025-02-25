@@ -12,7 +12,7 @@ instance:
     - notification-controller
   distribution:
     # renovate: datasource=github-releases depName=fluxcd/flux2
-    version: 2.4.0
+    version: 2.5.1
   kustomize:
     patches:
       - # Add Sops decryption to 'flux-system' Kustomization
