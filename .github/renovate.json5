@@ -8,7 +8,6 @@
     ":dependencyDashboard",
     ":enablePreCommit",
     ":semanticCommits",
-    ":skipStatusChecks",
     ":timezone(America/Chicago)",
     "github>blthazr/area0//.github/renovate/autoMerge.json5",
     "github>blthazr/area0//.github/renovate/grafanaDashboards.json5",
@@ -24,8 +23,6 @@
     "**/.archive/**",
     "**/resources/**"
   ],
-  "onboarding": false,
-  "requireConfig": "ignored",
   "suppressNotifications": [
     "prEditedNotification",
     "prIgnoreNotification"

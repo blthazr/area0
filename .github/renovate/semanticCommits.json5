@@ -20,7 +20,7 @@
     {
       "matchUpdateTypes": ["digest"],
       "semanticCommitType": ":arrow_up: chore",
-      "commitMessageExtra": "( {{currentVersion}} → {{newVersion}} )"
+      "commitMessageExtra": "( {{currentDigestShort}} → {{newDigestShort}} )"
     },
     {
       "matchDatasources": ["docker"],
@@ -37,6 +37,11 @@
       "semanticCommitType": "ci",
       "semanticCommitScope": "github-action",
       "commitMessageTopic": "action {{depName}}"
+    },
+    {
+      "matchDatasources": ["github-releases"],
+      "semanticCommitScope": "github-release",
+      "commitMessageTopic": "release {{depName}}"
     }
   ]
 }

@@ -8,7 +8,7 @@
       },
       "groupName": "1Password Connnect",
       "matchDatasources": ["docker"],
-      "matchPackagePatterns": ["1password/connect"]
+      "matchPackageNames": ["/1password/"]
     },
     {
       "description": ["Cribl Group"],
@@ -20,10 +20,10 @@
         "docker",
         "helm"
       ],
-      "matchPackagePatterns": [
-        "cribl/cribl",
-        "edge",
-        "logstream"
+      "matchPackageNames": [
+        "/cribl/",
+        "/edge/",
+        "/logstream/"
       ],
       "versioning": "semver"
     },
@@ -34,9 +34,9 @@
       },
       "groupName": "Flux Operator",
       "matchDatasources": ["docker"],
-      "matchPackagePatterns": [
-        "flux-operator",
-        "flux-instance"
+      "matchPackageNames": [
+        "/flux-operator/",
+        "/flux-instance/"
       ]
     },
     {
@@ -46,7 +46,7 @@
       },
       "groupName": "Intel-Device-Plugins",
       "matchDatasources": ["helm"],
-      "matchPackagePatterns": ["intel-device-plugins"]
+      "matchPackageNames": ["/intel-device-plugins/"]
     },
     {
       "description": ["Rook-Ceph Group"],
@@ -55,7 +55,7 @@
       },
       "groupName": "Rook-Ceph",
       "matchDatasources": ["helm"],
-      "matchPackagePatterns": ["rook.ceph"]
+      "matchPackageNames": ["/rook.ceph/"]
     }
   ]
 }

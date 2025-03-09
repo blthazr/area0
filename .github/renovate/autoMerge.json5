@@ -6,6 +6,7 @@
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeType": "branch",
+      "ignoreTests": true,
       "matchDatasources": ["github-tags"],
       "matchManagers": ["github-actions"],
       "matchUpdateTypes": [
@@ -20,34 +21,37 @@
       "automerge": true,
       "automergeSchedule": ["after 2am, before 6am"],
       "automergeType": "branch",
+      "ignoreTests": true,
       "matchDatasources": ["docker"],
-      "matchPackagePatterns": [
-        "ghcr.io/onedr0p"
+      "matchPackageNames": [
+        "/bjw-s/",
+        "/onedr0p/"
       ],
       "matchUpdateTypes": ["digest"]
     },
     {
+      "description": ["Auto-merge containers (patch/minor) [maintenance window]"],
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeSchedule": ["after 2am, before 6am"],
       "automergeType": "branch",
-      "description": ["Auto-merge containers (patch/minor) [maintenance window]"],
+      "ignoreTests": true,
       "matchDatasources": ["docker"],
-      "matchPackagePatterns": [
-        "ghcr.io/kashalls/kromgo",
-        "ghcr.io/mealie-recipes/mealie",
-        "ghcr.io/meeb/tubesync",
-        "ghcr.io/onedr0p/bazarr",
-        "ghcr.io/onedr0p/lidarr",
-        "ghcr.io/onedr0p/plex",
-        "ghcr.io/onedr0p/prowlarr",
-        "ghcr.io/onedr0p/radarr",
-        "ghcr.io/onedr0p/sabnzbd",
-        "ghcr.io/onedr0p/sonarr",
-        "ghcr.io/recyclarr/recyclarr",
-        "ghcr.io/sct/overseerr",
-        "ghcr.io/tautulli/tautulli",
-        "ghcr.io/toboshii/hajimari"
+      "matchPackageNames": [
+        "/kromgo/",
+        "/mealie/",
+        "/tubesync/",
+        "/bazarr/",
+        "/lidarr/",
+        "/plex/",
+        "/prowlarr/",
+        "/radarr/",
+        "/sabnzbd/",
+        "/sonarr/",
+        "/recyclarr/",
+        "/overseerr/",
+        "/tautulli/",
+        "/hajimari/"
       ],
       "matchUpdateTypes": [
         "patch",
@@ -65,9 +69,8 @@
         "docker",
         "helm"
       ],
-      "matchPackagePatterns": [
-        "kube-prometheus-stack",
-        "unpoller"
+      "matchPackageNames": [
+        "/kube-prometheus-stack/"
       ],
       "matchUpdateTypes": [
         "patch",
