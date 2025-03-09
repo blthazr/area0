@@ -5,30 +5,37 @@ name: Flux Local
 on:
   pull_request:
     branches: ["main"]
-    paths:
-      - kubernetes/apps/**
-      - kubernetes/flux/**
 
 concurrency:
-  cancel-in-progress: true
   group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  test:
-    name: Flux Local Test
+  pre-job:
+    name: Flux Local - Pre-Job
     runs-on: ubuntu-latest
+    outputs:
+      any_changed: ${{ steps.changed-files.outputs.any_changed }}
     steps:
-      - name: Generate token
-        id: app-token
-        uses: actions/create-github-app-token@v1
-        with:
-          app-id: "${{ secrets.BOT_APP_ID }}"
-          private-key: "${{ secrets.BOT_PRIVATE_KEY }}"
-
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v45
         with:
-          token: "${{ steps.app-token.outputs.token }}"
+          files: |
+            kubernetes/apps/**
+            kubernetes/flux/**
+
+  test:
+    name: Flux Local - Test
+    needs: pre-job
+    if: ${{ needs.pre-job.outputs.any_changed == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Run flux-local test
         uses: docker://ghcr.io/allenporter/flux-local:v7.2.1
@@ -36,35 +43,23 @@ jobs:
           args: test --enable-helm --all-namespaces --path /github/workspace/kubernetes/flux/cluster -v
 
   diff:
-    name: Flux Local Diff
+    name: Flux Local - Diff
     permissions:
       pull-requests: write
+    needs: pre-job
+    if: ${{ needs.pre-job.outputs.any_changed == 'true' }}
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        resources: ["helmrelease", "kustomization"]
-      max-parallel: 4
     steps:
-      - name: Generate token
-        id: app-token
-        uses: actions/create-github-app-token@v1
-        with:
-          app-id: "${{ secrets.BOT_APP_ID }}"
-          private-key: "${{ secrets.BOT_PRIVATE_KEY }}"
-
       - name: Checkout pull request branch
         uses: actions/checkout@v4
         with:
           path: pull
-          token: "${{ steps.app-token.outputs.token }}"
 
       - name: Checkout default branch
         uses: actions/checkout@v4
         with:
           path: default
           ref: "${{ github.event.repository.default_branch }}"
-          token: "${{ steps.app-token.outputs.token }}"
 
       - name: Run flux-local diff
         uses: docker://ghcr.io/allenporter/flux-local:v7.2.1
@@ -80,40 +75,54 @@ jobs:
             --sources "flux-system"
             --output-file diff.patch
 
-      - name: Generate diff
+      - name: Generate Diff
         id: diff
         run: |
-          cat diff.patch;
-          {
-              echo 'diff<<EOF'
-              cat diff.patch
-              echo EOF
-          } >> "$GITHUB_OUTPUT";
-          {
-              echo "### Diff"
-              echo '```diff'
-              cat diff.patch
-              echo '```'
-          } >> "$GITHUB_STEP_SUMMARY"
+          echo 'diff<<EOF' >> $GITHUB_OUTPUT
+          cat diff.patch >> $GITHUB_OUTPUT
+          echo 'EOF' >> $GITHUB_OUTPUT
 
-      - if: ${{ steps.diff.outputs.diff != '' }}
-        name: Add comment
+          echo '## Flux ${{ matrix.resources }} diff' >> $GITHUB_STEP_SUMMARY
+          echo '```diff' >> $GITHUB_STEP_SUMMARY
+          cat diff.patch >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
+      - name: Generate token
+        id: app-token
+        if: ${{ steps.diff.outputs.diff != '' }}
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: "${{ secrets.BOT_APP_ID }}"
+          private-key: "${{ secrets.BOT_PRIVATE_KEY }}"
+
+      - name: Add comment
+        if: ${{ steps.diff.outputs.diff != '' }}
         uses: mshick/add-pr-comment@v2
         with:
           message: |
             ```diff
             ${{ steps.diff.outputs.diff }}
             ```
-          message-failure: Diff was not successful
           message-id: "${{ github.event.pull_request.number }}/kubernetes/${{ matrix.resources }}"
+          message-failure: Diff was not successful
           repo-token: "${{ steps.app-token.outputs.token }}"
 
-  flux-local-success:
+    strategy:
+      matrix:
+        resources: ["helmrelease", "kustomization"]
+      fail-fast: false
+      max-parallel: 4
+
+  status:
+    name: Flux Local - Success
     needs: ["test", "diff"]
     if: ${{ always() }}
-    name: Flux Local Successful
     runs-on: ubuntu-latest
     steps:
-      - name: Check flux-local status
-        if: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }}
+      - name: Any jobs failed?
+        if: ${{ contains(needs.*.result, 'failure') }}
         run: exit 1
+
+      - name: All jobs passed or skipped
+        if: ${{ !(contains(needs.*.result, 'failure')) }}
+        run: echo "All jobs passed or skipped" && echo "${{ toJSON(needs.*.result) }}"
