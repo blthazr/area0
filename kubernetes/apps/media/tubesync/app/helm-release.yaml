@@ -39,7 +39,7 @@ spec:
               TZ: "${CLUSTER_TIME_ZONE}"
             image:
               repository: ghcr.io/meeb/tubesync
-              tag: latest@sha256:6490e288f9338346bf1af203d9e1228f07f7cc163706105f69a8ed9a80ce16a1
+              tag: latest@sha256:556a98e5fbb7e4df9e07e55a0aff161da87146f08585367c17823b1b37eb1b3f
     defaultPodOptions:
       affinity:
         nodeAffinity:
