@@ -20,7 +20,7 @@
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeSchedule": ["after 2am, before 6am"],
-      "automergeType": "branch",
+      "automergeType": "pr",
       "ignoreTests": true,
       "matchDatasources": ["docker"],
       "matchPackageNames": [
@@ -34,7 +34,7 @@
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeSchedule": ["after 2am, before 6am"],
-      "automergeType": "branch",
+      "automergeType": "pr",
       "ignoreTests": true,
       "matchDatasources": ["docker"],
       "matchPackageNames": [
