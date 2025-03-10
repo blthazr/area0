@@ -72,7 +72,7 @@ releases:
       - kube-system/wipe-rook
     values:
       - ../apps/flux-system/flux-operator/app/helm-values.yaml
-    version: 0.14.0
+    version: 0.17.0
 
   - name: flux-instance
     chart: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-instance
@@ -81,5 +81,5 @@ releases:
       - flux-system/flux-operator
     values:
       - ../apps/flux-system/flux-operator/instance/helm-values.yaml
-    version: 0.14.0
+    version: 0.17.0
     wait: false
