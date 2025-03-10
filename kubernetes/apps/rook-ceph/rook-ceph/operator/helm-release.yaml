@@ -13,13 +13,10 @@ spec:
         name: rook-ceph
         namespace: flux-system
       version: v1.16.5
-  dependsOn:
-    - name: snapshot-controller
-      namespace: volsync-system
   install:
     remediation:
       retries: 3
-  interval: 30m
+  interval: 1h
   timeout: 15m
   upgrade:
     cleanupOnFail: true
@@ -27,12 +24,18 @@ spec:
       retries: 3
       strategy: rollback
   values:
+    crds:
+      enabled: true
     csi:
       cephFSKernelMountOptions: ms_mode=prefer-crc
+      enableCephfsDriver: false
+      enableCephfsSnapshotter: false
       enableLiveness: true
       serviceMonitor:
         enabled: true
     enableDiscoveryDaemon: true
+    image:
+      repository: ghcr.io/rook/ceph
     monitoring:
       enabled: true
     resources:

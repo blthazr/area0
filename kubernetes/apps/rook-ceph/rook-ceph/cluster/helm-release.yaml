@@ -21,7 +21,7 @@ spec:
   install:
     remediation:
       retries: 3
-  interval: 30m
+  interval: 1h
   timeout: 15m
   upgrade:
     cleanupOnFail: true
@@ -59,6 +59,14 @@ spec:
       isDefault: false
       name: csi-ceph-blockpool
     cephClusterSpec:
+      cephConfig:
+        global:
+          bdev_async_discard_threads: "1" # quote
+          bdev_enable_discard: "true" # quote
+          device_failure_prediction_mode: local # requires mgr module
+          osd_class_update_on_start: "false" # quote
+        mgr:
+          mgr/crash/warn_recent_interval: "7200" # 2h
       crashCollector:
         disable: false
       csi:
@@ -71,6 +79,8 @@ spec:
         urlPrefix: /
       mgr:
         modules:
+          - name: diskprediction_local
+            enabled: true
           - name: insights
             enabled: true
           - name: pg_autoscaler
@@ -119,31 +129,13 @@ spec:
         config:
           osdsPerDevice: "1"
         # Use the following command to get the device name by-id "talosctl ls /dev/disk/by-id -n <node-ip>"
-        nodes:
-          - name: k8s-1
-            devices:
-              - name: /dev/disk/by-id/ata-Samsung_Portable_SSD_T5_S4B0NR0R712678E
-          - name: k8s-2
-            devices:
-              - name: /dev/disk/by-id/ata-Samsung_Portable_SSD_T5_S4B0NR0R719439P
-          - name: k8s-3
-            devices:
-              - name: /dev/disk/by-id/ata-Samsung_Portable_SSD_T5_S4B0NR0R721882L
+        devicePathFilter: /dev/disk/by-id/ata-Samsung_Portable_SSD_T5_*
         useAllDevices: false
         useAllNodes: false
     cephFileSystems: []
     cephObjectStores: []
-    configOverride: |
-      [global]
-      bdev_enable_discard = true
-      bdev_async_discard = true
-      osd_class_update_on_start = false
     ingress:
       dashboard:
-        annotations:
-          hajimari.io/appName: Rook
-          hajimari.io/group: Management
-          hajimari.io/icon: simple-icons:ceph
         host:
           name: "${HOSTNAME}.${SECRET_DOMAIN}"
           path: /
