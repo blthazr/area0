@@ -117,11 +117,11 @@ spec:
         existingClaim: "${VOLSYNC_PVC:=${APP}}"
         globalMounts:
           - path: /config/Library/Application Support/Plex Media Server
-      config-cache:
-        enabled: true
-        existingClaim: "${APP_PVC:=${APP}}"
-        globalMounts:
-          - path: /config/Library/Application Support/Plex Media Server/Cache
+      # config-cache:
+      #   enabled: true
+      #   existingClaim: "${APP_PVC:=${APP}}"
+      #   globalMounts:
+      #     - path: /config/Library/Application Support/Plex Media Server/Cache
       config-logs:
         enabled: true
         globalMounts:
