@@ -41,6 +41,15 @@ spec:
       namespace: *namespace
     - name: openebs
       namespace: openebs-system
+  healthCheckExprs:
+    - apiVersion: postgresql.cnpg.io/v1
+      current: status.phase == 'Cluster in healthy state'
+      kind: Cluster
+  healthChecks:
+    - apiVersion: postgresql.cnpg.io/v1
+      kind: Cluster
+      name: postgres
+      namespace: *namespace
   interval: 30m
   path: ./kubernetes/apps/database/cloudnative-pg/cluster
   prune: true
