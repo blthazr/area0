@@ -10,4 +10,3 @@ configurations:
   - kustomize-config.yaml
 resources:
   - ./helm-release.yaml
-  - ./observability

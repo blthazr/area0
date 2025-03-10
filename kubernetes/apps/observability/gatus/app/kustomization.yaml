@@ -6,5 +6,4 @@ resources:
   - ./external-secret.yaml
   - ./helm-release.yaml
   - ./rbac.yaml
-  - ./observability
   - ./resources
