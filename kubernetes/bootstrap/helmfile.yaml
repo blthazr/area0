@@ -36,7 +36,7 @@ releases:
       - kube-system/cilium
     values:
       - ../apps/kube-system/coredns/app/helm-values.yaml
-    version: 1.39.0
+    version: 1.39.1
 
   - name: cert-manager
     chart: jetstack/cert-manager
