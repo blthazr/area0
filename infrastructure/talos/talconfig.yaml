@@ -112,6 +112,7 @@ patches:
   - "@./patches/global/hostdns.yaml"
   - "@./patches/global/installer.yaml"
   - "@./patches/global/kubelet.yaml"
+  - "@./patches/global/mutating-admission-policy.yaml"
   - "@./patches/global/nameserver.yaml"
   - "@./patches/global/ntp.yaml"
   - "@./patches/global/openebs.yaml"
@@ -125,4 +126,3 @@ controlPlane:
     - "@./patches/controller/api-access.yaml"
     - "@./patches/controller/cluster.yaml"
     - "@./patches/controller/etcd.yaml"
-    - "@./patches/controller/mutating-admission-policy.yaml"
