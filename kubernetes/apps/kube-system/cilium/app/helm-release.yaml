@@ -5,18 +5,13 @@ kind: HelmRelease
 metadata:
   name: "${APP}"
 spec:
-  chart:
-    spec:
-      chart: cilium
-      sourceRef:
-        kind: HelmRepository
-        name: cilium
-        namespace: flux-system
-      version: 1.17.1
+  chartRef:
+    kind: OCIRepository
+    name: cilium
   install:
     remediation:
       retries: 3
-  interval: 30m
+  interval: 1h
   upgrade:
     cleanupOnFail: true
     remediation:
@@ -27,6 +22,32 @@ spec:
       annotations:
         grafana_folder: Cilium
       enabled: true
+    hubble:
+      enabled: true
+      metrics:
+        dashboards:
+          annotations:
+            grafana_folder: Cilium
+          enabled: true
+        enabled:
+          - dns:query
+          - drop
+          - tcp
+          - flow
+          - port-distribution
+          - icmp
+          - http
+        serviceMonitor:
+          enabled: true
+      relay:
+        enabled: true
+        prometheus:
+          serviceMonitor:
+            enabled: true
+        rollOutPods: true
+      ui:
+        enabled: true
+        rollOutPods: true
     operator:
       dashboards:
         annotations:
@@ -36,7 +57,8 @@ spec:
         enabled: true
         serviceMonitor:
           enabled: true
-      replicas: 2
+      replicas: ${REPLICAS:=1}
+      tolerations: []
     prometheus:
       enabled: true
       serviceMonitor:

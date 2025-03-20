@@ -5,8 +5,4 @@ kind: Kustomization
 namespace: default
 components:
   - ../../components/common
-resources:
-  # Flux-Kustomizations
-  - ./actual/ks.yaml
-  - ./mealie/ks.yaml
-  - ./minecraft/ks.yaml
+resources: []

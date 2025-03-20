@@ -5,11 +5,5 @@ kind: Kustomization
 namespace: observability
 components:
   - ../../components/common
-resources:
+resources: []
   # Flux-Kustomizations
-  - ./cribl/ks.yaml
-  - ./gatus/ks.yaml
-  - ./grafana/ks.yaml
-  - ./kube-prometheus-stack/ks.yaml
-  - ./prometheus-operator/ks.yaml
-  - ./silence-operator/ks.yaml

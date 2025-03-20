@@ -7,5 +7,6 @@ components:
   - ../../components/common
 resources:
   # Flux-Kustomizations
-  - ./external/ks.yaml
-  - ./internal/ks.yaml
+  - ./cloudflare-dns/ks.yaml
+  - ./cloudflare-tunnel/ks.yaml
+  - ./k8s-gateway/ks.yaml

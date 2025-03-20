@@ -5,21 +5,13 @@ kind: HelmRelease
 metadata:
   name: "${APP}"
 spec:
-  chart:
-    spec:
-      chart: volsync
-      sourceRef:
-        kind: HelmRepository
-        name: backube
-        namespace: flux-system
-      version: 0.12.0
-  dependsOn:
-    - name: snapshot-controller
-      namespace: volsync-system
+  chartRef:
+    kind: OCIRepository
+    name: volsync
   install:
     remediation:
       retries: 3
-  interval: 30m
+  interval: 1h
   upgrade:
     cleanupOnFail: true
     remediation:
@@ -33,4 +25,4 @@ spec:
       runAsGroup: ${VOLSYNC_GID:=1000}
       runAsNonRoot: true
       runAsUser: ${VOLSYNC_UID:=1000}
-    replicaCount: 1
+    replicaCount: ${REPLICAS:=1}

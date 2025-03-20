@@ -5,18 +5,13 @@ kind: HelmRelease
 metadata:
   name: "${APP}"
 spec:
-  chart:
-    spec:
-      chart: external-secrets
-      sourceRef:
-        kind: HelmRepository
-        name: external-secrets
-        namespace: flux-system
-      version: 0.14.3
+  chartRef:
+    kind: OCIRepository
+    name: external-secrets
   install:
     remediation:
       retries: 3
-  interval: 30m
+  interval: 1h
   upgrade:
     cleanupOnFail: true
     remediation:

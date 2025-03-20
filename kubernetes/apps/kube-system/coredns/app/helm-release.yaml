@@ -5,23 +5,20 @@ kind: HelmRelease
 metadata:
   name: "${APP}"
 spec:
-  chart:
-    spec:
-      chart: coredns
-      sourceRef:
-        kind: HelmRepository
-        name: coredns
-        namespace: flux-system
-      version: 1.39.1
+  chartRef:
+    kind: OCIRepository
+    name: coredns
   install:
     remediation:
       retries: 3
-  interval: 30m
+  interval: 1h
   upgrade:
     cleanupOnFail: true
     remediation:
       retries: 3
       strategy: rollback
+  values:
+    replicaCount: ${REPLICAS:=1}
   valuesFrom:
     - kind: ConfigMap
       name: coredns-helm-values

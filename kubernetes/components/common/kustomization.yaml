@@ -5,5 +5,6 @@ kind: Component
 resources:
   - ./namespace.yaml
   - ./alerts
+  - ./global-vars
+  - ./repos
   - ./sops
-  - ./substitutions

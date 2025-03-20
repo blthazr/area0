@@ -5,8 +5,9 @@ kind: Kustomization
 configMapGenerator:
   - name: flux-operator-helm-values
     files:
-      - values.yaml=./helm-values.yaml
+      - values.yaml=./helm/values.yaml
 configurations:
-  - kustomize-config.yaml
+  - ./helm/kustomize-config.yaml
 resources:
   - ./helm-release.yaml
+  - ./oci-repository.yaml

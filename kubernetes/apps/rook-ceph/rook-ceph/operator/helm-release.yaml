@@ -5,14 +5,9 @@ kind: HelmRelease
 metadata:
   name: "${APP}"
 spec:
-  chart:
-    spec:
-      chart: rook-ceph
-      sourceRef:
-        kind: HelmRepository
-        name: rook-ceph
-        namespace: flux-system
-      version: v1.16.5
+  chartRef:
+    kind: OCIRepository
+    name: rook-ceph
   install:
     remediation:
       retries: 3
@@ -24,8 +19,6 @@ spec:
       retries: 3
       strategy: rollback
   values:
-    crds:
-      enabled: true
     csi:
       cephFSKernelMountOptions: ms_mode=prefer-crc
       enableCephfsDriver: false

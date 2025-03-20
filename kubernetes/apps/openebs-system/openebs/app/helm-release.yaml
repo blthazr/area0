@@ -5,20 +5,17 @@ kind: HelmRelease
 metadata:
   name: "${APP}"
 spec:
-  chart:
-    spec:
-      chart: openebs
-      sourceRef:
-        kind: HelmRepository
-        name: openebs
-        namespace: flux-system
-      version: 4.2.0
+  chartRef:
+    kind: OCIRepository
+    name: openebs
   install:
+    disableHooks: true
     remediation:
       retries: 3
-  interval: 30m
+  interval: 1h
   upgrade:
     cleanupOnFail: true
+    disableHooks: true
     remediation:
       retries: 3
       strategy: rollback

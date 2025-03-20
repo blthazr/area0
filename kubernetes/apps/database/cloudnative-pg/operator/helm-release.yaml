@@ -5,21 +5,13 @@ kind: HelmRelease
 metadata:
   name: "${APP}"
 spec:
-  chart:
-    spec:
-      chart: cloudnative-pg
-      sourceRef:
-        kind: HelmRepository
-        name: cloudnative-pg
-        namespace: flux-system
-      version: 0.23.2
-  dependsOn:
-    - name: openebs
-      namespace: openebs-system
+  chartRef:
+    kind: OCIRepository
+    name: cloudnative-pg
   install:
     remediation:
       retries: 3
-  interval: 30m
+  interval: 1h
   upgrade:
     cleanupOnFail: true
     remediation:
@@ -29,4 +21,6 @@ spec:
     crds:
       create: true
     monitoring:
+      grafanaDashboard:
+        create: true
       podMonitorEnabled: false

@@ -5,18 +5,13 @@ kind: HelmRelease
 metadata:
   name: "${APP}"
 spec:
-  chart:
-    spec:
-      chart: metrics-server
-      sourceRef:
-        kind: HelmRepository
-        name: metrics-server
-        namespace: flux-system
-      version: 3.12.2
+  chartRef:
+    kind: OCIRepository
+    name: metrics-server
   install:
     remediation:
       retries: 3
-  interval: 30m
+  interval: 1h
   upgrade:
     cleanupOnFail: true
     remediation:
@@ -31,5 +26,6 @@ spec:
       - --kubelet-request-timeout=2s
     metrics:
       enabled: true
+    replicas: ${REPLICAS:=1}
     serviceMonitor:
       enabled: true

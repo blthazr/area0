@@ -5,18 +5,13 @@ kind: HelmRelease
 metadata:
   name: "${APP}"
 spec:
-  chart:
-    spec:
-      chart: flux-operator
-      sourceRef:
-        kind: HelmRepository
-        name: controlplaneio
-        namespace: flux-system
-      version: 0.17.0
+  chartRef:
+    kind: OCIRepository
+    name: flux-operator
   install:
     remediation:
       retries: 3
-  interval: 30m
+  interval: 1h
   upgrade:
     cleanupOnFail: true
     remediation:

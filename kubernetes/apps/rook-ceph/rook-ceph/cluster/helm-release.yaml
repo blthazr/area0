@@ -5,19 +5,9 @@ kind: HelmRelease
 metadata:
   name: "${APP}"
 spec:
-  chart:
-    spec:
-      chart: rook-ceph-cluster
-      sourceRef:
-        kind: HelmRepository
-        name: rook-ceph
-        namespace: flux-system
-      version: v1.16.5
-  dependsOn:
-    - name: rook-ceph-operator
-      namespace: rook-ceph
-    - name: snapshot-controller
-      namespace: volsync-system
+  chartRef:
+    kind: OCIRepository
+    name: rook-ceph-cluster
   install:
     remediation:
       retries: 3
@@ -65,8 +55,6 @@ spec:
           bdev_enable_discard: "true" # quote
           # device_failure_prediction_mode: local # requires mgr module
           osd_class_update_on_start: "false" # quote
-        mgr:
-          mgr/crash/warn_recent_interval: "7200" # 2h
       crashCollector:
         disable: false
       csi:
@@ -134,12 +122,6 @@ spec:
         useAllNodes: false
     cephFileSystems: []
     cephObjectStores: []
-    ingress:
-      dashboard:
-        host:
-          name: "${HOSTNAME}.${SECRET_DOMAIN}"
-          path: /
-        ingressClassName: internal
     monitoring:
       createPrometheusRules: true
       enabled: true
