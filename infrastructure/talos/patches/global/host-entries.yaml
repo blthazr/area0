@@ -1,7 +1,0 @@
-# Static host entries
-machine:
-  network:
-    extraHostEntries:
-      - ip: ${clusterEndpointIP}
-        aliases:
-          - k8s.${clusterDomain}
