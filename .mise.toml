@@ -1,17 +1,20 @@
-[settings]
-pipx_uvx = true
-
 [env]
+# Ansible
+_.python.venv = { path = "{{config_root}}/.venv", create = true }
+ANSIBLE_CONFIG = '{{config_root}}/infrastructure/ansible/ansible.cfg'
 # Kubernetes
-KUBECONFIG = '{{config_root}}/kubeconfig'
-TALOSCONFIG = '{{config_root}}/infrastructure/talos/clusterconfig/talosconfig'
-# SOPS
-SOPS_AGE_KEY_FILE = '{{config_root}}/age.key'
+KUBECONFIG = "{{config_root}}/kubeconfig"
+TALOSCONFIG = "{{config_root}}/infrastructure/talos/clusterconfig/talosconfig"
 # MiniJinja
-MINIJINJA_CONFIG_FILE = '{{config_root}}/.minijinja.toml'
-# Taskfile
-TASK_X_ENV_PRECEDENCE = 1
-TASK_X_MAP_VARIABLES = 0
+MINIJINJA_CONFIG_FILE = "{{config_root}}/.minijinja.toml"
+# SOPS
+SOPS_AGE_KEY_FILE = "{{config_root}}/age.key"
+# Directory paths
+ROOT_DIR = "{{config_root}}"
+BOOTSTRAP_DIR = "{{config_root}}/bootstrap"
+KUBERNETES_DIR = "{{config_root}}/kubernetes"
+SCRIPTS_DIR = "{{config_root}}/scripts"
+TALOS_DIR = "{{config_root}}/infrastructure/talos"
 
 [tools]
 "aqua:astral-sh/uv" = ["latest"]
