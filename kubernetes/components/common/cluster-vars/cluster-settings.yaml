@@ -1,0 +1,14 @@
+---
+# yaml-language-server: $schema=https://kubernetesjsonschema.dev/v1.18.1-standalone-strict/configmap-v1.json
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cluster-settings
+data:
+  # site
+  CLUSTER_TIME_ZONE: "America/Chicago"
+
+  # service addresses
+  SVC_GATEWAY_EXTERNAL: 172.16.21.120
+  SVC_GATEWAY_INTERNAL: 172.16.21.121
+  SVC_K8S_GATEWAY: 172.16.21.122
