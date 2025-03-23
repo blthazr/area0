@@ -28,5 +28,5 @@ spec:
       type: LoadBalancer
     ttl: 1
     watchedResources:
-      - Ingress
+      - HTTPRoute
       - Service
