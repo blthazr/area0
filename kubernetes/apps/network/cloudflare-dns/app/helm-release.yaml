@@ -50,7 +50,7 @@ spec:
       enabled: true
     sources:
       - crd
-      - gateway-httproute
+      - ingress
     triggerLoopOnEvent: true
     txtOwnerId: default
     txtPrefix: k8s.
