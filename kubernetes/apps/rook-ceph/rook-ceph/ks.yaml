@@ -15,7 +15,7 @@ spec:
       name: rook-ceph-operator
       namespace: *namespace
   interval: 1h
-  # path: ./kubernetes/apps/rook-ceph/rook-ceph/operator
+  path: ./kubernetes/apps/rook-ceph/rook-ceph/operator
   postBuild:
     substitute:
       APP: *app
