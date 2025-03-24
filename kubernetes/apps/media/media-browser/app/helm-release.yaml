@@ -28,7 +28,7 @@ spec:
               FB_DATABASE: /config/filebrowser.db
               FB_LOG: stdout
               FB_NOAUTH: true
-              FB_ROOT: /data
+              FB_ROOT: /media
               TZ: "${CLUSTER_TIME_ZONE}"
             image:
               repository: docker.io/filebrowser/filebrowser
