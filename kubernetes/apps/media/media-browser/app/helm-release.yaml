@@ -19,7 +19,7 @@ spec:
       strategy: rollback
   values:
     controllers:
-      mediabrowser:
+      media-browser:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
