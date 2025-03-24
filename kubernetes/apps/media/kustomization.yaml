@@ -12,5 +12,6 @@ resources:
   - ./persistent-volume-claim.yaml
   # Flux-Kustomizations
   - ./plex/ks.yaml
+  - ./prowlarr/ks.yaml
   - ./radarr/ks.yaml
   - ./sonarr/ks.yaml
