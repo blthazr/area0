@@ -70,7 +70,7 @@ spec:
                   - key: node-role.kubernetes.io/control-plane
                     operator: DoesNotExist
       nodeSelector:
-        TODO: Remove role/media nodeSelector once new cluster is built
+        # TODO: Remove role/media nodeSelector once new cluster is built
         role/media: "true"
         intel.feature.node.kubernetes.io/gpu: "true"
       securityContext:
