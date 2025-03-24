@@ -13,3 +13,4 @@ resources:
   # Flux-Kustomizations
   - ./plex/ks.yaml
   - ./radarr/ks.yaml
+  - ./sonarr/ks.yaml
