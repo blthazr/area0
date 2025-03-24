@@ -10,3 +10,5 @@ resources:
   - ./storage-class.yaml
   - ./persistent-volume.yaml
   - ./persistent-volume-claim.yaml
+  # Flux-Kustomizations
+  - ./sabnzbd/ks.yaml
