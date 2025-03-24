@@ -7,7 +7,7 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: minecraft
+    name: minecraft-bedrock
   install:
     remediation:
       retries: 3
