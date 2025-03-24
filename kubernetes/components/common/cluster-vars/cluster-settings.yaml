@@ -8,6 +8,9 @@ data:
   # site
   CLUSTER_TIME_ZONE: "America/Chicago"
 
+  # networks
+  NET_HOME_CIDR: 172.16.20.0/23
+
   # service addresses
   SVC_GATEWAY_EXTERNAL: 172.16.21.120
   SVC_GATEWAY_INTERNAL: 172.16.21.121
