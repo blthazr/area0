@@ -88,8 +88,8 @@ jobs:
         if: ${{ steps.diff.outputs.diff != '' }}
         uses: actions/create-github-app-token@af35edadc00be37caa72ed9f3e6d5f7801bfdf09 # v1.11.7
         with:
-          app-id: ${{ secrets.BOT_APP_ID }}
-          private-key: ${{ secrets.BOT_PRIVATE_KEY }}
+          app-id: "${{ secrets.BOT_APP_ID }}"
+          private-key: "${{ secrets.BOT_PRIVATE_KEY }}"
 
       - name: Add comment
         if: ${{ steps.diff.outputs.diff != '' }}
