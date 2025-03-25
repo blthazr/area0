@@ -1,0 +1,150 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: "${APP}"
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+  install:
+    remediation:
+      retries: 3
+  interval: 1h
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+      strategy: rollback
+  values:
+    controllers:
+      bazarr:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            env:
+              TZ: "${CLUSTER_TIME_ZONE}"
+            envFrom: &envFrom
+              - secretRef:
+                  name: "${APP}-secret"
+            image:
+              repository: ghcr.io/home-operations/bazarr
+              tag: 1.5.1@sha256:a1b0d3a4e6462adb448dbfe4bf466e1d1bc920c17ac97c705b6db6eeb02b37b9
+            probes:
+              liveness: &probes
+                custom: true
+                enabled: true
+                spec:
+                  failureThreshold: 3
+                  httpGet:
+                    path: /health
+                    port: &port 6767
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+              readiness: *probes
+            resources:
+              limits:
+                memory: 512Mi
+              requests:
+                cpu: 10m
+            securityContext: &securityContext
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop: ["ALL"]
+              readOnlyRootFilesystem: true
+          subcleaner:
+            env:
+              GITSYNC_REPO: https://github.com/KBlixt/subcleaner
+              GITSYNC_REF: master
+              GITSYNC_PERIOD: 24h
+              GITSYNC_ROOT: /subcleaner
+            image:
+              repository: registry.k8s.io/git-sync/git-sync
+              tag: v4.4.0@sha256:0330739a707a2969d617e859f096659ab6d149212658ac0ad7e550b59482ebf0
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 128Mi
+            securityContext: *securityContext
+        initContainers:
+          init-db:
+            envFrom: *envFrom
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 16
+        replicas: ${REPLICAS:=1}
+    defaultPodOptions:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
+      securityContext:
+        fsGroup: ${APP_GID:=1000}
+        fsGroupChangePolicy: OnRootMismatch
+        runAsGroup: ${APP_GID:=1000}
+        runAsNonRoot: true
+        runAsUser: ${APP_UID:=1000}
+    ingress:
+      app:
+        className: internal
+        enabled: true
+        hosts:
+          - host: "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
+    persistence:
+      config:
+        enabled: true
+        existingClaim: "${VOLSYNC_PVC:=${APP}}"
+        globalMounts:
+          - path: /config
+      config-cache:
+        enabled: true
+        globalMounts:
+          - path: /config/cache
+            subPath: cache
+        type: emptyDir
+      config-log:
+        enabled: true
+        globalMounts:
+          - path: /config/log
+        type: emptyDir
+      media:
+        enabled: true
+        existingClaim: media-local-storage
+        globalMounts:
+          - path: /media
+      scripts:
+        defaultMode: 0775
+        enabled: true
+        globalMounts:
+          - path: /scripts
+            readOnly: true
+        name: bazarr-scripts
+        type: configMap
+      subcleaner:
+        enabled: true
+        globalMounts:
+          - path: /subcleaner
+        type: emptyDir
+      tmp:
+        enabled: true
+        globalMounts:
+          - path: /tmp
+        type: emptyDir
+    service:
+      app:
+        controller: "${APP}"
+        ports:
+          http:
+            port: *port
