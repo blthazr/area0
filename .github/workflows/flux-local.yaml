@@ -76,7 +76,7 @@ jobs:
             --sources "flux-system"
             --output-file diff.patch
 
-      - name: Generate Diff
+      - name: Generate diff
         id: diff
         run: |
           echo 'diff<<EOF' >> $GITHUB_OUTPUT
@@ -105,7 +105,6 @@ jobs:
       matrix:
         resource: ["helmrelease", "kustomization"]
       fail-fast: false
-      max-parallel: 4
 
   success:
     name: Flux Local - Success
