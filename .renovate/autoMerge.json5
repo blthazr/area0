@@ -1,0 +1,46 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "packageRules": [
+    {
+      "description": "Auto-merge GitHub Actions (digest, patch, minor)",
+      "addLabels": ["action/automerge"],
+      "automerge": true,
+      "automergeType": "branch",
+      "ignoreTests": true,
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": [
+        "digest",
+        "patch",
+        "minor"
+      ],
+      "minimumReleaseAge": "3 days"
+    },
+    {
+      "description": "Auto-merge trusted containers (digest) [maintenance window]",
+      "addLabels": ["action/automerge"],
+      "automerge": true,
+      "automergeSchedule": ["after 2am, before 6am"],
+      "automergeType": "branch",
+      "ignoreTests": true,
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["/home-operations/"],
+      "matchUpdateTypes": ["digest"]
+    },
+    {
+      "description": "Auto-merge GitHub Releases (patch, minor) [maintenance window]",
+      "addLabels": ["action/automerge"],
+      "automerge": true,
+      "automergeSchedule": ["after 2am, before 6am"],
+      "automergeType": "branch",
+      "ignoreTests": true,
+      "matchDatasources": ["github-releases"],
+      "matchPackageNames": [
+        "/external-dns/"
+      ],
+      "matchUpdateTypes": [
+        "patch",
+        "minor"
+      ]
+    }
+  ]
+}
