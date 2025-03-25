@@ -1,0 +1,127 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: "${APP}"
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+  install:
+    remediation:
+      retries: 3
+  interval: 1h
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+      strategy: rollback
+  values:
+    controllers:
+      tautulli:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            env:
+              TAUTULLI__PORT: &port 80
+              TZ: "${CLUSTER_TIME_ZONE}"
+            image:
+              repository: ghcr.io/home-operations/tautulli
+              tag: 2.15.1@sha256:48029409b1a98d2e7564fdf2fc7eced0c9355533fd7a20a3167b964305f1ab0e
+            probes:
+              liveness: &probes
+                custom: true
+                enabled: true
+                spec:
+                  failureThreshold: 3
+                  httpGet:
+                    path: /status
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+              readiness: *probes
+            resources:
+              limits:
+                memory: 512Mi
+              requests:
+                cpu: 10m
+            securityContext: &securityContext
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop: ["ALL"]
+              readOnlyRootFilesystem: true
+          jbops:
+            env:
+              GITSYNC_PERIOD: 24h
+              GITSYNC_REF: master
+              GITSYNC_REPO: https://github.com/blacktwin/JBOPS
+              GITSYNC_ROOT: /jbops
+            image:
+              repository: registry.k8s.io/git-sync/git-sync
+              tag: v4.4.0@sha256:0330739a707a2969d617e859f096659ab6d149212658ac0ad7e550b59482ebf0
+            resources:
+              limits:
+                memory: 128Mi
+              requests:
+                cpu: 10m
+            securityContext: *securityContext
+    defaultPodOptions:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
+      securityContext:
+        fsGroup: ${APP_GID:=1000}
+        fsGroupChangePolicy: OnRootMismatch
+        runAsGroup: ${APP_GID:=1000}
+        runAsNonRoot: true
+        runAsUser: ${APP_UID:=1000}
+    ingress:
+      app:
+        className: internal
+        enabled: true
+        hosts:
+          - host: "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
+    persistence:
+      config:
+        enabled: true
+        existingClaim: "${VOLSYNC_PVC:=${APP}}"
+        globalMounts:
+          - path: /config
+      config-cache:
+        enabled: true
+        existingClaim: "${APP_PVC}"
+        globalMounts:
+          - path: /config/cache
+      config-logs:
+        enabled: true
+        globalMounts:
+          - path: /config/logs
+        type: emptyDir
+      jbops:
+        enabled: true
+        globalMounts:
+          - path: /jbops
+        type: emptyDir
+      tmp:
+        enabled: true
+        globalMounts:
+          - path: /tmp
+        type: emptyDir
+    service:
+      app:
+        controller: "${APP}"
+        ports:
+          http:
+            port: *port
