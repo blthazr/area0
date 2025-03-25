@@ -41,6 +41,18 @@
         "patch",
         "minor"
       ]
+    },
+    {
+      "description": "Auto-merge pre-commit hooks (patch, minor)",
+      "addLabels": ["action/automerge"],
+      "automerge": true,
+      "automergeType": "branch",
+      "ignoreTests": true,
+      "matchManagers": ["pre-commit"],
+      "matchUpdateTypes": [
+        "patch",
+        "minor"
+      ]
     }
   ]
 }
