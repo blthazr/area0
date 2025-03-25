@@ -1,9 +1,5 @@
 ---
 # Areas
-- name: area/ansible
-  color: "0E8A16"
-  description: >-
-    Changes made in the ansible directory
 - name: area/bootstrap
   color: "0E8A16"
   description: >-
@@ -32,10 +28,6 @@
   color: "0E8A16"
   description: >-
     Changes made in the taskfiles directory
-- name: area/terraform
-  color: "0E8A16"
-  description: >-
-    Changes made in the terraform directory
 # Renovate Types
 - name: action/automerge
   color: "5319E7"

@@ -1,9 +1,5 @@
 ---
 # Areas
-area/ansible:
-  - changed-files:
-      - any-glob-to-any-file:
-          - "infrastructure/ansible/**/*"
 area/bootstrap:
   - changed-files:
       - any-glob-to-any-file:
@@ -35,7 +31,3 @@ area/taskfile:
       - any-glob-to-any-file:
           - ".taskfiles/**/*"
           - "Taskfile.yaml"
-area/terraform:
-  - changed-files:
-      - any-glob-to-any-file:
-          - "infrastructure/terraform/**/*"
