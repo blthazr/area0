@@ -10,7 +10,7 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 4.0.1
+    tag: 4.0.1@sha256:711cf14c21d882b08d92bf643b7d86261efd810933442277ce8880bee41a86df
   url: oci://ghcr.io/home-operations/charts-mirror/snapshot-controller
   verify:
     provider: cosign

@@ -10,7 +10,7 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 3.7.3
+    tag: 3.7.3@sha256:8c66ed237ffea0d1c1c9328b5770acfa53b3a4c6ec6529f317fdb6b8b26c97ec
   url: oci://ghcr.io/bjw-s/helm/app-template
   verify:
     provider: cosign
