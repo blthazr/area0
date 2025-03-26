@@ -48,8 +48,6 @@ spec:
   path: ./kubernetes/apps/database/cloudnative-pg/cluster
   postBuild:
     substitute:
-      # renovate: datasource=docker depName=ghcr.io/cloudnative-pg/postgresql
-      POSTGRESQL_VERSION: 16.4-56
       INSTANCES: "3"
   prune: true
   retryInterval: 2m

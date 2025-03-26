@@ -32,7 +32,8 @@ spec:
         maxParallel: 8
     retentionPolicy: 30d
   enableSuperuserAccess: true
-  imageName: ghcr.io/cloudnative-pg/postgresql:${POSTGRESQL_VERSION}
+  # renovate: datasource=docker depName=ghcr.io/cloudnative-pg/postgresql versioning=redhat
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.4-56
   instances: ${INSTANCES:=1}
   monitoring:
     enablePodMonitor: true
