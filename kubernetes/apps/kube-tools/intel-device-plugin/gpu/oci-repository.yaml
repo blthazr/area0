@@ -10,7 +10,7 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 0.32.0
+    tag: 0.32.0@sha256:cb2c248132c464ee7802830902eb82dc62383c0a82e6bf9ab595937064f1bf3a
   url: oci://ghcr.io/home-operations/charts-mirror/intel-device-plugins-gpu
   verify:
     provider: cosign
