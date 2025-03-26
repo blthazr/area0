@@ -1,0 +1,118 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/master/pkg/config/schemas/talconfig.json
+
+clusterName: ${clusterName}
+
+# renovate: datasource=docker depName=ghcr.io/siderolabs/installer
+talosVersion: v1.9.5
+# renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
+kubernetesVersion: v1.32.3
+
+endpoint: https://${clusterEndpointIP}:6443
+additionalApiServerCertSans: &sans
+  - &talosControlPlaneVIP ${clusterEndpointIP}
+  - 127.0.0.1
+additionalMachineCertSans: *sans
+
+clusterPodNets:
+  - 10.42.0.0/16
+clusterSvcNets:
+  - 10.43.0.0/16
+
+# Disable built-in CNI to use Cilium
+cniConfig:
+  name: none
+
+nodes:
+  - hostname: k8s-1
+    controlPlane: true
+    installDiskSelector:
+      wwid: naa.5002538900000000
+    ipAddress: 172.16.21.11
+    networkInterfaces:
+      - deviceSelector:
+          hardwareAddr: 78:7b:8a:cc:06:17
+        dhcp: true
+        mtu: 1500
+        vip:
+          ip: *talosControlPlaneVIP
+    talosImageURL: factory.talos.dev/installer/4b3cd373a192c8469e859b7a0cfbed3ecc3577c4a2d346a37b0aeff9cd17cdb0 # i915, intel-ucode
+
+  - hostname: k8s-2
+    controlPlane: true
+    installDiskSelector:
+      wwid: naa.5002538900000000
+    ipAddress: 172.16.21.12
+    networkInterfaces:
+      - deviceSelector:
+          hardwareAddr: 78:7b:8a:cc:07:ca
+        dhcp: true
+        mtu: 1500
+        vip:
+          ip: *talosControlPlaneVIP
+    talosImageURL: factory.talos.dev/installer/4b3cd373a192c8469e859b7a0cfbed3ecc3577c4a2d346a37b0aeff9cd17cdb0 # i915, intel-ucode
+
+  - hostname: k8s-3
+    controlPlane: true
+    installDiskSelector:
+      wwid: naa.5002538900000000
+    ipAddress: 172.16.21.13
+    networkInterfaces:
+      - deviceSelector:
+          hardwareAddr: a8:60:b6:24:dd:6e
+        dhcp: true
+        mtu: 1500
+        vip:
+          ip: *talosControlPlaneVIP
+    talosImageURL: factory.talos.dev/installer/4b3cd373a192c8469e859b7a0cfbed3ecc3577c4a2d346a37b0aeff9cd17cdb0 # i915, intel-ucode
+
+  - hostname: k8s-5
+    controlPlane: false
+    installDiskSelector:
+      serial: S59ANM0R414052Y
+    ipAddress: 172.16.21.15
+    networkInterfaces:
+      - deviceSelector:
+          hardwareAddr: 2c:f0:5d:5d:e2:95
+        dhcp: true
+        mtu: 1500
+    nodeLabels:
+      intel.feature.node.kubernetes.io/gpu: "true"
+      role/media: "true"
+    talosImageURL: factory.talos.dev/installer/7046abc7c40b0e28d7c1ec1ec73768b16ceb9a8e3d23b1f6c5c6bd4825273dc6 # i915, intel-ucode, zfs
+    patches:
+      # Mount zfs-hostpath in kubelet
+      - |-
+        machine:
+          kubelet:
+            extraMounts:
+              - destination: /var/mnt/media
+                options:
+                  - bind
+                  - rshared
+                  - rw
+                source: /var/mnt/media
+                type: bind
+
+# Global patches
+patches:
+  - "@./patches/global/machine-features.yaml"
+  - "@./patches/global/machine-files.yaml"
+  - "@./patches/global/machine-install.yaml"
+  - "@./patches/global/machine-kubelet.yaml"
+  - "@./patches/global/machine-network.yaml"
+  - "@./patches/global/machine-sysctls.yaml"
+  - "@./patches/global/machine-time.yaml"
+  - "@./patches/global/machine-udev.yaml"
+
+
+# Controller patches
+controlPlane:
+  patches:
+    - "@./patches/controller/admission-controller-patch.yaml"
+    - "@./patches/controller/cluster.yaml"
+    - "@./patches/controller/machine-features.yaml"
+
+# Worker patches
+worker:
+  patches: []
