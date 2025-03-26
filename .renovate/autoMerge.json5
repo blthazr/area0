@@ -16,6 +16,18 @@
       "minimumReleaseAge": "3 days"
     },
     {
+      "description": "Auto-merge pre-commit hooks (patch, minor)",
+      "addLabels": ["action/automerge"],
+      "automerge": true,
+      "automergeType": "branch",
+      "ignoreTests": true,
+      "matchManagers": ["pre-commit"],
+      "matchUpdateTypes": [
+        "patch",
+        "minor"
+      ]
+    },
+    {
       "description": "Auto-merge trusted containers (digest) [maintenance window]",
       "addLabels": ["action/automerge"],
       "automerge": true,
@@ -27,15 +39,24 @@
       "matchUpdateTypes": ["digest"]
     },
     {
-      "description": "Auto-merge GitHub Releases (patch, minor) [maintenance window]",
+      "description": "Auto-merge containers (patch, minor) [maintenance window]",
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeSchedule": ["after 2am, before 6am"],
       "automergeType": "branch",
       "ignoreTests": true,
-      "matchDatasources": ["github-releases"],
-      "matchPackageNames": [
-        "/external-dns/"
+      "matchDatasources": ["docker"],
+      "matchPackagePatterns": [
+        "bazarr",
+        "mealie",
+        "overseerr",
+        "plex",
+        "prowlarr",
+        "radarr",
+        "recyclarr",
+        "sabnzbd",
+        "sonarr",
+        "tautulli"
       ],
       "matchUpdateTypes": [
         "patch",
@@ -43,12 +64,15 @@
       ]
     },
     {
-      "description": "Auto-merge pre-commit hooks (patch, minor)",
+      "description": "Auto-merge GitHub Releases (patch, minor)",
       "addLabels": ["action/automerge"],
       "automerge": true,
       "automergeType": "branch",
       "ignoreTests": true,
-      "matchManagers": ["pre-commit"],
+      "matchDatasources": ["github-releases"],
+      "matchPackageNames": [
+        "/external-dns/"
+      ],
       "matchUpdateTypes": [
         "patch",
         "minor"

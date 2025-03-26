@@ -29,10 +29,19 @@
       "automergeType": "branch",
       "commitMessageExtra": "( {{currentVersion}} → {{newVersion}} )",
       "commitMessageTopic": "dashboard {{depName}}",
+      "ignoreTests": true,
       "matchDatasources": ["custom.grafana-dashboards"],
       "matchUpdateTypes": ["major"],
       "semanticCommitScope": "grafana-dashboards",
       "semanticCommitType": "chore"
+    },
+    {
+      "description": "Grafana Dashboard Group",
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "groupName": "Grafana Dashboard",
+      "matchDatasources": ["custom.grafana-dashboards"]
     }
   ]
 }
