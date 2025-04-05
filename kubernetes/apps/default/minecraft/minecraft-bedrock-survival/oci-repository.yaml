@@ -10,5 +10,5 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 2.8.4
+    tag: 2.8.4@sha256:c495e97c751fbb20749eafe6f411e25e5aef52672822f97f3f490067d41bb29b
   url: oci://ghcr.io/itzg/minecraft-server-charts/minecraft-bedrock
