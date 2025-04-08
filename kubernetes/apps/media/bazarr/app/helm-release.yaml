@@ -73,7 +73,7 @@ spec:
           init-db:
             envFrom: *envFrom
             image:
-              repository: ghcr.io/onedr0p/postgres-init
+              repository: ghcr.io/home-operations/postgres-init
               tag: 16
         replicas: ${REPLICAS:=1}
     defaultPodOptions:
