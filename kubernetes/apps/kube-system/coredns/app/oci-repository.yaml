@@ -12,5 +12,3 @@ spec:
   ref:
     tag: 1.39.2
   url: oci://ghcr.io/coredns/charts/coredns
-  verify:
-    provider: cosign

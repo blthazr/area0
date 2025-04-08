@@ -12,5 +12,3 @@ spec:
   ref:
     tag: 4.12.1
   url: oci://ghcr.io/home-operations/charts-mirror/ingress-nginx
-  verify:
-    provider: cosign

@@ -12,5 +12,3 @@ spec:
   ref:
     tag: v1.16.5
   url: oci://ghcr.io/home-operations/charts-mirror/rook-ceph
-  verify:
-    provider: cosign
