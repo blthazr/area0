@@ -18,7 +18,6 @@ spec:
     crds: CreateReplace
     remediation:
       retries: 3
-      strategy: rollback
   values:
     controller:
       replicaCount: ${REPLICAS:=1}
