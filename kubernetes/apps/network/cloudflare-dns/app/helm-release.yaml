@@ -51,6 +51,5 @@ spec:
     sources:
       - crd
       - ingress
-    triggerLoopOnEvent: true
     txtOwnerId: default
     txtPrefix: k8s.
