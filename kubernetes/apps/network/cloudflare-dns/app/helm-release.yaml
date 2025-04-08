@@ -9,11 +9,13 @@ spec:
     kind: OCIRepository
     name: cloudflare-dns
   install:
+    disableSchemaValidation: true # Ref: https://github.com/kubernetes-sigs/external-dns/issues/5206
     remediation:
       retries: -1
   interval: 1h
   upgrade:
     cleanupOnFail: true
+    disableSchemaValidation: true # Ref: https://github.com/kubernetes-sigs/external-dns/issues/5206
     remediation:
       retries: 3
   values:
@@ -34,11 +36,10 @@ spec:
       - --cloudflare-proxied
       - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
       - --crd-source-kind=DNSEndpoint
-      - --gateway-name=external
+      - --events
+      - --ignore-ingress-tls-spec
+      - --ingress-class=external
       - --zone-id-filter=$(CF_ZONE_ID)
-    image: # TODO: Remove this block when new chart version is released
-      repository: registry.k8s.io/external-dns/external-dns
-      tag: v0.16.1
     fullnameOverride: "${APP}"
     podAnnotations:
       secret.reloader.stakater.com/reload: *secret
