@@ -11,7 +11,7 @@ spec:
   install:
     disableHooks: true
     remediation:
-      retries: 3
+      retries: -1
   interval: 1h
   upgrade:
     cleanupOnFail: true
