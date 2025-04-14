@@ -18,7 +18,6 @@ spec:
       retries: 3
   values:
     domain: "${SECRET_DOMAIN}"
-    fullnameOverride: "${APP}"
     service:
       annotations:
         lbipam.cilium.io/ips: "${SVC_K8S_GATEWAY}"
