@@ -1,21 +1,11 @@
 [env]
-# Ansible
-_.python.venv = { path = "{{config_root}}/.venv", create = true }
-ANSIBLE_CONFIG = '{{config_root}}/infrastructure/ansible/ansible.cfg'
-# Kubernetes
+# File paths
 KUBECONFIG = "{{config_root}}/kubeconfig"
-TALOSCONFIG = "{{config_root}}/infrastructure/talos/clusterconfig/talosconfig"
-# MiniJinja
 MINIJINJA_CONFIG_FILE = "{{config_root}}/.minijinja.toml"
-# SOPS
 SOPS_AGE_KEY_FILE = "{{config_root}}/age.key"
+TALOSCONFIG = "{{config_root}}/infrastructure/talos/clusterconfig/talosconfig"
 # Directory paths
-ROOT_DIR = "{{config_root}}"
 BOOTSTRAP_DIR = "{{config_root}}/bootstrap"
 KUBERNETES_DIR = "{{config_root}}/kubernetes"
-SCRIPTS_DIR = "{{config_root}}/scripts"
+ROOT_DIR = "{{config_root}}"
 TALOS_DIR = "{{config_root}}/infrastructure/talos"
-
-[tools]
-"aqua:astral-sh/uv" = ["latest"]
-"pipx:flux-local" = ["7.0.0"]

@@ -10,7 +10,6 @@ talosconfig
 
 # Secrets
 .decrypted~*
-*.agekey
 *.key
 
 # Taskfile
@@ -25,3 +24,4 @@ Brewfile.lock.json
 
 # Folders
 /.private/
+/.venv/

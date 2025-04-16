@@ -27,7 +27,6 @@ spec:
       config:
         allow-snippet-annotations: true
         annotations-risk-level: Critical
-        block-user-agents: "AdsBot-Google,Amazonbot,anthropic-ai,Applebot-Extended,Bytespider,CCBot,ChatGPT-User,ClaudeBot,Claude-Web,cohere-ai,Diffbot,FacebookBot,FriendlyCrawler,Google-Extended,GoogleOther,GPTBot,img2dataset,omgili,omgilibot,peer39_crawler,peer39_crawler/1.0,PerplexityBot,YouBot," # taken from https://github.com/ai-robots-txt/ai.robots.txt
         client-body-buffer-size: 100M
         client-body-timeout: 120
         client-header-timeout: 120
@@ -36,7 +35,7 @@ spec:
         enable-real-ip: "true"
         force-ssl-redirect: "true"
         hide-headers: Server,X-Powered-By
-        hsts-max-age: 31449600
+        hsts-max-age: "31449600"
         keep-alive-requests: 10000
         keep-alive: 120
         log-format-escape-json: "true"
@@ -54,7 +53,6 @@ spec:
         use-forwarded-headers: "true"
       extraArgs:
         default-ssl-certificate: "cert-manager/${SECRET_DOMAIN/./-}-tls"
-        publish-status-address: &hostname "external.${SECRET_DOMAIN}"
       ingressClassResource:
         controllerValue: k8s.io/external
         default: false
@@ -65,8 +63,6 @@ spec:
           enabled: true
           namespaceSelector:
             any: true
-      publishService:
-        enabled: false
       resources:
         limits:
           memory: 500Mi
@@ -74,9 +70,7 @@ spec:
           cpu: 100m
       service:
         annotations:
-          external-dns.alpha.kubernetes.io/hostname: *hostname
+          external-dns.alpha.kubernetes.io/hostname: "external.${SECRET_DOMAIN}"
           lbipam.cilium.io/ips: "${SVC_GATEWAY_EXTERNAL}"
-      terminationGracePeriodSeconds: 120
-    defaultBackend:
-      enabled: false
+        externalTrafficPolicy: Cluster
     fullnameOverride: "${APP}"

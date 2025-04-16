@@ -10,6 +10,7 @@
     "pascalreitermann93.vscode-yaml-sort",
     "redhat.vscode-yaml",
     "samuelcolvin.jinjahtml",
-    "signageos.signageos-vscode-sops"
+    "signageos.signageos-vscode-sops",
+    "tamasfe.even-better-toml"
   ]
 }

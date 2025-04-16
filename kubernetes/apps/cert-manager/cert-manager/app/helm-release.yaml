@@ -9,15 +9,15 @@ spec:
     kind: OCIRepository
     name: cert-manager
   install:
-    crds: CreateReplace
     remediation:
       retries: -1
   interval: 1h
   upgrade:
     cleanupOnFail: true
-    crds: CreateReplace
     remediation:
       retries: 3
+  values:
+    replicaCount: ${REPLICAS:=1}
   valuesFrom:
     - kind: ConfigMap
       name: cert-manager-helm-values

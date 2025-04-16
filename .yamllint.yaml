@@ -1,7 +1,11 @@
 ---
 extends: default
 ignore: |
+  .ansible/
+  .archive/
   .private/
+  .task/
+  .venv/
   .vscode/
   *.sops.*
 rules:

@@ -16,6 +16,8 @@ spec:
     cleanupOnFail: true
     remediation:
       retries: 3
+  values:
+    replicaCount: ${REPLICAS:=1}
   valuesFrom:
     - kind: ConfigMap
       name: external-secrets-helm-values

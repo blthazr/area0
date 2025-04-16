@@ -36,7 +36,7 @@ spec:
         enable-real-ip: "true"
         force-ssl-redirect: "true"
         hide-headers: Server,X-Powered-By
-        hsts-max-age: 31449600
+        hsts-max-age: "31449600"
         keep-alive-requests: 10000
         keep-alive: 120
         log-format-escape-json: "true"
@@ -52,7 +52,6 @@ spec:
         use-forwarded-headers: "true"
       extraArgs:
         default-ssl-certificate: "cert-manager/${SECRET_DOMAIN/./-}-tls"
-        publish-status-address: &hostname "internal.${SECRET_DOMAIN}"
       ingressClassResource:
         controllerValue: k8s.io/internal
         default: true
@@ -63,8 +62,6 @@ spec:
           enabled: true
           namespaceSelector:
             any: true
-      publishService:
-        enabled: false
       resources:
         limits:
           memory: 500Mi
@@ -72,9 +69,6 @@ spec:
           cpu: 100m
       service:
         annotations:
-          external-dns.alpha.kubernetes.io/hostname: *hostname
           lbipam.cilium.io/ips: "${SVC_GATEWAY_INTERNAL}"
-      terminationGracePeriodSeconds: 120
-    defaultBackend:
-      enabled: false
+        externalTrafficPolicy: Cluster
     fullnameOverride: "${APP}"

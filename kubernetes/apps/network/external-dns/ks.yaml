@@ -3,18 +3,17 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app coredns
-  namespace: &namespace kube-system
+  name: &app cloudflare-dns
+  namespace: &namespace network
 spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   interval: 1h
-  path: ./kubernetes/apps/kube-system/coredns/app
+  path: ./kubernetes/apps/network/external-dns/cloudflare
   postBuild:
     substitute:
       APP: *app
-      REPLICAS: "2"
   prune: true
   retryInterval: 2m
   sourceRef:
@@ -23,4 +22,3 @@ spec:
     namespace: flux-system
   targetNamespace: *namespace
   timeout: 5m
-  wait: false # no flux ks dependents

@@ -3,14 +3,14 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: OCIRepository
 metadata:
-  name: app-template
+  name: spegel
 spec:
   interval: 5m
   layerSelector:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 3.7.3
-  url: oci://ghcr.io/bjw-s/helm/app-template
+    tag: 0.1.1
+  url: oci://ghcr.io/spegel-org/helm-charts/spegel
   verify:
     provider: cosign

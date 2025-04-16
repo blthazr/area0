@@ -69,7 +69,7 @@ spec:
         runAsNonRoot: true
         runAsUser: 1000
     persistence:
-      config-file:
+      config:
         enabled: true
         globalMounts:
           - path: /etc/cloudflared/config.yaml

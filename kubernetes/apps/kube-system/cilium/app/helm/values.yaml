@@ -13,7 +13,7 @@ cni:
 endpointRoutes:
   enabled: true
 envoy:
-  rollOutPods: true
+  enabled: false
 hubble:
   enabled: false
 ipam:
@@ -54,3 +54,5 @@ securityContext:
       - NET_ADMIN
       - SYS_ADMIN
       - SYS_RESOURCE
+socketLB:
+  hostNamespaceOnly: true
