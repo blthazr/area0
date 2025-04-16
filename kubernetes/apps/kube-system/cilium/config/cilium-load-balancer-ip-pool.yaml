@@ -5,6 +5,7 @@ kind: CiliumLoadBalancerIPPool
 metadata:
   name: pool
 spec:
-  allowFirstLastIPs: "No"
+  allowFirstLastIPs: "Yes"
   blocks:
-    - cidr: "172.16.20.0/23"
+    - start: 172.16.21.100
+      stop: 172.16.21.199

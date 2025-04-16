@@ -11,4 +11,4 @@ spec:
     operation: copy
   ref:
     tag: v1.17.1
-  url: oci://ghcr.io/home-operations/charts-mirror/cert-manager
+  url: oci://quay.io/jetstack/charts/cert-manager

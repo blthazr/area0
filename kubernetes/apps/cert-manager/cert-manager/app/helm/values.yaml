@@ -7,4 +7,3 @@ prometheus:
   enabled: true
   servicemonitor:
     enabled: true
-replicaCount: 1

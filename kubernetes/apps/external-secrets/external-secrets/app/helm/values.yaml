@@ -7,7 +7,6 @@ certController:
     interval: 1m
 image: *image
 installCRDs: true
-leaderElect: true
 replicaCount: 1
 serviceMonitor:
   enabled: true
