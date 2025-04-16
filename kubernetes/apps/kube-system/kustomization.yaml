@@ -12,4 +12,5 @@ resources:
   - ./intel-device-plugin/ks.yaml
   - ./metrics-server/ks.yaml
   - ./reloader/ks.yaml
+  - ./snapshot-controller.yaml
   - ./spegel/ks.yaml
