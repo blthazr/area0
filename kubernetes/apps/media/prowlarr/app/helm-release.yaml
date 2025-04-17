@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: plex
+  name: prowlarr
 spec:
   chartRef:
     kind: OCIRepository
@@ -11,25 +11,34 @@ spec:
   install:
     remediation:
       retries: -1
-  interval: 1h
+  interval: 30m
   upgrade:
     cleanupOnFail: true
     remediation:
       retries: 3
   values:
     controllers:
-      plex:
+      prowlarr:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
           app:
             env:
-              PLEX_ADVERTISE_URL: "https://${HOSTNAME:=${APP}}.${SECRET_DOMAIN}:443,http://${SVC_PLEX}:32400"
-              PLEX_NO_AUTH_NETWORKS: "${NET_HOME_CIDR}"
+              PROWLARR__APP__INSTANCENAME: "${APP}"
+              PROWLARR__APP__THEME: dark
+              PROWLARR__AUTH__METHOD: External
+              PROWLARR__AUTH__REQUIRED: DisabledForLocalAddresses
+              PROWLARR__LOG__DBENABLED: "False"
+              PROWLARR__LOG__LEVEL: info
+              PROWLARR__SERVER__PORT: &port 80
+              PROWLARR__UPDATE__BRANCH: develop
               TZ: "${CLUSTER_TIME_ZONE}"
+            envFrom: &envFrom
+              - secretRef:
+                  name: "${APP}-secret"
             image:
-              repository: ghcr.io/home-operations/plex
-              tag: 1.41.6.9685@sha256:37d36646471fb905a0080daaaa1f09ad3370b06149ed5f94dad73ead591cad0e
+              repository: ghcr.io/home-operations/prowlarr
+              tag: 1.34.0.5016@sha256:a32029de92518c0b23ce94c5df90ccd693a111d9e0f3087c87b2bff1397309da
             probes:
               liveness: &probes
                 custom: true
@@ -37,29 +46,28 @@ spec:
                 spec:
                   failureThreshold: 3
                   httpGet:
-                    path: /identity
-                    port: &port 32400
+                    path: /ping
+                    port: *port
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
               readiness: *probes
-              startup:
-                enabled: true
-                spec:
-                  failureThreshold: 30
-                  periodSeconds: 10
             resources:
               limits:
-                gpu.intel.com/i915: 1
-                memory: 12Gi
+                memory: 512Mi
               requests:
-                cpu: 100m
+                cpu: 10m
             securityContext:
               allowPrivilegeEscalation: false
               capabilities:
                 drop: ["ALL"]
               readOnlyRootFilesystem: true
-        replicas: ${REPLICAS:=1}
+        initContainers:
+          init-db:
+            envFrom: *envFrom
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 16
     defaultPodOptions:
       affinity:
         nodeAffinity:
@@ -68,31 +76,15 @@ spec:
               - matchExpressions:
                   - key: node-role.kubernetes.io/control-plane
                     operator: DoesNotExist
-      nodeSelector:
-        # TODO: Remove role/media nodeSelector once new cluster is built
-        role/media: "true"
-        intel.feature.node.kubernetes.io/gpu: "true"
       securityContext:
         fsGroup: ${APP_GID:=1000}
         fsGroupChangePolicy: OnRootMismatch
         runAsGroup: ${APP_GID:=1000}
         runAsNonRoot: true
         runAsUser: ${APP_UID:=1000}
-        supplementalGroups:
-          - 44
-          - 100
     ingress:
       app:
-        annotations:
-          external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
-          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-          nginx.ingress.kubernetes.io/server-snippet: |
-            location ~ ^/library/streams {
-              proxy_set_header        Range "";
-              proxy_pass              http://${HOSTNAME:=${APP}}.media.svc.cluster.local:32400;
-              proxy_http_version      1.1;
-            }
-        className: external
+        className: internal
         enabled: true
         hosts:
           - host: "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
@@ -104,41 +96,17 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: "${VOLSYNC_PVC:=${APP}}"
         globalMounts:
-          - path: /config/Library/Application Support/Plex Media Server
-      config-cache:
-        enabled: true
-        existingClaim: "${APP_PVC:=${APP}}"
-        globalMounts:
-          - path: /config/Library/Application Support/Plex Media Server/Cache
-      config-logs:
-        enabled: true
-        globalMounts:
-          - path: /config/Library/Application Support/Plex Media Server/Logs
+          - path: /config
         type: emptyDir
-      media:
-        enabled: true
-        existingClaim: media-local-storage
-        globalMounts:
-          - path: /media
-            readOnly: true
       tmp:
         enabled: true
         globalMounts:
           - path: /tmp
         type: emptyDir
-      transcode:
-        enabled: true
-        globalMounts:
-          - path: /transcode
-        type: emptyDir
     service:
       app:
-        annotations:
-          lbipam.cilium.io/ips: "${SVC_PLEX}"
         controller: "${APP}"
         ports:
           http:
             port: *port
-        type: LoadBalancer

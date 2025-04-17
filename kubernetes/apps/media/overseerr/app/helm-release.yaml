@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: plex
+  name: overseerr
 spec:
   chartRef:
     kind: OCIRepository
@@ -18,18 +18,18 @@ spec:
       retries: 3
   values:
     controllers:
-      plex:
+      overseerr:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
           app:
             env:
-              PLEX_ADVERTISE_URL: "https://${HOSTNAME:=${APP}}.${SECRET_DOMAIN}:443,http://${SVC_PLEX}:32400"
-              PLEX_NO_AUTH_NETWORKS: "${NET_HOME_CIDR}"
+              LOG_LEVEL: info
+              PORT: &port 5055
               TZ: "${CLUSTER_TIME_ZONE}"
             image:
-              repository: ghcr.io/home-operations/plex
-              tag: 1.41.6.9685@sha256:37d36646471fb905a0080daaaa1f09ad3370b06149ed5f94dad73ead591cad0e
+              repository: ghcr.io/sct/overseerr
+              tag: 1.34.0@sha256:4f38f58d68555004d3f487a4c5cbe2823e6a0942d946a25a2d9391d8492240a4
             probes:
               liveness: &probes
                 custom: true
@@ -37,23 +37,17 @@ spec:
                 spec:
                   failureThreshold: 3
                   httpGet:
-                    path: /identity
-                    port: &port 32400
+                    path: /api/v1/status
+                    port: *port
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
               readiness: *probes
-              startup:
-                enabled: true
-                spec:
-                  failureThreshold: 30
-                  periodSeconds: 10
             resources:
               limits:
-                gpu.intel.com/i915: 1
-                memory: 12Gi
+                memory: 2Gi
               requests:
-                cpu: 100m
+                cpu: 10m
             securityContext:
               allowPrivilegeEscalation: false
               capabilities:
@@ -68,30 +62,16 @@ spec:
               - matchExpressions:
                   - key: node-role.kubernetes.io/control-plane
                     operator: DoesNotExist
-      nodeSelector:
-        # TODO: Remove role/media nodeSelector once new cluster is built
-        role/media: "true"
-        intel.feature.node.kubernetes.io/gpu: "true"
       securityContext:
         fsGroup: ${APP_GID:=1000}
         fsGroupChangePolicy: OnRootMismatch
         runAsGroup: ${APP_GID:=1000}
         runAsNonRoot: true
         runAsUser: ${APP_UID:=1000}
-        supplementalGroups:
-          - 44
-          - 100
     ingress:
       app:
         annotations:
           external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
-          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-          nginx.ingress.kubernetes.io/server-snippet: |
-            location ~ ^/library/streams {
-              proxy_set_header        Range "";
-              proxy_pass              http://${HOSTNAME:=${APP}}.media.svc.cluster.local:32400;
-              proxy_http_version      1.1;
-            }
         className: external
         enabled: true
         hosts:
@@ -102,43 +82,29 @@ spec:
                   identifier: app
                   port: http
     persistence:
-      config:
-        enabled: true
-        existingClaim: "${VOLSYNC_PVC:=${APP}}"
-        globalMounts:
-          - path: /config/Library/Application Support/Plex Media Server
       config-cache:
         enabled: true
         existingClaim: "${APP_PVC:=${APP}}"
         globalMounts:
-          - path: /config/Library/Application Support/Plex Media Server/Cache
+          - path: /app/config/cache
+      config:
+        enabled: true
+        existingClaim: "${VOLSYNC_PVC:=${APP}}"
+        globalMounts:
+          - path: /app/config
       config-logs:
         enabled: true
         globalMounts:
-          - path: /config/Library/Application Support/Plex Media Server/Logs
+          - path: /app/config/logs
         type: emptyDir
-      media:
-        enabled: true
-        existingClaim: media-local-storage
-        globalMounts:
-          - path: /media
-            readOnly: true
       tmp:
         enabled: true
         globalMounts:
           - path: /tmp
         type: emptyDir
-      transcode:
-        enabled: true
-        globalMounts:
-          - path: /transcode
-        type: emptyDir
     service:
       app:
-        annotations:
-          lbipam.cilium.io/ips: "${SVC_PLEX}"
         controller: "${APP}"
         ports:
           http:
             port: *port
-        type: LoadBalancer
