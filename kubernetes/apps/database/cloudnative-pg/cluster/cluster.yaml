@@ -26,7 +26,7 @@ spec:
           key: MINIO_SECRET_KEY
       # Note: serverName version needs to be incremented
       # when recovering from an existing cnpg cluster
-      serverName: &currentCluster postgres16-v5
+      serverName: &currentCluster postgres16-v6
       wal:
         compression: bzip2
         maxParallel: 8
@@ -57,7 +57,7 @@ spec:
   # cluster when recovering from an existing cnpg cluster
   bootstrap:
     recovery:
-      source: &previousCluster postgres16-v4
+      source: &previousCluster postgres16-v5
   # Note: externalClusters is needed when recovering from an existing cnpg cluster
   externalClusters:
     - name: *previousCluster
