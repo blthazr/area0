@@ -1,0 +1,86 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  packageRules: [
+    {
+      description: "Cert-Manager Group",
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+      groupName: "Cert-Manager",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["/cert-manager/"],
+    },
+    {
+      description: "Cilium Group",
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+      groupName: "Cilium",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["/cilium/"],
+    },
+    {
+      description: "CoreDNS Group",
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+      groupName: "CoreDNS",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["/coredns/"],
+    },
+    {
+      description: "External Secrets Operator Group",
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+      groupName: "External Secrets Operator",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["/external-secrets/"],
+    },
+    {
+      description: "Flux Operator Group",
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+      groupName: "Flux Operator",
+      matchDatasources: ["docker"],
+      matchPackageNames: [
+        "/flux-operator/",
+        "/flux-instance/",
+      ],
+    },
+    {
+      description: "Intel Device Plugins Group",
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+      groupName: "Intel-Device-Plugins",
+      matchDatasources: ["docker"],
+      matchPackageNames: [
+        "/intel-device-plugins-operator/",
+        "/intel-device-plugins-gpu/",
+      ],
+    },
+    {
+      description: "Rook-Ceph Group",
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+      groupName: "Rook-Ceph",
+      matchDatasources: ["docker"],
+      matchPackageNames: [
+        "/rook-ceph/",
+        "/rook-ceph-cluster/",
+      ]
+    },
+    {
+      description: "Spegel Group",
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+      groupName: "Spegel",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["/spegel/"],
+    },
+  ],
+}

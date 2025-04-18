@@ -1,0 +1,73 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  packageRules: [
+    {
+      description: "Auto-merge GitHub Actions (digest, patch, minor)",
+      addLabels: ["action/automerge"],
+      automerge: true,
+      automergeType: "branch",
+      ignoreTests: true,
+      matchManagers: ["github-actions"],
+      matchUpdateTypes: [
+        "digest",
+        "patch",
+        "minor",
+      ],
+      minimumReleaseAge: "3 days",
+    },
+    {
+      description: "Auto-merge trusted GitHub Actions (digest, patch, minor)",
+      addLabels: ["action/automerge"],
+      automerge: true,
+      automergeType: "branch",
+      ignoreTests: true,
+      matchManagers: ["github-actions"],
+      matchPackageNames: ["/^actions\//"],
+      matchUpdateTypes: [
+        "digest",
+        "patch",
+        "minor",
+      ],
+      minimumReleaseAge: "1 minute",
+    },
+    {
+      description: "Auto-merge pre-commit hooks (patch, minor)",
+      addLabels: ["action/automerge"],
+      automerge: true,
+      automergeType: "branch",
+      ignoreTests: true,
+      matchManagers: ["pre-commit"],
+      matchUpdateTypes: [
+        "patch",
+        "minor",
+      ],
+    },
+    {
+      description: "Auto-merge trusted containers (digest)",
+      addLabels: ["action/automerge"],
+      automerge: true,
+      automergeType: "pr",
+      ignoreTests: false,
+      matchDatasources: ["docker"],
+      matchPackageNames: [
+        "/home-operations/",
+      ],
+      matchUpdateTypes: ["digest"],
+    },
+    {
+      description: "Auto-merge GitHub Releases (patch, minor)",
+      addLabels: ["action/automerge"],
+      automerge: true,
+      automergeType: "branch",
+      ignoreTests: true,
+      matchDatasources: ["github-releases"],
+      matchPackageNames: [
+        "/external-dns/",
+      ],
+      matchUpdateTypes: [
+        "patch",
+        "minor",
+      ],
+    },
+  ],
+}
