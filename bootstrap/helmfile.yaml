@@ -5,7 +5,6 @@ helmDefaults:
   cleanupOnFail: true
   wait: true
   waitForJobs: true
-  # waitRetries: 3 # Not supported by Helm yet
 
 releases:
 
@@ -45,16 +44,16 @@ releases:
   - name: spegel
     atomic: true
     chart: oci://ghcr.io/spegel-org/helm-charts/spegel
-    namespace: kube-tools
+    namespace: kube-system
     needs: ['kube-system/coredns']
-    values: ['{{ requiredEnv "ROOT_DIR" }}/kubernetes/apps/kube-tools/spegel/app/helm/values.yaml']
+    values: ['{{ requiredEnv "ROOT_DIR" }}/kubernetes/apps/kube-system/spegel/app/helm/values.yaml']
     version: 0.1.1
 
   - name: cert-manager
     atomic: true
-    chart: oci://ghcr.io/home-operations/charts-mirror/cert-manager
+    chart: oci://quay.io/jetstack/charts/cert-manager
     namespace: cert-manager
-    needs: ['kube-tools/spegel']
+    needs: ['kube-system/spegel']
     values: ['{{ requiredEnv "ROOT_DIR" }}/kubernetes/apps/cert-manager/cert-manager/app/helm/values.yaml']
     version: v1.17.1
 
