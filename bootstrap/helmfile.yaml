@@ -55,7 +55,7 @@ releases:
     namespace: cert-manager
     needs: ['kube-system/spegel']
     values: ['{{ requiredEnv "ROOT_DIR" }}/kubernetes/apps/cert-manager/cert-manager/app/helm/values.yaml']
-    version: v1.17.1
+    version: v1.17.2
 
   - name: external-secrets
     atomic: true
