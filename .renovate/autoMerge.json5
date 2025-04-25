@@ -55,6 +55,46 @@
       matchUpdateTypes: ["digest"],
     },
     {
+      description: "Auto-merge containers (patch, minor)",
+      addLabels: ["action/automerge"],
+      automerge: true,
+      automergeType: "pr",
+      ignoreTests: false,
+      matchDatasources: ["docker"],
+      matchDepNames: [
+        "ghcr.io/home-operations/bazarr",
+        "ghcr.io/home-operations/prowlarr",
+        "ghcr.io/recyclarr/recyclarr",
+        "ghcr.io/home-operations/sabnzbd",
+      ],
+      matchUpdateTypes: [
+        "patch",
+        "minor"
+      ],
+      stabilityDays: 1,
+    },
+    {
+      description: "Auto-merge containers (patch, minor) [maintenance window]",
+      addLabels: ["action/automerge"],
+      automerge: true,
+      automergeSchedule: ["after 2am, before 6am"],
+      automergeType: "pr",
+      ignoreTests: false,
+      matchDatasources: ["docker"],
+      matchDepNames: [
+        "ghcr.io/home-operations/plex",
+        "ghcr.io/home-operations/radarr",
+        "ghcr.io/home-operations/sonarr",
+        "ghcr.io/home-operations/tautulli",
+        "ghcr.io/sct/overseerr",
+      ],
+      matchUpdateTypes: [
+        "patch",
+        "minor"
+      ],
+      stabilityDays: 1,
+    },
+    {
       description: "Auto-merge GitHub Releases (patch, minor)",
       addLabels: ["action/automerge"],
       automerge: true,
