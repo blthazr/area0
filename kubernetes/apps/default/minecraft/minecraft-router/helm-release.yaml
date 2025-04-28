@@ -1,0 +1,28 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: minecraft-router
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: mc-router
+  install:
+    remediation:
+      retries: -1
+  interval: 1h
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    image:
+      pullPolicy: IfNotPresent
+      repository: ghcr.io/itzg/mc-router
+      tag: 1.28.2@sha256:32d0c72b979254ee539360fc01ed220d19eaf555bdcaa88d3a8413204f9e0fc8
+    services:
+      minecraft:
+        annotations:
+          lbipam.cilium.io/ips: "${SVC_MINECRAFT_ROUTER}"
+        type: LoadBalancer
