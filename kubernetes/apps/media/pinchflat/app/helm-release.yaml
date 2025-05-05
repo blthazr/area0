@@ -102,9 +102,11 @@ spec:
           pinchflat:
             app:
               - path: /downloads
-                subPath: download/yt-dlp/pinchflat
+                subPath: media/download/yt-dlp/pinchflat
         enabled: true
-        existingClaim: media-local-storage
+        path: "${NAS_NFS_PATH}"
+        server: "${NAS_ADDRESS}"
+        type: nfs
       tmp:
         enabled: true
         globalMounts:

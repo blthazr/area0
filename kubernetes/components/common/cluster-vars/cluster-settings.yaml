@@ -26,3 +26,7 @@ data:
 
   # site addresses
   MINIO_ADDRESS: 172.16.70.100
+  NAS_ADDRESS: 172.16.70.100
+
+  # nfs
+  NAS_NFS_PATH: /volume1/data
