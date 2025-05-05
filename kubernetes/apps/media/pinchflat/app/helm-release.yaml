@@ -75,7 +75,6 @@ spec:
         runAsUser: ${APP_UID:=1000}
         supplementalGroups:
           - 44
-          - 100
     ingress:
       app:
         className: internal
@@ -92,7 +91,7 @@ spec:
         enabled: true
         existingClaim: "${VOLSYNC_PVC:=${APP}}"
         globalMounts:
-          - path: /app/config
+          - path: /config
       yt-dlp:
         enabled: true
         globalMounts:
@@ -103,7 +102,6 @@ spec:
         existingClaim: media-local-storage
         globalMounts:
           - path: /media
-            readOnly: true
       tmp:
         enabled: true
         globalMounts:
