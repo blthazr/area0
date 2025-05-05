@@ -98,10 +98,13 @@ spec:
           - path: /etc/yt-dlp
         type: emptyDir
       media:
+        advancedMounts:
+          pinchflat:
+            app:
+              - path: /downloads
+                subPath: download/yt-dlp/pinchflat
         enabled: true
         existingClaim: media-local-storage
-        globalMounts:
-          - path: /media
       tmp:
         enabled: true
         globalMounts:
