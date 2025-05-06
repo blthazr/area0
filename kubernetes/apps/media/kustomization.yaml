@@ -13,7 +13,6 @@ resources:
   # Flux-Kustomizations
   - ./bazarr/ks.yaml
   - ./overseerr/ks.yaml
-  - ./pinchflat/ks.yaml
   - ./plex/ks.yaml
   - ./prowlarr/ks.yaml
   - ./radarr/ks.yaml
