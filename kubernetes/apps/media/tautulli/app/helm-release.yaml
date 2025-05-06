@@ -93,6 +93,13 @@ spec:
                   identifier: app
                   port: http
     persistence:
+      backup:
+        enabled: true
+        globalMounts:
+          - path: /config/backups
+        path: "${NAS_NFS_PATH}/backup/app/${APP}"
+        server: "${NAS_ADDRESS}"
+        type: nfs
       config:
         enabled: true
         existingClaim: "${VOLSYNC_PVC:=${APP}}"
