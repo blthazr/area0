@@ -123,6 +123,16 @@ spec:
         existingClaim: media-local-storage
         globalMounts:
           - path: /media
+      test:
+        advancedMounts:
+          bazarr:
+            app:
+              - path: /downloads
+                subPath: media/download/yt-dlp/pinchflat
+        enabled: true
+        path: "${NAS_NFS_PATH}"
+        server: "${NAS_ADDRESS}"
+        type: nfs
       scripts:
         defaultMode: 0775
         enabled: true
