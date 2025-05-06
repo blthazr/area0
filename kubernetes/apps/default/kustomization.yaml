@@ -9,4 +9,5 @@ resources:
   # Flux-Kustomizations
   - ./mealie/ks.yaml
   - ./minecraft/ks.yaml
+  - ./pinchflat/ks.yaml
   - ./tautulli/ks.yaml
