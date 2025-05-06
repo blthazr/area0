@@ -97,7 +97,7 @@ spec:
         globalMounts:
           - path: /etc/yt-dlp
         type: emptyDir
-      media:
+      downloads:
         advancedMounts:
           pinchflat:
             app:
