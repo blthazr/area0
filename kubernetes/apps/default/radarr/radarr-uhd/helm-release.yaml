@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: bazarr
+  name: radarr-uhd
 spec:
   chartRef:
     kind: OCIRepository
@@ -18,19 +18,27 @@ spec:
       retries: 3
   values:
     controllers:
-      bazarr:
+      radarr-uhd:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
           app:
             env:
+              RADARR__APP__INSTANCENAME: "${APP}"
+              RADARR__APP__THEME: dark
+              RADARR__AUTH__METHOD: External
+              RADARR__AUTH__REQUIRED: DisabledForLocalAddresses
+              RADARR__LOG__DBENABLED: "False"
+              RADARR__LOG__LEVEL: info
+              RADARR__SERVER__PORT: &port 80
+              RADARR__UPDATE__BRANCH: develop
               TZ: "${CLUSTER_TIME_ZONE}"
             envFrom: &envFrom
               - secretRef:
                   name: "${APP}-secret"
             image:
-              repository: ghcr.io/home-operations/bazarr
-              tag: 1.5.1@sha256:0ac96948fd8dbf1c9d8ffa83ed441d2e77c6fc79f81600c8ea160172cf66740e
+              repository: ghcr.io/home-operations/radarr
+              tag: 5.23.1.9914@sha256:9e7c9a048d63b0b9d8e4266561cf336ceecaec047fbc2508dcfe417e0f326cef
             probes:
               liveness: &probes
                 custom: true
@@ -38,44 +46,28 @@ spec:
                 spec:
                   failureThreshold: 3
                   httpGet:
-                    path: /health
-                    port: &port 6767
+                    path: /ping
+                    port: *port
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
               readiness: *probes
             resources:
               limits:
-                memory: 512Mi
+                memory: 1Gi
               requests:
                 cpu: 10m
-            securityContext: &securityContext
+            securityContext:
               allowPrivilegeEscalation: false
               capabilities:
                 drop: ["ALL"]
               readOnlyRootFilesystem: true
-          subcleaner:
-            env:
-              GITSYNC_REPO: https://github.com/KBlixt/subcleaner
-              GITSYNC_REF: master
-              GITSYNC_PERIOD: 24h
-              GITSYNC_ROOT: /subcleaner
-            image:
-              repository: registry.k8s.io/git-sync/git-sync
-              tag: v4.4.0@sha256:0330739a707a2969d617e859f096659ab6d149212658ac0ad7e550b59482ebf0
-            resources:
-              requests:
-                cpu: 10m
-              limits:
-                memory: 128Mi
-            securityContext: *securityContext
         initContainers:
           init-db:
             envFrom: *envFrom
             image:
               repository: ghcr.io/onedr0p/postgres-init
               tag: 16
-        replicas: ${REPLICAS:=1}
     defaultPodOptions:
       affinity:
         nodeAffinity:
@@ -84,6 +76,9 @@ spec:
               - matchExpressions:
                   - key: node-role.kubernetes.io/control-plane
                     operator: DoesNotExist
+      nodeSelector:
+        # TODO: Remove role/media nodeSelector once new cluster is built
+        role/media: "true"
       securityContext:
         fsGroup: ${APP_GID:=1000}
         fsGroupChangePolicy: OnRootMismatch
@@ -104,37 +99,19 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: "${VOLSYNC_PVC:=${APP}}"
         globalMounts:
           - path: /config
+        type: emptyDir
       config-cache:
         enabled: true
+        existingClaim: "${APP_PVC:=${APP}}"
         globalMounts:
-          - path: /config/cache
-        type: emptyDir
-      config-log:
-        enabled: true
-        globalMounts:
-          - path: /config/log
-        type: emptyDir
+          - path: /config/MediaCover
       media:
         enabled: true
         existingClaim: default-local-storage
         globalMounts:
           - path: /media
-      scripts:
-        defaultMode: 0775
-        enabled: true
-        globalMounts:
-          - path: /scripts
-            readOnly: true
-        name: bazarr-scripts
-        type: configMap
-      subcleaner:
-        enabled: true
-        globalMounts:
-          - path: /subcleaner
-        type: emptyDir
       tmp:
         enabled: true
         globalMounts:

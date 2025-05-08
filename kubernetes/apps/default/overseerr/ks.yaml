@@ -3,7 +3,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app bazarr
+  name: &app overseerr
   namespace: &namespace default
 spec:
   commonMetadata:
@@ -12,18 +12,21 @@ spec:
   components:
     - ../../../../components/volsync
   dependsOn:
-    - name: cloudnative-pg-cluster
-      namespace: database
     - name: rook-ceph-cluster
       namespace: rook-ceph
     - name: volsync
       namespace: volsync-system
   interval: 1h
-  path: ./kubernetes/apps/default/bazarr/app
+  path: ./kubernetes/apps/default/overseerr/app
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_PVC: bazarr-config
+      APP_PVC: overseerr-cache
+      APP_PVC_CAPACITY: 15Gi
+      GATUS_PATH: /api/v1/status
+      HOSTNAME: requests
+      VOLSYNC_PVC: overseerr-config
+      VOLSYNC_CAPACITY: 5Gi
   prune: true
   retryInterval: 2m
   sourceRef:
