@@ -7,6 +7,7 @@ components:
   - ../../components/common
 resources:
   # Flux-Kustomizations
+  - ./bazarr/ks.yaml
   - ./mealie/ks.yaml
   - ./minecraft/ks.yaml
   - ./pinchflat/ks.yaml
