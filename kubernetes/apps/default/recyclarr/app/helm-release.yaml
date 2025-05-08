@@ -10,11 +10,11 @@ spec:
     name: app-template
   dependsOn:
     - name: radarr
-      namespace: media
+      namespace: default
     - name: radarr-uhd
-      namespace: media
+      namespace: default
     - name: sonarr
-      namespace: media
+      namespace: default
   install:
     remediation:
       retries: -1
