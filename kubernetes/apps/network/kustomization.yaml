@@ -9,7 +9,6 @@ resources:
   # Flux-Kustomizations
   - ./cloudflare-tunnel/ks.yaml
   - ./external-dns/ks.yaml
-  - ./gateway-api/ks.yaml
   - ./ingress-nginx/ks.yaml
   - ./k8s-gateway/ks.yaml
   - ./tailscale/ks.yaml
