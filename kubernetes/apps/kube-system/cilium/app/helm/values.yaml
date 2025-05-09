@@ -1,8 +1,6 @@
 ---
 autoDirectNodeRoutes: true
 bpf:
-  # Ref: https://github.com/siderolabs/talos/issues/10002
-  hostLegacyRouting: true
   masquerade: true
 cgroup:
   automount:
@@ -14,6 +12,9 @@ endpointRoutes:
   enabled: true
 envoy:
   enabled: false
+gatewayAPI:
+  enableAlpn: true
+  enabled: true
 hubble:
   enabled: false
 ipam:
@@ -55,4 +56,5 @@ securityContext:
       - SYS_ADMIN
       - SYS_RESOURCE
 socketLB:
+  # needed for tailscale (https://tailscale.com/kb/1236/kubernetes-operator#cilium-in-kube-proxy-replacement-mode)
   hostNamespaceOnly: true

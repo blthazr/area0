@@ -29,13 +29,12 @@ spec:
           secretKeyRef:
             name: *secret
             key: *name
-    extraArgs: # template
+    extraArgs:
       - --cloudflare-dns-records-per-page=1000
       - --cloudflare-proxied
       - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
       - --crd-source-kind=DNSEndpoint
-      - --events
-      - --ingress-class=external
+      - --gateway-name=external
       - --zone-id-filter=$(CF_ZONE_ID)
     fullnameOverride: "${APP}"
     podAnnotations:
@@ -47,6 +46,7 @@ spec:
       enabled: true
     sources:
       - crd
-      - ingress
+      - gateway-httproute
+    triggerLoopOnEvent: true
     txtOwnerId: default
     txtPrefix: k8s.

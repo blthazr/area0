@@ -75,17 +75,6 @@ spec:
         runAsUser: ${APP_UID:=1000}
         supplementalGroups:
           - 44
-    ingress:
-      app:
-        className: internal
-        enabled: true
-        hosts:
-          - host: "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
     persistence:
       config:
         enabled: true
@@ -112,6 +101,18 @@ spec:
         globalMounts:
           - path: /tmp
         type: emptyDir
+    route:
+      app:
+        hostnames:
+          - "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+        rules:
+          - backendRefs:
+              - name: "${APP}"
+                port: *port
     service:
       app:
         controller: "${APP}"

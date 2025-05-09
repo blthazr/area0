@@ -10,6 +10,7 @@ configurations:
   - ./helm/kustomize-config.yaml
 resources:
   - ./helm-release.yaml
-  - ./ingress.yaml
+  - ./external-secret.yaml
+  - ./http-route.yaml
   - ./oci-repository.yaml
-  - ./webhook
+  - ./receiver.yaml

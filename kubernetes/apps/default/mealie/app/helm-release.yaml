@@ -66,19 +66,6 @@ spec:
         runAsGroup: ${APP_GID:=1000}
         runAsNonRoot: true
         runAsUser: ${APP_UID:=1000}
-    ingress:
-      app:
-        annotations:
-          external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
-        className: external
-        enabled: true
-        hosts:
-          - host: "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
     persistence:
       api-data:
         enabled: true
@@ -90,9 +77,21 @@ spec:
         globalMounts:
           - path: /tmp
         type: emptyDir
+    route:
+      app:
+        hostnames:
+          - "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: external
+            namespace: kube-system
+            sectionName: https
+        rules:
+          - backendRefs:
+              - name: "${APP}"
+                port: &port 9000
     service:
       app:
         controller: "${APP}"
         ports:
           http:
-            port: 9000
+            port: *port
