@@ -9,8 +9,7 @@ spec:
     # exclude
     /*
     # include
-    !config/crd/standard
-    !config/crd/experimental/gateway.networking.k8s.io_tlsroutes.yaml
+    !config/crd/experimental
   interval: 1h
   ref:
     # renovate: datasource=github-releases depName=kubernetes-sigs/gateway-api
