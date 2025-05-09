@@ -65,8 +65,8 @@ spec:
       namespace: cert-manager
     - name: cilium
       namespace: kube-system
-    - name: gateway-api
-      namespace: network
+    # - name: gateway-api
+    #   namespace: network
   interval: 1h
   path: ./kubernetes/apps/kube-system/cilium/gateway
   prune: true
