@@ -9,8 +9,8 @@ configMapGenerator:
 configurations:
   - ./helm/kustomize-config.yaml
 resources:
-  - ./helm-release.yaml
   - ./external-secret.yaml
-  - ./http-route.yaml
+  - ./helm-release.yaml
+  - ./ingress.yaml
   - ./oci-repository.yaml
   - ./receiver.yaml

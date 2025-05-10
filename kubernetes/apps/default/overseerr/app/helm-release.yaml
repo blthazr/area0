@@ -102,18 +102,6 @@ spec:
         globalMounts:
           - path: /tmp
         type: emptyDir
-    route:
-      app:
-        hostnames:
-          - "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
-        parentRefs:
-          - name: external
-            namespace: kube-system
-            sectionName: https
-        rules:
-          - backendRefs:
-              - name: "${APP}"
-                port: *port
     service:
       app:
         controller: "${APP}"
