@@ -1,0 +1,18 @@
+---
+hide_password: true
+splunk:
+  conf:
+    - key: telemetry
+      value:
+        content:
+          general:
+            deprecatedConfig: false
+            onCloudInstance: false
+            precheckSendAnonymizedUsage: false
+            precheckSendLicenseUsage: false
+            sendAnonymizedUsage: false
+            sendAnonymizedWebAnalytics: false
+            sendSupportUsage: false
+        directory: /opt/splunk/etc/apps/splunk_instrumentation/local
+  disable_popups: true
+  ignore_license: true
