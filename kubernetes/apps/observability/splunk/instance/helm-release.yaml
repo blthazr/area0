@@ -46,9 +46,9 @@ spec:
         storageClassName: ceph-block
       extraEnv:
         - name: SPLUNK_HOSTNAME
-          value: "{APP}"
+          value: "${APP}"
       licenseUrl: /mnt/licenses/splunk.lic
-      name: "{APP}"
+      name: "${APP}"
       resources:
         limits:
           memory: 8Gi
@@ -69,8 +69,8 @@ spec:
           - name: unifi
         volumes:
           - name: volume_smartstore
-            path: splunk-s2/
             endpoint: "http://${MINIO_ADDRESS}:9000"
+            path: splunk-s2/
             secretRef: splunk-s2-secret
       varVolumeStorageConfig:
         ephemeralStorage: false
