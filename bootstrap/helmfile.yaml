@@ -81,7 +81,7 @@ releases:
     namespace: external-secrets
     needs: ['cert-manager/cert-manager']
     values: ['{{ requiredEnv "ROOT_DIR" }}/kubernetes/apps/external-secrets/external-secrets/app/helm/values.yaml']
-    version: 0.16.2
+    version: 0.17.0
 
   - name: flux-operator
     atomic: true
