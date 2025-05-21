@@ -1,0 +1,73 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: cribl-leader
+spec:
+  chart:
+    spec:
+      chart: logstream-workergroup
+      sourceRef:
+        kind: HelmRepository
+        name: cribl
+        namespace: observability
+      version: 4.10.1
+  install:
+    remediation:
+      retries: -1
+  interval: 1h
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    autoscaling:
+      enabled: true
+      minReplicas: 2
+      maxReplicas: 10
+    config:
+      group: default
+      host: cribl-leader-internal
+      token: "${SECRET_CRIBL_LEADER_TOKEN}"
+    criblImage:
+      repository: cribl/cribl
+      tag: 4.12.0@sha256:1715f49fa63146aea8e7295e8dfc1e5cae028fec145b683afdc22c9fecce463b
+    resources:
+      limits:
+        cpu: 2000m
+        memory: 4096Mi
+      requests:
+        cpu: 1250m
+        memory: 256Mi
+    service:
+      loadBalancerIP: "${SVC_CRIBL_WORKER}"
+      ports:
+        - name: talos-kernel
+          port: 7601
+          protocol: UDP
+        - name: talos-service
+          port: 7602
+          protocol: UDP
+        - name: syslog-tcp
+          port: 9514
+          protocol: TCP
+        - name: syslog-udp
+          port: 9514
+          protocol: UDP
+        - name: syslog-unifi
+          port: 9520
+          protocol: UDP
+        - name: splunk-hec
+          port: 8088
+          protocol: TCP
+        - name: s2s
+          port: 9997
+          protocol: TCP
+        - name: cribl-http
+          port: 10200
+          protocol: TCP
+        - name: cribl-tcp
+          port: 10300
+          protocol: TCP
+      type: LoadBalancer
