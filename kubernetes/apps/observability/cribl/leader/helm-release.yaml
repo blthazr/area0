@@ -40,7 +40,7 @@ spec:
       host: "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
       ingressClassName: internal
       pathType: Prefix
-      prefix: /*
+      prefix: /
     persistence:
       claimName: ${VOLSYNC_PVC}
       enabled: true
