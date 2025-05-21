@@ -8,4 +8,4 @@ components:
 resources:
   # Flux-Kustomizations
   - ./cribl/ks.yaml
-  - ./splunk/ks.yaml
+  # - ./splunk/ks.yaml
