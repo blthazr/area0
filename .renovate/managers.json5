@@ -2,20 +2,20 @@
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   // configure flux manager
   flux: {
-    fileMatch: [
-      "(^|/)kubernetes/.+\\.ya?ml$",
-    ]
+    managerFilePatterns: [
+      "/(^|/)kubernetes/.+\\.ya?ml$/",
+    ],
   },
   // configure helm-values manager
   "helm-values": {
-    "fileMatch": [
-      "(^|/)kubernetes/.+\\.ya?ml$",
-    ]
+    managerFilePatterns: [
+      "/(^|/)kubernetes/.+\\.ya?ml$/",
+    ],
   },
   // configure kubernetes manager
   kubernetes: {
-    "fileMatch": [
-      "(^|/)kubernetes/.+\\.ya?ml$",
+    managerFilePatterns: [
+      "/(^|/)kubernetes/.+\\.ya?ml$/",
     ],
   },
 }

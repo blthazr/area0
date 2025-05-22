@@ -4,8 +4,8 @@
     {
       description: "Process annotated dependencies",
       customType: "regex",
-      fileMatch: [
-        "(^|/).+\\.ya?ml(?:\\.j2)?$",
+      managerFilePatterns: [
+        "/(^|/).+\\.ya?ml(?:\\.j2)?$/",
       ],
       matchStrings: [
         // # renovate: datasource=github-releases depName=k3s-io/k3s
