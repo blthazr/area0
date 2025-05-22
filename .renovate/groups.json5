@@ -29,6 +29,23 @@
       matchPackageNames: ["/coredns/"],
     },
     {
+      description: "Cribl Group",
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+      groupName: "Cribl",
+      matchDatasources: [
+        "docker",
+        "helm",
+      ],
+      matchPackageNames: [
+        "/cribl/",
+        "/edge/",
+        "/logstream/",
+      ],
+      versioning: "semver",
+    },
+    {
       description: "External Secrets Operator Group",
       group: {
         commitMessageTopic: "{{{groupName}}} group",
