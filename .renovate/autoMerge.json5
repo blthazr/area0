@@ -22,7 +22,10 @@
       automergeType: "branch",
       ignoreTests: true,
       matchManagers: ["github-actions"],
-      matchPackageNames: ["/^actions\//"],
+      matchPackageNames: [
+        "/^actions\//",
+        "/^renovatebot\//",
+      ],
       matchUpdateTypes: [
         "digest",
         "patch",
