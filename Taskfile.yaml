@@ -5,7 +5,8 @@ version: '3'
 set: [pipefail]
 shopt: [globstar]
 
-includes: {}
+includes:
+  flux: .taskfiles/flux
 
 vars:
   # Directories
