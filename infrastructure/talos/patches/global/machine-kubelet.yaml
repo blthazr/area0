@@ -13,4 +13,4 @@ machine:
         type: bind
     nodeIP:
       validSubnets:
-        - ${clusterNodeCIDR}
+        - ${CLUSTER_NODE_CIDR}

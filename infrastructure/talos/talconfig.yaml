@@ -1,16 +1,16 @@
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/master/pkg/config/schemas/talconfig.json
 
-clusterName: ${clusterName}
+clusterName: ${CLUSTER_NAME}
 
 # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
 talosVersion: v1.10.2
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
 kubernetesVersion: v1.33.1
 
-endpoint: https://${clusterEndpointIP}:6443
+endpoint: https://${CLUSTER_ENDPOINT_IP}:6443
 additionalApiServerCertSans: &sans
-  - &talosControlPlaneVIP ${clusterEndpointIP}
+  - &talosControlPlaneVIP ${CLUSTER_ENDPOINT_IP}
   - 127.0.0.1
 additionalMachineCertSans: *sans
 
@@ -36,7 +36,6 @@ nodes:
         mtu: 1500
         vip:
           ip: *talosControlPlaneVIP
-    talosImageURL: factory.talos.dev/installer/4b3cd373a192c8469e859b7a0cfbed3ecc3577c4a2d346a37b0aeff9cd17cdb0 # i915, intel-ucode
 
   - hostname: k8s-2
     controlPlane: true
@@ -50,7 +49,6 @@ nodes:
         mtu: 1500
         vip:
           ip: *talosControlPlaneVIP
-    talosImageURL: factory.talos.dev/installer/4b3cd373a192c8469e859b7a0cfbed3ecc3577c4a2d346a37b0aeff9cd17cdb0 # i915, intel-ucode
 
   - hostname: k8s-3
     controlPlane: true
@@ -64,7 +62,6 @@ nodes:
         mtu: 1500
         vip:
           ip: *talosControlPlaneVIP
-    talosImageURL: factory.talos.dev/installer/4b3cd373a192c8469e859b7a0cfbed3ecc3577c4a2d346a37b0aeff9cd17cdb0 # i915, intel-ucode
 
   - hostname: k8s-5
     controlPlane: false
@@ -79,7 +76,12 @@ nodes:
     nodeLabels:
       intel.feature.node.kubernetes.io/gpu: "true"
       role/media: "true"
-    talosImageURL: factory.talos.dev/installer/7046abc7c40b0e28d7c1ec1ec73768b16ceb9a8e3d23b1f6c5c6bd4825273dc6 # i915, intel-ucode, zfs
+    schematic:
+      customization:
+        systemExtensions:
+          officialExtensions:
+            - siderolabs/intel-ucode
+            - siderolabs/zfs
     patches:
       # Mount zfs-hostpath in kubelet
       - |-
@@ -105,14 +107,23 @@ patches:
   - "@./patches/global/machine-time.yaml"
   - "@./patches/global/machine-udev.yaml"
 
-
 # Controller patches
 controlPlane:
   patches:
     - "@./patches/controller/admission-controller-patch.yaml"
     - "@./patches/controller/cluster.yaml"
     - "@./patches/controller/machine-features.yaml"
+  schematic:
+    customization:
+      systemExtensions:
+        officialExtensions:
+          - siderolabs/intel-ucode
 
 # Worker patches
 worker:
   patches: []
+  schematic:
+    customization:
+      systemExtensions:
+        officialExtensions:
+          - siderolabs/intel-ucode

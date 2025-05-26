@@ -5,4 +5,5 @@ machine:
     net.core.rmem_max: 7500000             # Cloudflared | QUIC
     net.core.wmem_max: 7500000             # Cloudflared | QUIC
     net.ipv4.tcp_fastopen: 3               # TCP Fast Open
+    user.max_user_namespaces: 11255        # User namespaces
     vm.nr_hugepages: 1024                  # PostgreSQL

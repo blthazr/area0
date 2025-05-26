@@ -12,7 +12,7 @@ cluster:
     disabled: true
   etcd:
     advertisedSubnets:
-      - ${clusterNodeCIDR}
+      - ${CLUSTER_NODE_CIDR}
     extraArgs:
       listen-metrics-urls: http://0.0.0.0:2381
   proxy:
