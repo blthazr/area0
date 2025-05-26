@@ -7,6 +7,9 @@ shopt: [globstar]
 
 includes:
   flux: .taskfiles/flux
+  kubernetes:
+    aliases: ["k8s"]
+    taskfile: .taskfiles/kubernetes
 
 vars:
   # Directories

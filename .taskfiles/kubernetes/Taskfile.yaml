@@ -1,0 +1,17 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+tasks:
+
+  # task k8s:cleanup-pods
+  cleanup-pods:
+    desc: Cleanup pods with a Failed/Pending/Succeeded phase
+    cmds:
+      - for:
+          matrix:
+            PHASE: [Failed, Pending, Succeeded]
+        cmd: kubectl delete pods --all-namespaces --field-selector status.phase={{.ITEM.PHASE}} --ignore-not-found=true
+    preconditions:
+      - { msg: "kubectl not in $PATH", sh: "command -v kubectl" }
+      - { msg: "Missing kubeconfig file: {{.KUBECONFIG_FILE}}", sh: "test -f {{.KUBECONFIG_FILE}}" }
