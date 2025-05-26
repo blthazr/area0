@@ -1,0 +1,25 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+set: [pipefail]
+shopt: [globstar]
+
+includes: {}
+
+vars:
+  # Directories
+  INFRASTRUCTURE_DIR: '{{.ROOT_DIR}}/infrastructure'
+  KUBERNETES_DIR: '{{.ROOT_DIR}}/kubernetes'
+  # Files
+  KUBECONFIG_FILE: '{{.ROOT_DIR}}/kubeconfig'
+
+env:
+  KUBECONFIG: '{{.KUBECONFIG_FILE}}'
+  MINIJINJA_CONFIG_FILE: '{{.ROOT_DIR}}/.minijinja.toml'
+
+tasks:
+
+  default:
+    silent: true
+    cmds: ["task --list"]
