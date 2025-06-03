@@ -27,10 +27,8 @@ spec:
               NO_AUTOUPDATE: true
               PORT: &tailnetPort 45387
               TS_EXTRA_ARGS: --accept-routes --advertise-exit-node --advertise-tags=tag:subnet-router
-              TS_HOSTNAME:
-                valueFrom:
-                  fieldRef:
-                    fieldPath: metadata.name
+              TS_HOSTNAME: "tailscale-subnet-router"
+              TS_KUBE_SECRET: ""
               TS_ROUTES: "${NET_MANAGEMENT_CIDR},${NET_HOME_CIDR},${NET_SMARTHOME_CIDR},${NET_LEGACY_HOME_CIDR}"
               TS_STATE_DIR: &path /tmp
               TS_TAILSCALED_EXTRA_ARGS: --debug=0.0.0.0:9001
