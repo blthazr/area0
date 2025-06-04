@@ -89,7 +89,7 @@ releases:
     namespace: flux-system
     needs: ['external-secrets/external-secrets']
     values: ['{{ requiredEnv "ROOT_DIR" }}/kubernetes/apps/flux-system/flux-operator/app/helm/values.yaml']
-    version: 0.20.0
+    version: 0.22.0
 
   - name: flux-instance
     atomic: true
@@ -97,4 +97,4 @@ releases:
     namespace: flux-system
     needs: ['flux-system/flux-operator']
     values: ['{{ requiredEnv "ROOT_DIR" }}/kubernetes/apps/flux-system/flux-instance/app/helm/values.yaml']
-    version: 0.20.0
+    version: 0.22.0
