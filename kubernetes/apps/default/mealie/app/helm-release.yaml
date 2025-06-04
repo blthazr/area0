@@ -85,7 +85,7 @@ spec:
         existingClaim: "${VOLSYNC_PVC:=${APP}}"
         globalMounts:
           - path: /app/data
-      nltk_data:
+      nltk-data:
         enabled: true
         globalMounts:
           - path: /nltk_data
