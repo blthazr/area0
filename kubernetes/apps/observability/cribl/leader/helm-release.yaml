@@ -47,7 +47,8 @@ spec:
       size: ${VOLSYNC_CAPACITY}
     replicaCount: ${REPLICAS:=1}
     service:
-      externalLoadBalancerIP: "${SVC_CRIBL_LEADER}"
+      internalLoadBalancerIP: "${SVC_CRIBL_LEADER}"
+      internalType: LoadBalancer
       ports:
         - name: api
           external: true
