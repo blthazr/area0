@@ -86,7 +86,7 @@ spec:
         type: configMap
       tmpfs:
         advancedMounts:
-          {{ ENV.APP }}:
+          recyclarr:
             app:
               - path: /config/logs
                 subPath: logs
