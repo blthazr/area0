@@ -84,6 +84,9 @@ spec:
               - matchExpressions:
                   - key: node-role.kubernetes.io/control-plane
                     operator: DoesNotExist
+      nodeSelector:
+        # TODO: Remove role/media nodeSelector once new cluster is built
+        role/media: "true"
       securityContext:
         fsGroup: ${APP_GID:=1000}
         fsGroupChangePolicy: OnRootMismatch

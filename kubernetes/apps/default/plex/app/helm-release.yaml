@@ -60,6 +60,7 @@ spec:
                 drop: ["ALL"]
               readOnlyRootFilesystem: true
         replicas: ${REPLICAS:=1}
+        strategy: RollingUpdate
     defaultPodOptions:
       affinity:
         nodeAffinity:

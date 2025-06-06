@@ -63,6 +63,7 @@ spec:
                 drop: ["ALL"]
               readOnlyRootFilesystem: true
         replicas: ${REPLICAS:=1}
+        strategy: RollingUpdate
     defaultPodOptions:
       affinity:
         nodeAffinity:
@@ -97,7 +98,7 @@ spec:
         existingClaim: "${VOLSYNC_PVC:=${APP}}"
         globalMounts:
           - path: /config
-      logs:
+      config-logs:
         enabled: true
         globalMounts:
           - path: /config/logs

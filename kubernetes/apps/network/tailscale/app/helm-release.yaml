@@ -91,12 +91,11 @@ spec:
       tmp:
         enabled: true
         globalMounts:
-          - path: *path
+          - path: /tmp
         type: emptyDir
     service:
       app:
         controller: "${APP}"
-        nameOverride: "${APP}"
         ports:
           http:
             port: *tailscalePort

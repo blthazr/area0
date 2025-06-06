@@ -67,6 +67,8 @@ spec:
               requests:
                 cpu: 10m
             securityContext: *securityContext
+        replicas: ${REPLICAS:=1}
+        strategy: RollingUpdate
     defaultPodOptions:
       affinity:
         nodeAffinity:

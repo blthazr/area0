@@ -25,7 +25,7 @@ spec:
           app:
             env:
               ALLOW_SIGNUP: false
-              BASE_URL: "https://${HOSTNAME:-${APP}}.${SECRET_DOMAIN}"
+              BASE_URL: "https://${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
               DB_ENGINE: sqlite
               PGID: ${APP_GID:=1000}
               PUID: ${APP_UID:=1000}
@@ -44,7 +44,7 @@ spec:
               limits:
                 memory: 512Mi
               requests:
-                cpu: 5m
+                cpu: 10m
                 memory: 256Mi
             securityContext:
               allowPrivilegeEscalation: false

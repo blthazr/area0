@@ -23,7 +23,6 @@ spec:
       APP: *app
       HOSTNAME: recipes
       VOLSYNC_PVC: mealie-data
-      VOLSYNC_CAPACITY: 5Gi
   prune: true
   retryInterval: 2m
   sourceRef:

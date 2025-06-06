@@ -92,11 +92,6 @@ spec:
         existingClaim: "${VOLSYNC_PVC:=${APP}}"
         globalMounts:
           - path: /config
-      yt-dlp:
-        enabled: true
-        globalMounts:
-          - path: /etc/yt-dlp
-        type: emptyDir
       downloads:
         advancedMounts:
           pinchflat:
@@ -107,6 +102,11 @@ spec:
         path: "${NAS_NFS_PATH}"
         server: "${NAS_ADDRESS}"
         type: nfs
+      yt-dlp:
+        enabled: true
+        globalMounts:
+          - path: /etc/yt-dlp
+        type: emptyDir
       tmp:
         enabled: true
         globalMounts:

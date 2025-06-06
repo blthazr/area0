@@ -82,16 +82,16 @@ spec:
                   identifier: app
                   port: http
     persistence:
-      config-cache:
-        enabled: true
-        existingClaim: "${APP_PVC:=${APP}}"
-        globalMounts:
-          - path: /app/config/cache
       config:
         enabled: true
         existingClaim: "${VOLSYNC_PVC:=${APP}}"
         globalMounts:
           - path: /app/config
+      config-cache:
+        enabled: true
+        existingClaim: "${APP_PVC}"
+        globalMounts:
+          - path: /app/config/cache
       config-logs:
         enabled: true
         globalMounts:

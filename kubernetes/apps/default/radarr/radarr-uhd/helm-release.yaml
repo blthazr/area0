@@ -68,6 +68,8 @@ spec:
             image:
               repository: ghcr.io/onedr0p/postgres-init
               tag: 16
+        replicas: ${REPLICAS:=1}
+        strategy: RollingUpdate
     defaultPodOptions:
       affinity:
         nodeAffinity:
@@ -104,7 +106,7 @@ spec:
         type: emptyDir
       config-cache:
         enabled: true
-        existingClaim: "${APP_PVC:=${APP}}"
+        existingClaim: "${APP_PVC}"
         globalMounts:
           - path: /config/MediaCover
       media:

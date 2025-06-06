@@ -25,7 +25,6 @@ spec:
       APP: *app
       APP_PVC: plex-cache
       APP_PVC_CAPACITY: 100Gi
-      GATUS_PATH: /web/index.html
       VOLSYNC_PVC: plex-config
       VOLSYNC_CAPACITY: 50Gi
       VOLSYNC_CACHE_CAPACITY: 25Gi
