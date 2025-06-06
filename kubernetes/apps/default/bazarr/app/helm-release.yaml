@@ -138,6 +138,9 @@ spec:
                 subPath: log
               - path: /tmp
                 subPath: tmp
+            subcleaner:
+              - path: /tmp
+                subPath: tmp
         enabled: true
         type: emptyDir
     service:
