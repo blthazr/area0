@@ -110,16 +110,6 @@ spec:
         existingClaim: "${VOLSYNC_PVC:=${APP}}"
         globalMounts:
           - path: /config
-      config-cache:
-        enabled: true
-        globalMounts:
-          - path: /config/cache
-        type: emptyDir
-      config-log:
-        enabled: true
-        globalMounts:
-          - path: /config/log
-        type: emptyDir
       media:
         enabled: true
         existingClaim: default-local-storage
@@ -138,10 +128,17 @@ spec:
         globalMounts:
           - path: /subcleaner
         type: emptyDir
-      tmp:
+      tmpfs:
+        advancedMounts:
+          bazarr:
+            app:
+              - path: /config/cache
+                subPath: cache
+              - path: /config/log
+                subPath: log
+              - path: /tmp
+                subPath: tmp
         enabled: true
-        globalMounts:
-          - path: /tmp
         type: emptyDir
     service:
       app:

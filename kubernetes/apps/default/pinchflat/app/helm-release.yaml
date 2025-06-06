@@ -102,15 +102,15 @@ spec:
         path: "${NAS_NFS_PATH}"
         server: "${NAS_ADDRESS}"
         type: nfs
-      yt-dlp:
+      tmpfs:
+        advancedMounts:
+          pinchflat:
+            app:
+              - path: /etc/yt-dlp
+                subPath: yt-dlp
+              - path: /tmp
+                subPath: tmp
         enabled: true
-        globalMounts:
-          - path: /etc/yt-dlp
-        type: emptyDir
-      tmp:
-        enabled: true
-        globalMounts:
-          - path: /tmp
         type: emptyDir
     service:
       app:

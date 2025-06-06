@@ -85,15 +85,15 @@ spec:
         existingClaim: "${VOLSYNC_PVC:=${APP}}"
         globalMounts:
           - path: /app/data
-      nltk-data:
+      tmpfs:
+        advancedMounts:
+          mealie:
+            app:
+              - path: /nltk_data
+                subPath: nltk_data
+              - path: /tmp
+                subPath: tmp
         enabled: true
-        globalMounts:
-          - path: /nltk_data
-        type: emptyDir
-      tmp:
-        enabled: true
-        globalMounts:
-          - path: /tmp
         type: emptyDir
     service:
       app:

@@ -69,7 +69,6 @@ spec:
               repository: ghcr.io/onedr0p/postgres-init
               tag: 16
         replicas: ${REPLICAS:=1}
-        strategy: RollingUpdate
     defaultPodOptions:
       affinity:
         nodeAffinity:
@@ -96,15 +95,15 @@ spec:
                   identifier: app
                   port: http
     persistence:
-      config:
+      tmpfs:
+        advancedMounts:
+          prowlarr:
+            app:
+              - path: /config
+                subPath: config
+              - path: /tmp
+                subPath: tmp
         enabled: true
-        globalMounts:
-          - path: /config
-        type: emptyDir
-      tmp:
-        enabled: true
-        globalMounts:
-          - path: /tmp
         type: emptyDir
     service:
       app:

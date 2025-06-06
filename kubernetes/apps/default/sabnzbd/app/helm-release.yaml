@@ -63,7 +63,6 @@ spec:
                 drop: ["ALL"]
               readOnlyRootFilesystem: true
         replicas: ${REPLICAS:=1}
-        strategy: RollingUpdate
     defaultPodOptions:
       affinity:
         nodeAffinity:
@@ -98,20 +97,20 @@ spec:
         existingClaim: "${VOLSYNC_PVC:=${APP}}"
         globalMounts:
           - path: /config
-      config-logs:
-        enabled: true
-        globalMounts:
-          - path: /config/logs
-        type: emptyDir
       media:
         enabled: true
         existingClaim: default-local-storage
         globalMounts:
           - path: /media
-      tmp:
+      tmpfs:
+        advancedMounts:
+          sabnzbd:
+            app:
+              - path: /config/logs
+                subPath: logs
+              - path: /tmp
+                subPath: tmp
         enabled: true
-        globalMounts:
-          - path: /tmp
         type: emptyDir
     service:
       app:

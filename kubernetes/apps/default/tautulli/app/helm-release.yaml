@@ -47,28 +47,12 @@ spec:
                 memory: 512Mi
               requests:
                 cpu: 10m
-            securityContext: &securityContext
+            securityContext:
               allowPrivilegeEscalation: false
               capabilities:
                 drop: ["ALL"]
               readOnlyRootFilesystem: true
-          jbops:
-            env:
-              GITSYNC_PERIOD: 24h
-              GITSYNC_REF: master
-              GITSYNC_REPO: https://github.com/blacktwin/JBOPS
-              GITSYNC_ROOT: /jbops
-            image:
-              repository: registry.k8s.io/git-sync/git-sync
-              tag: v4.4.1@sha256:699b654e373f000c356756c24290a6dbb86500934b65ce6093fd92c434c61c6b
-            resources:
-              limits:
-                memory: 128Mi
-              requests:
-                cpu: 10m
-            securityContext: *securityContext
         replicas: ${REPLICAS:=1}
-        strategy: RollingUpdate
     defaultPodOptions:
       affinity:
         nodeAffinity:
@@ -105,20 +89,15 @@ spec:
         existingClaim: "${APP_PVC}"
         globalMounts:
           - path: /config/cache
-      config-logs:
+      tmpfs:
+        advancedMounts:
+          tautulli:
+            app:
+              - path: /config/logs
+                subPath: logs
+              - path: /tmp
+                subPath: tmp
         enabled: true
-        globalMounts:
-          - path: /config/logs
-        type: emptyDir
-      jbops:
-        enabled: true
-        globalMounts:
-          - path: /jbops
-        type: emptyDir
-      tmp:
-        enabled: true
-        globalMounts:
-          - path: /tmp
         type: emptyDir
     service:
       app:

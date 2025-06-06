@@ -78,20 +78,17 @@ spec:
         runAsNonRoot: true
         runAsUser: ${APP_UID:=1000}
     persistence:
-      cache:
+      tmpfs:
+        advancedMounts:
+          tailscale:
+            app:
+              - path: /.cache
+                subPath: cache
+              - path: /tmp
+                subPath: tmp
+              - path: /var/run
+                subPath: run
         enabled: true
-        globalMounts:
-          - path: /.cache
-        type: emptyDir
-      run:
-        enabled: true
-        globalMounts:
-          - path: /var/run
-        type: emptyDir
-      tmp:
-        enabled: true
-        globalMounts:
-          - path: /tmp
         type: emptyDir
     service:
       app:

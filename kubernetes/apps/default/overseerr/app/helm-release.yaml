@@ -92,15 +92,15 @@ spec:
         existingClaim: "${APP_PVC}"
         globalMounts:
           - path: /app/config/cache
-      config-logs:
+      tmpfs:
+        advancedMounts:
+          overseerr:
+            app:
+              - path: /app/config/logs
+                subPath: logs
+              - path: /tmp
+                subPath: tmp
         enabled: true
-        globalMounts:
-          - path: /app/config/logs
-        type: emptyDir
-      tmp:
-        enabled: true
-        globalMounts:
-          - path: /tmp
         type: emptyDir
     service:
       app:

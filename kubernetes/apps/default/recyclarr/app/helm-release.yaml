@@ -84,18 +84,15 @@ spec:
             readOnly: true
         name: recyclarr-configmap
         type: configMap
-      config-logs:
+      tmpfs:
+        advancedMounts:
+          {{ ENV.APP }}:
+            app:
+              - path: /config/logs
+                subPath: logs
+              - path: /config/repositories
+                subPath: repositories
+              - path: /tmp
+                subPath: tmp
         enabled: true
-        globalMounts:
-          - path: /config/logs
-        type: emptyDir
-      config-repositories:
-        enabled: true
-        globalMounts:
-          - path: /config/repositories
-        type: emptyDir
-      tmp:
-        enabled: true
-        globalMounts:
-          - path: /tmp
         type: emptyDir
