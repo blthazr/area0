@@ -5,14 +5,9 @@ kind: HelmRelease
 metadata:
   name: k8s-gateway
 spec:
-  chart:
-    spec:
-      chart: k8s-gateway
-      sourceRef:
-        kind: HelmRepository
-        name: k8s-gateway
-        namespace: network
-      version: 2.4.0
+  chartRef:
+    kind: OCIRepository
+    name: k8s-gateway
   install:
     remediation:
       retries: -1
