@@ -12,6 +12,7 @@ resources:
   - ./persistent-volume-claim.yaml
   # Flux-Kustomizations
   - ./bazarr/ks.yaml
+  - ./icloudpd/ks.yaml
   - ./mealie/ks.yaml
   - ./minecraft/ks.yaml
   - ./overseerr/ks.yaml

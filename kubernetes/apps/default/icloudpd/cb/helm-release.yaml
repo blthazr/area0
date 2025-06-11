@@ -1,0 +1,107 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: icloudpd-cb
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+  install:
+    remediation:
+      retries: -1
+  interval: 1h
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    controllers:
+      icloudpd-cb:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            env:
+              auto_delete: "false"
+              convert_heic_to_jpeg: "false"
+              delete_accompanying: "false"
+              download_path: "/photos"
+              group_id: ${APP_GID:=1000}
+              notification_title: "iCloud Photo Downloader"
+              notification_type: "Telegram"
+              recent_only: "10" # REMOVE AFTER TESTING
+              skip_check: "true"
+              TZ: "${CLUSTER_TIME_ZONE}"
+            envFrom:
+              - secretRef:
+                  name: "${APP}-secret"
+            image:
+              repository: docker.io/boredazfcuk/icloudpd
+              tag: 1.0.814@sha256:db11e0df0c8ffd22da35ecaf8af3cc1b22d4589cf7865d5e8f875420ca29c2b1
+            probes:
+              liveness:
+                custom: true
+                enabled: true
+                spec:
+                  exec:
+                    command:
+                      - /usr/local/bin/healthcheck.sh
+                  failureThreshold: 3
+                  initialDelaySeconds: 120
+                  periodSeconds: 600
+                  successThreshold: 1
+                  timeoutSeconds: 10
+            resources:
+              limits:
+                memory: 512Mi
+              requests:
+                cpu: 10m
+            securityContext:
+              capabilities:
+                add:
+                  - NET_RAW
+                  - NET_ADMIN
+                  - CHOWN
+                  - SETUID
+                  - SETGID
+                  - FOWNER
+                  - DAC_OVERRIDE
+                drop: ["ALL"]
+        replicas: ${REPLICAS:=1}
+    defaultPodOptions:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
+      securityContext:
+        fsGroup: ${APP_GID:=1000}
+        fsGroupChangePolicy: OnRootMismatch
+    persistence:
+      config:
+        enabled: true
+        existingClaim: "${VOLSYNC_PVC:=${APP}}"
+        globalMounts:
+          - path: /config
+      photos:
+        advancedMounts:
+          pinchflat:
+            app:
+              - path: /photos
+                subPath: media/images/icloud-backup-cb
+        enabled: true
+        path: "${NAS_NFS_PATH}"
+        server: "${NAS_ADDRESS}"
+        type: nfs
+      tmpfs:
+        advancedMounts:
+          icloudpd-cb:
+            app:
+              - path: /tmp
+                subPath: tmp
+        enabled: true
+        type: emptyDir
