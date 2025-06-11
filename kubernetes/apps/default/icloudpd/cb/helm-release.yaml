@@ -39,7 +39,7 @@ spec:
                   name: "${APP}-secret"
             image:
               repository: docker.io/boredazfcuk/icloudpd
-              tag: 1.0.814@sha256:db11e0df0c8ffd22da35ecaf8af3cc1b22d4589cf7865d5e8f875420ca29c2b1
+              tag: 1.0.814@sha256:4a47a7b6a1eb6d45d3f662bd39431b2930abda8cb0b27c51d82a5793da168276
             probes:
               liveness:
                 custom: true
