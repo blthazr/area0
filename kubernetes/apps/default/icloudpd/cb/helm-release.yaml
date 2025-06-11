@@ -89,7 +89,7 @@ spec:
           - path: /config
       photos:
         advancedMounts:
-          pinchflat:
+          icloudpd-cb:
             app:
               - path: /photos
                 subPath: media/images/icloud-backup-cb
