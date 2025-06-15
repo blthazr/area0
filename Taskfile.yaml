@@ -10,6 +10,7 @@ includes:
   kubernetes:
     aliases: ["k8s"]
     taskfile: .taskfiles/kubernetes
+  sops: .taskfiles/sops
 
 vars:
   # Directories

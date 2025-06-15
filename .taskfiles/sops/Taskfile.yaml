@@ -1,0 +1,27 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+vars:
+  # Files
+  AGE_FILE: '{{.ROOT_DIR}}/age.key'
+  SOPS_CONFIG_FILE: '{{.ROOT_DIR}}/.sops.yaml'
+
+tasks:
+
+  .encrypt-file:
+    desc: Encrypt file with SOPS
+    summary: |
+      FILE: (str | required) Path of file to be encrypted
+    internal: true
+    cmd: sops --encrypt --in-place {{.FILE}}
+    requires:
+      vars:
+        - FILE
+    preconditions:
+      - { msg: "jq not in $PATH", sh: "command -v jq" }
+      - { msg: "sops not in $PATH", sh: "command -v sops" }
+      - { msg: "Missing SOPS age key file: {{.AGE_FILE}}", sh: "test -f {{.AGE_FILE}}" }
+      - { msg: "Missing SOPS config file: {{.SOPS_CONFIG_FILE}}", sh: "test -f {{.SOPS_CONFIG_FILE}}" }
+    status:
+      - sops filestatus {{.FILE}} | jq --exit-status '.encrypted'
