@@ -17,6 +17,7 @@ vars:
   KUBERNETES_DIR: '{{.ROOT_DIR}}/kubernetes'
   # Files
   KUBECONFIG_FILE: '{{.ROOT_DIR}}/kubeconfig'
+  MINIJINJA_CONFIG_FILE: '{{.ROOT_DIR}}/.minijinja.toml'
 
 env:
   KUBECONFIG: '{{.KUBECONFIG_FILE}}'
