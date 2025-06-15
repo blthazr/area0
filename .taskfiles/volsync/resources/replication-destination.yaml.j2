@@ -1,0 +1,24 @@
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: {{ ENV.APP }}-manual
+  namespace: {{ ENV.NS }}
+spec:
+  restic:
+    accessModes: {{ ENV.ACCESS_MODES }}
+    cleanupCachePVC: true
+    cleanupTempPVC: true
+    copyMethod: Direct
+    destinationPVC: {{ ENV.CLAIM }}
+    enableFileDeletion: true
+    moverSecurityContext:
+      fsGroup: {{ ENV.VOLSYNC_GID }}
+      runAsGroup: {{ ENV.VOLSYNC_GID }}
+      runAsUser: {{ ENV.VOLSYNC_UID }}
+    previous: {{ ENV.PREVIOUS }}
+    repository: {{ ENV.APP }}-volsync-minio-secret
+    storageClassName: {{ ENV.STORAGE_CLASS_NAME }}
+    volumeSnapshotClassName: {{ ENV.VOLUME_SNAPSHOT_CLASS_NAME }}
+  trigger:
+    manual: restore-once

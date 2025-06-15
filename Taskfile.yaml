@@ -11,6 +11,7 @@ includes:
     aliases: ["k8s"]
     taskfile: .taskfiles/kubernetes
   sops: .taskfiles/sops
+  volsync: .taskfiles/volsync
 
 vars:
   # Directories

@@ -1,0 +1,167 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+# This taskfile is used to manage certain VolSync tasks for a given application, limitations are described below.
+#   1. Fluxtomization, HelmRelease, PVC, ReplicationSource all have the same name (e.g. plex)
+#   2. ReplicationSource and ReplicationDestination are a Restic repository
+#   3. Each application only has one PVC that is being replicated
+
+vars:
+  VOLSYNC_RESOURCES_DIR: '{{.ROOT_DIR}}/.taskfiles/volsync/resources'
+
+tasks:
+
+  # task volsync:list APP=plex [NS=media]
+  list:
+    desc: List snapshots for an application
+    summary: |
+      APP: (str | required) Application to list snapshots
+      NS:  (str)            Namespace of application [default: default]
+    env:
+      APP: '{{.APP}}'
+      NS: '{{.NS}}'
+    vars:
+      JOB: volsync-list-{{.APP}}
+      NS: '{{.NS | default "default"}}'
+    cmds:
+      - minijinja-cli {{.VOLSYNC_RESOURCES_DIR}}/list.yaml.j2 | kubectl apply --server-side --filename -
+      - until kubectl --namespace {{.NS}} get job/{{.JOB}} &>/dev/null; do sleep 5; done
+      - kubectl --namespace {{.NS}} wait job/{{.JOB}} --for condition=complete --timeout=5m
+      - stern --namespace {{.NS}} job/{{.JOB}} --no-follow
+      - kubectl --namespace {{.NS}} delete job {{.JOB}}
+    requires:
+      vars:
+        - APP
+    preconditions:
+      - { msg: "kubectl not in $PATH", sh: "command -v kubectl" }
+      - { msg: "minijinja-cli not in $PATH", sh: "command -v minijinja-cli" }
+      - { msg: "stern not in $PATH", sh: "command -v stern" }
+      - { msg: "Missing job template: {{.VOLSYNC_RESOURCES_DIR}}/list.yaml.j2", sh: "test -f {{.VOLSYNC_RESOURCES_DIR}}/list.yaml.j2" }
+      - { msg: "Missing kubeconfig file: {{.KUBECONFIG_FILE}}", sh: "test -f {{.KUBECONFIG_FILE}}" }
+      - { msg: "Missing minijinja config file: {{.MINIJINJA_CONFIG_FILE}}", sh: "test -f {{.MINIJINJA_CONFIG_FILE}}" }
+
+  # task volsync:state-suspend
+  # task volsync:state-resume
+  state-*:
+    desc: Suspend or resume Volsync
+    vars:
+      NS: '{{.NS | default "volsync-system"}}'
+      STATE: '{{index .MATCH 0}}'
+    cmds:
+      - flux --namespace {{.NS}} {{.STATE}} kustomization volsync
+      - flux --namespace {{.NS}} {{.STATE}} helmrelease volsync
+      - kubectl --namespace {{.NS}} scale deployment volsync --replicas {{if eq .STATE "suspend"}}0{{else}}1{{end}}
+    preconditions:
+      - { msg: "flux not in $PATH", sh: "command -v flux" }
+      - { msg: "kubectl not in $PATH", sh: "command -v kubectl" }
+      - { msg: "Missing kubeconfig file: {{.KUBECONFIG_FILE}}", sh: "test -f {{.KUBECONFIG_FILE}}" }
+      - { msg: "STATE value must be suspend or resume", sh: '[[ "{{.STATE}}" == "suspend" || "{{.STATE}}" == "resume" ]]' }
+
+  # task volsync:snapshot APP=plex [NS=media]
+  #
+  # To run backup jobs in parallel for all replicationsources:
+  # - kubectl get replicationsources --all-namespaces --no-headers | awk '{print $2, $1}' | xargs --max-procs=4 -L bash -c 'task volsync:snapshot APP=$0 NS=$1'
+  snapshot:
+    desc: Snapshot an app
+    summary: |
+      APP: (str | required) Application to snapshot
+      NS:  (str)            Namespace of application [default: default]
+    vars:
+      JOB: volsync-src-{{.APP}}
+      NS: '{{.NS | default "default"}}'
+    cmds:
+      - kubectl --namespace {{.NS}} patch replicationsources {{.APP}} --type merge -p '{"spec":{"trigger":{"manual":"{{now | unixEpoch}}"}}}'
+      - until kubectl --namespace {{.NS}} get job/{{.JOB}} &>/dev/null; do sleep 5; done
+      - kubectl --namespace {{.NS}} wait job/{{.JOB}} --for=condition=complete --timeout=120m
+    requires:
+      vars:
+        - APP
+    preconditions:
+      - { msg: "kubectl not in $PATH", sh: "command -v kubectl" }
+      - { msg: "Missing kubeconfig file: {{.KUBECONFIG_FILE}}", sh: "test -f {{.KUBECONFIG_FILE}}" }
+      - { msg: "Missing replicationsource: {{.APP}}", sh: "kubectl --namespace {{.NS}} get replicationsources {{.APP}}" }
+
+  # task volsync:restore APP=plex [NS=media] [PREVIOUS=3]
+  restore:
+    desc: Restore an app
+    summary: |
+      APP:      (str | required) Application to restore
+      NS:       (str)            Namespace of application [default: default]
+      PREVIOUS: (int)            Previous number of snapshots to restore [default: 2]
+    env:
+      ACCESS_MODES:
+        sh: kubectl --namespace {{.NS}} get replicationsources/{{.APP}} --output=jsonpath='{.spec.restic.accessModes}'
+      APP: '{{.APP}}'
+      CLAIM:
+        sh: kubectl --namespace {{.NS}} get replicationsources/{{.APP}} --output=jsonpath='{.spec.sourcePVC}'
+      NS: '{{.NS}}'
+      VOLSYNC_GID:
+        sh: kubectl --namespace {{.NS}} get replicationsources/{{.APP}} --output=jsonpath='{.spec.restic.moverSecurityContext.runAsGroup}'
+      PREVIOUS: '{{.PREVIOUS}}'
+      VOLSYNC_UID:
+        sh: kubectl --namespace {{.NS}} get replicationsources/{{.APP}} --output=jsonpath='{.spec.restic.moverSecurityContext.runAsUser}'
+      STORAGE_CLASS_NAME:
+        sh: kubectl --namespace {{.NS}} get replicationsources/{{.APP}} --output=jsonpath='{.spec.restic.storageClassName}'
+      VOLUME_SNAPSHOT_CLASS_NAME:
+        sh: kubectl --namespace {{.NS}} get replicationsources/{{.APP}} --output=jsonpath='{.spec.restic.volumeSnapshotClassName}'
+    vars:
+      JOB: volsync-dst-{{.APP}}-manual
+      NS: '{{.NS | default "default"}}'
+      PREVIOUS: '{{.PREVIOUS | default 2}}'
+      CONTROLLER:
+        sh: kubectl --namespace {{.NS}} get deployment {{.APP}} &>/dev/null && echo deployment || echo statefulset
+    cmds:
+      # Suspend
+      - flux --namespace {{.NS}} suspend kustomization {{.APP}}
+      - flux --namespace {{.NS}} suspend helmrelease {{.APP}}
+      - kubectl --namespace {{.NS}} scale {{.CONTROLLER}}/{{.APP}} --replicas 0
+      - kubectl --namespace {{.NS}} wait pod --for=delete --selector="app.kubernetes.io/name={{.APP}}" --timeout=5m
+      # Restore
+      - minijinja-cli {{.VOLSYNC_RESOURCES_DIR}}/replication-destination.yaml.j2 | kubectl apply --server-side --filename -
+      - until kubectl --namespace {{.NS}} get job/{{.JOB}} &>/dev/null; do sleep 5; done
+      - kubectl --namespace {{.NS}} wait job/{{.JOB}} --for=condition=complete --timeout=120m
+      - kubectl --namespace {{.NS}} delete replicationdestination {{.APP}}-manual
+      # Resume
+      - flux --namespace {{.NS}} resume kustomization {{.APP}}
+      - flux --namespace {{.NS}} resume helmrelease {{.APP}}
+      - flux --namespace {{.NS}} reconcile helmrelease {{.APP}} --force
+      - kubectl --namespace {{.NS}} wait pod --for=condition=ready --selector="app.kubernetes.io/name={{.APP}}" --timeout=5m
+    requires:
+      vars:
+        - APP
+    preconditions:
+      - { msg: "flux not in $PATH", sh: "command -v flux" }
+      - { msg: "kubectl not in $PATH", sh: "command -v kubectl" }
+      - { msg: "minijinja-cli not in $PATH", sh: "command -v minijinja-cli" }
+      - { msg: "Missing replicationdestination template: {{.VOLSYNC_RESOURCES_DIR}}/replication-destination.yaml.j2", sh: "test -f {{.VOLSYNC_RESOURCES_DIR}}/replication-destination.yaml.j2" }
+      - { msg: "Missing kubeconfig file: {{.KUBECONFIG_FILE}}", sh: "test -f {{.KUBECONFIG_FILE}}" }
+      - { msg: "Missing minijinja config file: {{.MINIJINJA_CONFIG_FILE}}", sh: "test -f {{.MINIJINJA_CONFIG_FILE}}" }
+
+  # task volsync:unlock-local APP=plex [NS=media]
+  unlock-local:
+    desc: Unlock a restic source repo from local machine
+    summary: |
+      APP: (str | required) Application to unlock
+      NS:  (str)            Namespace of application [default: default]
+    env:
+      APP: '{{.APP}}'
+      NS: '{{.NS}}'
+    vars:
+      NS: '{{.NS | default "default"}}'
+    cmds:
+      - minijinja-cli {{.VOLSYNC_RESOURCES_DIR}}/unlock.yaml.j2 | kubectl apply --server-side --filename -
+      - until kubectl --namespace {{.NS}} get job/volsync-unlock-{{.APP}} &>/dev/null; do sleep 5; done
+      - kubectl --namespace {{.NS}} wait job/volsync-unlock-{{.APP}} --for condition=complete --timeout=5m
+      - stern --namespace {{.NS}} job/volsync-unlock-{{.APP}} --no-follow
+      - kubectl --namespace {{.NS}} delete job volsync-unlock-{{.APP}}
+    requires:
+      vars:
+        - APP
+    preconditions:
+      - { msg: "kubectl not in $PATH", sh: "command -v kubectl" }
+      - { msg: "minijinja-cli not in $PATH", sh: "command -v minijinja-cli" }
+      - { msg: "stern not in $PATH", sh: "command -v stern" }
+      - { msg: "Missing job template: {{.VOLSYNC_RESOURCES_DIR}}/unlock.yaml.j2", sh: "test -f {{.VOLSYNC_RESOURCES_DIR}}/unlock.yaml.j2" }
+      - { msg: "Missing kubeconfig file: {{.KUBECONFIG_FILE}}", sh: "test -f {{.KUBECONFIG_FILE}}" }
+      - { msg: "Missing minijinja config file: {{.MINIJINJA_CONFIG_FILE}}", sh: "test -f {{.MINIJINJA_CONFIG_FILE}}" }
