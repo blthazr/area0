@@ -6,5 +6,5 @@ metadata:
   name: splunk
   namespace: observability
 spec:
-  interval: 30m
+  interval: 12h
   url: https://splunk.github.io/splunk-operator/
