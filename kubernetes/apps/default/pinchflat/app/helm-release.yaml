@@ -97,7 +97,7 @@ spec:
           pinchflat:
             app:
               - path: /downloads
-                subPath: media/download/yt-dlp/pinchflat
+                subPath: media/download/pinchflat
         enabled: true
         path: "${NAS_NFS_PATH}"
         server: "${NAS_ADDRESS}"
