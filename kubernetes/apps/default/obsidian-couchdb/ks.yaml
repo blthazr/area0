@@ -22,7 +22,7 @@ spec:
     substitute:
       APP: *app
       HOSTNAME: "obsidian-db.${SECRET_DOMAIN}"
-      VOLSYNC_PVC: "${APP}-data"
+      VOLSYNC_PVC: obsidian-couchdb-data
       VOLSYNC_CAPACITY: 10Gi
   prune: true
   retryInterval: 2m
