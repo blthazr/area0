@@ -5,7 +5,7 @@ kind: Kustomization
 configMapGenerator:
   - name: obsidian-couchdb-configmap
     files:
-      - config/config.ini
+      - ./config.ini
 generatorOptions:
   annotations:
     kustomize.toolkit.fluxcd.io/substitute: disabled
