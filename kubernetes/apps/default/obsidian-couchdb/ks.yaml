@@ -21,7 +21,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      HOSTNAME: "obsidian-db.${SECRET_DOMAIN}"
+      HOSTNAME: obsidian-db
       VOLSYNC_PVC: obsidian-couchdb-data
       VOLSYNC_CAPACITY: 10Gi
   prune: true
