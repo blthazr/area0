@@ -18,15 +18,36 @@ spec:
       retries: 3
   values:
     controllers:
+      gotenberg:
+        containers:
+          gotenberg:
+            command:
+              - "gotenberg"
+              - "--chromium-disable-javascript=true"
+              - "--chromium-allow-list=file:///tmp/.*"
+            image:
+              repository: docker.io/gotenberg/gotenberg
+              tag: 8.21.1@sha256:91486863744f7420ca985ee6cef7c216910e40faffd378f3da7c0fad724d01ba
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop: ["ALL"]
+              readOnlyRootFilesystem: true
+              runAsGroup: ${APP_GID:=1000}
+              runAsNonRoot: true
+              runAsUser: ${APP_UID:=1000}
+            resources:
+              limits:
+                cpu: 100m
+                memory: 128Mi
+              requests:
+                cpu: 10m
+                memory: 64Mi
       paperless:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          app:
-            dependsOn:
-              - broker
-              - gotenberg
-              - tika
+          paperless:
             env:
               # Configure application
               PAPERLESS_PORT: &port 8000
@@ -38,21 +59,19 @@ spec:
               PAPERLESS_CONSUMPTION_DIR: /data/nas/consume
               PAPERLESS_DATA_DIR: /data/local/data
               PAPERLESS_EXPORT_DIR: /data/nas/export
-              PAPERLESS_MEDIA_ROOT: /data/local/media
+              PAPERLESS_MEDIA_ROOT: /data/nas/media
               # Configure folder importer
               PAPERLESS_CONSUMER_POLLING: 60
               PAPERLESS_CONSUMER_RECURSIVE: "true"
               PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS: "true"
               # Configure OCR
-              PAPERLESS_OCR_LANGUAGES: eng
-              PAPERLESS_OCR_LANGUAGE: eng
               PAPERLESS_OCR_USER_ARGS: '{"invalidate_digital_signatures": true}' # Allows importing and OCR:ing of signed PDFs (originals still kept with their signatures)
               # Configure TIKA
               PAPERLESS_TIKA_ENABLED: true
-              PAPERLESS_TIKA_ENDPOINT: http://127.0.0.1:9998
-              PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://127.0.0.1:3000
+              PAPERLESS_TIKA_ENDPOINT: http://paperless-tika.default.svc.cluster.local:9998
+              PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://paperless-gotenberg.default.svc.cluster.local:3000
               # Configure redis integration
-              PAPERLESS_REDIS: redis://127.0.0.1:6379
+              PAPERLESS_REDIS: redis://paperless-redis.default.svc.cluster.local:6379
               # Configure user permissions
               USERMAP_UID: ${APP_UID:=1000}
               USERMAP_GID: ${APP_GID:=1000}
@@ -72,34 +91,50 @@ spec:
                 spec:
                   failureThreshold: 30
                   periodSeconds: 5
-          broker:
-            image:
-              repository: ghcr.io/valkey-io/valkey
-              tag: 8.1.2@sha256:fec42f399876eb6faf9e008570597741c87ff7662a54185593e74b09ce83d177
-            ports:
-              - containerPort: 6379
-          gotenberg:
-            command:
-              - "gotenberg"
-              - "--chromium-disable-javascript=true"
-              - "--chromium-allow-list=file:///tmp/.*"
-            image:
-              repository: docker.io/gotenberg/gotenberg
-              tag: 8.21.1@sha256:91486863744f7420ca985ee6cef7c216910e40faffd378f3da7c0fad724d01ba
-            ports:
-              - containerPort: 3000
-          tika:
-            image:
-              repository: ghcr.io/paperless-ngx/tika
-              tag: 2.9.1-full@sha256:d59c38244949a418ef16be676eeea770e1616b45986661847d373f4de048a37e
-            ports:
-              - containerPort: 9998
+            resources:
+              limits:
+                memory: 4Gi
+              requests:
+                cpu: 25m
+                memory: 256Mi
         initContainers:
           init-db:
             envFrom: *envFrom
             image:
               repository: ghcr.io/onedr0p/postgres-init
               tag: 16
+      redis:
+        containers:
+          redis:
+            image:
+              repository: ghcr.io/valkey-io/valkey
+              tag: 8.1.2@sha256:fec42f399876eb6faf9e008570597741c87ff7662a54185593e74b09ce83d177
+            resources:
+              limits:
+                memory: 128Mi
+              requests:
+                cpu: 5m
+                memory: 32Mi
+      tika:
+        containers:
+          tika:
+            image:
+              repository: ghcr.io/paperless-ngx/tika
+              tag: 2.9.1-full@sha256:d59c38244949a418ef16be676eeea770e1616b45986661847d373f4de048a37e
+            resources:
+              limits:
+                memory: 256Mi
+              requests:
+                cpu: 10m
+                memory: 128Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop: ["ALL"]
+              readOnlyRootFilesystem: true
+              runAsGroup: ${APP_GID:=1000}
+              runAsNonRoot: true
+              runAsUser: ${APP_UID:=1000}
     defaultPodOptions:
       affinity:
         nodeAffinity:
@@ -108,12 +143,6 @@ spec:
               - matchExpressions:
                   - key: node-role.kubernetes.io/control-plane
                     operator: DoesNotExist
-      securityContext:
-        fsGroup: ${APP_GID:=1000}
-        fsGroupChangePolicy: OnRootMismatch
-        runAsGroup: ${APP_GID:=1000}
-        runAsNonRoot: false
-        runAsUser: ${APP_UID:=1000}
     ingress:
       app:
         className: internal
@@ -133,29 +162,46 @@ spec:
           paperless:
             app:
               - path: /data/local
-      nas-export:
-        advancedMounts:
-          paperless:
-            app:
-              - path: /data/nas/export
-                subPath: paperless/export
-        enabled: true
-        path: "/volume1/shared"
-        server: "${NAS_ADDRESS}"
-        type: nfs
-      nas-consume:
+      nas:
         advancedMounts:
           paperless:
             app:
               - path: /data/nas/consume
-                subPath: paperless/inbox
+                subPath: import
+              - path: /data/nas/export
+                subPath: export
+              - path: /data/nas/media
+                subPath: media
         enabled: true
-        path: "/volume1/shared"
+        path: "/volume1/shared/paperless"
         server: "${NAS_ADDRESS}"
         type: nfs
+      tmpfs:
+        globalMounts:
+          - path: /run
+            subPath: run
+          - path: /tmp
+            subPath: tmp
+        enabled: true
+        type: emptyDir
     service:
       app:
         controller: "${APP}"
         ports:
           http:
             port: *port
+      gotenberg:
+        controller: gotenberg
+        ports:
+          http:
+            port: 3000
+      redis:
+        controller: redis
+        ports:
+          http:
+            port: 6379
+      tika:
+        controller: tika
+        ports:
+          http:
+            port: 9998
