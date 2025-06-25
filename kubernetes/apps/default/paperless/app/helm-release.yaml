@@ -1,0 +1,161 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: paperless
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+  install:
+    remediation:
+      retries: -1
+  interval: 1h
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    controllers:
+      paperless:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            dependsOn:
+              - broker
+              - gotenberg
+              - tika
+            env:
+              # Configure application
+              PAPERLESS_PORT: &port 8000
+              PAPERLESS_TASK_WORKERS: "2"
+              PAPERLESS_TIME_ZONE: "${CLUSTER_TIME_ZONE}"
+              PAPERLESS_URL: "https://${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
+              PAPERLESS_WEBSERVER_WORKERS: "2"
+              # Configure folders
+              PAPERLESS_CONSUMPTION_DIR: /data/nas/consume
+              PAPERLESS_DATA_DIR: /data/local/data
+              PAPERLESS_EXPORT_DIR: /data/nas/export
+              PAPERLESS_MEDIA_ROOT: /data/local/media
+              # Configure folder importer
+              PAPERLESS_CONSUMER_POLLING: 60
+              PAPERLESS_CONSUMER_RECURSIVE: "true"
+              PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS: "true"
+              # Configure OCR
+              PAPERLESS_OCR_LANGUAGES: eng
+              PAPERLESS_OCR_LANGUAGE: eng
+              PAPERLESS_OCR_USER_ARGS: '{"invalidate_digital_signatures": true}' # Allows importing and OCR:ing of signed PDFs (originals still kept with their signatures)
+              # Configure TIKA
+              PAPERLESS_TIKA_ENABLED: true
+              PAPERLESS_TIKA_ENDPOINT: http://127.0.0.1:9998
+              PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://127.0.0.1:3000
+              # Configure redis integration
+              PAPERLESS_REDIS: redis://127.0.0.1:6379
+              # Configure user permissions
+              USERMAP_UID: ${APP_UID:=1000}
+              USERMAP_GID: ${APP_GID:=1000}
+            envFrom: &envFrom
+              - secretRef:
+                  name: "${APP}-secret"
+            image:
+              repository: ghcr.io/paperless-ngx/paperless-ngx
+              tag: 2.17.1@sha256:ab72a0ab42a792228cdbe83342b99a48acd49f7890ae54b1ae8e04401fba24ee
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
+          broker:
+            image:
+              repository: ghcr.io/valkey-io/valkey
+              tag: 8.1.2@sha256:fec42f399876eb6faf9e008570597741c87ff7662a54185593e74b09ce83d177
+            ports:
+              - containerPort: 6379
+          gotenberg:
+            command:
+              - "gotenberg"
+              - "--chromium-disable-javascript=true"
+              - "--chromium-allow-list=file:///tmp/.*"
+            image:
+              repository: docker.io/gotenberg/gotenberg
+              tag: 8.21.1@sha256:91486863744f7420ca985ee6cef7c216910e40faffd378f3da7c0fad724d01ba
+            ports:
+              - containerPort: 3000
+          tika:
+            image:
+              repository: ghcr.io/paperless-ngx/tika
+              tag: 2.9.1-full@sha256:d59c38244949a418ef16be676eeea770e1616b45986661847d373f4de048a37e
+            ports:
+              - containerPort: 9998
+        initContainers:
+          init-db:
+            envFrom: *envFrom
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 16
+    defaultPodOptions:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
+      securityContext:
+        fsGroup: ${APP_GID:=1000}
+        fsGroupChangePolicy: OnRootMismatch
+        runAsGroup: ${APP_GID:=1000}
+        runAsNonRoot: false
+        runAsUser: ${APP_UID:=1000}
+    ingress:
+      app:
+        className: internal
+        enabled: true
+        hosts:
+          - host: "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
+    persistence:
+      data:
+        enabled: true
+        existingClaim: "${VOLSYNC_PVC:=${APP}}"
+        advancedMounts:
+          paperless:
+            app:
+              - path: /data/local
+      nas-export:
+        advancedMounts:
+          paperless:
+            app:
+              - path: /data/nas/export
+                subPath: paperless/export
+        enabled: true
+        path: "/volume1/shared"
+        server: "${NAS_ADDRESS}"
+        type: nfs
+      nas-consume:
+        advancedMounts:
+          paperless:
+            app:
+              - path: /data/nas/consume
+                subPath: paperless/inbox
+        enabled: true
+        path: "/volume1/shared"
+        server: "${NAS_ADDRESS}"
+        type: nfs
+    service:
+      app:
+        controller: "${APP}"
+        ports:
+          http:
+            port: *port
