@@ -111,7 +111,7 @@ spec:
               tag: 2.9.1-full@sha256:d59c38244949a418ef16be676eeea770e1616b45986661847d373f4de048a37e
             resources:
               limits:
-                memory: 256Mi
+                memory: 512Mi
               requests:
                 cpu: 10m
                 memory: 128Mi
