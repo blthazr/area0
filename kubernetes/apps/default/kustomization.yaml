@@ -16,6 +16,7 @@ resources:
   - ./mealie/ks.yaml
   - ./minecraft/ks.yaml
   - ./overseerr/ks.yaml
+  - ./paperless/ks.yaml
   - ./pinchflat/ks.yaml
   - ./plex/ks.yaml
   - ./prowlarr/ks.yaml
