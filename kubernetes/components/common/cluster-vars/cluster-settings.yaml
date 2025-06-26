@@ -32,4 +32,5 @@ data:
   NAS_ADDRESS: 172.16.70.100
 
   # nfs
-  NAS_NFS_PATH: /volume1/data
+  NFS_DATA_PATH: /volume1/data
+  NFS_SHARED_PATH: /volume1/shared

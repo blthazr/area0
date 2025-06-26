@@ -99,7 +99,7 @@ spec:
               - path: /downloads
                 subPath: media/download/pinchflat
         enabled: true
-        path: "${NAS_NFS_PATH}"
+        path: "${NFS_DATA_PATH}"
         server: "${NAS_ADDRESS}"
         type: nfs
       tmpfs:
