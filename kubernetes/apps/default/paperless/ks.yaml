@@ -21,7 +21,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_PVC: paperless-data
+      VOLSYNC_PVC: paperless-config
       VOLSYNC_CAPACITY: 15Gi
   prune: true
   retryInterval: 2m

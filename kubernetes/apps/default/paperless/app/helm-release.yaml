@@ -23,6 +23,10 @@ spec:
           reloader.stakater.com/auto: "true"
         containers:
           app:
+            dependsOn:
+              - gotenberg
+              - redis
+              - tika
             env:
               # Configure application
               PAPERLESS_PORT: &port 8000
@@ -32,7 +36,8 @@ spec:
               PAPERLESS_WEBSERVER_WORKERS: "2"
               # Configure folders
               PAPERLESS_CONSUMPTION_DIR: /data/nas/consume
-              PAPERLESS_DATA_DIR: /data/local/data
+              PAPERLESS_DATA_DIR: /data/data
+              PAPERLESS_EMPTY_TRASH_DIR: /data/trash
               PAPERLESS_EXPORT_DIR: /data/nas/export
               PAPERLESS_MEDIA_ROOT: /data/nas/media
               # Configure folder importer
@@ -40,16 +45,17 @@ spec:
               PAPERLESS_CONSUMER_RECURSIVE: "true"
               PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS: "true"
               # Configure OCR
-              PAPERLESS_OCR_USER_ARGS: '{"invalidate_digital_signatures": true}' # Allows importing and OCR:ing of signed PDFs (originals still kept with their signatures)
+              PAPERLESS_OCR_USER_ARGS: '{"invalidate_digital_signatures": true}'
+              PAPERLESS_OCR_LANGUAGE: eng
               # Configure TIKA
               PAPERLESS_TIKA_ENABLED: true
-              PAPERLESS_TIKA_ENDPOINT: http://127.0.0.1:9998
-              PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://127.0.0.1:3000
+              PAPERLESS_TIKA_ENDPOINT: http://localhost:9998
+              PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://localhost:3000
               # Configure redis integration
-              PAPERLESS_REDIS: redis://127.0.0.1:6379
+              PAPERLESS_REDIS: redis://localhost:6379
               # Configure user permissions
-              USERMAP_UID: ${APP_UID:=1000}
               USERMAP_GID: ${APP_GID:=1000}
+              USERMAP_UID: ${APP_UID:=1000}
             envFrom: &envFrom
               - secretRef:
                   name: "${APP}-secret"
@@ -57,15 +63,29 @@ spec:
               repository: ghcr.io/paperless-ngx/paperless-ngx
               tag: 2.17.1@sha256:ab72a0ab42a792228cdbe83342b99a48acd49f7890ae54b1ae8e04401fba24ee
             probes:
-              liveness:
-                enabled: true
-              readiness:
-                enabled: true
-              startup:
+              liveness: &probes
+                custom: true
                 enabled: true
                 spec:
-                  failureThreshold: 30
-                  periodSeconds: 5
+                  failureThreshold: 3
+                  httpGet:
+                    path: /
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 30
+                  timeoutSeconds: 2
+              readiness: *probes
+              startup:
+                custom: true
+                enabled: true
+                spec:
+                  failureThreshold: 10
+                  httpGet:
+                    path: /
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 12
+                  timeoutSeconds: 1
             resources:
               limits:
                 memory: 4Gi
@@ -80,6 +100,15 @@ spec:
             image:
               repository: docker.io/gotenberg/gotenberg
               tag: 8.21.1@sha256:91486863744f7420ca985ee6cef7c216910e40faffd378f3da7c0fad724d01ba
+            ports:
+              - containerPort: 3000
+            resources:
+              limits:
+                cpu: 100m
+                memory: 128Mi
+              requests:
+                cpu: 10m
+                memory: 64Mi
             securityContext:
               allowPrivilegeEscalation: false
               capabilities:
@@ -88,17 +117,12 @@ spec:
               runAsGroup: ${APP_GID:=1000}
               runAsNonRoot: true
               runAsUser: ${APP_UID:=1000}
-            resources:
-              limits:
-                cpu: 100m
-                memory: 128Mi
-              requests:
-                cpu: 10m
-                memory: 64Mi
           redis:
             image:
               repository: ghcr.io/valkey-io/valkey
               tag: 8.1.2@sha256:fec42f399876eb6faf9e008570597741c87ff7662a54185593e74b09ce83d177
+            ports:
+              - containerPort: 6379
             resources:
               limits:
                 memory: 128Mi
@@ -109,6 +133,8 @@ spec:
             image:
               repository: ghcr.io/paperless-ngx/tika
               tag: 2.9.1-full@sha256:d59c38244949a418ef16be676eeea770e1616b45986661847d373f4de048a37e
+            ports:
+              - containerPort: 9998
             resources:
               limits:
                 memory: 512Mi
@@ -139,6 +165,11 @@ spec:
                     operator: DoesNotExist
     ingress:
       app:
+        annotations:
+          nginx.ingress.kubernetes.io/server-snippet: |
+            location /admin/ {
+              deny all;
+            }
         className: internal
         enabled: true
         hosts:
@@ -149,34 +180,45 @@ spec:
                   identifier: app
                   port: http
     persistence:
-      data:
-        enabled: true
-        existingClaim: "${VOLSYNC_PVC:=${APP}}"
+      config:
         advancedMounts:
           paperless:
             app:
-              - path: /data/local
+              - path: /data/data
+                subPath: paperless
+              - path: /data/trash
+                subPath: trash
+            redis:
+              - path: /data
+                subPath: redis
+        enabled: true
+        existingClaim: "${VOLSYNC_PVC:=${APP}}"
       nas:
         advancedMounts:
           paperless:
             app:
               - path: /data/nas/consume
-                subPath: import
+                subPath: paperless/import
               - path: /data/nas/export
-                subPath: export
+                subPath: paperless/export
               - path: /data/nas/media
-                subPath: media
+                subPath: paperless/media
         enabled: true
-        path: "/volume1/shared/paperless"
+        path: "${NFS_SHARED_PATH}"
         server: "${NAS_ADDRESS}"
         type: nfs
       tmpfs:
+        advancedMounts:
+          paperless:
+            app:
+              - path: /data/data/log
+                subPath: log
+              - path: /run
+                subPath: run
+        enabled: true
         globalMounts:
-          - path: /run
-            subPath: run
           - path: /tmp
             subPath: tmp
-        enabled: true
         type: emptyDir
     service:
       app:
