@@ -18,36 +18,11 @@ spec:
       retries: 3
   values:
     controllers:
-      gotenberg:
-        containers:
-          gotenberg:
-            command:
-              - "gotenberg"
-              - "--chromium-disable-javascript=true"
-              - "--chromium-allow-list=file:///tmp/.*"
-            image:
-              repository: docker.io/gotenberg/gotenberg
-              tag: 8.21.1@sha256:91486863744f7420ca985ee6cef7c216910e40faffd378f3da7c0fad724d01ba
-            securityContext:
-              allowPrivilegeEscalation: false
-              capabilities:
-                drop: ["ALL"]
-              readOnlyRootFilesystem: true
-              runAsGroup: ${APP_GID:=1000}
-              runAsNonRoot: true
-              runAsUser: ${APP_UID:=1000}
-            resources:
-              limits:
-                cpu: 100m
-                memory: 128Mi
-              requests:
-                cpu: 10m
-                memory: 64Mi
       paperless:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          paperless:
+          app:
             env:
               # Configure application
               PAPERLESS_PORT: &port 8000
@@ -68,10 +43,10 @@ spec:
               PAPERLESS_OCR_USER_ARGS: '{"invalidate_digital_signatures": true}' # Allows importing and OCR:ing of signed PDFs (originals still kept with their signatures)
               # Configure TIKA
               PAPERLESS_TIKA_ENABLED: true
-              PAPERLESS_TIKA_ENDPOINT: http://paperless-tika.default.svc.cluster.local:9998
-              PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://paperless-gotenberg.default.svc.cluster.local:3000
+              PAPERLESS_TIKA_ENDPOINT: http://127.0.0.1:9998
+              PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://127.0.0.1:3000
               # Configure redis integration
-              PAPERLESS_REDIS: redis://paperless-redis.default.svc.cluster.local:6379
+              PAPERLESS_REDIS: redis://127.0.0.1:6379
               # Configure user permissions
               USERMAP_UID: ${APP_UID:=1000}
               USERMAP_GID: ${APP_GID:=1000}
@@ -97,14 +72,29 @@ spec:
               requests:
                 cpu: 25m
                 memory: 256Mi
-        initContainers:
-          init-db:
-            envFrom: *envFrom
+          gotenberg:
+            command:
+              - "gotenberg"
+              - "--chromium-disable-javascript=true"
+              - "--chromium-allow-list=file:///tmp/.*"
             image:
-              repository: ghcr.io/onedr0p/postgres-init
-              tag: 16
-      redis:
-        containers:
+              repository: docker.io/gotenberg/gotenberg
+              tag: 8.21.1@sha256:91486863744f7420ca985ee6cef7c216910e40faffd378f3da7c0fad724d01ba
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop: ["ALL"]
+              readOnlyRootFilesystem: true
+              runAsGroup: ${APP_GID:=1000}
+              runAsNonRoot: true
+              runAsUser: ${APP_UID:=1000}
+            resources:
+              limits:
+                cpu: 100m
+                memory: 128Mi
+              requests:
+                cpu: 10m
+                memory: 64Mi
           redis:
             image:
               repository: ghcr.io/valkey-io/valkey
@@ -115,8 +105,6 @@ spec:
               requests:
                 cpu: 5m
                 memory: 32Mi
-      tika:
-        containers:
           tika:
             image:
               repository: ghcr.io/paperless-ngx/tika
@@ -131,10 +119,16 @@ spec:
               allowPrivilegeEscalation: false
               capabilities:
                 drop: ["ALL"]
-              readOnlyRootFilesystem: true
+              readOnlyRootFilesystem: false
               runAsGroup: ${APP_GID:=1000}
               runAsNonRoot: true
               runAsUser: ${APP_UID:=1000}
+        initContainers:
+          init-db:
+            envFrom: *envFrom
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 16
     defaultPodOptions:
       affinity:
         nodeAffinity:
@@ -190,18 +184,3 @@ spec:
         ports:
           http:
             port: *port
-      gotenberg:
-        controller: gotenberg
-        ports:
-          http:
-            port: 3000
-      redis:
-        controller: redis
-        ports:
-          http:
-            port: 6379
-      tika:
-        controller: tika
-        ports:
-          http:
-            port: 9998
