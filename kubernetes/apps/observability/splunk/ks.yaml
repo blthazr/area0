@@ -50,6 +50,7 @@ spec:
       APP: *app
       VOLSYNC_PVC: pvc-etc-splunk-splunk-instance-standalone-0
       VOLSYNC_CAPACITY: 10Gi
+      VOLSYNC_CACHE_CAPACITY: 4Gi
       VOLSYNC_SCHEDULE: "0 0 * * *"
   prune: true
   retryInterval: 2m
