@@ -1,0 +1,102 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: obsidian-couchdb
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+  install:
+    remediation:
+      retries: -1
+  interval: 1h
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    controllers:
+      obsidian-couchdb:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            envFrom:
+              - secretRef:
+                  name: "${APP}-secret"
+            image:
+              repository: public.ecr.aws/docker/library/couchdb
+              tag: 3.5.0
+            resources:
+              limits:
+                memory: 1Gi
+              requests:
+                cpu: 10m
+                memory: 128Mi
+        initContainers:
+          init-config:
+            command:
+              - "/bin/sh"
+              - "-c"
+              - "cp /tmp/config/*.ini /opt/couchdb/etc/default.d/; ls -lrt /opt/couchdb/etc/default.d;"
+            image:
+              pullPolicy: IfNotPresent
+              repository: public.ecr.aws/docker/library/busybox
+              tag: latest@sha256:650fd573e056b679a5110a70aabeb01e26b76e545ec4b9c70a9523f2dfaf18c6
+        pod:
+          securityContext:
+            fsGroup: ${APP_GID:=1000}
+            runAsUser: ${APP_UID:=1000}
+            runAsGroup: ${APP_GID:=1000}
+            fsGroupChangePolicy: OnRootMismatch
+        type: statefulset
+    defaultPodOptions:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
+    ingress:
+      app:
+        annotations:
+          external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
+        className: external
+        enabled: true
+        hosts:
+          - host: "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
+    persistence:
+      config-file:
+        enabled: true
+        advancedMounts:
+          obsidian-couchdb:
+            init-config:
+              - path: /tmp/config
+        name: obsidian-couchdb-configmap
+        type: configMap
+      data:
+        enabled: true
+        existingClaim: "${VOLSYNC_PVC:=${APP}}"
+        advancedMounts:
+          obsidian-couchdb:
+            app:
+              - path: /opt/couchdb/data
+      config-storage:
+        enabled: true
+        globalMounts:
+          - path: /opt/couchdb/etc/default.d
+        type: emptyDir
+    service:
+      app:
+        controller: "${APP}"
+        ports:
+          http:
+            port: 5984
