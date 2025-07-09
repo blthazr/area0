@@ -15,6 +15,7 @@ resources:
   - ./bazarr/ks.yaml
   - ./mealie/ks.yaml
   - ./minecraft/ks.yaml
+  - ./ollama/ks.yaml
   - ./overseerr/ks.yaml
   - ./paperless/ks.yaml
   - ./pinchflat/ks.yaml
