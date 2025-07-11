@@ -27,7 +27,9 @@ spec:
               ACTUAL_SERVER_URL: http://actual.default.svc.cluster.local:5006
               CLASSIFICATION_SCHEDULE_CRON: 0 */4 * * *
               FEATURES: '["dryRun", "classifyOnStartup", "syncAccountsBeforeClassify", "freeWebSearch", "suggestNewCategories"]'
+              GUESSED_TAG: "#actual-ai"
               LLM_PROVIDER: ollama
+              NOT_GUESSED_TAG: "#actual-ai-miss"
               OLLAMA_BASE_URL: http://ollama.default.svc.cluster.local:11434/api
               OLLAMA_MODEL: phi3.5
               TZ: "${CLUSTER_TIME_ZONE}"
