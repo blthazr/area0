@@ -74,7 +74,10 @@ spec:
         type: emptyDir
     service:
       app:
+        annotations:
+          lbipam.cilium.io/ips: "${SVC_OLLAMA}"
         controller: "${APP}"
         ports:
           http:
             port: 11434
+        type: LoadBalancer
