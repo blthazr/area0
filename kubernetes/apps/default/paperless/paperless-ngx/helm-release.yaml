@@ -35,7 +35,7 @@ spec:
               PAPERLESS_URL: "https://${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
               PAPERLESS_WEBSERVER_WORKERS: "2"
               # Configure filenames
-              PAPERLESS_FILENAME_FORMAT: "{correspondent}/{document_type}/{created_year}/{created} {correspondent} {title}"
+              PAPERLESS_FILENAME_FORMAT: "{{ `{{ correspondent }}/{{ document_type }}/{{ created_year }}/{{ created }} {{ correspondent }} {{ title }}` }}"
               PAPERLESS_FILENAME_FORMAT_REMOVE_NONE: true
               # Configure folders
               PAPERLESS_CONSUMPTION_DIR: /data/nas/import
@@ -68,28 +68,13 @@ spec:
               tag: 2.17.1@sha256:ab72a0ab42a792228cdbe83342b99a48acd49f7890ae54b1ae8e04401fba24ee
             probes:
               liveness: &probes
-                custom: true
                 enabled: true
-                spec:
-                  failureThreshold: 3
-                  httpGet:
-                    path: /
-                    port: *port
-                  initialDelaySeconds: 0
-                  periodSeconds: 30
-                  timeoutSeconds: 2
               readiness: *probes
               startup:
-                custom: true
                 enabled: true
                 spec:
                   failureThreshold: 30
-                  httpGet:
-                    path: /
-                    port: *port
-                  initialDelaySeconds: 0
                   periodSeconds: 5
-                  timeoutSeconds: 1
             resources:
               limits:
                 memory: 4Gi
