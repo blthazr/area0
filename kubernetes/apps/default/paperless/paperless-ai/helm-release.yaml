@@ -47,7 +47,7 @@ spec:
               requests:
                 cpu: 10m
                 memory: 256Mi
-            securityContext: &securityContext
+            securityContext:
               allowPrivilegeEscalation: false
               capabilities:
                 drop: ["ALL"]
@@ -92,6 +92,8 @@ spec:
                 subPath: logs
               - path: /app/public/images
                 subPath: cache
+              - path: /home/node/.pm2
+                subPath: home
               - path: /tmp
                 subPath: tmp
         enabled: true
