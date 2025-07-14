@@ -34,6 +34,9 @@ spec:
               PAPERLESS_TIME_ZONE: "${CLUSTER_TIME_ZONE}"
               PAPERLESS_URL: "https://${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
               PAPERLESS_WEBSERVER_WORKERS: "2"
+              # Configure filenames
+              PAPERLESS_FILENAME_FORMAT: "{correspondent}/{document_type}/{created_year}/{created} {correspondent} {title}"
+              PAPERLESS_FILENAME_FORMAT_REMOVE_NONE: true
               # Configure folders
               PAPERLESS_CONSUMPTION_DIR: /data/nas/import
               PAPERLESS_DATA_DIR: /data/data
@@ -41,6 +44,7 @@ spec:
               PAPERLESS_EXPORT_DIR: /data/nas/export
               PAPERLESS_MEDIA_ROOT: /data/nas/media
               # Configure folder importer
+              PAPERLESS_CONSUMER_IGNORE_PATTERNS: '[".DS_STORE/*", "._*", ".stfolder/*", "@eaDir/*"]'
               PAPERLESS_CONSUMER_POLLING: 60
               PAPERLESS_CONSUMER_RECURSIVE: "true"
               PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS: "true"
