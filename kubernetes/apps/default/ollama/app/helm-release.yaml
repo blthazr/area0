@@ -43,6 +43,7 @@ spec:
         enabled: false
       models:
         pull:
+          - llama3.2:3b
           - phi3.5
     podAnnotations:
       reloader.stakater.com/auto: "true"
