@@ -207,7 +207,7 @@ spec:
         existingClaim: "${VOLSYNC_PVC:=${APP}}"
       nas-data:
         advancedMounts:
-          ollama:
+          paperless-ngx:
             app:
               - path: /data/nas/media
                 subPath: apps/paperless/media
