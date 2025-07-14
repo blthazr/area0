@@ -24,17 +24,17 @@ spec:
         containers:
           app:
             env:
-              ADD_AI_PROCESSED_TAG: yes
-              AI_PROCESSED_TAG_NAME: ai-processed
-              AI_PROVIDER: ollama
-              OLLAMA_API_URL: http://ollama.default.svc.cluster.local:11434
-              OLLAMA_MODEL: llama3.2:3b
-              PAPERLESS_API_URL: http://paperless.default.svc.cluster.local:8000/api
-              PROCESS_PREDEFINED_DOCUMENTS: yes
-              SCAN_INTERVAL: "*/30 * * * *"
-              TAGS: AI
+              # ADD_AI_PROCESSED_TAG: yes
+              # AI_PROCESSED_TAG_NAME: ai-processed
+              # AI_PROVIDER: ollama
+              # OLLAMA_API_URL: "http://${SVC_OLLAMA}:11434"
+              # OLLAMA_MODEL: llama3.2:3b
+              # PAPERLESS_API_URL: https://paperless-ngx.theburnh.am/api
+              # PROCESS_PREDEFINED_DOCUMENTS: yes
+              # SCAN_INTERVAL: "*/30 * * * *"
+              # TAGS: AI
               TZ: "${CLUSTER_TIME_ZONE}"
-              USE_PROMPT_TAGS: no
+              # USE_PROMPT_TAGS: no
             envFrom: &envFrom
               - secretRef:
                   name: "${APP}-secret"
@@ -90,10 +90,14 @@ spec:
             app:
               - path: /app/logs
                 subPath: logs
+              - path: /app/OPENAPI
+                subPath: openai
               - path: /app/public/images
                 subPath: cache
               - path: /home/node/.pm2
                 subPath: home
+              - path: /home/node/nltk_data
+                subPath: nltk_data
               - path: /tmp
                 subPath: tmp
         enabled: true
