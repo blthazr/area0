@@ -35,7 +35,7 @@ spec:
               PAPERLESS_URL: "https://${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
               PAPERLESS_WEBSERVER_WORKERS: "2"
               # Configure folders
-              PAPERLESS_CONSUMPTION_DIR: /data/nas/consume
+              PAPERLESS_CONSUMPTION_DIR: /data/nas/import
               PAPERLESS_DATA_DIR: /data/data
               PAPERLESS_EMPTY_TRASH_DIR: /data/trash
               PAPERLESS_EXPORT_DIR: /data/nas/export
@@ -45,9 +45,9 @@ spec:
               PAPERLESS_CONSUMER_RECURSIVE: "true"
               PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS: "true"
               # Configure OCR
-              PAPERLESS_OCR_USER_ARGS: '{"invalidate_digital_signatures": true}'
               PAPERLESS_OCR_LANGUAGE: eng
-              # Configure TIKA
+              PAPERLESS_OCR_USER_ARGS: '{"invalidate_digital_signatures": true}'
+              # Configure tika/gotenberg integration
               PAPERLESS_TIKA_ENABLED: true
               PAPERLESS_TIKA_ENDPOINT: http://localhost:9998
               PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://localhost:3000
@@ -79,18 +79,18 @@ spec:
                 custom: true
                 enabled: true
                 spec:
-                  failureThreshold: 10
+                  failureThreshold: 30
                   httpGet:
                     path: /
                     port: *port
                   initialDelaySeconds: 0
-                  periodSeconds: 12
+                  periodSeconds: 5
                   timeoutSeconds: 1
             resources:
               limits:
                 memory: 4Gi
               requests:
-                cpu: 25m
+                cpu: 10m
                 memory: 256Mi
           gotenberg:
             command:
@@ -100,10 +100,23 @@ spec:
             image:
               repository: docker.io/gotenberg/gotenberg
               tag: 8.21.1@sha256:91486863744f7420ca985ee6cef7c216910e40faffd378f3da7c0fad724d01ba
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  failureThreshold: 3
+                  httpGet:
+                    path: /health
+                    port: 80
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+              readiness: *probes
+              startup:
+                enabled: true
             resources:
               limits:
-                cpu: 100m
-                memory: 128Mi
+                memory: 512Mi
               requests:
                 cpu: 10m
                 memory: 64Mi
@@ -128,7 +141,12 @@ spec:
           tika:
             image:
               repository: ghcr.io/paperless-ngx/tika
-              tag: 2.9.1-full@sha256:d59c38244949a418ef16be676eeea770e1616b45986661847d373f4de048a37e
+              tag: 2.9.1-minimal@sha256:20db3df89eaeb1b271dd840888fe909b88b12f4b86ef641ec07a1d45d4c5168f
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
             resources:
               limits:
                 memory: 512Mi
@@ -139,7 +157,7 @@ spec:
               allowPrivilegeEscalation: false
               capabilities:
                 drop: ["ALL"]
-              readOnlyRootFilesystem: false
+              readOnlyRootFilesystem: true
               runAsGroup: ${APP_GID:=1000}
               runAsNonRoot: true
               runAsUser: ${APP_UID:=1000}
@@ -187,16 +205,24 @@ spec:
                 subPath: redis
         enabled: true
         existingClaim: "${VOLSYNC_PVC:=${APP}}"
-      nas:
+      nas-data:
+        advancedMounts:
+          ollama:
+            app:
+              - path: /data/nas/media
+                subPath: apps/paperless/media
+        enabled: true
+        path: "${NFS_DATA_PATH}"
+        server: "${NAS_ADDRESS}"
+        type: nfs
+      nas-shared:
         advancedMounts:
           paperless-ngx:
             app:
-              - path: /data/nas/consume
-                subPath: paperless/import
               - path: /data/nas/export
-                subPath: paperless/export
-              - path: /data/nas/media
-                subPath: paperless/media
+                subPath: export/paperless
+              - path: /data/nas/import
+                subPath: import/paperless
         enabled: true
         path: "${NFS_SHARED_PATH}"
         server: "${NAS_ADDRESS}"
