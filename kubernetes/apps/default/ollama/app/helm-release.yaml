@@ -1,18 +1,13 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: ollama
 spec:
-  chart:
-    spec:
-      chart: ollama
-      sourceRef:
-        kind: HelmRepository
-        name: ollama
-        namespace: default
-      version: 1.24.0
+  chartRef:
+    kind: OCIRepository
+    name: app-template
   install:
     remediation:
       retries: -1
@@ -22,52 +17,67 @@ spec:
     remediation:
       retries: 3
   values:
-    extraEnv:
-      - name: OLLAMA_MODELS
-        value: /models
-      - name: OLLAMA_ORIGINS
-        value: "*"
-    image:
-      repository: docker.io/ollama/ollama
-      tag: 0.9.6@sha256:f478761c18fea69b1624e095bce0f8aab06825d09ccabcd0f88828db0df185ce
+    controllers:
+      ollama:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            env:
+              OLLAMA_HOST: 0.0.0.0
+              OLLAMA_MODELS: /models
+              OLLAMA_ORIGINS: "*"
+              TZ: "${CLUSTER_TIME_ZONE}"
+            image:
+              repository: docker.io/ollama/ollama
+              tag: 0.9.6@sha256:f478761c18fea69b1624e095bce0f8aab06825d09ccabcd0f88828db0df185ce
+            resources:
+              limits:
+                memory: 16Gi
+              requests:
+                cpu: 200m
+                memory: 2Gi
     ingress:
-      className: internal
-      enabled: true
-      hosts:
-        - host: "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
-          paths:
-            - path: /
-              pathType: Prefix
-    ollama:
-      gpu:
-        enabled: false
+      app:
+        className: internal
+        enabled: true
+        hosts:
+          - host: "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
+    persistence:
+      config:
+        enabled: true
+        existingClaim: "${VOLSYNC_PVC:=${APP}}"
+        globalMounts:
+          - path: /root/.ollama
       models:
-        pull:
-          - llama3.2:3b
-          - phi3.5
-    podAnnotations:
-      reloader.stakater.com/auto: "true"
-    replicaCount: "${REPLICAS}"
-    resources:
-      limits:
-        memory: 8Gi
-      requests:
-        cpu: 200m
-        memory: 2Gi
+        advancedMounts:
+          ollama:
+            app:
+              - path: /models
+                subPath: apps/ollama/models
+        enabled: true
+        path: "${NFS_DATA_PATH}"
+        server: "${NAS_ADDRESS}"
+        type: nfs
+      tmpfs:
+        advancedMounts:
+          ollama:
+            app:
+              - path: /tmp
+                subPath: tmp
+        enabled: true
+        type: emptyDir
     service:
-      annotations:
-        lbipam.cilium.io/ips: "${SVC_OLLAMA}"
-      port: 11434
-      type: LoadBalancer
-    persistentVolume:
-      enabled: true
-      existingClaim: "${VOLSYNC_PVC:=${APP}}"
-    volumeMounts:
-      - name: models
-        mountPath: /models
-        subPath: apps/ollama/models
-    volumes:
-      - name: models
-        nfs:
-          server: "${NAS_ADDRESS}"
-          path: "${NFS_DATA_PATH}"
+      app:
+        annotations:
+          lbipam.cilium.io/ips: "${SVC_OLLAMA}"
+        controller: "${APP}"
+        ports:
+          http:
+            port: 11434
+        type: LoadBalancer
