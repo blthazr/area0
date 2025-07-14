@@ -47,7 +47,7 @@ spec:
     - ../../../../components/volsync
   dependsOn:
     - name: paperless-ngx
-      namespace: rook-ceph
+      namespace: default
     - name: rook-ceph-cluster
       namespace: rook-ceph
     - name: volsync
