@@ -38,6 +38,21 @@ spec:
                     operator: In
                     values:
                       - k8s-5
+      appRepo:
+        appsRepoPollIntervalSeconds: 600
+        defaults:
+          scope: local
+          volumeName: volume_app_repo
+        appSources:
+          - name: splunkbase-apps
+            location: splunkbase-apps/
+        volumes:
+          - name: volume_app_repo
+            endpoint: "http://${MINIO_ADDRESS}:9000"
+            path: splunk-apps/s1/
+            provider: minio
+            secretRef: splunk-app-repo-secret
+            storageType: s3
       defaultsUrl: /mnt/defaults/default.yml
       enabled: true
       etcVolumeStorageConfig:
