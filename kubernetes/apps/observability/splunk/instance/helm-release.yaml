@@ -86,7 +86,9 @@ spec:
           - name: volume_smartstore
             endpoint: "http://${MINIO_ADDRESS}:9000"
             path: splunk-s2/
+            provider: minio
             secretRef: splunk-s2-secret
+            storageType: s3
       varVolumeStorageConfig:
         ephemeralStorage: false
         storageCapacity: 20Gi
