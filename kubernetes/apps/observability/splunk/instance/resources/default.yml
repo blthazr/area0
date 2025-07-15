@@ -6,13 +6,19 @@ splunk:
       value:
         content:
           general:
-            deprecatedConfig: false
-            onCloudInstance: false
             precheckSendAnonymizedUsage: false
             precheckSendLicenseUsage: false
+            precheckSendSupportUsage: false
             sendAnonymizedUsage: false
             sendAnonymizedWebAnalytics: false
-            sendSupportUsage: false
+            sendLicenseUsage: false
+            showOptInModal: false
         directory: /opt/splunk/etc/apps/splunk_instrumentation/local
+    - key: user-prefs
+      value:
+        content:
+          general:
+            tz: "${CLUSTER_TIME_ZONE}"
+        directory: /opt/splunk/etc/system/local
   disable_popups: true
   ignore_license: true
