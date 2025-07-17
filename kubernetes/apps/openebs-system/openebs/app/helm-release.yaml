@@ -19,6 +19,8 @@ spec:
     remediation:
       retries: 3
   values:
+    alloy:
+      enabled: false
     engines:
       local:
         lvm:
@@ -41,9 +43,13 @@ spec:
         basePath: *hostPath
         image:
           registry: quay.io/
+    loki:
+      enabled: false
     lvm-localpv:
       enabled: false
     mayastor:
+      enabled: false
+    minio:
       enabled: false
     openebs-crds:
       csi:
