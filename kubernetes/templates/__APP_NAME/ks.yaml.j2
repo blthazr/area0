@@ -21,7 +21,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      # HOSTNAME: "${APP}.${SECRET_DOMAIN}"         # optional | default
+      # HOSTNAME: "${APP}"                          # optional | default
       # APP_PVC: "${APP}"                           # optional | default
       # APP_PVC_CAPACITY: 5Gi                       # optional | default
       # VOLSYNC_PVC: "${APP}"                       # optional | default
