@@ -40,8 +40,8 @@ spec:
     enablePodMonitor: true
   postgresql:
     parameters:
-      max_connections: "200"
-      shared_buffers: 256MB
+      max_connections: "250"
+      shared_buffers: 128MB
   primaryUpdateStrategy: unsupervised
   resources:
     limits:
