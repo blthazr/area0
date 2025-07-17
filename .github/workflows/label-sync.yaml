@@ -10,12 +10,12 @@ on:
     - cron: "0 0 * * *" # daily at midnight
   workflow_dispatch:
 
-permissions:
-  issues: write
-
 jobs:
   main:
     name: Label Sync
+    permissions:
+      contents: read
+      issues: write
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
