@@ -42,7 +42,7 @@ spec:
     - name: splunk-operator
       namespace: *namespace
     - name: volsync
-      namespace: volsync-system
+      namespace: storage
   interval: 1h
   path: ./kubernetes/apps/observability/splunk/instance
   postBuild:

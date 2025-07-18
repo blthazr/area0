@@ -46,7 +46,7 @@ tasks:
   state-*:
     desc: Suspend or resume Volsync
     vars:
-      NS: '{{.NS | default "volsync-system"}}'
+      NS: '{{.NS | default "storage"}}'
       STATE: '{{index .MATCH 0}}'
     cmds:
       - flux --namespace {{.NS}} {{.STATE}} kustomization volsync
