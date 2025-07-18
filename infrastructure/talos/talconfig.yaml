@@ -4,7 +4,7 @@
 clusterName: ${CLUSTER_NAME}
 
 # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
-talosVersion: v1.10.3
+talosVersion: v1.10.5
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
 kubernetesVersion: v1.33.1
 
@@ -82,6 +82,7 @@ nodes:
           officialExtensions:
             - siderolabs/intel-ucode
             - siderolabs/zfs
+            - siderolabs/i915
     patches:
       # Mount zfs-hostpath in kubelet
       - |-
@@ -95,6 +96,13 @@ nodes:
                   - rw
                 source: /var/mnt/media
                 type: bind
+
+      # Increase pod limit
+      - |-
+        machine:
+          kubelet:
+            extraConfig:
+              maxPods: 150
 
 # Global patches
 patches:
