@@ -24,6 +24,8 @@ spec:
         kind: Secret
       - name: cluster-secrets
         kind: Secret
+      - name: cluster-settings
+        kind: ConfigMap
   prune: true
   retryInterval: 2m
   sourceRef:
