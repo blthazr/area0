@@ -10,7 +10,7 @@ fullnameOverride: coredns
 image:
   repository: mirror.gcr.io/coredns/coredns
 k8sAppLabelOverride: kube-dns
-replicaCount: 1
+replicaCount: 2
 servers:
   - zones:
       - zone: .
@@ -29,21 +29,25 @@ servers:
         name: log
         configBlock: |-
           class error
-      - # Serves a /metrics endpoint on :9153, required for serviceMonitor
+      - # serves a /metrics endpoint on :9153, required for serviceMonitor
         name: prometheus
         parameters: 0.0.0.0:9153
-      - #
+      - # enables reading zone data from a Kubernetes cluster
         name: kubernetes
         configBlock: |-
           pods insecure
           fallthrough in-addr.arpa ip6.arpa
         parameters: cluster.local in-addr.arpa ip6.arpa
-      - #
+      - # allows for server-side search path completion
+        name: autopath
+        parameters: "@kubernetes"
+      - # facilitates proxying DNS messages to upstream resolvers
         name: forward
         parameters: . /etc/resolv.conf
       - # enables a frontend cache
         name: cache
-        parameters: 30
+          prefetch 20
+          serve_stale
       - # detects simple forwarding loops and halts the server
         name: loop
       - # allows automatic reload of a changed Corefile

@@ -24,6 +24,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      REPLICAS: "1"
   prune: true
   retryInterval: 2m
   sourceRef:
