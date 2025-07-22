@@ -36,9 +36,16 @@ spec:
               tag: v3.0.1@sha256:4d7542becc4f5a2a87c13f1073c974430006f56207278ade541bd93450b8fb5f
             probes:
               liveness: &probes
+                custom: true
                 enabled: true
-                path: /api/app/about
-                type: HTTP
+                spec:
+                  failureThreshold: 3
+                  httpGet:
+                    path: /api/app/about
+                    port: &port 9000
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
               readiness: *probes
             resources:
               limits:
@@ -66,19 +73,6 @@ spec:
         runAsGroup: ${APP_GID:=1000}
         runAsNonRoot: true
         runAsUser: ${APP_UID:=1000}
-    ingress:
-      app:
-        annotations:
-          external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
-        className: external
-        enabled: true
-        hosts:
-          - host: "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
     persistence:
       api-data:
         enabled: true
@@ -95,6 +89,17 @@ spec:
                 subPath: tmp
         enabled: true
         type: emptyDir
+    route:
+      app:
+        hostnames: ["${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"]
+        parentRefs:
+          - name: external
+            namespace: kube-system
+            sectionName: https
+        rules:
+          - backendRefs:
+              - identifier: "${APP}"
+                port: *port
     service:
       app:
         controller: "${APP}"

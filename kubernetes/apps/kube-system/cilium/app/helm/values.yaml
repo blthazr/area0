@@ -13,7 +13,6 @@ endpointRoutes:
 envoy:
   enabled: false
 gatewayAPI:
-  enableAlpn: true
   enabled: true
 hubble:
   enabled: false

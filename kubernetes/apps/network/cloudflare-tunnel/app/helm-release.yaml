@@ -85,7 +85,5 @@ spec:
             port: *port
     serviceMonitor:
       app:
-        enabled: true
         endpoints:
           - port: http
-        serviceName: "${APP}"

@@ -145,22 +145,6 @@ spec:
               - matchExpressions:
                   - key: node-role.kubernetes.io/control-plane
                     operator: DoesNotExist
-    ingress:
-      app:
-        annotations:
-          nginx.ingress.kubernetes.io/server-snippet: |
-            location /admin/ {
-              deny all;
-            }
-        className: internal
-        enabled: true
-        hosts:
-          - host: "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
     persistence:
       config:
         advancedMounts:
@@ -210,6 +194,13 @@ spec:
           - path: /tmp
             subPath: tmp
         type: emptyDir
+    route:
+      app:
+        hostnames: ["${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"]
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
     service:
       app:
         controller: "${APP}"

@@ -45,17 +45,6 @@ spec:
               - matchExpressions:
                   - key: node-role.kubernetes.io/control-plane
                     operator: DoesNotExist
-    ingress:
-      app:
-        className: internal
-        enabled: true
-        hosts:
-          - host: "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
     persistence:
       config:
         enabled: true
@@ -80,6 +69,13 @@ spec:
                 subPath: tmp
         enabled: true
         type: emptyDir
+    route:
+      app:
+        hostnames: ["${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"]
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
     service:
       app:
         annotations:

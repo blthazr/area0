@@ -36,11 +36,7 @@ spec:
       repository: cribl/cribl
       tag: 4.13.0@sha256:d887c2c1ec53b051aadadc7da8bbccf2dfed09484a994028b8fa102e6d8eea6f
     ingress:
-      enable: true
-      host: "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
-      ingressClassName: internal
-      pathType: Prefix
-      prefix: /
+      enable: false
     persistence:
       claimName: ${VOLSYNC_PVC}
       enabled: true

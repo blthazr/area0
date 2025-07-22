@@ -4,7 +4,7 @@ originRequest:
 
 ingress:
   - hostname: "${SECRET_DOMAIN}"
-    service: &svc https://external-ingress-nginx-controller.network.svc.cluster.local:443
+    service: &service https://cilium-gateway-external.kube-system.svc.cluster.local
   - hostname: "*.${SECRET_DOMAIN}"
-    service: *svc
+    service: *service
   - service: http_status:404

@@ -21,6 +21,11 @@ spec:
       annotations:
         grafana_folder: Cilium
       enabled: true
+    envoy:
+      prometheus:
+        serviceMonitor:
+          enabled: true
+      rollOutPods: true
     hubble:
       enabled: true
       metrics:

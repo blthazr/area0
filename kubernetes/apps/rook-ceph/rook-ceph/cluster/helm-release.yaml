@@ -128,12 +128,6 @@ spec:
         useAllNodes: false
     cephFileSystems: []
     cephObjectStores: []
-    ingress:
-      dashboard:
-        host:
-          name: "${HOSTNAME}.${SECRET_DOMAIN}"
-          path: /
-        ingressClassName: internal
     monitoring:
       createPrometheusRules: true
       enabled: true
