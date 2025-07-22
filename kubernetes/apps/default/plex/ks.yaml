@@ -11,6 +11,10 @@ spec:
       app.kubernetes.io/name: *app
   components:
     - ../../../../components/volsync
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
   dependsOn:
     - name: intel-device-plugin-gpu
       namespace: kube-system
@@ -28,6 +32,9 @@ spec:
       VOLSYNC_PVC: plex-config
       VOLSYNC_CAPACITY: 50Gi
       VOLSYNC_CACHE_CAPACITY: 25Gi
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
   prune: true
   retryInterval: 2m
   sourceRef:

@@ -11,6 +11,10 @@ spec:
       app.kubernetes.io/name: *app
   components:
     - ../../../../components/volsync
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
   dependsOn:
     - name: rook-ceph-cluster
       namespace: rook-ceph
@@ -23,6 +27,9 @@ spec:
       APP: *app
       HOSTNAME: budget
       VOLSYNC_PVC: actual-data
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
   prune: true
   retryInterval: 2m
   sourceRef:
@@ -43,6 +50,10 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
   dependsOn:
     - name: actual
       namespace: default
@@ -53,6 +64,9 @@ spec:
   postBuild:
     substitute:
       APP: *app
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
   prune: true
   retryInterval: 2m
   sourceRef:

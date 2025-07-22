@@ -11,6 +11,10 @@ spec:
       app.kubernetes.io/name: *app
   # components:
   #   - ../../../../components/volsync
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
   # dependsOn:
   #   - name: rook-ceph-cluster
   #     namespace: rook-ceph
@@ -44,6 +48,9 @@ spec:
       # VOLSYNC_SNAPSHOTCLASS: csi-ceph-blockpool   # optional | default
       # VOLSYNC_STORAGECLASS: ceph-block            # optional | default
       # VOLSYNC_UID: "1000"                         # optional | default
+    substituteFrom:
+      - kind: Secret
+        name: cluster-secrets
   prune: true
   retryInterval: 2m
   sourceRef:

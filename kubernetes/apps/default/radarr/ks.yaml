@@ -9,6 +9,10 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
   dependsOn:
     - name: cloudnative-pg-cluster
       namespace: database
@@ -21,6 +25,9 @@ spec:
       APP: *app
       APP_PVC: radarr-cache
       APP_PVC_CAPACITY: 15Gi
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
   prune: true
   retryInterval: 2m
   sourceRef:
@@ -41,6 +48,10 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
   dependsOn:
     - name: cloudnative-pg-cluster
       namespace: database
@@ -53,6 +64,9 @@ spec:
       APP: *app
       APP_PVC: radarr-uhd-cache
       APP_PVC_CAPACITY: 15Gi
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
   prune: true
   retryInterval: 2m
   sourceRef:

@@ -11,6 +11,10 @@ spec:
       app.kubernetes.io/name: *app
   components:
     - ../../../../components/volsync
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
   dependsOn:
     - name: rook-ceph-cluster
       namespace: rook-ceph
@@ -26,6 +30,9 @@ spec:
       VOLSYNC_CAPACITY: 20Gi
       VOLSYNC_PVC: leader-config-claim
       VOLSYNC_SCHEDULE: "0 0 * * *"
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
   prune: true
   retryInterval: 2m
   sourceRef:
@@ -46,6 +53,10 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
   dependsOn:
     - name: cribl-leader
       namespace: observability
@@ -54,6 +65,9 @@ spec:
   postBuild:
     substitute:
       APP: *app
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
   prune: true
   retryInterval: 2m
   sourceRef:

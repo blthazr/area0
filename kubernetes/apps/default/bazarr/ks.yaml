@@ -11,6 +11,10 @@ spec:
       app.kubernetes.io/name: *app
   components:
     - ../../../../components/volsync
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
   dependsOn:
     - name: cloudnative-pg-cluster
       namespace: database
@@ -24,6 +28,9 @@ spec:
     substitute:
       APP: *app
       VOLSYNC_PVC: bazarr-config
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
   prune: true
   retryInterval: 2m
   sourceRef:

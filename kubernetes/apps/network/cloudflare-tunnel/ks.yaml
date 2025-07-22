@@ -9,6 +9,10 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
   interval: 1h
   path: ./kubernetes/apps/network/cloudflare-tunnel/app
   postBuild:
@@ -16,8 +20,10 @@ spec:
       APP: *app
       REPLICAS: "2"
     substituteFrom:
-      - kind: Secret
-        name: cloudflare-tunnel-id-secret
+      - name: cloudflare-tunnel-id-secret
+        kind: Secret
+      - name: cluster-secrets
+        kind: Secret
   prune: true
   retryInterval: 2m
   sourceRef:

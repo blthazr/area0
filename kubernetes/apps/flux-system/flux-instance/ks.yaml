@@ -9,14 +9,22 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
   dependsOn:
     - name: flux-operator
       namespace: *namespace
   interval: 1h
   path: ./kubernetes/apps/flux-system/flux-instance/app
-  # postBuild:
-  #   substitute:
-  #     APP: *app
+  postBuild:
+    substitute:
+      APP: *app
+      HOSTNAME: flux-webhook
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
   prune: true
   retryInterval: 2m
   sourceRef:

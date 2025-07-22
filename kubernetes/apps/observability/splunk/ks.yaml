@@ -9,11 +9,21 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
   dependsOn:
     - name: openebs
       namespace: openebs-system
   interval: 1h
   path: ./kubernetes/apps/observability/splunk/operator
+  postBuild:
+    substitute:
+      APP: *app
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
   prune: true
   retryInterval: 2m
   sourceRef:
@@ -36,6 +46,10 @@ spec:
       app.kubernetes.io/name: *app
   components:
     - ../../../../components/volsync
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
   dependsOn:
     - name: rook-ceph-cluster
       namespace: rook-ceph
@@ -52,6 +66,9 @@ spec:
       VOLSYNC_CAPACITY: 10Gi
       VOLSYNC_CACHE_CAPACITY: 4Gi
       VOLSYNC_SCHEDULE: "0 0 * * *"
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
   prune: true
   retryInterval: 2m
   sourceRef:
