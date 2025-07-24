@@ -28,36 +28,36 @@ spec:
               - redis
               - tika
             env:
-              # Configure application
+              # Application
               PAPERLESS_PORT: &port 8000
               PAPERLESS_TASK_WORKERS: "2"
               PAPERLESS_TIME_ZONE: "${CLUSTER_TIME_ZONE}"
               PAPERLESS_URL: "https://${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
               PAPERLESS_WEBSERVER_WORKERS: "2"
-              # Configure filenames
+              # Filenames
               PAPERLESS_FILENAME_FORMAT: "{{ `{{ correspondent }}/{{ document_type }}/{{ created_year }}/{{ created }} {{ correspondent }} {{ title }}` }}"
               PAPERLESS_FILENAME_FORMAT_REMOVE_NONE: true
-              # Configure folders
+              # Folders
               PAPERLESS_CONSUMPTION_DIR: /data/nas/import
               PAPERLESS_DATA_DIR: /data/data
               PAPERLESS_EMPTY_TRASH_DIR: /data/trash
               PAPERLESS_EXPORT_DIR: /data/nas/export
               PAPERLESS_MEDIA_ROOT: /data/nas/media
-              # Configure folder importer
+              # Folder importer
               PAPERLESS_CONSUMER_IGNORE_PATTERNS: '[".DS_STORE/*", "._*", ".stfolder/*", "@eaDir/*"]'
               PAPERLESS_CONSUMER_POLLING: 60
               PAPERLESS_CONSUMER_RECURSIVE: "true"
               PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS: "true"
-              # Configure OCR
+              # OCR
               PAPERLESS_OCR_LANGUAGE: eng
               PAPERLESS_OCR_USER_ARGS: '{"invalidate_digital_signatures": true}'
-              # Configure tika/gotenberg integration
+              # Tika/Gotenberg
               PAPERLESS_TIKA_ENABLED: true
               PAPERLESS_TIKA_ENDPOINT: http://localhost:9998
               PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://localhost:3000
-              # Configure redis integration
+              # Redis
               PAPERLESS_REDIS: redis://localhost:6379
-              # Configure user permissions
+              # User permissions
               USERMAP_GID: ${APP_GID:=1000}
               USERMAP_UID: ${APP_UID:=1000}
             envFrom: &envFrom
