@@ -24,7 +24,22 @@ spec:
         containers:
           app:
             env:
+              ACTIVATE_CORRESPONDENTS: yes
+              ACTIVATE_DOCUMENT_TYPE: yes
+              ACTIVATE_TAGGING: yes
+              ACTIVATE_TITLE: yes
+              ADD_AI_PROCESSED_TAG: yes
+              AI_PROCESSED_TAG_NAME: ai-processed
+              AI_PROVIDER: ollama
+              OLLAMA_API_URL: "http://ollama:11434"
+              OLLAMA_MODEL: phi3.5
+              PAPERLESS_API_URL: "http://paperless-ngx:8000/api"
+              PROCESS_PREDEFINED_DOCUMENTS: no
+              RESTRICT_TO_EXISTING_CORRESPONDENTS: no
+              RESTRICT_TO_EXISTING_TAGS: no
+              SCAN_INTERVAL: "*/30 * * * *"
               TZ: "${CLUSTER_TIME_ZONE}"
+              USE_EXISTING_DATA: yes
             envFrom:
               - secretRef:
                   name: "${APP}-secret"
