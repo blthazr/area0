@@ -32,7 +32,7 @@ spec:
               AI_PROCESSED_TAG_NAME: ai-processed
               AI_PROVIDER: ollama
               OLLAMA_API_URL: "http://ollama:11434"
-              OLLAMA_MODEL: phi3.5
+              OLLAMA_MODEL: llama3.2
               PAPERLESS_API_URL: "http://paperless-ngx:8000/api"
               PROCESS_PREDEFINED_DOCUMENTS: no
               RESTRICT_TO_EXISTING_CORRESPONDENTS: no
