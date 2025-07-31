@@ -136,7 +136,7 @@ spec:
             envFrom: *envFrom
             image:
               repository: ghcr.io/onedr0p/postgres-init
-              tag: 16
+              tag: 17.4@sha256:43dd04e91e861cf912378bad987afa168fa4f13d05528304907ad0aa351195d6
     defaultPodOptions:
       affinity:
         nodeAffinity:
