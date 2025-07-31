@@ -49,7 +49,11 @@ spec:
   path: ./kubernetes/apps/database/cloudnative-pg/cluster
   postBuild:
     substitute:
-      INSTANCES: "3"
+      APP: *app
+      INSTANCES: "2"
+    substituteFrom:
+      - name: cluster-settings
+        kind: ConfigMap
   prune: true
   retryInterval: 2m
   sourceRef:
