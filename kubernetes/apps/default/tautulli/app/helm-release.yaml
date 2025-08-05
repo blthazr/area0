@@ -25,6 +25,7 @@ spec:
           app:
             env:
               TAUTULLI__PORT: &port 80
+              TAUTULLI_HTTP_BASE_URL: "https://${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
               TZ: "${CLUSTER_TIME_ZONE}"
             image:
               repository: ghcr.io/home-operations/tautulli
