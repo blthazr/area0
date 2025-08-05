@@ -33,7 +33,7 @@ spec:
                 sabnzbd.default.svc.cluster.local,
                 sabnzbd.${SECRET_DOMAIN}
               TZ: "${CLUSTER_TIME_ZONE}"
-            envFrom: &envFrom
+            envFrom:
               - secretRef:
                   name: "${APP}-secret"
             image:

@@ -31,7 +31,7 @@ spec:
             args: ["sync"]
             env:
               TZ: "${CLUSTER_TIME_ZONE}"
-            envFrom: &envFrom
+            envFrom:
               - secretRef:
                   name: "${APP}-secret"
             image:
