@@ -37,7 +37,7 @@ spec:
               OPENAI_BASE_URL: http://ollama.default.svc.cluster.local:11424/v1
               PGID: ${APP_GID:=1000}
               PUID: ${APP_UID:=1000}
-              TOKEN_TIME: 720
+              TOKEN_TIME: 43200
               TZ: "${CLUSTER_TIME_ZONE}"
             envFrom:
               - secretRef:
