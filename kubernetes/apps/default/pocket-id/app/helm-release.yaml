@@ -80,7 +80,7 @@ spec:
       app:
         hostnames: ["${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"]
         parentRefs:
-          - name: internal
+          - name: external
             namespace: kube-system
             sectionName: https
     service:
