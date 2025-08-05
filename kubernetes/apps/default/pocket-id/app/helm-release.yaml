@@ -33,6 +33,7 @@ spec:
               SESSION_DURATION: 43200
               TRUST_PROXY: true
               TZ: "${CLUSTER_TIME_ZONE}"
+              UI_CONFIG_DISABLED: true
               UPLOAD_PATH: /app/data/uploads
             image:
               repository: ghcr.io/pocket-id/pocket-id
