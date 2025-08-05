@@ -27,6 +27,13 @@ spec:
               API_DOCS: "false"
               API_PORT: &port 9000
               BASE_URL: "https://${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
+              OIDC_ADMIN_GROUP: mealie_admins
+              OIDC_AUTH_ENABLED: "true"
+              OIDC_AUTO_REDIRECT: "true"
+              OIDC_CONFIGURATION_URL: "https://id.${SECRET_DOMAIN}/.well-known/openid-configuration"
+              OIDC_PROVIDER_NAME: Pocket ID
+              OIDC_REMEMBER_ME: "true"
+              OIDC_USER_GROUP: "mealie_users"
               OPENAI_BASE_URL: http://ollama.default.svc.cluster.local:11424/v1
               PGID: ${APP_GID:=1000}
               PUID: ${APP_UID:=1000}
