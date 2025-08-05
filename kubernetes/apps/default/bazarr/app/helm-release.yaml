@@ -24,6 +24,7 @@ spec:
         containers:
           app:
             env:
+              BAZARR__PORT: &port 80
               TZ: "${CLUSTER_TIME_ZONE}"
             envFrom: &envFrom
               - secretRef:
@@ -39,7 +40,7 @@ spec:
                   failureThreshold: 3
                   httpGet:
                     path: /health
-                    port: &port 6767
+                    port: *port
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
