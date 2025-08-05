@@ -33,8 +33,7 @@ spec:
               OIDC_CONFIGURATION_URL: "https://id.${SECRET_DOMAIN}/.well-known/openid-configuration"
               OIDC_PROVIDER_NAME: Pocket ID
               OIDC_REMEMBER_ME: "true"
-              OIDC_USER_GROUP: "mealie_users"
-              OPENAI_BASE_URL: http://ollama.default.svc.cluster.local:11424/v1
+              OIDC_USER_GROUP: mealie_users
               PGID: ${APP_GID:=1000}
               PUID: ${APP_UID:=1000}
               TOKEN_TIME: 43200
