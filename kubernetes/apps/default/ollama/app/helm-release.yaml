@@ -25,7 +25,7 @@ spec:
           app:
             env:
               OLLAMA_HOST: 0.0.0.0
-              OLLAMA_MODELS: /models
+              OLLAMA_MODELS: &modelPath /models
               OLLAMA_ORIGINS: "*"
               TZ: "${CLUSTER_TIME_ZONE}"
             image:
@@ -37,6 +37,7 @@ spec:
               requests:
                 cpu: 200m
                 memory: 2Gi
+        replicas: ${REPLICAS:=1}
     defaultPodOptions:
       affinity:
         nodeAffinity:
@@ -55,7 +56,7 @@ spec:
         advancedMounts:
           ollama:
             app:
-              - path: /models
+              - path: *modelPath
                 subPath: apps/ollama/models
         enabled: true
         path: "${NFS_DATA_PATH}"
