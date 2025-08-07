@@ -25,6 +25,27 @@ stringData:
 apiVersion: v1
 kind: Secret
 metadata:
+  name: theburnh-am-tls
+  namespace: kube-system
+  annotations:
+    cert-manager.io/alt-names: '*.theburnh.am,theburnh.am'
+    cert-manager.io/certificate-name: theburnh-am
+    cert-manager.io/common-name: theburnh.am
+    cert-manager.io/ip-sans: ''
+    cert-manager.io/issuer-group: ''
+    cert-manager.io/issuer-kind: ClusterIssuer
+    cert-manager.io/issuer-name: letsencrypt-production
+    cert-manager.io/uri-sans: ''
+  labels:
+    controller.cert-manager.io/fao: "true"
+data:
+  tls.crt: op://area0/theburnh-am-tls/tls.crt
+  tls.key: op://area0/theburnh-am-tls/tls.key
+type: kubernetes.io/tls
+---
+apiVersion: v1
+kind: Secret
+metadata:
   name: cloudflare-tunnel-id-secret
   namespace: network
 stringData:

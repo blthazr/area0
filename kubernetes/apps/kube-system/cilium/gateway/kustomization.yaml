@@ -7,3 +7,4 @@ resources:
   - ./gateway-external.yaml
   - ./gateway-internal.yaml
   - ./http-route.yaml
+  - ./push-secret.yaml
