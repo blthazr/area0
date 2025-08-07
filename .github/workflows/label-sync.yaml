@@ -10,6 +10,9 @@ on:
     - cron: "0 0 * * *" # daily at midnight
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   main:
     name: Label Sync
@@ -18,9 +21,10 @@ jobs:
       issues: write
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository
+      - name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
+          persist-credentials: false
           sparse-checkout: .github/labels.yaml
 
       - name: Sync labels
