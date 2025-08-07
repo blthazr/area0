@@ -34,7 +34,8 @@ metadata:
 spec:
   commonMetadata:
     labels:
-      app.kubernetes.io/name: *app
+      app.kubernetes.io/name: cilium
+      app.kubernetes.io/component: config
   dependsOn:
     - name: cilium
       namespace: *namespace
@@ -87,4 +88,4 @@ spec:
     namespace: flux-system
   targetNamespace: *namespace
   timeout: 15m
-  wait: false # no flux ks dependents
+  wait: true
