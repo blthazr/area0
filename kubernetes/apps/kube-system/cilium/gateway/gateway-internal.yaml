@@ -31,5 +31,5 @@ spec:
       protocol: HTTPS
       tls:
         certificateRefs:
-          - kind: Secret
-            name: "${SECRET_DOMAIN/./-}-tls"
+          - name: "${SECRET_DOMAIN/./-}-tls"
+            kind: Secret
