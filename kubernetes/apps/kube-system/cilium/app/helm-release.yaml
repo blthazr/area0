@@ -26,32 +26,6 @@ spec:
         serviceMonitor:
           enabled: true
       rollOutPods: true
-    hubble:
-      enabled: true
-      metrics:
-        dashboards:
-          annotations:
-            grafana_folder: Cilium
-          enabled: true
-        enabled:
-          - dns:query
-          - drop
-          - tcp
-          - flow
-          - port-distribution
-          - icmp
-          - http
-        serviceMonitor:
-          enabled: true
-      relay:
-        enabled: true
-        prometheus:
-          serviceMonitor:
-            enabled: true
-        rollOutPods: true
-      ui:
-        enabled: true
-        rollOutPods: true
     operator:
       dashboards:
         annotations:
@@ -62,7 +36,6 @@ spec:
         serviceMonitor:
           enabled: true
       replicas: ${REPLICAS:=1}
-      tolerations: []
     prometheus:
       enabled: true
       serviceMonitor:
