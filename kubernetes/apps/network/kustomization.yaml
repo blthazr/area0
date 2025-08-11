@@ -10,4 +10,4 @@ resources:
   - ./cloudflare-tunnel/ks.yaml
   - ./external-dns/ks.yaml
   - ./k8s-gateway/ks.yaml
-  # - ./tailscale/ks.yaml
+  - ./tailscale/ks.yaml
