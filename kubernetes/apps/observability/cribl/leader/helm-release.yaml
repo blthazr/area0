@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: cribl
         namespace: observability
-      version: 4.13.0
+      version: 4.13.1
   install:
     remediation:
       retries: -1
@@ -34,7 +34,7 @@ spec:
       token: "${SECRET_CRIBL_LEADER_TOKEN}"
     criblImage:
       repository: cribl/cribl
-      tag: 4.13.0@sha256:d887c2c1ec53b051aadadc7da8bbccf2dfed09484a994028b8fa102e6d8eea6f
+      tag: 4.13.1@sha256:8fed2c1038e12cc35d4a53d6378374b2c5d1aef690f16c6e5daa69d225fcf1bf
     ingress:
       enable: false
     persistence:
