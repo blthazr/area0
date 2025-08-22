@@ -39,7 +39,7 @@ spec:
                   name: "${APP}-secret"
             image:
               repository: ghcr.io/tailscale/tailscale
-              tag: v1.84.3@sha256:f97ea471667bd94023f76e228c5be0b95564cdba2f9501cb084eeef139d8b65e
+              tag: v1.86.5@sha256:9e2bfdd9e2ce724df53f976d06a4a9933aa730dc655ace42798f4c73735d1cac
             probes:
               liveness: &probes
                 custom: true
