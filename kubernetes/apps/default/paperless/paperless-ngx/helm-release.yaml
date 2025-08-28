@@ -201,6 +201,9 @@ spec:
           - name: internal
             namespace: kube-system
             sectionName: https
+          - name: external
+            namespace: kube-system
+            sectionName: https
     service:
       app:
         controller: "${APP}"
