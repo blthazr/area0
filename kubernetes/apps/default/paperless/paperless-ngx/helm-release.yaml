@@ -29,13 +29,14 @@ spec:
               - tika
             env:
               # Application
+              PAPERLESS_DATE_ORDER: MDY
               PAPERLESS_PORT: &port 8000
               PAPERLESS_TASK_WORKERS: "2"
               PAPERLESS_TIME_ZONE: "${CLUSTER_TIME_ZONE}"
               PAPERLESS_URL: "https://${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
               PAPERLESS_WEBSERVER_WORKERS: "2"
               # Filenames
-              PAPERLESS_FILENAME_FORMAT: "{{ `{{ correspondent }}/{{ document_type }}/{{ created_year }}/{{ created }} {{ correspondent }} {{ title }}` }}"
+              PAPERLESS_FILENAME_FORMAT: "{{ `{{ correspondent }}/{{ created_year }}/{{ created }} {{ correspondent }} {{ title }}` }}"
               PAPERLESS_FILENAME_FORMAT_REMOVE_NONE: true
               # Folders
               PAPERLESS_CONSUMPTION_DIR: /data/nas/import
