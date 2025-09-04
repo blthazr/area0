@@ -30,7 +30,7 @@ spec:
               TZ: "${CLUSTER_TIME_ZONE}"
             image:
               repository: docker.io/ollama/ollama
-              tag: 0.9.6@sha256:f478761c18fea69b1624e095bce0f8aab06825d09ccabcd0f88828db0df185ce
+              tag: 0.11.10@sha256:a5409cb903d30f9cd67e9f430dd336ddc9274e16fd78f75b675c42065991b4fd
             resources:
               limits:
                 memory: 16Gi
