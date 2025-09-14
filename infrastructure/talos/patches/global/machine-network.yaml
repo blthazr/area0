@@ -1,5 +1,9 @@
 machine:
   network:
     disableSearchDomain: true
+    extraHostEntries:
+      - aliases:
+          - k8s.${CLUSTER_DOMAIN}
+        ip: ${CLUSTER_ENDPOINT_IP}
     nameservers:
-      - 172.16.20.2
+      - ${CLUSTER_NAMESERVER}
