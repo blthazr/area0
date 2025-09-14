@@ -11,7 +11,6 @@ kubernetesVersion: v1.33.3
 endpoint: https://${CLUSTER_ENDPOINT_IP}:6443
 additionalApiServerCertSans: &sans
   - &talosControlPlaneVIP ${CLUSTER_ENDPOINT_IP}
-  - k8s.${CLUSTER_DOMAIN}
   - 127.0.0.1
 additionalMachineCertSans: *sans
 
