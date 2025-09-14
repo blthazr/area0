@@ -45,7 +45,7 @@ releases:
     namespace: kube-system
     needs: ['kube-system/coredns']
     values: ['../kubernetes/apps/kube-system/spegel/app/helm/values.yaml']
-    version: 0.3.0
+    version: 0.4.0
 
   - name: cert-manager
     chart: oci://quay.io/jetstack/charts/cert-manager
