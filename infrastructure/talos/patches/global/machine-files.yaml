@@ -2,10 +2,12 @@ machine:
   files:
     - # Spegel
       op: create
-      path: /etc/cri/conf.d/20-customization.part
       content: |
         [plugins."io.containerd.cri.v1.images"]
           discard_unpacked_layers = false
+        [plugins."io.containerd.cri.v1.runtime"]
+          device_ownership_from_security_context = true
+      path: /etc/cri/conf.d/20-customization.part
       permissions: 0o644
     - # NFS Mount
       op: overwrite
