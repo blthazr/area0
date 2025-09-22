@@ -37,7 +37,7 @@ spec:
                   name: "${APP}-secret"
             image:
               repository: docker.io/cloudflare/cloudflared
-              tag: 2025.7.0@sha256:803b17adb5326a38ce397b9c9f374289ad290ee5526d204b5879a1423b6f5c3e
+              tag: 2025.9.1@sha256:4604b477520dc8322af5427da68b44f0bf814938e9d2e4814f2249ee4b03ffdf
             probes:
               liveness: &probes
                 custom: true
