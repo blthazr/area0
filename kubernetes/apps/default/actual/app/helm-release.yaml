@@ -28,7 +28,7 @@ spec:
               GENERIC_TIMEZONE: "${CLUSTER_TIME_ZONE}"
             image:
               repository: ghcr.io/actualbudget/actual-server
-              tag: 25.8.0@sha256:3d7fb08d3b405426e8625013a5ed95f5015e6c04d0f044e2e3fe7d7b7a41951b
+              tag: 25.10.0@sha256:32dceb536149fcfe6e5292a6a568403c363e9fd59a41596da002b994a0b2216e
             probes:
               liveness: &probes
                 custom: true
