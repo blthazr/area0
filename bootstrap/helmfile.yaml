@@ -79,7 +79,7 @@ releases:
     namespace: external-secrets
     needs: ['cert-manager/cert-manager']
     values: ['../kubernetes/apps/external-secrets/external-secrets/app/helm/values.yaml']
-    version: 0.18.2
+    version: 0.20.2
 
   - name: flux-operator
     chart: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator
