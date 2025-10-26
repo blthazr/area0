@@ -8,15 +8,7 @@ spec:
   chartRef:
     kind: OCIRepository
     name: rook-ceph
-  install:
-    remediation:
-      retries: -1
   interval: 1h
-  timeout: 15m
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
   values:
     csi:
       cephFSKernelMountOptions: ms_mode=prefer-crc
@@ -26,7 +18,6 @@ spec:
       enableLiveness: true
       serviceMonitor:
         enabled: true
-    enableDiscoveryDaemon: true
     image:
       repository: ghcr.io/rook/ceph
     monitoring:

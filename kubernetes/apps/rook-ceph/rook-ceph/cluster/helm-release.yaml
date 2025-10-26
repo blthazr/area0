@@ -8,15 +8,7 @@ spec:
   chartRef:
     kind: OCIRepository
     name: rook-ceph-cluster
-  install:
-    remediation:
-      retries: -1
   interval: 1h
-  timeout: 15m
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
   values:
     cephBlockPools:
       - name: ceph-blockpool
@@ -28,7 +20,8 @@ spec:
           allowVolumeExpansion: true
           enabled: true
           isDefault: true
-          mountOptions: ["discard"]
+          mountOptions:
+            - discard
           name: ceph-block
           parameters:
             # TODO: enable on cluster rebuild
@@ -65,11 +58,11 @@ spec:
       csi:
         readAffinity:
           enabled: true
-      dashboard:
-        enabled: true
-        prometheusEndpoint: http://prometheus-operated.observability.svc.cluster.local:9090
-        ssl: false
-        urlPrefix: /
+      # dashboard:
+      #   enabled: true
+      #   prometheusEndpoint: http://prometheus-operated.observability.svc.cluster.local:9090
+      #   ssl: false
+      #   urlPrefix: /
       mgr:
         modules:
           # Cant enable due to `Module 'diskprediction_local' has failed: No module named 'sklearn.svm.classes'`
@@ -113,17 +106,11 @@ spec:
       storage:
         config:
           osdsPerDevice: "1"
-        # Use the following command to get the device name by-id "talosctl ls /dev/disk/by-id -n <node-ip>"
         nodes:
           - name: k8s-1
-            devices:
-              - name: /dev/disk/by-id/ata-Samsung_Portable_SSD_T5_S4B0NR0R712678E
           - name: k8s-2
-            devices:
-              - name: /dev/disk/by-id/ata-Samsung_Portable_SSD_T5_S4B0NR0R719439P
           - name: k8s-3
-            devices:
-              - name: /dev/disk/by-id/ata-Samsung_Portable_SSD_T5_S4B0NR0R721882L
+        devicePathFilter: ^/dev/disk/by-id/ata-Samsung_Portable_SSD_T5_.*
         useAllDevices: false
         useAllNodes: false
     cephFileSystems: []
