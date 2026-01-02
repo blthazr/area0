@@ -15,7 +15,7 @@
     },
     {
       matchUpdateTypes: ["digest"],
-      labels: ["type/digest"]
+      labels: ["type/digest"],
     },
     {
       matchDatasources: ["docker"],
@@ -34,8 +34,8 @@
       addLabels: ["renovate/helm"],
     },
     {
-      matchManagers: ["pre-commit"],
-      addLabels: ["renovate/pre-commit"]
+      matchDatasources: ["mise"],
+      addLabels: ["renovate/mise"],
     },
   ],
 }

@@ -34,12 +34,12 @@
       minimumReleaseAge: "1 minute",
     },
     {
-      description: "Auto-merge pre-commit hooks (patch, minor)",
+      description: "Auto-merge Mise tools (patch, minor)",
       addLabels: ["action/automerge"],
       automerge: true,
       automergeType: "branch",
       ignoreTests: true,
-      matchManagers: ["pre-commit"],
+      matchManagers: ["mise"],
       matchUpdateTypes: [
         "patch",
         "minor",
@@ -58,54 +58,30 @@
       matchUpdateTypes: ["digest"],
     },
     {
-      description: "Auto-merge containers (patch, minor)",
-      addLabels: ["action/automerge"],
-      automerge: true,
-      automergeType: "pr",
-      ignoreTests: false,
-      matchDatasources: ["docker"],
-      matchDepNames: [
-        "ghcr.io/home-operations/bazarr",
-        "ghcr.io/home-operations/prowlarr",
-        "ghcr.io/recyclarr/recyclarr",
-        "ghcr.io/home-operations/sabnzbd",
-      ],
-      matchUpdateTypes: [
-        "patch",
-        "minor"
-      ],
-      stabilityDays: 1,
-    },
-    {
-      description: "Auto-merge containers (patch, minor) [maintenance window]",
-      addLabels: ["action/automerge"],
-      automerge: true,
-      automergeSchedule: ["after 2am, before 6am"],
-      automergeType: "pr",
-      ignoreTests: false,
-      matchDatasources: ["docker"],
-      matchDepNames: [
-        "ghcr.io/home-operations/plex",
-        "ghcr.io/home-operations/radarr",
-        "ghcr.io/home-operations/sonarr",
-        "ghcr.io/home-operations/tautulli",
-        "ghcr.io/sct/overseerr",
-      ],
-      matchUpdateTypes: [
-        "patch",
-        "minor"
-      ],
-      stabilityDays: 1,
-    },
-    {
       description: "Auto-merge GitHub Releases (patch, minor)",
       addLabels: ["action/automerge"],
       automerge: true,
       automergeType: "branch",
       ignoreTests: true,
-      matchDatasources: ["github-releases"],
       matchPackageNames: [
         "/external-dns/",
+        "/gateway-api/",
+        "/prometheus-operator/",
+      ],
+      matchUpdateTypes: [
+        "patch",
+        "minor",
+      ],
+    },
+    {
+      description: "Auto-merge OCI Charts (patch, minor)",
+      addLabels: ["action/automerge"],
+      automerge: true,
+      automergeType: "pr",
+      ignoreTests: false,
+      matchDatasources: ["docker"],
+      matchPackageNames: [
+        "/kube-prometheus-stack/",
       ],
       matchUpdateTypes: [
         "patch",

@@ -6,12 +6,6 @@
       "/(^|/)kubernetes/.+\\.ya?ml$/",
     ],
   },
-  // configure helm-values manager
-  "helm-values": {
-    managerFilePatterns: [
-      "/(^|/)kubernetes/.+\\.ya?ml$/",
-    ],
-  },
   // configure kubernetes manager
   kubernetes: {
     managerFilePatterns: [
