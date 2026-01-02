@@ -4,23 +4,19 @@
   "editor.rulers": [
     100
   ],
+  "editor.stickyScroll.enabled": false,
   "files.associations": {
     "**/*.json5": "json5"
   },
 
+  /*+--- Window ---+*/
+  "window.zoomLevel": 0,
+
+  /*+--- Features ---+*/
+  "terminal.integrated.fontSize": 14,
+
   /*+--- Extensions ---+*/
-  "linter.linters": {
-    "yamllint": {
-      "configFiles": [
-        ".yamllint.yaml"
-      ]
-    }
-  },
-  "markdownlint.config": {
-    "extends": ".markdownlint.yaml"
-  },
-  "prettier.configPath": ".prettierrc.yaml",
-  "prettier.ignorePath": ".prettierignore",
+
   "sops.defaults.ageKeyFile": "age.key",
   "vs-kubernetes": {
     "vs-kubernetes.kubeconfig": "./kubeconfig",
@@ -30,5 +26,11 @@
   },
   "yaml.schemas": {
     "kubernetes": "./kubernetes/**/*.yaml"
+  },
+  "yaml.schemaStore.enable": true,
+
+  /*+--- Language Scopes ---+*/
+  "[yaml]": {
+    "editor.defaultFormatter": "bluebrown.yamlfmt"
   }
 }

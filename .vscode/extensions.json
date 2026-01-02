@@ -1,16 +1,12 @@
 {
   "recommendations": [
+    "bluebrown.yamlfmt",
     "blueglassblock.better-json5",
-    "davidanson.vscode-markdownlint",
-    "editorconfig.editorconfig",
-    "esbenp.prettier-vscode",
     "gruntfuggly.todo-tree",
+    "hverlin.mise-vscode",
     "irongeek.vscode-env",
     "oderwat.indent-rainbow",
-    "pascalreitermann93.vscode-yaml-sort",
     "redhat.vscode-yaml",
-    "samuelcolvin.jinjahtml",
     "signageos.signageos-vscode-sops",
-    "tamasfe.even-better-toml"
   ]
 }
