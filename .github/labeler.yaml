@@ -3,31 +3,35 @@
 area/bootstrap:
   - changed-files:
       - any-glob-to-any-file:
-          - "bootstrap/**/*"
+          - bootstrap/**/*
 area/docs:
   - changed-files:
       - any-glob-to-any-file:
-          - "docs/**/*"
-          - "README.md"
+          - docs/**/*
+          - README.md
 area/github:
   - changed-files:
       - any-glob-to-any-file:
-          - ".github/**/*"
+          - .github/**/*
 area/kubernetes:
   - changed-files:
       - any-glob-to-any-file:
-          - "kubernetes/**/*"
+          - kubernetes/**/*
+area/mise:
+  - changed-files:
+      - any-glob-to-any-file:
+          - .mise.toml
 area/renovate:
   - changed-files:
       - any-glob-to-any-file:
-          - ".renovate/**/*"
-          - ".renovaterc.json5"
+          - .renovate/**/*
+          - .renovaterc.json5
 area/talos:
   - changed-files:
       - any-glob-to-any-file:
-          - "infrastructure/talos/**/*"
+          - infrastructure/talos/**/*
 area/taskfile:
   - changed-files:
       - any-glob-to-any-file:
-          - ".taskfiles/**/*"
-          - "Taskfile.yaml"
+          - .taskfiles/**/*
+          - Taskfile.yaml
