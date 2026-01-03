@@ -13,6 +13,8 @@ spec:
   #     namespace: rook-ceph
   #   - name: volsync
   #     namespace: storage
+  #   - name: __DEPENDENCY_APP_NAME
+  #     namespace: __DEPENDENCY_NAMESPACE
   interval: 1h
   path: ./kubernetes/apps/{{ ENV.NS }}/{{ ENV.APP }}/app
   postBuild:
@@ -22,6 +24,19 @@ spec:
       # APP_PUID: "1000"                            # optional | default
       # HOSTNAME: "${APP}"                          # optional | default
       # REPLICAS: "1"                               # optional | default
+      # VOLSYNC_ACCESSMODES: ReadWriteOnce          # optional | default
+      # VOLSYNC_BUCKET_NAME: volsync                # optional | default
+      # VOLSYNC_CACHE_ACCESSMODES: ReadWriteOnce    # optional | default
+      # VOLSYNC_CACHE_SNAPSHOTCLASS: ceph-block     # optional | default
+      # VOLSYNC_CAPACITY: 5Gi                       # optional | default
+      # VOLSYNC_MINIO_SCHEDULE: "0 * * * *"         # optional | default
+      # VOLSYNC_PGID: "1000"                        # optional | default
+      # VOLSYNC_PUID: "1000"                        # optional | default
+      # VOLSYNC_PVC: "${APP}"                       # optional | default
+      # VOLSYNC_R2_SCHEDULE: "30 0 * * *"           # optional | default
+      # VOLSYNC_SNAP_ACCESSMODES: ReadWriteOnce     # optional | default
+      # VOLSYNC_SNAPSHOTCLASS: csi-ceph-blockpool   # optional | default
+      # VOLSYNC_STORAGECLASS: ceph-block            # optional | default
   prune: true
   sourceRef:
     kind: GitRepository
