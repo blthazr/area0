@@ -8,16 +8,14 @@ spec:
   chartRef:
     kind: OCIRepository
     name: cert-manager
-  install:
-    remediation:
-      retries: -1
   interval: 1h
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
   values:
-    replicaCount: ${REPLICAS:=1}
-  valuesFrom:
-    - kind: ConfigMap
-      name: cert-manager-helm-values
+    crds:
+      enabled: true
+    dns01RecursiveNameservers: https://1.1.1.1:443/dns-query,https://1.0.0.1:443/dns-query
+    dns01RecursiveNameserversOnly: true
+    prometheus:
+      enabled: true
+      servicemonitor:
+        enabled: true
+    replicaCount: 1

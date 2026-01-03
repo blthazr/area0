@@ -6,13 +6,6 @@ metadata:
   name: &app cloudflare-tunnel
   namespace: &namespace network
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
   interval: 1h
   path: ./kubernetes/apps/network/cloudflare-tunnel/app
   postBuild:
@@ -20,18 +13,12 @@ spec:
       APP: *app
       REPLICAS: "2"
     substituteFrom:
-      - name: cloudflare-tunnel-id-secret
-        kind: Secret
-      - name: cluster-secrets
-        kind: Secret
-      - name: cluster-settings
-        kind: ConfigMap
+      - kind: Secret
+        name: cloudflare-tunnel-id-secret
   prune: true
-  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  timeout: 5m
   wait: false # no flux ks dependents

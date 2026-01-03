@@ -5,11 +5,11 @@ kind: HTTPRoute
 metadata:
   name: github-webhook
 spec:
-  hostnames: ["${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"]
+  hostnames:
+    - "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
   parentRefs:
-    - name: external
-      namespace: kube-system
-      sectionName: https
+    - name: envoy-external
+      namespace: network
   rules:
     - backendRefs:
         - name: webhook-receiver

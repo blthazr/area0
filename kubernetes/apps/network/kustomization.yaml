@@ -6,8 +6,9 @@ namespace: network
 components:
   - ../../components/common
 resources:
-  # Flux-Kustomizations
+  - ./namespace.yaml
+  - ./certificates/ks.yaml
   - ./cloudflare-tunnel/ks.yaml
+  - ./envoy-gateway/ks.yaml
   - ./external-dns/ks.yaml
   - ./k8s-gateway/ks.yaml
-  - ./tailscale/ks.yaml

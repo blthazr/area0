@@ -8,14 +8,7 @@ spec:
   chartRef:
     kind: OCIRepository
     name: k8s-gateway
-  install:
-    remediation:
-      retries: -1
   interval: 1h
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
   values:
     domain: "${SECRET_DOMAIN}"
     fullnameOverride: "${APP}"

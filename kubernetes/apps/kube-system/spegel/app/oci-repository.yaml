@@ -5,10 +5,10 @@ kind: OCIRepository
 metadata:
   name: spegel
 spec:
-  interval: 5m
+  interval: 15m
   layerSelector:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 0.3.0
+    tag: 0.6.0
   url: oci://ghcr.io/spegel-org/helm-charts/spegel

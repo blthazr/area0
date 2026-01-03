@@ -1,5 +1,7 @@
+---
 machine:
   network:
     disableSearchDomain: true
     nameservers:
-      - ${CLUSTER_NAMESERVER}
+      - 1.1.1.1
+      - 1.0.0.1

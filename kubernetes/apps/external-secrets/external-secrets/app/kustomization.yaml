@@ -2,13 +2,7 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-configMapGenerator:
-  - name: external-secrets-helm-values
-    files:
-      - values.yaml=./helm/values.yaml
-configurations:
-  - ./helm/kustomize-config.yaml
 resources:
-  - ./cluster-secret-store.yaml
   - ./helm-release.yaml
   - ./oci-repository.yaml
+  - ./pod-disruption-budget.yaml

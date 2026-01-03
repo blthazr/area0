@@ -1,0 +1,31 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/envoyproxy/gateway/refs/heads/main/charts/gateway-helm/crds/generated/gateway.envoyproxy.io_envoyproxies.yaml
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: EnvoyProxy
+metadata:
+  name: envoy
+spec:
+  logging:
+    level:
+      default: info
+  provider:
+    kubernetes:
+      envoyDeployment:
+        container:
+          imageRepository: mirror.gcr.io/envoyproxy/envoy
+          resources:
+            limits:
+              memory: 1Gi
+            requests:
+              cpu: 100m
+        replicas: ${REPLICAS:=1}
+      envoyService:
+        externalTrafficPolicy: Cluster
+    type: Kubernetes
+  shutdown:
+    drainTimeout: 180s
+  telemetry:
+    metrics:
+      prometheus:
+        compression:
+          type: Gzip

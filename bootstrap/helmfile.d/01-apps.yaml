@@ -1,0 +1,120 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/helmfile
+
+helmDefaults:
+  cleanupOnFail: true
+  wait: true
+  waitForJobs: true
+
+releases:
+  - name: cilium
+    chart: oci://ghcr.io/home-operations/charts-mirror/cilium
+    hooks:
+      - # Wait for Cilium CRDs to be available
+        args:
+          - -c
+          - until kubectl get crd ciliumloadbalancerippools.cilium.io ciliumbgpadvertisements.cilium.io ciliumbgppeerconfigs.cilium.io ciliumbgpclusterconfigs.cilium.io &>/dev/null; do sleep 5; done
+        command: bash
+        events:
+          - postsync
+        showlogs: true
+      - # Apply Cilium resources
+        args:
+          - apply
+          - --namespace=kube-system
+          - --server-side
+          - --field-manager=kustomize-controller
+          - --kustomize
+          - ../../kubernetes/apps/kube-system/cilium/config
+        command: kubectl
+        events:
+          - postsync
+        showlogs: true
+    namespace: kube-system
+    values:
+      - ./templates/values.yaml.gotmpl
+    version: 1.18.5
+
+  - name: coredns
+    chart: oci://ghcr.io/coredns/charts/coredns
+    namespace: kube-system
+    needs:
+      - kube-system/cilium
+    values:
+      - ./templates/values.yaml.gotmpl
+    version: 1.45.0
+
+  - name: spegel
+    chart: oci://ghcr.io/spegel-org/helm-charts/spegel
+    namespace: kube-system
+    needs:
+      - kube-system/coredns
+    values:
+      - ./templates/values.yaml.gotmpl
+    version: 0.6.0
+
+  - name: cert-manager
+    chart: oci://quay.io/jetstack/charts/cert-manager
+    namespace: cert-manager
+    needs:
+      - kube-system/spegel
+    values:
+      - ./templates/values.yaml.gotmpl
+    version: v1.19.2
+
+  - name: external-secrets
+    chart: oci://ghcr.io/external-secrets/charts/external-secrets
+    namespace: external-secrets
+    needs:
+      - cert-manager/cert-manager
+    values:
+      - ./templates/values.yaml.gotmpl
+    version: 1.2.0
+
+  - name: onepassword-connect
+    chart: oci://ghcr.io/bjw-s-labs/helm/app-template
+    hooks:
+      - # Wait for ExternalSecrets CRDs to be available
+        args:
+          - -c
+          - until kubectl get crd clustersecretstores.external-secrets.io &>/dev/null; do sleep 5; done
+        command: bash
+        events:
+          - postsync
+        showlogs: true
+      - # Apply ExternalSecrets resources
+        args:
+          - apply
+          - --namespace=external-secrets
+          - --server-side
+          - --field-manager=kustomize-controller
+          - --filename
+          - ../../kubernetes/apps/external-secrets/onepassword-connect/app/cluster-secret-store.yaml
+        command: kubectl
+        events:
+          - postsync
+        showlogs: true
+    namespace: external-secrets
+    needs:
+      - external-secrets/external-secrets
+    values:
+      - ./templates/values.yaml.gotmpl
+    version: 4.5.0
+
+  - name: flux-operator
+    chart: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator
+    namespace: flux-system
+    needs:
+      - external-secrets/onepassword-connect
+    values:
+      - ./templates/values.yaml.gotmpl
+    version: 0.38.1
+
+  - name: flux-instance
+    chart: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-instance
+    namespace: flux-system
+    needs:
+      - flux-system/flux-operator
+    values:
+      - ./templates/values.yaml.gotmpl
+    version: 0.38.1

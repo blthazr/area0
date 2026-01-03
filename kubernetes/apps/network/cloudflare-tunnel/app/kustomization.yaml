@@ -6,4 +6,4 @@ resources:
   - ./dns-endpoint.yaml
   - ./external-secret.yaml
   - ./helm-release.yaml
-  - ./resources
+  - ./oci-repository.yaml

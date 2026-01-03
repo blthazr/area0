@@ -8,24 +8,43 @@ spec:
   chartRef:
     kind: OCIRepository
     name: cilium
-  install:
-    remediation:
-      retries: -1
   interval: 1h
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
   values:
+    autoDirectNodeRoutes: true
+    bpf:
+      hostLegacyRouting: true
+      masquerade: true
+    cgroup:
+      automount:
+        enabled: false
+      hostRoot: /sys/fs/cgroup
+    cni:
+      exclusive: false
     dashboards:
       annotations:
         grafana_folder: Cilium
       enabled: true
+    enableIPv4BIGTCP: true
+    endpointRoutes:
+      enabled: true
     envoy:
-      prometheus:
-        serviceMonitor:
-          enabled: true
-      rollOutPods: true
+      enabled: false
+    hubble:
+      enabled: false
+    ipam:
+      mode: kubernetes
+    ipv4NativeRoutingCIDR: 10.42.0.0/16
+    k8sServiceHost: 127.0.0.1
+    k8sServicePort: 7445
+    kubeProxyReplacement: true
+    kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
+    l2announcements:
+      enabled: true
+    loadBalancer:
+      algorithm: maglev
+      mode: dsr
+    localRedirectPolicies:
+      enabled: true
     operator:
       dashboards:
         annotations:
@@ -36,11 +55,36 @@ spec:
         serviceMonitor:
           enabled: true
       replicas: ${REPLICAS:=1}
+      rollOutPods: true
+    pmtuDiscovery:
+      enabled: true
     prometheus:
       enabled: true
       serviceMonitor:
         enabled: true
         trustCRDsExist: true
-  valuesFrom:
-    - kind: ConfigMap
-      name: cilium-helm-values
+    rollOutCiliumPods: true
+    routingMode: native
+    securityContext:
+      capabilities:
+        ciliumAgent:
+          - CHOWN
+          - KILL
+          - NET_ADMIN
+          - NET_RAW
+          - IPC_LOCK
+          - SYS_ADMIN
+          - SYS_RESOURCE
+          - PERFMON
+          - BPF
+          - DAC_OVERRIDE
+          - FOWNER
+          - SETGID
+          - SETUID
+        cleanCiliumState:
+          - NET_ADMIN
+          - SYS_ADMIN
+          - SYS_RESOURCE
+    socketLB:
+      enabled: true
+      hostNamespaceOnly: true

@@ -1,12 +1,10 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/master/pkg/config/schemas/talconfig.json
-
 clusterName: ${CLUSTER_NAME}
 
 # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
-talosVersion: v1.11.1
+talosVersion: v1.11.6
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
-kubernetesVersion: v1.33.3
+kubernetesVersion: v1.34.3
 
 endpoint: https://${CLUSTER_ENDPOINT_IP}:6443
 additionalApiServerCertSans: &sans
@@ -63,75 +61,41 @@ nodes:
         vip:
           ip: *talosControlPlaneVIP
 
+  - hostname: k8s-4
+    controlPlane: false
+    installDiskSelector:
+      wwid: naa.5002538043584d30
+    ipAddress: 172.16.21.14
+    networkInterfaces:
+      - deviceSelector:
+          hardwareAddr: 38:c9:86:0d:dd:db
+        dhcp: true
+        mtu: 1500
+
   - hostname: k8s-5
     controlPlane: false
     installDiskSelector:
-      serial: S59ANM0R414052Y
+      wwid: eui.0025385411903f61
     ipAddress: 172.16.21.15
     networkInterfaces:
       - deviceSelector:
           hardwareAddr: 2c:f0:5d:5d:e2:95
         dhcp: true
         mtu: 1500
-    nodeLabels:
-      intel.feature.node.kubernetes.io/gpu: "true"
-      role/media: "true"
-    schematic:
-      customization:
-        systemExtensions:
-          officialExtensions:
-            - siderolabs/intel-ucode
-            - siderolabs/zfs
-            - siderolabs/i915
-    patches:
-      # Mount zfs-hostpath in kubelet
-      - |-
-        machine:
-          kubelet:
-            extraMounts:
-              - destination: /var/mnt/media
-                options:
-                  - bind
-                  - rshared
-                  - rw
-                source: /var/mnt/media
-                type: bind
-
-      # Increase pod limit
-      - |-
-        machine:
-          kubelet:
-            extraConfig:
-              maxPods: 150
 
 # Global patches
 patches:
-  - "@./patches/global/machine-features.yaml"
   - "@./patches/global/machine-files.yaml"
-  - "@./patches/global/machine-install.yaml"
   - "@./patches/global/machine-kubelet.yaml"
   - "@./patches/global/machine-network.yaml"
   - "@./patches/global/machine-sysctls.yaml"
   - "@./patches/global/machine-time.yaml"
-  - "@./patches/global/machine-udev.yaml"
 
 # Controller patches
 controlPlane:
   patches:
-    - "@./patches/controller/admission-controller-patch.yaml"
     - "@./patches/controller/cluster.yaml"
-    - "@./patches/controller/machine-features.yaml"
-  schematic:
-    customization:
-      systemExtensions:
-        officialExtensions:
-          - siderolabs/intel-ucode
 
 # Worker patches
 worker:
   patches: []
-  schematic:
-    customization:
-      systemExtensions:
-        officialExtensions:
-          - siderolabs/intel-ucode

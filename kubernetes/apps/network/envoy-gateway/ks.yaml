@@ -1,0 +1,43 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: envoy-gateway
+  namespace: &namespace network
+spec:
+  dependsOn:
+    - name: certificates-import
+      namespace: *namespace
+  interval: 1h
+  path: ./kubernetes/apps/network/envoy-gateway/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: *namespace
+  wait: true
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: envoy-gateway-config
+  namespace: &namespace network
+spec:
+  dependsOn:
+    - name: envoy-gateway
+      namespace: *namespace
+  interval: 1h
+  path: ./kubernetes/apps/network/envoy-gateway/config
+  postBuild:
+    substitute:
+      REPLICAS: "2"
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: *namespace
+  wait: false # no flux ks dependents

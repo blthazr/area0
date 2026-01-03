@@ -6,9 +6,6 @@ metadata:
   name: &app coredns
   namespace: &namespace kube-system
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   interval: 1h
   path: ./kubernetes/apps/kube-system/coredns/app
   postBuild:
@@ -16,11 +13,9 @@ spec:
       APP: *app
       REPLICAS: "2"
   prune: true
-  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  timeout: 5m
   wait: false # no flux ks dependents

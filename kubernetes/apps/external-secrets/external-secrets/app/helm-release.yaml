@@ -8,16 +8,14 @@ spec:
   chartRef:
     kind: OCIRepository
     name: external-secrets
-  install:
-    remediation:
-      retries: -1
   interval: 1h
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
   values:
-    replicaCount: ${REPLICAS:=1}
-  valuesFrom:
-    - kind: ConfigMap
-      name: external-secrets-helm-values
+    grafanaDashboard:
+      annotations:
+        grafana_folder: external-secrets
+      enabled: true
+    leaderElect: true
+    serviceMonitor:
+      enabled: true
+    webhook:
+      replicaCount: ${REPLICAS:=1}

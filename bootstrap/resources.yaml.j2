@@ -1,48 +1,32 @@
-{% for namespace in ["external-secrets", "flux-system", "network"] %}
+{% for namespace in ['external-secrets', 'flux-system', 'network', 'observability'] %}
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/namespace-v1.json
 apiVersion: v1
 kind: Namespace
 metadata:
   name: {{ namespace }}
 {% endfor %}
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/secret-v1.json
 apiVersion: v1
 kind: Secret
 metadata:
   name: onepassword-secret
   namespace: external-secrets
 stringData:
+  1password-credentials.json: op://area0/1password/OP_CREDENTIALS_JSON
   token: op://area0/1password/OP_CONNECT_TOKEN
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/secret-v1.json
 apiVersion: v1
 kind: Secret
 metadata:
-  name: sops-age
+  name: sops-age-secret
   namespace: flux-system
 stringData:
   age.agekey: op://area0/sops/SOPS_PRIVATE_KEY
 ---
-apiVersion: v1
-kind: Secret
-metadata:
-  name: theburnh-am-tls
-  namespace: kube-system
-  annotations:
-    cert-manager.io/alt-names: '*.theburnh.am,theburnh.am'
-    cert-manager.io/certificate-name: theburnh-am
-    cert-manager.io/common-name: theburnh.am
-    cert-manager.io/ip-sans: ''
-    cert-manager.io/issuer-group: ''
-    cert-manager.io/issuer-kind: ClusterIssuer
-    cert-manager.io/issuer-name: letsencrypt-production
-    cert-manager.io/uri-sans: ''
-  labels:
-    controller.cert-manager.io/fao: "true"
-data:
-  tls.crt: op://area0/theburnh-am-tls/tls.crt
-  tls.key: op://area0/theburnh-am-tls/tls.key
-type: kubernetes.io/tls
----
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/secret-v1.json
 apiVersion: v1
 kind: Secret
 metadata:

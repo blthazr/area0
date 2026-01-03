@@ -7,16 +7,20 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: app-template
-  install:
-    remediation:
-      retries: -1
+    name: cloudflare-tunnel
   interval: 1h
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
   values:
+    configMaps:
+      config:
+        data:
+          config.yaml: |-
+            ingress:
+              - hostname: "*.${SECRET_DOMAIN}"
+                originRequest:
+                  http2Origin: true
+                  originServerName: "external.${SECRET_DOMAIN}"
+                service: https://envoy-external.{{ .Release.Namespace }}.svc.cluster.local:443
+              - service: http_status:404
     controllers:
       cloudflare-tunnel:
         annotations:
@@ -29,15 +33,14 @@ spec:
             env:
               NO_AUTOUPDATE: true
               TUNNEL_METRICS: 0.0.0.0:8080
-              TUNNEL_ORIGIN_ENABLE_HTTP2: true
               TUNNEL_POST_QUANTUM: true
               TUNNEL_TRANSPORT_PROTOCOL: quic
             envFrom:
               - secretRef:
-                  name: "${APP}-secret"
+                  name: "{{ .Release.Name }}-secret"
             image:
-              repository: docker.io/cloudflare/cloudflared
-              tag: 2025.7.0@sha256:803b17adb5326a38ce397b9c9f374289ad290ee5526d204b5879a1423b6f5c3e
+              repository: mirror.gcr.io/cloudflare/cloudflared
+              tag: 2025.11.1@sha256:89ee50efb1e9cb2ae30281a8a404fed95eb8f02f0a972617526f8c5b417acae2
             probes:
               liveness: &probes
                 custom: true
@@ -53,13 +56,14 @@ spec:
               readiness: *probes
             resources:
               limits:
-                memory: 256Mi
+                memory: 128Mi
               requests:
                 cpu: 10m
             securityContext:
               allowPrivilegeEscalation: false
               capabilities:
-                drop: ["ALL"]
+                drop:
+                  - "ALL"
               readOnlyRootFilesystem: true
         replicas: ${REPLICAS:=1}
         strategy: RollingUpdate
@@ -70,16 +74,13 @@ spec:
         runAsUser: ${APP_UID:=1000}
     persistence:
       config-file:
-        enabled: true
         globalMounts:
           - path: /etc/cloudflared/config.yaml
-            readOnly: true
             subPath: config.yaml
-        name: cloudflare-tunnel-configmap
+        identifier: config
         type: configMap
     service:
       app:
-        controller: "${APP}"
         ports:
           http:
             port: *port
