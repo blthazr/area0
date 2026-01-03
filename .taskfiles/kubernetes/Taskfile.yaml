@@ -21,7 +21,7 @@ tasks:
     summary: |
       APP:  (str | required) Name of app to create
       NS:   (str)            Namespace of the app [default: default]
-      TYPE: (str)            Type of app to create [app-template, helm-values, standard (default: app-template)]
+      TYPE: (str)            Type of app to create [app-template, standard (default: app-template)]
     vars:
       APP_TYPE: '{{.TYPE | default "app-template"}}'
       NS: '{{.NS | default "default"}}'
@@ -52,59 +52,14 @@ tasks:
             FILES:
               - helm-release.yaml
               - kustomization.yaml
+              - oci-repository.yaml
         cmd: minijinja-cli {{.KUBERNETES_DIR}}/templates/__APP_NAME/app-template/{{.ITEM.FILES}}.j2 -o {{.APP_PATH}}/app/{{.ITEM.FILES}}
       - for:
           matrix:
             FILES:
               - external-secret.yaml
               - persistent-volume-claim.yaml
-        cmd: minijinja-cli {{.KUBERNETES_DIR}}/templates/__APP_NAME/extras/{{.ITEM.FILES}}.j2 -o {{.APP_PATH}}/app/{{.ITEM.FILES}}
-    requires:
-      vars:
-        - APP
-    preconditions:
-      - { msg: "Kubernetes namespace `{{.NS}}` does not exist.", sh: "test -d {{.NS_PATH}}" }
-      - { msg: "The app `{{.APP}}` already exists in namespace `{{.NS}}`.", sh: "! test -d {{.APP_PATH}}" }
-      - { msg: "minijinja-cli not in $PATH", sh: "command -v minijinja-cli" }
-      - { msg: "Missing minijinja config file: {{.MINIJINJA_CONFIG_FILE}}", sh: "test -f {{.MINIJINJA_CONFIG_FILE}}" }
-
-  # task k8s:new-helm-values-app APP=<app_name> [NS=default]
-  new-helm-values-app:
-    desc: Create a new helm-values app
-    summary: |
-      APP: (str | required) Name of app to create
-      NS:  (str)            Namespace of the app [default: default]
-    env:
-      APP: "{{.APP}}"
-      NS: "{{.NS}}"
-    vars:
-      NS: '{{.NS | default "default"}}'
-      NS_PATH: '{{.KUBERNETES_DIR}}/apps/{{.NS}}'
-      APP_PATH: '{{.NS_PATH}}/{{.APP}}'
-    cmds:
-      - mkdir -p {{.APP_PATH}}/app
-      - minijinja-cli {{.KUBERNETES_DIR}}/templates/__APP_NAME/ks.yaml.j2 -o {{.APP_PATH}}/ks.yaml
-      - for:
-          matrix:
-            FILES:
-              - helm-release.yaml
-              - kustomization.yaml
-        cmd: minijinja-cli {{.KUBERNETES_DIR}}/templates/__APP_NAME/helm-values/{{.ITEM.FILES}}.j2 -o {{.APP_PATH}}/app/{{.ITEM.FILES}}
-      - for:
-          matrix:
-            FILES:
-              - external-secret.yaml
-              - helm-repository.yaml
-              - persistent-volume-claim.yaml
-              - oci-repository.yaml
-        cmd: minijinja-cli {{.KUBERNETES_DIR}}/templates/__APP_NAME/extras/{{.ITEM.FILES}}.j2 -o {{.APP_PATH}}/app/{{.ITEM.FILES}}
-      - mkdir -p {{.APP_PATH}}/app/helm
-      - for:
-          matrix:
-            FILES:
-              - kustomize-config.yaml
-              - values.yaml
-        cmd: minijinja-cli {{.KUBERNETES_DIR}}/templates/__APP_NAME/helm-values/helm/{{.ITEM.FILES}}.j2 -o {{.APP_PATH}}/app/helm/{{.ITEM.FILES}}
+        cmd: minijinja-cli {{.KUBERNETES_DIR}}/templates/__APP_NAME/common/{{.ITEM.FILES}}.j2 -o {{.APP_PATH}}/app/{{.ITEM.FILES}}
     requires:
       vars:
         - APP
@@ -140,10 +95,9 @@ tasks:
           matrix:
             FILES:
               - external-secret.yaml
-              - helm-repository.yaml
               - persistent-volume-claim.yaml
               - oci-repository.yaml
-        cmd: minijinja-cli {{.KUBERNETES_DIR}}/templates/__APP_NAME/extras/{{.ITEM.FILES}}.j2 -o {{.APP_PATH}}/app/{{.ITEM.FILES}}
+        cmd: minijinja-cli {{.KUBERNETES_DIR}}/templates/__APP_NAME/common/{{.ITEM.FILES}}.j2 -o {{.APP_PATH}}/app/{{.ITEM.FILES}}
     requires:
       vars:
         - APP

@@ -1,0 +1,63 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+includes:
+  talos: ../talos
+
+vars:
+  # Directories
+  BOOTSTRAP_DIR: '{{.ROOT_DIR}}/bootstrap'
+  # Files
+  BOOTSTRAP_RESOURCES_FILE: '{{.BOOTSTRAP_DIR}}/resources.yaml.j2'
+  BOOTSTRAP_CRD_FILE: '{{.BOOTSTRAP_DIR}}/helmfile.d/00-crds.yaml'
+  BOOTSTRAP_APPS_FILE: '{{.BOOTSTRAP_DIR}}/helmfile.d/01-apps.yaml'
+
+tasks:
+
+  # task bootstrap:talos
+  talos:
+    desc: Bootstrap the Talos cluster
+    prompt: Bootstrap the Talos cluster ... continue?
+    cmds:
+      - task: talos:generate-clusterconfig
+      - task: talos:apply-clusterconfig
+        vars:
+          INSECURE: "true"
+      - until talosctl --nodes $(talosctl config info --output yaml | yq --exit-status '.endpoints[]' | coreutils shuf -n 1) bootstrap; do sleep 5; done
+      - task: talos:kubeconfig
+    preconditions:
+      - { msg: "coreutils not in $PATH", sh: "command -v coreutils" }
+      - { msg: "op not in $PATH", sh: "command -v op" }
+      - { msg: "talhelper not in $PATH", sh: "command -v talhelper" }
+      - { msg: "talosctl not in $PATH", sh: "command -v talosctl" }
+      - { msg: "yq not in $PATH", sh: "command -v yq" }
+      - { msg: "Missing op talhelper file: {{.TALHELPER_OP_ENV_FILE}}", sh: "test -f {{.TALHELPER_OP_ENV_FILE}}" }
+      - { msg: "Missing talhelper config file: {{.TALHELPER_CONFIG_FILE}}", sh: "test -f {{.TALHELPER_CONFIG_FILE}}" }
+      - { msg: "Missing talos clusterconfig directory: {{.TALOS_CLUSTERCONFIG_DIR}}", sh: "test -d {{.TALOS_CLUSTERCONFIG_DIR}}" }
+      - { msg: "Missing talhelper secret file: {{.TALHELPER_SECRET_FILE}}", sh: "test -f {{.TALHELPER_SECRET_FILE}}" }
+      - { msg: "1password not signed in", sh: "op user get --me" }
+    status:
+      - talosctl etcd status
+
+  # task bootstrap:apps
+  apps:
+    desc: Bootstrap Talos apps
+    prompt: "Bootstrap apps into the Talos cluster ... continue?"
+    cmds:
+      - until kubectl wait nodes --for=condition=Ready=False --all --timeout=10s; do sleep 5; done
+      - minijinja-cli "{{.BOOTSTRAP_RESOURCES_FILE}}" | op inject | kubectl apply --server-side --filename -
+      - helmfile --file "{{.BOOTSTRAP_CRD_FILE}}" template --quiet | kubectl apply --field-manager=bootstrap --force-conflicts --server-side --filename -
+      - helmfile --file {{.BOOTSTRAP_APPS_FILE}} sync --hide-notes
+      - until kubectl wait --for=condition=Ready nodes --all --timeout=10m; do sleep 10; done
+    preconditions:
+      - { msg: "helmfile not in $PATH", sh: "command -v helmfile" }
+      - { msg: "kubectl not in $PATH", sh: "command -v kubectl" }
+      - { msg: "minijinja-cli not in $PATH", sh: "command -v minijinja-cli" }
+      - { msg: "op not in $PATH", sh: "command -v op" }
+      - { msg: "Missing bootstrap apps file: {{.BOOTSTRAP_APPS_FILE}}", sh: "test -f {{.BOOTSTRAP_APPS_FILE}}" }
+      - { msg: "Missing bootstrap crds file: {{.BOOTSTRAP_CRD_FILE}}", sh: "test -f {{.BOOTSTRAP_CRD_FILE}}" }
+      - { msg: "Missing bootstrap resources file: {{.BOOTSTRAP_RESOURCES_FILE}}", sh: "test -f {{.BOOTSTRAP_RESOURCES_FILE}}" }
+      - { msg: "Missing kubeconfig file: {{.KUBECONFIG_FILE}}", sh: "test -f {{.KUBECONFIG_FILE}}" }
+      - { msg: "Missing minijinja config file: {{.MINIJINJA_CONFIG_FILE}}", sh: "test -f {{.MINIJINJA_CONFIG_FILE}}" }
+      - { msg: "1password not signed in", sh: "op user get --me" }

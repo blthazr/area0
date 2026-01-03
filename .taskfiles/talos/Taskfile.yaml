@@ -1,0 +1,415 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+vars:
+  # Directories
+  TALOS_DIR: '{{.INFRASTRUCTURE_DIR}}/talos'
+  TALOS_CLUSTERCONFIG_DIR: '{{.TALOS_DIR}}/clusterconfig'
+  # Files
+  TALHELPER_CONFIG_FILE: '{{.TALOS_DIR}}/talconfig.yaml'
+  TALHELPER_OP_ENV_FILE: '{{.TALOS_DIR}}/talhelper.env'
+  TALHELPER_SECRET_FILE: '{{.TALOS_DIR}}/talsecret.yaml'
+  TALOSCONFIG_FILE: '{{.TALOS_CLUSTERCONFIG_DIR}}/talosconfig'
+
+env:
+  TALOSCONFIG: '{{.TALOSCONFIG_FILE}}'
+
+tasks:
+
+  # task talos:generate-clusterconfig [VAULT=area0]
+  generate-clusterconfig:
+    desc: Generate clusterconfig for a Talos cluster
+    summary: |
+      VAULT: (str) 1password vault name [default: area0]
+    env:
+      VAULT: '{{.VAULT}}'
+    vars:
+      VAULT: '{{.VAULT | default "area0"}}'
+    cmds:
+      - op run --env-file {{.TALHELPER_OP_ENV_FILE}} --no-masking -- talhelper genconfig
+          --config-file {{.TALHELPER_CONFIG_FILE}}
+          --no-gitignore
+          --out-dir {{.TALOS_CLUSTERCONFIG_DIR}}
+          --secret-file {{.TALHELPER_SECRET_FILE}}
+    preconditions:
+      - { msg: "op not in $PATH", sh: "command -v op" }
+      - { msg: "talhelper not in $PATH", sh: "command -v talhelper" }
+      - { msg: "talosctl not in $PATH", sh: "command -v talosctl" }
+      - { msg: "Missing op talhelper file: {{.TALHELPER_OP_ENV_FILE}}", sh: "test -f {{.TALHELPER_OP_ENV_FILE}}" }
+      - { msg: "Missing talhelper config file: {{.TALHELPER_CONFIG_FILE}}", sh: "test -f {{.TALHELPER_CONFIG_FILE}}" }
+      - { msg: "Missing talos clusterconfig directory: {{.TALOS_CLUSTERCONFIG_DIR}}", sh: "test -d {{.TALOS_CLUSTERCONFIG_DIR}}" }
+      - { msg: "Missing talhelper secret file: {{.TALHELPER_SECRET_FILE}}", sh: "test -f {{.TALHELPER_SECRET_FILE}}" }
+      - { msg: "1password not signed in", sh: "op user get --me" }
+
+  # task talos:diff-machineconfig NODE=<node_name>
+  diff-machineconfig:
+    desc: Diff machineconfig for a Talos node
+    summary: |
+      NODE: (str | required) Talos node name
+    deps:
+      - generate-clusterconfig
+    vars:
+      CLUSTER_NAME:
+        sh: yq '.context' {{.TALOSCONFIG_FILE}}
+      FILENAME: "{{.TALOS_CLUSTERCONFIG_DIR}}/{{.CLUSTER_NAME}}-{{.NODE}}.yaml"
+    cmds:
+      - task: .apply-machineconfig
+        vars:
+          DRY_RUN: "true"
+          FILENAME: "{{.FILENAME}}"
+          NODE: "{{.NODE}}"
+    requires:
+      vars:
+        - NODE
+    preconditions:
+      - { msg: "coreutils not in $PATH", sh: "command -v coreutils" }
+      - { msg: "talosctl not in $PATH", sh: "command -v talosctl" }
+      - { msg: "yq not in $PATH", sh: "command -v yq" }
+      - { msg: "Missing talhelper config file: {{.TALHELPER_CONFIG_FILE}}", sh: "test -f {{.TALHELPER_CONFIG_FILE}}" }
+      - { msg: "Missing Talos machineconfig file: {{.FILENAME}}", sh: "test -f {{.FILENAME}}" }
+      - { msg: "Missing talosconfig file: {{.TALOSCONFIG_FILE}}", sh: "test -f {{.TALOSCONFIG_FILE}}" }
+
+  # task talos:apply-machineconfig NODE=<node_name> [DRY_RUN=false] [INSECURE=false] [MODE=auto]
+  apply-machineconfig:
+    desc: Apply machineconfig to a Talos node
+    summary: |
+      NODE:     (str | required) Talos node name
+      DRY_RUN:  (bool)           Show changes without applying config
+      INSECURE: (bool)           Apply the config using the insecure (encrypted with no auth) maintenance service
+      MODE:     (str)            Apply config mode [auto, interactive, no-reboot, reboot, staged, try (default: auto)]
+    prompt: "Apply machineconfig to Talos node: '{{.NODE}} [ {{.NODE_IP_ADDRESS}} ]' ... continue?"
+    vars:
+      CLUSTER_NAME:
+        sh: yq '.context' {{.TALOSCONFIG_FILE}}
+      NODE_IP_ADDRESS:
+        sh: yq '.nodes[] | select(.hostname == "{{.NODE}}") | .ipAddress' {{.TALHELPER_CONFIG_FILE}}
+      FILENAME: "{{.TALOS_CLUSTERCONFIG_DIR}}/{{.CLUSTER_NAME}}-{{.NODE}}.yaml"
+    cmds:
+      - task: .apply-machineconfig
+        vars:
+          DRY_RUN: "{{.DRY_RUN}}"
+          FILENAME: "{{.FILENAME}}"
+          INSECURE: "{{.INSECURE}}"
+          MODE: "{{.MODE}}"
+          NODE: "{{.NODE}}"
+    requires:
+      vars:
+        - NODE
+    preconditions:
+      - { msg: "coreutils not in $PATH", sh: "command -v coreutils" }
+      - { msg: "talosctl not in $PATH", sh: "command -v talosctl" }
+      - { msg: "yq not in $PATH", sh: "command -v yq" }
+      - { msg: "Missing talhelper config file: {{.TALHELPER_CONFIG_FILE}}", sh: "test -f {{.TALHELPER_CONFIG_FILE}}" }
+      - { msg: "Missing Talos machineconfig file: {{.FILENAME}}", sh: "test -f {{.FILENAME}}" }
+      - { msg: "Missing talosconfig file: {{.TALOSCONFIG_FILE}}", sh: "test -f {{.TALOSCONFIG_FILE}}" }
+
+  # task talos:apply-clusterconfig [DRY_RUN=false] [INSECURE=false] [MODE=auto]
+  apply-clusterconfig:
+    desc: Apply clusterconfig for a Talos cluster
+    summary: |
+      DRY_RUN:  (bool) Show changes without applying config
+      INSECURE: (bool) Apply the config using the insecure (encrypted with no auth) maintenance service
+      MODE:     (str)  Apply config mode [auto, interactive, no-reboot, reboot, staged, try (default: auto)]
+    prompt: '{{ if ne "true" .INSECURE }}Apply Talos machineconfig to all Talos nodes ... continue?{{ end }}'
+    vars:
+      CLUSTER_NAME:
+        sh: yq '.context' {{.TALOSCONFIG_FILE}}
+      NODES_LIST:
+        sh: yq '[.nodes[].hostname] | join(" ")' {{.TALHELPER_CONFIG_FILE}}
+    cmds:
+      - for:
+          var: NODES_LIST
+        task: .apply-machineconfig
+        vars:
+          DRY_RUN: "{{.DRY_RUN}}"
+          FILENAME:
+            sh: ls {{.TALOS_CLUSTERCONFIG_DIR}}/{{.CLUSTER_NAME}}-{{.ITEM}}.yaml
+          INSECURE: "{{.INSECURE}}"
+          MODE: "{{.MODE}}"
+          NODE: "{{.ITEM}}"
+      - |
+        {{- if and (ne .DRY_RUN "true") (ne .INSECURE "true") }}
+        talosctl health --server=false
+        {{ end }}
+    preconditions:
+      - { msg: "coreutils not in $PATH", sh: "command -v coreutils" }
+      - { msg: "talosctl not in $PATH", sh: "command -v talosctl" }
+      - { msg: "yq not in $PATH", sh: "command -v yq" }
+      - { msg: "Missing talhelper config file: {{.TALHELPER_CONFIG_FILE}}", sh: "test -f {{.TALHELPER_CONFIG_FILE}}" }
+      - { msg: "Missing talosconfig file: {{.TALOSCONFIG_FILE}}", sh: "test -f {{.TALOSCONFIG_FILE}}" }
+
+  # task talos:kubeconfig [KUBE_CONTEXT=<context>]
+  kubeconfig:
+    desc: Generate kubeconfig for a Talos cluster
+    summary: |
+      KUBE_CONTEXT: (str) Context name for kubeconfig merge
+    vars:
+      CLUSTER_NAME:
+        sh: yq '.context' {{.TALOSCONFIG_FILE}}
+      KUBECONFIG_DIR:
+        sh: dirname {{.KUBECONFIG_FILE}}
+      KUBE_CONTEXT: '{{.KUBE_CONTEXT | default .CLUSTER_NAME}}'
+      CONTROLLER:
+        sh: talosctl config info --output yaml | yq --exit-status '.endpoints[]' | coreutils shuf -n 1
+    cmds:
+      - talosctl kubeconfig
+          --force
+          --force-context-name "{{.KUBE_CONTEXT}}"
+          --nodes "{{.CONTROLLER}}"
+          "{{.KUBECONFIG_DIR}}"
+    preconditions:
+      - { msg: "coreutils not in $PATH", sh: "command -v coreutils" }
+      - { msg: "talosctl not in $PATH", sh: "command -v talosctl" }
+      - { msg: "yq not in $PATH", sh: "command -v yq" }
+      - { msg: "Missing talosconfig file: {{.TALOSCONFIG_FILE}}", sh: "test -f {{.TALOSCONFIG_FILE}}" }
+
+  # task talos:reboot-node NODE=<node_name> [MODE=powercycle]
+  reboot-node:
+    desc: Reboot a Talos node
+    summary: |
+      NODE: (str | required) Talos node name
+      MODE: (str)            Reboot mode [default, powercycle (default: powercycle)]
+    prompt: "Reboot Talos node: '{{.NODE}} [ {{.NODE_IP_ADDRESS}} ]' ... continue?"
+    vars:
+      MODE: '{{.MODE | default "powercycle"}}'
+      NODE_IP_ADDRESS:
+        sh: yq '.nodes[] | select(.hostname == "{{.NODE}}") | .ipAddress' {{.TALHELPER_CONFIG_FILE}}
+    cmds:
+      - task: .reboot-node
+        vars:
+          MODE: "{{.MODE}}"
+          NODE: "{{.NODE}}"
+    requires:
+      vars:
+        - NODE
+    preconditions:
+      - { msg: "coreutils not in $PATH", sh: "command -v coreutils" }
+      - { msg: "talosctl not in $PATH", sh: "command -v talosctl" }
+      - { msg: "yq not in $PATH", sh: "command -v yq" }
+      - { msg: "Missing talhelper config file: {{.TALHELPER_CONFIG_FILE}}", sh: "test -f {{.TALHELPER_CONFIG_FILE}}" }
+      - { msg: "Missing talosconfig file: {{.TALOSCONFIG_FILE}}", sh: "test -f {{.TALOSCONFIG_FILE}}" }
+
+  # task talos:reboot-cluster [MODE=powercycle]
+  reboot-cluster:
+    desc: Reboot the Talos cluster
+    summary: |
+      MODE: (str) Reboot mode [default, powercycle (default: powercycle)]
+    prompt: "Reboot the Talos cluster ... continue?"
+    vars:
+      MODE: '{{.MODE | default "powercycle"}}'
+      NODES:
+        sh: talosctl get hostname -o jsonpath='{.spec.hostname}' | tr '\n' ' '
+    cmds:
+      - for:
+          var: NODES
+        task: .reboot-node
+        vars:
+          MODE: "{{.MODE}}"
+          NODE: "{{.ITEM}}"
+    preconditions:
+      - { msg: "coreutils not in $PATH", sh: "command -v coreutils" }
+      - { msg: "talosctl not in $PATH", sh: "command -v talosctl" }
+      - { msg: "yq not in $PATH", sh: "command -v yq" }
+      - { msg: "Missing talhelper config file: {{.TALHELPER_CONFIG_FILE}}", sh: "test -f {{.TALHELPER_CONFIG_FILE}}" }
+      - { msg: "Missing talosconfig file: {{.TALOSCONFIG_FILE}}", sh: "test -f {{.TALOSCONFIG_FILE}}" }
+
+  # task talos:shutdown-node NODE=<node_name>
+  shutdown-node:
+    desc: Shutdown a Talos node
+    summary: |
+      NODE: (str | required) Talos node name
+    prompt: "Shutdown Talos node: '{{.NODE}} [ {{.NODE_IP_ADDRESS}} ]' ... continue?"
+    vars:
+      NODE_IP_ADDRESS:
+        sh: yq '.nodes[] | select(.hostname == "{{.NODE}}") | .ipAddress' {{.TALHELPER_CONFIG_FILE}}
+    cmds:
+      - talosctl shutdown
+          --force
+          --nodes {{.NODE_IP_ADDRESS}}
+    requires:
+      vars:
+        - NODE
+    preconditions:
+      - { msg: "talosctl not in $PATH", sh: "command -v talosctl" }
+      - { msg: "yq not in $PATH", sh: "command -v yq" }
+      - { msg: "Missing talhelper config file: {{.TALHELPER_CONFIG_FILE}}", sh: "test -f {{.TALHELPER_CONFIG_FILE}}" }
+      - { msg: "Missing talosconfig file: {{.TALOSCONFIG_FILE}}", sh: "test -f {{.TALOSCONFIG_FILE}}" }
+
+  # task talos:shutdown-cluster
+  shutdown-cluster:
+    desc: Shutdown the Talos cluster
+    prompt: "Shutdown the Talos cluster ... continue?"
+    vars:
+      NODES:
+        sh: talosctl config info --output yaml | yq --exit-status '[.nodes[]] | join(",")'
+    cmds:
+      - talosctl shutdown
+          --force
+          --nodes {{.NODES}}
+    preconditions:
+      - { msg: "talosctl not in $PATH", sh: "command -v talosctl" }
+      - { msg: "yq not in $PATH", sh: "command -v yq" }
+      - { msg: "Missing talosconfig file: {{.TALOSCONFIG_FILE}}", sh: "test -f {{.TALOSCONFIG_FILE}}" }
+
+  # task talos:reset-node NODE=<node_name> [STATE=maintenance]
+  reset-node:
+    desc: Reset a Talos node
+    summary: |
+      NODE:  (str | required) Talos node name
+      INSECURE: (bool)        Reset using the insecure (encrypted with no auth) maintenance service
+      STATE: (str)            Reset state [maintenance, nuke (default: maintenance)]
+    prompt:
+      - '{{- if eq .STATE "maintenance" }}Reset the Talos node back to maintenance mode: {{.NODE}} [ {{.NODE_IP_ADDRESS}} ] ... continue?{{ end }}'
+      - '{{- if eq .STATE "nuke" }}Destroy the Talos node and wipe all system disks: {{.NODE}} [ {{.NODE_IP_ADDRESS}} ] ... continue?{{ end }}'
+    vars:
+      NODE_IP_ADDRESS:
+        sh: yq '.nodes[] | select(.hostname == "{{.NODE}}") | .ipAddress' {{.TALHELPER_CONFIG_FILE}}
+      STATE: '{{.STATE | default "maintenance"}}'
+    cmds:
+      - talosctl reset
+          --graceful=false
+          {{ if eq "true" .INSECURE }}--insecure{{ end }}
+          --nodes {{.NODE_IP_ADDRESS}}
+          --reboot
+          {{- if eq .STATE "maintenance" }}
+          --system-labels-to-wipe EPHEMERAL
+          --system-labels-to-wipe STATE
+          {{ end }}
+          --wait=false
+    requires:
+      vars:
+        - NODE
+    preconditions:
+      - { msg: "talosctl not in $PATH", sh: "command -v talosctl" }
+      - { msg: "yq not in $PATH", sh: "command -v yq" }
+      - { msg: "Missing talhelper config file: {{.TALHELPER_CONFIG_FILE}}", sh: "test -f {{.TALHELPER_CONFIG_FILE}}" }
+      - { msg: "Missing talosconfig file: {{.TALOSCONFIG_FILE}}", sh: "test -f {{.TALOSCONFIG_FILE}}" }
+
+  # task talos:reset-cluster [STATE=maintenance]
+  reset-cluster:
+    desc: Reset the Talos cluster
+    summary: |
+      STATE:    (str)  Reset state [maintenance, nuke (default: maintenance)]
+    prompt:
+      - '{{- if eq .STATE "maintenance" }}Reset all Talos nodes back to maintenance mode ... continue?{{ end }}'
+      - '{{- if eq .STATE "nuke" }}Destroy all Talos nodes and wipe all system disks ... continue?{{ end }}'
+    vars:
+      NODES:
+        sh: talosctl config info --output yaml | yq --exit-status '[.nodes[]] | join(",")'
+      STATE: '{{.STATE | default "maintenance"}}'
+    cmds:
+      - talosctl reset
+          --graceful=false
+          --nodes {{.NODES}}
+          --reboot
+          {{- if eq .STATE "maintenance" }}
+          --system-labels-to-wipe EPHEMERAL
+          --system-labels-to-wipe STATE
+          {{ end }}
+    preconditions:
+      - { msg: "talosctl not in $PATH", sh: "command -v talosctl" }
+      - { msg: "yq not in $PATH", sh: "command -v yq" }
+      - { msg: "Missing talosconfig file: {{.TALOSCONFIG_FILE}}", sh: "test -f {{.TALOSCONFIG_FILE}}" }
+
+  # task talos:upgrade-node NODE=<node_name>
+  upgrade-node:
+    desc: Upgrade a Talos node
+    summary: |
+      NODE:     (str | required) Talos node name
+      INSECURE: (bool)           Reset using the insecure (encrypted with no auth) maintenance service
+      MODE:     (str)            Reboot mode [default, powercycle (default: powercycle)]
+      STAGE:    (bool)           Stage the upgrade to perform it after a reboot
+      TIMEOUT:  (str)            Time to wait for the operation to complete [default: "10m"]
+    prompt: "Upgrade Talos node: '{{.NODE}} [ {{.NODE_IP_ADDRESS}} ]' ... continue?"
+    deps:
+      - generate-clusterconfig
+    vars:
+      CLUSTER_NAME:
+        sh: yq '.context' {{.TALOSCONFIG_FILE}}
+      FILENAME: "{{.TALOS_CLUSTERCONFIG_DIR}}/{{.CLUSTER_NAME}}-{{.NODE}}.yaml"
+      FACTORY_IMAGE:
+        sh: yq '.machine.install.image' {{.FILENAME}} | head -n 1
+      MODE: '{{.MODE | default "powercycle"}}'
+      NODE_IP_ADDRESS:
+        sh: yq '.nodes[] | select(.hostname == "{{.NODE}}") | .ipAddress' {{.TALHELPER_CONFIG_FILE}}
+      TALOS_IMAGE:
+        sh: talosctl --nodes {{.NODE_IP_ADDRESS}} get machineconfig persistent --output yaml | yq .spec | yq .machine.install.image | head -n 1
+      TIMEOUT: '{{.TIMEOUT | default "10m"}}'
+    cmds:
+      - talosctl upgrade
+        --image="{{.FACTORY_IMAGE}}"
+        {{ if eq "true" .INSECURE }}--insecure{{ end }}
+        --nodes {{.NODE_IP_ADDRESS}}
+        --reboot-mode={{.MODE}}
+        {{ if eq "true" .STAGE }}--stage{{ end }}
+        --timeout={{.TIMEOUT}}
+    requires:
+      vars:
+        - NODE
+    preconditions:
+      - { msg: "talosctl not in $PATH", sh: "command -v talosctl" }
+      - { msg: "yq not in $PATH", sh: "command -v yq" }
+      - { msg: "Missing talhelper config file: {{.TALHELPER_CONFIG_FILE}}", sh: "test -f {{.TALHELPER_CONFIG_FILE}}" }
+      - { msg: "Missing talosconfig file: {{.TALOSCONFIG_FILE}}", sh: "test -f {{.TALOSCONFIG_FILE}}" }
+    status: # use --force to override this
+      - "[[ '{{.TALOS_IMAGE}}' == '{{.FACTORY_IMAGE}}' ]]"
+
+  .apply-machineconfig:
+    summary: |
+      FILENAME: (str | required) File path for the node configuration file
+      NODE:     (str | required) Talos node name
+      DRY_RUN:  (bool)           Show changes without applying config
+      INSECURE: (bool)           Apply the config using the insecure (encrypted with no auth) maintenance service
+      MODE:     (str)            Apply config mode [auto, interactive, no-reboot, reboot, staged, try (default: auto)]
+    internal: true
+    vars:
+      NODE_IP_ADDRESS:
+        sh: yq '.nodes[] | select(.hostname == "{{.NODE}}") | .ipAddress' {{.TALHELPER_CONFIG_FILE}}
+      MODE: '{{.MODE | default "auto"}}'
+    cmds:
+      - talosctl apply-config
+          {{ if eq "true" .DRY_RUN }}--dry-run{{ end }}
+          --file "{{.FILENAME}}"
+          {{ if eq "true" .INSECURE }}--insecure{{ end }}
+          --mode="{{.MODE}}"
+          --nodes {{.NODE_IP_ADDRESS}}
+      - |
+        {{- if and (ne .DRY_RUN "true") (ne .INSECURE "true") }}
+        until talosctl --nodes $(talosctl config info --output yaml | yq --exit-status '.endpoints[]' | coreutils shuf -n 1) health; do sleep 5; done
+        {{ end }}
+    requires:
+      vars:
+        - FILENAME
+        - NODE
+    preconditions:
+      - { msg: "coreutils not in $PATH", sh: "command -v coreutils" }
+      - { msg: "talosctl not in $PATH", sh: "command -v talosctl" }
+      - { msg: "yq not in $PATH", sh: "command -v yq" }
+      - { msg: "Missing talhelper config file: {{.TALHELPER_CONFIG_FILE}}", sh: "test -f {{.TALHELPER_CONFIG_FILE}}" }
+      - { msg: "Missing Talos machineconfig file: {{.FILENAME}}", sh: "test -f {{.FILENAME}}" }
+      - { msg: "Missing talosconfig file: {{.TALOSCONFIG_FILE}}", sh: "test -f {{.TALOSCONFIG_FILE}}" }
+
+  .reboot-node:
+    summary: |
+      NODE: (str | required) Talos node name
+      MODE: (str)            Reboot mode [default, powercycle (default: powercycle)]
+    internal: true
+    vars:
+      MODE: '{{.MODE | default "powercycle"}}'
+      NODE_IP_ADDRESS:
+        sh: yq '.nodes[] | select(.hostname == "{{.NODE}}") | .ipAddress' {{.TALHELPER_CONFIG_FILE}}
+    cmds:
+      - talosctl reboot
+          --mode={{.MODE}}
+          --nodes {{.NODE_IP_ADDRESS}}
+      - until talosctl --nodes $(talosctl config info --output yaml | yq --exit-status '.endpoints[]' | coreutils shuf -n 1) health; do sleep 5; done
+    requires:
+      vars:
+        - NODE
+    preconditions:
+      - { msg: "coreutils not in $PATH", sh: "command -v coreutils" }
+      - { msg: "talosctl not in $PATH", sh: "command -v talosctl" }
+      - { msg: "yq not in $PATH", sh: "command -v yq" }
+      - { msg: "Missing talhelper config file: {{.TALHELPER_CONFIG_FILE}}", sh: "test -f {{.TALHELPER_CONFIG_FILE}}" }
+      - { msg: "Missing talosconfig file: {{.TALOSCONFIG_FILE}}", sh: "test -f {{.TALOSCONFIG_FILE}}" }

@@ -6,12 +6,15 @@ set: [pipefail]
 shopt: [globstar]
 
 includes:
+  bootstrap: .taskfiles/bootstrap
   flux: .taskfiles/flux
   kubernetes:
     aliases: ["k8s"]
     taskfile: .taskfiles/kubernetes
   sops: .taskfiles/sops
+  talos: .taskfiles/talos
   volsync: .taskfiles/volsync
+  workstation: .taskfiles/workstation
 
 vars:
   # Directories
@@ -23,7 +26,6 @@ vars:
 
 env:
   KUBECONFIG: '{{.KUBECONFIG_FILE}}'
-  MINIJINJA_CONFIG_FILE: '{{.ROOT_DIR}}/.minijinja.toml'
 
 tasks:
 

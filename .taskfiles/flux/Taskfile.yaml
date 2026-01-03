@@ -8,8 +8,7 @@ tasks:
   reconcile:
     desc: Force Flux to pull in changes from the Git repository
     cmds:
-      - |
-        flux --namespace flux-system reconcile kustomization flux-system --with-source
+      - flux --namespace flux-system reconcile kustomization flux-system --with-source
     preconditions:
       - { msg: "flux not in $PATH", sh: "command -v flux" }
       - { msg: "Missing kubeconfig file: {{.KUBECONFIG_FILE}}", sh: "test -f {{.KUBECONFIG_FILE}}" }

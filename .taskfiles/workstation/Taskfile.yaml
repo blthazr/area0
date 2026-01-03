@@ -1,0 +1,78 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+vars:
+  # Directories
+  WORKSTATION_RESOURCES_DIR: '{{.ROOT_DIR}}/.taskfiles/workstation/resources'
+  # Files
+  BREWFILE_FILE: '{{.WORKSTATION_RESOURCES_DIR}}/Brewfile'
+  MISE_CONFIG_FILE: '{{.ROOT_DIR}}/.mise.toml'
+
+tasks:
+
+  # task workstation:tools
+  tools:
+    desc: Setup workstation tools
+    deps:
+      - :workstation:brew:install
+      - :workstation:brew:upgrade
+      - :workstation:mise:setup
+      - :workstation:mise:upgrade
+
+  # task workstation:brew:install
+  brew:install:
+    desc: Install workstation dependencies with Brew
+    cmds:
+      - brew bundle --file {{.BREWFILE_FILE}}
+    sources:
+      - '{{.BREWFILE_FILE}}'
+    generates:
+      - '{{.BREWFILE_FILE}}.lock.json'
+    preconditions:
+      - { msg: "brew not in $PATH", sh: "command -v brew" }
+      - { msg: "Missing Homebrew bundle file: {{.BREWFILE_FILE}}", sh: "test -f {{.BREWFILE_FILE}}" }
+
+  # task workstation:brew:upgrade
+  brew:upgrade:
+    desc: Upgrade workstation dependencies with Brew
+    cmds:
+      - brew bundle upgrade --file {{.BREWFILE_FILE}}
+    sources:
+      - '{{.BREWFILE_FILE}}'
+    generates:
+      - '{{.BREWFILE_FILE}}.lock.json'
+    preconditions:
+      - { msg: "brew not in $PATH", sh: "command -v brew" }
+      - { msg: "Missing Homebrew bundle file: {{.BREWFILE_FILE}}", sh: "test -f {{.BREWFILE_FILE}}" }
+
+  # task workstation:mise:setup
+  mise:setup:
+    desc: Activate mise
+    deps:
+      - :workstation:.mise:install
+    cmds:
+      - mise trust {{.MISE_CONFIG_FILE}}
+      - mise install
+    preconditions:
+      - { msg: "mise not in $PATH", sh: "command -v mise" }
+
+  # task workstation:mise:upgrade
+  mise:upgrade:
+    desc: Upgrade mise tools
+    deps:
+      - :workstation:.mise:install
+    cmds:
+      - mise upgrade
+    preconditions:
+      - { msg: "mise not in $PATH", sh: "command -v mise" }
+
+  .mise:install:
+    desc: Install mise
+    internal: true
+    cmds:
+      - brew install mise
+    preconditions:
+      - { msg: "brew not in $PATH", sh: "command -v brew" }
+    status:
+      - "command -v mise"

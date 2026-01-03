@@ -4,24 +4,38 @@ version: '3'
 
 vars:
   # Files
-  AGE_FILE: '{{.ROOT_DIR}}/age.key'
+  SOPS_AGE_KEY_FILE: '{{.ROOT_DIR}}/age.key'
   SOPS_CONFIG_FILE: '{{.ROOT_DIR}}/.sops.yaml'
 
+env:
+  SOPS_AGE_KEY_FILE: '{{.SOPS_AGE_KEY_FILE}}'
+
 tasks:
+
+  # task sops:age-keygen
+  age-keygen:
+    desc: Genereate age key for SOPS
+    cmds:
+      - age-keygen --output {{.SOPS_AGE_KEY_FILE}}
+    preconditions:
+      - { msg: "age-keygen not in $PATH", sh: "command -v age-keygen" }
+    status:
+      - test -f "{{.SOPS_AGE_KEY_FILE}}"
 
   .encrypt-file:
     desc: Encrypt file with SOPS
     summary: |
       FILE: (str | required) Path of file to be encrypted
     internal: true
-    cmd: sops --encrypt --in-place {{.FILE}}
+    cmds:
+      - sops --encrypt --in-place {{.FILE}}
     requires:
       vars:
         - FILE
     preconditions:
       - { msg: "jq not in $PATH", sh: "command -v jq" }
       - { msg: "sops not in $PATH", sh: "command -v sops" }
-      - { msg: "Missing SOPS age key file: {{.AGE_FILE}}", sh: "test -f {{.AGE_FILE}}" }
+      - { msg: "Missing SOPS age key file: {{.SOPS_AGE_KEY_FILE}}", sh: "test -f {{.SOPS_AGE_KEY_FILE}}" }
       - { msg: "Missing SOPS config file: {{.SOPS_CONFIG_FILE}}", sh: "test -f {{.SOPS_CONFIG_FILE}}" }
     status:
       - sops filestatus {{.FILE}} | jq --exit-status '.encrypted'
