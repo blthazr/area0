@@ -27,12 +27,12 @@ spec:
             compression_algorithm: zstd
             compression_mode: aggressive
             csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
-            csi.storage.k8s.io/controller-expand-secret-namespace: {{ .Release.Namespace }}
+            csi.storage.k8s.io/controller-expand-secret-namespace: "{{ .Release.Namespace }}"
             csi.storage.k8s.io/fstype: ext4
             csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
-            csi.storage.k8s.io/node-stage-secret-namespace: {{ .Release.Namespace }}
+            csi.storage.k8s.io/node-stage-secret-namespace: "{{ .Release.Namespace }}"
             csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
-            csi.storage.k8s.io/provisioner-secret-namespace: {{ .Release.Namespace }}
+            csi.storage.k8s.io/provisioner-secret-namespace: "{{ .Release.Namespace }}"
             imageFeatures: layering,fast-diff,object-map,deep-flatten,exclusive-lock
             imageFormat: "2"
           reclaimPolicy: Delete
@@ -72,11 +72,6 @@ spec:
           - name: rook
             enabled: true
       network:
-        addressRanges:
-          cluster:
-            - 169.254.255.0/24
-          public:
-            - 169.254.255.0/24
         connections:
           requireMsgr2: true
         provider: host
