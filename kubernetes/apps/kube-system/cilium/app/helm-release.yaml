@@ -12,7 +12,6 @@ spec:
   values:
     autoDirectNodeRoutes: true
     bpf:
-      hostLegacyRouting: true
       masquerade: true
     cgroup:
       automount:
@@ -54,7 +53,7 @@ spec:
         enabled: true
         serviceMonitor:
           enabled: true
-      replicas: ${REPLICAS:=1}
+      replicas: 2
       rollOutPods: true
     pmtuDiscovery:
       enabled: true
