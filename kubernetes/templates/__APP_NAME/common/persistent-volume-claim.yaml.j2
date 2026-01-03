@@ -5,9 +5,10 @@ kind: PersistentVolumeClaim
 metadata:
   annotations:
     kustomize.toolkit.fluxcd.io/prune: disabled
-  name: "${APP_PVC:=${APP}}"
+  name: "${APP_PVC:=${APP}-local}"
 spec:
-  accessModes: ["${APP_PVC_ACCESSMODES:=ReadWriteOnce}"]
+  accessModes:
+    - "${APP_PVC_ACCESSMODES:=ReadWriteOnce}"
   resources:
     requests:
       storage: "${APP_PVC_CAPACITY:=5Gi}"

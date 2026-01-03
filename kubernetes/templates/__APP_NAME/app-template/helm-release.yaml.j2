@@ -7,15 +7,8 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: app-template
-  install:
-    remediation:
-      retries: -1
+    name: {{ ENV.APP }}
   interval: 1h
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
   values:
     controllers:
       {{ ENV.APP }}:
@@ -23,14 +16,16 @@ spec:
           reloader.stakater.com/auto: "true"
         containers:
           app:
-            env:
-              TZ: "${CLUSTER_TIME_ZONE}"
-            # envFrom: &envFrom
+            # env:
+            #   TZ: "${CLUSTER_TIME_ZONE}"
+            # envFrom:
             #   - secretRef:
-            #       name: "${APP}-secret"
-            # image:
-            #   repository: __IMAGE_REPO
-            #   tag: __IMAGE_TAG
+                  {% raw %}
+            #       name: "{{ .Release.Name }}-secret"
+                  {% endraw %}
+            image:
+              repository: __IMAGE_REPO
+              tag: __IMAGE_TAG
             # probes:
             #   liveness: &probes
             #     custom: true
@@ -51,61 +46,52 @@ spec:
             #   requests:
             #     cpu: 10m
             #     memory: 128Mi
-            securityContext: &securityContext
-              allowPrivilegeEscalation: false
-              capabilities:
-                drop: ["ALL"]
-              readOnlyRootFilesystem: true
-        replicas: ${REPLICAS:=1}
+            # securityContext:
+            #   allowPrivilegeEscalation: false
+            #   capabilities:
+            #     drop:
+            #       - "ALL"
+            #   readOnlyRootFilesystem: true
+        # replicas: ${REPLICAS:=1}
     defaultPodOptions:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: node-role.kubernetes.io/control-plane
-                    operator: DoesNotExist
+      # affinity:
+      #   nodeAffinity:
+      #     requiredDuringSchedulingIgnoredDuringExecution:
+      #       nodeSelectorTerms:
+      #         - matchExpressions:
+      #             - key: node-role.kubernetes.io/control-plane
+      #               operator: DoesNotExist
       securityContext:
-        fsGroup: ${APP_GID:=1000}
+        fsGroup: ${APP_PGID:=1000}
         fsGroupChangePolicy: OnRootMismatch
-        runAsGroup: ${APP_GID:=1000}
+        runAsGroup: ${APP_PGID:=1000}
         runAsNonRoot: true
-        runAsUser: ${APP_UID:=1000}
-    ingress:
-      app:
-        className: internal
-        enabled: true
-        hosts:
-          - host: "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
+        runAsUser: ${APP_PUID:=1000}
     persistence:
       config:
-        enabled: true
         existingClaim: "${VOLSYNC_PVC:=${APP}}"
         globalMounts:
           - path: /config
-      # __VOLUME_NAME:
-      #   enabled: true
-      #   existingClaim: "${APP_PVC}"
-      #   globalMounts:
-      #     - path: /__VOLUME_MOUNT_PATH
-      #       # readOnly: true
-      tmpfs:
-        advancedMounts:
-          {{ ENV.APP }}:
-            app:
-              - path: /tmp
-                subPath: tmp
-        enabled: true
-        type: emptyDir
+      # tmpfs:
+      #   advancedMounts:
+      #     {{ ENV.APP }}:
+      #       app:
+      #         - path: /tmp
+      #           subPath: tmp
+      #   type: emptyDir
+    route:
+      app:
+        hostnames:
+          - "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
+        {% raw %}
+          # - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+        {% endraw %}
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+            sectionName: https
     service:
       app:
-        controller: "${APP}"
         ports:
           http:
-            # port: __SERVICE_PORT_NUMBER
-            # port: *port
+            port: __SERVICE_PORT_NUMBER # *port

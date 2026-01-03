@@ -3,12 +3,12 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: __OCI_REPO_NAME
+  name: {{ ENV.APP }}
 spec:
-  interval: 5m
+  interval: 15m
   layerSelector:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: __OCI_REPO_TAG
-  url: __OCI_REPO_URL
+    tag: 4.5.0
+  url: oci://ghcr.io/bjw-s-labs/helm/app-template

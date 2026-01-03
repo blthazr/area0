@@ -5,23 +5,8 @@ kind: HelmRelease
 metadata:
   name: {{ ENV.APP }}
 spec:
-  # chart:
-  #   spec:
-  #     chart: __HELM_CHART
-  #     sourceRef:
-  #       kind: HelmRepository
-  #       name: __HELM_REPO_NAME
-  #       namespace: {{ ENV.NS }}
-  #     version: __HELM_REPO_VERSION
-  # chartRef:
-  #   kind: OCIRepository
-  #   name: __OCI_REPO_NAME
-  install:
-    remediation:
-      retries: -1
+  chartRef:
+    kind: OCIRepository
+    name: {{ ENV.APP }}
   interval: 1h
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
   values: {}

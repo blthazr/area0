@@ -6,15 +6,8 @@ metadata:
   name: &app {{ ENV.APP }}
   namespace: &namespace {{ ENV.NS }}
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   # components:
   #   - ../../../../components/volsync
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
   # dependsOn:
   #   - name: rook-ceph-cluster
   #     namespace: rook-ceph
@@ -25,38 +18,14 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      # APP_PGID: "1000"                            # optional | default
+      # APP_PUID: "1000"                            # optional | default
       # HOSTNAME: "${APP}"                          # optional | default
-      # APP_PVC: "${APP}"                           # optional | default
-      # APP_PVC_CAPACITY: 5Gi                       # optional | default
-      # VOLSYNC_PVC: "${APP}"                       # optional | default
-      # VOLSYNC_CAPACITY: 5Gi                       # optional | default
-      # APP_GID: "1000"                             # optional | default
-      # APP_UID: "1000"                             # optional | default
       # REPLICAS: "1"                               # optional | default
-      # APP_PVC_ACCESSMODES: ReadWriteOnce          # optional | default
-      # APP_PVC_STORAGECLASS: ceph-block            # optional | default
-      # VOLSYNC_ACCESSMODES: ReadWriteOnce          # optional | default
-      # VOLSYNC_BUCKET_NAME: volsync                # optional | default
-      # VOLSYNC_CACHE_ACCESSMODES: ReadWriteOnce    # optional | default
-      # VOLSYNC_CACHE_CAPACITY: 2Gi                 # optional | default
-      # VOLSYNC_CACHE_SNAPSHOTCLASS: ceph-block     # optional | default
-      # VOLSYNC_COPYMETHOD: Snapshot                # optional | default
-      # VOLSYNC_GID: "1000"                         # optional | default
-      # VOLSYNC_MINIO_SCHEDULE: "0 * * * *"         # optional | default
-      # VOLSYNC_R2_SCHEDULE: "30 0 * * *"           # optional | default
-      # VOLSYNC_SNAP_ACCESSMODES: ReadWriteOnce     # optional | default
-      # VOLSYNC_SNAPSHOTCLASS: csi-ceph-blockpool   # optional | default
-      # VOLSYNC_STORAGECLASS: ceph-block            # optional | default
-      # VOLSYNC_UID: "1000"                         # optional | default
-    substituteFrom:
-      - kind: Secret
-        name: cluster-secrets
   prune: true
-  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  timeout: 5m
   wait: false # no flux ks dependents
