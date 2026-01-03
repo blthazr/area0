@@ -105,9 +105,9 @@ spec:
         strategy: RollingUpdate
     defaultPodOptions:
       securityContext:
-        runAsGroup: ${APP_PGID:=1000}
+        runAsGroup: 999
         runAsNonRoot: true
-        runAsUser: ${APP_PUID:=1000}
+        runAsUser: 999
     persistence:
       config:
         globalMounts:
