@@ -13,7 +13,7 @@ releases:
       - # Wait for Cilium CRDs to be available
         args:
           - -c
-          - until kubectl get crd ciliumloadbalancerippools.cilium.io ciliumbgpadvertisements.cilium.io ciliumbgppeerconfigs.cilium.io ciliumbgpclusterconfigs.cilium.io &>/dev/null; do sleep 5; done
+          - until kubectl get crd ciliumloadbalancerippools.cilium.io &>/dev/null; do sleep 5; done
         command: bash
         events:
           - postsync
