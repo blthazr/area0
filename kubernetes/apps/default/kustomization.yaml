@@ -7,6 +7,9 @@ components:
   - ../../components/common
 resources:
   - ./namespace.yaml
+  - ./persistent-volume-claim.yaml
+  - ./persistent-volume.yaml
+  - ./storage-class.yaml
   - ./actual/ks.yaml
   - ./pocket-id/ks.yaml
   - ./tautulli/ks.yaml
