@@ -24,6 +24,10 @@ spec:
       # APP_PUID: "1000"                            # optional | default
       # HOSTNAME: "${APP}"                          # optional | default
       # REPLICAS: "1"                               # optional | default
+      # APP_PVC: "${APP}-local"                     # optional | default
+      # APP_PVC_CAPACITY: 5Gi                       # optional | default
+      # APP_PVC_ACCESSMODES: ReadWriteOnce          # optional | default
+      # APP_PVC_STORAGECLASS: ceph-block            # optional | default
       # VOLSYNC_ACCESSMODES: ReadWriteOnce          # optional | default
       # VOLSYNC_BUCKET_NAME: volsync                # optional | default
       # VOLSYNC_CACHE_ACCESSMODES: ReadWriteOnce    # optional | default

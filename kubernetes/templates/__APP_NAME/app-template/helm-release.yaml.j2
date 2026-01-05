@@ -72,6 +72,11 @@ spec:
         existingClaim: "${VOLSYNC_PVC:=${APP}}"
         globalMounts:
           - path: /config
+      # local-media:
+      #   existingClaim: default-local-storage
+      #   globalMounts:
+      #     - path: /media
+      #       readOnly: true
       # tmpfs:
       #   advancedMounts:
       #     {{ ENV.APP }}:
@@ -83,13 +88,9 @@ spec:
       app:
         hostnames:
           - "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
-        {% raw %}
-          # - "{{ .Release.Name }}.${SECRET_DOMAIN}"
-        {% endraw %}
         parentRefs:
           - name: envoy-internal
             namespace: network
-            sectionName: https
     service:
       app:
         ports:
