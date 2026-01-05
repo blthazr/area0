@@ -1,0 +1,106 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: mealie
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: mealie
+  interval: 1h
+  values:
+    controllers:
+      mealie:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            env:
+              API_DOCS: "false"
+              API_PORT: &port 9000
+              BASE_URL: "https://${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
+              OIDC_ADMIN_GROUP: mealie_admins
+              OIDC_AUTH_ENABLED: "true"
+              OIDC_AUTO_REDIRECT: "true"
+              OIDC_CONFIGURATION_URL: "https://id.${SECRET_DOMAIN}/.well-known/openid-configuration"
+              OIDC_PROVIDER_NAME: Pocket ID
+              OIDC_REMEMBER_ME: "true"
+              OIDC_USER_GROUP: mealie_users
+              PGID: ${APP_GID:=1000}
+              PUID: ${APP_UID:=1000}
+              TOKEN_TIME: 43200
+              TZ: "${CLUSTER_TIME_ZONE}"
+            envFrom:
+              - secretRef:
+                  name: "{{ .Release.Name }}-secret"
+            image:
+              repository: ghcr.io/mealie-recipes/mealie
+              tag: v3.0.2@sha256:448d56c5b41b668a8e2f0e435ade52ce6bd574d906d3e45eba1e9a1d05f844ff
+            probes:
+              liveness: &probes
+                custom: true
+                enabled: true
+                spec:
+                  failureThreshold: 3
+                  httpGet:
+                    path: /api/app/about
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+              readiness: *probes
+            resources:
+              limits:
+                memory: 512Mi
+              requests:
+                cpu: 10m
+                memory: 128Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - "ALL"
+              readOnlyRootFilesystem: true
+        replicas: ${REPLICAS:=1}
+    defaultPodOptions:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
+      securityContext:
+        fsGroup: ${APP_PGID:=1000}
+        fsGroupChangePolicy: OnRootMismatch
+        runAsGroup: ${APP_PGID:=1000}
+        runAsNonRoot: true
+        runAsUser: ${APP_PUID:=1000}
+    persistence:
+      api-data:
+        existingClaim: "${VOLSYNC_PVC:=${APP}}"
+        globalMounts:
+          - path: /app/data
+      tmpfs:
+        advancedMounts:
+          mealie:
+            app:
+              - path: /nltk_data
+                subPath: nltk_data
+              - path: /tmp
+                subPath: tmp
+        type: emptyDir
+    route:
+      app:
+        hostnames:
+          - "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-external
+            namespace: network
+            sectionName: https
+    service:
+      app:
+        ports:
+          http:
+            port: *port

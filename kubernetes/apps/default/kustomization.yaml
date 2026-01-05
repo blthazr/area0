@@ -11,5 +11,6 @@ resources:
   - ./persistent-volume.yaml
   - ./storage-class.yaml
   - ./actual/ks.yaml
+  - ./mealie/ks.yaml
   - ./pocket-id/ks.yaml
   - ./tautulli/ks.yaml
