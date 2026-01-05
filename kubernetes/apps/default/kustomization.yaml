@@ -12,6 +12,7 @@ resources:
   - ./storage-class.yaml
   - ./actual/ks.yaml
   - ./mealie/ks.yaml
+  - ./plex/ks.yaml
   - ./pocket-id/ks.yaml
   - ./sabnzbd/ks.yaml
   - ./tautulli/ks.yaml
