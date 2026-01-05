@@ -3,7 +3,7 @@
 apiVersion: resource.k8s.io/v1
 kind: ResourceClaimTemplate
 metadata:
-  name: "${APP}-gpu"
+  name: plex
 spec:
   spec:
     devices:
