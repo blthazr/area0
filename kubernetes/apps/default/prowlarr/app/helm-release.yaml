@@ -1,0 +1,103 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: prowlarr
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: prowlarr
+  interval: 1h
+  values:
+    controllers:
+      prowlarr:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            env:
+              PROWLARR__APP__INSTANCENAME: "${APP}"
+              PROWLARR__APP__THEME: dark
+              PROWLARR__AUTH__METHOD: External
+              PROWLARR__AUTH__REQUIRED: DisabledForLocalAddresses
+              PROWLARR__LOG__DBENABLED: "False"
+              PROWLARR__LOG__LEVEL: info
+              PROWLARR__SERVER__PORT: &port 80
+              PROWLARR__UPDATE__BRANCH: develop
+              TZ: "${CLUSTER_TIME_ZONE}"
+            envFrom:
+              - secretRef:
+                  name: "{{ .Release.Name }}-secret"
+            image:
+              repository: ghcr.io/home-operations/prowlarr
+              tag: 2.1.2.5186@sha256:3e5e091311bbea32612ef0f74cb56e9bd7f17a7a191a99b36c78825499390868
+            probes:
+              liveness: &probes
+                custom: true
+                enabled: true
+                spec:
+                  failureThreshold: 3
+                  httpGet:
+                    path: /ping
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+              readiness: *probes
+            resources:
+              limits:
+                memory: 512Mi
+              requests:
+                cpu: 10m
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - "ALL"
+              readOnlyRootFilesystem: true
+        initContainers:
+          init-db:
+            envFrom:
+              - secretRef:
+                  name: "{{ .Release.Name }}-secret"
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 17.4@sha256:43dd04e91e861cf912378bad987afa168fa4f13d05528304907ad0aa351195d6
+        replicas: ${REPLICAS:=1}
+    defaultPodOptions:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
+      securityContext:
+        fsGroup: ${APP_PGID:=1000}
+        fsGroupChangePolicy: OnRootMismatch
+        runAsGroup: ${APP_PGID:=1000}
+        runAsNonRoot: true
+        runAsUser: ${APP_PUID:=1000}
+    persistence:
+      tmpfs:
+        advancedMounts:
+          prowlarr:
+            app:
+              - path: /config
+                subPath: config
+              - path: /tmp
+                subPath: tmp
+        type: emptyDir
+    route:
+      app:
+        hostnames:
+          - "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+    service:
+      app:
+        ports:
+          http:
+            port: *port
