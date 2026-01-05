@@ -98,7 +98,6 @@ spec:
         parentRefs:
           - name: envoy-external
             namespace: network
-            sectionName: https
     service:
       app:
         ports:
