@@ -17,4 +17,5 @@ resources:
   - ./prowlarr/ks.yaml
   - ./pocket-id/ks.yaml
   - ./sabnzbd/ks.yaml
+  - ./sonarr/ks.yaml
   - ./tautulli/ks.yaml
