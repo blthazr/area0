@@ -13,6 +13,7 @@ resources:
   - ./actual/ks.yaml
   - ./bazarr/ks.yaml
   - ./mealie/ks.yaml
+  - ./overseerr/ks.yaml
   - ./plex/ks.yaml
   - ./pocket-id/ks.yaml
   - ./prowlarr/ks.yaml
