@@ -5,7 +5,7 @@
       description: "Process annotated dependencies",
       customType: "regex",
       managerFilePatterns: [
-        "/\\.yaml(?:\\.j2)?$/"
+        "/\\.yaml(?:\\.j2)?$/",
       ],
       matchStrings: [
         // # renovate: datasource=github-releases depName=foo/bar
@@ -20,10 +20,10 @@
       description: "Process OCI dependencies",
       customType: "regex",
       managerFilePatterns: [
-        "/\\.yaml(?:\\.j2)?$/"
+        "/\\.yaml(?:\\.j2)?$/",
       ],
       matchStrings: [
-        "oci://(?<depName>[^:]+):(?<currentValue>\\S+)"
+        "oci://(?<depName>[^:]+):(?<currentValue>\\S+)",
       ],
       datasourceTemplate: "docker",
     },

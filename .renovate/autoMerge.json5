@@ -34,18 +34,6 @@
       minimumReleaseAge: "1 minute",
     },
     {
-      description: "Auto-merge Mise tools (patch, minor)",
-      addLabels: ["action/automerge"],
-      automerge: true,
-      automergeType: "branch",
-      ignoreTests: true,
-      matchManagers: ["mise"],
-      matchUpdateTypes: [
-        "patch",
-        "minor",
-      ],
-    },
-    {
       description: "Auto-merge trusted containers (digest)",
       addLabels: ["action/automerge"],
       automerge: true,
