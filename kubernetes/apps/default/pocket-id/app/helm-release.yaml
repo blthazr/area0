@@ -30,7 +30,7 @@ spec:
               UPLOAD_PATH: /app/data/uploads
             image:
               repository: ghcr.io/pocket-id/pocket-id
-              tag: v1.11.2@sha256:6abfd8d9875aa7996aeeb016057bdee0c66a6c509225a0aeb241c3f87785c62c
+              tag: v1.16.0@sha256:f8cde808e8e840acda25683fc2168e0206e3f3fb1a48cca89d211aafd87eaeef
             probes:
               liveness: &probes
                 custom: true
