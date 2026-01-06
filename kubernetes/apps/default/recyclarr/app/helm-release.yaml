@@ -1,0 +1,83 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: recyclarr
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: recyclarr
+  interval: 1h
+  values:
+    controllers:
+      recyclarr:
+        containers:
+          app:
+            args:
+              - sync
+            env:
+              TZ: "${CLUSTER_TIME_ZONE}"
+            envFrom:
+              - secretRef:
+                  name: "{{ .Release.Name }}-secret"
+            image:
+              repository: ghcr.io/recyclarr/recyclarr
+              tag: 7.5.2@sha256:2550848d43a453f2c6adf3582f2198ac719f76670691d76de0819053103ef2fb
+            resources:
+              limits:
+                memory: 128Mi
+              requests:
+                cpu: 10m
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - "ALL"
+              readOnlyRootFilesystem: true
+        cronjob:
+          backoffLimit: 0
+          concurrencyPolicy: Forbid
+          failedJobsHistory: 1
+          schedule: 0 0 * * *
+          successfulJobsHistory: 1
+          ttlSecondsAfterFinished: 86400
+        pod:
+          restartPolicy: Never
+        type: cronjob
+    defaultPodOptions:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
+      securityContext:
+        fsGroup: ${APP_GID:=1000}
+        fsGroupChangePolicy: OnRootMismatch
+        runAsGroup: ${APP_GID:=1000}
+        runAsNonRoot: true
+        runAsUser: ${APP_UID:=1000}
+    persistence:
+      config:
+        existingClaim: "${VOLSYNC_PVC:=${APP}}"
+        globalMounts:
+          - path: /config
+      config-file:
+        globalMounts:
+          - path: /config/configs
+            readOnly: true
+        name: "{{ .Release.Name }}-configmap"
+        type: configMap
+      tmpfs:
+        advancedMounts:
+          recyclarr:
+            app:
+              - path: /config/logs
+                subPath: logs
+              - path: /config/repositories
+                subPath: repositories
+              - path: /tmp
+                subPath: tmp
+        type: emptyDir

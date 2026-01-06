@@ -1,0 +1,83 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/recyclarr/recyclarr/master/schemas/config-schema.json
+radarr:
+  radarr:
+    base_url: http://radarr.default.svc.cluster.local
+    api_key: !env_var RADARR_API_KEY
+
+    delete_old_custom_formats: true
+    replace_existing_custom_formats: true
+
+    include:
+      - template: radarr-quality-definition-sqp-streaming
+      - template: radarr-custom-formats-anime
+      - template: radarr-custom-formats-sqp-1-1080p
+      - template: radarr-quality-profile-anime
+      - template: radarr-quality-profile-sqp-1-1080p
+
+    quality_profiles:
+      - name: SQP-1 (1080p)
+        min_format_score: 10
+      - name: Best Available
+        min_format_score: 0
+        qualities:
+          - name: Remux-1080p
+          - name: Bluray-1080p
+          - name: Web 1080p
+            qualities:
+              - WEBRip-1080p
+              - WEBDL-1080p
+              - HDTV-1080p
+          - name: Bluray-720p
+          - name: Web 720p
+            qualities:
+              - WEBRip-720p
+              - WEBDL-720p
+              - HDTV-720p
+        quality_sort: top
+        score_set: sqp-1-1080p
+        reset_unmatched_scores:
+          enabled: true
+        upgrade:
+          allowed: true
+          until_quality: Remux-1080p
+          until_score: 10000
+
+    custom_formats:
+      - trash_ids:
+          # Miscellaneous
+          - b6832f586342ef70d9c128d40c07b872 # Bad Dual Groups
+          - cc444569854e9de0b084ab2b8b1532b2 # Black and White Editions
+          - ae9b7c9ebde1f3bd336a8cbd1ec4c5e5 # No-RlsGroup
+          - 7357cf5161efbf8c4d5d0c30b4815ee2 # Obfuscated
+          - 5c44f52a8714fdd79bb4d98e2673be1f # Retags
+          - f537cf427b64c38c8e36298f657e4828 # Scene
+        assign_scores_to:
+          - name: SQP-1 (1080p)
+          - name: Best Available
+      - trash_ids:
+          # Miscellaneous
+          - 839bea857ed2c0a8e084f3cbdbd65ecb # x265 (no HDR/DV)
+        assign_scores_to:
+          - name: SQP-1 (1080p)
+            score: 0
+          - name: Best Available
+            score: 0
+      - trash_ids:
+          # Anime
+          - 064af5f084a0a24458cc8ecd3220f93f # Uncensored
+        assign_scores_to:
+          - name: Remux-1080p - Anime
+            score: 0
+      - trash_ids:
+          # Anime
+          - a5d148168c4506b55cf53984107c396e # 10bit
+        assign_scores_to:
+          - name: Remux-1080p - Anime
+            score: 0
+      - trash_ids:
+          # Anime
+          - 4a3b087eea2ce012fcc1ce319259a3be # Anime Dual Audio
+        assign_scores_to:
+          - name: Remux-1080p - Anime
+            score: 0
