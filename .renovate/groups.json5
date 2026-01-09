@@ -2,6 +2,18 @@
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   packageRules: [
     {
+      description: "1Password Connect Group",
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+      groupName: "1password-connect",
+      matchDatasources: ["docker"],
+      matchPackageNames: [
+        "/1password/"
+      ],
+      minimumGroupSize: 2,
+    },
+    {
       description: "Flux Operator Group",
       group: {
         commitMessageTopic: "{{{groupName}}} group",
@@ -14,6 +26,19 @@
         "/flux-operator/",
       ],
       minimumGroupSize: 3,
+    },
+    {
+      description: "Rook-Ceph Group",
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+      groupName: "Rook-Ceph",
+      matchDatasources: ["docker"],
+      matchPackageNames: [
+        "/rook-ceph/",
+        "/rook-ceph-cluster/",
+      ],
+      minimumGroupSize: 2,
     },
   ],
 }

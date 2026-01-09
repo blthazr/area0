@@ -7,6 +7,11 @@
       changelogUrl: "https://github.com/1Password/connect/blob/main/CHANGELOG.md",
     },
     {
+      description: "Changelog URL for ActualBudget Logs",
+      matchPackageNames: ["/actualbudget/"],
+      changelogUrl: "https://actualbudget.org/docs/releases/",
+    },
+    {
       description: "Changelog URL for Cloudflared",
       matchPackageNames: ["/cloudflared/"],
       changelogUrl: "https://github.com/cloudflare/cloudflared/blob/master/RELEASE_NOTES",
