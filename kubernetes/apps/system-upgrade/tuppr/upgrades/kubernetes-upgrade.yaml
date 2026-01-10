@@ -16,4 +16,4 @@ spec:
         status.ceph.health in ['HEALTH_OK']
   kubernetes:
     # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
-    version: v1.34.3
+    version: v1.35.0
