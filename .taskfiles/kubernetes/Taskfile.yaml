@@ -10,7 +10,9 @@ tasks:
     cmds:
       - for:
           matrix:
-            PHASE: [Failed, Pending, Succeeded]
+            PHASE:
+              - Failed
+              - Succeeded
         cmd: kubectl delete pods --all-namespaces --field-selector status.phase={{.ITEM.PHASE}} --ignore-not-found=true
     preconditions:
       - { msg: "kubectl not in $PATH", sh: "command -v kubectl" }
@@ -46,20 +48,20 @@ tasks:
       APP_PATH: '{{.NS_PATH}}/{{.APP}}'
     cmds:
       - mkdir -p {{.APP_PATH}}/app
-      - minijinja-cli {{.KUBERNETES_DIR}}/templates/__APP_NAME/ks.yaml.j2 -o {{.APP_PATH}}/ks.yaml
+      - minijinja-cli {{.KUBERNETES_DIR}}/templates/APP_NAME/ks.yaml.j2 -o {{.APP_PATH}}/ks.yaml
       - for:
           matrix:
             FILES:
               - helm-release.yaml
               - kustomization.yaml
               - oci-repository.yaml
-        cmd: minijinja-cli {{.KUBERNETES_DIR}}/templates/__APP_NAME/app-template/{{.ITEM.FILES}}.j2 -o {{.APP_PATH}}/app/{{.ITEM.FILES}}
+        cmd: minijinja-cli {{.KUBERNETES_DIR}}/templates/APP_NAME/app-template/{{.ITEM.FILES}}.j2 -o {{.APP_PATH}}/app/{{.ITEM.FILES}}
       - for:
           matrix:
             FILES:
               - external-secret.yaml
               - persistent-volume-claim.yaml
-        cmd: minijinja-cli {{.KUBERNETES_DIR}}/templates/__APP_NAME/common/{{.ITEM.FILES}}.j2 -o {{.APP_PATH}}/app/{{.ITEM.FILES}}
+        cmd: minijinja-cli {{.KUBERNETES_DIR}}/templates/APP_NAME/common/{{.ITEM.FILES}}.j2 -o {{.APP_PATH}}/app/{{.ITEM.FILES}}
     requires:
       vars:
         - APP
@@ -84,20 +86,20 @@ tasks:
       APP_PATH: '{{.NS_PATH}}/{{.APP}}'
     cmds:
       - mkdir -p {{.APP_PATH}}/app
-      - minijinja-cli {{.KUBERNETES_DIR}}/templates/__APP_NAME/ks.yaml.j2 -o {{.APP_PATH}}/ks.yaml
+      - minijinja-cli {{.KUBERNETES_DIR}}/templates/APP_NAME/ks.yaml.j2 -o {{.APP_PATH}}/ks.yaml
       - for:
           matrix:
             FILES:
               - helm-release.yaml
               - kustomization.yaml
-        cmd: minijinja-cli {{.KUBERNETES_DIR}}/templates/__APP_NAME/standard/{{.ITEM.FILES}}.j2 -o {{.APP_PATH}}/app/{{.ITEM.FILES}}
+        cmd: minijinja-cli {{.KUBERNETES_DIR}}/templates/APP_NAME/standard/{{.ITEM.FILES}}.j2 -o {{.APP_PATH}}/app/{{.ITEM.FILES}}
       - for:
           matrix:
             FILES:
               - external-secret.yaml
               - persistent-volume-claim.yaml
               - oci-repository.yaml
-        cmd: minijinja-cli {{.KUBERNETES_DIR}}/templates/__APP_NAME/common/{{.ITEM.FILES}}.j2 -o {{.APP_PATH}}/app/{{.ITEM.FILES}}
+        cmd: minijinja-cli {{.KUBERNETES_DIR}}/templates/APP_NAME/common/{{.ITEM.FILES}}.j2 -o {{.APP_PATH}}/app/{{.ITEM.FILES}}
     requires:
       vars:
         - APP
