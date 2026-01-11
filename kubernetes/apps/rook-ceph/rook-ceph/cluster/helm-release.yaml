@@ -126,4 +126,4 @@ spec:
           - name: envoy-internal
             namespace: network
     toolbox:
-      enabled: false
+      enabled: true
