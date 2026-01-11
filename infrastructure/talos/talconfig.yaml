@@ -82,10 +82,40 @@ nodes:
           hardwareAddr: 2c:f0:5d:5d:e2:95
         dhcp: true
         mtu: 1500
+    patches:
+      - "@./patches/manifests/watchdog-timer-config.yaml"
+      # Increase pod limit
+      - |-
+        machine:
+          kubelet:
+            extraConfig:
+              maxPods: 150
+      # Mount zfs-hostpath in kubelet
+      - |-
+        machine:
+          kubelet:
+            extraMounts:
+              - destination: /var/mnt/media
+                options:
+                  - bind
+                  - rshared
+                  - rw
+                source: /var/mnt/media
+                type: bind
+    schematic:
+      customization:
+        systemExtensions:
+          officialExtensions:
+            - siderolabs/i915
+            - siderolabs/intel-ucode
+            - siderolabs/zfs
 
 # Global patches
 patches:
+  - "@./patches/global/machine-features.yaml"
   - "@./patches/global/machine-files.yaml"
+  - "@./patches/global/machine-install.yaml"
+  - "@./patches/global/machine-kernel.yaml"
   - "@./patches/global/machine-kubelet.yaml"
   - "@./patches/global/machine-network.yaml"
   - "@./patches/global/machine-sysctls.yaml"
@@ -95,7 +125,20 @@ patches:
 controlPlane:
   patches:
     - "@./patches/controller/cluster.yaml"
+    - "@./patches/controller/machine-features.yaml"
+  schematic:
+    customization:
+      systemExtensions:
+        officialExtensions:
+          - siderolabs/i915
+          - siderolabs/intel-ucode
 
 # Worker patches
 worker:
   patches: []
+  schematic:
+    customization:
+      systemExtensions:
+        officialExtensions:
+          - siderolabs/i915
+          - siderolabs/intel-ucode

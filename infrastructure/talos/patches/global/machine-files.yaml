@@ -7,5 +7,17 @@ machine:
         [plugins."io.containerd.cri.v1.images"]
           discard_unpacked_layers = false
         [plugins."io.containerd.cri.v1.runtime"]
+          cdi_spec_dirs = ["/var/cdi/static", "/var/cdi/dynamic"]
           device_ownership_from_security_context = true
       path: /etc/cri/conf.d/20-customization.part
+      permissions: 0o644
+    - # NFS Mount
+      op: overwrite
+      content: |
+        [ NFSMount_Global_Options ]
+        nfsvers=4.0
+        hard=True
+        nconnect=8
+        noatime=True
+      path: /etc/nfsmount.conf
+      permissions: 0o644

@@ -1,0 +1,16 @@
+---
+machine:
+  install:
+    extraKernelArgs:
+      - -init_on_alloc                      # Less security, more speed
+      - -init_on_free                       # Less security, more speed
+      - -selinux                            # Less security, more speed
+      - apparmor=0                          # Less security, more speed
+      - init_on_alloc=0                     # Less security, more speed
+      - init_on_free=0                      # Less security, more speed
+      - intel_iommu=on                      # PCI Passthrough
+      - iommu=pt                            # PCI Passthrough
+      - mitigations=off                     # Less security, more speed
+      - security=none                       # Less security, more speed
+      - sysctl.kernel.kexec_load_disabled=1 # Disable kexec load
+      - talos.auditd.disabled=1             # Less security, more speed
