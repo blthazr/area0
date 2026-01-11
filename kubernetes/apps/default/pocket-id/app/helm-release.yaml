@@ -28,6 +28,9 @@ spec:
               TZ: "${CLUSTER_TIME_ZONE}"
               UI_CONFIG_DISABLED: true
               UPLOAD_PATH: /app/data/uploads
+            envFrom:
+              - secretRef:
+                  name: "{{ .Release.Name }}-secret"
             image:
               repository: ghcr.io/pocket-id/pocket-id
               tag: v2.2.0@sha256:84d20a801692b9635f481522df2672a7aae522726c30953dae52e17fc2696b27
