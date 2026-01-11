@@ -5,4 +5,3 @@ kind: Component
 resources:
   - ./persistent-volume-claim.yaml
   - ./minio
-  - ./r2
