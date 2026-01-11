@@ -64,8 +64,8 @@ spec:
         urlPrefix: /
       mgr:
         modules:
-          # - name: diskprediction_local
-          #   enabled: true
+          - name: diskprediction_local
+            enabled: false
           - name: insights
             enabled: true
           - name: pg_autoscaler
