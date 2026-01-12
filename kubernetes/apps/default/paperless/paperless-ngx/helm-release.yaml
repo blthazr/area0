@@ -149,7 +149,7 @@ spec:
           - name: envoy-internal
             namespace: network
     service:
-      app:
+      paperless-ngx:
         controller: paperless-ngx
         ports:
           http:
