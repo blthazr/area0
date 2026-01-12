@@ -44,7 +44,7 @@ spec:
               PAPERLESS_OCR_LANGUAGE: eng
               PAPERLESS_OCR_USER_ARGS: '{"invalidate_digital_signatures": true}'
               # Redis
-              PAPERLESS_REDIS: redis://paperless-ngx-redis.{{ .Release.Namespace }}.svc.cluster.local:6379
+              PAPERLESS_REDIS: redis://localhost:6379
               # User permissions
               USERMAP_GID: ${APP_GID:=1000}
               USERMAP_UID: ${APP_UID:=1000}
