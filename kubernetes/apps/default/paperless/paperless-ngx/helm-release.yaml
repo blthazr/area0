@@ -16,6 +16,8 @@ spec:
           reloader.stakater.com/auto: "true"
         containers:
           app:
+            dependsOn:
+              - redis
             env:
               # Application
               PAPERLESS_DATE_ORDER: MDY
@@ -66,16 +68,6 @@ spec:
                 memory: 4Gi
               requests:
                 cpu: 10m
-        initContainers:
-          init-db:
-            envFrom:
-              - secretRef:
-                  name: "{{ .Release.Name }}-secret"
-            image:
-              repository: ghcr.io/onedr0p/postgres-init
-              tag: 17.4@sha256:43dd04e91e861cf912378bad987afa168fa4f13d05528304907ad0aa351195d6
-      redis:
-        containers:
           redis:
             image:
               repository: ghcr.io/valkey-io/valkey
@@ -86,6 +78,14 @@ spec:
               requests:
                 cpu: 5m
                 memory: 32Mi
+        initContainers:
+          init-db:
+            envFrom:
+              - secretRef:
+                  name: "{{ .Release.Name }}-secret"
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 17.4@sha256:43dd04e91e861cf912378bad987afa168fa4f13d05528304907ad0aa351195d6
     defaultPodOptions:
       affinity:
         nodeAffinity:
@@ -150,12 +150,6 @@ spec:
             namespace: network
     service:
       paperless-ngx:
-        controller: paperless-ngx
         ports:
           http:
             port: *port
-      redis:
-        controller: redis
-        ports:
-          http:
-            port: 6379
