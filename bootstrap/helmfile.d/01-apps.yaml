@@ -33,7 +33,7 @@ releases:
     namespace: kube-system
     values:
       - ./templates/values.yaml.gotmpl
-    version: 1.18.5
+    version: 1.18.6
 
   - name: coredns
     chart: oci://ghcr.io/coredns/charts/coredns
