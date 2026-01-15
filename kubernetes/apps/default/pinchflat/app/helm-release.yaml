@@ -69,7 +69,7 @@ spec:
           - path: /config
       nas-data:
         advancedMounts:
-          paperless-ngx:
+          pinchflat:
             app:
               - path: /downloads
                 subPath: media/download/pinchflat
