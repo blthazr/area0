@@ -14,3 +14,4 @@ machine:
       - security=none                       # Less security, more speed
       - sysctl.kernel.kexec_load_disabled=1 # Disable kexec load
       - talos.auditd.disabled=1             # Less security, more speed
+    grubUseUKICmdline: false
