@@ -7,7 +7,9 @@
         commitMessageTopic: "{{{groupName}}} group",
       },
       groupName: "1password-connect",
-      matchDatasources: ["docker"],
+      matchDatasources: [
+        "docker"
+      ],
       matchPackageNames: [
         "/1password/"
       ],
@@ -19,7 +21,9 @@
         commitMessageTopic: "{{{groupName}}} group",
       },
       groupName: "flux-operator",
-      matchDatasources: ["docker"],
+      matchDatasources: [
+        "docker"
+      ],
       matchPackageNames: [
         "/flux-instance/",
         "/flux-operator-manifests/",
@@ -32,11 +36,27 @@
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
-      groupName: "Rook-Ceph",
-      matchDatasources: ["docker"],
+      groupName: "rook-ceph",
+      matchDatasources: [
+        "docker"
+      ],
       matchPackageNames: [
         "/rook-ceph/",
         "/rook-ceph-cluster/",
+      ],
+      minimumGroupSize: 2,
+    },
+    {
+      description: "Talos Group",
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+      groupName: "talos",
+      matchDatasources: [
+        "docker"
+      ],
+      matchPackageNames: [
+        "/installer/"
       ],
       minimumGroupSize: 2,
     },

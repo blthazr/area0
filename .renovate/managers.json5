@@ -3,19 +3,19 @@
   // configure flux manager
   flux: {
     managerFilePatterns: [
-      "/(^|/)kubernetes/.+\\.ya?ml(?:\\.j2)?$/",
+      "/\\.yaml(?:\\.j2)?$/"
     ],
   },
   // configure helm-values manager
   "helm-values": {
     managerFilePatterns: [
-      "/(^|/)kubernetes/.+\\.ya?ml(?:\\.j2)?$/",
+      "/\\.yaml(?:\\.j2)?$/"
     ],
   },
   // configure kubernetes manager
   kubernetes: {
     managerFilePatterns: [
-      "/(^|/)kubernetes/.+\\.ya?ml(?:\\.j2)?$/",
+      "/\\.yaml(?:\\.j2)?$/"
     ],
   },
 }
