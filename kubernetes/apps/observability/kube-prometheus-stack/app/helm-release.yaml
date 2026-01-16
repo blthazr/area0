@@ -1,0 +1,104 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kube-prometheus-stack
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: kube-prometheus-stack
+  interval: 1h
+  values:
+    alertmanager:
+      alertmanagerSpec:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+                - matchExpressions:
+                    - key: node-role.kubernetes.io/control-plane
+                      operator: DoesNotExist
+        alertmanagerConfiguration:
+          name: alertmanager
+        externalUrl: "https://${ALERTMANAGER_HOSTNAME:=alertmanager}.${SECRET_DOMAIN}"
+        replicas: ${ALERTMANAGER_REPLICAS:=1}
+        storage:
+          volumeClaimTemplate:
+            spec:
+              resources:
+                requests:
+                  storage: 1Gi
+              storageClassName: ceph-block
+      route:
+        main:
+          enabled: true
+          hostnames:
+            - "${ALERTMANAGER_HOSTNAME:=alertmanager}.${SECRET_DOMAIN}"
+          parentRefs:
+            - name: envoy-internal
+              namespace: network
+    cleanPrometheusOperatorObjectNames: true
+    grafana:
+      enabled: false
+      forceDeployDashboards: true
+      sidecar:
+        dashboards:
+          annotations:
+            grafana_folder: Kubernetes
+    kube-state-metrics:
+      fullnameOverride: kube-state-metrics
+    kubeEtcd:
+      service:
+        selector:
+          component: kube-apiserver # etcd runs on control plane nodes
+    kubeProxy:
+      enabled: false
+    prometheus-node-exporter:
+      fullnameOverride: node-exporter
+    prometheus:
+      prometheusSpec:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+                - matchExpressions:
+                    - key: node-role.kubernetes.io/control-plane
+                      operator: DoesNotExist
+        externalUrl: "https://${HOSTNAME:=prometheus}.${SECRET_DOMAIN}"
+        podMonitorSelectorNilUsesHelmValues: false
+        probeSelectorNilUsesHelmValues: false
+        resources:
+          limits:
+            memory: 2Gi
+          requests:
+            cpu: 100m
+        retention: 14d
+        retentionSize: 50GB
+        ruleSelectorNilUsesHelmValues: false
+        scrapeConfigSelectorNilUsesHelmValues: false
+        serviceMonitorSelectorNilUsesHelmValues: false
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              resources:
+                requests:
+                  storage: 50Gi
+              storageClassName: ceph-block
+        replicas: ${REPLICAS:=1}
+      route:
+        main:
+          enabled: true
+          hostnames:
+            - "${HOSTNAME:=prometheus}.${SECRET_DOMAIN}"
+          parentRefs:
+            - name: envoy-internal
+              namespace: network
+    prometheusOperator:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
