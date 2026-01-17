@@ -11,6 +11,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      HOSTNAME: flux-operator
   prune: true
   sourceRef:
     kind: GitRepository
