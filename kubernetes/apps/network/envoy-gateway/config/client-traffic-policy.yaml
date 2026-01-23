@@ -9,21 +9,13 @@ spec:
     xForwardedFor:
       trustedCIDRs:
         - 10.42.0.0/16
-  connection:
-    bufferLimit: 8Mi
-    maxAcceptPerSocketEvent: 0
   http2:
-    initialConnectionWindowSize: 32Mi
-    initialStreamWindowSize: 2Mi
     onInvalidMessage: TerminateStream
   http3: {}
   targetSelectors:
     - group: gateway.networking.k8s.io
       kind: Gateway
   tcpKeepalive: {}
-  timeout:
-    http:
-      requestReceivedTimeout: 0s
   tls:
     alpnProtocols:
       - h2

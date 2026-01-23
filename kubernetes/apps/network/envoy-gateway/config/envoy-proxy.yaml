@@ -12,10 +12,11 @@ spec:
     kubernetes:
       envoyDeployment:
         container:
-          imageRepository: mirror.gcr.io/envoyproxy/envoy
+          image: mirror.gcr.io/envoyproxy/envoy:v1.37.0
+          # imageRepository: mirror.gcr.io/envoyproxy/envoy
           resources:
             limits:
-              memory: 1Gi
+              memory: 2Gi
             requests:
               cpu: 100m
         replicas: ${REPLICAS:=1}
@@ -28,4 +29,4 @@ spec:
     metrics:
       prometheus:
         compression:
-          type: Gzip
+          type: Zstd
