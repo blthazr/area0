@@ -1,5 +1,5 @@
 ---
-# TODO: yaml-language-server
+# TODO: yaml-language-server: $schema=
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:

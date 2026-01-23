@@ -1,5 +1,5 @@
 ---
-# TODO: yaml-language-server:
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/monitoring.coreos.com/podmonitor_v1.json
 apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:
@@ -10,8 +10,8 @@ spec:
     matchNames:
       - network
   podMetricsEndpoints:
-    - path: /stats/prometheus
-      port: metrics
+    - port: metrics
+      path: /stats/prometheus
       honorLabels: true
   selector:
     matchLabels:
