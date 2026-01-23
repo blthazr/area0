@@ -42,7 +42,7 @@ releases:
       - kube-system/cilium
     values:
       - ./templates/values.yaml.gotmpl
-    version: 1.45.0
+    version: 1.45.2
 
   - name: spegel
     chart: oci://ghcr.io/spegel-org/helm-charts/spegel
