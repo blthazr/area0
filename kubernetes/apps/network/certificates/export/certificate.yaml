@@ -12,6 +12,10 @@ spec:
   issuerRef:
     name: letsencrypt-production
     kind: ClusterIssuer
+  privateKey:
+    algorithm: ECDSA
+    rotationPolicy: Always
+    size: 256
   secretName: "${SECRET_DOMAIN/./-}-tls"
   usages:
     - digital signature
