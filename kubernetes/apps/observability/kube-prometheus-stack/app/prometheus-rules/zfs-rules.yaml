@@ -1,0 +1,21 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/monitoring.coreos.com/prometheusrule_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: zfs-rules
+spec:
+  groups:
+    - name: zfs.rules
+      rules:
+        - alert: ZfsUnexpectedPoolState
+          annotations:
+            description: >-
+              ZFS pool is in an unexpected state.
+            # runbook_url:
+            summary: >-
+              ZFS pool {{$labels.zpool}} on {{$labels.instance}} is in an unexpected state {{$labels.state}}.
+          expr: |-
+            node_zfs_zpool_state{state!="online"} > 0
+          labels:
+            severity: critical
