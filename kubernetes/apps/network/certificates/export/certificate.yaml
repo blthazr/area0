@@ -5,11 +5,13 @@ kind: Certificate
 metadata:
   name: "${SECRET_DOMAIN/./-}"
 spec:
-  commonName: "${SECRET_DOMAIN}"
   dnsNames:
     - "${SECRET_DOMAIN}"
     - "*.${SECRET_DOMAIN}"
+  duration: 160h
   issuerRef:
     name: letsencrypt-production
     kind: ClusterIssuer
   secretName: "${SECRET_DOMAIN/./-}-tls"
+  usages:
+    - digital signature
