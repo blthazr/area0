@@ -42,10 +42,11 @@ spec:
     grafana:
       enabled: false
       forceDeployDashboards: true
-      sidecar:
-        dashboards:
-          annotations:
-            grafana_folder: Kubernetes
+      operator:
+        dashboardsConfigMapRefEnabled: true
+        folder: Kubernetes
+        matchLabels:
+          grafana.internal/instance: grafana
     kube-state-metrics:
       fullnameOverride: kube-state-metrics
     kubeEtcd:
@@ -68,6 +69,7 @@ spec:
         externalUrl: "https://${HOSTNAME:=prometheus}.${SECRET_DOMAIN}"
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
+        replicas: ${REPLICAS:=1}
         resources:
           limits:
             memory: 2Gi
@@ -85,7 +87,6 @@ spec:
                 requests:
                   storage: 50Gi
               storageClassName: ceph-block
-        replicas: ${REPLICAS:=1}
       route:
         main:
           enabled: true
