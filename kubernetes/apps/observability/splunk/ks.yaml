@@ -44,7 +44,7 @@ spec:
   path: ./kubernetes/apps/observability/splunk/instance
   postBuild:
     substitute:
-      APP: *app
+      APP: splunk
       HOSTNAME: splunk
       VOLSYNC_CAPACITY: 10Gi
       VOLSYNC_MINIO_SCHEDULE: "0 0 * * *"

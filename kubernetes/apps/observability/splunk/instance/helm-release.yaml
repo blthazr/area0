@@ -1,0 +1,98 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: splunk
+spec:
+  chart:
+    spec:
+      chart: splunk-enterprise
+      sourceRef:
+        kind: HelmRepository
+        name: splunk-operator
+        namespace: observability
+      version: 2.8.1
+  interval: 1h
+  values:
+    image:
+      repository: docker.io/splunk/splunk:9.3.1@sha256:b3bce598e330679170fdae1e7e02a492fd29049cf900a1cfe61e1b13bd9e0f28
+    splunk-operator:
+      enabled: false
+    standalone:
+      additionalAnnotations:
+        reloader.stakater.com/auto: "true"
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - k8s-5
+      appRepo:
+        appsRepoPollIntervalSeconds: 600
+        defaults:
+          scope: local
+          volumeName: volume_app_repo
+        appSources:
+          - name: splunkbase-apps
+            location: splunkbase-apps/
+        volumes:
+          - name: volume_app_repo
+            endpoint: "http://${MINIO_ADDRESS}:9000"
+            path: splunk-apps/s1/
+            provider: minio
+            secretRef: splunk-app-repo-secret
+            storageType: s3
+      defaultsUrl: /mnt/defaults/default.yml
+      enabled: true
+      etcVolumeStorageConfig:
+        ephemeralStorage: false
+        storageCapacity: 10Gi
+        storageClassName: ceph-block
+      extraEnv:
+        - name: SPLUNK_HOSTNAME
+          value: "${APP}"
+      licenseUrl: /mnt/licenses/splunk.lic
+      name: "${APP}"
+      resources:
+        limits:
+          memory: 8Gi
+        requests:
+          cpu: 1
+          memory: 1Gi
+      serviceTemplate:
+        spec:
+          loadBalancerIP: "${SVC_SPLUNK}"
+          type: LoadBalancer
+      smartstore:
+        defaults:
+          volumeName: volume_smartstore
+        indexes:
+          - name: k8s
+          - name: main
+          - name: talos
+          - name: unifi
+        volumes:
+          - name: volume_smartstore
+            endpoint: "http://${MINIO_ADDRESS}:9000"
+            path: splunk-s2/
+            provider: minio
+            secretRef: splunk-s2-secret
+            storageType: s3
+      varVolumeStorageConfig:
+        ephemeralStorage: false
+        storageCapacity: 20Gi
+        storageClassName: openebs-hostpath
+      volumes:
+        - name: defaults
+          configMap:
+            name: splunk-defaults
+        - name: licenses
+          secret:
+            secretName: splunk-license-secret
+    sva:
+      s1:
+        enabled: true
