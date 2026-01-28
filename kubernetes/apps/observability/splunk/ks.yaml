@@ -17,4 +17,39 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
+  wait: true
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app splunk-instance
+  namespace: &namespace observability
+spec:
+  components:
+    - ../../../../components/volsync
+  dependsOn:
+    - name: openebs
+      namespace: storage
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
+    - name: splunk-operator
+      namespace: *namespace
+    - name: volsync
+      namespace: storage
+  interval: 1h
+  path: ./kubernetes/apps/observability/splunk/instance
+  postBuild:
+    substitute:
+      APP: *app
+      HOSTNAME: splunk
+      VOLSYNC_CAPACITY: 10Gi
+      VOLSYNC_MINIO_SCHEDULE: "0 0 * * *"
+      VOLSYNC_PVC: pvc-etc-splunk-splunk-instance-standalone-0
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: *namespace
   wait: false # no flux ks dependents
