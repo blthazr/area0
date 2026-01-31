@@ -48,7 +48,7 @@ spec:
       HOSTNAME: splunk
       VOLSYNC_CAPACITY: 10Gi
       VOLSYNC_MINIO_SCHEDULE: "0 0 * * *"
-      VOLSYNC_PVC: "pvc-etc-splunk-${APP}-standalone-0"
+      VOLSYNC_PVC: "pvc-etc-splunk-splunk-standalone-0"
   prune: true
   sourceRef:
     kind: GitRepository
