@@ -29,6 +29,8 @@ metadata:
   name: &app splunk-instance
   namespace: &namespace observability
 spec:
+  components:
+    - ../../../../components/volsync
   dependsOn:
     - name: openebs
       namespace: storage
@@ -40,6 +42,13 @@ spec:
       namespace: storage
   interval: 1h
   path: ./kubernetes/apps/observability/splunk/instance
+  postBuild:
+    substitute:
+      APP: splunk
+      HOSTNAME: splunk
+      VOLSYNC_CAPACITY: 10Gi
+      VOLSYNC_MINIO_SCHEDULE: "0 0 * * *"
+      VOLSYNC_PVC: "pvc-etc-splunk-${APP}-standalone-0"
   prune: true
   sourceRef:
     kind: GitRepository
