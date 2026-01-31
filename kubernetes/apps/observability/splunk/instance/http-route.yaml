@@ -8,10 +8,12 @@ spec:
   hostnames:
     - "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
   parentRefs:
+    - name: envoy-external
+      namespace: network
     - name: envoy-internal
       namespace: network
   rules:
     - backendRefs:
-        - name: splunk-splunk-instance-standalone-service
+        - name: splunk-splunk-standalone-service
           namespace: observability
           port: 8000
