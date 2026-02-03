@@ -20,6 +20,8 @@ spec:
                     - key: node-role.kubernetes.io/control-plane
                       operator: DoesNotExist
         alertmanagerConfiguration:
+          global:
+            resolveTimeout: 5m
           name: alertmanager
         externalUrl: "https://${ALERTMANAGER_HOSTNAME:=alertmanager}.${SECRET_DOMAIN}"
         replicas: ${ALERTMANAGER_REPLICAS:=1}
@@ -42,11 +44,10 @@ spec:
     grafana:
       enabled: false
       forceDeployDashboards: true
-      operator:
-        dashboardsConfigMapRefEnabled: true
-        folder: Kubernetes
-        matchLabels:
-          grafana.internal/instance: grafana
+      sidecar:
+        dashboards:
+          annotations:
+            grafana_folder: Kubernetes
     kube-state-metrics:
       fullnameOverride: kube-state-metrics
     kubeEtcd:
