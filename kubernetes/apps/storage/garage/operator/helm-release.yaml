@@ -1,0 +1,27 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app garage-operator
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: garage-operator
+  interval: 1h
+  values:
+    replicaCount: ${REPLICAS:=1}
+    resources:
+      limits:
+        memory: 256Mi
+      requests:
+        cpu: 10m
+    serviceMonitor:
+      enabled: true
+    topologySpreadConstraints:
+      - labelSelector:
+          matchLabels:
+            app.kubernetes.io/name: *app
+        maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: DoNotSchedule
