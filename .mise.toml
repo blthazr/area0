@@ -15,7 +15,7 @@ _.python.venv = { path = "{{config_root}}/.venv", create = true }
 "aqua:getsops/sops" = "3.11.0"
 "aqua:go-task/task" = "3.46.4"
 "aqua:google/yamlfmt" = "0.21.0"
-"aqua:helm/helm" = "4.1.0"
+"aqua:helm/helm" = "4.1.1"
 "aqua:helmfile/helmfile" = "1.2.3"
 "aqua:jqlang/jq" = "1.8.1"
 "aqua:kubernetes/kubernetes/kubectl" = "1.35.0"
