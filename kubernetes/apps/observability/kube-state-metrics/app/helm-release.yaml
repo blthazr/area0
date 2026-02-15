@@ -1,0 +1,382 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kube-state-metrics
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: kube-state-metrics
+  interval: 1h
+  values:
+    collectors: []
+    customResourceState:
+      config:
+        spec:
+          resources:
+            - groupVersionKind:
+                group: kustomize.toolkit.fluxcd.io
+                kind: Kustomization
+                version: v1
+              metricNamePrefix: gotk
+              metrics:
+                - name: resource_info
+                  help: The current state of a Flux Kustomization resource.
+                  each:
+                    info:
+                      labelsFromPath:
+                        name:
+                          - metadata
+                          - name
+                    type: Info
+                  labelsFromPath:
+                    exported_namespace:
+                      - metadata
+                      - namespace
+                    ready:
+                      - status
+                      - conditions
+                      - "[type=Ready]"
+                      - status
+                    revision:
+                      - status
+                      - lastAppliedRevision
+                    source_name:
+                      - spec
+                      - sourceRef
+                      - name
+                    suspended:
+                      - spec
+                      - suspend
+            - groupVersionKind:
+                group: helm.toolkit.fluxcd.io
+                kind: HelmRelease
+                version: v2
+              metricNamePrefix: gotk
+              metrics:
+                - name: resource_info
+                  help: The current state of a Flux HelmRelease resource.
+                  each:
+                    info:
+                      labelsFromPath:
+                        name:
+                          - metadata
+                          - name
+                    type: Info
+                  labelsFromPath:
+                    chart_app_version:
+                      - status
+                      - history
+                      - "0"
+                      - appVersion
+                    chart_name:
+                      - status
+                      - history
+                      - "0"
+                      - chartName
+                    chart_ref_name:
+                      - spec
+                      - chartRef
+                      - name
+                    chart_source_name:
+                      - spec
+                      - chart
+                      - spec
+                      - sourceRef
+                      - name
+                    exported_namespace:
+                      - metadata
+                      - namespace
+                    ready:
+                      - status
+                      - conditions
+                      - "[type=Ready]"
+                      - status
+                    revision:
+                      - status
+                      - history
+                      - "0"
+                      - chartVersion
+                    suspended:
+                      - spec
+                      - suspend
+            - groupVersionKind:
+                group: source.toolkit.fluxcd.io
+                kind: GitRepository
+                version: v1
+              metricNamePrefix: gotk
+              metrics:
+                - name: resource_info
+                  help: The current state of a Flux GitRepository resource.
+                  each:
+                    info:
+                      labelsFromPath:
+                        name:
+                          - metadata
+                          - name
+                    type: Info
+                  labelsFromPath:
+                    exported_namespace:
+                      - metadata
+                      - namespace
+                    ready:
+                      - status
+                      - conditions
+                      - "[type=Ready]"
+                      - status
+                    revision:
+                      - status
+                      - artifact
+                      - revision
+                    suspended:
+                      - spec
+                      - suspend
+                    url:
+                      - spec
+                      - url
+            - groupVersionKind:
+                group: source.toolkit.fluxcd.io
+                kind: Bucket
+                version: v1
+              metricNamePrefix: gotk
+              metrics:
+                - name: resource_info
+                  help: The current state of a Flux Bucket resource.
+                  each:
+                    info:
+                      labelsFromPath:
+                        name:
+                          - metadata
+                          - name
+                    type: Info
+                  labelsFromPath:
+                    bucket_name:
+                      - spec
+                      - bucketName
+                    endpoint:
+                      - spec
+                      - endpoint
+                    exported_namespace:
+                      - metadata
+                      - namespace
+                    ready:
+                      - status
+                      - conditions
+                      - "[type=Ready]"
+                      - status
+                    revision:
+                      - status
+                      - artifact
+                      - revision
+                    suspended:
+                      - spec
+                      - suspend
+            - groupVersionKind:
+                group: source.toolkit.fluxcd.io
+                kind: HelmRepository
+                version: v1
+              metricNamePrefix: gotk
+              metrics:
+                - name: resource_info
+                  help: The current state of a Flux HelmRepository resource.
+                  each:
+                    info:
+                      labelsFromPath:
+                        name:
+                          - metadata
+                          - name
+                    type: Info
+                  labelsFromPath:
+                    exported_namespace:
+                      - metadata
+                      - namespace
+                    ready:
+                      - status
+                      - conditions
+                      - "[type=Ready]"
+                      - status
+                    revision:
+                      - status
+                      - artifact
+                      - revision
+                    suspended:
+                      - spec
+                      - suspend
+                    url:
+                      - spec
+                      - url
+            - groupVersionKind:
+                group: source.toolkit.fluxcd.io
+                kind: HelmChart
+                version: v1
+              metricNamePrefix: gotk
+              metrics:
+                - name: resource_info
+                  help: The current state of a Flux HelmChart resource.
+                  each:
+                    info:
+                      labelsFromPath:
+                        name:
+                          - metadata
+                          - name
+                    type: Info
+                  labelsFromPath:
+                    chart_name:
+                      - spec
+                      - chart
+                    chart_version:
+                      - spec
+                      - version
+                    exported_namespace:
+                      - metadata
+                      - namespace
+                    ready:
+                      - status
+                      - conditions
+                      - "[type=Ready]"
+                      - status
+                    revision:
+                      - status
+                      - artifact
+                      - revision
+                    suspended:
+                      - spec
+                      - suspend
+            - groupVersionKind:
+                group: source.toolkit.fluxcd.io
+                kind: OCIRepository
+                version: v1
+              metricNamePrefix: gotk
+              metrics:
+                - name: resource_info
+                  help: The current state of a Flux OCIRepository resource.
+                  each:
+                    info:
+                      labelsFromPath:
+                        name:
+                          - metadata
+                          - name
+                    type: Info
+                  labelsFromPath:
+                    exported_namespace:
+                      - metadata
+                      - namespace
+                    ready:
+                      - status
+                      - conditions
+                      - "[type=Ready]"
+                      - status
+                    revision:
+                      - status
+                      - artifact
+                      - revision
+                    suspended:
+                      - spec
+                      - suspend
+                    url:
+                      - spec
+                      - url
+            - groupVersionKind:
+                group: notification.toolkit.fluxcd.io
+                kind: Alert
+                version: v1beta3
+              metricNamePrefix: gotk
+              metrics:
+                - name: resource_info
+                  help: The current state of a Flux Alert resource.
+                  each:
+                    info:
+                      labelsFromPath:
+                        name:
+                          - metadata
+                          - name
+                    type: Info
+                  labelsFromPath:
+                    exported_namespace:
+                      - metadata
+                      - namespace
+                    suspended:
+                      - spec
+                      - suspend
+            - groupVersionKind:
+                group: notification.toolkit.fluxcd.io
+                kind: Provider
+                version: v1beta3
+              metricNamePrefix: gotk
+              metrics:
+                - name: resource_info
+                  help: The current state of a Flux Provider resource.
+                  each:
+                    info:
+                      labelsFromPath:
+                        name:
+                          - metadata
+                          - name
+                    type: Info
+                  labelsFromPath:
+                    exported_namespace:
+                      - metadata
+                      - namespace
+                    suspended:
+                      - spec
+                      - suspend
+            - groupVersionKind:
+                group: notification.toolkit.fluxcd.io
+                kind: Receiver
+                version: v1
+              metricNamePrefix: gotk
+              metrics:
+                - name: resource_info
+                  help: The current state of a Flux Receiver resource.
+                  each:
+                    info:
+                      labelsFromPath:
+                        name:
+                          - metadata
+                          - name
+                    type: Info
+                  labelsFromPath:
+                    exported_namespace:
+                      - metadata
+                      - namespace
+                    ready:
+                      - status
+                      - conditions
+                      - "[type=Ready]"
+                      - status
+                    suspended:
+                      - spec
+                      - suspend
+                    webhook_path:
+                      - status
+                      - webhookPath
+      enabled: true
+    extraArgs:
+      - --custom-resource-state-only=true
+    fullnameOverride: "{APP}"
+    prometheus:
+      monitor:
+        enabled: true
+        honorLabels: true
+    rbac:
+      extraRules:
+        - apiGroups:
+            - source.toolkit.fluxcd.io
+            - kustomize.toolkit.fluxcd.io
+            - helm.toolkit.fluxcd.io
+            - notification.toolkit.fluxcd.io
+          resources:
+            - gitrepositories
+            - buckets
+            - helmrepositories
+            - helmcharts
+            - ocirepositories
+            - kustomizations
+            - helmreleases
+            - alerts
+            - providers
+            - receivers
+          verbs:
+            - list
+            - watch

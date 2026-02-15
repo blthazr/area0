@@ -48,13 +48,13 @@ spec:
         dashboards:
           annotations:
             grafana_folder: Kubernetes
-    kube-state-metrics:
-      fullnameOverride: kube-state-metrics
     kubeEtcd:
       service:
         selector:
           component: kube-apiserver # etcd runs on control plane nodes
     kubeProxy:
+      enabled: false
+    kubeStateMetrics:
       enabled: false
     prometheus-node-exporter:
       fullnameOverride: node-exporter
