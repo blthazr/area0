@@ -354,7 +354,7 @@ spec:
       enabled: true
     extraArgs:
       - --custom-resource-state-only=true
-    fullnameOverride: "{APP}"
+    fullnameOverride: kube-state-metrics
     prometheus:
       monitor:
         enabled: true

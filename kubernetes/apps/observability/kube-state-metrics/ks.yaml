@@ -8,9 +8,6 @@ metadata:
 spec:
   interval: 1h
   path: ./kubernetes/apps/observability/kube-state-metrics/app
-  postBuild:
-    substitute:
-      APP: *app
   prune: true
   sourceRef:
     kind: GitRepository
