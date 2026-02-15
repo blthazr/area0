@@ -21,7 +21,7 @@ _.python.venv = { path = "{{config_root}}/.venv", create = true }
 "aqua:kubernetes/kubernetes/kubectl" = "1.35.1"
 "aqua:mikefarah/yq" = "4.50.1"
 "aqua:mitsuhiko/minijinja" = "2.15.1"
-"aqua:siderolabs/talos" = "1.12.2"
+"aqua:siderolabs/talos" = "1.12.4"
 "aqua:stern/stern" = "1.33.1"
 "aqua:uutils/coreutils" = "0.6.0"
 "python" = "3.14.2"
