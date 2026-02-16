@@ -53,11 +53,14 @@
       },
       groupName: "talos",
       matchDatasources: [
+        "aqua",
         "docker"
       ],
       matchPackageNames: [
-        "/siderolabs/"
+        "/installer/",
+        "/talos/"
       ],
+      minimumGroupSize: 2,
     },
   ],
 }
