@@ -8,20 +8,37 @@ TALOSCONFIG = "{{config_root}}/infrastructure/talos/clusterconfig/talosconfig"
 # Python
 _.python.venv = { path = "{{config_root}}/.venv", create = true }
 
+# Ansible
+VIRTUAL_ENV = "{{config_root}}/.venv"
+
+[settings]
+pipx_uvx = true
+
 [tools]
-"aqua:budimanjojo/talhelper" = "3.1.5"
-"aqua:FiloSottile/age" = "1.3.1"
+# kubectl + plugins
 "aqua:fluxcd/flux2" = "2.7.5"
+"aqua:helm/helm" = "4.1.1"
+"aqua:helmfile/helmfile" = "1.2.3"
+"aqua:kubernetes/kubernetes/kubectl" = "1.35.1"
+
+# talos
+"aqua:budimanjojo/talhelper" = "3.1.5"
+"aqua:siderolabs/talos" = "1.12.1"
+
+# ansible
+"ansible-core" = "2.20.1"
+
+# python
+"pipx" = "1.8.0"
+"python" = "3.14.2"
+
+# misc
+"aqua:FiloSottile/age" = "1.3.1"
 "aqua:getsops/sops" = "3.11.0"
 "aqua:go-task/task" = "3.48.0"
 "aqua:google/yamlfmt" = "0.21.0"
-"aqua:helm/helm" = "4.1.1"
-"aqua:helmfile/helmfile" = "1.2.3"
 "aqua:jqlang/jq" = "1.8.1"
-"aqua:kubernetes/kubernetes/kubectl" = "1.35.1"
 "aqua:mikefarah/yq" = "4.52.4"
 "aqua:mitsuhiko/minijinja" = "2.15.1"
-"aqua:siderolabs/talos" = "1.12.1"
 "aqua:stern/stern" = "1.33.1"
 "aqua:uutils/coreutils" = "0.6.0"
-"python" = "3.14.2"
