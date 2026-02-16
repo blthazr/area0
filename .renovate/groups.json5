@@ -2,11 +2,11 @@
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   packageRules: [
     {
-      description: "1Password Connect Group",
+      description: "1Password Group",
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
-      groupName: "1password-connect",
+      groupName: "1password",
       matchDatasources: [
         "docker"
       ],
@@ -53,8 +53,8 @@
       },
       groupName: "talos",
       matchDatasources: [
-        "aqua",
-        "docker"
+        "docker",
+        "github-tags"
       ],
       matchPackageNames: [
         "/installer/",
