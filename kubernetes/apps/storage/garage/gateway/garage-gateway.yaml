@@ -1,0 +1,22 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/rajsinghtech/garage-operator/refs/heads/main/schemas/garagecluster_v1alpha1.json
+apiVersion: garage.rajsingh.info/v1alpha1
+kind: GarageCluster
+metadata:
+  name: garage-gateway
+spec:
+  admin:
+    adminTokenSecretRef:
+      key: GARAGE_ADMIN_TOKEN
+      name: garage-gateway-secret
+    enabled: true
+  connectTo:
+    bootstrapPeers:
+      - "{{ .GARAGE_BOOTSTRAP_NODE_1 }}"
+    rpcSecretRef:
+      key: GARAGE_RPC_SECRET
+      name: garage-gateway-secret
+  gateway: true
+  replicas: 1
+  replication:
+    factor: 1

@@ -1,0 +1,32 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/service-v1.json
+apiVersion: v1
+kind: Service
+metadata:
+  name: garage-gateway-lb
+  annotations:
+    lbipam.cilium.io/ips: "${SVC_GARAGE_GATEWAY}"
+  labels:
+    app.kubernetes.io/name: garage-gateway
+spec:
+  ports:
+    - name: s3-api
+      port: 3900
+      protocol: TCP
+      targetPort: 3900
+    - name: rpc
+      port: 3901
+      protocol: TCP
+      targetPort: 3901
+    - name: s3-web
+      port: 3902
+      protocol: TCP
+      targetPort: 3902
+    - name: admin
+      port: 3903
+      protocol: TCP
+      targetPort: 3903
+  selector:
+    app.kubernetes.io/instance: garage-gateway
+    app.kubernetes.io/name: garage
+  type: LoadBalancer
