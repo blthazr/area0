@@ -98,8 +98,8 @@ spec:
         parentRefs:
           - name: envoy-external
             namespace: network
-          - name: envoy-internal
-            namespace: network
+          # - name: envoy-internal
+          #   namespace: network
     service:
       app:
         ports:
