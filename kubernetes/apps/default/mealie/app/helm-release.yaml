@@ -23,7 +23,6 @@ spec:
               OIDC_ADMIN_GROUP: mealie_admins
               OIDC_AUTH_ENABLED: "true"
               OIDC_AUTO_REDIRECT: "true"
-              OIDC_CONFIGURATION_URL: "https://id.${SECRET_DOMAIN}/.well-known/openid-configuration"
               OIDC_PROVIDER_NAME: Pocket ID
               OIDC_REMEMBER_ME: "true"
               OIDC_USER_GROUP: mealie_users
