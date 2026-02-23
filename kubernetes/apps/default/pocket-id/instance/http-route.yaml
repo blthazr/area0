@@ -8,8 +8,8 @@ spec:
   hostnames:
     - "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
   parentRefs:
-    # - name: envoy-external
-    #   namespace: network
+    - name: envoy-external
+      namespace: network
     - name: envoy-internal
       namespace: network
   rules:
