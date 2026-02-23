@@ -1,0 +1,25 @@
+---
+# TODO: yaml-language-server: $schema=
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDUserGroup
+metadata:
+  name: mealie-admins
+spec:
+  friendlyName: Mealie Admins
+  name: mealie_admins
+  users:
+    usernames:
+      - cburnham
+---
+# TODO: yaml-language-server: $schema=
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDUserGroup
+metadata:
+  name: mealie-users
+spec:
+  friendlyName: Mealie Users
+  name: mealie_users
+  users:
+    usernames:
+      - cburnham
+      - jburnham

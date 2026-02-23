@@ -1,0 +1,18 @@
+---
+# TODO: yaml-language-server: $schema=
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDOIDCClient
+metadata:
+  name: mealie
+spec:
+  allowedUserGroups:
+    - name: mealie-admins
+    - name: mealie-users
+  callbackUrls:
+    - "https://${HOSTNAME:=${APP}}.${SECRET_DOMAIN}/"
+    - "https://${HOSTNAME:=${APP}}.${SECRET_DOMAIN}/login"
+    - "https://${HOSTNAME:=${APP}}.${SECRET_DOMAIN}?direct=1"
+  launchUrl: "https://${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
+  logoutCallbackUrls:
+    - "https://${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
+  pkceEnabled: true

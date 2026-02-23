@@ -3,6 +3,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ./external-secret.yaml
   - ./helm-release.yaml
   - ./oci-repository.yaml
+  - ./pocket-id-oidc-client.yaml
+  - ./pocket-id-user-group.yaml
