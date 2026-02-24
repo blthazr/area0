@@ -60,7 +60,7 @@ releases:
       - kube-system/spegel
     values:
       - ./templates/values.yaml.gotmpl
-    version: v1.19.3
+    version: v1.19.4
 
   - name: external-secrets
     chart: oci://ghcr.io/external-secrets/charts/external-secrets
