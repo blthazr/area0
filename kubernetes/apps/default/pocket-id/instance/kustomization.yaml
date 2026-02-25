@@ -6,7 +6,6 @@ resources:
   - ./external-secret.yaml
   - ./garage-bucket.yaml
   - ./garage-key.yaml
-  - ./http-route.yaml
   - ./pocket-id-instance.yaml
   - ./pocket-id-user-group.yaml
   - ./pocket-id-user.yaml

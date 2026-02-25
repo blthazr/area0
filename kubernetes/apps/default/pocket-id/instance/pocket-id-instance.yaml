@@ -5,6 +5,7 @@ kind: PocketIDInstance
 metadata:
   name: pocket-id
 spec:
+  analyticsDisabled: "true"
   annotations:
     reloader.stakater.com/auto: "true"
   appUrl: "https://${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
@@ -14,18 +15,8 @@ spec:
         name: pocket-id-secret
         key: ENCRYPTION_KEY
   env:
-    - name: ANALYTICS_DISABLED
-      value: "true"
-    - name: SESSION_DURATION
-      value: "43200"
-    - name: UI_CONFIG_DISABLED
-      value: "true"
     - name: UPDATE_CHECK_DISABLED
       value: "true"
-    - name: FILE_BACKEND
-      value: s3
-    - name: S3_BUCKET
-      value: pocket-id-files
     - name: S3_REGION
       valueFrom:
         secretKeyRef:
@@ -36,18 +27,6 @@ spec:
         secretKeyRef:
           name: pocket-id-garage-key
           key: endpoint
-    - name: S3_ACCESS_KEY_ID
-      valueFrom:
-        secretKeyRef:
-          name: pocket-id-garage-key
-          key: access-key-id
-    - name: S3_SECRET_ACCESS_KEY
-      valueFrom:
-        secretKeyRef:
-          name: pocket-id-garage-key
-          key: secret-access-key
-    - name: S3_FORCE_PATH_STYLE
-      value: "true"
   image: ghcr.io/pocket-id/pocket-id:v2.2.0-distroless@sha256:ad2d21a7b31d6b4f1d999caec794a5b5edeb97fc40801947158d62befd4203e3
   metrics:
     enabled: true
@@ -60,3 +39,29 @@ spec:
     requests:
       cpu: 10m
       memory: 64Mi
+  route:
+    enabled: true
+    hostnames:
+      - "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
+    parentRefs:
+      - name: envoy-external
+        namespace: network
+      - name: envoy-internal
+        namespace: network
+  s3:
+    accessKeyId:
+      valueFrom:
+        secretKeyRef:
+          name: pocket-id-garage-key
+          key: access-key-id
+    bucket: pocket-id-files
+    # endpoint:
+    forcePathStyle: "true"
+    # region:
+    secretAccessKey:
+      valueFrom:
+        secretKeyRef:
+          name: pocket-id-garage-key
+          key: secret-access-key
+  ui:
+    sessionDuration: 43200
