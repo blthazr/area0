@@ -69,7 +69,7 @@ releases:
       - cert-manager/cert-manager
     values:
       - ./templates/values.yaml.gotmpl
-    version: 2.0.0
+    version: 2.0.1
 
   - name: onepassword-connect
     chart: oci://ghcr.io/bjw-s-labs/helm/app-template
