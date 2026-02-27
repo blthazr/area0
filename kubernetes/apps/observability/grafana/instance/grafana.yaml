@@ -54,7 +54,7 @@ spec:
       template:
         metadata:
           annotations:
-            secret.reloader.stakater.com/reload: grafana-secret
+            secret.reloader.stakater.com/reload: grafana-oidc-credentials,grafana-secret
         spec:
           containers:
             - name: grafana
