@@ -19,7 +19,7 @@ spec:
         - helm-controller
         - notification-controller
       distribution:
-        artifact: oci://ghcr.io/controlplaneio-fluxcd/flux-operator-manifests:v0.40.0
+        artifact: oci://ghcr.io/controlplaneio-fluxcd/flux-operator-manifests:v0.43.0
       kustomize:
         patches:
           - # Increase the number of workers
