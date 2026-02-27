@@ -1,5 +1,5 @@
 ---
-# TODO: yaml-language-server: $schema=
+# yaml-language-server: $schema=https://raw.githubusercontent.com/aclerici38/pocket-id-operator/main/dist/schemas/pocketidusergroup_v1alpha1.json
 apiVersion: pocketid.internal/v1alpha1
 kind: PocketIDUserGroup
 metadata:
@@ -11,7 +11,7 @@ spec:
     usernames:
       - cburnham
 ---
-# TODO: yaml-language-server: $schema=
+# yaml-language-server: $schema=https://raw.githubusercontent.com/aclerici38/pocket-id-operator/main/dist/schemas/pocketidusergroup_v1alpha1.json
 apiVersion: pocketid.internal/v1alpha1
 kind: PocketIDUserGroup
 metadata:
