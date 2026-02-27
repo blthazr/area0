@@ -1,0 +1,14 @@
+---
+apiVersion: 1
+providers:
+  - name: configmap-dashboard-provider
+    allowUiUpdates: false
+    disableDeletion: false
+    folder: ''
+    folderUid: ''
+    options:
+      foldersFromFilesStructure: true
+      path: /var/lib/grafana/dashboards
+    orgId: 1
+    type: file
+    updateIntervalSeconds: 10

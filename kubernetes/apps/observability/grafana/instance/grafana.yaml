@@ -1,0 +1,145 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/grafana.integreatly.org/grafana_v1beta1.json
+apiVersion: grafana.integreatly.org/v1beta1
+kind: Grafana
+metadata:
+  name: grafana
+  labels:
+    dashboards: grafana
+spec:
+  config:
+    analytics:
+      check_for_plugin_updates: "false"
+      check_for_updates: "false"
+      feedback_links_enabled: "false"
+      reporting_enabled: "false"
+    auth.generic_oauth:
+      allow_assign_grafana_admin: "true"
+      allow_sign_up: "true"
+      enabled: "true"
+      icon: signin
+      name: Pocket ID
+      role_attribute_path: |
+        contains(groups[*], 'grafana_admins') && 'Admin' || contains(groups[*], 'grafana_users') && 'Viewer'
+      scopes: openid profile email groups
+      use_pkce: "true"
+    date_formats:
+      default_timezone: CST
+      use_browser_locale: "true"
+      week_start: monday
+    grafana_net:
+      url: https://grafana.net
+    log:
+      mode: console
+    news:
+      news_feed_enabled: "false"
+    panels:
+      disable_sanitize_html: "true"
+    paths:
+      data: /var/lib/grafana/data
+      logs: /var/log/grafana
+      plugins: /var/lib/grafana/plugins
+      provisioning: /etc/grafana/provisioning
+    server:
+      enable_gzip: "true"
+      root_url: "https://${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
+  deployment:
+    spec:
+      replicas: ${REPLICAS:=1}
+      strategy:
+        rollingUpdate:
+          maxSurge: 1
+          maxUnavailable: 1
+        type: RollingUpdate
+      template:
+        metadata:
+          annotations:
+            secret.reloader.stakater.com/reload: grafana-secret
+        spec:
+          containers:
+            - name: grafana
+              env:
+                - name: GF_AUTH_GENERIC_OAUTH_API_URL
+                  valueFrom:
+                    secretKeyRef:
+                      name: grafana-oidc-credentials
+                      key: userinfo_url
+                - name: GF_AUTH_GENERIC_OAUTH_AUTH_URL
+                  valueFrom:
+                    secretKeyRef:
+                      name: grafana-oidc-credentials
+                      key: authorization_url
+                - name: GF_AUTH_GENERIC_OAUTH_CLIENT_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: grafana-oidc-credentials
+                      key: client_id
+                - name: GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      name: grafana-oidc-credentials
+                      key: client_secret
+                - name: GF_AUTH_GENERIC_OAUTH_TOKEN_URL
+                  valueFrom:
+                    secretKeyRef:
+                      name: grafana-oidc-credentials
+                      key: token_url
+                - name: GF_SECURITY_ADMIN_USER
+                  valueFrom:
+                    secretKeyRef:
+                      name: grafana-secret
+                      key: GRAFANA_ADMIN_USERNAME
+                - name: GF_SECURITY_ADMIN_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: grafana-secret
+                      key: GRAFANA_ADMIN_PASSWORD
+              volumeMounts:
+                - name: dashboards
+                  mountPath: /var/lib/grafana/dashboards
+                - name: provisioning
+                  mountPath: /etc/grafana/provisioning/dashboards
+            # This container watches the namespace for configmaps with the `dashboards` label
+            # and creates files for all their keys under `FOLDER`
+            - name: k8s-sidecar
+              env:
+                - name: FOLDER
+                  value: /var/lib/grafana/dashboards
+                - name: FOLDER_ANNOTATION
+                  value: grafana_folder
+                - name: LABEL
+                  value: grafana_dashboard
+                - name: LABEL_VALUE
+                  value: "1"
+                - name: NAMESPACE
+                  value: ALL
+                - name: RESOURCE
+                  value: configmap
+              image: ghcr.io/kiwigrid/k8s-sidecar:1.30.9@sha256:8c06e1ba643a4625de14b2db65c356f5db6b1482a25fce4754380a2936207338
+              volumeMounts:
+                - name: dashboards
+                  mountPath: /var/lib/grafana/dashboards
+          topologySpreadConstraints:
+            - labelSelector:
+                matchLabels:
+                  app.kubernetes.io/name: "${APP}"
+              maxSkew: 1
+              topologyKey: kubernetes.io/hostname
+              whenUnsatisfiable: DoNotSchedule
+          volumes:
+            - name: dashboards
+              emptyDir: {}
+            - name: provisioning
+              configMap:
+                name: grafana-provisioning-config
+  httpRoute:
+    spec:
+      hostnames:
+        - "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
+      parentRefs:
+        - name: envoy-internal
+          namespace: network
+      rules:
+        - backendRefs:
+            - name: grafana-service
+              port: 3000

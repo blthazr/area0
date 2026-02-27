@@ -1,0 +1,12 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ./resources
+  - ./external-secret.yaml
+  - ./grafana.yaml
+  - ./pocket-id-oidc-client.yaml
+  - ./pocket-id-user-group.yaml
+  - ./rbac.yaml
+  - ./service-monitor.yaml
