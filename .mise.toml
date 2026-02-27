@@ -19,7 +19,7 @@ pipx_uvx = true
 "aqua:fluxcd/flux2" = "2.8.0"
 "aqua:helm/helm" = "4.1.1"
 "aqua:helmfile/helmfile" = "1.3.1"
-"aqua:kubernetes/kubernetes/kubectl" = "1.35.1"
+"aqua:kubernetes/kubernetes/kubectl" = "1.35.2"
 
 # talos
 "aqua:budimanjojo/talhelper" = "3.1.5"
