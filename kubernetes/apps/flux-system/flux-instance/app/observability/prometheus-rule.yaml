@@ -35,3 +35,31 @@ spec:
           for: 5m
           labels:
             severity: critical
+
+        - alert: HelmReleaseReconciliationFailure
+          annotations:
+            description: >-
+              HelmRelease {{ $labels.name }} in {{ $labels.exported_namespace }} is not ready.
+              Reason: {{ $labels.reason }}.
+            # runbook_url:
+            summary: >-
+              HelmRelease {{ $labels.name }} is not ready.
+          expr: |-
+            gotk_resource_info{customresource_kind="HelmRelease", ready!="True"} == 1
+          for: 5m
+          labels:
+            severity: critical
+
+        - alert: KustomizationReconciliationFailure
+          annotations:
+            description: >-
+              The Kustomization {{ $labels.name }} in {{ $labels.exported_namespace }} is not ready.
+              Reason: {{ $labels.reason }}.
+            # runbook_url:
+            summary: >-
+              Kustomization {{ $labels.name }} is not ready.
+          expr: |-
+            gotk_resource_info{customresource_kind="Kustomization", ready!="True"} == 1
+          for: 5m
+          labels:
+            severity: critical
