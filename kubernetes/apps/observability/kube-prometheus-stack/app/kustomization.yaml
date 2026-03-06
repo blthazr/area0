@@ -7,5 +7,6 @@ resources:
   - ./external-secret.yaml
   - ./helm-release.yaml
   - ./oci-repository.yaml
-  - ./prometheus-rules
+  # - ./grafana-dashboards
+  # - ./prometheus-rules
   - ./scrape-configs
