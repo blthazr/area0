@@ -10,10 +10,6 @@ spec:
     name: external-secrets
   interval: 1h
   values:
-    grafanaDashboard:
-      annotations:
-        grafana_folder: external-secrets
-      enabled: true
     leaderElect: true
     serviceMonitor:
       enabled: true
