@@ -1,0 +1,18 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/grafana.integreatly.org/grafanadashboard_v1beta1.json
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: grafana-operator
+spec:
+  allowCrossNamespaceImport: true
+  configMapRef:
+    name: grafana-operator-dashboard
+    key: grafana-operator.json
+  datasources:
+    - datasourceName: prometheus
+      inputName: DS_PROMETHEUS
+  folderRef: grafana
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana

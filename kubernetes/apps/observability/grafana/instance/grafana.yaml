@@ -27,30 +27,21 @@ spec:
       default_timezone: CST
       use_browser_locale: "true"
       week_start: monday
-    grafana_net:
-      url: https://grafana.net
     log:
       mode: console
+    metrics:
+      enabled: "true"
     news:
       news_feed_enabled: "false"
-    panels:
-      disable_sanitize_html: "true"
-    paths:
-      data: /var/lib/grafana/data
-      logs: /var/log/grafana
-      plugins: /var/lib/grafana/plugins
-      provisioning: /etc/grafana/provisioning
+    plugins:
+      plugin_admin_enabled: "false"
     server:
       enable_gzip: "true"
       root_url: "https://${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
   deployment:
     spec:
-      replicas: ${REPLICAS:=1}
       strategy:
-        rollingUpdate:
-          maxSurge: 1
-          maxUnavailable: 1
-        type: RollingUpdate
+        type: Recreate
       template:
         metadata:
           annotations:
@@ -94,44 +85,23 @@ spec:
                     secretKeyRef:
                       name: grafana-secret
                       key: GRAFANA_ADMIN_PASSWORD
-              volumeMounts:
-                - name: dashboards
-                  mountPath: /var/lib/grafana/dashboards
-                - name: provisioning
-                  mountPath: /etc/grafana/provisioning/dashboards
-            # This container watches the namespace for configmaps with the `dashboards` label
-            # and creates files for all their keys under `FOLDER`
-            - name: k8s-sidecar
-              env:
-                - name: FOLDER
-                  value: /var/lib/grafana/dashboards
-                - name: FOLDER_ANNOTATION
-                  value: grafana_folder
-                - name: LABEL
-                  value: grafana_dashboard
-                - name: LABEL_VALUE
-                  value: "1"
-                - name: NAMESPACE
-                  value: ALL
-                - name: RESOURCE
-                  value: configmap
-              image: ghcr.io/kiwigrid/k8s-sidecar:1.30.9@sha256:8c06e1ba643a4625de14b2db65c356f5db6b1482a25fce4754380a2936207338
-              volumeMounts:
-                - name: dashboards
-                  mountPath: /var/lib/grafana/dashboards
-          topologySpreadConstraints:
-            - labelSelector:
-                matchLabels:
-                  app.kubernetes.io/name: "${APP}"
-              maxSkew: 1
-              topologyKey: kubernetes.io/hostname
-              whenUnsatisfiable: DoNotSchedule
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - "ALL"
+                readOnlyRootFilesystem: true
+          securityContext:
+            fsGroup: ${APP_PGID:=1000}
+            fsGroupChangePolicy: OnRootMismatch
+            runAsGroup: ${APP_PGID:=1000}
+            runAsNonRoot: true
+            runAsUser: ${APP_PUID:=1000}
           volumes:
-            - name: dashboards
-              emptyDir: {}
-            - name: provisioning
-              configMap:
-                name: grafana-provisioning-config
+            - name: grafana-data
+              persistentVolumeClaim:
+                claimName: grafana-pvc
+  disableDefaultSecurityContext: All
   httpRoute:
     spec:
       hostnames:
@@ -143,3 +113,11 @@ spec:
         - backendRefs:
             - name: grafana-service
               port: 3000
+  persistentVolumeClaim:
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 10Gi
+      storageClassName: ceph-block

@@ -3,8 +3,5 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ./external-secret.yaml
-  - ./grafana.yaml
-  - ./pocket-id-oidc-client.yaml
-  - ./pocket-id-user-group.yaml
-  - ./service-monitor.yaml
+  - ./grafana-folder.yaml
+  - ./grafana-operator.yaml
