@@ -10,14 +10,6 @@ spec:
     name: spegel
   interval: 1h
   values:
-    grafanaDashboard:
-      annotations:
-        grafana_folder: Spegel
-      enabled: true
-      grafanaOperator:
-        matchLabels:
-          grafana.internal/instance: grafana
-      mode: GrafanaOperator
     service:
       registry:
         hostPort: 29999

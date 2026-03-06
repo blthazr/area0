@@ -19,10 +19,6 @@ spec:
       hostRoot: /sys/fs/cgroup
     cni:
       exclusive: false
-    dashboards:
-      annotations:
-        grafana_folder: Cilium
-      enabled: true
     enableIPv4BIGTCP: true
     endpointRoutes:
       enabled: true
