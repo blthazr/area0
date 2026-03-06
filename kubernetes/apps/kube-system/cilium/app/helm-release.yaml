@@ -20,7 +20,7 @@ spec:
     cni:
       exclusive: false
     dashboards:
-      enabled: false
+      enabled: true
     enableIPv4BIGTCP: true
     endpointRoutes:
       enabled: true
