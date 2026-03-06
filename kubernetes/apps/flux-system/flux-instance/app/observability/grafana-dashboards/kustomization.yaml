@@ -3,8 +3,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ./external-secret.yaml
-  - ./helm-release.yaml
-  - ./oci-repository.yaml
-  - ./observability
-  - ./receiver
+  - ./grafana-folder.yaml
+  - ./flux-cluster.yaml
+  - ./flux-control-plane.yaml
+  - ./flux-k8s-api-performance.yaml
+  - ./flux-performance.yaml
