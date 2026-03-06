@@ -19,6 +19,8 @@ spec:
       hostRoot: /sys/fs/cgroup
     cni:
       exclusive: false
+    dashboards:
+      enabled: false
     enableIPv4BIGTCP: true
     endpointRoutes:
       enabled: true
