@@ -6,9 +6,6 @@ metadata:
   name: cloudnative-pg
 spec:
   allowCrossNamespaceImport: true
-  instanceSelector:
-    matchLabels:
-      dashboards: grafana
   datasources:
     - datasourceName: prometheus
       inputName: DS_PROMETHEUS
@@ -16,3 +13,6 @@ spec:
   grafanaCom:
     id: 20417
     revision: 4
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
