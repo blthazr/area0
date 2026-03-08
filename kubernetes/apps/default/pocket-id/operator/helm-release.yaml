@@ -12,3 +12,11 @@ spec:
   values:
     instance:
       enabled: false
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+      prometheusRule:
+        enabled: true
+      dashboard:
+        enabled: true
