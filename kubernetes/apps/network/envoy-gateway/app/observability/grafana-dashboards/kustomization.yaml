@@ -3,6 +3,9 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ./helm-release.yaml
-  - ./oci-repository.yaml
-  - ./observability
+  - ./grafana-folder.yaml
+  - ./envoy-downstream.yaml
+  - ./envoy-gateway.yaml
+  - ./envoy-overview.yaml
+  - ./envoy-proxy.yaml
+  - ./envoy-upstream.yaml
