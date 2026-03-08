@@ -1,0 +1,103 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/monitoring.coreos.com/prometheusrule_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: tuppr-rules
+spec:
+  groups:
+    - name: tuppr.talosupgrade.rules
+      rules:
+        - alert: TalosUpgradeNodeFailed
+          annotations:
+            description: >-
+              Talos upgrade {{ $labels.name }} has {{ $value }} node(s) that
+              failed to upgrade. The upgrade has stopped and requires manual
+              intervention (fix the underlying issue and reset with the reset
+              annotation).
+            # runbook_url:
+            summary: >-
+              Talos upgrade {{ $labels.name }} has {{ $value }} failed node(s).
+          expr: |-
+            tuppr_talos_upgrade_nodes_failed > 0
+          for: 1m
+          labels:
+            severity: critical
+
+        - alert: TalosUpgradeFailed
+          annotations:
+            description: >-
+              Talos upgrade {{ $labels.name }} has entered the Failed phase.
+              Check controller logs and node conditions for details.
+            # runbook_url:
+            summary: >-
+              Talos upgrade {{ $labels.name }} is in Failed phase.
+          expr: |-
+            tuppr_talos_upgrade_phase{phase="Failed"} > 0
+          for: 1m
+          labels:
+            severity: critical
+
+        - alert: TalosUpgradeStuck
+          annotations:
+            description: >-
+              Talos upgrade {{ $labels.name }} has been in the
+              {{ $labels.phase }} phase for more than 1h.
+              Check the upgrade job and target node for errors.
+            # runbook_url:
+            summary: >-
+              Talos upgrade {{ $labels.name }} stuck in {{ $labels.phase }} phase.
+          expr: >-
+            tuppr_talos_upgrade_phase{phase=~"Upgrading|Rebooting|Draining|HealthChecking"} > 0
+          for: 1h
+          labels:
+            severity: warning
+
+    - name: tuppr.kubernetesupgrade.rules
+      rules:
+        - # Fires when the Kubernetes upgrade object itself is in Failed phase.
+          alert: KubernetesUpgradeFailed
+          annotations:
+            description: >-
+              Kubernetes upgrade {{ $labels.name }} has entered the Failed phase.
+              Check controller logs and the upgrade job for details.
+            # runbook_url:
+            summary: >-
+              Kubernetes upgrade {{ $labels.name }} is in Failed phase.
+          expr: |-
+            tuppr_kubernetes_upgrade_phase{phase="Failed"} > 0
+          for: 1m
+          labels:
+            severity: critical
+
+        - alert: KubernetesUpgradeStuck
+          annotations:
+            description: >-
+              Kubernetes upgrade {{ $labels.name }} has been in the
+              {{ $labels.phase }} phase for more than 45 minutes.
+              Check the upgrade job and control-plane nodes for errors.
+            # runbook_url:
+            summary: >-
+              Kubernetes upgrade {{ $labels.name }} stuck in {{ $labels.phase }} phase.
+          expr: >-
+            tuppr_kubernetes_upgrade_phase{phase=~"Upgrading|HealthChecking"} > 0
+          for: 45m
+          labels:
+            severity: warning
+
+    - name: tuppr.jobs.rules
+      rules:
+        - alert: UpgradeJobRunningTooLong
+          annotations:
+            description: >-
+              A {{ $labels.upgrade_type }} upgrade job has been active for more
+              than 1 hour, which exceeds the expected duration. The job may be
+              stuck. Check the job logs in the controller namespace.
+            # runbook_url:
+            summary: >-
+              {{ $labels.upgrade_type | title }} upgrade job running for over 1 hour.
+          expr: |-
+            tuppr_upgrade_jobs_active > 0
+          for: 1h
+          labels:
+            severity: warning
