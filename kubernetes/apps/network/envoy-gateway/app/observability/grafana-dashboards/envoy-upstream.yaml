@@ -12,7 +12,7 @@ spec:
   folderRef: network
   grafanaCom:
     id: 24457
-    revision: 7
+    revision: 3
   instanceSelector:
     matchLabels:
       dashboards: grafana
