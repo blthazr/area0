@@ -18,5 +18,3 @@ spec:
         enabled: true
       prometheusRule:
         enabled: true
-      dashboard:
-        enabled: true
