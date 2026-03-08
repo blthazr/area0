@@ -17,12 +17,12 @@ spec:
         containers:
           app:
             env:
-              TZ: "${CLUSTER_TIME_ZONE}"
-              WEB_LISTENING_PORT: &port 5800
-              USER_ID: ${APP_PUID:=1000}
-              GROUP_ID: ${APP_PGID:=1000}
               DARK_MODE: "1"
+              GROUP_ID: ${APP_PGID:=1000}
+              TZ: "${CLUSTER_TIME_ZONE}"
+              USER_ID: ${APP_PUID:=1000}
               WEB_AUDIO: "1"
+              WEB_LISTENING_PORT: &port 5800
             image:
               repository: ghcr.io/jlesage/musicbrainz-picard
               tag: v26.02.2@sha256:46d1f7b1dff908f23bd27a9c017287ec2b11ee86b6ee3b15f7cb89ae35a034c9
@@ -31,12 +31,12 @@ spec:
                 memory: 1Gi
               requests:
                 cpu: 10m
-            securityContext:
-              allowPrivilegeEscalation: false
-              capabilities:
-                drop:
-                  - "ALL"
-              readOnlyRootFilesystem: true
+            # securityContext:
+            #   allowPrivilegeEscalation: false
+            #   capabilities:
+            #     drop:
+            #       - "ALL"
+            #   readOnlyRootFilesystem: true
         replicas: ${REPLICAS:=1}
     defaultPodOptions:
       affinity:
@@ -50,7 +50,7 @@ spec:
         fsGroup: ${APP_PGID:=1000}
         fsGroupChangePolicy: OnRootMismatch
         runAsGroup: ${APP_PGID:=1000}
-        runAsNonRoot: true
+        # runAsNonRoot: true
         runAsUser: ${APP_PUID:=1000}
     persistence:
       config:
