@@ -32,6 +32,22 @@
       minimumGroupSize: 3,
     },
     {
+      description: "Kubernetes Group",
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+      groupName: "kubernetes",
+      matchDatasources: [
+        "docker",
+        "github-tags",
+      ],
+      matchPackageNames: [
+        "/kubectl/",
+        "/kubelet/",
+      ],
+      minimumGroupSize: 2,
+    },
+    {
       description: "Rook-Ceph Group",
       group: {
         commitMessageTopic: "{{{groupName}}} group",
