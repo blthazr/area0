@@ -4,7 +4,7 @@ apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
   name: spegel
-  namespace: observability
+  namespace: kube-system
 spec:
   allowCrossNamespaceImport: true
   configMapRef:
