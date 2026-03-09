@@ -1,0 +1,142 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: gatus
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: gatus
+  interval: 1h
+  values:
+    controllers:
+      gatus:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            env:
+              GATUS_CONFIG_PATH: /config
+              GATUS_DELAY_START_SECONDS: 5
+              GATUS_WEB_PORT: &port 80
+              TZ: "${CLUSTER_TIME_ZONE}"
+            image:
+              repository: ghcr.io/twin/gatus
+              tag: v5.35.0@sha256:21609f31be8c4e680ce3004b24276305666239c99aff58391503f3fb6142f39d
+            probes:
+              liveness: &probes
+                custom: true
+                enabled: true
+                spec:
+                  failureThreshold: 3
+                  httpGet:
+                    path: /health
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+              readiness: *probes
+            resources:
+              limits:
+                memory: 256Mi
+              requests:
+                cpu: 10m
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - "ALL"
+              readOnlyRootFilesystem: true
+        initContainers:
+          gatus-sidecar:
+            args:
+              - --auto-httproute
+              - --enable-httproute
+              - --enable-service
+            image:
+              repository: ghcr.io/home-operations/gatus-sidecar
+              tag: 0.0.13@sha256:40d549ea5ae89acac94bdf4cee1233e718a96c6e382c67f7e28de688511169d2
+            resources:
+              limits:
+                memory: 64Mi
+              requests:
+                cpu: 10m
+            restartPolicy: Always
+        statefulset:
+          volumeClaimTemplates:
+            - name: config
+              accessMode: ReadWriteOnce
+              size: 5Gi
+              storageClass: ceph-block
+        type: statefulset
+    defaultPodOptions:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
+      securityContext:
+        fsGroup: ${APP_PGID:=1000}
+        fsGroupChangePolicy: OnRootMismatch
+        runAsGroup: ${APP_PGID:=1000}
+        runAsNonRoot: true
+        runAsUser: ${APP_PUID:=1000}
+    persistence:
+      config-file:
+        globalMounts:
+          - path: /config/config.yaml
+            subPath: config.yaml
+        name: "{{ .Release.Name }}-configmap"
+        type: configMap
+    rbac:
+      roles:
+        gatus:
+          type: ClusterRole
+          rules:
+            - apiGroups:
+                - ""
+              resources:
+                - services
+              verbs:
+                - get
+                - watch
+                - list
+            - apiGroups:
+                - gateway.networking.k8s.io
+              resources:
+                - gateways
+                - httproutes
+              verbs:
+                - get
+                - watch
+                - list
+      bindings:
+        gatus:
+          type: ClusterRoleBinding
+          roleRef:
+            identifier: gatus
+          subjects:
+            - identifier: gatus
+    route:
+      app:
+        annotations:
+          gatus.home-operations.com/enabled: "false"
+        hostnames:
+          - "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-external
+            namespace: network
+    service:
+      app:
+        ports:
+          http:
+            port: *port
+    serviceAccount:
+      gatus: {}
+    serviceMonitor:
+      app:
+        endpoints:
+          - port: http

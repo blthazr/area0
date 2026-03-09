@@ -1,0 +1,40 @@
+---
+connectivity:
+  checker:
+    interval: 1m
+    target: 1.1.1.1:53
+endpoints:
+  - name: Cloudflare
+    conditions:
+      - "[CONNECTED] == true"
+    group: connectivity
+    interval: 1m
+    url: icmp://1.1.1.1
+  - name: Google
+    conditions:
+      - "[CONNECTED] == true"
+    group: connectivity
+    interval: 1m
+    url: icmp://8.8.8.8
+  - name: Quad9
+    conditions:
+      - "[CONNECTED] == true"
+    group: connectivity
+    interval: 1m
+    url: icmp://9.9.9.9
+metrics: true
+storage:
+  caching: true
+  path: ${GATUS_CONFIG_PATH}/gatus.db
+  type: sqlite
+ui:
+  buttons:
+    - name: Github
+      link: https://github.com/blthazr
+    - name: Homelab
+      link: https://github.com/blthazr/area0
+  header: Status
+  link: https://github.com/blthazr
+  title: Status | Gatus
+web:
+  port: ${GATUS_WEB_PORT}
