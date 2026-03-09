@@ -18,7 +18,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      HOSTNAME: "requests"
+      HOSTNAME: requests
   prune: true
   sourceRef:
     kind: GitRepository
