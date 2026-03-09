@@ -77,6 +77,24 @@ spec:
       #   globalMounts:
       #     - path: /media
       #       readOnly: true
+      # nas-data:
+      #   advancedMounts:
+      #     {{ ENV.APP }}:
+      #       app:
+      #         - path: /data/nas
+      #           subPath: apps/{{ ENV.APP }}/media
+      #   path: "${NFS_DATA_PATH}"
+      #   server: "${NAS_ADDRESS}"
+      #   type: nfs
+      # nas-shared:
+      #   advancedMounts:
+      #     {{ ENV.APP }}:
+      #       app:
+      #         - path: /data/shard
+      #           subPath: {{ ENV.APP }}
+      #   path: "${NFS_SHARED_PATH}"
+      #   server: "${NAS_ADDRESS}"
+      #   type: nfs
       # tmpfs:
       #   advancedMounts:
       #     {{ ENV.APP }}:

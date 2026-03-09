@@ -62,6 +62,14 @@ tasks:
               - external-secret.yaml
               - persistent-volume-claim.yaml
         cmd: minijinja-cli {{.KUBERNETES_DIR}}/templates/APP_NAME/common/{{.ITEM.FILES}}.j2 -o {{.APP_PATH}}/app/{{.ITEM.FILES}}
+      - mkdir -p {{.APP_PATH}}/app/observability
+      - minijinja-cli {{.KUBERNETES_DIR}}/templates/APP_NAME/common/observability/kustomization.yaml.j2 -o {{.APP_PATH}}/app/observability/kustomization.yaml
+      - mkdir -p {{.APP_PATH}}/app/observability/grafana-dashboards
+      - minijinja-cli {{.KUBERNETES_DIR}}/templates/APP_NAME/common/observability/grafana-dashboards/kustomization.yaml.j2 -o {{.APP_PATH}}/app/observability/grafana-dashboards/kustomization.yaml
+      - minijinja-cli {{.KUBERNETES_DIR}}/templates/APP_NAME/common/observability/grafana-dashboards/grafana-dashboard.yaml.j2 -o {{.APP_PATH}}/app/observability/grafana-dashboards/{{.APP}}.yaml
+      - mkdir -p {{.APP_PATH}}/app/observability/prometheus-rules
+      - minijinja-cli {{.KUBERNETES_DIR}}/templates/APP_NAME/common/observability/prometheus-rules/kustomization.yaml.j2 -o {{.APP_PATH}}/app/observability/prometheus-rules/kustomization.yaml
+      - minijinja-cli {{.KUBERNETES_DIR}}/templates/APP_NAME/common/observability/prometheus-rules/prometheus-rule.yaml.j2 -o {{.APP_PATH}}/app/observability/prometheus-rules/{{.APP}}-rules.yaml
     requires:
       vars:
         - APP
@@ -100,6 +108,14 @@ tasks:
               - persistent-volume-claim.yaml
               - oci-repository.yaml
         cmd: minijinja-cli {{.KUBERNETES_DIR}}/templates/APP_NAME/common/{{.ITEM.FILES}}.j2 -o {{.APP_PATH}}/app/{{.ITEM.FILES}}
+      - mkdir -p {{.APP_PATH}}/app/observability
+      - minijinja-cli {{.KUBERNETES_DIR}}/templates/APP_NAME/common/observability/kustomization.yaml.j2 -o {{.APP_PATH}}/app/observability/kustomization.yaml
+      - mkdir -p {{.APP_PATH}}/app/observability/grafana-dashboards
+      - minijinja-cli {{.KUBERNETES_DIR}}/templates/APP_NAME/common/observability/grafana-dashboards/kustomization.yaml.j2 -o {{.APP_PATH}}/app/observability/grafana-dashboards/kustomization.yaml
+      - minijinja-cli {{.KUBERNETES_DIR}}/templates/APP_NAME/common/observability/grafana-dashboards/grafana-dashboard.yaml.j2 -o {{.APP_PATH}}/app/observability/grafana-dashboards/{{.APP}}.yaml
+      - mkdir -p {{.APP_PATH}}/app/observability/prometheus-rules
+      - minijinja-cli {{.KUBERNETES_DIR}}/templates/APP_NAME/common/observability/prometheus-rules/kustomization.yaml.j2 -o {{.APP_PATH}}/app/observability/prometheus-rules/kustomization.yaml
+      - minijinja-cli {{.KUBERNETES_DIR}}/templates/APP_NAME/common/observability/prometheus-rules/prometheus-rule.yaml.j2 -o {{.APP_PATH}}/app/observability/prometheus-rules/{{.APP}}-rules.yaml
     requires:
       vars:
         - APP

@@ -1,0 +1,22 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/grafana.integreatly.org/grafanadashboard_v1beta1.json
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: {{ ENV.APP }}
+spec:
+  allowCrossNamespaceImport: true
+  # configMapRef:
+  #   name: __CONFIGMAP_NAME___
+  #   key: __CONFIGMAP_KEY__
+  # datasources:
+  #   - datasourceName: prometheus
+  #     inputName: DS_PROMETHEUS
+  folderRef: {{ ENV.NS }}
+  # grafanaCom:
+  #   id: __grafana_id__
+  #   revision: __grafana_rev__
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
+  # url: __dashboard_url__

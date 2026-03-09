@@ -1,0 +1,22 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/monitoring.coreos.com/prometheusrule_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: {{ ENV.APP }}-rules
+spec:
+  groups:
+    - name: {{ ENV.APP }}.rules
+      rules:
+        - alert: __ALERT_ID__
+          annotations:
+            # description: >-
+            #   __DESCRIPTION__
+            # runbook_url:
+            # summary: >-
+            #   __SUMMARY__
+          # expr: |-
+          #   __EXPRESSION__
+          # for: 5m
+          # labels:
+          #   severity: critical
