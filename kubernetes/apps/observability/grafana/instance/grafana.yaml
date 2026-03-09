@@ -102,6 +102,21 @@ spec:
               persistentVolumeClaim:
                 claimName: grafana-pvc
   disableDefaultSecurityContext: All
+  httpRoute:
+    metadata:
+      annotations:
+        gatus.home-operations.com/endpoint: |-
+          conditions: ["[STATUS] == 200"]
+    spec:
+      hostnames:
+        - "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
+      parentRefs:
+        - name: envoy-internal
+          namespace: network
+      rules:
+        - backendRefs:
+            - name: grafana-service
+              port: 3000
   persistentVolumeClaim:
     spec:
       accessModes:
