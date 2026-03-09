@@ -12,6 +12,7 @@ resources:
   - ./storage-class.yaml
   - ./actual/ks.yaml
   - ./bazarr/ks.yaml
+  - ./it-tools/ks.yaml
   - ./mealie/ks.yaml
   - ./paperless/ks.yaml
   - ./picard/ks.yaml
