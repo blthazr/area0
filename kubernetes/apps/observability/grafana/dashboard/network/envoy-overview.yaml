@@ -3,16 +3,16 @@
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
-  name: prometheus
+  name: envoy-overview
 spec:
   allowCrossNamespaceImport: true
   datasources:
     - datasourceName: prometheus
       inputName: DS_PROMETHEUS
-  folderRef: observability
+  folderRef: network
   grafanaCom:
-    id: 19105
-    revision: 8
+    id: 24459
+    revision: 3
   instanceSelector:
     matchLabels:
       dashboards: grafana

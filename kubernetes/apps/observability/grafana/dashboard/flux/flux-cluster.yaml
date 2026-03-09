@@ -3,16 +3,14 @@
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
-  name: prometheus
+  name: flux-cluster
 spec:
   allowCrossNamespaceImport: true
   datasources:
     - datasourceName: prometheus
       inputName: DS_PROMETHEUS
-  folderRef: observability
-  grafanaCom:
-    id: 19105
-    revision: 8
+  folderRef: flux
   instanceSelector:
     matchLabels:
       dashboards: grafana
+  url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/refs/heads/main/monitoring/configs/dashboards/cluster.json

@@ -3,16 +3,14 @@
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
-  name: prometheus
+  name: flux-performance
 spec:
   allowCrossNamespaceImport: true
   datasources:
     - datasourceName: prometheus
       inputName: DS_PROMETHEUS
-  folderRef: observability
-  grafanaCom:
-    id: 19105
-    revision: 8
+  folderRef: flux
   instanceSelector:
     matchLabels:
       dashboards: grafana
+  url: https://raw.githubusercontent.com/controlplaneio-fluxcd/flux-operator/refs/heads/main/config/monitoring/dashboards/flux-performance.json

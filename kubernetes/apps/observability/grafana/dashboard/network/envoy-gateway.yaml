@@ -3,16 +3,14 @@
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
-  name: prometheus
+  name: envoy-gateway
 spec:
   allowCrossNamespaceImport: true
-  datasources:
-    - datasourceName: prometheus
-      inputName: DS_PROMETHEUS
-  folderRef: observability
-  grafanaCom:
-    id: 19105
-    revision: 8
   instanceSelector:
     matchLabels:
       dashboards: grafana
+  datasources:
+    - datasourceName: prometheus
+      inputName: DS_PROMETHEUS
+  folderRef: network
+  url: https://raw.githubusercontent.com/envoyproxy/gateway/refs/heads/main/charts/gateway-addons-helm/dashboards/envoy-gateway-global.json

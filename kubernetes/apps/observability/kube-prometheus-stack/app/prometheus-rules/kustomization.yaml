@@ -1,0 +1,13 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ./cert-manager-rules.yaml
+  - ./dockerhub-rules.yaml
+  - ./external-dns-cloudflare-rules.yaml
+  - ./flux-instance-rules.yaml
+  - ./gatus-rules.yaml
+  - ./oom-rules.yaml
+  - ./tuppr-rules.yaml
+  - ./volsync-rules.yaml

@@ -4,3 +4,10 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - ./grafana-folder.yaml
+  - ./cert-manager.yaml
+  - ./cloudflare-tunnels.yaml
+  - ./envoy-downstream.yaml
+  - ./envoy-gateway.yaml
+  - ./envoy-overview.yaml
+  - ./envoy-proxy.yaml
+  - ./envoy-upstream.yaml

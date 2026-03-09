@@ -5,4 +5,5 @@ kind: Kustomization
 resources:
   - ./helm-release.yaml
   - ./oci-repository.yaml
-  - ./observability
+  - ./pod-monitor.yaml
+  - ./service-monitor.yaml
