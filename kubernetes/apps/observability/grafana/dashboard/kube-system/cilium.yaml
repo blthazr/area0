@@ -4,16 +4,13 @@ apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
   name: cilium
-  namespace: kube-system
 spec:
   allowCrossNamespaceImport: true
-  configMapRef:
-    name: cilium-dashboard
-    key: cilium-dashboard.json
   datasources:
     - datasourceName: prometheus
       inputName: DS_PROMETHEUS
-  # folderRef: kube-system
+  folderRef: kube-system
   instanceSelector:
     matchLabels:
       dashboards: grafana
+  url: https://raw.githubusercontent.com/cilium/cilium/refs/heads/main/install/kubernetes/cilium/files/cilium-agent/dashboards/cilium-dashboard.json

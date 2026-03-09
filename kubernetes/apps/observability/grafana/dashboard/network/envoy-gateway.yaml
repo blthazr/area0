@@ -6,11 +6,11 @@ metadata:
   name: envoy-gateway
 spec:
   allowCrossNamespaceImport: true
-  instanceSelector:
-    matchLabels:
-      dashboards: grafana
   datasources:
     - datasourceName: prometheus
       inputName: DS_PROMETHEUS
   folderRef: network
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
   url: https://raw.githubusercontent.com/envoyproxy/gateway/refs/heads/main/charts/gateway-addons-helm/dashboards/envoy-gateway-global.json

@@ -4,16 +4,13 @@ apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
   name: cilium-operator
-  namespace: kube-system
 spec:
   allowCrossNamespaceImport: true
-  configMapRef:
-    name: cilium-operator-dashboard
-    key: cilium-operator-dashboard.json
   datasources:
     - datasourceName: prometheus
       inputName: DS_PROMETHEUS
-  # folderRef: kube-system
+  folderRef: kube-system
   instanceSelector:
     matchLabels:
       dashboards: grafana
+  url: https://raw.githubusercontent.com/cilium/cilium/refs/heads/main/install/kubernetes/cilium/files/cilium-operator/dashboards/cilium-operator-dashboard.json
