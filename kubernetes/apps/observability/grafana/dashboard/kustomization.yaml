@@ -6,7 +6,7 @@ resources:
   - ./authentication
   - ./database
   - ./flux
+  - ./kube-system
   - ./network
   - ./observability
   - ./storage
-  - ./system
