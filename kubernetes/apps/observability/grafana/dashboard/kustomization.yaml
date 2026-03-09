@@ -5,7 +5,7 @@ kind: Kustomization
 resources:
   - ./authentication
   - ./database
-  # - ./flux
+  - ./flux
   - ./kube-system
   - ./network
   - ./observability
