@@ -81,7 +81,7 @@ spec:
           - path: /app/config
       tmpfs:
         advancedMounts:
-          overseerr:
+          seerr:
             app:
               - path: /tmp
                 subPath: tmp
