@@ -13,7 +13,7 @@ spec:
   datasources:
     - datasourceName: prometheus
       inputName: DS_PROMETHEUS
-  folderRef: kube-system
+  # folderRef: kube-system
   instanceSelector:
     matchLabels:
       dashboards: grafana
