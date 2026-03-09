@@ -4,6 +4,7 @@ apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
   name: flux-k8s-api-performance
+  namespace: observability
 spec:
   allowCrossNamespaceImport: true
   datasources:

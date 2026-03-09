@@ -4,6 +4,7 @@ apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
   name: {{ ENV.APP }}
+  namespace: observability
 spec:
   allowCrossNamespaceImport: true
   # configMapRef:

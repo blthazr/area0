@@ -4,6 +4,7 @@ apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
   name: kubernetes-coredns
+  namespace: observability
 spec:
   allowCrossNamespaceImport: true
   datasources:
