@@ -59,7 +59,7 @@ spec:
               tag: 0.0.13@sha256:40d549ea5ae89acac94bdf4cee1233e718a96c6e382c67f7e28de688511169d2
             resources:
               limits:
-                memory: 64Mi
+                memory: 32Mi
               requests:
                 cpu: 10m
             restartPolicy: Always
@@ -125,6 +125,7 @@ spec:
         annotations:
           gatus.home-operations.com/enabled: "false"
         hostnames:
+          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
           - "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
         parentRefs:
           - name: envoy-external
