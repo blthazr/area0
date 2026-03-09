@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
   - ./external-secret.yaml
   - ./grafana.yaml
+  - ./http-route.yaml
   - ./pocket-id-oidc-client.yaml
   - ./pocket-id-user-group.yaml
   - ./service-monitor.yaml
