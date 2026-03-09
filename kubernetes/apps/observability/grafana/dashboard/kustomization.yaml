@@ -3,4 +3,11 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ./cloudnative-pg-operator.yaml
+  - ./authentication
+  - ./cert-manager
+  - ./database
+  - ./flux
+  - ./network
+  - ./observability
+  - ./storage
+  - ./system

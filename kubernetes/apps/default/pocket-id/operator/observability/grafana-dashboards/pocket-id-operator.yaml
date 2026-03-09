@@ -9,7 +9,7 @@ spec:
   datasources:
     - datasourceName: prometheus
       inputName: DS_PROMETHEUS
-  folderRef: pocket-id
+  folderRef: authentication
   instanceSelector:
     matchLabels:
       dashboards: grafana

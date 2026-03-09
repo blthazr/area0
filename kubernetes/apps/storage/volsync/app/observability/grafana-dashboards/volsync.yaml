@@ -12,7 +12,7 @@ spec:
   envs:
     - name: VAR_REPLICATIONDESTNAME
       value: .*-dst
-  folderRef: volsync
+  folderRef: storage
   grafanaCom:
     id: 21356
     revision: 3

@@ -9,7 +9,7 @@ spec:
   datasources:
     - datasourceName: prometheus
       inputName: DS_PROMETHEUS
-  folderRef: cert-manager
+  folderRef: network
   grafanaCom:
     id: 20842
     revision: 3

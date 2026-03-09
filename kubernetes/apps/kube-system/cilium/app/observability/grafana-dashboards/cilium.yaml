@@ -12,7 +12,7 @@ spec:
   datasources:
     - datasourceName: prometheus
       inputName: DS_PROMETHEUS
-  folderRef: cilium
+  folderRef: system
   instanceSelector:
     matchLabels:
       dashboards: grafana

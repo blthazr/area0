@@ -9,7 +9,7 @@ spec:
   datasources:
     - datasourceName: prometheus
       inputName: DS_PROMETHEUS
-  folderRef: cloudnative-pg
+  folderRef: database
   grafanaCom:
     id: 20417
     revision: 4
