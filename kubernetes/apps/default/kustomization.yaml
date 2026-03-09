@@ -13,7 +13,6 @@ resources:
   - ./actual/ks.yaml
   - ./bazarr/ks.yaml
   - ./mealie/ks.yaml
-  - ./overseerr/ks.yaml
   - ./paperless/ks.yaml
   - ./picard/ks.yaml
   - ./pinchflat/ks.yaml
