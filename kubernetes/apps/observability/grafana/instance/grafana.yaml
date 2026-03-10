@@ -107,7 +107,7 @@ spec:
       annotations:
         gatus.home-operations.com/endpoint: |-
           name: grafana
-          conditions: ["[STATUS] == 200"]
+          url: https://grafana.${SECRET_DOMAIN}/api/health
     spec:
       hostnames:
         - "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
