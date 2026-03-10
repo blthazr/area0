@@ -6,4 +6,4 @@ resources:
   - ./helm-release.yaml
   - ./oci-repository.yaml
   - ./pocket-id-oidc-client.yaml
-  - ./reference-grant.yaml.yaml
+  - ./reference-grant.yaml
