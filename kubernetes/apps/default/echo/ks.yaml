@@ -6,6 +6,8 @@ metadata:
   name: &app echo
   namespace: &namespace default
 spec:
+  components:
+    - ../../../../components/tinyauth
   interval: 1h
   path: ./kubernetes/apps/default/echo/app
   postBuild:
