@@ -5,7 +5,5 @@ kind: PocketIDOIDCClient
 metadata:
   name: tinyauth
 spec:
-  callbackUrls:
-    - "https://${HOSTNAME:=${APP}}.${SECRET_DOMAIN}/api/oauth/callback/pocketid"
   launchUrl: "https://${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
   pkceEnabled: true

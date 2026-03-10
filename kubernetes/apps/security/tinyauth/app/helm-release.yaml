@@ -17,9 +17,10 @@ spec:
         containers:
           app:
             env:
-              TINYAUTH_APPURL: "https://tinyauth.${SECRET_DOMAIN}"
+              TINYAUTH_APPURL: "https://"${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
               TINYAUTH_AUTH_SECURECOOKIE: true
               TINYAUTH_AUTH_SESSIONEXPIRY: 604800
+              TINYAUTH_AUTH_TRUSTEDPROXIES: "${NET_K8S_POD_CIDR}"
               TINYAUTH_DATABASEPATH: /data/tinyauth.db
               TINYAUTH_DISABLEANALYTICS: true
               TINYAUTH_OAUTH_PROVIDERS_POCKETID_AUTHURL:
@@ -38,11 +39,6 @@ spec:
                     name: tinyauth-oidc-credentials
                     key: client_secret
               TINYAUTH_OAUTH_PROVIDERS_POCKETID_NAME: Pocket-ID
-              TINYAUTH_OAUTH_PROVIDERS_POCKETID_REDIRECTURL:
-                valueFrom:
-                  secretKeyRef:
-                    name: tinyauth-oidc-credentials
-                    key: callback_urls
               TINYAUTH_OAUTH_PROVIDERS_POCKETID_SCOPES: openid email profile groups
               TINYAUTH_OAUTH_PROVIDERS_POCKETID_TOKENURL:
                 valueFrom:
@@ -55,7 +51,6 @@ spec:
                     name: tinyauth-oidc-credentials
                     key: userinfo_url
               TINYAUTH_RESOURCESDIR: /data/resources
-              TINYAUTH_AUTH_TRUSTEDPROXIES: "${NET_K8S_POD_CIDR}"
               TZ: "${CLUSTER_TIME_ZONE}"
             image:
               repository: ghcr.io/steveiliop56/tinyauth
