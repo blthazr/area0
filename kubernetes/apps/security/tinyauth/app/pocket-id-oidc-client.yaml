@@ -1,0 +1,11 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/aclerici38/pocket-id-operator/main/dist/schemas/pocketidoidcclient_v1alpha1.json
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDOIDCClient
+metadata:
+  name: tinyauth
+spec:
+  callbackUrls:
+    - "https://${HOSTNAME:=${APP}}.${SECRET_DOMAIN}/api/oauth/callback/pocketid"
+  launchUrl: "https://${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
+  pkceEnabled: true

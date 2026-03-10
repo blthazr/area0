@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/envoyproxy/gateway/refs/heads/main/charts/gateway-helm/crds/generated/gateway.envoyproxy.io_clienttrafficpolicies.yaml
+# yaml-language-server: $schema=https://raw.githubusercontent.com/envoyproxy/gateway/refs/heads/main/charts/gateway-helm/charts/crds/crds/generated/gateway.envoyproxy.io_clienttrafficpolicies.yaml
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: ClientTrafficPolicy
 metadata:
@@ -9,6 +9,39 @@ spec:
     xForwardedFor:
       trustedCIDRs:
         - 10.42.0.0/16
+  headers:
+    enableEnvoyHeaders: true
+    earlyRequestHeaders:
+      set:
+        - name: X-Forwarded-Proto
+          value: "%REQ(:SCHEME)%"
+        - name: X-Forwarded-Host
+          value: "%REQ(:AUTHORITY)%"
+        - name: X-Forwarded-Uri
+          value: "%REQ(:PATH)%"
+        - name: X-Forwarded-Method
+          value: "%REQ(:METHOD)%"
+    lateResponseHeaders:
+      remove: ["Server", "X-Powered-By"]
+      set:
+        - name: Content-Security-Policy
+          value: "upgrade-insecure-requests;"
+        - name: Cross-Origin-Resource-Policy
+          value: "same-site"
+        - name: Permissions-Policy
+          value: "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()"
+        - name: Referrer-Policy
+          value: "strict-origin-when-cross-origin"
+        - name: Strict-Transport-Security
+          value: "max-age=31536000; preload"
+        - name: X-Content-Type-Options
+          value: "nosniff"
+        - name: X-Frame-Options
+          value: SAMEORIGIN
+        - name: X-Robots-Tag
+          value: "noindex, nofollow"
+        - name: X-XSS-Protection
+          value: "1; mode=block"
   http2:
     onInvalidMessage: TerminateStream
   http3: {}

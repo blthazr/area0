@@ -1,0 +1,29 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/envoyproxy/gateway/refs/heads/main/charts/gateway-helm/charts/crds/crds/generated/gateway.envoyproxy.io_securitypolicies.yaml
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: ${APP}-tinyauth
+spec:
+  extAuth:
+    failOpen: false
+    headersToExtAuth:
+      - X-Forwarded-For
+      - X-Forwarded-Host
+      - X-Forwarded-Proto
+      - X-Forwarded-Uri
+      - accept
+      - cookie
+    http:
+      backendRefs:
+        - name: tinyauth
+          namespace: security
+          port: 3000
+      headersToBackend:
+        - Location
+        - Set-Cookie
+      path: /api/auth/envoy?path=
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: "${HTTP_ROUTE_TARGET:=${APP}}"

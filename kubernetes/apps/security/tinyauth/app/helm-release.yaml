@@ -1,0 +1,122 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: tinyauth
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: tinyauth
+  interval: 1h
+  values:
+    controllers:
+      tinyauth:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            env:
+              TINYAUTH_APPURL: "https://tinyauth.${SECRET_DOMAIN}"
+              TINYAUTH_AUTH_SECURECOOKIE: true
+              TINYAUTH_AUTH_SESSIONEXPIRY: 604800
+              TINYAUTH_DATABASEPATH: /data/tinyauth.db
+              TINYAUTH_DISABLEANALYTICS: true
+              TINYAUTH_OAUTH_PROVIDERS_POCKETID_AUTHURL:
+                valueFrom:
+                  secretKeyRef:
+                    name: tinyauth-oidc-credentials
+                    key: authorization_url
+              TINYAUTH_OAUTH_PROVIDERS_POCKETID_CLIENTID:
+                valueFrom:
+                  secretKeyRef:
+                    name: tinyauth-oidc-credentials
+                    key: client_id
+              TINYAUTH_OAUTH_PROVIDERS_POCKETID_CLIENTSECRET:
+                valueFrom:
+                  secretKeyRef:
+                    name: tinyauth-oidc-credentials
+                    key: client_secret
+              TINYAUTH_OAUTH_PROVIDERS_POCKETID_NAME: Pocket-ID
+              TINYAUTH_OAUTH_PROVIDERS_POCKETID_REDIRECTURL:
+                valueFrom:
+                  secretKeyRef:
+                    name: tinyauth-oidc-credentials
+                    key: callback_urls
+              TINYAUTH_OAUTH_PROVIDERS_POCKETID_SCOPES: openid email profile groups
+              TINYAUTH_OAUTH_PROVIDERS_POCKETID_TOKENURL:
+                valueFrom:
+                  secretKeyRef:
+                    name: tinyauth-oidc-credentials
+                    key: token_url
+              TINYAUTH_OAUTH_PROVIDERS_POCKETID_USERINFOURL:
+                valueFrom:
+                  secretKeyRef:
+                    name: tinyauth-oidc-credentials
+                    key: userinfo_url
+              TINYAUTH_RESOURCESDIR: /data/resources
+              TINYAUTH_SERVER_TRUSTEDPROXIES: "${NET_K8S_POD_CIDR}"
+              TZ: "${CLUSTER_TIME_ZONE}"
+            image:
+              repository: ghcr.io/steveiliop56/tinyauth
+              tag: v5.0.0-beta.3-distroless@sha256:2de072fead288ec42daa6df48895fc62e17e09c695903121ea15ee60eb61f3eb
+            probes:
+              liveness: &probes
+                custom: true
+                enabled: true
+                spec:
+                  failureThreshold: 3
+                  httpGet:
+                    path: /api/healthz
+                    port: &port 3000
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+              readiness: *probes
+            resources:
+              limits:
+                memory: 256Mi
+              requests:
+                cpu: 10m
+                memory: 64Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - "ALL"
+              readOnlyRootFilesystem: true
+        replicas: ${REPLICAS:=1}
+    defaultPodOptions:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
+      securityContext:
+        fsGroup: ${APP_PGID:=1000}
+        fsGroupChangePolicy: OnRootMismatch
+        runAsGroup: ${APP_PGID:=1000}
+        runAsNonRoot: true
+        runAsUser: ${APP_PUID:=1000}
+    persistence:
+      tmpfs:
+        advancedMounts:
+          tinyauth:
+            app:
+              - path: /data
+                subPath: data
+        type: emptyDir
+    route:
+      app:
+        hostnames:
+          - "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-external
+            namespace: network
+    service:
+      app:
+        ports:
+          http:
+            port: *port
