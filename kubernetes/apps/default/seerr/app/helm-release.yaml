@@ -93,7 +93,6 @@ spec:
             name: requests
             conditions: ["[STATUS] == 200"]
         hostnames:
-          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
           - "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
         parentRefs:
           - name: envoy-external
