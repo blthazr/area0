@@ -55,7 +55,7 @@ spec:
                     name: tinyauth-oidc-credentials
                     key: userinfo_url
               TINYAUTH_RESOURCESDIR: /data/resources
-              TINYAUTH_SERVER_TRUSTEDPROXIES: "${NET_K8S_POD_CIDR}"
+              TINYAUTH_AUTH_TRUSTEDPROXIES: "${NET_K8S_POD_CIDR}"
               TZ: "${CLUSTER_TIME_ZONE}"
             image:
               repository: ghcr.io/steveiliop56/tinyauth
