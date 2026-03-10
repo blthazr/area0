@@ -7,8 +7,8 @@ metadata:
   namespace: &namespace security
 spec:
   dependsOn:
-    - name: pocket-id
-      namespace: security
+    - name: pocket-id-instance
+      namespace: *namespace
   interval: 1h
   path: ./kubernetes/apps/security/tinyauth/app
   postBuild:
