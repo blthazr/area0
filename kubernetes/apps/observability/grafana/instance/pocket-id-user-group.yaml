@@ -17,7 +17,7 @@ kind: PocketIDUserGroup
 metadata:
   name: grafana-users
 spec:
-  friendlyName: Grafana
+  friendlyName: Grafana Users
   name: grafana_users
   users:
     usernames:
