@@ -45,6 +45,47 @@ spec:
               PAPERLESS_OCR_USER_ARGS: '{"invalidate_digital_signatures": true}'
               # Redis
               PAPERLESS_REDIS: redis://localhost:6379
+              # OIDC (Pocket ID)
+              PAPERLESS_APPS: allauth.socialaccount.providers.openid_connect
+              # PAPERLESS_ACCOUNT_ALLOW_SIGNUPS: "false"        # default
+              PAPERLESS_DISABLE_REGULAR_LOGIN: "false"
+              PAPERLESS_REDIRECT_LOGIN_TO_SSO: "true"
+              PAPERLESS_SOCIAL_ACCOUNT_SYNC_GROUPS: "true"
+              # PAPERLESS_SOCIAL_AUTO_SIGNUP: "false"           # default
+              # PAPERLESS_SOCIALACCOUNT_ALLOW_SIGNUPS: true     # default
+              PAPERLESS_SOCIALACCOUNT_PROVIDERS: |
+                {
+                  "openid_connect": {
+                    "SCOPE": ["openid", "profile", "email", "groups"],
+                    "OAUTH_PKCE_ENABLED": true,
+                    "APPS": [
+                      {
+                        "provider_id": "pocket-id",
+                        "name": "Pocket-ID",
+                        "client_id": "$(PAPERLESS_OAUTH_CLIENT_ID)",
+                        "secret": "$(PAPERLESS_OAUTH_CLIENT_SECRET)",
+                        "settings": {
+                          "server_url": "$(PAPERLESS_OAUTH_ISSUER_URL)"
+                        }
+                      }
+                    ]
+                  }
+                }
+              PAPERLESS_OAUTH_CLIENT_ID:
+                valueFrom:
+                  secretKeyRef:
+                    name: paperless-ngx-oidc-credentials
+                    key: client_id
+              PAPERLESS_OAUTH_CLIENT_SECRET:
+                valueFrom:
+                  secretKeyRef:
+                    name: paperless-ngx-oidc-credentials
+                    key: client_secret
+              PAPERLESS_OAUTH_ISSUER_URL:
+                valueFrom:
+                  secretKeyRef:
+                    name: paperless-ngx-oidc-credentials
+                    key: issuer_url
               # User permissions
               USERMAP_GID: ${APP_GID:=1000}
               USERMAP_UID: ${APP_UID:=1000}
