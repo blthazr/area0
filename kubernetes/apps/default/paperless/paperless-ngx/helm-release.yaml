@@ -49,7 +49,7 @@ spec:
               PAPERLESS_APPS: allauth.socialaccount.providers.openid_connect
               # PAPERLESS_ACCOUNT_ALLOW_SIGNUPS: "false"        # default
               PAPERLESS_DISABLE_REGULAR_LOGIN: "false"
-              PAPERLESS_REDIRECT_LOGIN_TO_SSO: "true"
+              # PAPERLESS_REDIRECT_LOGIN_TO_SSO: "true"
               PAPERLESS_SOCIAL_ACCOUNT_SYNC_GROUPS: "true"
               # PAPERLESS_SOCIAL_AUTO_SIGNUP: "false"           # default
               # PAPERLESS_SOCIALACCOUNT_ALLOW_SIGNUPS: true     # default

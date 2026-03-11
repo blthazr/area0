@@ -24,18 +24,22 @@ spec:
               repository: ghcr.io/home-operations/plex
               tag: 1.43.0.10492@sha256:8cb062f2b0660bd7811387e6c799da0ce5f18112078fe21485c11adcc83a9c1c
             probes:
-              liveness: &probes
+              liveness:
+                enabled: true
+                spec:
+                  failureThreshold: 5
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+              readiness:
                 custom: true
                 enabled: true
                 spec:
-                  failureThreshold: 3
+                  failureThreshold: 5
                   httpGet:
                     path: /identity
                     port: &port 32400
-                  initialDelaySeconds: 0
                   periodSeconds: 10
-                  timeoutSeconds: 1
-              readiness: *probes
+                  timeoutSeconds: 5
               startup:
                 enabled: true
                 spec:
@@ -106,8 +110,6 @@ spec:
           - "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
         parentRefs:
           - name: envoy-external
-            namespace: network
-          - name: envoy-internal
             namespace: network
         rules:
           - # Ref: https://forums.plex.tv/t/external-srt-subtitles-are-not-working-w-reverse-proxy/886540
