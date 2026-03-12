@@ -16,7 +16,7 @@ spec:
   interval: 1h
   values:
     image:
-      repository: docker.io/splunk/splunk:9.3.1@sha256:b3bce598e330679170fdae1e7e02a492fd29049cf900a1cfe61e1b13bd9e0f28
+      repository: docker.io/splunk/splunk:9.4.9@sha256:2be3d3608056378d9c13e2cbe162db0d2fd197d98f6898dce1e3f15a2acd4dcd
     splunk-operator:
       enabled: false
     standalone:
