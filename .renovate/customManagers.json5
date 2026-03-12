@@ -27,5 +27,27 @@
       ],
       datasourceTemplate: "docker",
     },
+    {
+      description: "Process any repository keys in YAML files",
+      customType: "regex",
+      managerFilePatterns: [
+        "/\\.yaml(?:\\.j2)?$/",
+      ],
+      matchStrings: [
+        "repository: (?<depName>[^\\s:]+):(?<currentValue>\\S+)(@(?<currentDigest>sha256:\\S+)?)",
+      ],
+      datasourceTemplate: "docker",
+    },
+    {
+      description: "Process any imageName keys in YAML files",
+      customType: "regex",
+      managerFilePatterns: [
+        "/\\.yaml(?:\\.j2)?$/",
+      ],
+      matchStrings: [
+        "imageName: (?<depName>[^\\s:]+):(?<currentValue>\\S+)(@(?<currentDigest>sha256:\\S+)?)",
+      ],
+      datasourceTemplate: "docker",
+    }
   ],
 }
