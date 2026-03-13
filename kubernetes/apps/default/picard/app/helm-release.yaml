@@ -50,7 +50,6 @@ spec:
         fsGroup: ${APP_PGID:=1000}
         fsGroupChangePolicy: OnRootMismatch
         runAsGroup: ${APP_PGID:=1000}
-        # runAsNonRoot: true
         runAsUser: ${APP_PUID:=1000}
     persistence:
       config:
@@ -63,6 +62,7 @@ spec:
             app:
               - path: /storage
                 subPath: media/audio
+                readOnly: true
         path: "${NFS_DATA_PATH}"
         server: "${NAS_ADDRESS}"
         type: nfs
