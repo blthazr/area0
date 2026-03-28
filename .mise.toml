@@ -22,7 +22,7 @@ pipx_uvx = true
 "aqua:kubernetes/kubernetes/kubectl" = "1.35.2"
 
 # talos
-"aqua:budimanjojo/talhelper" = "3.1.5"
+"aqua:budimanjojo/talhelper" = "3.1.7"
 "aqua:siderolabs/talos" = "1.12.4"
 
 # ansible
