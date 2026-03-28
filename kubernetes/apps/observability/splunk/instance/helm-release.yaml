@@ -54,6 +54,8 @@ spec:
         storageCapacity: 10Gi
         storageClassName: ceph-block
       extraEnv:
+        - name: SPLUNK_GENERAL_TERMS
+          value: "--accept-sgt-current-at-splunk-com"
         - name: SPLUNK_HOSTNAME
           value: "${APP}"
       licenseUrl: /mnt/licenses/splunk.lic
