@@ -1,0 +1,24 @@
+---
+hide_password: true
+splunk:
+  conf:
+    - key: telemetry
+      value:
+        content:
+          general:
+            precheckSendAnonymizedUsage: false
+            precheckSendLicenseUsage: false
+            precheckSendSupportUsage: false
+            sendAnonymizedUsage: false
+            sendAnonymizedWebAnalytics: false
+            sendLicenseUsage: false
+            sendSupportUsage: false
+        directory: /opt/splunk/etc/apps/splunk_instrumentation/local
+    - key: user-prefs
+      value:
+        content:
+          general:
+            tz: "${CLUSTER_TIME_ZONE}"
+        directory: /opt/splunk/etc/system/local
+  disable_popups: true
+  ignore_license: true

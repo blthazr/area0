@@ -1,0 +1,38 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/rajsinghtech/garage-operator/refs/heads/main/schemas/garagekey_v1alpha1.json
+apiVersion: garage.rajsingh.info/v1alpha1
+kind: GarageKey
+metadata:
+  name: splunk-s2-index-data-key
+spec:
+  bucketPermissions:
+    - bucketRef: splunk-s2-index-data
+      read: true
+      write: true
+  clusterRef:
+    name: garage-gateway
+    namespace: storage
+  name: splunk-s2-index-data
+  secretTemplate:
+    name: splunk-s2-index-data-secret
+    accessKeyIdKey: s3_access_key
+    secretAccessKeyKey: s3_secret_key
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/rajsinghtech/garage-operator/refs/heads/main/schemas/garagekey_v1alpha1.json
+apiVersion: garage.rajsingh.info/v1alpha1
+kind: GarageKey
+metadata:
+  name: splunk-app-repo-key
+spec:
+  bucketPermissions:
+    - bucketRef: splunk-app-repo
+      read: true
+      write: true
+  clusterRef:
+    name: garage-gateway
+    namespace: storage
+  name: splunk-app-repo
+  secretTemplate:
+    name: splunk-app-repo-secret
+    accessKeyIdKey: s3_access_key
+    secretAccessKeyKey: s3_secret_key
