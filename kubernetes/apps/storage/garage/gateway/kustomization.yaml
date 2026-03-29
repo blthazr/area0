@@ -5,4 +5,5 @@ kind: Kustomization
 resources:
   - ./external-secret.yaml
   - ./garage-gateway.yaml
+  - ./garage-key.yaml
   - ./service.yaml
