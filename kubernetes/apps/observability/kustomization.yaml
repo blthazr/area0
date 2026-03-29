@@ -12,3 +12,4 @@ resources:
   - ./kube-prometheus-stack/ks.yaml
   - ./kube-state-metrics/ks.yaml
   - ./silence-operator/ks.yaml
+  - ./splunk/ks.yaml
