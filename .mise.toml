@@ -29,7 +29,7 @@ pipx_uvx = true
 "ansible-core" = "2.20.1"
 
 # python
-"pipx" = "1.11.0"
+"pipx" = "1.11.1"
 "python" = "3.14.3"
 
 # misc
