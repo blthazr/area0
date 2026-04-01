@@ -54,7 +54,7 @@ spec:
               TZ: "${CLUSTER_TIME_ZONE}"
             image:
               repository: ghcr.io/steveiliop56/tinyauth
-              tag: v5.0.0-beta.3-distroless@sha256:2de072fead288ec42daa6df48895fc62e17e09c695903121ea15ee60eb61f3eb
+              tag: v5.0.5-beta.3-distroless@sha256:c72d8bffdea3f86e6b9444737c23e14f78a1d260598d5ccb120dea73870828c4
             probes:
               liveness: &probes
                 custom: true
