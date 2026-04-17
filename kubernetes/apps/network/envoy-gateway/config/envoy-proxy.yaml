@@ -12,7 +12,7 @@ spec:
     kubernetes:
       envoyDeployment:
         container:
-          image: mirror.gcr.io/envoyproxy/envoy:v1.37.0
+          image: mirror.gcr.io/envoyproxy/envoy:v1.37.2
           # imageRepository: mirror.gcr.io/envoyproxy/envoy
           resources:
             limits:
