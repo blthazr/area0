@@ -20,6 +20,7 @@ spec:
               - redis
             env:
               # Application
+              PAPERLESS_APPS: allauth.socialaccount.providers.openid_connect
               PAPERLESS_DATE_ORDER: MDY
               PAPERLESS_PORT: &port 8000
               PAPERLESS_TASK_WORKERS: "2"
@@ -27,28 +28,25 @@ spec:
               PAPERLESS_URL: "https://${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
               PAPERLESS_WEBSERVER_WORKERS: "2"
               # Filenames
-              PAPERLESS_FILENAME_FORMAT: "{{ `{{ correspondent }}/{{ created_year }}/{{ created }} {{ correspondent }} {{ title }}` }}"
-              PAPERLESS_FILENAME_FORMAT_REMOVE_NONE: true
+              PAPERLESS_FILENAME_FORMAT: "{{ `{{ correspondent | slugify }}/{{ created_year }}/{{ created_year }}-{{ created_month }}-{{ created_day }} {{ correspondent | slugify }} {{ title | slugify }}` }}"
+              PAPERLESS_FILENAME_FORMAT_REMOVE_NONE: "true"
               # Folders
               PAPERLESS_CONSUMPTION_DIR: /data/import
               PAPERLESS_DATA_DIR: /config
               PAPERLESS_EMPTY_TRASH_DIR: /data/trash
               PAPERLESS_EXPORT_DIR: /data/export
               PAPERLESS_MEDIA_ROOT: /data/media
-              # Folder importer
-              PAPERLESS_CONSUMER_IGNORE_PATTERNS: '[".DS_STORE/*", "._*", ".stfolder/*", "@eaDir/*"]'
+              # Document consumer
               PAPERLESS_CONSUMER_POLLING: 60
               PAPERLESS_CONSUMER_RECURSIVE: "true"
               PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS: "true"
-              # OCR
+              # OCR settings
               PAPERLESS_OCR_LANGUAGE: eng
               PAPERLESS_OCR_USER_ARGS: '{"invalidate_digital_signatures": true}'
-              # Redis
+              # Redis Broker
               PAPERLESS_REDIS: redis://localhost:6379
               # OIDC (Pocket ID)
-              PAPERLESS_APPS: allauth.socialaccount.providers.openid_connect
               PAPERLESS_DISABLE_REGULAR_LOGIN: "false"
-              # PAPERLESS_REDIRECT_LOGIN_TO_SSO: "true"
               PAPERLESS_SOCIAL_ACCOUNT_SYNC_GROUPS: "true"
               PAPERLESS_SOCIAL_AUTO_SIGNUP: "true"
               PAPERLESS_SOCIALACCOUNT_PROVIDERS: |
