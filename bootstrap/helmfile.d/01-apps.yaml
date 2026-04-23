@@ -51,7 +51,7 @@ releases:
       - kube-system/coredns
     values:
       - ./templates/values.yaml.gotmpl
-    version: 0.6.0
+    version: 0.7.0
 
   - name: cert-manager
     chart: oci://quay.io/jetstack/charts/cert-manager
