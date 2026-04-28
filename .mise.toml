@@ -26,7 +26,7 @@ pipx_uvx = true
 "aqua:siderolabs/talos" = "1.12.6"
 
 # ansible
-"ansible-core" = "2.20.1"
+"ansible-core" = "2.20.5"
 
 # python
 "pipx" = "1.11.1"
