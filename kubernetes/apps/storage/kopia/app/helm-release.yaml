@@ -95,8 +95,7 @@ spec:
           kopia:
             app:
               - path: /repository
-                subPath: backup/kopia
-        path: "${NFS_DATA_PATH}"
+        path: "${NFS_DATA_PATH}/backup/kopia"
         server: "${NAS_ADDRESS}"
         type: nfs
       tmpfs:
