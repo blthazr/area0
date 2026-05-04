@@ -45,18 +45,27 @@ spec:
               repository: ghcr.io/home-operations/kopia
               tag: 0.22.3@sha256:17ab64542280197a5368247deaefadc3e3bbe15714ab666c2455a06824e86efd
             probes:
-              liveness: &probes
+              liveness:
+                enabled: true
+                spec:
+                  failureThreshold: 5
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+              readiness:
                 custom: true
                 enabled: true
                 spec:
-                  failureThreshold: 3
+                  failureThreshold: 5
                   httpGet:
                     path: /
                     port: *port
-                  initialDelaySeconds: 0
                   periodSeconds: 10
-                  timeoutSeconds: 1
-              readiness: *probes
+                  timeoutSeconds: 5
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 10
             resources:
               limits:
                 memory: 1Gi
@@ -91,10 +100,8 @@ spec:
         identifier: config
         type: configMap
       repository:
-        advancedMounts:
-          kopia:
-            app:
-              - path: /repository
+        globalMounts:
+          - path: /repository
         path: "${NFS_DATA_PATH}/backup/kopia"
         server: "${NAS_ADDRESS}"
         type: nfs

@@ -35,4 +35,4 @@ spec:
     volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:=csi-ceph-blockpool}"
   sourcePVC: "${VOLSYNC_PVC:=${APP}}"
   trigger:
-    schedule: "${VOLSYNC_MINIO_SCHEDULE=10 * * * *}"
+    schedule: "${VOLSYNC_SCHEDULE=10 * * * *}"
