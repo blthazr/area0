@@ -10,6 +10,11 @@ spec:
     name: volsync
   interval: 1h
   values:
+    fullnameOverride: volsync # Required for volsync-perfectra1n fork
+    image: &image
+      repository: ghcr.io/perfectra1n/volsync
+      tag: v0.17.11
+    kopia: *image
     manageCRDs: true
     metrics:
       disableAuth: true
@@ -17,4 +22,8 @@ spec:
       runAsGroup: ${VOLSYNC_PGID:=1000}
       runAsNonRoot: true
       runAsUser: ${VOLSYNC_PUID:=1000}
-    replicaCount: ${REPLICAS:=1}
+    rclone: *image
+    restic: *image
+    rsync: *image
+    rsync-tls: *image
+    syncthing: *image
