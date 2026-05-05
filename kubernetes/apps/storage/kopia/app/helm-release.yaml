@@ -15,16 +15,16 @@ spec:
         data:
           repository.config: |-
             {
-              "description": "volsync",
-              "enableActions": false,
-              "hostname": "volsync.{{ .Release.Namespace }}.svc.cluster.local",
               "storage": {
+                "type": "filesystem",
                 "config": {
                   "path": "/repository"
-                },
-                "type": "filesystem"
+                }
               },
-              "username": "volsync"
+              "hostname": "volsync.{{ .Release.Namespace }}.svc.cluster.local",
+              "username": "volsync",
+              "description": "volsync",
+              "enableActions": false
             }
     controllers:
       kopia:
@@ -33,7 +33,8 @@ spec:
         containers:
           app:
             args:
-              - "--without-password"
+              - --refresh-interval=5m
+              - --without-password
             env:
               KOPIA_WEB_ENABLED: true
               KOPIA_WEB_PORT: &port 80
@@ -45,27 +46,18 @@ spec:
               repository: ghcr.io/home-operations/kopia
               tag: 0.22.3@sha256:17ab64542280197a5368247deaefadc3e3bbe15714ab666c2455a06824e86efd
             probes:
-              liveness:
-                enabled: true
-                spec:
-                  failureThreshold: 5
-                  periodSeconds: 30
-                  timeoutSeconds: 5
-              readiness:
+              liveness: &probes
                 custom: true
                 enabled: true
                 spec:
-                  failureThreshold: 5
+                  failureThreshold: 3
                   httpGet:
                     path: /
                     port: *port
+                  initialDelaySeconds: 0
                   periodSeconds: 10
-                  timeoutSeconds: 5
-              startup:
-                enabled: true
-                spec:
-                  failureThreshold: 30
-                  periodSeconds: 10
+                  timeoutSeconds: 1
+              readiness: *probes
             resources:
               limits:
                 memory: 1Gi
