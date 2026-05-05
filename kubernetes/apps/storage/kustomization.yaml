@@ -8,6 +8,4 @@ components:
 resources:
   - ./namespace.yaml
   - ./garage/ks.yaml
-  - ./kopia/ks.yaml
   - ./openebs/ks.yaml
-  - ./volsync/ks.yaml
