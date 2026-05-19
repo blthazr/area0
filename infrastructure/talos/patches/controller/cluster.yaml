@@ -4,13 +4,14 @@ cluster:
   apiServer:
     admissionControl:
       $$patch: delete
+    disablePodSecurityPolicy: true
     extraArgs:
       enable-aggregator-routing: true
-      feature-gates: MutatingAdmissionPolicy=true
-      runtime-config: admissionregistration.k8s.io/v1beta1=true
+      feature-gates: HPAScaleToZero=true
   controllerManager:
     extraArgs:
       bind-address: 0.0.0.0
+      feature-gates: HPAScaleToZero=true
   coreDNS:
     disabled: true
   etcd:
