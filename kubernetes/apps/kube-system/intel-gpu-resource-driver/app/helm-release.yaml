@@ -11,5 +11,9 @@ spec:
   interval: 1h
   values:
     cdi:
-      staticPath: /var/cdi/static
-      dynamicPath: /var/cdi/dynamic
+      dynamicPath: /run/cdi
+      staticPath: /run/cdi
+    kubeletPlugin:
+      healthMonitoring:
+        enabled: false
+      privileged: true
