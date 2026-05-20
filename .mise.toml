@@ -11,9 +11,6 @@ _.python.venv = { path = "{{config_root}}/.venv", create = true }
 # Ansible
 VIRTUAL_ENV = "{{config_root}}/.venv"
 
-[settings]
-pipx_uvx = true
-
 [tools]
 # kubectl + plugins
 "aqua:fluxcd/flux2" = "2.8.5"
