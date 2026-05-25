@@ -8,7 +8,7 @@ metadata:
 spec:
   dependsOn:
     - name: cloudflare-dns
-      namespace: flux-system
+      namespace: *namespace
   interval: 1h
   path: ./kubernetes/apps/network/cloudflare-tunnel/app
   postBuild:
