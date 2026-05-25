@@ -13,3 +13,4 @@ resources:
   - ./mealie/ks.yaml
   - ./plex/ks.yaml
   - ./sabnzbd/ks.yaml
+  - ./seerr/ks.yaml
