@@ -12,8 +12,6 @@ spec:
   values:
     fullnameOverride: "${APP}"
     reloader:
-      deployment:
-        replicas: ${REPLICAS:=1}
       enableHA: true
       podMonitor:
         enabled: true
