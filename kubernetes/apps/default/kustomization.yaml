@@ -11,4 +11,5 @@ resources:
   - ./persistent-volume.yaml
   - ./storage-class.yaml
   - ./mealie/ks.yaml
+  - ./plex/ks.yaml
   - ./sabnzbd/ks.yaml

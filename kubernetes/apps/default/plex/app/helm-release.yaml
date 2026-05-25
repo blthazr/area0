@@ -1,0 +1,137 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: plex
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: plex
+  interval: 1h
+  values:
+    controllers:
+      plex:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            env:
+              PLEX_ADVERTISE_URL: "https://${HOSTNAME:=${APP}}.${SECRET_DOMAIN}:443,http://${SVC_PLEX}:32400,http://${HOSTNAME:=${APP}}.{{ .Release.Namespace }}.svc.cluster.local:32400"
+              PLEX_NO_AUTH_NETWORKS: "${NET_HOME_CIDR}"
+              TZ: "${CLUSTER_TIME_ZONE}"
+            image:
+              repository: ghcr.io/home-operations/plex
+              tag: 1.43.2.10687@sha256:be00a2ad851ea3193cd870636f908eb6425ad89390f23cdb08daa35ab5cceacc
+            probes:
+              liveness:
+                enabled: true
+                spec:
+                  failureThreshold: 5
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+              readiness:
+                custom: true
+                enabled: true
+                spec:
+                  failureThreshold: 5
+                  httpGet:
+                    path: /identity
+                    port: &port 32400
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 10
+            resources:
+              claims:
+                - name: gpu
+              limits:
+                memory: 12Gi
+              requests:
+                cpu: 100m
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - "ALL"
+              readOnlyRootFilesystem: true
+    defaultPodOptions:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: plex
+      securityContext:
+        fsGroup: ${APP_PGID:=1000}
+        fsGroupChangePolicy: OnRootMismatch
+        runAsGroup: ${APP_PGID:=1000}
+        runAsNonRoot: true
+        runAsUser: ${APP_PUID:=1000}
+    persistence:
+      config:
+        existingClaim: "${VOLSYNC_PVC:=${APP}}"
+        globalMounts:
+          - path: /config/Library/Application Support/Plex Media Server
+      config-cache:
+        existingClaim: "${APP_PVC}"
+        globalMounts:
+          - path: /config/Library/Application Support/Plex Media Server/Cache
+      local-media:
+        existingClaim: default-local-storage
+        globalMounts:
+          - path: /media
+            readOnly: true
+      tmpfs:
+        advancedMounts:
+          plex:
+            app:
+              - path: /config/Library/Application Support/Plex Media Server/Logs
+                subPath: logs
+              - path: /tmp
+                subPath: tmp
+              - path: /transcode
+                subPath: transcode
+        type: emptyDir
+    route:
+      app:
+        annotations:
+          gatus.home-operations.com/endpoint: |-
+            path: /identity
+        hostnames:
+          - "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-external
+            namespace: network
+        rules:
+          - # Ref: https://forums.plex.tv/t/external-srt-subtitles-are-not-working-w-reverse-proxy/886540
+            backendRefs:
+              - identifier: app
+                port: *port
+            filters:
+              - type: RequestHeaderModifier
+                requestHeaderModifier:
+                  remove:
+                    - Range
+            matches:
+              - path:
+                  type: PathPrefix
+                  value: /library/streams
+          - backendRefs:
+              - identifier: app
+                port: *port
+    service:
+      app:
+        annotations:
+          lbipam.cilium.io/ips: "${SVC_PLEX}"
+        ports:
+          http:
+            port: *port
+        type: LoadBalancer
