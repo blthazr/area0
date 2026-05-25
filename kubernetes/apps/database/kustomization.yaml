@@ -7,4 +7,3 @@ components:
   - ../../components/common
 resources:
   - ./namespace.yaml
-  - ./cloudnative-pg/ks.yaml

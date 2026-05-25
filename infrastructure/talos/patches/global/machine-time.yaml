@@ -1,6 +1,0 @@
----
-machine:
-  time:
-    disabled: false
-    servers:
-      - ${CLUSTER_NTP_SERVER}

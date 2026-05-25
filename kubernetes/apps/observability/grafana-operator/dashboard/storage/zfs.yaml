@@ -1,0 +1,18 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/grafana.integreatly.org/grafanadashboard_v1beta1.json
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: zfs
+spec:
+  allowCrossNamespaceImport: true
+  datasources:
+    - datasourceName: prometheus
+      inputName: DS_PROMETHEUS
+  folderRef: observability
+  grafanaCom:
+    id: 24987
+    revision: 2
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana

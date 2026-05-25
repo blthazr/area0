@@ -7,7 +7,7 @@ metadata:
   annotations:
     lbipam.cilium.io/ips: "${SVC_GARAGE_GATEWAY}"
   labels:
-    app.kubernetes.io/name: garage-gateway
+    app.kubernetes.io/name: "${APP}"
 spec:
   ports:
     - name: s3-api
@@ -27,6 +27,6 @@ spec:
       protocol: TCP
       targetPort: 3903
   selector:
-    app.kubernetes.io/instance: garage-gateway
+    app.kubernetes.io/instance: "${APP}"
     app.kubernetes.io/name: garage
   type: LoadBalancer

@@ -5,9 +5,10 @@ kind: Kustomization
 resources:
   - ./cert-manager-rules.yaml
   - ./dockerhub-rules.yaml
-  - ./external-dns-cloudflare-rules.yaml
+  - ./external-dns-rules.yaml
   - ./flux-instance-rules.yaml
   - ./gatus-rules.yaml
   - ./oom-rules.yaml
   - ./tuppr-rules.yaml
   - ./volsync-rules.yaml
+  - ./zfs-rules.yaml

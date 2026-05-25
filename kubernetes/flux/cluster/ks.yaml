@@ -1,13 +1,11 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: cluster-apps
   namespace: &namespace flux-system
 spec:
-  decryption:
-    provider: sops
   deletionPolicy: WaitForTermination
   interval: 1h
   patches:
@@ -18,8 +16,6 @@ spec:
         metadata:
           name: _
         spec:
-          decryption:
-            provider: sops
           deletionPolicy: WaitForTermination
           patches:
             - patch: |-
@@ -30,11 +26,8 @@ spec:
                 spec:
                   install:
                     crds: CreateReplace
-                    strategy:
-                      name: RetryOnFailure
                   rollback:
                     cleanupOnFail: true
-                    recreate: true
                   upgrade:
                     cleanupOnFail: true
                     crds: CreateReplace

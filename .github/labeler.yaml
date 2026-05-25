@@ -17,10 +17,6 @@ area/kubernetes:
   - changed-files:
       - any-glob-to-any-file:
           - kubernetes/**/*
-area/mise:
-  - changed-files:
-      - any-glob-to-any-file:
-          - .mise.toml
 area/renovate:
   - changed-files:
       - any-glob-to-any-file:
@@ -29,7 +25,7 @@ area/renovate:
 area/talos:
   - changed-files:
       - any-glob-to-any-file:
-          - infrastructure/talos/**/*
+          - talos/**/*
 area/taskfile:
   - changed-files:
       - any-glob-to-any-file:

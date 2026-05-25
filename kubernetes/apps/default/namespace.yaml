@@ -1,5 +1,4 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/namespace-v1.json
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -7,3 +6,5 @@ metadata:
   annotations:
     kustomize.toolkit.fluxcd.io/prune: disabled
     volsync.backube/privileged-movers: "true"
+  labels:
+    resource.kubernetes.io/admin-access: "true"

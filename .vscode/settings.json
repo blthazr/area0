@@ -2,11 +2,11 @@
   /*+--- Text Editor ---+*/
   "editor.hover.delay": 1500,
   "editor.rulers": [
-    100
+    100,
   ],
   "editor.stickyScroll.enabled": false,
   "files.associations": {
-    "**/*.json5": "json5"
+    "**/*.json5": "json5",
   },
 
   /*+--- Window ---+*/
@@ -19,20 +19,19 @@
   "git.autoStash": true,
   "git.showPushSuccessNotification": true,
   "githubPullRequests.quickDiff": true,
-  "sops.defaults.ageKeyFile": "age.key",
   "vs-kubernetes": {
     "vs-kubernetes.kubeconfig": "./kubeconfig",
     "vs-kubernetes.knownKubeconfigs": [
-      "./kubeconfig"
-    ]
+      "./kubeconfig",
+    ],
   },
   "yaml.schemas": {
-    "kubernetes": "./kubernetes/**/*.yaml"
+    "kubernetes": "./kubernetes/**/*.yaml",
   },
   "yaml.schemaStore.enable": true,
 
   /*+--- Language Scopes ---+*/
   "[yaml]": {
-    "editor.defaultFormatter": "bluebrown.yamlfmt"
-  }
+    "editor.defaultFormatter": "bluebrown.yamlfmt",
+  },
 }

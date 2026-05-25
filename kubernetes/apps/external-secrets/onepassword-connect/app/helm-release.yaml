@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -10,111 +10,14 @@ spec:
     name: onepassword-connect
   interval: 1h
   values:
-    controllers:
-      onepassword-connect:
-        annotations:
-          reloader.stakater.com/auto: "true"
-        containers:
-          api:
-            env:
-              OP_BUS_PEERS: localhost:11221
-              OP_BUS_PORT: 11220
-              OP_HTTP_PORT: &apiPort 8080
-              OP_SESSION:
-                valueFrom:
-                  secretKeyRef:
-                    name: onepassword-secret
-                    key: 1password-credentials.json
-              XDG_DATA_HOME: &configDir /config
-            image:
-              repository: ghcr.io/1password/connect-api
-              tag: 1.8.2@sha256:fabf0a353791f7d70851767c6d58595eb386a86ba4ada4a8ca41b3668a096b5d
-            probes:
-              liveness:
-                custom: true
-                enabled: true
-                spec:
-                  failureThreshold: 3
-                  httpGet:
-                    path: /heartbeat
-                    port: *apiPort
-                  initialDelaySeconds: 0
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-              readiness:
-                custom: true
-                enabled: true
-                spec:
-                  failureThreshold: 3
-                  httpGet:
-                    path: /health
-                    port: *apiPort
-                  initialDelaySeconds: 0
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-            resources: &resources
-              limits:
-                memory: 64Mi
-              requests:
-                cpu: 10m
-            securityContext: &securityContext
-              allowPrivilegeEscalation: false
-              capabilities:
-                drop:
-                  - "ALL"
-              readOnlyRootFilesystem: true
-          sync:
-            env:
-              OP_BUS_PEERS: localhost:11220
-              OP_BUS_PORT: 11221
-              OP_HTTP_PORT: &syncPort 8081
-              OP_SESSION:
-                valueFrom:
-                  secretKeyRef:
-                    name: onepassword-secret
-                    key: 1password-credentials.json
-              XDG_DATA_HOME: *configDir
-            image:
-              repository: ghcr.io/1password/connect-sync
-              tag: 1.8.2@sha256:3844a6410e119ccec72011737d5b46afe4be12cb0f54f681fe3ce999280449d8
-            probes:
-              liveness:
-                custom: true
-                enabled: true
-                spec:
-                  failureThreshold: 3
-                  httpGet:
-                    path: /heartbeat
-                    port: *syncPort
-                  initialDelaySeconds: 0
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-              readiness:
-                custom: true
-                enabled: true
-                spec:
-                  failureThreshold: 3
-                  httpGet:
-                    path: /health
-                    port: *syncPort
-                  initialDelaySeconds: 0
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-            resources: *resources
-            securityContext: *securityContext
-        strategy: RollingUpdate
-    defaultPodOptions:
-      securityContext:
-        runAsGroup: 999
-        runAsNonRoot: true
-        runAsUser: 999
-    persistence:
-      config:
-        globalMounts:
-          - path: *configDir
-        type: emptyDir
-    service:
-      app:
-        ports:
-          http:
-            port: *apiPort
+    connect:
+      annotations:
+        reloader.stakater.com/auto: "true"
+      api:
+        httpPort: 80
+        imageRepository: ghcr.io/1password/connect-api
+        serviceMonitor:
+          enabled: true
+      credentialsName: onepassword-connect-credentials-secret
+      sync:
+        imageRepository: ghcr.io/1password/connect-sync

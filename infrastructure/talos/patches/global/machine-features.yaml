@@ -1,7 +1,0 @@
----
-machine:
-  features:
-    hostDNS:
-      enabled: true
-      forwardKubeDNSToHost: true # Requires Cilium socketLB features
-      resolveMemberNames: true

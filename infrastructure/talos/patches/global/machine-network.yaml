@@ -1,6 +1,0 @@
----
-machine:
-  network:
-    disableSearchDomain: true
-    nameservers:
-      - ${CLUSTER_NAMESERVER}

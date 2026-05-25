@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -10,6 +10,8 @@ spec:
     name: flux-instance
   interval: 1h
   values:
+    commonAnnotations:
+      fluxcd.controlplane.io/reconcileArtifactEvery: 1h
     instance:
       cluster:
         networkPolicy: false
@@ -18,8 +20,6 @@ spec:
         - kustomize-controller
         - helm-controller
         - notification-controller
-      distribution:
-        artifact: oci://ghcr.io/controlplaneio-fluxcd/flux-operator-manifests:v0.43.0
       kustomize:
         patches:
           - # Increase the number of workers
@@ -100,22 +100,14 @@ spec:
             target:
               kind: Deployment
               name: helm-controller
-          - # Disable chart digest tracking
+          - # Default to retry on failure and disable chart digest tracking
             patch: |-
               - op: add
                 path: /spec/template/spec/containers/0/args/-
-                value: --feature-gates=DisableChartDigestTracking=true
+                value: --feature-gates=DefaultToRetryOnFailure=true,DisableChartDigestTracking=true
             target:
               kind: Deployment
               name: helm-controller
-          - # Controller-level SOPS decryption
-            patch: |-
-              - op: add
-                path: /spec/template/spec/containers/0/args/-
-                value: --sops-age-secret=sops-age-secret
-            target:
-              kind: Deployment
-              name: kustomize-controller
           - # Watch configmaps and secrets attached to HelmReleases and Kustomizations
             patch: |-
               - op: add
