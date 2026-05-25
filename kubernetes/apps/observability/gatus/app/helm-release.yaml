@@ -78,7 +78,6 @@ spec:
               - matchExpressions:
                   - key: node-role.kubernetes.io/control-plane
                     operator: DoesNotExist
-      automountServiceAccountToken: true
       securityContext:
         fsGroup: ${APP_PGID:=1000}
         fsGroupChangePolicy: OnRootMismatch
@@ -136,6 +135,8 @@ spec:
         ports:
           http:
             port: *port
+    serviceAccount:
+      gatus: {}
     serviceMonitor:
       app:
         endpoints:
