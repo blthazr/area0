@@ -23,14 +23,21 @@ metadata:
   name: &app garage-gateway
   namespace: &namespace storage
 spec:
+  components:
+    - ../../../../components/volsync
   dependsOn:
     - name: garage-operator
       namespace: *namespace
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
+    - name: volsync
+      namespace: storage
   interval: 1h
   path: ./kubernetes/apps/storage/garage/gateway
   postBuild:
     substitute:
       APP: *app
+      VOLSYNC_PVC: "metadata-garage-gateway-0"
   prune: true
   sourceRef:
     kind: GitRepository
