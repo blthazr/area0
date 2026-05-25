@@ -25,7 +25,7 @@ spec:
               WEB_LISTENING_PORT: &port 5800
             image:
               repository: ghcr.io/jlesage/musicbrainz-picard
-              tag: v26.03.1@sha256:661b1e04ee873f527345d280d27ed60873649af5691b47aed0b758dd6f931b72
+              tag: v26.05.2@sha256:130ab9790d6303c2534dbfcc59d136b010c43d021cfdedf37f76935300698996
             resources:
               limits:
                 memory: 1Gi
