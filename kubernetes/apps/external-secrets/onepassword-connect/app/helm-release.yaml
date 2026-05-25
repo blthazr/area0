@@ -14,7 +14,7 @@ spec:
       annotations:
         reloader.stakater.com/auto: "true"
       api:
-        httpPort: 80
+        httpPort: 8080
         imageRepository: ghcr.io/1password/connect-api
         serviceMonitor:
           enabled: true
