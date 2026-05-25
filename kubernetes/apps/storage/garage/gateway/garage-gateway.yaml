@@ -12,7 +12,7 @@ spec:
     enabled: true
   connectTo:
     bootstrapPeers:
-      - "{{ .GARAGE_BOOTSTRAP_NODE_1 }}"
+      - "${GARAGE_BOOTSTRAP_NODE_1}"
     rpcSecretRef:
       key: GARAGE_RPC_SECRET
       name: garage-gateway-secret
