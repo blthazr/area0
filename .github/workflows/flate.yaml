@@ -1,6 +1,6 @@
 ---
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
-name: Flux Local
+name: Flate
 
 on:
   pull_request:
@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   filter:
-    name: Flux Local - Filter
+    name: Flate - Filter
     runs-on: ubuntu-latest
     outputs:
       changed-files: ${{ steps.changed-files.outputs.changed_files }}
@@ -28,58 +28,61 @@ jobs:
           patterns: kubernetes/**/*
 
   test:
-    name: Flux Local - Test
+    name: Flate - Test
     needs: filter
     if: ${{ needs.filter.outputs.changed-files != '[]' }}
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        resource:
+          - helmrelease
+          - kustomization
+      fail-fast: false
     steps:
-      - name: Generate token
-        id: app-token
-        uses: actions/create-github-app-token@1b10c78c7865c340bc4f6099eb2f838309f1e8c3 # v3.1.1
+      - name: Checkout pull request branch
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
-          app-id: ${{ secrets.BOT_APP_ID }}
-          private-key: ${{ secrets.BOT_PRIVATE_KEY }}
+          path: pull
+          persist-credentials: false
 
-      - name: Checkout repository
+      - name: Checkout default branch
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
-          token: ${{ steps.app-token.outputs.token }}
+          ref: ${{ github.event.repository.default_branch }}
+          path: default
 
-      - name: Run flux-local test
-        uses: docker://ghcr.io/allenporter/flux-local:v8.0.1
+      - name: Setup Mise
+        uses: jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
         with:
-          args: >-
-            test
-            --all-namespaces
-            --enable-helm
-            --path /github/workspace/kubernetes/flux/cluster
-            --verbose
+          tool_versions: |
+            github:home-operations/flate latest
+
+      - name: Run flate test
         env:
-          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+          RESOURCE: ${{ matrix.resource }}
+        run: flate test "$RESOURCE" --path ./pull --path-orig ./default
 
   diff:
-    name: Flux Local - Diff
+    name: Flate - Diff
     permissions:
       contents: read
       pull-requests: write
     needs: filter
     if: ${{ needs.filter.outputs.changed-files != '[]' }}
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        resource:
+          - helmrelease
+          - kustomization
+      fail-fast: false
     steps:
-      - name: Generate token
-        id: app-token
-        uses: actions/create-github-app-token@1b10c78c7865c340bc4f6099eb2f838309f1e8c3 # v3.1.1
-        with:
-          app-id: ${{ secrets.BOT_APP_ID }}
-          private-key: ${{ secrets.BOT_PRIVATE_KEY }}
-
       - name: Checkout pull request branch
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           path: pull
           persist-credentials: false
-          token: ${{ steps.app-token.outputs.token }}
 
       - name: Checkout default branch
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -87,23 +90,17 @@ jobs:
           path: default
           persist-credentials: false
           ref: ${{ github.event.repository.default_branch }}
-          token: ${{ steps.app-token.outputs.token }}
 
-      - name: Run flux-local diff
-        uses: docker://ghcr.io/allenporter/flux-local:v8.0.1
+      - name: Setup Mise
+        uses: jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
         with:
-          args: >-
-            diff ${{ matrix.resource }}
-            --unified 6
-            --path /github/workspace/pull/kubernetes/flux/cluster
-            --path-orig /github/workspace/default/kubernetes/flux/cluster
-            --strip-attrs "helm.sh/chart,checksum/config,app.kubernetes.io/version,chart"
-            --limit-bytes 10000
-            --all-namespaces
-            --sources "flux-system"
-            --output-file diff.patch
+          tool_versions: |
+            github:home-operations/flate latest
+
+      - name: Run flate diff
         env:
-          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+          RESOURCE: ${{ matrix.resource }}
+        run: flate diff "$RESOURCE" --limit-bytes 10000 --output-file diff.patch --path ./pull --path-orig ./default --strip-attrs "helm.sh/chart,checksum/config,app.kubernetes.io/version,chart" --unified 6
 
       - name: Generate diff
         id: diff
@@ -111,6 +108,24 @@ jobs:
           echo 'diff<<EOF' >> $GITHUB_OUTPUT
           cat diff.patch >> $GITHUB_OUTPUT
           echo 'EOF' >> $GITHUB_OUTPUT
+
+      - name: Load Secrets
+        if: ${{ steps.diff.outputs.diff != '' }}
+        id: load-secrets
+        uses: 1password/load-secrets-action@92467eb28f72e8255933372f1e0707c567ce2259 # v4.0.0 # zizmor: ignore[unpinned-tools]
+        env:
+          OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+          GITHUB_BOT_APP_CLIENT_ID: op://area0/github-bot/GITHUB_BOT_APP_CLIENT_ID
+          GITHUB_BOT_APP_PRIVATE_KEY: op://area0/github-bot/GITHUB_BOT_APP_PRIVATE_KEY
+
+      - name: Generate token
+        id: app-token
+        if: ${{ steps.diff.outputs.diff != '' }}
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ steps.load-secrets.outputs.GITHUB_BOT_APP_CLIENT_ID }}
+          permission-pull-requests: write
+          private-key: ${{ steps.load-secrets.outputs.GITHUB_BOT_APP_PRIVATE_KEY }}
 
       - name: Add comment
         if: ${{ steps.diff.outputs.diff != '' }}
@@ -123,15 +138,8 @@ jobs:
             ${{ steps.diff.outputs.diff }}
             ```
 
-    strategy:
-      matrix:
-        resource:
-          - helmrelease
-          - kustomization
-      fail-fast: false
-
   success:
-    name: Flux Local - Success
+    name: Flate - Success
     needs:
       - test
       - diff
