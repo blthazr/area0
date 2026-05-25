@@ -1,0 +1,10 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  packageRules: [
+    {
+      description: "Point Actual Budget at its upstream changelog",
+      matchPackageNames: ["/actualbudget/"],
+      changelogUrl: "https://actualbudget.org/docs/releases/",
+    },
+  ],
+}
