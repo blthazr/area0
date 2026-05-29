@@ -1,0 +1,191 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: paperless-ngx
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: paperless-ngx
+  interval: 1h
+  values:
+    controllers:
+      paperless-ngx:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            dependsOn:
+              - redis
+            env:
+              # Application
+              PAPERLESS_APPS: allauth.socialaccount.providers.openid_connect
+              PAPERLESS_DATE_ORDER: MDY
+              PAPERLESS_PORT: &port 8000
+              PAPERLESS_TASK_WORKERS: "2"
+              PAPERLESS_TIME_ZONE: "${CLUSTER_TIME_ZONE}"
+              PAPERLESS_URL: "https://${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
+              PAPERLESS_WEBSERVER_WORKERS: "2"
+              # Filenames
+              PAPERLESS_FILENAME_FORMAT: "{{ `{{ correspondent | slugify }}/{{ created_year }}/{{ created_year }}-{{ created_month }}-{{ created_day }} {{ correspondent | slugify }} {{ title | slugify }}` }}"
+              PAPERLESS_FILENAME_FORMAT_REMOVE_NONE: "true"
+              # Folders
+              PAPERLESS_CONSUMPTION_DIR: /data/import
+              PAPERLESS_DATA_DIR: /data/local/data
+              PAPERLESS_EMPTY_TRASH_DIR: /data/trash
+              PAPERLESS_EXPORT_DIR: /data/export
+              PAPERLESS_MEDIA_ROOT: /data/media
+              # Document consumer
+              PAPERLESS_CONSUMER_POLLING: 60
+              PAPERLESS_CONSUMER_RECURSIVE: "true"
+              PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS: "true"
+              # OCR settings
+              PAPERLESS_OCR_LANGUAGE: eng
+              PAPERLESS_OCR_USER_ARGS: '{"invalidate_digital_signatures": true}'
+              # Redis Broker
+              PAPERLESS_REDIS: redis://localhost:6379
+              # OIDC (Pocket ID)
+              PAPERLESS_DISABLE_REGULAR_LOGIN: "false"
+              PAPERLESS_SOCIAL_ACCOUNT_SYNC_GROUPS: "true"
+              PAPERLESS_SOCIAL_AUTO_SIGNUP: "true"
+              PAPERLESS_SOCIALACCOUNT_PROVIDERS: |
+                {
+                  "openid_connect": {
+                    "SCOPE": ["openid", "profile", "email", "groups"],
+                    "OAUTH_PKCE_ENABLED": true,
+                    "APPS": [
+                      {
+                        "provider_id": "pocket-id",
+                        "name": "Pocket-ID",
+                        "client_id": "$(PAPERLESS_OAUTH_CLIENT_ID)",
+                        "secret": "$(PAPERLESS_OAUTH_CLIENT_SECRET)",
+                        "settings": {
+                          "server_url": "$(PAPERLESS_OAUTH_ISSUER_URL)"
+                        }
+                      }
+                    ]
+                  }
+                }
+              PAPERLESS_OAUTH_CLIENT_ID:
+                valueFrom:
+                  secretKeyRef:
+                    name: paperless-ngx-oidc-credentials
+                    key: client_id
+              PAPERLESS_OAUTH_CLIENT_SECRET:
+                valueFrom:
+                  secretKeyRef:
+                    name: paperless-ngx-oidc-credentials
+                    key: client_secret
+              PAPERLESS_OAUTH_ISSUER_URL:
+                valueFrom:
+                  secretKeyRef:
+                    name: paperless-ngx-oidc-credentials
+                    key: issuer_url
+              # User permissions
+              USERMAP_GID: ${APP_GID:=1000}
+              USERMAP_UID: ${APP_UID:=1000}
+            envFrom:
+              - secretRef:
+                  name: "{{ .Release.Name }}-secret"
+            image:
+              repository: ghcr.io/paperless-ngx/paperless-ngx
+              tag: 2.20.13@sha256:4b05bcd28e6923768000b5d247cbf2c66fd49bdc3f3b05955bd4f6790a638b01
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 10
+            resources:
+              limits:
+                memory: 4Gi
+              requests:
+                cpu: 10m
+          redis:
+            image:
+              repository: ghcr.io/valkey-io/valkey
+              tag: 9.0.3@sha256:2b8f23e556fd39135f24b50719629d2fc3e8f6f463357f7af469ef6e7b9b1dc3
+            resources:
+              limits:
+                memory: 128Mi
+              requests:
+                cpu: 5m
+                memory: 32Mi
+        initContainers:
+          init-db:
+            envFrom:
+              - secretRef:
+                  name: "{{ .Release.Name }}-secret"
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 17.4@sha256:43dd04e91e861cf912378bad987afa168fa4f13d05528304907ad0aa351195d6
+    defaultPodOptions:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
+    persistence:
+      data:
+        advancedMounts:
+          paperless-ngx:
+            app:
+              - path: /data/local
+                subPath: paperless
+              - path: /data/trash
+                subPath: trash
+            redis:
+              - path: /data
+                subPath: redis
+        existingClaim: "${VOLSYNC_PVC:=${APP}}"
+      nas-data:
+        advancedMounts:
+          paperless-ngx:
+            app:
+              - path: /data/media
+                subPath: apps/paperless/media
+        path: "${NFS_DATA_PATH}"
+        server: "${NAS_ADDRESS}"
+        type: nfs
+      nas-shared:
+        advancedMounts:
+          paperless-ngx:
+            app:
+              - path: /data/export
+                subPath: export/paperless
+              - path: /data/import
+                subPath: import/paperless
+        path: "${NFS_SHARED_PATH}"
+        server: "${NAS_ADDRESS}"
+        type: nfs
+      tmpfs:
+        advancedMounts:
+          paperless-ngx:
+            app:
+              - path: /run
+                subPath: run
+              - path: /tmp
+                subPath: tmp/paperless-ngx
+            redis:
+              - path: /tmp
+                subPath: tmp/redis
+        type: emptyDir
+    route:
+      app:
+        hostnames:
+          - "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-external
+            namespace: network
+    service:
+      app:
+        ports:
+          http:
+            port: *port
