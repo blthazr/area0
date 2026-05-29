@@ -10,8 +10,10 @@ resources:
   - ./persistent-volume-claim.yaml
   - ./persistent-volume.yaml
   - ./storage-class.yaml
+  - ./actual/ks.yaml
   - ./bazarr/ks.yaml
   - ./mealie/ks.yaml
+  - ./paperless/ks.yaml
   - ./plex/ks.yaml
   - ./prowlarr/ks.yaml
   - ./radarr/ks.yaml
