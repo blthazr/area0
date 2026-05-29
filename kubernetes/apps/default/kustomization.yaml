@@ -14,6 +14,7 @@ resources:
   - ./bazarr/ks.yaml
   - ./mealie/ks.yaml
   - ./paperless/ks.yaml
+  - ./pinchflat/ks.yaml
   - ./plex/ks.yaml
   - ./prowlarr/ks.yaml
   - ./radarr/ks.yaml
