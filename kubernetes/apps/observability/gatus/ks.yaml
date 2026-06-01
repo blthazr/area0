@@ -6,6 +6,9 @@ metadata:
   name: &app gatus
   namespace: &namespace observability
 spec:
+  dependsOn:
+    - name: cloudnative-pg-cluster
+      namespace: database
   interval: 1h
   path: ./kubernetes/apps/observability/gatus/app
   postBuild:
