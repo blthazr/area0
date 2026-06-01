@@ -9,7 +9,7 @@ spec:
   datasources:
     - datasourceName: prometheus
       inputName: DS_PROMETHEUS
-  folderRef: observability
+  folderRef: storage
   grafanaCom:
     id: 24987
     revision: 2
