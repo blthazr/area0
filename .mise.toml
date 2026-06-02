@@ -20,7 +20,7 @@ VIRTUAL_ENV = "{{config_root}}/.venv"
 
 # talos
 "aqua:budimanjojo/talhelper" = "3.1.7"
-"aqua:siderolabs/talos" = "1.12.6"
+"aqua:siderolabs/talos" = "1.13.3"
 
 # ansible
 "ansible-core" = "2.21.0"
