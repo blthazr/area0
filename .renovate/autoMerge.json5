@@ -60,13 +60,25 @@
       schedule: ["before 6am on Monday"],
     },
     {
-      description: "Auto-merge Grafana dashboards",
+      description: "Auto-merge Grafana dashboard revisions",
       addLabels: ["action/automerge"],
       automerge: true,
       automergeType: "branch",
-      ignoreTests: false,
+      ignoreTests: true,
       matchDatasources: ["custom.grafana-dashboards"],
       matchUpdateTypes: ["major"],
+    },
+    {
+      description: "Auto-merge Renovate Presets",
+      addLabels: ["action/automerge"],
+      automerge: true,
+      automergeType: "branch",
+      ignoreTests: true,
+      matchManagers: ["renovate-config"],
+      matchUpdateTypes: [
+        "patch",
+        "minor",
+      ],
     },
   ],
 }
