@@ -11,3 +11,9 @@ resources:
   - ./envoy-overview.yaml
   - ./envoy-proxy.yaml
   - ./envoy-upstream.yaml
+  - ./unifi-client-dpi.yaml
+  - ./unifi-client-insights.yaml
+  - ./unifi-network-sites.yaml
+  - ./unifi-uap-insights.yaml
+  - ./unifi-usg-insights.yaml
+  - ./unifi-usw-insights.yaml
