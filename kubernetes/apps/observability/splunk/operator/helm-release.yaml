@@ -25,20 +25,8 @@ spec:
               - matchExpressions:
                   - key: node-role.kubernetes.io/control-plane
                     operator: DoesNotExist
-      livenessProbe:
-        httpGet:
-          path: /healthz
-          port: 80
-        initialDelaySeconds: 15
-        periodSeconds: 20
       persistentVolumeClaim:
         storageClassName: openebs-hostpath
-      readinessProbe:
-        httpGet:
-          path: /readyz
-          port: 80
-        initialDelaySeconds: 5
-        periodSeconds: 10
       resources:
         limits:
           memory: 1Gi
