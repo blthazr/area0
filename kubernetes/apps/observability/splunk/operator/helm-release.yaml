@@ -16,7 +16,7 @@ spec:
   interval: 1h
   values:
     image:
-      repository: docker.io/splunk/splunk:10.2.2@sha256:184e80b079f149cae1134dd6330e077fd510f4ea87216a0d6ebd4399782d648c
+      repository: docker.io/splunk/splunk:10.2.0
     splunkOperator:
       affinity:
         nodeAffinity:
