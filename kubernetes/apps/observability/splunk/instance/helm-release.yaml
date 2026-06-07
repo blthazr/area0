@@ -89,7 +89,7 @@ spec:
       varVolumeStorageConfig:
         ephemeralStorage: false
         storageCapacity: 20Gi
-        storageClassName: ceph-block
+        storageClassName: openebs-hostpath
       volumes:
         - name: defaults
           configMap:

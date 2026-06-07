@@ -36,6 +36,8 @@ spec:
       namespace: *namespace
     - name: rook-ceph-cluster
       namespace: rook-ceph
+    - name: openebs
+      namespace: storage
     - name: volsync
       namespace: storage
   interval: 1h
