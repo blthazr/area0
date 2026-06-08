@@ -34,7 +34,7 @@ spec:
     retentionPolicy: 30d
   enableSuperuserAccess: true
   # renovate: datasource=docker depName=ghcr.io/cloudnative-pg/postgresql
-  imageName: ghcr.io/cloudnative-pg/postgresql:17.4
+  imageName: ghcr.io/cloudnative-pg/postgresql:17.10
   instances: ${INSTANCES:=1}
   monitoring:
     enablePodMonitor: true
