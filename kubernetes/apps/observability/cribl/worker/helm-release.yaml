@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: cribl-stream-workergroup
         namespace: observability
-      version: 4.18.1
+      version: 4.14.1
   interval: 1h
   values:
     autoscaling:
@@ -25,7 +25,7 @@ spec:
       token: "${CRIBL_LEADER_TOKEN}"
     criblImage:
       repository: cribl/cribl
-      tag: 4.18.1
+      tag: 4.14.1
     resources:
       limits:
         memory: 4Gi
