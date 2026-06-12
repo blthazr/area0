@@ -16,9 +16,7 @@ spec:
   interval: 1h
   values:
     autoscaling:
-      enabled: true
-      minReplicas: 2
-      maxReplicas: 10
+      enabled: false
     config:
       group: default
       host: cribl-leader-internal
@@ -26,6 +24,7 @@ spec:
     criblImage:
       repository: cribl/cribl
       tag: 4.14.1
+    replicaCount: ${REPLICAS:=1}
     resources:
       limits:
         memory: 4Gi

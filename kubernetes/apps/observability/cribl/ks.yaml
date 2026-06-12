@@ -47,6 +47,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      REPLICAS: "2"
     substituteFrom:
       - kind: Secret
         name: cribl-leader
