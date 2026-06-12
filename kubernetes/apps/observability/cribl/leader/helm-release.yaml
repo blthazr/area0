@@ -44,7 +44,8 @@ spec:
         cpu: 100m
         memory: 256Mi
     service:
-      externalLoadBalancerIP: "${SVC_CRIBL_LEADER}"
+      externalAnnotations:
+        lbipam.cilium.io/ips: "${SVC_CRIBL_LEADER}"
       ports:
         - name: api
           external: true
