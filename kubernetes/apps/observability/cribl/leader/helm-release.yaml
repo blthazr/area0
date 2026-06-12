@@ -44,8 +44,7 @@ spec:
         cpu: 100m
         memory: 256Mi
     service:
-      internalLoadBalancerIP: "${SVC_CRIBL_LEADER}"
-      internalType: LoadBalancer
+      externalLoadBalancerIP: "${SVC_CRIBL_LEADER}"
       ports:
         - name: api
           external: true
