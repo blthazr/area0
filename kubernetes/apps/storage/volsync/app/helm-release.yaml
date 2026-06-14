@@ -14,7 +14,6 @@ spec:
     metrics:
       disableAuth: true
     podSecurityContext:
-      runAsGroup: ${VOLSYNC_PGID:=1000}
+      runAsGroup: 1000
       runAsNonRoot: true
-      runAsUser: ${VOLSYNC_PUID:=1000}
-    replicaCount: ${REPLICAS:=1}
+      runAsUser: 1000
