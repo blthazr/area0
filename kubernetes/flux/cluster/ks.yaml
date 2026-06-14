@@ -45,6 +45,9 @@ spec:
     - # Add postBuild substitutions to child Kustomizations
       patch: |-
         - op: add
+          path: /spec/postBuild/substituteFrom
+          value: "[]"
+        - op: add
           path: /spec/postBuild/substituteFrom/-
           value:
             name: cluster-secrets
