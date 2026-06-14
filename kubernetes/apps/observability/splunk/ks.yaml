@@ -44,6 +44,7 @@ spec:
       APP: splunk
       APP_PVC: pvc-var-splunk-splunk-standalone-0
       APP_PVC_CAPACITY: 20Gi
+      APP_PVC_STORAGECLASS: openebs-hostpath
       HOSTNAME: splunk
       VOLSYNC_CAPACITY: 10Gi
       VOLSYNC_SCHEDULE: "0 0 * * *"
