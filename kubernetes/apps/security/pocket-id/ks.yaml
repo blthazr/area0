@@ -8,9 +8,6 @@ metadata:
 spec:
   interval: 1h
   path: ./kubernetes/apps/security/pocket-id/operator
-  postBuild:
-    substitute:
-      APP: *app
   prune: true
   sourceRef:
     kind: GitRepository
@@ -39,6 +36,9 @@ spec:
     substitute:
       APP: pocket-id
       HOSTNAME: id
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
   prune: true
   sourceRef:
     kind: GitRepository

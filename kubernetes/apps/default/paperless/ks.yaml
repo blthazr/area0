@@ -20,6 +20,9 @@ spec:
       APP: *app
       HOSTNAME: paperless
       VOLSYNC_CAPACITY: 20Gi
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
   prune: true
   sourceRef:
     kind: GitRepository

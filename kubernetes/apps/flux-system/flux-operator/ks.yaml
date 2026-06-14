@@ -12,6 +12,9 @@ spec:
     substitute:
       APP: *app
       HOSTNAME: flux-operator
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
   prune: true
   sourceRef:
     kind: GitRepository

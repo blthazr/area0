@@ -38,6 +38,9 @@ spec:
     substitute:
       APP: *app
       VOLSYNC_PVC: "metadata-garage-gateway-0"
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
   prune: true
   sourceRef:
     kind: GitRepository

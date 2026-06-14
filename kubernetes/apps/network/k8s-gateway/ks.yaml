@@ -9,8 +9,9 @@ spec:
   interval: 1h
   path: ./kubernetes/apps/network/k8s-gateway/app
   postBuild:
-    substitute:
-      APP: *app
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
   prune: true
   sourceRef:
     kind: GitRepository

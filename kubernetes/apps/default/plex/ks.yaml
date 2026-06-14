@@ -24,6 +24,9 @@ spec:
       APP_PVC: plex-cache
       APP_PVC_CAPACITY: 100Gi
       VOLSYNC_CAPACITY: 50Gi
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
   prune: true
   sourceRef:
     kind: GitRepository

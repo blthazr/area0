@@ -8,9 +8,6 @@ metadata:
 spec:
   interval: 1h
   path: ./kubernetes/apps/database/cloudnative-pg/operator
-  postBuild:
-    substitute:
-      APP: *app
   prune: true
   sourceRef:
     kind: GitRepository
@@ -40,8 +37,10 @@ spec:
   path: ./kubernetes/apps/database/cloudnative-pg/cluster
   postBuild:
     substitute:
-      APP: *app
       INSTANCES: "2"
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
   prune: true
   sourceRef:
     kind: GitRepository

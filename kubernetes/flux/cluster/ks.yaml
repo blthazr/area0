@@ -42,20 +42,6 @@ spec:
       target:
         group: kustomize.toolkit.fluxcd.io
         kind: Kustomization
-    - # Add postBuild substitutions to child Kustomizations
-      patch: |-
-        - op: add
-          path: /spec/postBuild/substituteFrom
-          value: "[]"
-        - op: add
-          path: /spec/postBuild/substituteFrom/-
-          value:
-            name: cluster-secrets
-            kind: Secret
-      target:
-        group: kustomize.toolkit.fluxcd.io
-        kind: Kustomization
-        labelSelector: substitution.flux/enabled!=false
   path: ./kubernetes/apps
   prune: true
   sourceRef:

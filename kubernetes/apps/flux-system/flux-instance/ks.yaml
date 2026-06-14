@@ -15,6 +15,9 @@ spec:
     substitute:
       APP: *app
       HOSTNAME: flux-webhook
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
   prune: true
   sourceRef:
     kind: GitRepository

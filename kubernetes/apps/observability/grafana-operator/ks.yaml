@@ -34,6 +34,9 @@ spec:
     substitute:
       APP: grafana
       HOSTNAME: grafana
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
   prune: true
   sourceRef:
     kind: GitRepository

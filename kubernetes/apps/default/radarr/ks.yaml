@@ -18,6 +18,9 @@ spec:
       APP: *app
       APP_PVC: radarr-cache
       APP_PVC_CAPACITY: 15Gi
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
   prune: true
   sourceRef:
     kind: GitRepository
@@ -45,6 +48,9 @@ spec:
       APP: *app
       APP_PVC: radarr-uhd-cache
       APP_PVC_CAPACITY: 15Gi
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
   prune: true
   sourceRef:
     kind: GitRepository

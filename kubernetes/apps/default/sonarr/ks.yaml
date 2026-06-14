@@ -18,6 +18,9 @@ spec:
       APP: *app
       APP_PVC: sonarr-cache
       APP_PVC_CAPACITY: 15Gi
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
   prune: true
   sourceRef:
     kind: GitRepository

@@ -48,6 +48,9 @@ spec:
     substitute:
       APP: *app
       HOSTNAME: rook
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
   prune: false # never delete
   sourceRef:
     kind: GitRepository

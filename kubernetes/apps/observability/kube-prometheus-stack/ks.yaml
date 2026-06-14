@@ -16,6 +16,9 @@ spec:
       APP: *app
       ALERTMANAGER_HOSTNAME: alertmanager
       HOSTNAME: prometheus
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
   prune: true
   sourceRef:
     kind: GitRepository

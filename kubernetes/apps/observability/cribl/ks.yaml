@@ -22,8 +22,10 @@ spec:
       VOLSYNC_CAPACITY: 20Gi
       VOLSYNC_PVC: leader-config-claim
     substituteFrom:
-      - kind: Secret
-        name: cribl-leader
+      - name: cluster-secrets
+        kind: Secret
+      - name: cribl-leader
+        kind: Secret
   prune: true
   sourceRef:
     kind: GitRepository

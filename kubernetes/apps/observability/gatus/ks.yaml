@@ -15,6 +15,9 @@ spec:
     substitute:
       APP: *app
       HOSTNAME: status
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
   prune: true
   sourceRef:
     kind: GitRepository
