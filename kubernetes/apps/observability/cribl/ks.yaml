@@ -24,7 +24,7 @@ spec:
     substituteFrom:
       - name: cluster-secrets
         kind: Secret
-      - name: cribl-leader
+      - name: cribl-leader-secret
         kind: Secret
   prune: true
   sourceRef:
