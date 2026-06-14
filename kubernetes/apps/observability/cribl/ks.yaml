@@ -51,8 +51,10 @@ spec:
       APP: *app
       REPLICAS: "2"
     substituteFrom:
-      - kind: Secret
-        name: cribl-leader
+      - name: cluster-secrets
+        kind: Secret
+      - name: cribl-leader-secret
+        kind: Secret
   prune: true
   sourceRef:
     kind: GitRepository
