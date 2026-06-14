@@ -1,0 +1,57 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: cribl-leader
+spec:
+  chart:
+    spec:
+      chart: logstream-leader
+      sourceRef:
+        kind: HelmRepository
+        name: cribl-leader
+        namespace: observability
+      version: 4.14.0
+  interval: 1h
+  values:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: node-role.kubernetes.io/control-plane
+                  operator: DoesNotExist
+    config:
+      adminPassword: "${CRIBL_LEADER_PASSWORD}"
+      token: "${CRIBL_LEADER_TOKEN}"
+    criblImage:
+      repository: cribl/cribl
+      tag: 4.14.0@sha256:01d39c97feb57e0046bd854508f7cbed581bdccff86cc977fc99016ee59fe1b6
+    ingress:
+      enable: false
+    persistence:
+      claimName: "${VOLSYNC_PVC}"
+      enabled: true
+      size: "${VOLSYNC_CAPACITY}"
+    podAnnotations:
+      reloader.stakater.com/auto: "true"
+    replicaCount: ${REPLICAS:=1}
+    resources:
+      limits:
+        memory: 4Gi
+      requests:
+        cpu: 100m
+        memory: 256Mi
+    service:
+      externalAnnotations:
+        lbipam.cilium.io/ips: "${SVC_CRIBL_LEADER}"
+      ports:
+        - name: api
+          external: true
+          port: 9000
+          protocol: TCP
+        - name: leadercomm
+          external: true
+          port: 4200
+          protocol: TCP
