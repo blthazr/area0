@@ -55,4 +55,7 @@ spec:
         - name: cribl-tcp
           port: 10300
           protocol: TCP
+        - name: http
+          port: 10080
+          protocol: TCP
       type: LoadBalancer
