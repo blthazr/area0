@@ -32,4 +32,31 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
+  wait: true
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app cribl-stream-worker
+  namespace: &namespace observability
+spec:
+  dependsOn:
+    - name: cribl-leader
+      namespace: observability
+  interval: 1h
+  path: ./kubernetes/apps/observability/cribl/worker
+  postBuild:
+    substitute:
+      APP: *app
+      REPLICAS: "2"
+    substituteFrom:
+      - kind: Secret
+        name: cribl-leader
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: *namespace
   wait: false # no flux ks dependents
