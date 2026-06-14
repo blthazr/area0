@@ -88,7 +88,7 @@ spec:
             storageType: s3
       varVolumeStorageConfig:
         ephemeralStorage: false
-        storageCapacity: 20Gi
+        storageCapacity: "${APP_PVC_CAPACITY:=20Gi}"
         storageClassName: openebs-hostpath
       volumes:
         - name: defaults
