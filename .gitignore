@@ -10,6 +10,7 @@ talosconfig
 
 # Secrets
 .decrypted~*
+*.env
 *.key
 
 # Taskfile

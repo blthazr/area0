@@ -61,3 +61,38 @@ spec:
     namespace: flux-system
   targetNamespace: *namespace
   wait: false # no flux ks dependents
+
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: splunk-secret-test
+  namespace: &namespace observability
+spec:
+  interval: 1h
+  path: ./kubernetes/apps/observability/splunk/secret-test
+  postBuild:
+    #   substitute:
+    #     APP: splunk
+    #     APP_PVC: pvc-var-splunk-splunk-standalone-0
+    #     APP_PVC_CAPACITY: 20Gi
+    #     APP_PVC_STORAGECLASS: openebs-hostpath
+    #     HOSTNAME: splunk
+    #     VOLSYNC_CAPACITY: 10Gi
+    #     VOLSYNC_SCHEDULE: "0 0 * * *"
+    #     VOLSYNC_PGID: "41812"
+    #     VOLSYNC_PUID: "41812"
+    #     VOLSYNC_PVC: pvc-etc-splunk-splunk-standalone-0
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
+      - name: splunk-s2-index-data-secret
+        kind: Secret
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: *namespace
+  wait: false # no flux ks dependents

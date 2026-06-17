@@ -10,7 +10,7 @@ spec:
       rules:
         - alert: ExternalDNSCloudflareStale
           annotations:
-            description: |
+            description: >-
               ExternalDNS ({{ $labels.job }}) has not synced successfully in the last five
               minutes. This can lead to missing or outdated DNS entries, which will lead to
               service disruption. Check the ExternalDNS logs for more information.

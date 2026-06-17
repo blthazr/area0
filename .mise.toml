@@ -1,41 +1,41 @@
 [env]
-# File paths
+# file paths
 KUBECONFIG = "{{config_root}}/kubeconfig"
 MINIJINJA_CONFIG_FILE = "{{config_root}}/.minijinja.toml"
-SOPS_AGE_KEY_FILE = "{{config_root}}/age.key"
 TALOSCONFIG = "{{config_root}}/infrastructure/talos/clusterconfig/talosconfig"
 
-# Python
-_.python.venv = { path = "{{config_root}}/.venv", create = true }
-
-# Ansible
-VIRTUAL_ENV = "{{config_root}}/.venv"
-
-[tools]
-# kubectl + plugins
-"aqua:fluxcd/flux2" = "2.8.5"
-"aqua:helm/helm" = "4.2.0"
-"aqua:helmfile/helmfile" = "1.4.4"
-"aqua:kubernetes/kubernetes/kubectl" = "1.35.3"
-
-# talos
-"aqua:budimanjojo/talhelper" = "3.1.7"
-"aqua:siderolabs/talos" = "1.12.6"
-
-# ansible
-"ansible-core" = "2.21.0"
+# dotenv
+_.file = ["{{config_root}}/.secrets.env"]
 
 # python
-"pipx" = "1.13.0"
-"python" = "3.14.4"
+# _.python.venv = { path = "{{config_root}}/.venv", create = true }
+
+# just
+JUST_UNSTABLE = "1"
+
+# lefthook
+# LEFTHOOK_OUTPUT = "false"
+
+[tools]
+# kubernetes
+"aqua:helm/helm" = "4.2.0"
+"aqua:helmfile/helmfile" = "1.4.4"
+"aqua:kubernetes-sigs/kustomize" = "5.8.1"
+"aqua:kubernetes/kubernetes/kubectl" = "1.35.4"
+"aqua:siderolabs/talos" = "1.12.7"
 
 # misc
-"aqua:FiloSottile/age" = "1.3.1"
-"aqua:getsops/sops" = "3.12.2"
-"aqua:go-task/task" = "3.49.1"
-"aqua:google/yamlfmt" = "0.21.0"
+"aqua:casey/just" = "1.48.1"
+"aqua:charmbracelet/gum" = "0.17.0"
+"aqua:evilmartians/lefthook" = "2.1.8"
+"aqua:fluxcd/flux2" = "2.8.5"
+"aqua:helmfile/vals" = "0.44.0"
 "aqua:jqlang/jq" = "1.8.1"
+"aqua:koalaman/shellcheck" = "0.11.0"
 "aqua:mikefarah/yq" = "4.53.2"
 "aqua:mitsuhiko/minijinja" = "2.19.0"
-"aqua:stern/stern" = "1.34.0"
-"aqua:uutils/coreutils" = "0.8.0"
+"aqua:zizmorcore/zizmor" = "1.25.2"
+"npm:oxfmt" = "0.52.0"
+
+[hooks]
+postinstall = ["lefthook install"]
