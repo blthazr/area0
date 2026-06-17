@@ -23,7 +23,7 @@ spec:
       token: "${CRIBL_LEADER_TOKEN}"
     criblImage:
       repository: cribl/cribl
-      tag: 4.14.0@sha256:01d39c97feb57e0046bd854508f7cbed581bdccff86cc977fc99016ee59fe1b6
+      tag: 4.18.1@sha256:35ada24befeb9c8b506497c12f639dc6868b234c3194aa81ece49aa7e5e333e6
     replicaCount: ${REPLICAS:=1}
     resources:
       limits:
