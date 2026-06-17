@@ -12,8 +12,7 @@ spec:
   values:
     grafanaDashboard:
       enabled: true
-    leaderElect: true
     serviceMonitor:
       enabled: true
     webhook:
-      replicaCount: ${REPLICAS:=1}
+      replicaCount: 1

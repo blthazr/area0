@@ -20,6 +20,8 @@ spec:
                     - key: node-role.kubernetes.io/control-plane
                       operator: DoesNotExist
         alertmanagerConfiguration:
+          global:
+            resolveTimeout: 5m
           name: alertmanager
         externalUrl: "https://${ALERTMANAGER_HOSTNAME:=alertmanager}.${SECRET_DOMAIN}"
         replicas: ${ALERTMANAGER_REPLICAS:=1}

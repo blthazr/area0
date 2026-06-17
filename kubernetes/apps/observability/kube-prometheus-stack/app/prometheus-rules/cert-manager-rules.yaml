@@ -26,8 +26,7 @@ spec:
       rules:
         - alert: CertManagerCertNotReady
           annotations:
-            description: >-
-              This certificate has not been ready to serve traffic for at least 5m.
+            description: This certificate has not been ready to serve traffic for at least 5m.
             runbook_url: https://gitlab.com/uneeq-oss/cert-manager-mixin/-/blob/master/RUNBOOK.md#certmanagercertnotready
             summary: >-
               The cert {{ $labels.name }} is not ready to serve traffic.
