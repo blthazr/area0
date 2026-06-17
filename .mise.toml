@@ -35,7 +35,7 @@ JUST_UNSTABLE = "1"
 "aqua:mikefarah/yq" = "4.53.2"
 "aqua:mitsuhiko/minijinja" = "2.19.0"
 "aqua:zizmorcore/zizmor" = "1.25.2"
-"npm:oxfmt" = "0.52.0"
+"npm:oxfmt" = "0.55.0"
 
 [hooks]
 postinstall = ["lefthook install"]
