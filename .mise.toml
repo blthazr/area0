@@ -25,7 +25,7 @@ JUST_UNSTABLE = "1"
 "aqua:siderolabs/talos" = "1.12.7"
 
 # misc
-"aqua:casey/just" = "1.48.1"
+"aqua:casey/just" = "1.53.0"
 "aqua:charmbracelet/gum" = "0.17.0"
 "aqua:evilmartians/lefthook" = "2.1.8"
 "aqua:fluxcd/flux2" = "2.8.5"
