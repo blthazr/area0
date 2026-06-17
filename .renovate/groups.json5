@@ -28,15 +28,6 @@
       minimumGroupSize: 5,
     },
     {
-      description: "Pocket-ID Group",
-      group: {
-        commitMessageTopic: "{{{groupName}}} group",
-      },
-      groupName: "pocket-id",
-      matchDatasources: ["docker", "github-tags"],
-      matchPackagePatterns: ["pocket-id"],
-    },
-    {
       description: "Rook-Ceph Group",
       group: {
         commitMessageTopic: "{{{groupName}}} group",

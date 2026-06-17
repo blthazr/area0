@@ -8,11 +8,7 @@
       automergeType: "branch",
       ignoreTests: true,
       matchManagers: ["github-actions"],
-      matchUpdateTypes: [
-        "digest",
-        "patch",
-        "minor",
-      ],
+      matchUpdateTypes: ["digest", "patch", "minor"],
       minimumReleaseAge: "3 days",
     },
     {
@@ -22,15 +18,8 @@
       automergeType: "branch",
       ignoreTests: true,
       matchManagers: ["github-actions"],
-      matchPackageNames: [
-        "/^actions\\//",
-        "/^renovatebot\\//",
-      ],
-      matchUpdateTypes: [
-        "digest",
-        "patch",
-        "minor",
-      ],
+      matchPackageNames: ["/^actions\\//", "/^renovatebot\\//"],
+      matchUpdateTypes: ["digest", "patch", "minor"],
       minimumReleaseAge: "1 minute",
     },
     {
@@ -50,13 +39,8 @@
       automergeType: "pr",
       ignoreTests: false,
       matchDatasources: ["docker"],
-      matchPackageNames: [
-        "/kube-prometheus-stack/",
-      ],
-      matchUpdateTypes: [
-        "patch",
-        "minor",
-      ],
+      matchPackageNames: ["/kube-prometheus-stack/"],
+      matchUpdateTypes: ["patch", "minor"],
       schedule: ["before 6am on Monday"],
     },
     {
@@ -75,10 +59,7 @@
       automergeType: "branch",
       ignoreTests: true,
       matchManagers: ["renovate-config"],
-      matchUpdateTypes: [
-        "patch",
-        "minor",
-      ],
+      matchUpdateTypes: ["patch", "minor"],
     },
   ],
 }
