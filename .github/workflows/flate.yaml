@@ -85,7 +85,7 @@ jobs:
       - name: Load Secrets
         id: load-secrets
         if: ${{ hashFiles('helmrelease.diff', 'kustomization.diff') != '' }}
-        uses: 1password/load-secrets-action@92467eb28f72e8255933372f1e0707c567ce2259 # v4.0.0 # zizmor: ignore[unpinned-tools]
+        uses: 1password/load-secrets-action@3a12b0ab99d9cd590a3e9b5a90ea017210ed9556 # v4.0.1 # zizmor: ignore[unpinned-tools]
         env:
           GITHUB_BOT_APP_CLIENT_ID: op://area0/github-bot/GITHUB_BOT_APP_CLIENT_ID
           GITHUB_BOT_APP_PRIVATE_KEY: op://area0/github-bot/GITHUB_BOT_APP_PRIVATE_KEY
