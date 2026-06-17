@@ -27,7 +27,7 @@ JUST_UNSTABLE = "1"
 # misc
 "aqua:casey/just" = "1.48.1"
 "aqua:charmbracelet/gum" = "0.17.0"
-"aqua:evilmartians/lefthook" = "2.1.8"
+"aqua:evilmartians/lefthook" = "2.1.9"
 "aqua:fluxcd/flux2" = "2.8.5"
 "aqua:helmfile/vals" = "0.44.0"
 "aqua:jqlang/jq" = "1.8.1"
