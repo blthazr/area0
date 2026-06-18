@@ -23,7 +23,7 @@ VIRTUAL_ENV = "{{config_root}}/.venv"
 "aqua:siderolabs/talos" = "1.12.6"
 
 # ansible
-"ansible-core" = "2.21.0"
+"ansible-core" = "2.21.1"
 
 # python
 "pipx" = "1.13.0"
