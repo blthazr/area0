@@ -59,7 +59,7 @@ spec:
               - --enable-service
             image:
               repository: ghcr.io/home-operations/gatus-sidecar
-              tag: 0.0.19@sha256:a62610509ddb9d04ac562d13e096cecb391aa6647ac97d66ae5ba4db869bc6b8
+              tag: 0.3.5@sha256:aad3780968860cc4c9e8c63ed21595b1c8574a34678a6adfebe8dcb4b36f8dd2
             resources:
               limits:
                 memory: 128Mi
