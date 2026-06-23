@@ -27,7 +27,7 @@ spec:
       token: "${CRIBL_LEADER_TOKEN}"
     criblImage:
       repository: cribl/cribl
-      tag: 4.14.0@sha256:01d39c97feb57e0046bd854508f7cbed581bdccff86cc977fc99016ee59fe1b6
+      tag: 4.18.2@sha256:85105d061239268fd0c3a46dec7f7ac087fda9d8da6e64e9781d4d2cfff68d1b
     ingress:
       enable: false
     persistence:
