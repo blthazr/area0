@@ -15,7 +15,7 @@ VIRTUAL_ENV = "{{config_root}}/.venv"
 # kubectl + plugins
 "aqua:fluxcd/flux2" = "2.8.5"
 "aqua:helm/helm" = "4.2.0"
-"aqua:helmfile/helmfile" = "1.4.4"
+"aqua:helmfile/helmfile" = "1.6.0"
 "aqua:kubernetes/kubernetes/kubectl" = "1.35.3"
 
 # talos
