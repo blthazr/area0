@@ -55,7 +55,7 @@ machine:
     disableManifestsDirectory: true
     extraConfig:
       serializeImagePulls: false
-    image: ghcr.io/siderolabs/kubelet:v1.35.4
+    image: ghcr.io/siderolabs/kubelet:v1.36.2
     nodeIP:
       validSubnets:
         - ref+op://area0/talos/CLUSTER_NODE_CIDR
@@ -96,7 +96,7 @@ cluster:
     extraArgs:
       enable-aggregator-routing: "true"
       feature-gates: HPAScaleToZero=true
-    image: registry.k8s.io/kube-apiserver:v1.35.4
+    image: registry.k8s.io/kube-apiserver:v1.36.2
   {% endif %}
   ca:
     crt: ref+op://area0/talos/CLUSTER_CA_CRT
@@ -109,7 +109,7 @@ cluster:
     extraArgs:
       bind-address: 0.0.0.0
       feature-gates: HPAScaleToZero=true
-    image: registry.k8s.io/kube-controller-manager:v1.35.4
+    image: registry.k8s.io/kube-controller-manager:v1.36.2
   {% endif %}
   controlPlane:
     endpoint: ref+op://area0/talos/CLUSTER_ENDPOINT_URL
@@ -146,7 +146,7 @@ cluster:
   {% if ENV.CONTROLPLANE %}
   proxy:
     disabled: true
-    image: registry.k8s.io/kube-proxy:v1.35.4
+    image: registry.k8s.io/kube-proxy:v1.36.2
   scheduler:
     config:
       apiVersion: kubescheduler.config.k8s.io/v1
@@ -167,7 +167,7 @@ cluster:
                     whenUnsatisfiable: ScheduleAnyway
     extraArgs:
       bind-address: 0.0.0.0
-    image: registry.k8s.io/kube-scheduler:v1.35.4
+    image: registry.k8s.io/kube-scheduler:v1.36.2
   {% endif %}
   secret: ref+op://area0/talos/CLUSTER_SECRET
   {% if ENV.CONTROLPLANE %}
