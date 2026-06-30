@@ -23,7 +23,7 @@
       minimumReleaseAge: "1 minute",
     },
     {
-      description: "Auto-merge trusted OCI Charts (digest)",
+      description: "Auto-merge trusted OCI Packages (digest)",
       addLabels: ["action/automerge"],
       automerge: true,
       automergeType: "pr",
@@ -33,7 +33,7 @@
       matchUpdateTypes: ["digest"],
     },
     {
-      description: "Auto-merge high-cadence OCI Charts (patch, minor)",
+      description: "Auto-merge high-cadence OCI Packages (patch, minor)",
       addLabels: ["action/automerge"],
       automerge: true,
       automergeType: "pr",

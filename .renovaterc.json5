@@ -3,6 +3,7 @@
   extends: [
     ":timezone(America/Chicago)",
     "github>home-operations/renovate-presets#2.1.0",
+    "github>blthazr/area0//.renovate/allowedVersions.json5",
     "github>blthazr/area0//.renovate/autoMerge.json5",
     "github>blthazr/area0//.renovate/changelogs.json5",
     "github>blthazr/area0//.renovate/groups.json5",
