@@ -8,5 +8,4 @@ resources:
   - ./mutating-admission-policy.yaml
   - ./pocket-id-oidc-client.yaml
   - ./pocket-id-user-group.yaml
-  - ./service-monitor.yaml
   - ./observability
