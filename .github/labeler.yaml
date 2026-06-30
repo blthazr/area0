@@ -26,8 +26,3 @@ area/talos:
   - changed-files:
       - any-glob-to-any-file:
           - infrastructure/talos/**/*
-area/taskfile:
-  - changed-files:
-      - any-glob-to-any-file:
-          - .taskfiles/**/*
-          - Taskfile.yaml

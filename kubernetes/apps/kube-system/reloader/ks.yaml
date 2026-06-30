@@ -11,6 +11,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      REPLICAS: "1"
   prune: true
   sourceRef:
     kind: GitRepository

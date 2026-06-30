@@ -3,7 +3,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app pocket-id-operator
+  name: pocket-id-operator
   namespace: &namespace security
 spec:
   interval: 1h
@@ -20,7 +20,7 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app pocket-id-instance
+  name: pocket-id-instance
   namespace: &namespace security
 spec:
   components:
@@ -28,6 +28,8 @@ spec:
   dependsOn:
     - name: pocket-id-operator
       namespace: *namespace
+    - name: garage-gateway
+      namespace: storage
     - name: volsync
       namespace: storage
   interval: 1h

@@ -1,0 +1,144 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: {{ ENV.APP }}
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: {{ ENV.APP }}
+  interval: 1h
+  values:
+    # configMaps: {}
+    controllers:
+      {{ ENV.CONTROLLER_NAME | default( ENV.APP ) }}:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          {{ ENV.CONTAINER_NAME | default("app") }}:
+            # args: []
+            # command: ""
+            # dependsOn: []
+            env:
+              TZ: "${CLUSTER_TIME_ZONE}"
+            # envFrom:
+            #   - secretRef:
+                  {% raw %}
+            #       name: "{{ .Release.Name }}-secret"
+                  {% endraw %}
+            image:
+              repository: {{ ENV.IMAGE_REPO | default("__IMAGE_REPO") }}
+              tag: {{ ENV.IMAGE_TAG | default("__IMAGE_TAG") }}
+            # probes:
+            #   liveness: &probes
+            #     custom: true
+            #     enabled: true
+            #     spec:
+            #       failureThreshold: 3
+            #       httpGet:
+            #         path: null
+            #         port: *port
+            #       initialDelaySeconds: 0
+            #       periodSeconds: 10
+            #       timeoutSeconds: 1
+            #   readiness: *probes
+            #   startup: *probes
+            # resources:
+            #   limits:
+            #     cpu: 100m
+            #     memory: 128Mi
+            #   requests:
+            #     cpu: 10m
+            #     memory: 128Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - "ALL"
+              readOnlyRootFilesystem: true
+        # initContainers: {}
+        # pod: {}
+        # replicas: ${REPLICAS:=1}
+    defaultPodOptions:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
+      securityContext:
+        fsGroup: ${APP_PGID:=1000}
+        fsGroupChangePolicy: OnRootMismatch
+        runAsGroup: ${APP_PGID:=1000}
+        runAsNonRoot: true
+        runAsUser: ${APP_PUID:=1000}
+    # persistence:
+    #   config:
+    #     existingClaim: "${VOLSYNC_PVC:=${APP}}"
+    #     globalMounts:
+    #       - path: /config
+    #   local-media:
+    #     existingClaim: default-local-storage
+    #     globalMounts:
+    #       - path: /media
+    #         readOnly: true
+    #   nas-data:
+    #     advancedMounts:
+    #       {{ ENV.CONTROLLER_NAME | default( ENV.APP ) }}:
+    #         {{ ENV.CONTAINER_NAME | default("app") }}:
+    #           - path: /data/nas
+    #             subPath: apps/{{ ENV.APP }}/media
+    #     path: "${NFS_DATA_PATH}"
+    #     server: "${NAS_ADDRESS}"
+    #     type: nfs
+    #   nas-shared:
+    #     advancedMounts:
+    #       {{ ENV.CONTROLLER_NAME | default( ENV.APP ) }}:
+    #         {{ ENV.CONTAINER_NAME | default("app") }}:
+    #           - path: /data/shard
+    #             subPath: {{ ENV.APP }}
+    #     path: "${NFS_SHARED_PATH}"
+    #     server: "${NAS_ADDRESS}"
+    #     type: nfs
+    #   tmpfs:
+    #     advancedMounts:
+    #       {{ ENV.CONTROLLER_NAME | default( ENV.APP ) }}:
+    #         {{ ENV.CONTAINER_NAME | default("app") }}:
+    #           - path: /tmp
+    #             subPath: tmp
+    #     type: emptyDir
+    route:
+      {{ ENV.CONTAINER_NAME | default("app") }}:
+        # annotations: {}
+        hostnames:
+          - "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
+          {% raw %}
+          # - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+          {% endraw %}
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+    service:
+      {{ ENV.CONTAINER_NAME | default("app") }}:
+        {% if ENV.STATIC_IP %}
+        {% raw %}
+        # annotations:
+        #   lbipam.cilium.io/ips: "${SVC_APP_NAME}"
+        {% endraw %}
+        {% endif %}
+        # controller: ~
+        # externalTrafficPolicy: ~
+        ports:
+          http:
+            port: *port
+        {% if ENV.STATIC_IP %}
+        type: LoadBalancer
+        {% endif %}
+    # serviceAccount:
+    #   {{ ENV.APP }}: {}
+    # serviceMonitor:
+    #   {{ ENV.CONTAINER_NAME | default("app") }}:
+    #     endpoints:
+    #       - port: http

@@ -10,9 +10,7 @@ spec:
     - datasourceName: prometheus
       inputName: DS_PROMETHEUS
   folderRef: storage
-  grafanaCom:
-    id: 24987
-    revision: 2
   instanceSelector:
     matchLabels:
       dashboards: grafana
+  url: https://grafana.com/api/dashboards/24987/revisions/2/download

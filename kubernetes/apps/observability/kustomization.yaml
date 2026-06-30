@@ -7,10 +7,8 @@ components:
   - ../../components/common
 resources:
   - ./namespace.yaml
-  - ./cribl/ks.yaml
-  - ./gatus/ks.yaml
+  - ./gatus-sidecar/ks.yaml
   - ./grafana-operator/ks.yaml
   - ./kube-prometheus-stack/ks.yaml
   - ./kube-state-metrics/ks.yaml
   - ./silence-operator/ks.yaml
-  - ./splunk/ks.yaml

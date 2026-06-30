@@ -1,13 +1,11 @@
 {
   "recommendations": [
-    "bluebrown.yamlfmt",
     "blueglassblock.better-json5",
-    "github.vscode-pull-request-github",
     "gruntfuggly.todo-tree",
     "hverlin.mise-vscode",
     "irongeek.vscode-env",
+    "nefrob.vscode-just-syntax",
     "oderwat.indent-rainbow",
-    "redhat.vscode-yaml",
-    "signageos.signageos-vscode-sops",
+    "redhat.vscode-yaml"
   ]
 }

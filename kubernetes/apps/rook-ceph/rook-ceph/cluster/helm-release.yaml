@@ -41,16 +41,9 @@ spec:
     cephBlockPoolsVolumeSnapshotClass:
       deletionPolicy: Delete
       enabled: true
-      isDefault: false
+      isDefault: true
       name: csi-ceph-blockpool
     cephClusterSpec:
-      cephConfig:
-        global:
-          bdev_async_discard_threads: "1" # quote
-          bdev_enable_discard: "true" # quote
-          # Cant enable due to `Module 'diskprediction_local' has failed: No module named 'sklearn.svm.classes'`
-          # device_failure_prediction_mode: local # requires mgr module
-          osd_class_update_on_start: "false" # quote
       cleanupPolicy:
         wipeDevicesFromOtherClusters: true
       crashCollector:
@@ -65,13 +58,7 @@ spec:
         urlPrefix: /
       mgr:
         modules:
-          - name: diskprediction_local
-            enabled: false
-          - name: insights
-            enabled: true
           - name: pg_autoscaler
-            enabled: true
-          - name: rook
             enabled: true
       network:
         connections:

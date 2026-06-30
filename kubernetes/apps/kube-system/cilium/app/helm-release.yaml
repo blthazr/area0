@@ -44,8 +44,6 @@ spec:
       enabled: true
     operator:
       dashboards:
-        annotations:
-          grafana_folder: Cilium
         enabled: true
       prometheus:
         enabled: true

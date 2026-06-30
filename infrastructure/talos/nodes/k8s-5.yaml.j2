@@ -1,0 +1,51 @@
+---
+machine:
+  install:
+    diskSelector:
+      wwid: eui.0025385411903f61
+  kernel:
+    modules:
+      - name: zfs
+  kubelet:
+    extraConfig:
+      maxPods: 150
+    extraMounts:
+      - destination: /var/mnt/media
+        options:
+          - bind
+          - rshared
+          - rw
+        source: /var/mnt/media
+        type: bind
+  type: worker
+---
+apiVersion: v1alpha1
+kind: HostnameConfig
+hostname: k8s-5
+---
+apiVersion: v1alpha1
+kind: LinkAliasConfig
+name: ethSel0
+selector:
+  match: glob("2c:f0:5d:5d:e2:95", mac(link.hardware_addr))
+---
+apiVersion: v1alpha1
+kind: VolumeConfig
+name: EPHEMERAL
+provisioning:
+  diskSelector:
+    match: system_disk
+  maxSize: 100GiB
+---
+apiVersion: v1alpha1
+kind: UserVolumeConfig
+name: local-hostpath
+provisioning:
+  diskSelector:
+    match: system_disk
+  maxSize: 128GiB
+---
+apiVersion: v1alpha1
+kind: WatchdogTimerConfig
+device: /dev/watchdog0
+timeout: 5m

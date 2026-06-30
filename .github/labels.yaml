@@ -24,28 +24,12 @@
   color: "0E8A16"
   description: >-
     Changes made in the talos directory
-- name: area/taskfile
-  color: "0E8A16"
-  description: >-
-    Changes made in the taskfiles directory
 # Renovate Types
 - name: action/automerge
   color: "5319E7"
   description: >-
     PR that has been automerged by Renovate
-- name: renovate/container
-  color: "027FA0"
-- name: renovate/github-action
-  color: "027FA0"
-- name: renovate/github-release
-  color: "027FA0"
-- name: renovate/grafana-dashboard
-  color: "027FA0"
-- name: renovate/helm
-  color: "027FA0"
-- name: renovate/talos
-  color: "027FA0"
-# Semantic Type
+# Semantic Types
 - name: type/digest
   color: "FFEC19"
 - name: type/patch
