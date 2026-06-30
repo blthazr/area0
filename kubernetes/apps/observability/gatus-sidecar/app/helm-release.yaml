@@ -28,7 +28,7 @@ spec:
       delayStartSeconds: "5"
       env:
         TZ: "${CLUSTER_TIME_ZONE}"
-      envFrom:
+      envFrom: &envFrom
         - secretRef:
             name: "{{ .Release.Name }}-secret"
     httpRoute:
@@ -43,20 +43,12 @@ spec:
         - name: envoy-internal
           namespace: network
     initContainers:
-      init-db:
-        envFrom:
-          - secretRef:
-              name: "{{ .Release.Name }}-secret"
-        image:
-          repository: ghcr.io/onedr0p/postgres-init
-          tag: 17.4@sha256:43dd04e91e861cf912378bad987afa168fa4f13d05528304907ad0aa351195d6
+      - name: init-db
+        envFrom: *envFrom
+        image: ghcr.io/home-operations/postgres-init:17.4@sha256:a9f405688344a8a6f718e2c344438342ad21540986aeb5ab5fa781831eb2c597
     monitoring:
       serviceMonitor:
         enabled: true
-    persistence:
-      enabled: true
-      size: 5Gi
-      storageClass: ceph-block
     resources:
       limits:
         memory: 512Mi
