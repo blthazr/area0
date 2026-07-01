@@ -18,4 +18,4 @@ spec:
     rebootMode: powercycle
   talos:
     # renovate: datasource=custom.talos-factory depName=siderolabs/talos
-    version: v1.12.8
+    version: v1.12.7
