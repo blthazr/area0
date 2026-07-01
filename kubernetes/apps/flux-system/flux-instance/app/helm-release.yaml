@@ -20,6 +20,9 @@ spec:
         - kustomize-controller
         - helm-controller
         - notification-controller
+      distribution:
+        artifact: oci://ghcr.io/controlplaneio-fluxcd/flux-operator-manifests:v0.50.0
+        version: 2.x
       kustomize:
         patches:
           - # Increase the number of workers
