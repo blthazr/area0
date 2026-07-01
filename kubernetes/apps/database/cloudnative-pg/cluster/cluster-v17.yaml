@@ -27,7 +27,7 @@ spec:
           key: MINIO_SECRET_KEY
       # Note: serverName version needs to be incremented
       # when recovering from an existing cnpg cluster
-      serverName: &currentCluster postgres17-v4
+      serverName: &currentCluster postgres17-v5
       wal:
         compression: bzip2
         maxParallel: 8
@@ -67,7 +67,7 @@ spec:
     #     type: monolith
     # Note: When recovering from a backup of the same major version, `previousCluster` needs to be set to the name of the cluster backup to recover
     recovery:
-      source: &previousCluster postgres17-v3
+      source: &previousCluster postgres17-v4
   externalClusters:
     # - # perform major version upgrades
     #   name: *runningCluster
