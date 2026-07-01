@@ -47,6 +47,12 @@ create-app app_name namespace="default" type="app-template" force="false":
     minijinja-cli "$templates_dir/app_name/ks.yaml.j2" -o "$app_dir/ks.yaml"
     minijinja-cli "$templates_dir/app_name/README.md.j2" -o "$app_dir/README.md"
 
+    mkdir -p "$app_dir/app/observability"
+    minijinja-cli "$templates_dir/app_name/common/observability/grafana-dashboard.yaml.j2" -o "$app_dir/app/observability/grafana-dashboard.yaml"
+    minijinja-cli "$templates_dir/app_name/common/observability/grafana-folder.yaml.j2" -o "$app_dir/app/observability/grafana-folder.yaml"
+    minijinja-cli "$templates_dir/app_name/common/observability/kustomization.yaml.j2" -o "$app_dir/app/observability/kustomization.yaml"
+    minijinja-cli "$templates_dir/app_name/common/observability/prometheus-rule.yaml.j2" -o "$app_dir/app/observability/prometheus-rule.yaml"
+
     case "{{ type }}" in
         app-template)
             minijinja-cli "$templates_dir/app_name/app-template/helm-release.yaml.j2" -o "$app_dir/app/helm-release.yaml"
