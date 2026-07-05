@@ -181,7 +181,7 @@ spec:
       internal:
         annotations:
           gatus.home-operations.com/endpoint: |-
-            name: "${APP}-internal"
+            name: "paperless-ngx-internal"
             group: internal
         hostnames:
           - "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
@@ -191,7 +191,7 @@ spec:
       external:
         annotations:
           gatus.home-operations.com/endpoint: |-
-            name: "${APP}"
+            name: "paperless-ngx"
             group: external
         hostnames:
           - "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
