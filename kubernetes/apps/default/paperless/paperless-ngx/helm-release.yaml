@@ -178,14 +178,41 @@ spec:
                 subPath: tmp/redis
         type: emptyDir
     route:
-      app:
+      internal:
+        annotations:
+          gatus.home-operations.com/endpoint: |-
+            group: internal
+        hostnames:
+          - "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+      external:
+        annotations:
+          gatus.home-operations.com/endpoint: |-
+            group: external
         hostnames:
           - "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
         parentRefs:
           - name: envoy-external
             namespace: network
-          - name: envoy-internal
-            namespace: network
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *port
+            filters:
+              - type: URLRewrite
+                urlRewrite:
+                  path:
+                    replacePrefixMatch: /
+                    type: ReplacePrefixMatch
+            matches:
+              - path:
+                  type: PathPrefix
+                  value: /admin
+          - backendRefs:
+              - identifier: app
+                port: *port
     service:
       app:
         ports:
