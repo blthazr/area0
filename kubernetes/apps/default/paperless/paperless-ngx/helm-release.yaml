@@ -181,7 +181,7 @@ spec:
       internal:
         annotations:
           gatus.home-operations.com/endpoint: |-
-            name: "${HOSTNAME:=${APP}}"
+            name: "${APP}-internal"
             group: internal
         hostnames:
           - "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
@@ -191,7 +191,7 @@ spec:
       external:
         annotations:
           gatus.home-operations.com/endpoint: |-
-            name: "${HOSTNAME:=${APP}}"
+            name: "${APP}"
             group: external
         hostnames:
           - "${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
