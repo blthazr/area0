@@ -17,7 +17,7 @@ JUST_UNSTABLE = "1"
 "aqua:helmfile/vals" = "0.44.3"
 "aqua:kubernetes-sigs/kustomize" = "5.8.1"
 "aqua:kubernetes/kubernetes/kubectl" = "1.35.4"
-"aqua:siderolabs/talos" = "v1.12.7"
+"aqua:siderolabs/talos" = "v1.13.6"
 
 # misc
 "aqua:casey/just" = "1.55.0"
