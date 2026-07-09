@@ -12,7 +12,7 @@ JUST_UNSTABLE = "1"
 
 [tools]
 # kubernetes
-"aqua:helm/helm" = "4.2.2"
+"aqua:helm/helm" = "4.2.3"
 "aqua:helmfile/helmfile" = "1.6.0"
 "aqua:helmfile/vals" = "0.44.3"
 "aqua:kubernetes-sigs/kustomize" = "5.8.1"
