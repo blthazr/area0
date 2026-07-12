@@ -31,7 +31,7 @@ spec:
                   name: "{{ .Release.Name }}-secret"
             image:
               repository: ghcr.io/home-operations/radarr
-              tag: 6.2.1.10437@sha256:09979c77f9be3f324c133e1e73fea2b5c7eed37b586ed7c8a8a60c9b6932f175
+              tag: 6.3.0.10514@sha256:ca30ff27d24c1fd548b1c8efd684b6a9238b7fed2bd5b834ea700aa09c16fe11
             probes:
               liveness:
                 enabled: true
