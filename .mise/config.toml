@@ -27,7 +27,7 @@ JUST_UNSTABLE = "1"
 "aqua:jqlang/jq" = "1.8.2"
 "aqua:mikefarah/yq" = "4.53.3"
 "aqua:mitsuhiko/minijinja" = "2.21.0"
-"npm:oxfmt" = "0.57.0"
+"npm:oxfmt" = "0.59.0"
 
 [hooks]
 postinstall = ["lefthook install"]
