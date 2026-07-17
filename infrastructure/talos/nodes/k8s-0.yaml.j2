@@ -1,0 +1,28 @@
+---
+machine:
+  install:
+    diskSelector:
+      wwid: eui.0025385411903f61
+  kernel:
+    modules:
+      - name: zfs
+  kubelet:
+    extraMounts:
+      - destination: /var/mnt/media
+        options:
+          - bind
+          - rshared
+          - rw
+        source: /var/mnt/media
+        type: bind
+  type: controlplane
+---
+apiVersion: v1alpha1
+kind: HostnameConfig
+hostname: k8s-0
+---
+apiVersion: v1alpha1
+kind: LinkAliasConfig
+name: net0
+selector:
+  match: mac(link.permanent_addr).startsWith("2c:f0:5d:5d:")

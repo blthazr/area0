@@ -5,17 +5,10 @@ kind: TalosUpgrade
 metadata:
   name: talos
 spec:
-  healthChecks:
-    - apiVersion: volsync.backube/v1alpha1
-      kind: ReplicationSource
-      expr: |-
-        status.conditions.filter(c, c.type == "Synchronizing").all(c, c.status == "False")
-    - apiVersion: ceph.rook.io/v1
-      kind: CephCluster
-      expr: |-
-        status.ceph.health in ['HEALTH_OK']
+  drain:
+    enabled: false
   policy:
     rebootMode: powercycle
   talos:
     # renovate: datasource=custom.talos-factory depName=siderolabs/talos
-    version: v1.12.7
+    version: v1.13.6

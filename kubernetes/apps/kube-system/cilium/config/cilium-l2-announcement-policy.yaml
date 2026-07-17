@@ -3,8 +3,10 @@
 apiVersion: cilium.io/v2alpha1
 kind: CiliumL2AnnouncementPolicy
 metadata:
-  name: l2-policy
+  name: default
 spec:
+  interfaces:
+    - ^bond[0-9]+$
   loadBalancerIPs: true
   nodeSelector:
     matchLabels:

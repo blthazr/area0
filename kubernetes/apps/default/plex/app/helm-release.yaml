@@ -59,13 +59,6 @@ spec:
                   - "ALL"
               readOnlyRootFilesystem: true
     defaultPodOptions:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: node-role.kubernetes.io/control-plane
-                    operator: DoesNotExist
       resourceClaims:
         - name: gpu
           resourceClaimTemplateName: plex

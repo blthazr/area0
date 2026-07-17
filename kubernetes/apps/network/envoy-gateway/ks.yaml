@@ -33,7 +33,7 @@ spec:
   path: ./kubernetes/apps/network/envoy-gateway/config
   postBuild:
     substitute:
-      REPLICAS: "2"
+      PROXY_REPLICAS: "1"
     substituteFrom:
       - name: cluster-secrets
         kind: Secret

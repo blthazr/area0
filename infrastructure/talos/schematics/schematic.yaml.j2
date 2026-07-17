@@ -1,0 +1,11 @@
+---
+customization:
+  extraKernelArgs:
+    - intel_iommu=on                      # PCI Passthrough
+    - iommu=pt                            # PCI Passthrough
+    - sysctl.kernel.kexec_load_disabled=1 # Intel iGPU
+  systemExtensions:
+    officialExtensions:
+      - siderolabs/drbd                   # Miroir DRBD9 Replication
+      - siderolabs/i915                   # Intel iGPU
+      - siderolabs/intel-ucode            # Intel iGPU

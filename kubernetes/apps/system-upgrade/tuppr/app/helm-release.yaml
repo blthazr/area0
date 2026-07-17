@@ -14,11 +14,9 @@ spec:
       dashboards:
         enabled: true
         grafanaOperator:
-          enabled: true
-          matchLabels:
-            dashboards: grafana
+          enabled: false
       prometheusRule:
         enabled: true
       serviceMonitor:
         enabled: true
-    replicaCount: 2
+    replicaCount: ${REPLICAS:=1}

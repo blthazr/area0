@@ -26,9 +26,6 @@ releases:
         args:
           - wait
           - --for=create
-          # - crd/ciliumbgpadvertisements.cilium.io
-          # - crd/ciliumbgpclusterconfigs.cilium.io
-          # - crd/ciliumbgppeerconfigs.cilium.io
           - crd/ciliumloadbalancerippools.cilium.io
           - --timeout=2m
         command: kubectl
@@ -37,33 +34,41 @@ releases:
         showlogs: true
       - # Apply resources
         args:
-          - apply
-          - --namespace={{ .Release.Namespace }}
-          - --server-side
-          - --field-manager=kustomize-controller
-          - --force-conflicts
-          - --kustomize
-          - ../../kubernetes/apps/{{ .Release.Namespace }}/{{ .Release.Name }}/config
-        command: kubectl
+          - -c
+          - |
+            kustomize build \
+            ../../kubernetes/apps/{{ .Release.Namespace }}/{{ .Release.Name }}/config \
+            | envsubst \
+            | kubectl \
+            apply \
+            --namespace={{ .Release.Namespace }} \
+            --server-side \
+            --field-manager=kustomize-controller \
+            --filename -
+        command: bash
         events:
           - postsync
         showlogs: true
     namespace: kube-system
+    set:
+      - name: operator.replicas
+        value: 1
 
   - name: coredns
     namespace: kube-system
     needs:
       - kube-system/cilium
-
-  - name: spegel
-    namespace: kube-system
-    needs:
-      - kube-system/coredns
+    set:
+      - name: replicaCount
+        value: 1
 
   - name: cert-manager
     namespace: cert-manager
     needs:
-      - kube-system/spegel
+      - kube-system/coredns
+    set:
+      - name: webhook.replicaCount
+        value: 1
 
   - name: external-secrets
     namespace: external-secrets
@@ -101,6 +106,9 @@ releases:
     namespace: flux-system
     needs:
       - external-secrets/onepassword-connect
+    set:
+      - name: web.httpRoute.enabled
+        value: false
 
   - name: flux-instance
     namespace: flux-system

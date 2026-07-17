@@ -5,7 +5,7 @@ MINIJINJA_CONFIG_FILE = "{{config_root}}/.minijinja.toml"
 TALOSCONFIG = "{{config_root}}/infrastructure/talos/clusterconfig/talosconfig"
 
 # dotenv
-_.file = ["{{config_root}}/.secrets.env"]
+_.file = ["{{config_root}}/.onepassword.env", "{{config_root}}/.secrets.env"]
 
 # just
 JUST_UNSTABLE = "1"
@@ -16,7 +16,7 @@ JUST_UNSTABLE = "1"
 "aqua:helmfile/helmfile" = "1.6.0"
 "aqua:helmfile/vals" = "0.44.3"
 "aqua:kubernetes-sigs/kustomize" = "5.8.1"
-"aqua:kubernetes/kubernetes/kubectl" = "1.35.4"
+"aqua:kubernetes/kubernetes/kubectl" = "1.36.2"
 "aqua:siderolabs/talos" = "v1.12.7"
 
 # misc
@@ -27,7 +27,7 @@ JUST_UNSTABLE = "1"
 "aqua:jqlang/jq" = "1.8.2"
 "aqua:mikefarah/yq" = "4.53.3"
 "aqua:mitsuhiko/minijinja" = "2.21.0"
-"npm:oxfmt" = "0.57.0"
+"npm:oxfmt" = "0.59.0"
 
 [hooks]
 postinstall = ["lefthook install"]

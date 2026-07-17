@@ -10,3 +10,4 @@ spec:
       name: "*"
   providerRef:
     name: github-status
+  suspend: false

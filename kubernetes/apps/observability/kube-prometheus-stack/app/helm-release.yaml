@@ -12,13 +12,6 @@ spec:
   values:
     alertmanager:
       alertmanagerSpec:
-        affinity:
-          nodeAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
-              nodeSelectorTerms:
-                - matchExpressions:
-                    - key: node-role.kubernetes.io/control-plane
-                      operator: DoesNotExist
         alertmanagerConfiguration:
           name: alertmanager
         externalUrl: "https://${ALERTMANAGER_HOSTNAME:=alertmanager}.${SECRET_DOMAIN}"
@@ -59,13 +52,6 @@ spec:
       fullnameOverride: node-exporter
     prometheus:
       prometheusSpec:
-        affinity:
-          nodeAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
-              nodeSelectorTerms:
-                - matchExpressions:
-                    - key: node-role.kubernetes.io/control-plane
-                      operator: DoesNotExist
         externalUrl: "https://${HOSTNAME:=prometheus}.${SECRET_DOMAIN}"
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
@@ -95,11 +81,3 @@ spec:
           parentRefs:
             - name: envoy-internal
               namespace: network
-    prometheusOperator:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: node-role.kubernetes.io/control-plane
-                    operator: DoesNotExist

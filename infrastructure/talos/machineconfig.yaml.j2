@@ -14,6 +14,9 @@ machine:
       enabled: true
       forwardKubeDNSToHost: true # Requires Cilium socketLB features
       resolveMemberNames: true
+    kubePrism:
+      enabled: true
+      port: 7445
     {% if ENV.CONTROLPLANE %}
     kubernetesTalosAPIAccess:
       allowedKubernetesNamespaces:
@@ -23,9 +26,6 @@ machine:
         - os:admin
       enabled: true
     {% endif %}
-    kubePrism:
-      enabled: true
-      port: 7445
     rbac: true
   files:
     - op: create
@@ -45,24 +45,28 @@ machine:
         nconnect=8
         noatime=True
   install:
-    image: factory.talos.dev/metal-installer/{{ ENV.SCHEMATIC }}:v1.12.7
+    image: factory.talos.dev/metal-installer/{{ ENV.SCHEMATIC }}:v1.13.6
     wipe: false
   kernel:
     modules:
+      - name: dm_thin_pool           # miroir lvmthin backend
+      - name: drbd                   # miroir replication
+        parameters:
+          - usermode_helper=disabled # required on Talos (no usermodehelper)
+      - name: drbd_transport_tcp
       - name: nbd
   kubelet:
     defaultRuntimeSeccompProfileEnabled: true
     disableManifestsDirectory: true
     extraConfig:
+      maxPods: 150
       serializeImagePulls: false
-    image: ghcr.io/siderolabs/kubelet:v1.35.4
+      shutdownGracePeriod: 90s
+      shutdownGracePeriodCriticalPods: 60s
+    image: ghcr.io/siderolabs/kubelet:v1.36.2
     nodeIP:
       validSubnets:
         - ref+op://area0/talos/CLUSTER_NODE_CIDR
-  network:
-    disableSearchDomain: true
-    nameservers:
-      - ref+op://area0/talos/CLUSTER_NAMESERVER
   sysctls:
     fs.inotify.max_user_instances: "8192"
     fs.inotify.max_user_watches: "1048576"
@@ -90,13 +94,13 @@ cluster:
       rules:
         - level: Metadata
     certSANs:
-      - ref+op://area0/talos/CLUSTER_ENDPOINT_HOST
       - ref+op://area0/talos/CLUSTER_ENDPOINT_VIP
+      - ref+op://area0/talos/CLUSTER_ENDPOINT_HOST
     disablePodSecurityPolicy: true
     extraArgs:
       enable-aggregator-routing: "true"
       feature-gates: HPAScaleToZero=true
-    image: registry.k8s.io/kube-apiserver:v1.35.4
+    image: registry.k8s.io/kube-apiserver:v1.36.2
   {% endif %}
   ca:
     crt: ref+op://area0/talos/CLUSTER_CA_CRT
@@ -104,16 +108,14 @@ cluster:
     key: ref+op://area0/talos/CLUSTER_CA_KEY
     {% endif %}
   clusterName: ref+op://area0/talos/CLUSTER_NAME
+  controlPlane:
+    endpoint: ref+op://area0/talos/CLUSTER_ENDPOINT_URL
   {% if ENV.CONTROLPLANE %}
   controllerManager:
     extraArgs:
       bind-address: 0.0.0.0
       feature-gates: HPAScaleToZero=true
-    image: registry.k8s.io/kube-controller-manager:v1.35.4
-  {% endif %}
-  controlPlane:
-    endpoint: ref+op://area0/talos/CLUSTER_ENDPOINT_URL
-  {% if ENV.CONTROLPLANE %}
+    image: registry.k8s.io/kube-controller-manager:v1.36.2
   coreDNS:
     disabled: true
   {% endif %}
@@ -146,7 +148,7 @@ cluster:
   {% if ENV.CONTROLPLANE %}
   proxy:
     disabled: true
-    image: registry.k8s.io/kube-proxy:v1.35.4
+    image: registry.k8s.io/kube-proxy:v1.36.2
   scheduler:
     config:
       apiVersion: kubescheduler.config.k8s.io/v1
@@ -160,14 +162,14 @@ cluster:
           pluginConfig:
             - name: PodTopologySpread
               args:
-                defaultingType: List
                 defaultConstraints:
                   - maxSkew: 1
                     topologyKey: kubernetes.io/hostname
                     whenUnsatisfiable: ScheduleAnyway
+                defaultingType: List
     extraArgs:
       bind-address: 0.0.0.0
-    image: registry.k8s.io/kube-scheduler:v1.35.4
+    image: registry.k8s.io/kube-scheduler:v1.36.2
   {% endif %}
   secret: ref+op://area0/talos/CLUSTER_SECRET
   {% if ENV.CONTROLPLANE %}
@@ -178,5 +180,32 @@ cluster:
   token: ref+op://area0/talos/CLUSTER_TOKEN
 ---
 apiVersion: v1alpha1
+kind: BondConfig
+name: bond0
+links:
+  - net0
+bondMode: active-backup
+mtu: 1500
+---
+apiVersion: v1alpha1
 kind: DHCPv4Config
-name: ethSel0
+name: bond0
+clientIdentifier: mac
+---
+apiVersion: v1alpha1
+kind: RawVolumeConfig
+name: miroir
+provisioning:
+  diskSelector:
+    match: disk.model == "Portable SSD T5" && !system_disk
+  minSize: 900GB
+---
+apiVersion: v1alpha1
+kind: ResolverConfig
+nameservers:
+  - address: ref+op://area0/talos/CLUSTER_NAMESERVER
+---
+apiVersion: v1alpha1
+kind: WatchdogTimerConfig
+device: /dev/watchdog0
+timeout: 5m

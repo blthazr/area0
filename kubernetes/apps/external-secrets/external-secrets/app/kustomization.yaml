@@ -5,5 +5,3 @@ kind: Kustomization
 resources:
   - ./helm-release.yaml
   - ./oci-repository.yaml
-  - ./pod-disruption-budget.yaml
-  - ./observability

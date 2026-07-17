@@ -19,7 +19,7 @@ spec:
               memory: 2Gi
             requests:
               cpu: 100m
-        replicas: ${REPLICAS:=1}
+        replicas: ${PROXY_REPLICAS:=1}
       envoyService:
         externalTrafficPolicy: Cluster
     type: Kubernetes

@@ -48,13 +48,6 @@ spec:
                   - "ALL"
               readOnlyRootFilesystem: true
     defaultPodOptions:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: node-role.kubernetes.io/control-plane
-                    operator: DoesNotExist
       securityContext:
         fsGroup: ${APP_PGID:=1000}
         fsGroupChangePolicy: OnRootMismatch

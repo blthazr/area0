@@ -1,17 +1,14 @@
+set default-list
 set default-script
 set no-exit-message
 set quiet
 set script-interpreter := ['bash', '-euo', 'pipefail']
 set shell := ['bash', '-euo', 'pipefail', '-c']
 
-nodes := `talosctl config info -o yaml | yq -e -r '.nodes | join (" ")'`
+nodes := `find ../infrastructure/talos/nodes -maxdepth 1 -name '*.yaml.j2' -exec basename {} .yaml.j2 \; | tr '\n' ' '`
 controller := `talosctl config info -o yaml | yq -e -r '.endpoints[]' | shuf -n 1`
 
-[private]
-default:
-    just -l bootstrap
-
-# [confirm('Bootstrap cluster? [y|N]')]
+[confirm('Bootstrap cluster? [y|N]')]
 [doc('Bootstrap the Talos cluster')]
 cluster: talos kubernetes (kubeconfig "node") base apps kubeconfig
 
@@ -37,10 +34,8 @@ kubernetes:
     done
 
 kubeconfig lb="cilium":
-    just log info "Running stage..." "stage" "{{ recipe_name() }}"
-
+    just log info "Running stage..." "stage" "{{ recipe_name() }}" "lb" "{{ lb }}"
     context_name=`talosctl config info -o yaml | yq -e -r '.context'`
-
     if ! talosctl kubeconfig -n "{{ controller }}" -f --force-context-name $context_name {{ justfile_dir() }}; then
         just log fatal "Failed to fetch kubeconfig" "stage" "{{ recipe_name() }}"
     fi
@@ -73,7 +68,7 @@ ready:
     just log info "Running stage..." "stage" "{{ recipe_name() }}"
     if ! kubectl wait nodes --for=condition=Ready=True --all --timeout=10s &>/dev/null; then
         until kubectl wait nodes --for=condition=Ready=False --all --timeout=10s &>/dev/null; do
-            just log info "Nodes not available, waiting for nodes to be available. Retrying in 5 seconds..." "stage" "{{ recipe_name() }}"
+            just log info "Waiting for nodes to be available. Retrying in 5 seconds..." "stage" "{{ recipe_name() }}"
             sleep 5
         done
     fi

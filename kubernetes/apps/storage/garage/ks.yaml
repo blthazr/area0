@@ -9,6 +9,9 @@ spec:
   interval: 1h
   path: ./kubernetes/apps/storage/garage/operator
   prune: true
+  postBuild:
+    substitute:
+      REPLICAS: "1"
   sourceRef:
     kind: GitRepository
     name: flux-system

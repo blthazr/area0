@@ -6,4 +6,3 @@ resources:
   - ./helm-release.yaml
   - ./oci-repository.yaml
   - ./probes.yaml
-  - ./observability

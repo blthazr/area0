@@ -19,6 +19,4 @@ spec:
       servicemonitor:
         enabled: true
     webhook:
-      podDisruptionBudget:
-        enabled: true
-      replicaCount: 2
+      replicaCount: ${REPLICAS:=1}

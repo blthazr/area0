@@ -13,7 +13,7 @@ spec:
   path: ./kubernetes/apps/network/cloudflare-tunnel/app
   postBuild:
     substitute:
-      REPLICAS: "2"
+      REPLICAS: "1"
     substituteFrom:
       - name: cloudflare-tunnel-id-secret
         kind: Secret

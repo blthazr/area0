@@ -22,6 +22,8 @@ spec:
   interval: 1h
   path: ./kubernetes/apps/cert-manager/cert-manager/app
   postBuild:
+    substitute:
+      REPLICAS: "1"
     substituteFrom:
       - name: cluster-secrets
         kind: Secret

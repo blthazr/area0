@@ -10,6 +10,7 @@ spec:
     name: garage-operator
   interval: 1h
   values:
+    replicaCount: ${REPLICAS:=1}
     resources:
       limits:
         memory: 256Mi

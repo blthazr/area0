@@ -8,6 +8,9 @@ metadata:
 spec:
   interval: 1h
   path: ./kubernetes/apps/kube-system/coredns/app
+  postBuild:
+    substitute:
+      REPLICAS: "1"
   prune: true
   sourceRef:
     kind: GitRepository

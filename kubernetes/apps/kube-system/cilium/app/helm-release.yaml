@@ -21,6 +21,7 @@ spec:
       exclusive: false
     dashboards:
       enabled: true
+    devices: bond+
     enableIPv4BIGTCP: true
     endpointRoutes:
       enabled: true
@@ -49,7 +50,7 @@ spec:
         enabled: true
         serviceMonitor:
           enabled: true
-      replicas: 2
+      replicas: ${REPLICAS:=1}
       rollOutPods: true
     pmtuDiscovery:
       enabled: true
