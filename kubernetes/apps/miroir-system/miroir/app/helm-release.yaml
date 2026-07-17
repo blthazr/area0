@@ -15,7 +15,6 @@ spec:
         enabled: true
         grafanaOperator:
           enabled: true
-          folder: Miroir
           matchLabels:
             dashboards: grafana
       podMonitor:
@@ -24,8 +23,10 @@ spec:
         enabled: true
     nodes:
       k8s-0:
-        backend: lvmthin
-        device: /dev/disk/by-partlabel/r-miroir
+        pools:
+          default:
+            backend: lvmthin
+            device: /dev/disk/by-partlabel/r-miroir
     storageClasses:
       - name: miroir-local
         isDefault: true
