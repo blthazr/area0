@@ -5,8 +5,6 @@ kind: TalosUpgrade
 metadata:
   name: talos
 spec:
-  drain:
-    enabled: false
   policy:
     rebootMode: powercycle
   talos:
