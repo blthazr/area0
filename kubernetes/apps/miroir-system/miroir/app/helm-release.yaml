@@ -21,14 +21,4 @@ spec:
         enabled: true
       prometheusRule:
         enabled: true
-    nodes:
-      k8s-0:
-        pools:
-          default:
-            backend: lvmthin
-            device: /dev/disk/by-partlabel/r-miroir
-    storageClasses:
-      - name: miroir-local
-        isDefault: true
-    volumeSnapshotClasses:
-      - name: miroir-snap
+    replicaCount: ${REPLICAS:=1}
