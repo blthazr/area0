@@ -7,8 +7,8 @@ metadata:
   namespace: &namespace observability
 spec:
   dependsOn:
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
+    - name: miroir
+      namespace: miroir-system
   interval: 1h
   path: ./kubernetes/apps/observability/kube-prometheus-stack/app
   postBuild:

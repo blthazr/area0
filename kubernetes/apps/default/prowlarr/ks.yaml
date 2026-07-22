@@ -9,8 +9,8 @@ spec:
   dependsOn:
     - name: cloudnative-pg-cluster
       namespace: database
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
+    - name: miroir
+      namespace: miroir-system
   interval: 1h
   path: ./kubernetes/apps/default/prowlarr/app
   postBuild:

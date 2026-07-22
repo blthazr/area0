@@ -24,10 +24,10 @@ metadata:
   namespace: &namespace observability
 spec:
   dependsOn:
+    - name: miroir
+      namespace: miroir-system
     - name: grafana-operator
       namespace: *namespace
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
   interval: 1h
   path: ./kubernetes/apps/observability/grafana-operator/instance
   postBuild:

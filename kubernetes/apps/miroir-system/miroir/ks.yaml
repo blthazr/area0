@@ -3,15 +3,18 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: garage-operator
-  namespace: &namespace storage
+  name: miroir
+  namespace: &namespace miroir-system
 spec:
+  dependsOn:
+    - name: snapshot-controller
+      namespace: kube-system
   interval: 1h
-  path: ./kubernetes/apps/storage/garage/operator
-  prune: true
+  path: ./kubernetes/apps/miroir-system/miroir/app
   postBuild:
     substitute:
       REPLICAS: "1"
+  prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -23,25 +26,14 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app garage-gateway
-  namespace: &namespace storage
+  name: miroir-config
+  namespace: &namespace miroir-system
 spec:
-  components:
-    - ../../../../components/volsync
   dependsOn:
-    - name: garage-operator
+    - name: miroir
       namespace: *namespace
-    - name: volsync
-      namespace: storage
   interval: 1h
-  path: ./kubernetes/apps/storage/garage/gateway
-  postBuild:
-    substitute:
-      APP: *app
-      VOLSYNC_PVC: "metadata-garage-gateway-0"
-    substituteFrom:
-      - name: cluster-secrets
-        kind: Secret
+  path: ./kubernetes/apps/miroir-system/miroir/config
   prune: true
   sourceRef:
     kind: GitRepository

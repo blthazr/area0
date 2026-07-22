@@ -13,7 +13,7 @@ spec:
     cacheAccessModes:
       - "${VOLSYNC_CACHE_ACCESSMODES:=ReadWriteOnce}"
     cacheCapacity: "${VOLSYNC_CAPACITY:=5Gi}"
-    cacheStorageClassName: "${VOLSYNC_CACHE_SNAPSHOTCLASS:=ceph-block}"
+    cacheStorageClassName: "${VOLSYNC_CACHE_SNAPSHOTCLASS:=miroir-local}"
     capacity: "${VOLSYNC_CAPACITY:=5Gi}"
     cleanupCachePVC: true
     cleanupTempPVC: true
@@ -24,7 +24,7 @@ spec:
       runAsGroup: ${VOLSYNC_PGID:=1000}
       runAsUser: ${VOLSYNC_PUID:=1000}
     repository: "${APP}-volsync-minio-secret"
-    storageClassName: "${VOLSYNC_STORAGECLASS:=ceph-block}"
-    volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:=csi-ceph-blockpool}"
+    storageClassName: "${VOLSYNC_STORAGECLASS:=miroir-local}"
+    volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:=miroir-snap}"
   trigger:
     manual: restore-once

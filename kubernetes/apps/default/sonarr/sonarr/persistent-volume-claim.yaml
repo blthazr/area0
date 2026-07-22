@@ -9,4 +9,4 @@ spec:
   resources:
     requests:
       storage: "${APP_PVC_CAPACITY:=5Gi}"
-  storageClassName: "${APP_PVC_STORAGECLASS:=ceph-block}"
+  storageClassName: "${APP_PVC_STORAGECLASS:=miroir-local}"
