@@ -13,6 +13,9 @@ spec:
       namespace: miroir-system
   interval: 1h
   path: ./kubernetes/apps/storage/volsync/app
+  postBuild:
+    substitute:
+      REPLICAS: "1"
   prune: true
   sourceRef:
     kind: GitRepository
