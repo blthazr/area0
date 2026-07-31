@@ -49,11 +49,11 @@ machine:
     wipe: false
   kernel:
     modules:
-      - name: dm_thin_pool           # miroir lvmthin backend
-      - name: drbd                   # miroir replication
+      - name: dm_thin_pool            # miroir lvmthin backend
+      - name: drbd                    # miroir drbd9 replication
         parameters:
-          - usermode_helper=disabled # required on Talos (no usermodehelper)
-      - name: drbd_transport_tcp
+          - usermode_helper=disabled
+      - name: drbd_transport_tcp      # miroir drbd9 replication
       - name: nbd
   kubelet:
     defaultRuntimeSeccompProfileEnabled: true
@@ -61,8 +61,6 @@ machine:
     extraConfig:
       maxPods: 150
       serializeImagePulls: false
-      shutdownGracePeriod: 90s
-      shutdownGracePeriodCriticalPods: 60s
     image: ghcr.io/siderolabs/kubelet:v1.36.2
     nodeIP:
       validSubnets:
@@ -95,7 +93,6 @@ cluster:
         - level: Metadata
     certSANs:
       - ref+op://area0/talos/CLUSTER_ENDPOINT_VIP
-      - ref+op://area0/talos/CLUSTER_ENDPOINT_HOST
     disablePodSecurityPolicy: true
     extraArgs:
       enable-aggregator-routing: "true"
@@ -150,23 +147,6 @@ cluster:
     disabled: true
     image: registry.k8s.io/kube-proxy:v1.36.2
   scheduler:
-    config:
-      apiVersion: kubescheduler.config.k8s.io/v1
-      kind: KubeSchedulerConfiguration
-      profiles:
-        - schedulerName: default-scheduler
-          plugins:
-            score:
-              disabled:
-                - name: ImageLocality
-          pluginConfig:
-            - name: PodTopologySpread
-              args:
-                defaultConstraints:
-                  - maxSkew: 1
-                    topologyKey: kubernetes.io/hostname
-                    whenUnsatisfiable: ScheduleAnyway
-                defaultingType: List
     extraArgs:
       bind-address: 0.0.0.0
     image: registry.k8s.io/kube-scheduler:v1.36.2
@@ -191,19 +171,6 @@ apiVersion: v1alpha1
 kind: DHCPv4Config
 name: bond0
 clientIdentifier: mac
----
-apiVersion: v1alpha1
-kind: RawVolumeConfig
-name: miroir
-provisioning:
-  diskSelector:
-    match: disk.model == "Portable SSD T5" && !system_disk
-  minSize: 900GB
----
-apiVersion: v1alpha1
-kind: ResolverConfig
-nameservers:
-  - address: ref+op://area0/talos/CLUSTER_NAMESERVER
 ---
 apiVersion: v1alpha1
 kind: WatchdogTimerConfig
