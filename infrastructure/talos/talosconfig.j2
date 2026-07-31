@@ -1,0 +1,10 @@
+context: {{ ENV.CONTEXT }}
+contexts:
+    {{ ENV.CONTEXT }}:
+        endpoints:
+            - k8s-0
+        nodes:
+            - k8s-0
+        ca: ref+op://{{ ENV.OP_VAULT }}/{{ ENV.OP_ITEM }}/MACHINE_CA_CRT
+        crt: ref+op://{{ ENV.OP_VAULT }}/{{ ENV.OP_ITEM }}/ADMIN_CRT
+        key: ref+op://{{ ENV.OP_VAULT }}/{{ ENV.OP_ITEM }}/ADMIN_KEY
