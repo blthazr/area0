@@ -28,3 +28,11 @@ kind: LinkAliasConfig
 name: net0
 selector:
   match: mac(link.permanent_addr).startsWith("2c:f0:5d:5d:")
+---
+apiVersion: v1alpha1
+kind: UserVolumeConfig
+name: local-hostpath
+provisioning:
+  diskSelector:
+    match: system_disk
+  maxSize: 256GiB
