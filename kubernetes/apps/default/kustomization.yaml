@@ -8,5 +8,6 @@ components:
   - ../../components/cluster-secrets
 resources:
   - ./namespace.yaml
+  - ./mealie/ks.yaml
   - ./plex/ks.yaml
   - ./tautulli/ks.yaml
