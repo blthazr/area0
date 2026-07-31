@@ -8,3 +8,4 @@ components:
   - ../../components/cluster-secrets
 resources:
   - ./namespace.yaml
+  - ./cloudnative-pg/ks.yaml

@@ -37,7 +37,7 @@ spec:
   path: ./kubernetes/apps/database/cloudnative-pg/cluster
   postBuild:
     substitute:
-      INSTANCES: "2"
+      INSTANCES: "1"
     substituteFrom:
       - name: cluster-secrets
         kind: Secret
