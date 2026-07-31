@@ -8,6 +8,9 @@ components:
   - ../../components/cluster-secrets
 resources:
   - ./namespace.yaml
+  - ./persistent-volume-claim.yaml
+  - ./persistent-volume.yaml
+  - ./storage-class.yaml
   - ./actual/ks.yaml
   - ./mealie/ks.yaml
   - ./paperless/ks.yaml
