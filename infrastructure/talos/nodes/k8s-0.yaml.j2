@@ -15,6 +15,8 @@ machine:
           - rw
         source: /var/mnt/media
         type: bind
+  nodeLabels:
+    node.kubernetes.io/gpu: "true"
   type: controlplane
 ---
 apiVersion: v1alpha1
