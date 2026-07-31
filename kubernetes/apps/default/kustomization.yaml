@@ -11,5 +11,6 @@ resources:
   - ./actual/ks.yaml
   - ./mealie/ks.yaml
   - ./paperless/ks.yaml
+  - ./pinchflat/ks.yaml
   - ./plex/ks.yaml
   - ./tautulli/ks.yaml
