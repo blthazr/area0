@@ -9,5 +9,4 @@ parameters:
   csi.storage.k8s.io/fstype: ext4
   miroir.home-operations.com/replicas: "1"
 provisioner: miroir.home-operations.com
-reclaimPolicy: Delete
 volumeBindingMode: WaitForFirstConsumer
