@@ -8,3 +8,4 @@ components:
   - ../../components/cluster-secrets
 resources:
   - ./namespace.yaml
+  - ./tautulli/ks.yaml
