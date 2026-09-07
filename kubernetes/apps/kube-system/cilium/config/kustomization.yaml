@@ -6,6 +6,5 @@ resources:
   - ./cilium-bgp-advertisement.yaml
   - ./cilium-bgp-cluster-config.yaml
   - ./cilium-bgp-peer-config.yaml
-  - ./cilium-l2-announcement-policy-shard.yaml
   - ./cilium-load-balancer-ip-pool.yaml
   - ./service.yaml
