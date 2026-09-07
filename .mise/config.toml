@@ -1,0 +1,29 @@
+[env]
+# file paths
+KUBECONFIG = "{{config_root}}/kubeconfig"
+MINIJINJA_CONFIG_FILE = "{{config_root}}/.minijinja.toml"
+TALOSCONFIG = "{{config_root}}/talos/talosconfig"
+
+# just
+JUST_UNSTABLE = "1"
+
+# dotenv
+_.file = ["{{ config_root }}/.secrets.env"]
+
+[tools]
+"aqua:a8m/envsubst" = "1.4.3"
+"aqua:casey/just" = "1.58.0"
+"aqua:charmbracelet/gum" = "2.0.0"
+"aqua:evilmartians/lefthook" = "2.1.12"
+"aqua:fluxcd/flux2" = "2.9.5"
+"aqua:helm/helm" = "4.2.4"
+"aqua:helmfile/helmfile" = "1.7.4"
+"aqua:jqlang/jq" = "1.8.2"
+"aqua:kubernetes-sigs/kustomize" = "5.8.1"
+"aqua:kubernetes/kubernetes/kubectl" = "1.37.0"
+"aqua:mikefarah/yq" = "4.53.6"
+"aqua:siderolabs/talos" = "v1.14.0"
+"github:mitsuhiko/minijinja" = "2.24.0"
+
+[hooks]
+postinstall = ["lefthook install"]

@@ -14,12 +14,6 @@ talosconfig
 *.env
 *.key
 
-# Taskfile
-/.task/
-
-# Brew
-Brewfile.lock.json
-
 # Shards
 *-shard
 *-shard.*

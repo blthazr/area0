@@ -1,0 +1,167 @@
+---
+version: v1alpha1
+machine:
+  ca:
+    crt: op://area0/talos/MACHINE_CA_CRT
+  features:
+    apidCheckExtKeyUsage: true
+    diskQuotaSupport: true
+    rbac: true
+  token: op://area0/talos/MACHINE_TOKEN
+cluster:
+  ca:
+    crt: op://area0/talos/CLUSTER_CA_CRT
+  clusterName: op://area0/talos/CLUSTER_NAME
+  controlPlane:
+    endpoint: https://k8s.internal:6443
+  token: op://area0/talos/CLUSTER_TOKEN
+---
+apiVersion: v1alpha1
+kind: BondConfig
+name: bond0
+links:
+  - net0
+bondMode: active-backup
+mtu: 9000
+---
+apiVersion: v1alpha1
+kind: CRICustomizationConfig
+name: containerd
+content: |
+  [plugins."io.containerd.cri.v1.images"]
+    discard_unpacked_layers = false
+  [plugins."io.containerd.cri.v1.runtime"]
+    device_ownership_from_security_context = true
+---
+apiVersion: v1alpha1
+kind: DHCPv4Config
+name: bond0
+clientIdentifier: mac
+---
+apiVersion: v1alpha1
+kind: DiscoveryIdentityConfig
+clusterID: op://area0/talos/CLUSTER_ID
+clusterSecret: op://area0/talos/CLUSTER_SECRET
+---
+apiVersion: v1alpha1
+kind: DiscoveryServiceConfig
+name: default
+endpoint: https://discovery.talos.dev/
+---
+apiVersion: v1alpha1
+kind: EtcFileConfig
+name: nfsmount.conf
+mode: 0o644
+contents: |
+  [ NFSMount_Global_Options ]
+  nfsvers=4.0
+  hard=True
+  nconnect=8
+  noatime=True
+  rsize=1048576
+  wsize=1048576
+---
+apiVersion: v1alpha1
+kind: FilesystemScrubConfig
+interval: 168h0m0s
+---
+apiVersion: v1alpha1
+kind: FilesystemTrimConfig
+interval: 168h0m0s
+---
+apiVersion: v1alpha1
+kind: KernelModuleConfig
+name: dm_thin_pool
+---
+apiVersion: v1alpha1
+kind: KernelModuleConfig
+name: drbd
+parameters:
+  - usermode_helper=disabled
+---
+apiVersion: v1alpha1
+kind: KernelModuleConfig
+name: drbd_transport_tcp
+---
+apiVersion: v1alpha1
+kind: KernelModuleConfig
+name: nbd
+---
+apiVersion: v1alpha1
+kind: KubeletConfig
+config:
+  crashLoopBackOff:
+    maxContainerRestartPeriod: 60s
+  imageMaximumGCAge: 168h
+  maxParallelImagePulls: 3
+  serializeImagePulls: false
+  shutdownGracePeriod: 90s
+  shutdownGracePeriodCriticalPods: 60s
+defaultRuntimeSeccompProfileEnabled: true
+image: ghcr.io/siderolabs/kubelet:v1.37.0
+---
+apiVersion: v1alpha1
+kind: KubeNetworkConfig
+dnsDomain: cluster.local
+podSubnets:
+  - 10.42.0.0/16
+serviceSubnets:
+  - 10.43.0.0/16
+---
+apiVersion: v1alpha1
+kind: KubeNodeConfig
+labels:
+  node.kubernetes.io/gpu: "true"
+nodeIP:
+  validSubnets:
+    - op://area0/talos/CLUSTER_NODE_CIDR
+---
+apiVersion: v1alpha1
+kind: KubePrismConfig
+port: 7445
+---
+apiVersion: v1alpha1
+kind: ResolverConfig
+hostDNS:
+  enabled: true
+  forwardKubeDNSToHost: true # Requires Cilium socketLB features
+  resolveMemberNames: true
+searchDomains:
+  domains: []
+---
+apiVersion: v1alpha1
+kind: SysctlConfig
+params:
+  fs.inotify.max_user_instances: "8192"       # Watchdog
+  fs.inotify.max_user_watches: "1048576"      # Watchdog
+  net.core.rmem_max: "7500000"                # Cloudflared | QUIC
+  net.core.wmem_max: "7500000"                # Cloudflared | QUIC
+  net.ipv4.ip_local_port_range: 1024 65535    # Increase port ranges
+  net.ipv4.neigh.default.gc_thresh1: "4096"   # Prevent ARP cache overflows
+  net.ipv4.neigh.default.gc_thresh2: "8192"   # Prevent ARP cache overflows
+  net.ipv4.neigh.default.gc_thresh3: "16384"  # Prevent ARP cache overflows
+  net.ipv4.ping_group_range: 0 2147483647     # Allow ping for all users
+  net.ipv4.tcp_fastopen: "3"                  # TCP Fast Open
+  net.ipv4.tcp_fin_timeout: 15                # Faster timeouts
+  net.ipv4.tcp_slow_start_after_idle: "0"     # Preserve congestion window after idle
+  user.max_user_namespaces: "11255"           # User namespaces
+  vm.nr_hugepages: "1024"                     # PostgreSQL
+---
+apiVersion: v1alpha1
+kind: UnattendedInstallConfig
+installer:
+  image: factory.talos.dev/metal-installer/{{ schematic }}:v1.14.0
+provisioning:
+  wipe: false
+---
+apiVersion: v1alpha1
+kind: VLANConfig
+name: bond0.30
+mtu: 9000
+parent: bond0
+vlanID: 30
+---
+apiVersion: v1alpha1
+kind: WatchdogTimerConfig
+device: /dev/watchdog0
+timeout: 5m
