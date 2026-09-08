@@ -1,16 +1,19 @@
 ---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/core/service_v1.json
 apiVersion: v1
 kind: Service
 metadata:
   name: kube-api
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: "k8s.${SECRET_DOMAIN}"
     lbipam.cilium.io/ips: "${SVC_K8S_API}"
 spec:
-  type: LoadBalancer
   externalTrafficPolicy: Local
+  ports:
+    - name: https
+      port: 6443
+      protocol: TCP
+      targetPort: 6443
   selector:
     k8s-app: kube-apiserver
     tier: control-plane
-  ports:
-    - port: 6443
+  type: LoadBalancer

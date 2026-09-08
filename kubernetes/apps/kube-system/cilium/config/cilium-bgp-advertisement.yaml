@@ -13,7 +13,8 @@ spec:
         matchExpressions:
           - key: somekey
             operator: NotIn
-            values: ["never-used-value"]
+            values:
+              - never-used-value
       service:
         addresses:
           - LoadBalancerIP

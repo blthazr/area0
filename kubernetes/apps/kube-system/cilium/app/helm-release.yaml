@@ -11,11 +11,16 @@ spec:
   interval: 1h
   values:
     autoDirectNodeRoutes: true
-    bpf:
-      masquerade: true
-    bpfClockProbe: true
+    bandwidthManager:
+      bbr: true
+      enabled: true
     bgpControlPlane:
       enabled: true
+    bpf:
+      datapathMode: veth
+      masquerade: true
+      preallocateMaps: true
+    bpfClockProbe: true
     cgroup:
       automount:
         enabled: false
@@ -29,6 +34,8 @@ spec:
     endpointRoutes:
       enabled: true
     envoy:
+      enabled: false
+    gatewayAPI:
       enabled: false
     hubble:
       enabled: false
@@ -84,6 +91,8 @@ spec:
           - NET_ADMIN
           - SYS_ADMIN
           - SYS_RESOURCE
+          - PERFMON
+          - BPF
     socketLB:
       enabled: true
       hostNamespaceOnly: true
