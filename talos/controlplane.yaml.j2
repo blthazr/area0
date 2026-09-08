@@ -88,6 +88,7 @@ apiVersion: v1alpha1
 kind: KubeNodeConfig
 labels:
   node-role.kubernetes.io/control-plane: ""
+  node.kubernetes.io/gpu: "true"
 ---
 apiVersion: v1alpha1
 kind: KubeProxyConfig
@@ -107,6 +108,14 @@ allowedRoles:
 allowedKubernetesNamespaces:
   - actions-runner-system
   - system-upgrade
+---
+apiVersion: v1alpha1
+kind: RawVolumeConfig
+name: miroir
+provisioning:
+  diskSelector:
+    match: disk.model == "CT2000P310SSD8" && !system_disk
+  minSize: 1TB
 ---
 apiVersion: v1alpha1
 kind: UnattendedInstallConfig
