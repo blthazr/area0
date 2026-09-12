@@ -1,0 +1,20 @@
+# Ansible Runtime
+*~
+._*
+*.log
+*.retry
+*.swp
+*.tmp
+
+# Ansible Cache
+/.ansible/
+
+# Ansible Collections
+collections/*
+
+# Ansible Roles
+roles-community/*
+
+# Ansible Dev
+*-dev
+*-dev.*

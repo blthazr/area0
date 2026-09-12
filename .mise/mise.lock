@@ -22,6 +22,29 @@ checksum = "md5:d0060b1585156176354f96cd570a4cc1"
 url = "https://github.com/a8m/envsubst/releases/download/v1.4.3/envsubst-Darwin-arm64"
 url_api = "https://api.github.com/repos/a8m/envsubst/releases/assets/232842595"
 
+[[tools."aqua:astral-sh/uv"]]
+version = "0.12.10"
+backend = "aqua:astral-sh/uv"
+specifiers = ["0.12.10"]
+
+[tools."aqua:astral-sh/uv"."platforms.linux-arm64"]
+checksum = "sha256:9ff6b9d4665edcdd3a88dcc73cd1eb641754deb927f14e8c62ebfde6bf4f5f5e"
+url = "https://github.com/astral-sh/uv/releases/download/0.12.10/uv-aarch64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/545034356"
+provenance = "github-attestations"
+
+[tools."aqua:astral-sh/uv"."platforms.linux-x64"]
+checksum = "sha256:173d95a0c32d18c896c46ba6fafbf3cf9c14ab74b033f81b76c883ef492a976b"
+url = "https://github.com/astral-sh/uv/releases/download/0.12.10/uv-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/545034465"
+provenance = "github-attestations"
+
+[tools."aqua:astral-sh/uv"."platforms.macos-arm64"]
+checksum = "sha256:51c6170e8e3a01cef9f33b94f582b7b81ac65046f55d40afb35f9cff5a68c179"
+url = "https://github.com/astral-sh/uv/releases/download/0.12.10/uv-aarch64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/545034336"
+provenance = "github-attestations"
+
 [[tools."aqua:casey/just"]]
 version = "1.58.0"
 backend = "aqua:casey/just"
@@ -276,3 +299,18 @@ url_api = "https://api.github.com/repos/mitsuhiko/minijinja/releases/assets/5118
 checksum = "sha256:a0f1525bcac485a80313cec7e835ed03335bd55bc14dc5cf070c7eb9789d9905"
 url = "https://github.com/mitsuhiko/minijinja/releases/download/2.24.0/minijinja-cli-aarch64-apple-darwin.tar.xz"
 url_api = "https://api.github.com/repos/mitsuhiko/minijinja/releases/assets/511868818"
+
+[[tools."pipx:ansible"]]
+version = "14.3.1"
+backend = "pipx:ansible"
+specifiers = ["14.3.1"]
+
+[[tools."pipx:ansible-core"]]
+version = "2.21.3"
+backend = "pipx:ansible-core"
+specifiers = ["2.21.3"]
+
+[[tools."pipx:ansible-lint"]]
+version = "26.8.0"
+backend = "pipx:ansible-lint"
+specifiers = ["26.8.0"]

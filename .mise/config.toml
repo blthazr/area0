@@ -4,14 +4,21 @@ KUBECONFIG = "{{config_root}}/kubeconfig"
 MINIJINJA_CONFIG_FILE = "{{config_root}}/.minijinja.toml"
 TALOSCONFIG = "{{config_root}}/talos/talosconfig"
 
-# just
-JUST_UNSTABLE = "1"
-
 # dotenv
 _.file = ["{{ config_root }}/.secrets.env"]
 
+# python
+_.python.venv = { path = "{{config_root}}/.venv", create = true }
+
+# just
+JUST_UNSTABLE = "1"
+
+[settings]
+pipx.uvx = true
+
 [tools]
 "aqua:a8m/envsubst" = "1.4.3"
+"aqua:astral-sh/uv" = "0.12.10"
 "aqua:casey/just" = "1.58.0"
 "aqua:charmbracelet/gum" = "2.0.0"
 "aqua:evilmartians/lefthook" = "2.1.12"
@@ -24,6 +31,9 @@ _.file = ["{{ config_root }}/.secrets.env"]
 "aqua:mikefarah/yq" = "4.53.6"
 "aqua:siderolabs/talos" = "v1.14.0"
 "github:mitsuhiko/minijinja" = "2.24.0"
+"pipx:ansible-core" = "2.21.3"
+"pipx:ansible-lint" = "26.8.0"
+"pipx:ansible" = "14.3.1"
 
 [hooks]
 postinstall = ["lefthook install"]
