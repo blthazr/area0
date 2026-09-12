@@ -8,5 +8,5 @@ components:
   - ../../components/cluster-secrets
 resources:
   - ./namespace.yaml
-  - ./garage.yaml
+  - ./garage/ks.yaml
   - ./miroir/ks.yaml
