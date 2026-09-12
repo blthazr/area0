@@ -10,3 +10,4 @@ resources:
   - ./namespace.yaml
   - ./garage/ks.yaml
   - ./miroir/ks.yaml
+  - ./volsync/ks.yaml
