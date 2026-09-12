@@ -1,0 +1,15 @@
+---
+apiVersion: garage.rajsingh.info/v1beta2
+kind: GarageCluster
+metadata:
+  name: garage-gateway
+spec:
+  connectTo:
+    adminApiEndpoint: "http://${GARAGE_ADDRESS}:3903"
+    adminTokenSecretRef:
+      name: garage-gateway-secret
+      key: GARAGE_ADMIN_TOKEN
+  network:
+    rpcSecretRef:
+      name: garage-gateway-secret
+      key: GARAGE_RPC_SECRET
