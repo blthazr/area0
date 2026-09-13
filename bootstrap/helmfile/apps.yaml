@@ -65,10 +65,15 @@ releases:
       - name: replicaCount
         value: 1
 
+  - name: spegel
+    namespace: kube-system
+    needs:
+      - kube-system/coredns
+
   - name: cert-manager
     namespace: cert-manager
     needs:
-      - kube-system/coredns
+      - kube-system/spegel
     set:
       - name: webhook.replicaCount
         value: 1
