@@ -1,0 +1,57 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  packageRules: [
+    {
+      description: "Flux Operator Group",
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+      groupName: "flux-operator",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["/flux-operator/", "/flux-instance/"],
+      minimumGroupSize: 2,
+    },
+    {
+      description: "Kubernetes Group",
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+      groupName: "kubernetes",
+      matchDatasources: ["docker"],
+      matchPackageNames: [
+        "/kube-apiserver/",
+        "/kube-controller-manager/",
+        "/kube-proxy/",
+        "/kube-scheduler/",
+        "/kubelet/",
+      ],
+      minimumGroupSize: 5,
+    },
+    {
+      description: "Mise Tools Group",
+      groupName: "mise tools",
+      groupSlug: "mise-tools",
+      matchManagers: ["mise"],
+    },
+    {
+      description: "Rook-Ceph Group",
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+      groupName: "rook-ceph",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["/rook-ceph/", "/rook-ceph-cluster/"],
+      minimumGroupSize: 2,
+    },
+    {
+      description: "Talos Group",
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+      groupName: "talos",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["/installer/", "/talosctl/"],
+      minimumGroupSize: 2,
+    },
+  ],
+}
