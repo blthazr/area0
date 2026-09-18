@@ -5,6 +5,7 @@ kind: Service
 metadata:
   name: kube-api
   annotations:
+    external-dns.kubernetes.io/hostname: "k8s.${SECRET_DOMAIN}"
     lbipam.cilium.io/ips: "${SVC_K8S_API}"
 spec:
   externalTrafficPolicy: Local
