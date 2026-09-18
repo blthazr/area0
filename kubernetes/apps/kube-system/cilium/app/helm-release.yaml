@@ -35,8 +35,6 @@ spec:
       enabled: true
     envoy:
       enabled: false
-    gatewayAPI:
-      enabled: false
     hubble:
       enabled: false
     ipam:
@@ -91,8 +89,6 @@ spec:
           - NET_ADMIN
           - SYS_ADMIN
           - SYS_RESOURCE
-          - PERFMON
-          - BPF
     socketLB:
       enabled: true
       hostNamespaceOnly: true
