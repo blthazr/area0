@@ -1,0 +1,14 @@
+---
+# Areas
+area/bootstrap:
+  - changed-files:
+      - any-glob-to-any-file:
+          - bootstrap/**/*
+area/kubernetes:
+  - changed-files:
+      - any-glob-to-any-file:
+          - kubernetes/**/*
+area/talos:
+  - changed-files:
+      - any-glob-to-any-file:
+          - talos/**/*
