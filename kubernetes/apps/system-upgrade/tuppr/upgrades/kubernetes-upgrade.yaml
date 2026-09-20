@@ -5,6 +5,11 @@ kind: KubernetesUpgrade
 metadata:
   name: kubernetes
 spec:
+  healthChecks:
+    - apiVersion: ceph.rook.io/v1
+      kind: CephCluster
+      expr: |-
+        status.ceph.health in ['HEALTH_OK']
   kubernetes:
     # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
     version: v1.37.0

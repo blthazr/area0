@@ -5,6 +5,11 @@ kind: TalosUpgrade
 metadata:
   name: talos
 spec:
+  healthChecks:
+    - apiVersion: ceph.rook.io/v1
+      kind: CephCluster
+      expr: |-
+        status.ceph.health in ['HEALTH_OK']
   policy:
     rebootMode: powercycle
   talos:
