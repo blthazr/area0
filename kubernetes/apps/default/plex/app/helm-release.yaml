@@ -46,6 +46,8 @@ spec:
                   failureThreshold: 30
                   periodSeconds: 10
             resources:
+              claims:
+                - name: gpu
               limits:
                 memory: 16Gi
               requests:
@@ -57,6 +59,9 @@ spec:
                   - "ALL"
               readOnlyRootFilesystem: true
     defaultPodOptions:
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: plex
       securityContext:
         fsGroup: ${APP_PGID:=1000}
         fsGroupChangePolicy: OnRootMismatch
@@ -66,12 +71,16 @@ spec:
     persistence:
       config:
         existingClaim: "${VOLSYNC_PVC:=${APP}}"
+      config-cache:
+        existingClaim: "${APP_PVC}"
         globalMounts:
-          - path: /config/Library/Application Support/Plex Media Server
+          - path: /config/Library/Application Support/Plex Media Server/Cache
       tmpfs:
         advancedMounts:
           plex:
             app:
+              - path: /config/Library/Application Support/Plex Media Server/Logs
+                subPath: logs
               - path: /tmp
                 subPath: tmp
               - path: /transcode
