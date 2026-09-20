@@ -7,6 +7,7 @@ metadata:
   annotations:
     lbipam.cilium.io/ips: "${SVC_CNPG_CLUSTER}"
 spec:
+  externalTrafficPolicy: Local
   ports:
     - name: postgres
       port: 5432
