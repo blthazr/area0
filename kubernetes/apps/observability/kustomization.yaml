@@ -9,3 +9,4 @@ components:
 resources:
   - ./namespace.yaml
   - ./grafana-operator/ks.yaml
+  - ./kube-state-metrics/ks.yaml
