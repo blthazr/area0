@@ -36,7 +36,7 @@ spec:
     initContainers:
       - name: init-db
         envFrom: *envFrom
-        image: ghcr.io/home-operations/postgres-init:17.4@sha256:a9f405688344a8a6f718e2c344438342ad21540986aeb5ab5fa781831eb2c597
+        image: ghcr.io/home-operations/postgres-init:18.6@sha256:b6d3af974df781c673d37e49bdddfa14a6f5be28b18d2cb7713f0449bea4057b
     monitoring:
       serviceMonitor:
         enabled: true
