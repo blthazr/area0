@@ -10,4 +10,5 @@ resources:
   - ./namespace.yaml
   - ./actual/ks.yaml
   - ./mealie/ks.yaml
+  - ./plex/ks.yaml
   - ./tautulli/ks.yaml
