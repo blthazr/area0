@@ -8,4 +8,5 @@ components:
   - ../../components/cluster-secrets
 resources:
   - ./namespace.yaml
+  - ./miroir/ks.yaml
   - ./volsync/ks.yaml
