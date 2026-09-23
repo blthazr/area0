@@ -75,6 +75,13 @@ spec:
         existingClaim: "${APP_PVC}"
         globalMounts:
           - path: /config/Library/Application Support/Plex Media Server/Cache
+      media:
+        globalMounts:
+          - path: /media
+            readOnly: true
+        path: "${NAS_MEDIA_PATH}"
+        server: "${NAS_ADDRESS}"
+        type: nfs
       tmpfs:
         advancedMounts:
           plex:
