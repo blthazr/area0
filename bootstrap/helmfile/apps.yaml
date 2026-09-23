@@ -55,7 +55,7 @@ releases:
     namespace: kube-system
     set:
       - name: operator.replicas
-        value: 1
+        value: "1"
 
   - name: coredns
     namespace: kube-system
@@ -63,7 +63,7 @@ releases:
       - kube-system/cilium
     set:
       - name: replicaCount
-        value: 1
+        value: "1"
 
   - name: spegel
     namespace: kube-system
@@ -76,12 +76,15 @@ releases:
       - kube-system/spegel
     set:
       - name: webhook.replicaCount
-        value: 1
+        value: "1"
 
   - name: external-secrets
     namespace: external-secrets
     needs:
       - cert-manager/cert-manager
+    set:
+      - name: webhook.replicaCount
+        value: "1"
 
   - name: onepassword-connect
     hooks:
@@ -116,7 +119,7 @@ releases:
       - external-secrets/onepassword-connect
     set:
       - name: web.httpRoute.enabled
-        value: false
+        value: "false"
 
   - name: flux-instance
     namespace: flux-system

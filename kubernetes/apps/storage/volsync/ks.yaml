@@ -9,8 +9,6 @@ spec:
   dependsOn:
     - name: snapshot-controller
       namespace: kube-system
-    - name: openebs
-      namespace: *namespace
   interval: 1h
   path: ./kubernetes/apps/storage/volsync/app
   postBuild:

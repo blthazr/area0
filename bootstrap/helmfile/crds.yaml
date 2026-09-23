@@ -27,10 +27,8 @@ releases:
   - name: grafana-operator
     namespace: observability
 
-  - name: prometheus-operator-crds
+  - name: kube-prometheus-stack
     namespace: observability
-    chart: oci://ghcr.io/prometheus-community/charts/prometheus-operator-crds
-    version: 29.0.0
 
   - name: snapshot-controller
     namespace: kube-system

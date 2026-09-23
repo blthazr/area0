@@ -13,7 +13,7 @@ cluster:
     key: op://area0/talos/CLUSTER_CA_KEY
   etcd:
     advertisedSubnets:
-      - op://area0/talos/CLUSTER_NODE_CIDR
+      - op://area0/cluster-secrets/NET_OPERATIONS_CIDR
     ca:
       crt: op://area0/talos/CLUSTER_ETCD_CA_CRT
       key: op://area0/talos/CLUSTER_ETCD_CA_KEY

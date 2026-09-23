@@ -11,7 +11,7 @@ machine:
 cluster:
   ca:
     crt: op://area0/talos/CLUSTER_CA_CRT
-  clusterName: op://area0/talos/CLUSTER_NAME
+  clusterName: area0
   controlPlane:
     endpoint: https://k8s.internal:6443
   token: op://area0/talos/CLUSTER_TOKEN
@@ -54,9 +54,9 @@ name: nfsmount.conf
 mode: 0o644
 contents: |
   [ NFSMount_Global_Options ]
-  nfsvers=4.0
+  nfsvers=4.2
   hard=True
-  nconnect=8
+  nconnect=16
   noatime=True
   rsize=1048576
   wsize=1048576
@@ -112,7 +112,7 @@ apiVersion: v1alpha1
 kind: KubeNodeConfig
 nodeIP:
   validSubnets:
-    - op://area0/talos/CLUSTER_NODE_CIDR
+    - op://area0/cluster-secrets/NET_OPERATIONS_CIDR
 ---
 apiVersion: v1alpha1
 kind: KubePrismConfig
@@ -140,6 +140,7 @@ params:
   net.ipv4.neigh.default.gc_thresh3: "16384"  # Prevent ARP cache overflows
   net.ipv4.ping_group_range: 0 2147483647     # Allow ping for all users
   net.ipv4.tcp_fastopen: "3"                  # TCP Fast Open
+  net.ipv4.tcp_mtu_probing: "1"               # Jumbo frames
   net.ipv4.tcp_slow_start_after_idle: "0"     # Preserve congestion window after idle
   user.max_user_namespaces: "11255"           # User namespaces
   vm.nr_hugepages: "1024"                     # PostgreSQL
