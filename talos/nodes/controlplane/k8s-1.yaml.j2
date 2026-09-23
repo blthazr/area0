@@ -8,3 +8,11 @@ kind: LinkAliasConfig
 name: net0
 selector:
     match: link.driver == "igc" && mac(link.permanent_addr).startsWith("88:ae:dd:71:")
+---
+apiVersion: v1alpha1
+kind: RawVolumeConfig
+name: miroir
+provisioning:
+  diskSelector:
+    match: disk.model == "2400A NVMe Micron 1024GB" && !system_disk
+  maxSize: 1TB

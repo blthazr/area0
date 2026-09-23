@@ -16,6 +16,14 @@ JUST_UNSTABLE = "1"
 [settings]
 pipx.uvx = true
 
+[tasks."hooks:install"]
+description = "Install the local pre-commit Git hook using mise-pinned pre-commit"
+run = ['pre-commit install --install-hooks --overwrite']
+
+[tasks."secrets:env"]
+description = "Inject 1Password secrets from .op.env into .secrets.env"
+run = ['op inject -i .op.env -o .secrets.env']
+
 [tools]
 "aqua:a8m/envsubst" = "1.4.3"
 "aqua:astral-sh/uv" = "0.12.17"

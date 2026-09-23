@@ -1,0 +1,14 @@
+context: {{ talos_context }}
+contexts:
+    {{ talos_context }}:
+        endpoints:
+            - k8s-0
+            - k8s-1
+            - k8s-2
+        nodes:
+            - k8s-0
+            - k8s-1
+            - k8s-2
+        ca: op://{{ op_vault }}/{{ op_item }}/MACHINE_CA_CRT
+        crt: op://{{ op_vault }}/{{ op_item }}/ADMIN_CRT
+        key: op://{{ op_vault }}/{{ op_item }}/ADMIN_KEY

@@ -153,13 +153,6 @@ provisioning:
   wipe: false
 ---
 apiVersion: v1alpha1
-kind: VLANConfig
-name: bond0.30
-mtu: 9000
-parent: bond0
-vlanID: 30
----
-apiVersion: v1alpha1
 kind: WatchdogTimerConfig
 device: /dev/watchdog0
 timeout: 5m

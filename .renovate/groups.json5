@@ -2,6 +2,16 @@
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   packageRules: [
     {
+      description: "Actions Runner Controller Group",
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+      groupName: "actions-runner-controller",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["/gha-runner-scale-set-controller/", "/gha-runner-scale-set/"],
+      minimumGroupSize: 2,
+    },
+    {
       description: "Flux Operator Group",
       group: {
         commitMessageTopic: "{{{groupName}}} group",
@@ -31,6 +41,7 @@
       description: "Mise Tools Group",
       groupName: "mise tools",
       groupSlug: "mise-tools",
+      matchDepNames: ["!node", "!oxfmt"],
       matchManagers: ["mise"],
     },
     {
@@ -50,7 +61,7 @@
       },
       groupName: "talos",
       matchDatasources: ["docker"],
-      matchPackageNames: ["/installer/", "/talosctl/"],
+      matchPackageNames: ["siderolabs/talos"],
       minimumGroupSize: 2,
     },
   ],

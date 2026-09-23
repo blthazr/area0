@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "blueglassblock.better-json5",
+    "hashicorp.terraform",
+    "hverlin.mise-vscode",
+    "irongeek.vscode-env",
+    "nefrob.vscode-just-syntax",
+    "oxc.oxc-vscode",
+    "redhat.vscode-yaml"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  packageRules: [
+    {
+      description: "High-cadence mise tools monthly",
+      matchDepNames: ["node", "oxfmt"],
+      matchManagers: ["mise"],
+      schedule: ["before 3am on the first day of the month"],
+    },
+  ],
+}

@@ -12,6 +12,7 @@ talosconfig
 .decrypted~*
 *.crt
 *.env
+!.op.env
 *.key
 
 # Shards
@@ -19,8 +20,8 @@ talosconfig
 *-shard.*
 
 # Folders
-/.private/
-/.venv/
+.private/
+.venv/
 
 # ISO
 *.iso
