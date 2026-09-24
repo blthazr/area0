@@ -8,6 +8,7 @@ metadata:
 spec:
   components:
     - ../../../../components/volsync
+    - ../../../../components/zeroscaler
   dependsOn:
     - name: intel-gpu-resource-driver
       namespace: kube-system
