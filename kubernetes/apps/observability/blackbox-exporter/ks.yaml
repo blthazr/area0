@@ -10,7 +10,7 @@ spec:
   path: ./kubernetes/apps/observability/blackbox-exporter/app
   postBuild:
     substitute:
-      APP: grafana
+      APP: blackbox-exporter
   prune: true
   sourceRef:
     kind: GitRepository
