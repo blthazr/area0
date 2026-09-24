@@ -1,0 +1,22 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/monitoring.coreos.com/prometheusrule_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: blackbox-exporter-rules
+spec:
+  groups:
+    - name: blackbox-exporterrules
+      rules:
+        - alert: BlackboxProbeFailed
+          annotations:
+            description: >-
+              The host {{ $labels.target }} is currently unreachable.
+            # runbook_url:
+            summary: >-
+              The probe targeting {{ $labels.instance }} is currently having connectivity issues.
+          expr: |-
+            probe_success == 0
+          for: 15m
+          labels:
+            severity: critical

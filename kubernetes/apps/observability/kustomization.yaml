@@ -8,6 +8,7 @@ components:
   - ../../components/cluster-secrets
 resources:
   - ./namespace.yaml
+  - ./blackbox-exporter/ks.yaml
   - ./grafana-operator/ks.yaml
   - ./kube-prometheus-stack/ks.yaml
   - ./kube-state-metrics/ks.yaml
