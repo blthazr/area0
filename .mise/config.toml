@@ -3,6 +3,7 @@
 KUBECONFIG = "{{config_root}}/kubeconfig"
 MINIJINJA_CONFIG_FILE = "{{config_root}}/.minijinja.toml"
 TALOSCONFIG = "{{config_root}}/talos/talosconfig"
+TF_CLI_CONFIG_FILE = "{{config_root}}/terraform/.terraformrc"
 
 # dotenv
 _.file = ["{{ config_root }}/.secrets.env"]
@@ -31,6 +32,7 @@ run = ['op inject -i .op.env -o .secrets.env']
 "aqua:charmbracelet/gum" = "2.0.1"
 "aqua:evilmartians/lefthook" = "2.1.14"
 "aqua:fluxcd/flux2" = "2.9.5"
+"aqua:hashicorp/terraform" = "1.16.3"
 "aqua:helm/helm" = "4.3.0"
 "aqua:helmfile/helmfile" = "1.8.0"
 "aqua:jqlang/jq" = "1.8.2"

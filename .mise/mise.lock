@@ -277,6 +277,23 @@ url_api = "https://api.github.com/repos/fluxcd/flux2/releases/assets/538282898"
 [tools."aqua:fluxcd/flux2"."platforms.windows-x64".provenance.slsa]
 url = "https://github.com/fluxcd/flux2/releases/download/v2.9.5/provenance.intoto.jsonl"
 
+[[tools."aqua:hashicorp/terraform"]]
+version = "1.16.3"
+backend = "aqua:hashicorp/terraform"
+specifiers = ["1.16.3"]
+
+[tools."aqua:hashicorp/terraform"."platforms.linux-arm64"]
+checksum = "sha256:b6b293550af7a6a7ffd867a04900ce161db86ec9407b234a636c2adbae2ca9f0"
+url = "https://releases.hashicorp.com/terraform/1.16.3/terraform_1.16.3_linux_arm64.zip"
+
+[tools."aqua:hashicorp/terraform"."platforms.linux-x64"]
+checksum = "sha256:093b6ae9a2228af5029c41606bc96eb583553528aad1bfe7e0b4d62fc91e25d8"
+url = "https://releases.hashicorp.com/terraform/1.16.3/terraform_1.16.3_linux_amd64.zip"
+
+[tools."aqua:hashicorp/terraform"."platforms.macos-arm64"]
+checksum = "sha256:c2c45425ea4568da9803e127e589186cb3798a5944d9aff5a5bc15dd18267560"
+url = "https://releases.hashicorp.com/terraform/1.16.3/terraform_1.16.3_darwin_arm64.zip"
+
 [[tools."aqua:helm/helm"]]
 version = "4.3.0"
 backend = "aqua:helm/helm"
