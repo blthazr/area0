@@ -15,7 +15,7 @@ spec:
               ones can't be renewed until cert-manager is back.
             runbook_url: https://gitlab.com/uneeq-oss/cert-manager-mixin/-/blob/master/RUNBOOK.md#certmanagerabsent
             summary: >-
-              Cert Manager has dissapeared from Prometheus service discovery.
+              Cert Manager has disappeared from Prometheus service discovery.
           expr: |-
             absent(up{job="cert-manager"})
           for: 5m
