@@ -43,50 +43,50 @@ url = "https://github.com/a8m/envsubst/releases/download/v1.4.3/envsubst.exe"
 url_api = "https://api.github.com/repos/a8m/envsubst/releases/assets/232842598"
 
 [[tools."aqua:astral-sh/uv"]]
-version = "0.12.17"
+version = "0.12.19"
 backend = "aqua:astral-sh/uv"
-specifiers = ["0.12.17"]
+specifiers = ["0.12.19"]
 
 [tools."aqua:astral-sh/uv"."platforms.linux-arm64"]
-checksum = "sha256:d636d1b678e9e7f367ecb22b46bd1cabbed234d6bc3b4d96365d2b507f72f86c"
-url = "https://github.com/astral-sh/uv/releases/download/0.12.17/uv-aarch64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/573252936"
+checksum = "sha256:0804e9b164c64b6914182d5920c08551958a095986f10a3731056df701126436"
+url = "https://github.com/astral-sh/uv/releases/download/0.12.19/uv-aarch64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/587158851"
 provenance = "github-attestations"
 
 [tools."aqua:astral-sh/uv"."platforms.linux-arm64-musl"]
-checksum = "sha256:a6096da273d548cb9f277d237a01ac7344a39ef0f455c0e148e4dc9737c1596b"
-url = "https://github.com/astral-sh/uv/releases/download/0.12.17/uv-aarch64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/573252947"
+checksum = "sha256:ad8d8448a2ff642ba62c2f684d7dd22a03f8eb3fc9918c2c3e8ec975f4ed6710"
+url = "https://github.com/astral-sh/uv/releases/download/0.12.19/uv-aarch64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/587158874"
 provenance = "github-attestations"
 
 [tools."aqua:astral-sh/uv"."platforms.linux-x64"]
-checksum = "sha256:fa82fd8dde8e8eefdecada6aa0889666556cfceb690d06e0c3bca49eb3070a63"
-url = "https://github.com/astral-sh/uv/releases/download/0.12.17/uv-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/573253080"
+checksum = "sha256:23bf5552d220e0842b65c862097b2ebaeba0064b74eda5e565e77fd25969d8c8"
+url = "https://github.com/astral-sh/uv/releases/download/0.12.19/uv-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/587159011"
 provenance = "github-attestations"
 
 [tools."aqua:astral-sh/uv"."platforms.linux-x64-musl"]
-checksum = "sha256:6401c4665d8fa2a9893e087c91f585430738e3170f5398a1141483efb4a93310"
-url = "https://github.com/astral-sh/uv/releases/download/0.12.17/uv-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/573253085"
+checksum = "sha256:db7278c9f57981338fddff1fb250e11964bc0a4fafcb9eed8303fdb117dc067b"
+url = "https://github.com/astral-sh/uv/releases/download/0.12.19/uv-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/587159021"
 provenance = "github-attestations"
 
 [tools."aqua:astral-sh/uv"."platforms.macos-arm64"]
-checksum = "sha256:85f00cbdc6dd3e97eba4c31b4d014375a9fdfe8f570023b84e5102fc3456896b"
-url = "https://github.com/astral-sh/uv/releases/download/0.12.17/uv-aarch64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/573252913"
+checksum = "sha256:a9a8df1eedeb192f2e47e40e2faabfb387db4b850209118786d42f89dde3e0ba"
+url = "https://github.com/astral-sh/uv/releases/download/0.12.19/uv-aarch64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/587158826"
 provenance = "github-attestations"
 
 [tools."aqua:astral-sh/uv"."platforms.macos-x64"]
-checksum = "sha256:8dcf05a8c809bb3c471d2b614788ba27a6e41298fc8c31ac84b5f4339fd468e5"
-url = "https://github.com/astral-sh/uv/releases/download/0.12.17/uv-x86_64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/573253060"
+checksum = "sha256:cb5fa57bafe68fc0fb94b17f06bee0b0b9a7feb94ccbd110445afa0696e39273"
+url = "https://github.com/astral-sh/uv/releases/download/0.12.19/uv-x86_64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/587158992"
 provenance = "github-attestations"
 
 [tools."aqua:astral-sh/uv"."platforms.windows-x64"]
-checksum = "sha256:a252121d5b59398fcb137c6ea448176459a44010f33f67e0072305a637119ca7"
-url = "https://github.com/astral-sh/uv/releases/download/0.12.17/uv-x86_64-pc-windows-msvc.zip"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/573253071"
+checksum = "sha256:6dbb02d79e419522f1c500f0adb1cddcff0cda7d59b0d66ea7f5e3b4a1b2f5f0"
+url = "https://github.com/astral-sh/uv/releases/download/0.12.19/uv-x86_64-pc-windows-msvc.zip"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/587159002"
 provenance = "github-attestations"
 
 [[tools."aqua:casey/just"]]
@@ -130,44 +130,51 @@ url = "https://github.com/casey/just/releases/download/1.58.0/just-1.58.0-x86_64
 url_api = "https://api.github.com/repos/casey/just/releases/assets/500511374"
 
 [[tools."aqua:charmbracelet/gum"]]
-version = "2.0.1"
+version = "2.0.2"
 backend = "aqua:charmbracelet/gum"
-specifiers = ["2.0.1"]
+specifiers = ["2.0.2"]
 
 [tools."aqua:charmbracelet/gum"."platforms.linux-arm64"]
-checksum = "sha256:6998202a8fea27bb2007f69e44ec5dcb4cff5268c62d995de857eee0e2cd52cb"
-url = "https://github.com/charmbracelet/gum/releases/download/v2.0.1/gum_2.0.1_Linux_arm64.tar.gz"
-url_api = "https://api.github.com/repos/charmbracelet/gum/releases/assets/556562997"
+checksum = "sha256:8ebf8b54ec1e8c81f2bb58b59ff9b70998186a4d11375f0cf357b80e0ccfa1d5"
+url = "https://github.com/charmbracelet/gum/releases/download/v2.0.2/gum_2.0.2_Linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/charmbracelet/gum/releases/assets/585508724"
+provenance = "cosign"
 
 [tools."aqua:charmbracelet/gum"."platforms.linux-arm64-musl"]
-checksum = "sha256:6998202a8fea27bb2007f69e44ec5dcb4cff5268c62d995de857eee0e2cd52cb"
-url = "https://github.com/charmbracelet/gum/releases/download/v2.0.1/gum_2.0.1_Linux_arm64.tar.gz"
-url_api = "https://api.github.com/repos/charmbracelet/gum/releases/assets/556562997"
+checksum = "sha256:8ebf8b54ec1e8c81f2bb58b59ff9b70998186a4d11375f0cf357b80e0ccfa1d5"
+url = "https://github.com/charmbracelet/gum/releases/download/v2.0.2/gum_2.0.2_Linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/charmbracelet/gum/releases/assets/585508724"
+provenance = "cosign"
 
 [tools."aqua:charmbracelet/gum"."platforms.linux-x64"]
-checksum = "sha256:4dfe4547f960813864c803b3617aa64427fa32ca566707fde949e08975297c48"
-url = "https://github.com/charmbracelet/gum/releases/download/v2.0.1/gum_2.0.1_Linux_x86_64.tar.gz"
-url_api = "https://api.github.com/repos/charmbracelet/gum/releases/assets/556563001"
+checksum = "sha256:d842e06d93dbed90af48cb8dd10698db6f22e331fc40346bb37bbc753109edc2"
+url = "https://github.com/charmbracelet/gum/releases/download/v2.0.2/gum_2.0.2_Linux_x86_64.tar.gz"
+url_api = "https://api.github.com/repos/charmbracelet/gum/releases/assets/585508723"
+provenance = "cosign"
 
 [tools."aqua:charmbracelet/gum"."platforms.linux-x64-musl"]
-checksum = "sha256:4dfe4547f960813864c803b3617aa64427fa32ca566707fde949e08975297c48"
-url = "https://github.com/charmbracelet/gum/releases/download/v2.0.1/gum_2.0.1_Linux_x86_64.tar.gz"
-url_api = "https://api.github.com/repos/charmbracelet/gum/releases/assets/556563001"
+checksum = "sha256:d842e06d93dbed90af48cb8dd10698db6f22e331fc40346bb37bbc753109edc2"
+url = "https://github.com/charmbracelet/gum/releases/download/v2.0.2/gum_2.0.2_Linux_x86_64.tar.gz"
+url_api = "https://api.github.com/repos/charmbracelet/gum/releases/assets/585508723"
+provenance = "cosign"
 
 [tools."aqua:charmbracelet/gum"."platforms.macos-arm64"]
-checksum = "sha256:994662daab6fcfe9dcfc57d87ca42bcae2948d86fa864f9010a3848fa9bb7d6e"
-url = "https://github.com/charmbracelet/gum/releases/download/v2.0.1/gum_2.0.1_Darwin_arm64.tar.gz"
-url_api = "https://api.github.com/repos/charmbracelet/gum/releases/assets/556563007"
+checksum = "sha256:4777a69b1170b8db23c95d5889fb32186cfda1a3ac950d339aa17e3513633890"
+url = "https://github.com/charmbracelet/gum/releases/download/v2.0.2/gum_2.0.2_Darwin_arm64.tar.gz"
+url_api = "https://api.github.com/repos/charmbracelet/gum/releases/assets/585508714"
+provenance = "cosign"
 
 [tools."aqua:charmbracelet/gum"."platforms.macos-x64"]
-checksum = "sha256:4d125b60fbaa28ef1674bb16f3859ed4e813acb027a79d24603b598ea4a0b71f"
-url = "https://github.com/charmbracelet/gum/releases/download/v2.0.1/gum_2.0.1_Darwin_x86_64.tar.gz"
-url_api = "https://api.github.com/repos/charmbracelet/gum/releases/assets/556562991"
+checksum = "sha256:5374966c7c7199ea879fcaa525ddc6d447a098d3d35496e430a9a1ef38d30485"
+url = "https://github.com/charmbracelet/gum/releases/download/v2.0.2/gum_2.0.2_Darwin_x86_64.tar.gz"
+url_api = "https://api.github.com/repos/charmbracelet/gum/releases/assets/585508719"
+provenance = "cosign"
 
 [tools."aqua:charmbracelet/gum"."platforms.windows-x64"]
-checksum = "sha256:1d5e49d02339c185849992f4d1c49af337ac84933360341e3588100d34664f38"
-url = "https://github.com/charmbracelet/gum/releases/download/v2.0.1/gum_2.0.1_Windows_x86_64.zip"
-url_api = "https://api.github.com/repos/charmbracelet/gum/releases/assets/556563050"
+checksum = "sha256:0397091dec9b4e8f00e02b90fd3eb07bf45acabbdb61d67437950f18e03a8b79"
+url = "https://github.com/charmbracelet/gum/releases/download/v2.0.2/gum_2.0.2_Windows_x86_64.zip"
+url_api = "https://api.github.com/repos/charmbracelet/gum/releases/assets/585508763"
+provenance = "cosign"
 
 [[tools."aqua:evilmartians/lefthook"]]
 version = "2.1.14"
@@ -278,37 +285,37 @@ url_api = "https://api.github.com/repos/fluxcd/flux2/releases/assets/538282898"
 url = "https://github.com/fluxcd/flux2/releases/download/v2.9.5/provenance.intoto.jsonl"
 
 [[tools."aqua:hashicorp/terraform"]]
-version = "1.16.3"
+version = "1.16.4"
 backend = "aqua:hashicorp/terraform"
-specifiers = ["1.16.3"]
+specifiers = ["1.16.4"]
 
 [tools."aqua:hashicorp/terraform"."platforms.linux-arm64"]
-checksum = "sha256:b6b293550af7a6a7ffd867a04900ce161db86ec9407b234a636c2adbae2ca9f0"
-url = "https://releases.hashicorp.com/terraform/1.16.3/terraform_1.16.3_linux_arm64.zip"
+checksum = "sha256:8263f301cb1a24489a4adeed147bf28504053f77237b3ea97a0ef2972659de30"
+url = "https://releases.hashicorp.com/terraform/1.16.4/terraform_1.16.4_linux_arm64.zip"
 
 [tools."aqua:hashicorp/terraform"."platforms.linux-arm64-musl"]
-checksum = "sha256:b6b293550af7a6a7ffd867a04900ce161db86ec9407b234a636c2adbae2ca9f0"
-url = "https://releases.hashicorp.com/terraform/1.16.3/terraform_1.16.3_linux_arm64.zip"
+checksum = "sha256:8263f301cb1a24489a4adeed147bf28504053f77237b3ea97a0ef2972659de30"
+url = "https://releases.hashicorp.com/terraform/1.16.4/terraform_1.16.4_linux_arm64.zip"
 
 [tools."aqua:hashicorp/terraform"."platforms.linux-x64"]
-checksum = "sha256:093b6ae9a2228af5029c41606bc96eb583553528aad1bfe7e0b4d62fc91e25d8"
-url = "https://releases.hashicorp.com/terraform/1.16.3/terraform_1.16.3_linux_amd64.zip"
+checksum = "sha256:dc94af0eef1147718ad7c8daea792ed199e3e0492eec180d0adafa2a65a879df"
+url = "https://releases.hashicorp.com/terraform/1.16.4/terraform_1.16.4_linux_amd64.zip"
 
 [tools."aqua:hashicorp/terraform"."platforms.linux-x64-musl"]
-checksum = "sha256:093b6ae9a2228af5029c41606bc96eb583553528aad1bfe7e0b4d62fc91e25d8"
-url = "https://releases.hashicorp.com/terraform/1.16.3/terraform_1.16.3_linux_amd64.zip"
+checksum = "sha256:dc94af0eef1147718ad7c8daea792ed199e3e0492eec180d0adafa2a65a879df"
+url = "https://releases.hashicorp.com/terraform/1.16.4/terraform_1.16.4_linux_amd64.zip"
 
 [tools."aqua:hashicorp/terraform"."platforms.macos-arm64"]
-checksum = "sha256:c2c45425ea4568da9803e127e589186cb3798a5944d9aff5a5bc15dd18267560"
-url = "https://releases.hashicorp.com/terraform/1.16.3/terraform_1.16.3_darwin_arm64.zip"
+checksum = "sha256:42cfdf97ad722f79085fe2279b06d4b8680172de3534b22eeddd9a0fbbe7b8f1"
+url = "https://releases.hashicorp.com/terraform/1.16.4/terraform_1.16.4_darwin_arm64.zip"
 
 [tools."aqua:hashicorp/terraform"."platforms.macos-x64"]
-checksum = "sha256:1b933c61782390531374290309ada8406cd923647893c2f52b5dd838de23803a"
-url = "https://releases.hashicorp.com/terraform/1.16.3/terraform_1.16.3_darwin_amd64.zip"
+checksum = "sha256:2ee4b62064086e4b24b0d6cf2e61718fbaf0556feba990f708a5e32557554b3b"
+url = "https://releases.hashicorp.com/terraform/1.16.4/terraform_1.16.4_darwin_amd64.zip"
 
 [tools."aqua:hashicorp/terraform"."platforms.windows-x64"]
-checksum = "sha256:6f908a90e5637afe72705290afd1cd71fc4f2877303ca77f05a8c6ead196b11c"
-url = "https://releases.hashicorp.com/terraform/1.16.3/terraform_1.16.3_windows_amd64.zip"
+checksum = "sha256:5c736ed6b0f13e98bc5029fe159574cca33634c3477466c56442c28b513a7054"
+url = "https://releases.hashicorp.com/terraform/1.16.4/terraform_1.16.4_windows_amd64.zip"
 
 [[tools."aqua:helm/helm"]]
 version = "4.3.0"
@@ -471,37 +478,37 @@ url = "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize/
 url_api = "https://api.github.com/repos/kubernetes-sigs/kustomize/releases/assets/353160980"
 
 [[tools."aqua:kubernetes/kubernetes/kubectl"]]
-version = "1.37.0"
+version = "1.37.1"
 backend = "aqua:kubernetes/kubernetes/kubectl"
-specifiers = ["1.37.0"]
+specifiers = ["1.37.1"]
 
 [tools."aqua:kubernetes/kubernetes/kubectl"."platforms.linux-arm64"]
-checksum = "sha256:922df28df248cc00a9e025f947704f1d1482de64ece54cfe57e61f19eaf1eef3"
-url = "https://dl.k8s.io/v1.37.0/bin/linux/arm64/kubectl"
+checksum = "sha256:ff749f4b78d9c4f1ec87307df9b50119ed819e2094aa9810cb9acffc3286c8c7"
+url = "https://dl.k8s.io/v1.37.1/bin/linux/arm64/kubectl"
 
 [tools."aqua:kubernetes/kubernetes/kubectl"."platforms.linux-arm64-musl"]
-checksum = "sha256:922df28df248cc00a9e025f947704f1d1482de64ece54cfe57e61f19eaf1eef3"
-url = "https://dl.k8s.io/v1.37.0/bin/linux/arm64/kubectl"
+checksum = "sha256:ff749f4b78d9c4f1ec87307df9b50119ed819e2094aa9810cb9acffc3286c8c7"
+url = "https://dl.k8s.io/v1.37.1/bin/linux/arm64/kubectl"
 
 [tools."aqua:kubernetes/kubernetes/kubectl"."platforms.linux-x64"]
-checksum = "sha256:6129359f4e1f3848a5572ccb0b26cf28b8ca08cef38c95a765b2f64a2c961a2f"
-url = "https://dl.k8s.io/v1.37.0/bin/linux/amd64/kubectl"
+checksum = "sha256:65691ff77eb6fa44c908b77a1082c9f092c3b9733b5cefabec0d1104890e21a8"
+url = "https://dl.k8s.io/v1.37.1/bin/linux/amd64/kubectl"
 
 [tools."aqua:kubernetes/kubernetes/kubectl"."platforms.linux-x64-musl"]
-checksum = "sha256:6129359f4e1f3848a5572ccb0b26cf28b8ca08cef38c95a765b2f64a2c961a2f"
-url = "https://dl.k8s.io/v1.37.0/bin/linux/amd64/kubectl"
+checksum = "sha256:65691ff77eb6fa44c908b77a1082c9f092c3b9733b5cefabec0d1104890e21a8"
+url = "https://dl.k8s.io/v1.37.1/bin/linux/amd64/kubectl"
 
 [tools."aqua:kubernetes/kubernetes/kubectl"."platforms.macos-arm64"]
-checksum = "sha256:583beedaebe422e71d3f1a96acef8b1fef86ea2f09a45ad01aa6c9ce287c1380"
-url = "https://dl.k8s.io/v1.37.0/bin/darwin/arm64/kubectl"
+checksum = "sha256:fd65982c97ddad3106754b69ffa196d0e543aa591930ae52aed1adfb92f8c77f"
+url = "https://dl.k8s.io/v1.37.1/bin/darwin/arm64/kubectl"
 
 [tools."aqua:kubernetes/kubernetes/kubectl"."platforms.macos-x64"]
-checksum = "sha256:d5276c0f4fde77fc446070290f345944a7f1fda153df6b960e5fde93b7a9bccd"
-url = "https://dl.k8s.io/v1.37.0/bin/darwin/amd64/kubectl"
+checksum = "sha256:6851381c486ff6edd691623e3d65c87cb9a5b02887ff8fbbb38d8a031b748387"
+url = "https://dl.k8s.io/v1.37.1/bin/darwin/amd64/kubectl"
 
 [tools."aqua:kubernetes/kubernetes/kubectl"."platforms.windows-x64"]
-checksum = "sha256:4721b614a67bb4932a0369e61f4a323d8c6ca00943d3a2ff14837c124da06f0e"
-url = "https://dl.k8s.io/v1.37.0/bin/windows/amd64/kubectl.exe"
+checksum = "sha256:14b93c4916a6f37a06fbc1f46b0a1d2404c4f9741be09f00d6caf8af3b05f1d3"
+url = "https://dl.k8s.io/v1.37.1/bin/windows/amd64/kubectl.exe"
 
 [[tools."aqua:mikefarah/yq"]]
 version = "4.53.6"
@@ -726,37 +733,37 @@ url = "https://github.com/mitsuhiko/minijinja/releases/download/2.24.0/minijinja
 url_api = "https://api.github.com/repos/mitsuhiko/minijinja/releases/assets/511868857"
 
 [[tools.node]]
-version = "26.9.0"
+version = "26.10.0"
 backend = "core:node"
-specifiers = ["26.9.0"]
+specifiers = ["26.10.0"]
 
 [tools.node."platforms.linux-arm64"]
-checksum = "sha256:d5077591aa38b48d90bf9b3ac10da8d2f40dce289b20294913c58c19f153eb12"
-url = "https://nodejs.org/dist/v26.9.0/node-v26.9.0-linux-arm64.tar.gz"
+checksum = "sha256:423a41bff8e2a2fa15e702fefe2919ef95823b2378744daccb8439302534b44f"
+url = "https://nodejs.org/dist/v26.10.0/node-v26.10.0-linux-arm64.tar.gz"
 
 [tools.node."platforms.linux-arm64-musl"]
-checksum = "sha256:b52b747e86ef6d18068f02f43f508a608358c974dc5da8ef270bc823ba4710ca"
-url = "https://unofficial-builds.nodejs.org/download/release/v26.9.0/node-v26.9.0-linux-arm64-musl.tar.gz"
+checksum = "sha256:d26027bff3197050d2a2b0bfa151b18e8378ed81affa2bf5093804db158979b6"
+url = "https://unofficial-builds.nodejs.org/download/release/v26.10.0/node-v26.10.0-linux-arm64-musl.tar.gz"
 
 [tools.node."platforms.linux-x64"]
-checksum = "sha256:03d9104fc4f19652e74480fed11c023d75981464b7292f21a601c3f95ce7d90d"
-url = "https://nodejs.org/dist/v26.9.0/node-v26.9.0-linux-x64.tar.gz"
+checksum = "sha256:cb5c9ce9c80d7b8821e3a258543c71b939138cf17c74d5cc44bbe85d6dbc5ad8"
+url = "https://nodejs.org/dist/v26.10.0/node-v26.10.0-linux-x64.tar.gz"
 
 [tools.node."platforms.linux-x64-musl"]
-checksum = "sha256:669dd67ec374f7315dbac9e119641d0e4f371519e00c4b692f1f81e7a04b747c"
-url = "https://unofficial-builds.nodejs.org/download/release/v26.9.0/node-v26.9.0-linux-x64-musl.tar.gz"
+checksum = "sha256:e42da94821b9422eb76bf5aaf4de0977e04ba320b8aff6148d895a94b08ee223"
+url = "https://unofficial-builds.nodejs.org/download/release/v26.10.0/node-v26.10.0-linux-x64-musl.tar.gz"
 
 [tools.node."platforms.macos-arm64"]
-checksum = "sha256:6f3de7ed853ee283b4bf24b6e426618f1d357401ce5815db1866eb85eb4b05d9"
-url = "https://nodejs.org/dist/v26.9.0/node-v26.9.0-darwin-arm64.tar.gz"
+checksum = "sha256:751fdf7439f115d87ee2a8f3f18c065b6151852068e3e666ac60ac2996f75ac9"
+url = "https://nodejs.org/dist/v26.10.0/node-v26.10.0-darwin-arm64.tar.gz"
 
 [tools.node."platforms.macos-x64"]
-checksum = "sha256:06b2e742ed9025dc84adc830243b3f731956eac9c321bccd0ede384209af02a8"
-url = "https://nodejs.org/dist/v26.9.0/node-v26.9.0-darwin-x64.tar.gz"
+checksum = "sha256:ebbe9ab9b58ad6bb54390d6e2c862c1afa7d4475fb7e8ae8146acde211bf70df"
+url = "https://nodejs.org/dist/v26.10.0/node-v26.10.0-darwin-x64.tar.gz"
 
 [tools.node."platforms.windows-x64"]
-checksum = "sha256:c8af870b5b3e9789a6cbdb30270e7c212e12d76a7afa7fc7f21b6b21cc22a71b"
-url = "https://nodejs.org/dist/v26.9.0/node-v26.9.0-win-x64.zip"
+checksum = "sha256:9fef7eca6743a6b910989cd8e78712376b394fcb9b6e1e9c44a0799a287f90c5"
+url = "https://nodejs.org/dist/v26.10.0/node-v26.10.0-win-x64.zip"
 
 [[tools."npm:oxfmt"]]
 version = "0.70.0"
@@ -774,9 +781,9 @@ backend = "pipx:ansible-core"
 specifiers = ["2.21.4"]
 
 [[tools."pipx:ansible-lint"]]
-version = "26.8.0"
+version = "26.9.0"
 backend = "pipx:ansible-lint"
-specifiers = ["26.8.0"]
+specifiers = ["26.9.0"]
 
 [[tools."vfox:1password-cli"]]
 version = "2.35.0"
