@@ -46,6 +46,9 @@ run = ['op inject -i .op.env -o .secrets.env']
 "pipx:ansible-core" = "2.21.4"
 "pipx:ansible-lint" = "26.8.0"
 "pipx:ansible" = "14.4.0"
+"core:node" = "26.9.0"
+"npm:oxfmt" = "0.70.0"
+"vfox:1password-cli" = "2.35.0"
 
 [hooks]
 postinstall = ["lefthook install"]
