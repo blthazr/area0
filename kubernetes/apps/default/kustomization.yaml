@@ -9,3 +9,4 @@ components:
 resources:
   - ./namespace.yaml
   - ./plex/ks.yaml
+  - ./mealie/ks.yaml
