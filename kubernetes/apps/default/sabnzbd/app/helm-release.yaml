@@ -77,10 +77,13 @@ spec:
         existingClaim: "${VOLSYNC_PVC:=${APP}}"
         globalMounts:
           - path: /config
-      local-media:
-        existingClaim: default-local-storage
+      media:
         globalMounts:
           - path: /media
+            readOnly: true
+        path: "${NAS_MEDIA_PATH}"
+        server: "${NAS_ADDRESS}"
+        type: nfs
       tmpfs:
         advancedMounts:
           sabnzbd:
