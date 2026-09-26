@@ -1,0 +1,11 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  packageRules: [
+    {
+      description: "Changelog URL for ActualBudget",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["ghcr.io/actualbudget/actual"],
+      changelogUrl: "https://actualbudget.org/blog/release-{{{replace '^v' '' newVersion}}}",
+    },
+  ],
+}
