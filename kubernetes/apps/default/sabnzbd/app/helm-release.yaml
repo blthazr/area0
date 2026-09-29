@@ -80,7 +80,6 @@ spec:
       media:
         globalMounts:
           - path: /media
-            readOnly: true
         path: "${NAS_MEDIA_PATH}"
         server: "${NAS_ADDRESS}"
         type: nfs
