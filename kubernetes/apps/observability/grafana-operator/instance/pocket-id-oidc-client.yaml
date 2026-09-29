@@ -1,0 +1,16 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/aclerici38/pocket-id-operator/main/dist/schemas/pocketidoidcclient_v1alpha1.json
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDOIDCClient
+metadata:
+  name: grafana
+spec:
+  allowedUserGroups:
+    - name: grafana-admins
+    - name: grafana-users
+  callbackUrls:
+    - "https://${HOSTNAME:=${APP}}.${SECRET_DOMAIN}/login/generic_oauth"
+  launchUrl: "https://${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
+  logoutCallbackUrls:
+    - "https://${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
+  pkceEnabled: true

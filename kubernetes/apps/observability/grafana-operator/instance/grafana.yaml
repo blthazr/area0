@@ -13,6 +13,16 @@ spec:
       check_for_updates: "false"
       feedback_links_enabled: "false"
       reporting_enabled: "false"
+    auth.generic_oauth:
+      allow_assign_grafana_admin: "true"
+      allow_sign_up: "true"
+      enabled: "true"
+      icon: signin
+      name: Pocket ID
+      role_attribute_path: |
+        contains(groups[*], 'grafana_admins') && 'Admin' || contains(groups[*], 'grafana_users') && 'Viewer'
+      scopes: openid profile email groups
+      use_pkce: "true"
     date_formats:
       default_timezone: CST
       use_browser_locale: "true"
@@ -39,6 +49,31 @@ spec:
           containers:
             - name: grafana
               env:
+                - name: GF_AUTH_GENERIC_OAUTH_API_URL
+                  valueFrom:
+                    secretKeyRef:
+                      name: grafana-oidc-credentials
+                      key: userinfo_url
+                - name: GF_AUTH_GENERIC_OAUTH_AUTH_URL
+                  valueFrom:
+                    secretKeyRef:
+                      name: grafana-oidc-credentials
+                      key: authorization_url
+                - name: GF_AUTH_GENERIC_OAUTH_CLIENT_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: grafana-oidc-credentials
+                      key: client_id
+                - name: GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      name: grafana-oidc-credentials
+                      key: client_secret
+                - name: GF_AUTH_GENERIC_OAUTH_TOKEN_URL
+                  valueFrom:
+                    secretKeyRef:
+                      name: grafana-oidc-credentials
+                      key: token_url
                 - name: GF_SECURITY_ADMIN_USER
                   valueFrom:
                     secretKeyRef:
