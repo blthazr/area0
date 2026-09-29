@@ -20,7 +20,7 @@ spec:
               ACTUAL_PORT: &port 5006
               GENERIC_TIMEZONE: "${CLUSTER_TIME_ZONE}"
             image:
-              repository: ghcr.io/actualbudget/actual-server
+              repository: ghcr.io/actualbudget/actual
               tag: 26.6.0@sha256:74385f8067f401e61f0be9e343c471705c42dfaa195295c40c5b2f15f4dcc9d4
             probes:
               liveness:
