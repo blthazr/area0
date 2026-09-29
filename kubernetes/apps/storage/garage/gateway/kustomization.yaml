@@ -6,3 +6,4 @@ resources:
   - ./external-secret.yaml
   - ./garage-cluster.yaml
   - ./garage-key.yaml
+  - ./garage-reference-grant.yaml

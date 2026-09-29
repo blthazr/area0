@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/rajsinghtech/garage-operator/main/schemas/garagereferencegrant_v1beta1.json
+apiVersion: garage.rajsingh.info/v1beta1
+kind: GarageReferenceGrant
+metadata:
+  name: allow-default-access
+spec:
+  from:
+    - kind: GarageBucket
+      namespace: default
+    - kind: GarageKey
+      namespace: default
+    - kind: GarageBucket
+      namespace: security
+    - kind: GarageKey
+      namespace: security
+  to:
+    - kind: GarageCluster
+      name: garage-gateway
