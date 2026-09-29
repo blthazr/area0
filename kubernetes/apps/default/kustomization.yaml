@@ -9,6 +9,7 @@ components:
 resources:
   - ./namespace.yaml
   - ./actual/ks.yaml
+  - ./bazarr/ks.yaml
   - ./mealie/ks.yaml
   - ./plex/ks.yaml
   - ./prowlarr/ks.yaml
