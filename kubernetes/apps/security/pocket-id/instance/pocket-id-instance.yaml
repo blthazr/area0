@@ -43,7 +43,7 @@ spec:
           key: secret-access-key
     - name: UPDATE_CHECK_DISABLED
       value: "true"
-  image: ghcr.io/pocket-id/pocket-id:v2.16.0-distroless@sha256:f5ce1e58392f48a8fb8a1ff22a714272a49a52b8582d87deb530823f95359204
+  image: ghcr.io/pocket-id/pocket-id:v2.18.0-distroless@sha256:138d106737498f6c20d0bec854b872bc77ec520d7a9b54502444a260a49c41cb
   metrics:
     enabled: true
   persistence:
