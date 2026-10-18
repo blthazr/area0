@@ -11,6 +11,4 @@ spec:
   callbackUrls:
     - "https://${HOSTNAME:=${APP}}.${SECRET_DOMAIN}/login/generic_oauth"
   launchUrl: "https://${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
-  logoutCallbackUrls:
-    - "https://${HOSTNAME:=${APP}}.${SECRET_DOMAIN}"
   pkceEnabled: true
