@@ -33,7 +33,7 @@ spec:
           - --gateway-name=envoy-internal
         image:
           repository: ghcr.io/home-operations/external-dns-unifi-webhook
-          tag: 0.10.12@sha256:5338b99662e2e15048b4e14b49e17279d384970fdcb3c29169f509f806f49cbe
+          tag: 0.11.0@sha256:663442f116d7b45546782bdf7ace50d05ac15cc630c7236d443d69593845e992
         livenessProbe:
           httpGet:
             path: /healthz
