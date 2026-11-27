@@ -66,7 +66,7 @@ spec:
               GITSYNC_ROOT: /subcleaner
             image:
               repository: registry.k8s.io/git-sync/git-sync
-              tag: v4.7.0@sha256:d232fd13474ba1b46dba431af2b1411b9d9afacda55ae644d2a32e43975128dd
+              tag: v4.8.1@sha256:6eabb33faf08810811756f364a8e2ec9a3a2622363352e469f7bef78cc2294f5
             resources:
               requests:
                 cpu: 10m
